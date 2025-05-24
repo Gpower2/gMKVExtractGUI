@@ -2,7 +2,6 @@
 using System.Diagnostics;
 using System.Drawing;
 using System.Windows.Forms;
-using gMKVToolNix.Controls;
 
 namespace gMKVToolNix.Forms
 {
@@ -15,8 +14,6 @@ namespace gMKVToolNix.Forms
         private ContextMenuStrip _ChapterContextMenu = null;
         private ContextMenuStrip _AttachmentContextMenu = null;
 
-        private readonly DarkModeManager _darkModeManager = null;
-
         private readonly static string INFO_TEXT = "Here you can specify the output filename format for each kind of track." + Environment.NewLine +
             "Pressing the \"Add...\" button you will see the list with the available placeholders and select them." + Environment.NewLine +
             "Pressing the \"Default\" button you will reset the output filename format to its default value.";
@@ -26,15 +23,6 @@ namespace gMKVToolNix.Forms
             try
             {
                 InitializeComponent();
-
-                // Set settings
-                _Settings = new gSettings(this.GetCurrentDirectory());
-                _Settings.Reload();
-
-                if (_Settings.DarkMode)
-                {
-                    _darkModeManager = new DarkModeManager(this, DisplayMode.DarkMode);
-                }
 
                 Icon = Icon.ExtractAssociatedIcon(GetExecutingAssemblyLocation());
                 Text = String.Format("gMKVExtractGUI v{0} -- Options", GetCurrentVersion());
@@ -58,6 +46,10 @@ namespace gMKVToolNix.Forms
 
         private void frmOptions_Load(object sender, EventArgs e)
         {
+            // Set settings
+            _Settings = new gSettings(this.GetCurrentDirectory());
+            _Settings.Reload();
+
             // Fill from settings
             FillFromSettings();
 
@@ -242,16 +234,6 @@ namespace gMKVToolNix.Forms
             _AttachmentContextMenu.Items.Add(GetToolstripMenuItem("Attachment MIME Type", gMKVExtractFilenamePatterns.AttachmentMimeType, txtAttachmentsFilename));
             _AttachmentContextMenu.Items.Add(GetToolstripMenuItem("Attachment File Size (bytes)", gMKVExtractFilenamePatterns.AttachmentFileSize, txtAttachmentsFilename));
             // ============================================================================================================================
-
-            // Apply theme
-            if (_Settings.DarkMode)
-            {
-                _darkModeManager.ApplyControlTheme(_VideoTrackContextMenu);
-                _darkModeManager.ApplyControlTheme(_AudioTrackContextMenu);
-                _darkModeManager.ApplyControlTheme(_SubtitleTrackContextMenu);
-                _darkModeManager.ApplyControlTheme(_ChapterContextMenu);
-                _darkModeManager.ApplyControlTheme(_AttachmentContextMenu);
-            }
         }
 
         private void btnAddVideoTrackPlaceholder_Click(object sender, EventArgs e)

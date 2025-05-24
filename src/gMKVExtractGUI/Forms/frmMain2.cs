@@ -9,7 +9,6 @@ using System.Media;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using gMKVToolNix.Controls;
 
 namespace gMKVToolNix.Forms
 {
@@ -45,8 +44,6 @@ namespace gMKVToolNix.Forms
 
         private List<string> _CmdArguments = new List<string>();
 
-        private readonly DarkModeManager _darkModeManager = null;
-
         public frmMain2()
         {
             try
@@ -54,15 +51,6 @@ namespace gMKVToolNix.Forms
                 _FromConstructor = true;
 
                 InitializeComponent();
-
-                // Load settings
-                _Settings = new gSettings(this.GetCurrentDirectory());
-                _Settings.Reload();
-
-                if (_Settings.DarkMode)
-                {
-                    _darkModeManager = new DarkModeManager(this, DisplayMode.DarkMode);
-                }
 
                 // Get the command line arguments
                 GetCommandLineArguments();
@@ -81,6 +69,10 @@ namespace gMKVToolNix.Forms
                 cmbExtractionMode.DataSource = Enum.GetNames(typeof(FormMkvExtractionMode));
 
                 ClearStatus();
+
+                // Load settings
+                _Settings = new gSettings(this.GetCurrentDirectory());
+                _Settings.Reload();
 
                 // Set form size and position from settings
                 gMKVLogger.Log("Begin setting form size and position from settings...");
@@ -101,7 +93,6 @@ namespace gMKVToolNix.Forms
                 }
                 chkShowPopup.Checked = _Settings.ShowPopup;
                 chkAppendOnDragAndDrop.Checked = _Settings.AppendOnDragAndDrop;
-                chkDarkMode.Checked = _Settings.DarkMode;
                 gMKVLogger.Log("Finished setting chapter type, output directory and job mode from settings!");
 
                 _FromConstructor = false;
@@ -239,12 +230,6 @@ namespace gMKVToolNix.Forms
         {
             try
             {
-                // Hack for DarkMode checkbox
-                if (_Settings.DarkMode)
-                {
-                    chkDarkMode.BackColor = Color.FromArgb(55, 55, 55);
-                }
-
                 // check if user provided with a filename when executing the application
                 if (_CmdArguments.Any()
                     && _CmdArguments.Where(c => !c.StartsWith("--")).Any())
@@ -1523,33 +1508,6 @@ namespace gMKVToolNix.Forms
                 _Settings.AppendOnDragAndDrop = chkAppendOnDragAndDrop.Checked;
                 gMKVLogger.Log("Changing AppendOnDragAndDrop");
                 _Settings.Save();
-            }
-        }
-
-        private void chkDarkMode_Click(object sender, EventArgs e)
-        {
-            DialogResult result = ShowQuestion(
-                "You must restart the application for the changes to take effect." 
-                + "\r\n\r\nWarning: All open files will be cleared after the restart."
-                + "\r\n\r\nDo you want to continue?", 
-                "Restart required!", 
-                false);
-            
-            switch (result)
-            {
-                case DialogResult.Yes:
-                    // Update the Settings
-                    _Settings.DarkMode = !chkDarkMode.Checked;
-                    gMKVLogger.Log("Changing DarkMode");
-                    _Settings.Save();
-
-                    // Restart the application
-                    Application.Restart();
-                    Environment.Exit(0);
-                    break;
-                case DialogResult.No:
-                case DialogResult.Cancel:
-                    break;
             }
         }
 

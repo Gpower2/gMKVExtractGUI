@@ -108,14 +108,7 @@ namespace gMKVToolNix
             set { _AppendOnDragAndDrop = value; }
         }
 
-        private bool _DarkMode = false;
-        public bool DarkMode
-        {
-            get { return _DarkMode; }
-            set { _DarkMode = value; }
-        }
-
-        private string _VideoTrackFilenamePattern = "{FilenameNoExt}_track{TrackNumber}_[{Language}]";
+        private String _VideoTrackFilenamePattern = "{FilenameNoExt}_track{TrackNumber}_[{Language}]";
         [DefaultValue("{FilenameNoExt}_track{TrackNumber}_[{Language}]")]
         public string VideoTrackFilenamePattern
         {
@@ -487,19 +480,6 @@ namespace gMKVToolNix
                                 _AppendOnDragAndDrop = false;
                             }
                         }
-                        else if (line.StartsWith("Dark Mode:"))
-                        {
-                            try
-                            {
-                                _DarkMode = bool.Parse(line.Substring(line.IndexOf(":") + 1));
-                            }
-                            catch (Exception ex)
-                            {
-                                Debug.WriteLine(ex);
-                                gMKVLogger.Log(string.Format("Error reading Dark Mode! {0}", ex.Message));
-                                _DarkMode = false;
-                            }
-                        }
                     }
                 }
                 gMKVLogger.Log("Finished loading settings!");
@@ -511,21 +491,20 @@ namespace gMKVToolNix
             gMKVLogger.Log("Saving settings...");
             using (StreamWriter sw = new StreamWriter(Path.Combine(_SettingsPath, _SETTINGS_FILE), false, Encoding.UTF8))
             {
-                sw.WriteLine(string.Format("MKVToolnix Path:{0}", _MkvToolnixPath));
-                sw.WriteLine(string.Format("Chapter Type:{0}", _ChapterType));
-                sw.WriteLine(string.Format("Output Directory:{0}", _OutputDirectory));
-                sw.WriteLine(string.Format("Default Output Directory:{0}", _DefaultOutputDirectory));
-                sw.WriteLine(string.Format("Lock Output Directory:{0}", _LockedOutputDirectory));
-                sw.WriteLine(string.Format("Initial Window Position X:{0}", _WindowPosX));
-                sw.WriteLine(string.Format("Initial Window Position Y:{0}", _WindowPosY));
-                sw.WriteLine(string.Format("Initial Window Size Width:{0}", _WindowSizeWidth));
-                sw.WriteLine(string.Format("Initial Window Size Height:{0}", _WindowSizeHeight));
-                sw.WriteLine(string.Format("Job Mode:{0}", _JobMode));
-                sw.WriteLine(string.Format("Window State:{0}", _WindowState.ToString()));
-                sw.WriteLine(string.Format("Show Popup:{0}", _ShowPopup));
-                sw.WriteLine(string.Format("Show Popup In Job Manager:{0}", _ShowPopupInJobManager));
-                sw.WriteLine(string.Format("Append On Drag and Drop:{0}", _AppendOnDragAndDrop));
-                sw.WriteLine(string.Format("Dark Mode:{0}", _DarkMode));
+                sw.WriteLine(String.Format("MKVToolnix Path:{0}", _MkvToolnixPath));
+                sw.WriteLine(String.Format("Chapter Type:{0}", _ChapterType));
+                sw.WriteLine(String.Format("Output Directory:{0}", _OutputDirectory));
+                sw.WriteLine(String.Format("Default Output Directory:{0}", _DefaultOutputDirectory));
+                sw.WriteLine(String.Format("Lock Output Directory:{0}", _LockedOutputDirectory));
+                sw.WriteLine(String.Format("Initial Window Position X:{0}", _WindowPosX));
+                sw.WriteLine(String.Format("Initial Window Position Y:{0}", _WindowPosY));
+                sw.WriteLine(String.Format("Initial Window Size Width:{0}", _WindowSizeWidth));
+                sw.WriteLine(String.Format("Initial Window Size Height:{0}", _WindowSizeHeight));
+                sw.WriteLine(String.Format("Job Mode:{0}", _JobMode));
+                sw.WriteLine(String.Format("Window State:{0}", _WindowState.ToString()));
+                sw.WriteLine(String.Format("Show Popup:{0}", _ShowPopup));
+                sw.WriteLine(String.Format("Show Popup In Job Manager:{0}", _ShowPopupInJobManager));
+                sw.WriteLine(String.Format("Append On Drag and Drop:{0}", _AppendOnDragAndDrop));
 
                 sw.WriteLine(string.Format("VideoTrackFilenamePattern:{0}", _VideoTrackFilenamePattern));
                 sw.WriteLine(string.Format("AudioTrackFilenamePattern:{0}", _AudioTrackFilenamePattern));

@@ -69,7 +69,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controls\ControlExtensions.cs" />
-    <Compile Include="Controls\DarkModeManager.cs" />
     <Compile Include="Controls\ExceptionExtensions.cs" />
     <Compile Include="Controls\gComboBox.cs">
       <SubType>Component</SubType>
