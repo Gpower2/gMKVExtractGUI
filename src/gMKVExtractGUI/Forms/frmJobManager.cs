@@ -10,6 +10,8 @@ using System.Text;
 using System.Threading;
 using System.Windows.Forms;
 using gMKVToolNix.Forms;
+using gMKVToolNix.Theming;
+using gMKVToolNix.WinAPI;
 
 namespace gMKVToolNix
 {
@@ -21,13 +23,14 @@ namespace gMKVToolNix
         private int _TotalJobs = 0;
         private gMKVExtract _gMkvExtract = null;
         private bool _ExtractRunning = false;
-        private readonly gSettings _Settings = null; 
+        private readonly gSettings _Settings = null;
         private readonly bool _FromConstructor = false;
+        private bool _isCurrentlyDarkMode = false; // Added field
 
         private BindingList<gMKVJobInfo> _JobList = new BindingList<gMKVJobInfo>();
 
         private Boolean _AbortAll = false;
-        
+
         public frmJobManager(IFormMain argMainForm)
         {
             try
@@ -45,7 +48,26 @@ namespace gMKVToolNix
                 _Settings = new gSettings(this.GetCurrentDirectory());
                 _Settings.Reload();
 
+                _isCurrentlyDarkMode = _Settings.DarkMode; // Initialize field
+
                 chkShowPopup.Checked = _Settings.ShowPopupInJobManager;
+
+                // Apply Theme
+                ThemeManager.ApplyTheme(this, _isCurrentlyDarkMode); // Use field
+                if (this.Handle != IntPtr.Zero) // Or IsHandleCreated if preferred
+                {
+                    NativeMethods.TrySetImmersiveDarkMode(this.Handle, _isCurrentlyDarkMode);
+                }
+                else
+                {
+                    this.Shown += (s, ev) => { NativeMethods.TrySetImmersiveDarkMode(this.Handle, _isCurrentlyDarkMode); };
+                }
+
+                // Apply theme to context menu
+                if (contextMenuStrip != null)
+                {
+                    ThemeManager.ApplyTheme(contextMenuStrip, _isCurrentlyDarkMode); // Theme menu initially
+                }
 
                 grdJobs.DataSource = _JobList;
 
@@ -77,7 +99,7 @@ namespace gMKVToolNix
             {
                 Debug.WriteLine(ex);
                 gMKVLogger.Log(ex.ToString());
-                ShowErrorMessage(ex.Message);                
+                ShowErrorMessage(ex.Message);
             }
         }
 
@@ -426,7 +448,7 @@ namespace gMKVToolNix
                     using (StreamWriter sw = new StreamWriter(sfd.FileName))
                     {
                         System.Xml.Serialization.XmlSerializer x = new System.Xml.Serialization.XmlSerializer(typeof(List<gMKVJobInfo>));
-                        
+
                         List<gMKVJobInfo> jobList = new List<gMKVJobInfo>();
                         foreach (DataGridViewRow item in grdJobs.Rows)
                         {
@@ -463,7 +485,7 @@ namespace gMKVToolNix
                     using (StreamReader sr = new StreamReader(ofd.FileName))
                     {
                         System.Xml.Serialization.XmlSerializer x = new System.Xml.Serialization.XmlSerializer(typeof(List<gMKVJobInfo>));
-                        
+
                         jobList = (List<gMKVJobInfo>)x.Deserialize(sr);
                     }
                     SetJobsList(new BindingList<gMKVJobInfo>(jobList));
@@ -497,7 +519,7 @@ namespace gMKVToolNix
             {
                 foreach (DataGridViewRow row in grdJobs.SelectedRows)
                 {
-                    if(((gMKVJobInfo)row.DataBoundItem).State != JobState.Ready)
+                    if (((gMKVJobInfo)row.DataBoundItem).State != JobState.Ready)
                     {
                         changeToReadyStatusToolStripMenuItem.Enabled = true;
                         break;
@@ -548,6 +570,49 @@ namespace gMKVToolNix
                 Debug.WriteLine(ex);
                 gMKVLogger.Log(ex.ToString());
                 ShowErrorMessage(ex.Message);
+            }
+        }
+
+        public void UpdateTheme(bool darkMode)
+        {
+            _isCurrentlyDarkMode = darkMode; // Store the updated theme state
+            ThemeManager.ApplyTheme(this, _isCurrentlyDarkMode); // Use field
+            if (this.IsHandleCreated)
+            {
+                NativeMethods.TrySetImmersiveDarkMode(this.Handle, _isCurrentlyDarkMode);
+            }
+            else
+            {
+                this.HandleCreated += (s, e) => {
+                    NativeMethods.TrySetImmersiveDarkMode(this.Handle, _isCurrentlyDarkMode);
+                };
+            }
+
+            if (contextMenuStrip != null)
+            {
+                // Theme the ContextMenuStrip object itself (BackColor, ForeColor, RenderMode)
+                contextMenuStrip.BackColor = _isCurrentlyDarkMode ? ThemeManager.DarkModeMenuBackColor : SystemColors.ControlLightLight; // Using ControlLightLight from recent plan
+                contextMenuStrip.ForeColor = _isCurrentlyDarkMode ? ThemeManager.DarkModeMenuForeColor : SystemColors.ControlText;
+                contextMenuStrip.RenderMode = _isCurrentlyDarkMode ? ToolStripRenderMode.ManagerRenderMode : ToolStripRenderMode.Professional;
+
+                // Iterate and theme existing items
+                foreach (ToolStripItem item in this.contextMenuStrip.Items)
+                {
+                    if (!(item is ToolStripSeparator))
+                    {
+                        ThemeManager.ApplyToolStripItemTheme(item, _isCurrentlyDarkMode);
+                    }
+                }
+
+                // Force re-assignment to the DataGridView
+                if (grdJobs.ContextMenuStrip == this.contextMenuStrip)
+                {
+                    grdJobs.ContextMenuStrip = null;
+                    grdJobs.ContextMenuStrip = this.contextMenuStrip;
+                }
+
+                this.contextMenuStrip.Invalidate();
+                grdJobs.Invalidate();
             }
         }
     }

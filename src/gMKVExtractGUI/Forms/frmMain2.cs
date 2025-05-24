@@ -9,6 +9,8 @@ using System.Media;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using gMKVToolNix.Theming;
+using gMKVToolNix.WinAPI;
 
 namespace gMKVToolNix.Forms
 {
@@ -29,7 +31,6 @@ namespace gMKVToolNix.Forms
     {
         private frmLog _LogForm = null;
         private frmJobManager _JobManagerForm = null;
-        private frmOptions _OptionsForm = null;
 
         private gMKVExtract _gMkvExtract = null;
 
@@ -93,9 +94,28 @@ namespace gMKVToolNix.Forms
                 }
                 chkShowPopup.Checked = _Settings.ShowPopup;
                 chkAppendOnDragAndDrop.Checked = _Settings.AppendOnDragAndDrop;
+                chkDarkMode.Checked = _Settings.DarkMode;
                 gMKVLogger.Log("Finished setting chapter type, output directory and job mode from settings!");
 
                 _FromConstructor = false;
+
+                ThemeManager.ApplyTheme(this, _Settings.DarkMode); // Apply theme on startup
+                // Hack for DarkMode checkbox
+                if (_Settings.DarkMode)
+                {
+                    chkDarkMode.BackColor = Color.FromArgb(55, 55, 55);
+                }
+                if (this.Handle != IntPtr.Zero) // Ensure handle is created
+                {
+                    NativeMethods.TrySetImmersiveDarkMode(this.Handle, _Settings.DarkMode);
+                }
+                else
+                {
+                    // If handle not created yet, do it in Load or Shown event
+                    this.Shown += (s, ev) => {
+                        NativeMethods.TrySetImmersiveDarkMode(this.Handle, _Settings.DarkMode);
+                    };
+                }
 
                 // Initialize the DPI aware scaling
                 InitDPI();
@@ -450,7 +470,7 @@ namespace gMKVToolNix.Forms
                     && extension != ".mks"
                     && extension != ".mk3d"
                     && extension != ".webm";
-                }
+            }
             );
 
             return fileList;
@@ -1616,16 +1636,16 @@ namespace gMKVToolNix.Forms
             {
                 int totalLanguages = allNodes.Where(n => n != null && n.Tag != null && n.Tag is gMKVTrack && (n.Tag as gMKVTrack).TrackType == MkvTrackType.video && (n.Tag as gMKVTrack).Language == lang).Count();
                 int checkedLanguages = checkedNodes.Where(n => n != null && n.Tag != null && n.Tag is gMKVTrack && (n.Tag as gMKVTrack).TrackType == MkvTrackType.video && (n.Tag as gMKVTrack).Language == lang).Count();
-                checkItems.Add(
-                    new ToolStripMenuItem(string.Format("Language: [{0}] ({1}/{2})", lang, checkedLanguages, totalLanguages), null,
+                var checkItem = new ToolStripMenuItem(string.Format("Language: [{0}] ({1}/{2})", lang, checkedLanguages, totalLanguages), null,
                         delegate { SetCheckedTracks(TrackSelectionMode.video, true, nodeSelectionFilter: NodeSelectionFilter.Language, argFilter: lang); }
-                    )
-                );
-                uncheckItems.Add(
-                    new ToolStripMenuItem(string.Format("Language: [{0}] ({1}/{2})", lang, totalLanguages - checkedLanguages, totalLanguages), null,
+                    );
+                ThemeManager.ApplyToolStripItemTheme(checkItem, _Settings.DarkMode); // Apply theme
+                checkItems.Add(checkItem);
+                var uncheckItem = new ToolStripMenuItem(string.Format("Language: [{0}] ({1}/{2})", lang, totalLanguages - checkedLanguages, totalLanguages), null,
                         delegate { SetCheckedTracks(TrackSelectionMode.video, false, nodeSelectionFilter: NodeSelectionFilter.Language, argFilter: lang); }
-                    )
-                );
+                    );
+                ThemeManager.ApplyToolStripItemTheme(uncheckItem, _Settings.DarkMode);
+                uncheckItems.Add(uncheckItem);
             }
             tsCheckVideoTracksByLanguage.DropDownItems.AddRange(checkItems.ToArray());
             tsUncheckVideoTracksByLanguage.DropDownItems.AddRange(uncheckItems.ToArray());
@@ -1643,16 +1663,16 @@ namespace gMKVToolNix.Forms
             {
                 int totalLanguagesIetf = allNodes.Where(n => n != null && n.Tag != null && n.Tag is gMKVTrack && (n.Tag as gMKVTrack).TrackType == MkvTrackType.video && (n.Tag as gMKVTrack).LanguageIetf == langIetf).Count();
                 int checkedLanguagesIetf = checkedNodes.Where(n => n != null && n.Tag != null && n.Tag is gMKVTrack && (n.Tag as gMKVTrack).TrackType == MkvTrackType.video && (n.Tag as gMKVTrack).LanguageIetf == langIetf).Count();
-                checkItems.Add(
-                    new ToolStripMenuItem(string.Format("Language IETF: [{0}] ({1}/{2})", langIetf, checkedLanguagesIetf, totalLanguagesIetf), null,
+                var checkItem = new ToolStripMenuItem(string.Format("Language IETF: [{0}] ({1}/{2})", langIetf, checkedLanguagesIetf, totalLanguagesIetf), null,
                         delegate { SetCheckedTracks(TrackSelectionMode.video, true, nodeSelectionFilter: NodeSelectionFilter.LanguageIetf, argFilter: langIetf); }
-                    )
-                );
-                uncheckItems.Add(
-                    new ToolStripMenuItem(string.Format("Language IETF: [{0}] ({1}/{2})", langIetf, totalLanguagesIetf - checkedLanguagesIetf, totalLanguagesIetf), null,
+                    );
+                ThemeManager.ApplyToolStripItemTheme(checkItem, _Settings.DarkMode); // Apply theme
+                checkItems.Add(checkItem);
+                var uncheckItem = new ToolStripMenuItem(string.Format("Language IETF: [{0}] ({1}/{2})", langIetf, totalLanguagesIetf - checkedLanguagesIetf, totalLanguagesIetf), null,
                         delegate { SetCheckedTracks(TrackSelectionMode.video, false, nodeSelectionFilter: NodeSelectionFilter.LanguageIetf, argFilter: langIetf); }
-                    )
-                );
+                    );
+                ThemeManager.ApplyToolStripItemTheme(uncheckItem, _Settings.DarkMode);
+                uncheckItems.Add(uncheckItem);
             }
             tsCheckVideoTracksByLanguageIetf.DropDownItems.AddRange(checkItems.ToArray());
             tsUncheckVideoTracksByLanguageIetf.DropDownItems.AddRange(uncheckItems.ToArray());
@@ -1670,16 +1690,16 @@ namespace gMKVToolNix.Forms
             {
                 int totalLanguages = allNodes.Where(n => n != null && n.Tag != null && n.Tag is gMKVTrack && (n.Tag as gMKVTrack).TrackType == MkvTrackType.video && (n.Tag as gMKVTrack).CodecID == codec).Count();
                 int checkedLanguages = checkedNodes.Where(n => n != null && n.Tag != null && n.Tag is gMKVTrack && (n.Tag as gMKVTrack).TrackType == MkvTrackType.video && (n.Tag as gMKVTrack).CodecID == codec).Count();
-                checkItems.Add(
-                    new ToolStripMenuItem(string.Format("Codec: [{0}] ({1}/{2})", codec, checkedLanguages, totalLanguages), null,
+                var checkItem = new ToolStripMenuItem(string.Format("Codec: [{0}] ({1}/{2})", codec, checkedLanguages, totalLanguages), null,
                         delegate { SetCheckedTracks(TrackSelectionMode.video, true, nodeSelectionFilter: NodeSelectionFilter.CodecId, argFilter: codec); }
-                    )
-                );
-                uncheckItems.Add(
-                    new ToolStripMenuItem(string.Format("Codec: [{0}] ({1}/{2})", codec, totalLanguages - checkedLanguages, totalLanguages), null,
+                    );
+                ThemeManager.ApplyToolStripItemTheme(checkItem, _Settings.DarkMode); // Apply theme
+                checkItems.Add(checkItem);
+                var uncheckItem = new ToolStripMenuItem(string.Format("Codec: [{0}] ({1}/{2})", codec, totalLanguages - checkedLanguages, totalLanguages), null,
                         delegate { SetCheckedTracks(TrackSelectionMode.video, false, nodeSelectionFilter: NodeSelectionFilter.CodecId, argFilter: codec); }
-                    )
-                );
+                    );
+                ThemeManager.ApplyToolStripItemTheme(uncheckItem, _Settings.DarkMode);
+                uncheckItems.Add(uncheckItem);
             }
             tsCheckVideoTracksByCodec.DropDownItems.AddRange(checkItems.ToArray());
             tsUncheckVideoTracksByCodec.DropDownItems.AddRange(uncheckItems.ToArray());
@@ -1697,16 +1717,16 @@ namespace gMKVToolNix.Forms
             {
                 int totalLanguages = allNodes.Where(n => n != null && n.Tag != null && n.Tag is gMKVTrack && (n.Tag as gMKVTrack).TrackType == MkvTrackType.video && (n.Tag as gMKVTrack).ExtraInfo == extra).Count();
                 int checkedLanguages = checkedNodes.Where(n => n != null && n.Tag != null && n.Tag is gMKVTrack && (n.Tag as gMKVTrack).TrackType == MkvTrackType.video && (n.Tag as gMKVTrack).ExtraInfo == extra).Count();
-                checkItems.Add(
-                    new ToolStripMenuItem(string.Format("Resolution: [{0}] ({1}/{2})", extra, checkedLanguages, totalLanguages), null,
+                var checkItem = new ToolStripMenuItem(string.Format("Resolution: [{0}] ({1}/{2})", extra, checkedLanguages, totalLanguages), null,
                         delegate { SetCheckedTracks(TrackSelectionMode.video, true, nodeSelectionFilter: NodeSelectionFilter.ExtraInfo, argFilter: extra); }
-                    )
-                );
-                uncheckItems.Add(
-                    new ToolStripMenuItem(string.Format("Resolution: [{0}] ({1}/{2})", extra, totalLanguages - checkedLanguages, totalLanguages), null,
+                    );
+                ThemeManager.ApplyToolStripItemTheme(checkItem, _Settings.DarkMode); // Apply theme
+                checkItems.Add(checkItem);
+                var uncheckItem = new ToolStripMenuItem(string.Format("Resolution: [{0}] ({1}/{2})", extra, totalLanguages - checkedLanguages, totalLanguages), null,
                         delegate { SetCheckedTracks(TrackSelectionMode.video, false, nodeSelectionFilter: NodeSelectionFilter.ExtraInfo, argFilter: extra); }
-                    )
-                );
+                    );
+                ThemeManager.ApplyToolStripItemTheme(uncheckItem, _Settings.DarkMode);
+                uncheckItems.Add(uncheckItem);
             }
             tsCheckVideoTracksByResolution.DropDownItems.AddRange(checkItems.ToArray());
             tsUncheckVideoTracksByResolution.DropDownItems.AddRange(uncheckItems.ToArray());
@@ -1727,16 +1747,16 @@ namespace gMKVToolNix.Forms
                 {
                     int totalLanguages = allNodes.Where(n => n != null && n.Tag != null && n.Tag is gMKVTrack && (n.Tag as gMKVTrack).TrackType == MkvTrackType.video && (n.Tag as gMKVTrack).TrackName == name).Count();
                     int checkedLanguages = checkedNodes.Where(n => n != null && n.Tag != null && n.Tag is gMKVTrack && (n.Tag as gMKVTrack).TrackType == MkvTrackType.video && (n.Tag as gMKVTrack).TrackName == name).Count();
-                    checkItems.Add(
-                            new ToolStripMenuItem(string.Format("Track Name: [{0}] ({1}/{2})", name, checkedLanguages, totalLanguages), null,
+                    var checkItem = new ToolStripMenuItem(string.Format("Track Name: [{0}] ({1}/{2})", name, checkedLanguages, totalLanguages), null,
                             delegate { SetCheckedTracks(TrackSelectionMode.video, true, nodeSelectionFilter: NodeSelectionFilter.Name, argFilter: name); }
-                        )
-                    );
-                    uncheckItems.Add(
-                            new ToolStripMenuItem(string.Format("Track Name: [{0}] ({1}/{2})", name, totalLanguages - checkedLanguages, totalLanguages), null,
+                        );
+                    ThemeManager.ApplyToolStripItemTheme(checkItem, _Settings.DarkMode); // Apply theme
+                    checkItems.Add(checkItem);
+                    var uncheckItem = new ToolStripMenuItem(string.Format("Track Name: [{0}] ({1}/{2})", name, totalLanguages - checkedLanguages, totalLanguages), null,
                             delegate { SetCheckedTracks(TrackSelectionMode.video, false, nodeSelectionFilter: NodeSelectionFilter.Name, argFilter: name); }
-                        )
-                    );
+                        );
+                    ThemeManager.ApplyToolStripItemTheme(uncheckItem, _Settings.DarkMode);
+                    uncheckItems.Add(uncheckItem);
                 }
                 tsCheckVideoTracksByName.DropDownItems.AddRange(checkItems.ToArray());
                 tsUncheckVideoTracksByName.DropDownItems.AddRange(uncheckItems.ToArray());
@@ -1755,16 +1775,16 @@ namespace gMKVToolNix.Forms
             {
                 int totalLanguages = allNodes.Where(n => n != null && n.Tag != null && n.Tag is gMKVTrack && (n.Tag as gMKVTrack).TrackType == MkvTrackType.audio && (n.Tag as gMKVTrack).Language == lang).Count();
                 int checkedLanguages = checkedNodes.Where(n => n != null && n.Tag != null && n.Tag is gMKVTrack && (n.Tag as gMKVTrack).TrackType == MkvTrackType.audio && (n.Tag as gMKVTrack).Language == lang).Count();
-                checkItems.Add(
-                    new ToolStripMenuItem(string.Format("Language: [{0}] ({1}/{2})", lang, checkedLanguages, totalLanguages), null,
+                var checkItem = new ToolStripMenuItem(string.Format("Language: [{0}] ({1}/{2})", lang, checkedLanguages, totalLanguages), null,
                         delegate { SetCheckedTracks(TrackSelectionMode.audio, true, nodeSelectionFilter: NodeSelectionFilter.Language, argFilter: lang); }
-                    )
-                );
-                uncheckItems.Add(
-                    new ToolStripMenuItem(string.Format("Language: [{0}] ({1}/{2})", lang, totalLanguages - checkedLanguages, totalLanguages), null,
+                    );
+                ThemeManager.ApplyToolStripItemTheme(checkItem, _Settings.DarkMode); // Apply theme
+                checkItems.Add(checkItem);
+                var uncheckItem = new ToolStripMenuItem(string.Format("Language: [{0}] ({1}/{2})", lang, totalLanguages - checkedLanguages, totalLanguages), null,
                         delegate { SetCheckedTracks(TrackSelectionMode.audio, false, nodeSelectionFilter: NodeSelectionFilter.Language, argFilter: lang); }
-                    )
-                );
+                    );
+                ThemeManager.ApplyToolStripItemTheme(uncheckItem, _Settings.DarkMode);
+                uncheckItems.Add(uncheckItem);
             }
             tsCheckAudioTracksByLanguage.DropDownItems.AddRange(checkItems.ToArray());
             tsUncheckAudioTracksByLanguage.DropDownItems.AddRange(uncheckItems.ToArray());
@@ -1782,16 +1802,16 @@ namespace gMKVToolNix.Forms
             {
                 int totalLanguagesIetf = allNodes.Where(n => n != null && n.Tag != null && n.Tag is gMKVTrack && (n.Tag as gMKVTrack).TrackType == MkvTrackType.audio && (n.Tag as gMKVTrack).LanguageIetf == langIetf).Count();
                 int checkedLanguagesIetf = checkedNodes.Where(n => n != null && n.Tag != null && n.Tag is gMKVTrack && (n.Tag as gMKVTrack).TrackType == MkvTrackType.audio && (n.Tag as gMKVTrack).LanguageIetf == langIetf).Count();
-                checkItems.Add(
-                    new ToolStripMenuItem(string.Format("Language IETF: [{0}] ({1}/{2})", langIetf, checkedLanguagesIetf, totalLanguagesIetf), null,
+                var checkItem = new ToolStripMenuItem(string.Format("Language IETF: [{0}] ({1}/{2})", langIetf, checkedLanguagesIetf, totalLanguagesIetf), null,
                         delegate { SetCheckedTracks(TrackSelectionMode.audio, true, nodeSelectionFilter: NodeSelectionFilter.LanguageIetf, argFilter: langIetf); }
-                    )
-                );
-                uncheckItems.Add(
-                    new ToolStripMenuItem(string.Format("Language IETF: [{0}] ({1}/{2})", langIetf, totalLanguagesIetf - checkedLanguagesIetf, totalLanguagesIetf), null,
+                    );
+                ThemeManager.ApplyToolStripItemTheme(checkItem, _Settings.DarkMode); // Apply theme
+                checkItems.Add(checkItem);
+                var uncheckItem = new ToolStripMenuItem(string.Format("Language IETF: [{0}] ({1}/{2})", langIetf, totalLanguagesIetf - checkedLanguagesIetf, totalLanguagesIetf), null,
                         delegate { SetCheckedTracks(TrackSelectionMode.audio, false, nodeSelectionFilter: NodeSelectionFilter.LanguageIetf, argFilter: langIetf); }
-                    )
-                );
+                    );
+                ThemeManager.ApplyToolStripItemTheme(uncheckItem, _Settings.DarkMode);
+                uncheckItems.Add(uncheckItem);
             }
             tsCheckAudioTracksByLanguageIetf.DropDownItems.AddRange(checkItems.ToArray());
             tsUncheckAudioTracksByLanguageIetf.DropDownItems.AddRange(uncheckItems.ToArray());
@@ -1809,16 +1829,16 @@ namespace gMKVToolNix.Forms
             {
                 int totalLanguages = allNodes.Where(n => n != null && n.Tag != null && n.Tag is gMKVTrack && (n.Tag as gMKVTrack).TrackType == MkvTrackType.audio && (n.Tag as gMKVTrack).CodecID == codec).Count();
                 int checkedLanguages = checkedNodes.Where(n => n != null && n.Tag != null && n.Tag is gMKVTrack && (n.Tag as gMKVTrack).TrackType == MkvTrackType.audio && (n.Tag as gMKVTrack).CodecID == codec).Count();
-                checkItems.Add(
-                    new ToolStripMenuItem(string.Format("Codec: [{0}] ({1}/{2})", codec, checkedLanguages, totalLanguages), null,
+                var checkItem = new ToolStripMenuItem(string.Format("Codec: [{0}] ({1}/{2})", codec, checkedLanguages, totalLanguages), null,
                         delegate { SetCheckedTracks(TrackSelectionMode.audio, true, nodeSelectionFilter: NodeSelectionFilter.CodecId, argFilter: codec); }
-                    )
-                );
-                uncheckItems.Add(
-                    new ToolStripMenuItem(string.Format("Codec: [{0}] ({1}/{2})", codec, totalLanguages - checkedLanguages, totalLanguages), null,
+                    );
+                ThemeManager.ApplyToolStripItemTheme(checkItem, _Settings.DarkMode); // Apply theme
+                checkItems.Add(checkItem);
+                var uncheckItem = new ToolStripMenuItem(string.Format("Codec: [{0}] ({1}/{2})", codec, totalLanguages - checkedLanguages, totalLanguages), null,
                         delegate { SetCheckedTracks(TrackSelectionMode.audio, false, nodeSelectionFilter: NodeSelectionFilter.CodecId, argFilter: codec); }
-                    )
-                );
+                    );
+                ThemeManager.ApplyToolStripItemTheme(uncheckItem, _Settings.DarkMode);
+                uncheckItems.Add(uncheckItem);
             }
             tsCheckAudioTracksByCodec.DropDownItems.AddRange(checkItems.ToArray());
             tsUncheckAudioTracksByCodec.DropDownItems.AddRange(uncheckItems.ToArray());
@@ -1836,16 +1856,16 @@ namespace gMKVToolNix.Forms
             {
                 int totalLanguages = allNodes.Where(n => n != null && n.Tag != null && n.Tag is gMKVTrack && (n.Tag as gMKVTrack).TrackType == MkvTrackType.audio && (n.Tag as gMKVTrack).ExtraInfo == extra).Count();
                 int checkedLanguages = checkedNodes.Where(n => n != null && n.Tag != null && n.Tag is gMKVTrack && (n.Tag as gMKVTrack).TrackType == MkvTrackType.audio && (n.Tag as gMKVTrack).ExtraInfo == extra).Count();
-                checkItems.Add(
-                    new ToolStripMenuItem(string.Format("Channels: [{0}] ({1}/{2})", extra, checkedLanguages, totalLanguages), null,
+                var checkItem = new ToolStripMenuItem(string.Format("Channels: [{0}] ({1}/{2})", extra, checkedLanguages, totalLanguages), null,
                         delegate { SetCheckedTracks(TrackSelectionMode.audio, true, nodeSelectionFilter: NodeSelectionFilter.ExtraInfo, argFilter: extra); }
-                    )
-                );
-                uncheckItems.Add(
-                    new ToolStripMenuItem(string.Format("Channels: [{0}] ({1}/{2})", extra, totalLanguages - checkedLanguages, totalLanguages), null,
+                    );
+                ThemeManager.ApplyToolStripItemTheme(checkItem, _Settings.DarkMode); // Apply theme
+                checkItems.Add(checkItem);
+                var uncheckItem = new ToolStripMenuItem(string.Format("Channels: [{0}] ({1}/{2})", extra, totalLanguages - checkedLanguages, totalLanguages), null,
                         delegate { SetCheckedTracks(TrackSelectionMode.audio, false, nodeSelectionFilter: NodeSelectionFilter.ExtraInfo, argFilter: extra); }
-                    )
-                );
+                    );
+                ThemeManager.ApplyToolStripItemTheme(uncheckItem, _Settings.DarkMode);
+                uncheckItems.Add(uncheckItem);
             }
             tsCheckAudioTracksByChannels.DropDownItems.AddRange(checkItems.ToArray());
             tsUncheckAudioTracksByChannels.DropDownItems.AddRange(uncheckItems.ToArray());
@@ -1866,16 +1886,16 @@ namespace gMKVToolNix.Forms
                 {
                     int totalLanguages = allNodes.Where(n => n != null && n.Tag != null && n.Tag is gMKVTrack && (n.Tag as gMKVTrack).TrackType == MkvTrackType.audio && (n.Tag as gMKVTrack).TrackName == name).Count();
                     int checkedLanguages = checkedNodes.Where(n => n != null && n.Tag != null && n.Tag is gMKVTrack && (n.Tag as gMKVTrack).TrackType == MkvTrackType.audio && (n.Tag as gMKVTrack).TrackName == name).Count();
-                    checkItems.Add(
-                            new ToolStripMenuItem(string.Format("Track Name: [{0}] ({1}/{2})", name, checkedLanguages, totalLanguages), null,
+                    var checkItem = new ToolStripMenuItem(string.Format("Track Name: [{0}] ({1}/{2})", name, checkedLanguages, totalLanguages), null,
                             delegate { SetCheckedTracks(TrackSelectionMode.audio, true, nodeSelectionFilter: NodeSelectionFilter.Name, argFilter: name); }
-                        )
-                    );
-                    uncheckItems.Add(
-                            new ToolStripMenuItem(string.Format("Track Name: [{0}] ({1}/{2})", name, totalLanguages - checkedLanguages, totalLanguages), null,
+                        );
+                    ThemeManager.ApplyToolStripItemTheme(checkItem, _Settings.DarkMode); // Apply theme
+                    checkItems.Add(checkItem);
+                    var uncheckItem = new ToolStripMenuItem(string.Format("Track Name: [{0}] ({1}/{2})", name, totalLanguages - checkedLanguages, totalLanguages), null,
                             delegate { SetCheckedTracks(TrackSelectionMode.audio, false, nodeSelectionFilter: NodeSelectionFilter.Name, argFilter: name); }
-                        )
-                    );
+                        );
+                    ThemeManager.ApplyToolStripItemTheme(uncheckItem, _Settings.DarkMode);
+                    uncheckItems.Add(uncheckItem);
                 }
                 tsCheckAudioTracksByName.DropDownItems.AddRange(checkItems.ToArray());
                 tsUncheckAudioTracksByName.DropDownItems.AddRange(uncheckItems.ToArray());
@@ -1894,16 +1914,16 @@ namespace gMKVToolNix.Forms
             {
                 int totalLanguages = allNodes.Where(n => n != null && n.Tag != null && n.Tag is gMKVTrack && (n.Tag as gMKVTrack).TrackType == MkvTrackType.subtitles && (n.Tag as gMKVTrack).Language == lang).Count();
                 int checkedLanguages = checkedNodes.Where(n => n != null && n.Tag != null && n.Tag is gMKVTrack && (n.Tag as gMKVTrack).TrackType == MkvTrackType.subtitles && (n.Tag as gMKVTrack).Language == lang).Count();
-                checkItems.Add(
-                    new ToolStripMenuItem(string.Format("Language: [{0}] ({1}/{2})", lang, checkedLanguages, totalLanguages), null,
+                var checkItem = new ToolStripMenuItem(string.Format("Language: [{0}] ({1}/{2})", lang, checkedLanguages, totalLanguages), null,
                         delegate { SetCheckedTracks(TrackSelectionMode.subtitle, true, nodeSelectionFilter: NodeSelectionFilter.Language, argFilter: lang); }
-                    )
-                );
-                uncheckItems.Add(
-                    new ToolStripMenuItem(string.Format("Language: [{0}] ({1}/{2})", lang, totalLanguages - checkedLanguages, totalLanguages), null,
+                    );
+                ThemeManager.ApplyToolStripItemTheme(checkItem, _Settings.DarkMode); // Apply theme
+                checkItems.Add(checkItem);
+                var uncheckItem = new ToolStripMenuItem(string.Format("Language: [{0}] ({1}/{2})", lang, totalLanguages - checkedLanguages, totalLanguages), null,
                         delegate { SetCheckedTracks(TrackSelectionMode.subtitle, false, nodeSelectionFilter: NodeSelectionFilter.Language, argFilter: lang); }
-                    )
-                );
+                    );
+                ThemeManager.ApplyToolStripItemTheme(uncheckItem, _Settings.DarkMode);
+                uncheckItems.Add(uncheckItem);
             }
             tsCheckSubtitleTracksByLanguage.DropDownItems.AddRange(checkItems.ToArray());
             tsUncheckSubtitleTracksByLanguage.DropDownItems.AddRange(uncheckItems.ToArray());
@@ -1921,16 +1941,16 @@ namespace gMKVToolNix.Forms
             {
                 int totalLanguagesIetf = allNodes.Where(n => n != null && n.Tag != null && n.Tag is gMKVTrack && (n.Tag as gMKVTrack).TrackType == MkvTrackType.subtitles && (n.Tag as gMKVTrack).LanguageIetf == langIetf).Count();
                 int checkedLanguagesIetf = checkedNodes.Where(n => n != null && n.Tag != null && n.Tag is gMKVTrack && (n.Tag as gMKVTrack).TrackType == MkvTrackType.subtitles && (n.Tag as gMKVTrack).LanguageIetf == langIetf).Count();
-                checkItems.Add(
-                    new ToolStripMenuItem(string.Format("Language IETF: [{0}] ({1}/{2})", langIetf, checkedLanguagesIetf, totalLanguagesIetf), null,
+                var checkItem = new ToolStripMenuItem(string.Format("Language IETF: [{0}] ({1}/{2})", langIetf, checkedLanguagesIetf, totalLanguagesIetf), null,
                         delegate { SetCheckedTracks(TrackSelectionMode.subtitle, true, nodeSelectionFilter: NodeSelectionFilter.LanguageIetf, argFilter: langIetf); }
-                    )
-                );
-                uncheckItems.Add(
-                    new ToolStripMenuItem(string.Format("Language IETF: [{0}] ({1}/{2})", langIetf, totalLanguagesIetf - checkedLanguagesIetf, totalLanguagesIetf), null,
+                    );
+                ThemeManager.ApplyToolStripItemTheme(checkItem, _Settings.DarkMode); // Apply theme
+                checkItems.Add(checkItem);
+                var uncheckItem = new ToolStripMenuItem(string.Format("Language IETF: [{0}] ({1}/{2})", langIetf, totalLanguagesIetf - checkedLanguagesIetf, totalLanguagesIetf), null,
                         delegate { SetCheckedTracks(TrackSelectionMode.subtitle, false, nodeSelectionFilter: NodeSelectionFilter.LanguageIetf, argFilter: langIetf); }
-                    )
-                );
+                    );
+                ThemeManager.ApplyToolStripItemTheme(uncheckItem, _Settings.DarkMode);
+                uncheckItems.Add(uncheckItem);
             }
             tsCheckSubtitleTracksByLanguageIetf.DropDownItems.AddRange(checkItems.ToArray());
             tsUncheckSubtitleTracksByLanguageIetf.DropDownItems.AddRange(uncheckItems.ToArray());
@@ -1948,16 +1968,16 @@ namespace gMKVToolNix.Forms
             {
                 int totalLanguages = allNodes.Where(n => n != null && n.Tag != null && n.Tag is gMKVTrack && (n.Tag as gMKVTrack).TrackType == MkvTrackType.subtitles && (n.Tag as gMKVTrack).CodecID == codec).Count();
                 int checkedLanguages = checkedNodes.Where(n => n != null && n.Tag != null && n.Tag is gMKVTrack && (n.Tag as gMKVTrack).TrackType == MkvTrackType.subtitles && (n.Tag as gMKVTrack).CodecID == codec).Count();
-                checkItems.Add(
-                    new ToolStripMenuItem(string.Format("Codec: [{0}] ({1}/{2})", codec, checkedLanguages, totalLanguages), null,
+                var checkItem = new ToolStripMenuItem(string.Format("Codec: [{0}] ({1}/{2})", codec, checkedLanguages, totalLanguages), null,
                         delegate { SetCheckedTracks(TrackSelectionMode.subtitle, true, nodeSelectionFilter: NodeSelectionFilter.CodecId, argFilter: codec); }
-                    )
-                );
-                uncheckItems.Add(
-                    new ToolStripMenuItem(string.Format("Codec: [{0}] ({1}/{2})", codec, totalLanguages - checkedLanguages, totalLanguages), null,
+                    );
+                ThemeManager.ApplyToolStripItemTheme(checkItem, _Settings.DarkMode); // Apply theme
+                checkItems.Add(checkItem);
+                var uncheckItem = new ToolStripMenuItem(string.Format("Codec: [{0}] ({1}/{2})", codec, totalLanguages - checkedLanguages, totalLanguages), null,
                         delegate { SetCheckedTracks(TrackSelectionMode.subtitle, false, nodeSelectionFilter: NodeSelectionFilter.CodecId, argFilter: codec); }
-                    )
-                );
+                    );
+                ThemeManager.ApplyToolStripItemTheme(uncheckItem, _Settings.DarkMode);
+                uncheckItems.Add(uncheckItem);
             }
             tsCheckSubtitleTracksByCodec.DropDownItems.AddRange(checkItems.ToArray());
             tsUncheckSubtitleTracksByCodec.DropDownItems.AddRange(uncheckItems.ToArray());
@@ -1978,16 +1998,16 @@ namespace gMKVToolNix.Forms
                 {
                     int totalLanguages = allNodes.Where(n => n != null && n.Tag != null && n.Tag is gMKVTrack && (n.Tag as gMKVTrack).TrackType == MkvTrackType.subtitles && (n.Tag as gMKVTrack).TrackName == name).Count();
                     int checkedLanguages = checkedNodes.Where(n => n != null && n.Tag != null && n.Tag is gMKVTrack && (n.Tag as gMKVTrack).TrackType == MkvTrackType.subtitles && (n.Tag as gMKVTrack).TrackName == name).Count();
-                    checkItems.Add(
-                            new ToolStripMenuItem(string.Format("Track Name: [{0}] ({1}/{2})", name, checkedLanguages, totalLanguages), null,
+                    var checkItem = new ToolStripMenuItem(string.Format("Track Name: [{0}] ({1}/{2})", name, checkedLanguages, totalLanguages), null,
                             delegate { SetCheckedTracks(TrackSelectionMode.subtitle, true, nodeSelectionFilter: NodeSelectionFilter.Name, argFilter: name); }
-                        )
-                    );
-                    uncheckItems.Add(
-                            new ToolStripMenuItem(string.Format("Track Name: [{0}] ({1}/{2})", name, totalLanguages - checkedLanguages, totalLanguages), null,
+                        );
+                    ThemeManager.ApplyToolStripItemTheme(checkItem, _Settings.DarkMode); // Apply theme
+                    checkItems.Add(checkItem);
+                    var uncheckItem = new ToolStripMenuItem(string.Format("Track Name: [{0}] ({1}/{2})", name, totalLanguages - checkedLanguages, totalLanguages), null,
                             delegate { SetCheckedTracks(TrackSelectionMode.subtitle, false, nodeSelectionFilter: NodeSelectionFilter.Name, argFilter: name); }
-                        )
-                    );
+                        );
+                    ThemeManager.ApplyToolStripItemTheme(uncheckItem, _Settings.DarkMode);
+                    uncheckItems.Add(uncheckItem);
                 }
                 tsCheckSubtitleTracksByName.DropDownItems.AddRange(checkItems.ToArray());
                 tsUncheckSubtitleTracksByName.DropDownItems.AddRange(uncheckItems.ToArray());
@@ -2115,6 +2135,12 @@ namespace gMKVToolNix.Forms
         private void contextMenuStrip_Opening(object sender, CancelEventArgs e)
         {
             SetContextMenuText();
+
+            // Apply theme to context menu and its items
+            if (contextMenuStrip != null)
+            {
+                ThemeManager.ApplyTheme(contextMenuStrip, _Settings.DarkMode);
+            }
         }
 
         private void checkTracksToolStripMenuItem_Click(object sender, EventArgs e)
@@ -2396,11 +2422,9 @@ namespace gMKVToolNix.Forms
         {
             try
             {
-                if (_OptionsForm == null)
-                {
-                    _OptionsForm = new frmOptions();
-                }
-                if (_OptionsForm.ShowDialog() == DialogResult.OK)
+                frmOptions optionsForm = new frmOptions();
+
+                if (optionsForm.ShowDialog() == DialogResult.OK)
                 {
                     _Settings.Reload();
                 }
@@ -2410,6 +2434,42 @@ namespace gMKVToolNix.Forms
                 Debug.WriteLine(ex);
                 gMKVLogger.Log(ex.ToString());
                 ShowErrorMessage(ex.Message);
+            }
+        }
+
+        private void chkDarkMode_CheckedChanged(object sender, EventArgs e)
+        {
+            if (!_FromConstructor) // To prevent triggering during initial load
+            {
+                _Settings.DarkMode = chkDarkMode.Checked;
+                _Settings.Save();
+                ThemeManager.ApplyTheme(this, _Settings.DarkMode); // Apply theme on toggle
+                // Hack for DarkMode checkbox
+                if (_Settings.DarkMode)
+                {
+                    chkDarkMode.BackColor = Color.FromArgb(55, 55, 55);
+                }
+                NativeMethods.TrySetImmersiveDarkMode(this.Handle, _Settings.DarkMode);
+
+                // Apply theme to context menu
+                if (contextMenuStrip != null)
+                {
+                    ThemeManager.ApplyTheme(contextMenuStrip, _Settings.DarkMode);
+                }
+
+                // New code to add: Iterate through open forms and update theme
+                foreach (Form openForm in Application.OpenForms)
+                {
+                    if (openForm is frmLog logForm && openForm != this)
+                    {
+                        logForm.UpdateTheme(_Settings.DarkMode);
+                    }
+                    else if (openForm is frmJobManager jobManagerForm && openForm != this)
+                    {
+                        jobManagerForm.UpdateTheme(_Settings.DarkMode);
+                    }
+                    // Add other forms here if they also need dynamic theming
+                }
             }
         }
     }

@@ -102,6 +102,7 @@ namespace gMKVToolNix.Forms
             this.btnAbort = new System.Windows.Forms.Button();
             this.btnAbortAll = new System.Windows.Forms.Button();
             this.btnOptions = new System.Windows.Forms.Button();
+            this.chkDarkMode = new System.Windows.Forms.CheckBox();
             this.statusStrip.SuspendLayout();
             this.tlpMain.SuspendLayout();
             this.grpActions.SuspendLayout();
@@ -196,7 +197,7 @@ namespace gMKVToolNix.Forms
             // btnAddJobs
             // 
             this.btnAddJobs.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnAddJobs.Location = new System.Drawing.Point(467, 17);
+            this.btnAddJobs.Location = new System.Drawing.Point(458, 17);
             this.btnAddJobs.Name = "btnAddJobs";
             this.btnAddJobs.Size = new System.Drawing.Size(70, 30);
             this.btnAddJobs.TabIndex = 14;
@@ -228,9 +229,9 @@ namespace gMKVToolNix.Forms
             // btnExtract
             // 
             this.btnExtract.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnExtract.Location = new System.Drawing.Point(541, 17);
+            this.btnExtract.Location = new System.Drawing.Point(531, 17);
             this.btnExtract.Name = "btnExtract";
-            this.btnExtract.Size = new System.Drawing.Size(70, 30);
+            this.btnExtract.Size = new System.Drawing.Size(80, 30);
             this.btnExtract.TabIndex = 10;
             this.btnExtract.Text = "Extract";
             this.btnExtract.UseVisualStyleBackColor = true;
@@ -240,7 +241,7 @@ namespace gMKVToolNix.Forms
             // 
             this.lblExtractionMode.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.lblExtractionMode.AutoSize = true;
-            this.lblExtractionMode.Location = new System.Drawing.Point(314, 25);
+            this.lblExtractionMode.Location = new System.Drawing.Point(306, 25);
             this.lblExtractionMode.Name = "lblExtractionMode";
             this.lblExtractionMode.Size = new System.Drawing.Size(42, 15);
             this.lblExtractionMode.TabIndex = 9;
@@ -252,7 +253,7 @@ namespace gMKVToolNix.Forms
             this.cmbExtractionMode.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmbExtractionMode.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(161)));
             this.cmbExtractionMode.FormattingEnabled = true;
-            this.cmbExtractionMode.Location = new System.Drawing.Point(360, 21);
+            this.cmbExtractionMode.Location = new System.Drawing.Point(352, 21);
             this.cmbExtractionMode.Name = "cmbExtractionMode";
             this.cmbExtractionMode.Size = new System.Drawing.Size(102, 23);
             this.cmbExtractionMode.TabIndex = 8;
@@ -271,7 +272,7 @@ namespace gMKVToolNix.Forms
             // 
             this.lblChapterType.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.lblChapterType.AutoSize = true;
-            this.lblChapterType.Location = new System.Drawing.Point(203, 25);
+            this.lblChapterType.Location = new System.Drawing.Point(195, 25);
             this.lblChapterType.Name = "lblChapterType";
             this.lblChapterType.Size = new System.Drawing.Size(49, 15);
             this.lblChapterType.TabIndex = 3;
@@ -283,7 +284,7 @@ namespace gMKVToolNix.Forms
             this.cmbChapterType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmbChapterType.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(161)));
             this.cmbChapterType.FormattingEnabled = true;
-            this.cmbChapterType.Location = new System.Drawing.Point(256, 21);
+            this.cmbChapterType.Location = new System.Drawing.Point(248, 21);
             this.cmbChapterType.Name = "cmbChapterType";
             this.cmbChapterType.Size = new System.Drawing.Size(52, 23);
             this.cmbChapterType.TabIndex = 2;
@@ -329,7 +330,7 @@ namespace gMKVToolNix.Forms
             // txtOutputDirectory
             // 
             this.txtOutputDirectory.AllowDrop = true;
-            this.txtOutputDirectory.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.txtOutputDirectory.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txtOutputDirectory.ContextMenuStrip = this.contextMenuStripOutputDirectory;
             this.txtOutputDirectory.Location = new System.Drawing.Point(6, 22);
@@ -381,7 +382,7 @@ namespace gMKVToolNix.Forms
             // txtMKVToolnixPath
             // 
             this.txtMKVToolnixPath.AllowDrop = true;
-            this.txtMKVToolnixPath.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.txtMKVToolnixPath.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txtMKVToolnixPath.Location = new System.Drawing.Point(6, 22);
             this.txtMKVToolnixPath.Name = "txtMKVToolnixPath";
@@ -765,9 +766,9 @@ namespace gMKVToolNix.Forms
             // btnAbort
             // 
             this.btnAbort.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnAbort.Location = new System.Drawing.Point(526, 528);
+            this.btnAbort.Location = new System.Drawing.Point(534, 528);
             this.btnAbort.Name = "btnAbort";
-            this.btnAbort.Size = new System.Drawing.Size(80, 30);
+            this.btnAbort.Size = new System.Drawing.Size(72, 30);
             this.btnAbort.TabIndex = 12;
             this.btnAbort.Text = "Abort";
             this.btnAbort.UseVisualStyleBackColor = true;
@@ -776,9 +777,9 @@ namespace gMKVToolNix.Forms
             // btnAbortAll
             // 
             this.btnAbortAll.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnAbortAll.Location = new System.Drawing.Point(440, 528);
+            this.btnAbortAll.Location = new System.Drawing.Point(461, 528);
             this.btnAbortAll.Name = "btnAbortAll";
-            this.btnAbortAll.Size = new System.Drawing.Size(80, 30);
+            this.btnAbortAll.Size = new System.Drawing.Size(70, 30);
             this.btnAbortAll.TabIndex = 13;
             this.btnAbortAll.Text = "Abort All";
             this.btnAbortAll.UseVisualStyleBackColor = true;
@@ -787,7 +788,7 @@ namespace gMKVToolNix.Forms
             // btnOptions
             // 
             this.btnOptions.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnOptions.Location = new System.Drawing.Point(354, 528);
+            this.btnOptions.Location = new System.Drawing.Point(377, 528);
             this.btnOptions.Name = "btnOptions";
             this.btnOptions.Size = new System.Drawing.Size(80, 30);
             this.btnOptions.TabIndex = 14;
@@ -795,11 +796,24 @@ namespace gMKVToolNix.Forms
             this.btnOptions.UseVisualStyleBackColor = true;
             this.btnOptions.Click += new System.EventHandler(this.btnOptions_Click);
             // 
+            // chkDarkMode
+            // 
+            this.chkDarkMode.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.chkDarkMode.AutoSize = true;
+            this.chkDarkMode.Location = new System.Drawing.Point(321, 535);
+            this.chkDarkMode.Name = "chkDarkMode";
+            this.chkDarkMode.Size = new System.Drawing.Size(50, 19);
+            this.chkDarkMode.TabIndex = 15;
+            this.chkDarkMode.Text = "Dark";
+            this.chkDarkMode.UseVisualStyleBackColor = true;
+            this.chkDarkMode.CheckedChanged += new System.EventHandler(this.chkDarkMode_CheckedChanged);
+            // 
             // frmMain2
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.ClientSize = new System.Drawing.Size(624, 561);
+            this.Controls.Add(this.chkDarkMode);
             this.Controls.Add(this.btnAbort);
             this.Controls.Add(this.btnAbortAll);
             this.Controls.Add(this.btnOptions);
@@ -830,6 +844,7 @@ namespace gMKVToolNix.Forms
             this.contextMenuStrip.ResumeLayout(false);
             this.grpSelectedFileInfo.ResumeLayout(false);
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -906,5 +921,6 @@ namespace gMKVToolNix.Forms
         private System.Windows.Forms.ToolStripMenuItem useCurrentlySetDefaultDirectoryToolStripMenuItem;
         private System.Windows.Forms.TableLayoutPanel tlpInput;
         private System.Windows.Forms.CheckBox chkAppendOnDragAndDrop;
+        private System.Windows.Forms.CheckBox chkDarkMode;
     }
 }

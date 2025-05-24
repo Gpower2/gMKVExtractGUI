@@ -1,25 +1,37 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
+using System.Diagnostics;
 using System.Drawing;
+using System.IO;
 using System.Reflection;
 using System.Text;
 using System.Windows.Forms;
-using gMKVToolNix;
-using System.Diagnostics;
-using System.IO;
+using gMKVToolNix.Theming;
+using gMKVToolNix.WinAPI;
 
 namespace gMKVToolNix
 {
     public partial class frmLog : gForm
     {
+        private readonly gSettings _Settings = null;
+
         public frmLog()
         {
             InitializeComponent();
             InitForm();
 
-            // Initialize the DPI aware scaling
+            _Settings = new gSettings(this.GetCurrentDirectory());
+            _Settings.Reload();
+
+            ThemeManager.ApplyTheme(this, _Settings.DarkMode);
+            if (this.Handle != IntPtr.Zero)
+            {
+                NativeMethods.TrySetImmersiveDarkMode(this.Handle, _Settings.DarkMode);
+            }
+            else
+            {
+                this.Shown += (s, ev) => { NativeMethods.TrySetImmersiveDarkMode(this.Handle, _Settings.DarkMode); };
+            }
+
             InitDPI();
         }
 
@@ -116,16 +128,16 @@ namespace gMKVToolNix
             {
                 SaveFileDialog sfd = new SaveFileDialog();
                 sfd.Title = "Select filename for log...";
-                sfd.CheckFileExists = true;
+                sfd.CheckFileExists = false; // Changed to false to allow creating new files
                 sfd.DefaultExt = "txt";
                 sfd.Filter = "*.txt|*.txt";
-                sfd.FileName = string.Format("[{0}][{1}][gMKVExtractGUI_v{2}].txt", 
+                sfd.FileName = string.Format("[{0}][{1}][gMKVExtractGUI_v{2}].txt",
                     DateTime.Now.ToString("yyyy-MM-dd"),
                     DateTime.Now.ToString("HH-mm-ss"),
                     Assembly.GetExecutingAssembly().GetName().Version);
-                if(sfd.ShowDialog() == DialogResult.Yes)
+                if (sfd.ShowDialog() == DialogResult.OK) // ShowDialog returns OK, not Yes
                 {
-                    using(StreamWriter sw = new StreamWriter(sfd.FileName, false, Encoding.UTF8))
+                    using (StreamWriter sw = new StreamWriter(sfd.FileName, false, Encoding.UTF8))
                     {
                         sw.Write(gMKVLogger.LogText);
                     }
@@ -137,6 +149,23 @@ namespace gMKVToolNix
                 Debug.WriteLine(ex);
                 gMKVLogger.Log(ex.ToString());
                 ShowErrorMessage(ex.Message);
+            }
+        }
+
+        public void UpdateTheme(bool darkMode)
+        {
+            ThemeManager.ApplyTheme(this, darkMode);
+            if (this.IsHandleCreated) // Important check
+            {
+                NativeMethods.TrySetImmersiveDarkMode(this.Handle, darkMode);
+            }
+            else
+            {
+                // If handle not created yet, defer until it is.
+                // This might be less critical for already shown forms but good for robustness.
+                this.HandleCreated += (s, e) => {
+                    NativeMethods.TrySetImmersiveDarkMode(this.Handle, darkMode);
+                };
             }
         }
     }

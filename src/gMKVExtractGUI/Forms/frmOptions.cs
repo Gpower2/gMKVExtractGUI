@@ -2,6 +2,8 @@
 using System.Diagnostics;
 using System.Drawing;
 using System.Windows.Forms;
+using gMKVToolNix.Theming;
+using gMKVToolNix.WinAPI;
 
 namespace gMKVToolNix.Forms
 {
@@ -52,6 +54,21 @@ namespace gMKVToolNix.Forms
 
             // Fill from settings
             FillFromSettings();
+
+            // Apply Theme
+            ThemeManager.ApplyTheme(this, _Settings.DarkMode);
+            // Explicitly set ForeColor for txtInfo after theming
+            txtInfo.ForeColor = _Settings.DarkMode
+                ? ThemeManager.DarkModeTextForeColor
+                : ThemeManager.LightModeTextForeColor;
+            NativeMethods.TrySetImmersiveDarkMode(this.Handle, _Settings.DarkMode);
+
+            // Apply theme to context menus
+            if (_VideoTrackContextMenu != null) ThemeManager.ApplyTheme(_VideoTrackContextMenu, _Settings.DarkMode);
+            if (_AudioTrackContextMenu != null) ThemeManager.ApplyTheme(_AudioTrackContextMenu, _Settings.DarkMode);
+            if (_SubtitleTrackContextMenu != null) ThemeManager.ApplyTheme(_SubtitleTrackContextMenu, _Settings.DarkMode);
+            if (_ChapterContextMenu != null) ThemeManager.ApplyTheme(_ChapterContextMenu, _Settings.DarkMode);
+            if (_AttachmentContextMenu != null) ThemeManager.ApplyTheme(_AttachmentContextMenu, _Settings.DarkMode);
 
             // Select the information text box
             txtInfo.Select();
@@ -115,7 +132,7 @@ namespace gMKVToolNix.Forms
             _ChapterContextMenu.Items.Add(GetToolstripMenuItem("Input Filename (without extension)", gMKVExtractFilenamePatterns.FilenameNoExt, txtChaptersFilename));
             _ChapterContextMenu.Items.Add(GetToolstripMenuItem("Input Filename (with extension)", gMKVExtractFilenamePatterns.Filename, txtChaptersFilename));
             _ChapterContextMenu.Items.Add("-");
-            _ChapterContextMenu.Items.Add(GetToolstripMenuItem("Directory Separator", gMKVExtractFilenamePatterns.DirectorySeparator, txtChaptersFilename));            
+            _ChapterContextMenu.Items.Add(GetToolstripMenuItem("Directory Separator", gMKVExtractFilenamePatterns.DirectorySeparator, txtChaptersFilename));
 
             _AttachmentContextMenu.Items.Add(GetToolstripMenuItem("Input Filename (without extension)", gMKVExtractFilenamePatterns.FilenameNoExt, txtAttachmentsFilename));
             _AttachmentContextMenu.Items.Add(GetToolstripMenuItem("Input Filename (with extension)", gMKVExtractFilenamePatterns.Filename, txtAttachmentsFilename));
@@ -126,7 +143,7 @@ namespace gMKVToolNix.Forms
 
             // Common Track placeholders
             // ============================================================================================================================
-            var vidTrackNumber = new ToolStripMenuItem("Track Number...", null);            
+            var vidTrackNumber = new ToolStripMenuItem("Track Number...", null);
             vidTrackNumber.DropDownItems.Add(GetToolstripMenuItem("Track Number (No format)", gMKVExtractFilenamePatterns.TrackNumber, txtVideoTracksFilename));
             vidTrackNumber.DropDownItems.Add(GetToolstripMenuItem("Track Number (1 digit)", gMKVExtractFilenamePatterns.TrackNumber_0, txtVideoTracksFilename));
             vidTrackNumber.DropDownItems.Add(GetToolstripMenuItem("Track Number (2 digits)", gMKVExtractFilenamePatterns.TrackNumber_00, txtVideoTracksFilename));
@@ -135,7 +152,7 @@ namespace gMKVToolNix.Forms
             _VideoTrackContextMenu.Items.Add(vidTrackNumber);
             //_VideoTrackContextMenu.Items.Add(GetToolstripMenuItem("Track Number", gMKVExtractFilenamePatterns.TrackNumber, txtVideoTracksFilename));
 
-            var vidTrackID = new ToolStripMenuItem("Track ID...", null);            
+            var vidTrackID = new ToolStripMenuItem("Track ID...", null);
             vidTrackID.DropDownItems.Add(GetToolstripMenuItem("Track ID (No format)", gMKVExtractFilenamePatterns.TrackID, txtVideoTracksFilename));
             vidTrackID.DropDownItems.Add(GetToolstripMenuItem("Track ID (1 digit)", gMKVExtractFilenamePatterns.TrackID_0, txtVideoTracksFilename));
             vidTrackID.DropDownItems.Add(GetToolstripMenuItem("Track ID (2 digits)", gMKVExtractFilenamePatterns.TrackID_00, txtVideoTracksFilename));
@@ -312,7 +329,7 @@ namespace gMKVToolNix.Forms
             {
                 UpdateSettings();
                 _Settings.Save();
-                this.DialogResult = DialogResult.OK;                
+                this.DialogResult = DialogResult.OK;
                 this.Close();
             }
             catch (Exception ex)

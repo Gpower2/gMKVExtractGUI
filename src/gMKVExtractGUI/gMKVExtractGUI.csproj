@@ -135,6 +135,8 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Theming\ThemeManager.cs" />
+    <Compile Include="WinAPI\NativeMethods.cs" />
     <EmbeddedResource Include="Controls\gForm.resx">
       <DependentUpon>gForm.cs</DependentUpon>
     </EmbeddedResource>

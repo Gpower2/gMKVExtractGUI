@@ -108,6 +108,13 @@ namespace gMKVToolNix
             set { _AppendOnDragAndDrop = value; }
         }
 
+        private bool _DarkMode = false;
+        public bool DarkMode
+        {
+            get { return _DarkMode; }
+            set { _DarkMode = value; }
+        }
+
         private String _VideoTrackFilenamePattern = "{FilenameNoExt}_track{TrackNumber}_[{Language}]";
         [DefaultValue("{FilenameNoExt}_track{TrackNumber}_[{Language}]")]
         public string VideoTrackFilenamePattern
@@ -480,6 +487,19 @@ namespace gMKVToolNix
                                 _AppendOnDragAndDrop = false;
                             }
                         }
+                        else if (line.StartsWith("DarkMode:"))
+                        {
+                            try
+                            {
+                                _DarkMode = bool.Parse(line.Substring(line.IndexOf(":") + 1));
+                            }
+                            catch (Exception ex)
+                            {
+                                Debug.WriteLine(ex);
+                                gMKVLogger.Log(string.Format("Error reading DarkMode! {0}", ex.Message));
+                                _DarkMode = false; // Default to false on error
+                            }
+                        }
                     }
                 }
                 gMKVLogger.Log("Finished loading settings!");
@@ -505,6 +525,7 @@ namespace gMKVToolNix
                 sw.WriteLine(String.Format("Show Popup:{0}", _ShowPopup));
                 sw.WriteLine(String.Format("Show Popup In Job Manager:{0}", _ShowPopupInJobManager));
                 sw.WriteLine(String.Format("Append On Drag and Drop:{0}", _AppendOnDragAndDrop));
+                sw.WriteLine(String.Format("DarkMode:{0}", _DarkMode));
 
                 sw.WriteLine(string.Format("VideoTrackFilenamePattern:{0}", _VideoTrackFilenamePattern));
                 sw.WriteLine(string.Format("AudioTrackFilenamePattern:{0}", _AudioTrackFilenamePattern));
