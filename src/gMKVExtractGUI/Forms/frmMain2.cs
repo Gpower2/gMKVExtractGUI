@@ -1200,6 +1200,11 @@ namespace gMKVToolNix.Forms
                     _gMkvExtract.MkvExtractProgressUpdated -= g_MkvExtractProgressUpdated;
                     _gMkvExtract.MkvExtractTrackUpdated -= g_MkvExtractTrackUpdated;
                 }
+
+                trvInputFiles.SelectedNode = null;
+                txtSegmentInfo.Clear();
+                grpSelectedFileInfo.Text = "Selected File Information";
+
                 if (chkShowPopup.Checked || exceptionOccured)
                 {
                     ClearStatus();
@@ -1208,12 +1213,9 @@ namespace gMKVToolNix.Forms
                 {
                     if (sender == btnExtract)
                     {
-                        lblStatus.Text = "Extraction completed!";
+                        txtSegmentInfo.Text = "Extraction completed!";
                     }
                 }
-                trvInputFiles.SelectedNode = null;
-                txtSegmentInfo.Clear();
-                grpSelectedFileInfo.Text = "Selected File Information";
 
                 _ExtractRunning = false;
                 tlpMain.Enabled = true;
