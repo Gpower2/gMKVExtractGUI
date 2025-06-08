@@ -6,7 +6,8 @@ namespace gMKVToolNix
     {
         XML,
         OGM,
-        CUE
+        CUE,
+        PBF,
     }
 
     [Serializable]
