@@ -11,6 +11,7 @@ using System.IO;
 using System.Threading;
 using System.Media;
 using gMKVToolNix.Forms;
+using gMKVToolNix.Enums;
 
 namespace gMKVToolNix
 {

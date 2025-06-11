@@ -2,21 +2,10 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
+using gMKVToolNix.Enums;
 
 namespace gMKVToolNix
 {
-    public enum FormMkvExtractionMode
-    {
-        Tracks,
-        Cue_Sheet,
-        Tags,
-        Timecodes,
-        Tracks_And_Timecodes,
-        Cues,
-        Tracks_And_Cues,
-        Tracks_And_Cues_And_Timecodes
-    }
-
     public delegate void gMkvExtractMethod(object parameterList);
 
     [Serializable]
@@ -40,28 +29,29 @@ namespace gMKVToolNix
             ParametersList = argParameters;
         }
 
-        public gMkvExtractMethod ExtractMethod(gMKVExtract argGmkvExtract) {
-                switch (ExtractionMode)
-                {
-                    case FormMkvExtractionMode.Tracks:
-                        return argGmkvExtract.ExtractMKVSegmentsThreaded;
-                    case FormMkvExtractionMode.Cue_Sheet:
-                        return argGmkvExtract.ExtractMkvCuesheetThreaded;
-                    case FormMkvExtractionMode.Tags:
-                        return argGmkvExtract.ExtractMkvTagsThreaded;
-                    case FormMkvExtractionMode.Timecodes:
-                        return argGmkvExtract.ExtractMKVTimecodesThreaded;
-                    case FormMkvExtractionMode.Tracks_And_Timecodes:
-                        return argGmkvExtract.ExtractMKVSegmentsThreaded;
-                    case FormMkvExtractionMode.Cues:
-                        return argGmkvExtract.ExtractMKVCuesThreaded;
-                    case FormMkvExtractionMode.Tracks_And_Cues:
-                        return argGmkvExtract.ExtractMKVSegmentsThreaded;
-                    case FormMkvExtractionMode.Tracks_And_Cues_And_Timecodes:
-                        return argGmkvExtract.ExtractMKVSegmentsThreaded;
-                    default:
-                        throw new Exception("Unsupported Extraction Mode!");
-                }
+        public gMkvExtractMethod ExtractMethod(gMKVExtract argGmkvExtract) 
+        {
+            switch (ExtractionMode)
+            {
+                case FormMkvExtractionMode.Tracks:
+                    return argGmkvExtract.ExtractMKVSegmentsThreaded;
+                case FormMkvExtractionMode.Cue_Sheet:
+                    return argGmkvExtract.ExtractMkvCuesheetThreaded;
+                case FormMkvExtractionMode.Tags:
+                    return argGmkvExtract.ExtractMkvTagsThreaded;
+                case FormMkvExtractionMode.Timecodes:
+                    return argGmkvExtract.ExtractMKVTimecodesThreaded;
+                case FormMkvExtractionMode.Tracks_And_Timecodes:
+                    return argGmkvExtract.ExtractMKVSegmentsThreaded;
+                case FormMkvExtractionMode.Cues:
+                    return argGmkvExtract.ExtractMKVCuesThreaded;
+                case FormMkvExtractionMode.Tracks_And_Cues:
+                    return argGmkvExtract.ExtractMKVSegmentsThreaded;
+                case FormMkvExtractionMode.Tracks_And_Cues_And_Timecodes:
+                    return argGmkvExtract.ExtractMKVSegmentsThreaded;
+                default:
+                    throw new Exception("Unsupported Extraction Mode!");
+            }
         }
 
         // For serialization only!!!

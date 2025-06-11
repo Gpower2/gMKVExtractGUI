@@ -4,12 +4,15 @@ using System.Diagnostics;
 using System.IO;
 using System.Reflection;
 using System.Text;
+using gMKVToolNix.Enums;
 using Microsoft.Win32;
 
 namespace gMKVToolNix
 {
     public static class gMKVHelper
     {
+        private static bool? _isOnLinux = null;
+
         /// <summary>
         /// Returns if the running Platform is Linux Or MacOSX
         /// </summary>
@@ -17,27 +20,58 @@ namespace gMKVToolNix
         {
             get
             {
+                if (_isOnLinux.HasValue)
+                {
+                    return _isOnLinux.Value;
+                }
+
                 PlatformID myPlatform = Environment.OSVersion.Platform;
 
                 // 128 is Mono 1.x specific value for Linux systems, so it's there to provide compatibility
-                return (myPlatform == PlatformID.Unix) || (myPlatform == PlatformID.MacOSX) || ((int)myPlatform == 128);
+                _isOnLinux = (myPlatform == PlatformID.Unix) || (myPlatform == PlatformID.MacOSX) || ((int)myPlatform == 128);
+
+                return _isOnLinux.Value;
             }
         }
+
+        private static string _mkvMergeGuiFilename = null;
 
         /// <summary>
         /// Gets the mkvmerge GUI executable filename
         /// </summary>
         public static string MKV_MERGE_GUI_FILENAME 
         {
-            get { return IsOnLinux ? "mmg" : "mmg.exe"; }
+            get 
+            { 
+                if (_mkvMergeGuiFilename != null)
+                {
+                    return _mkvMergeGuiFilename;
+                }
+
+                _mkvMergeGuiFilename = IsOnLinux ? "mmg" : "mmg.exe";
+
+                return _mkvMergeGuiFilename;
+            }
         }
+
+        private static string _mkvMergeNewGuiFilename = null;
 
         /// <summary>
         /// Gets the new mkvmerge GUI executable filename
         /// </summary>
         public static string MKV_MERGE_NEW_GUI_FILENAME
         {
-            get { return IsOnLinux ? "mkvmerge" : "mkvmerge.exe"; }
+            get 
+            { 
+                if (_mkvMergeNewGuiFilename != null)
+                {
+                    return _mkvMergeNewGuiFilename;
+                }
+
+                _mkvMergeNewGuiFilename = IsOnLinux ? "mkvmerge" : "mkvmerge.exe";
+
+                return _mkvMergeNewGuiFilename;
+            }
         }
 
         /// <summary>
@@ -335,6 +369,9 @@ namespace gMKVToolNix
             return segmentList;
         }
 
+        private static FieldInfo _dataReceivedEventArgsFieldInfo = typeof(DataReceivedEventArgs)
+            .GetFields(BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.DeclaredOnly)[0];
+
         /// <summary>
         /// Creates a DataReceivedEventArgs instance with the given Data.
         /// </summary>
@@ -343,10 +380,9 @@ namespace gMKVToolNix
         public static DataReceivedEventArgs GetDataReceivedEventArgs(object argData)
         {
             DataReceivedEventArgs eventArgs = (DataReceivedEventArgs)System.Runtime.Serialization.FormatterServices
-                         .GetUninitializedObject(typeof(DataReceivedEventArgs));
+                .GetUninitializedObject(typeof(DataReceivedEventArgs));
 
-            FieldInfo f = typeof(DataReceivedEventArgs).GetFields(BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.DeclaredOnly)[0];
-            f.SetValue(eventArgs, argData);
+            _dataReceivedEventArgsFieldInfo.SetValue(eventArgs, argData);
 
             return eventArgs;
         }

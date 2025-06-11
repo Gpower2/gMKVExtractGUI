@@ -9,6 +9,7 @@ using System.Media;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using gMKVToolNix.Enums;
 using gMKVToolNix.Theming;
 using gMKVToolNix.WinAPI;
 
@@ -757,13 +758,13 @@ namespace gMKVToolNix.Forms
                 && inputExtension != ".mk3d"
                 && inputExtension != ".webm")
             {
-                throw new Exception("The input file " + argFilename + Environment.NewLine + Environment.NewLine + "is not a valid matroska file!");
+                throw new Exception($"The input file {argFilename}{Environment.NewLine}{Environment.NewLine}is not a valid matroska file!");
             }
 
             // get the file information                    
             List<gMKVSegment> segmentList = gMKVHelper.GetMergedMkvSegmentList(argMKVToolNixPath, argFilename);
 
-            gMKVSegmentInfo segInfo = (gMKVSegmentInfo)segmentList.FirstOrDefault(s => s is gMKVSegmentInfo);
+            gMKVSegmentInfo segInfo = segmentList.OfType<gMKVSegmentInfo>().FirstOrDefault();
 
             TreeNode infoNode = new TreeNode(Path.GetFileName(argFilename))
             {
@@ -826,7 +827,7 @@ namespace gMKVToolNix.Forms
                     }
 
                     // Set the GroupBox title
-                    grpSelectedFileInfo.Text = string.Format("Selected File Information ({0})", seg.Filename);
+                    grpSelectedFileInfo.Text = $"Selected File Information ({seg.Filename})";
                 }
                 else
                 {
@@ -913,7 +914,7 @@ namespace gMKVToolNix.Forms
                 {
                     if (selectedExtractionMode == FormMkvExtractionMode.Cue_Sheet || selectedExtractionMode == FormMkvExtractionMode.Tags)
                     {
-                        throw new Exception(string.Format("You must select a file's track in order to extract {0}!", (string)cmbExtractionMode.SelectedItem));
+                        throw new Exception($"You must select a file's track in order to extract {cmbExtractionMode.SelectedItem}!");
                     }
                     else
                     {
@@ -1509,8 +1510,8 @@ namespace gMKVToolNix.Forms
         {
             try
             {
-                if (!_FromConstructor && !(
-                    this.WindowState == FormWindowState.Minimized
+                if (!_FromConstructor && 
+                    !(this.WindowState == FormWindowState.Minimized
                     || this.WindowState == FormWindowState.Maximized))
                 {
                     _Settings.WindowPosX = this.Location.X;
@@ -2106,8 +2107,10 @@ namespace gMKVToolNix.Forms
             {
                 case TrackSelectionMode.video:
                     nodes = trvInputFiles.AllNodes.Where(n =>
-                        n != null && n.Tag != null
-                        && n.Tag is gMKVTrack track && track.TrackType == MkvTrackType.video).ToList();
+                        n != null 
+                        && n.Tag != null
+                        && n.Tag is gMKVTrack track 
+                        && track.TrackType == MkvTrackType.video).ToList();
                     if (argFilter != null)
                     {
                         switch (nodeSelectionFilter)
@@ -2134,8 +2137,10 @@ namespace gMKVToolNix.Forms
                     break;
                 case TrackSelectionMode.audio:
                     nodes = trvInputFiles.AllNodes.Where(n =>
-                        n != null && n.Tag != null
-                        && n.Tag is gMKVTrack track && track.TrackType == MkvTrackType.audio).ToList();
+                        n != null 
+                        && n.Tag != null
+                        && n.Tag is gMKVTrack track 
+                        && track.TrackType == MkvTrackType.audio).ToList();
                     if (argFilter != null)
                     {
                         switch (nodeSelectionFilter)
@@ -2162,8 +2167,10 @@ namespace gMKVToolNix.Forms
                     break;
                 case TrackSelectionMode.subtitle:
                     nodes = trvInputFiles.AllNodes.Where(n =>
-                        n != null && n.Tag != null
-                        && n.Tag is gMKVTrack track && track.TrackType == MkvTrackType.subtitles).ToList();
+                        n != null 
+                        && n.Tag != null
+                        && n.Tag is gMKVTrack track 
+                        && track.TrackType == MkvTrackType.subtitles).ToList();
                     if (argFilter != null)
                     {
                         switch (nodeSelectionFilter)
@@ -2190,15 +2197,21 @@ namespace gMKVToolNix.Forms
                     break;
                 case TrackSelectionMode.chapter:
                     nodes = trvInputFiles.AllNodes.Where(n =>
-                        n != null && n.Tag != null && n.Tag is gMKVChapter).ToList();
+                        n != null 
+                        && n.Tag != null 
+                        && n.Tag is gMKVChapter).ToList();
                     break;
                 case TrackSelectionMode.attachment:
                     nodes = trvInputFiles.AllNodes.Where(n =>
-                        n != null && n.Tag != null && n.Tag is gMKVAttachment).ToList();
+                        n != null 
+                        && n.Tag != null 
+                        && n.Tag is gMKVAttachment).ToList();
                     break;
                 case TrackSelectionMode.all:
                     nodes = trvInputFiles.AllNodes.Where(n =>
-                        n != null && n.Tag != null && !(n.Tag is gMKVSegmentInfo)).ToList();
+                        n != null 
+                        && n.Tag != null 
+                        && !(n.Tag is gMKVSegmentInfo)).ToList();
                     break;
                 default:
 
@@ -2298,8 +2311,9 @@ namespace gMKVToolNix.Forms
             trvInputFiles.Nodes.Remove(node);
             if (trvInputFiles.Nodes.Count > 0)
             {
-                grpInputFiles.Text = string.Format("Input Files (you can drag and drop files or directories) ({0} files)",
-                trvInputFiles.AllNodes.Count(n => n != null && n.Tag != null && n.Tag is gMKVSegmentInfo));
+                grpInputFiles.Text = string.Format(
+                    "Input Files (you can drag and drop files or directories) ({0} files)",
+                    trvInputFiles.AllNodes.Count(n => n != null && n.Tag != null && n.Tag is gMKVSegmentInfo));
             }
             else
             {

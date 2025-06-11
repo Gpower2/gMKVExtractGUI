@@ -63,9 +63,21 @@
     </Compile>
     <Compile Include="CueSheet\Cue.cs" />
     <Compile Include="CueSheet\CueTrack.cs" />
+    <Compile Include="Enums\CuesExtractionMode.cs" />
+    <Compile Include="Enums\FormMkvExtractionMode.cs" />
+    <Compile Include="Enums\JobState.cs" />
+    <Compile Include="Enums\MkvChapterTypes.cs" />
+    <Compile Include="Enums\MkvExtractGlobalOptions.cs" />
+    <Compile Include="Enums\MkvExtractModes.cs" />
+    <Compile Include="Enums\MkvInfoOptions.cs" />
+    <Compile Include="Enums\MkvMergeOptions.cs" />
+    <Compile Include="Enums\MkvTrackType.cs" />
+    <Compile Include="Enums\TimecodesExtractionMode.cs" />
     <Compile Include="gMKVAttachment.cs" />
     <Compile Include="gMKVChapter.cs" />
     <Compile Include="gMKVExtract.cs" />
+    <Compile Include="gMKVExtractFilenamePatterns.cs" />
+    <Compile Include="gMKVExtractSegmentsParameters.cs" />
     <Compile Include="gMKVInfo.cs" />
     <Compile Include="gMKVJob.cs" />
     <Compile Include="gMKVJobInfo.cs" />

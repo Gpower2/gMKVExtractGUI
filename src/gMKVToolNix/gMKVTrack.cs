@@ -1,15 +1,9 @@
 ﻿using System;
 using System.Text;
+using gMKVToolNix.Enums;
 
 namespace gMKVToolNix
 {
-    public enum MkvTrackType
-    {
-        video,
-        audio,
-        subtitles
-    }
-
     [Serializable]
     public class gMKVTrack : gMKVSegment
     {
