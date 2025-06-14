@@ -5,7 +5,8 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
-using gMKVToolNix.Enums;
+using gMKVToolNix.Log;
+using gMKVToolNix.Segments;
 
 namespace gMKVToolNix
 {

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Text;
 
-namespace gMKVToolNix
+namespace gMKVToolNix.Log
 {
     public delegate void LogLineAddedEventHandler(string lineAdded, DateTime actionDate);
 

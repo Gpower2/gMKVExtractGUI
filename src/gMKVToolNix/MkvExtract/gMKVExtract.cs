@@ -6,9 +6,10 @@ using System.Linq;
 using System.Text;
 using System.Xml.Serialization;
 using gMKVToolNix.CueSheet;
-using gMKVToolNix.Enums;
+using gMKVToolNix.Log;
+using gMKVToolNix.Segments;
 
-namespace gMKVToolNix
+namespace gMKVToolNix.MkvExtract
 {
     public delegate void MkvExtractProgressUpdatedEventHandler(int progress);
     public delegate void MkvExtractTrackUpdatedEventHandler(string filename, string trackName);

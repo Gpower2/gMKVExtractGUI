@@ -2,9 +2,10 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
-using gMKVToolNix.Enums;
+using gMKVToolNix.MkvExtract;
+using gMKVToolNix.Segments;
 
-namespace gMKVToolNix
+namespace gMKVToolNix.Jobs
 {
     public delegate void gMkvExtractMethod(object parameterList);
 

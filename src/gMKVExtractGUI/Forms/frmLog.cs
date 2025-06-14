@@ -5,6 +5,7 @@ using System.IO;
 using System.Reflection;
 using System.Text;
 using System.Windows.Forms;
+using gMKVToolNix.Log;
 using gMKVToolNix.Theming;
 using gMKVToolNix.WinAPI;
 

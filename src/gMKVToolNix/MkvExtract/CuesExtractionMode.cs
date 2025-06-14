@@ -1,4 +1,4 @@
-namespace gMKVToolNix.Enums
+namespace gMKVToolNix.MkvExtract
 {
     public enum CuesExtractionMode
     {

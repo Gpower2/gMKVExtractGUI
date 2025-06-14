@@ -1,7 +1,6 @@
 ﻿using System;
-using gMKVToolNix.Enums;
 
-namespace gMKVToolNix
+namespace gMKVToolNix.Jobs
 {
     [Serializable]
     public class gMKVJobInfo

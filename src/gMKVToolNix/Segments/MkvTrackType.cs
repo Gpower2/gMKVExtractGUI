@@ -1,4 +1,4 @@
-﻿namespace gMKVToolNix.Enums
+﻿namespace gMKVToolNix.Segments
 {
     public enum MkvTrackType
     {

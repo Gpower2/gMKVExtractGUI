@@ -2,6 +2,8 @@
 using System.Diagnostics;
 using System.Drawing;
 using System.Windows.Forms;
+using gMKVToolNix.Log;
+using gMKVToolNix.MkvExtract;
 using gMKVToolNix.Theming;
 using gMKVToolNix.WinAPI;
 

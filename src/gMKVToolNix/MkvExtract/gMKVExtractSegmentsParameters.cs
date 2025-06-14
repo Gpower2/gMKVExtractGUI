@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using gMKVToolNix.Enums;
+using gMKVToolNix.Segments;
 
-namespace gMKVToolNix
+namespace gMKVToolNix.MkvExtract
 {
     public sealed class gMKVExtractSegmentsParameters
     {

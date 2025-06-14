@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace gMKVToolNix
+namespace gMKVToolNix.Segments
 {
     [Serializable]
     public class gMKVSegment

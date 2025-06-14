@@ -49,9 +49,8 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>Libs\Newtonsoft.Json.dll</HintPath>
+    <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Newtonsoft.Json.13.0.3\lib\net40\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -63,29 +62,29 @@
     </Compile>
     <Compile Include="CueSheet\Cue.cs" />
     <Compile Include="CueSheet\CueTrack.cs" />
-    <Compile Include="Enums\CuesExtractionMode.cs" />
-    <Compile Include="Enums\FormMkvExtractionMode.cs" />
-    <Compile Include="Enums\JobState.cs" />
-    <Compile Include="Enums\MkvChapterTypes.cs" />
-    <Compile Include="Enums\MkvExtractGlobalOptions.cs" />
-    <Compile Include="Enums\MkvExtractModes.cs" />
-    <Compile Include="Enums\MkvInfoOptions.cs" />
-    <Compile Include="Enums\MkvMergeOptions.cs" />
-    <Compile Include="Enums\MkvTrackType.cs" />
-    <Compile Include="Enums\TimecodesExtractionMode.cs" />
-    <Compile Include="gMKVAttachment.cs" />
-    <Compile Include="gMKVChapter.cs" />
-    <Compile Include="gMKVExtract.cs" />
-    <Compile Include="gMKVExtractFilenamePatterns.cs" />
-    <Compile Include="gMKVExtractSegmentsParameters.cs" />
-    <Compile Include="gMKVInfo.cs" />
-    <Compile Include="gMKVJob.cs" />
-    <Compile Include="gMKVJobInfo.cs" />
-    <Compile Include="gMKVLogger.cs" />
-    <Compile Include="gMKVMerge.cs" />
-    <Compile Include="gMKVSegment.cs" />
-    <Compile Include="gMKVSegmentInfo.cs" />
-    <Compile Include="gMKVTrack.cs" />
+    <Compile Include="MkvExtract\CuesExtractionMode.cs" />
+    <Compile Include="MkvExtract\FormMkvExtractionMode.cs" />
+    <Compile Include="Jobs\JobState.cs" />
+    <Compile Include="Segments\MkvChapterTypes.cs" />
+    <Compile Include="MkvExtract\MkvExtractGlobalOptions.cs" />
+    <Compile Include="MkvExtract\MkvExtractModes.cs" />
+    <Compile Include="MkvInfo\MkvInfoOptions.cs" />
+    <Compile Include="MkvMerge\MkvMergeOptions.cs" />
+    <Compile Include="Segments\MkvTrackType.cs" />
+    <Compile Include="MkvExtract\TimecodesExtractionMode.cs" />
+    <Compile Include="Segments\gMKVAttachment.cs" />
+    <Compile Include="Segments\gMKVChapter.cs" />
+    <Compile Include="MkvExtract\gMKVExtract.cs" />
+    <Compile Include="MkvExtract\gMKVExtractFilenamePatterns.cs" />
+    <Compile Include="MkvExtract\gMKVExtractSegmentsParameters.cs" />
+    <Compile Include="MkvInfo\gMKVInfo.cs" />
+    <Compile Include="Jobs\gMKVJob.cs" />
+    <Compile Include="Jobs\gMKVJobInfo.cs" />
+    <Compile Include="Log\gMKVLogger.cs" />
+    <Compile Include="MkvMerge\gMKVMerge.cs" />
+    <Compile Include="Segments\gMKVSegment.cs" />
+    <Compile Include="Segments\gMKVSegmentInfo.cs" />
+    <Compile Include="Segments\gMKVTrack.cs" />
     <Compile Include="gMKVHelper.cs" />
     <Compile Include="gMKVVersion.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -95,11 +94,7 @@
     <None Include="Chapters\matroskachapters.xsd">
       <SubType>Designer</SubType>
     </None>
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Libs\Newtonsoft.Json.dll" />
-    <Content Include="Libs\Newtonsoft.Json.pdb" />
-    <Content Include="Libs\Newtonsoft.Json.xml" />
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

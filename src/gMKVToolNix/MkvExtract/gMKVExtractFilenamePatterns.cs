@@ -1,6 +1,6 @@
 using System;
 
-namespace gMKVToolNix
+namespace gMKVToolNix.MkvExtract
 {
     public sealed class gMKVExtractFilenamePatterns
     {

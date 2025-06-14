@@ -9,7 +9,10 @@ using System.Media;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using gMKVToolNix.Enums;
+using gMKVToolNix.Jobs;
+using gMKVToolNix.Log;
+using gMKVToolNix.MkvExtract;
+using gMKVToolNix.Segments;
 using gMKVToolNix.Theming;
 using gMKVToolNix.WinAPI;
 

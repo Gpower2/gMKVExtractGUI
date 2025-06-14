@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Text;
-using gMKVToolNix.Enums;
 
-namespace gMKVToolNix
+namespace gMKVToolNix.Segments
 {
     [Serializable]
     public class gMKVTrack : gMKVSegment

@@ -4,7 +4,10 @@ using System.Diagnostics;
 using System.IO;
 using System.Reflection;
 using System.Text;
-using gMKVToolNix.Enums;
+using gMKVToolNix.Log;
+using gMKVToolNix.MkvInfo;
+using gMKVToolNix.MkvMerge;
+using gMKVToolNix.Segments;
 using Microsoft.Win32;
 
 namespace gMKVToolNix

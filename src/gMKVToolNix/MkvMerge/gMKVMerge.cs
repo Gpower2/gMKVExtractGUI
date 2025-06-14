@@ -6,10 +6,11 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
-using gMKVToolNix.Enums;
+using gMKVToolNix.Log;
+using gMKVToolNix.Segments;
 using Newtonsoft.Json.Linq;
 
-namespace gMKVToolNix
+namespace gMKVToolNix.MkvMerge
 {
     public class gMKVMerge
     {

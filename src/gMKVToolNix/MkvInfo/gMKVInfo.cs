@@ -6,9 +6,10 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
-using gMKVToolNix.Enums;
+using gMKVToolNix.Log;
+using gMKVToolNix.Segments;
 
-namespace gMKVToolNix
+namespace gMKVToolNix.MkvInfo
 {
     public class gMKVInfo
     {
