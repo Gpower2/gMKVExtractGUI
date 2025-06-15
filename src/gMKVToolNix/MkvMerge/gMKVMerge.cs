@@ -93,7 +93,10 @@ namespace gMKVToolNix.MkvMerge
         public List<gMKVSegment> GetMKVSegments(string argMKVFile)
         {
             // check for existence of MKVMerge
-            if (!File.Exists(_MKVMergeFilename)) { throw new Exception(string.Format("Could not find {0}!" + Environment.NewLine + "{1}", MKV_MERGE_FILENAME, _MKVMergeFilename)); }
+            if (!File.Exists(_MKVMergeFilename)) 
+            { 
+                throw new Exception(string.Format("Could not find {0}!" + Environment.NewLine + "{1}", MKV_MERGE_FILENAME, _MKVMergeFilename)); 
+            }
             // First clear the segment list
             _SegmentList.Clear();
             // Clear the mkvmerge output
@@ -120,11 +123,11 @@ namespace gMKVToolNix.MkvMerge
             }
 
             // Add the file properties in gMKVSegmentInfo
-            if (_SegmentList.Any(s => s is gMKVSegmentInfo))
+            gMKVSegmentInfo seg = _SegmentList.OfType<gMKVSegmentInfo>().FirstOrDefault();
+            if (seg != null)
             {
-                var seg = _SegmentList.FirstOrDefault(s => s is gMKVSegmentInfo);
-                ((gMKVSegmentInfo)seg).Directory = Path.GetDirectoryName(argMKVFile);
-                ((gMKVSegmentInfo)seg).Filename = Path.GetFileName(argMKVFile);
+                seg.Directory = Path.GetDirectoryName(argMKVFile);
+                seg.Filename = Path.GetFileName(argMKVFile);
             }
 
             return _SegmentList;
@@ -139,10 +142,11 @@ namespace gMKVToolNix.MkvMerge
             }
 
             // Check if there are any video tracks
-            if (!argSegmentList.Any(x => x is gMKVTrack xTrack && xTrack.TrackType == MkvTrackType.video))
+            List<gMKVTrack> trackList = argSegmentList.OfType<gMKVTrack>().ToList();
+            if (!trackList.Any(x => x.TrackType == MkvTrackType.video))
             {
                 // No video track found, so set all the delays to 0
-                foreach (gMKVTrack tr in argSegmentList.Where(x => x is gMKVTrack xTrack && xTrack.TrackType == MkvTrackType.audio))
+                foreach (gMKVTrack tr in trackList.Where(x => x.TrackType == MkvTrackType.audio))
                 {
                     tr.Delay = 0;
                     tr.EffectiveDelay = 0;
@@ -152,54 +156,48 @@ namespace gMKVToolNix.MkvMerge
                 return true;
             }
 
-            Int32 videoDelay = Int32.MinValue;
+            int videoDelay = int.MinValue;
 
             // First, find the video delay
-            foreach (gMKVSegment seg in argSegmentList)
+            foreach (gMKVTrack track in trackList)
             {
-                if (seg is gMKVTrack track)
+                if (track.TrackType == MkvTrackType.video)
                 {
-                    if (track.TrackType == MkvTrackType.video)
+                    // Check if MinimumTimestamp property was found
+                    if (track.MinimumTimestamp == long.MinValue)
                     {
-                        // Check if MinimumTimestamp property was found
-                        if (track.MinimumTimestamp == Int64.MinValue)
-                        {
-                            // Could not determine the delays
-                            return false;
-                        }
-                        // Convert to ms from ns
-                        videoDelay = Convert.ToInt32(track.MinimumTimestamp / 1000000);
-                        track.Delay = videoDelay;
-                        track.EffectiveDelay = videoDelay;
-                        break;
+                        // Could not determine the delays
+                        return false;
                     }
+                    // Convert to ms from ns
+                    videoDelay = Convert.ToInt32(track.MinimumTimestamp / 1000000);
+                    track.Delay = videoDelay;
+                    track.EffectiveDelay = videoDelay;
+                    break;
                 }
             }
 
             // Check if video delay was found
-            if (videoDelay == Int32.MinValue)
+            if (videoDelay == int.MinValue)
             {
                 // Could not determine the delays
                 return false;
             }
 
             // If video delay was found, then determine all the audio tracks delays
-            foreach (gMKVSegment seg in argSegmentList)
+            foreach (gMKVTrack track in trackList)
             {
-                if (seg is gMKVTrack track)
+                if (track.TrackType == MkvTrackType.audio)
                 {
-                    if (track.TrackType == MkvTrackType.audio)
+                    // Check if MinimumTimestamp property was found
+                    if (track.MinimumTimestamp == long.MinValue)
                     {
-                        // Check if MinimumTimestamp property was found
-                        if (track.MinimumTimestamp == Int64.MinValue)
-                        {
-                            // Could not determine the delays
-                            return false;
-                        }
-                        // Convert to ms from ns
-                        track.Delay = Convert.ToInt32(track.MinimumTimestamp / 1000000);
-                        track.EffectiveDelay = track.Delay - videoDelay;
+                        // Could not determine the delays
+                        return false;
                     }
+                    // Convert to ms from ns
+                    track.Delay = Convert.ToInt32(track.MinimumTimestamp / 1000000);
+                    track.EffectiveDelay = track.Delay - videoDelay;
                 }
             }
 
@@ -226,152 +224,149 @@ namespace gMKVToolNix.MkvMerge
 
         public void FindCodecPrivate(List<gMKVSegment> argSegmentList)
         {
-            foreach (gMKVSegment seg in argSegmentList)
+            foreach (gMKVTrack track in argSegmentList.OfType<gMKVTrack>())
             {
-                if (seg is gMKVTrack track)
+                // Check if the track has CodecPrivateData
+                // and it doesn't have a text representation of CodecPrivate
+                if (!string.IsNullOrWhiteSpace(track.CodecPrivateData)
+                    && string.IsNullOrWhiteSpace(track.CodecPrivate))
                 {
-                    // Check if the track has CodecPrivateData
-                    // and it doesn't have a text representation of CodecPrivate
-                    if (!string.IsNullOrWhiteSpace(track.CodecPrivateData)
-                        && string.IsNullOrWhiteSpace(track.CodecPrivate))
+                    byte[] codecPrivateBytes = HexStringToByteArray(track.CodecPrivateData);
+                    if (track.TrackType == MkvTrackType.video)
                     {
-                        byte[] codecPrivateBytes = HexStringToByteArray(track.CodecPrivateData);
-                        if (track.TrackType == MkvTrackType.video)
+                        if (track.CodecID == "V_MS/VFW/FOURCC")
                         {
-                            if (track.CodecID == "V_MS/VFW/FOURCC")
-                            {
-                                track.CodecPrivate = string.Format("length {0} (FourCC: \"{1}\")"
-                                    , codecPrivateBytes.Length
-                                    ,
-                                    ((32 <= codecPrivateBytes[16]) && (127 > codecPrivateBytes[16]) ? Encoding.ASCII.GetString(new byte[] { codecPrivateBytes[16] }) : "?") +
-                                    ((32 <= codecPrivateBytes[17]) && (127 > codecPrivateBytes[17]) ? Encoding.ASCII.GetString(new byte[] { codecPrivateBytes[17] }) : "?") +
-                                    ((32 <= codecPrivateBytes[18]) && (127 > codecPrivateBytes[18]) ? Encoding.ASCII.GetString(new byte[] { codecPrivateBytes[18] }) : "?") +
-                                    ((32 <= codecPrivateBytes[19]) && (127 > codecPrivateBytes[19]) ? Encoding.ASCII.GetString(new byte[] { codecPrivateBytes[19] }) : "?")
-                                );
-                            }
-                            else if (track.CodecID == "V_MPEG4/ISO/AVC")
-                            {
-                                int profileIdc = codecPrivateBytes[1];
-                                int levelIdc = codecPrivateBytes[3];
-
-                                string profileIdcString;
-
-                                switch (profileIdc)
-                                {
-                                    case 44:
-                                        profileIdcString = "CAVLC 4:4:4 Intra";
-                                        break;
-                                    case 66:
-                                        profileIdcString = "Baseline";
-                                        break;
-                                    case 77:
-                                        profileIdcString = "Main";
-                                        break;
-                                    case 83:
-                                        profileIdcString = "Scalable Baseline";
-                                        break;
-                                    case 86:
-                                        profileIdcString = "Scalable High";
-                                        break;
-                                    case 88:
-                                        profileIdcString = "Extended";
-                                        break;
-                                    case 100:
-                                        profileIdcString = "High";
-                                        break;
-                                    case 110:
-                                        profileIdcString = "High 10";
-                                        break;
-                                    case 118:
-                                        profileIdcString = "Multiview High";
-                                        break;
-                                    case 122:
-                                        profileIdcString = "High 4:2:2";
-                                        break;
-                                    case 128:
-                                        profileIdcString = "Stereo High";
-                                        break;
-                                    case 144:
-                                        profileIdcString = "High 4:4:4";
-                                        break;
-                                    case 244:
-                                        profileIdcString = "High 4:4:4 Predictive";
-                                        break;
-                                    default:
-                                        profileIdcString = "Unknown";
-                                        break;
-                                }
-
-                                track.CodecPrivate = string.Format("length {0} (h.264 profile: {1} @L{2}.{3})"
-                                    , codecPrivateBytes.Length
-                                    , profileIdcString
-                                    , levelIdc / 10
-                                    , levelIdc % 10
-                                );
-                            }
-                            else if (track.CodecID == "V_MPEGH/ISO/HEVC")
-                            {
-                                BitArray codecPrivateBits = new BitArray(new byte[] { codecPrivateBytes[1] });
-
-                                int profileIdc = Convert.ToInt32(
-                                    (codecPrivateBits[4] ? "1" : "0") +
-                                    (codecPrivateBits[3] ? "1" : "0") +
-                                    (codecPrivateBits[2] ? "1" : "0") +
-                                    (codecPrivateBits[1] ? "1" : "0") +
-                                    (codecPrivateBits[0] ? "1" : "0"), 2);
-
-                                int levelIdc = codecPrivateBytes[12];
-
-                                string profileIdcString;
-
-                                switch (profileIdc)
-                                {
-                                    case 1:
-                                        profileIdcString = "Main";
-                                        break;
-                                    case 2:
-                                        profileIdcString = "Main 10";
-                                        break;
-                                    case 3:
-                                        profileIdcString = "Main Still Picture";
-                                        break;
-                                    default:
-                                        profileIdcString = "Unknown";
-                                        break;
-                                }
-
-                                track.CodecPrivate = string.Format("length {0} (HEVC profile: {1} @L{2}.{3})"
-                                    , codecPrivateBytes.Length
-                                    , profileIdcString
-                                    , levelIdc / 3 / 10
-                                    , levelIdc / 3 % 10
-                                );
-                            }
-                            else
-                            {
-                                track.CodecPrivate = $"length {codecPrivateBytes.Length}";
-                            }
+                            track.CodecPrivate = string.Format("length {0} (FourCC: \"{1}\")"
+                                , codecPrivateBytes.Length
+                                ,
+                                ((32 <= codecPrivateBytes[16]) && (127 > codecPrivateBytes[16]) ? Encoding.ASCII.GetString(new byte[] { codecPrivateBytes[16] }) : "?") +
+                                ((32 <= codecPrivateBytes[17]) && (127 > codecPrivateBytes[17]) ? Encoding.ASCII.GetString(new byte[] { codecPrivateBytes[17] }) : "?") +
+                                ((32 <= codecPrivateBytes[18]) && (127 > codecPrivateBytes[18]) ? Encoding.ASCII.GetString(new byte[] { codecPrivateBytes[18] }) : "?") +
+                                ((32 <= codecPrivateBytes[19]) && (127 > codecPrivateBytes[19]) ? Encoding.ASCII.GetString(new byte[] { codecPrivateBytes[19] }) : "?")
+                            );
                         }
-                        else if (track.TrackType == MkvTrackType.audio)
+                        else if (track.CodecID == "V_MPEG4/ISO/AVC")
                         {
-                            if (track.CodecID == "A_MS/ACM")
+                            int profileIdc = codecPrivateBytes[1];
+                            int levelIdc = codecPrivateBytes[3];
+
+                            string profileIdcString;
+
+                            switch (profileIdc)
                             {
-                                //UInt16 formatTag = BitConverter.ToUInt16(new byte[] { codecPrivateBytes[1], codecPrivateBytes[0] }, 0);
-                                track.CodecPrivate = string.Format("length {0} (format tag: 0x{1:x2}{2:x2})"
-                                    , codecPrivateBytes.Length
-                                    , codecPrivateBytes[0]
-                                    , codecPrivateBytes[1]
-                                );
+                                case 44:
+                                    profileIdcString = "CAVLC 4:4:4 Intra";
+                                    break;
+                                case 66:
+                                    profileIdcString = "Baseline";
+                                    break;
+                                case 77:
+                                    profileIdcString = "Main";
+                                    break;
+                                case 83:
+                                    profileIdcString = "Scalable Baseline";
+                                    break;
+                                case 86:
+                                    profileIdcString = "Scalable High";
+                                    break;
+                                case 88:
+                                    profileIdcString = "Extended";
+                                    break;
+                                case 100:
+                                    profileIdcString = "High";
+                                    break;
+                                case 110:
+                                    profileIdcString = "High 10";
+                                    break;
+                                case 118:
+                                    profileIdcString = "Multiview High";
+                                    break;
+                                case 122:
+                                    profileIdcString = "High 4:2:2";
+                                    break;
+                                case 128:
+                                    profileIdcString = "Stereo High";
+                                    break;
+                                case 144:
+                                    profileIdcString = "High 4:4:4";
+                                    break;
+                                case 244:
+                                    profileIdcString = "High 4:4:4 Predictive";
+                                    break;
+                                default:
+                                    profileIdcString = "Unknown";
+                                    break;
                             }
-                            else
+
+                            track.CodecPrivate = string.Format("length {0} (h.264 profile: {1} @L{2}.{3})"
+                                , codecPrivateBytes.Length
+                                , profileIdcString
+                                , levelIdc / 10
+                                , levelIdc % 10
+                            );
+                        }
+                        else if (track.CodecID == "V_MPEGH/ISO/HEVC")
+                        {
+                            BitArray codecPrivateBits = new BitArray(new byte[] { codecPrivateBytes[1] });
+
+                            int profileIdc = Convert.ToInt32(
+                                (codecPrivateBits[4] ? "1" : "0") +
+                                (codecPrivateBits[3] ? "1" : "0") +
+                                (codecPrivateBits[2] ? "1" : "0") +
+                                (codecPrivateBits[1] ? "1" : "0") +
+                                (codecPrivateBits[0] ? "1" : "0"), 2);
+
+                            int levelIdc = codecPrivateBytes[12];
+
+                            string profileIdcString;
+
+                            switch (profileIdc)
                             {
-                                track.CodecPrivate = $"length {codecPrivateBytes.Length}";
+                                case 1:
+                                    profileIdcString = "Main";
+                                    break;
+                                case 2:
+                                    profileIdcString = "Main 10";
+                                    break;
+                                case 3:
+                                    profileIdcString = "Main Still Picture";
+                                    break;
+                                default:
+                                    profileIdcString = "Unknown";
+                                    break;
                             }
+
+                            track.CodecPrivate = string.Format("length {0} (HEVC profile: {1} @L{2}.{3})"
+                                , codecPrivateBytes.Length
+                                , profileIdcString
+                                , levelIdc / 3 / 10
+                                , levelIdc / 3 % 10
+                            );
                         }
                         else
                         {
                             track.CodecPrivate = $"length {codecPrivateBytes.Length}";
                         }
+                    }
+                    else if (track.TrackType == MkvTrackType.audio)
+                    {
+                        if (track.CodecID == "A_MS/ACM")
+                        {
+                            //UInt16 formatTag = BitConverter.ToUInt16(new byte[] { codecPrivateBytes[1], codecPrivateBytes[0] }, 0);
+                            track.CodecPrivate = string.Format("length {0} (format tag: 0x{1:x2}{2:x2})"
+                                , codecPrivateBytes.Length
+                                , codecPrivateBytes[0]
+                                , codecPrivateBytes[1]
+                            );
+                        }
+                        else
+                        {
+                            track.CodecPrivate = $"length {codecPrivateBytes.Length}";
+                        }
+                    }
+                    else
+                    {
+                        track.CodecPrivate = $"length {codecPrivateBytes.Length}";
                     }
                 }
             }
@@ -463,7 +458,7 @@ namespace gMKVToolNix.MkvMerge
             {
                 // When on Windows, we can use FileVersionInfo.GetVersionInfo
                 var version = FileVersionInfo.GetVersionInfo(_MKVMergeFilename);
-                _Version = new gMKVToolNix.gMKVVersion()
+                _Version = new gMKVVersion()
                 {
                     FileMajorPart = version.FileMajorPart,
                     FileMinorPart = version.FileMinorPart,
@@ -638,6 +633,7 @@ namespace gMKVToolNix.MkvMerge
                 {
                     continue;
                 }
+
                 JProperty jProp = token as JProperty;
                 if (jProp == null || string.IsNullOrWhiteSpace(jProp.Name) || !jProp.HasValues)
                 {
@@ -1105,9 +1101,9 @@ namespace gMKVToolNix.MkvMerge
                             // in order to determine the current track's delay
                             if (outputLine.Contains("minimum_timestamp:"))
                             {
-                                if (long.TryParse(ExtractProperty(outputLine, "minimum_timestamp"), out long tmpInt64))
+                                if (long.TryParse(ExtractProperty(outputLine, "minimum_timestamp"), out long tmpLong))
                                 {
-                                    tmpTrack.MinimumTimestamp = tmpInt64;
+                                    tmpTrack.MinimumTimestamp = tmpLong;
                                 }
                             }
                             break;
@@ -1138,9 +1134,9 @@ namespace gMKVToolNix.MkvMerge
                             // in order to determine the current track's delay
                             if (outputLine.Contains("minimum_timestamp:"))
                             {
-                                if (long.TryParse(ExtractProperty(outputLine, "minimum_timestamp"), out long tmpInt64))
+                                if (long.TryParse(ExtractProperty(outputLine, "minimum_timestamp"), out long tmpLong))
                                 {
-                                    tmpTrack.MinimumTimestamp = tmpInt64;
+                                    tmpTrack.MinimumTimestamp = tmpLong;
                                 }
                             }
                             break;

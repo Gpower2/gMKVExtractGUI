@@ -372,7 +372,7 @@ namespace gMKVToolNix
             return segmentList;
         }
 
-        private static FieldInfo _dataReceivedEventArgsFieldInfo = typeof(DataReceivedEventArgs)
+        private static readonly FieldInfo _dataReceivedEventArgsFieldInfo = typeof(DataReceivedEventArgs)
             .GetFields(BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.DeclaredOnly)[0];
 
         /// <summary>

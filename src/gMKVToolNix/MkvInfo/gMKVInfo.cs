@@ -111,10 +111,10 @@ namespace gMKVToolNix.MkvInfo
             }
 
             // Check if there are any video tracks
-            if (!argSegmentsList.Any(x => x is gMKVTrack xTrack && xTrack.TrackType == MkvTrackType.video))
+            if (!argSegmentsList.OfType<gMKVTrack>().Any(x => x.TrackType == MkvTrackType.video))
             {
                 // No video track found, so set all the delays to 0
-                foreach (gMKVTrack tr in argSegmentsList.Where(x => x is gMKVTrack xTrack && xTrack.TrackType == MkvTrackType.audio))
+                foreach (gMKVTrack tr in argSegmentsList.OfType<gMKVTrack>().Where(x => x.TrackType == MkvTrackType.audio))
                 {
                     tr.Delay = 0;
                     tr.EffectiveDelay = 0;
@@ -130,19 +130,16 @@ namespace gMKVToolNix.MkvInfo
             _TrackDelaysFound = 0;
 
             // get only video and audio track in a trackList
-            foreach (gMKVSegment seg in argSegmentsList)
+            foreach (gMKVTrack segTrack in argSegmentsList.OfType<gMKVTrack>())
             {
-                if (seg is gMKVTrack segTrack)
+                // only find delays for video and audio tracks
+                if (segTrack.TrackType != MkvTrackType.subtitles)
                 {
-                    // only find delays for video and audio tracks
-                    if (segTrack.TrackType != MkvTrackType.subtitles)
+                    _TrackList.Add(segTrack);
+                    // Update the number of tracks for which delays were found, in order to exit early later on
+                    if (segTrack.Delay != int.MinValue)
                     {
-                        _TrackList.Add(segTrack);
-                        // Update the number of tracks for which delays were found, in order to exit early later on
-                        if (segTrack.Delay != int.MinValue)
-                        {
-                            _TrackDelaysFound++;
-                        }
+                        _TrackDelaysFound++;
                     }
                 }
             }

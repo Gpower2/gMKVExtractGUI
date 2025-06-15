@@ -63,8 +63,6 @@
     <Compile Include="CueSheet\Cue.cs" />
     <Compile Include="CueSheet\CueTrack.cs" />
     <Compile Include="MkvExtract\CuesExtractionMode.cs" />
-    <Compile Include="MkvExtract\FormMkvExtractionMode.cs" />
-    <Compile Include="Jobs\JobState.cs" />
     <Compile Include="Segments\MkvChapterTypes.cs" />
     <Compile Include="MkvExtract\MkvExtractGlobalOptions.cs" />
     <Compile Include="MkvExtract\MkvExtractModes.cs" />
@@ -78,8 +76,6 @@
     <Compile Include="MkvExtract\gMKVExtractFilenamePatterns.cs" />
     <Compile Include="MkvExtract\gMKVExtractSegmentsParameters.cs" />
     <Compile Include="MkvInfo\gMKVInfo.cs" />
-    <Compile Include="Jobs\gMKVJob.cs" />
-    <Compile Include="Jobs\gMKVJobInfo.cs" />
     <Compile Include="Log\gMKVLogger.cs" />
     <Compile Include="MkvMerge\gMKVMerge.cs" />
     <Compile Include="Segments\gMKVSegment.cs" />
