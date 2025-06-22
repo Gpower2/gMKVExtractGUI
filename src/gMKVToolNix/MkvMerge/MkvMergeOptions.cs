@@ -8,6 +8,6 @@
         command_line_charset,
         output_charset,
         identification_format, // Set the identification results format ('text', 'verbose-text', 'json')
-        version
+        version,
     }
 }

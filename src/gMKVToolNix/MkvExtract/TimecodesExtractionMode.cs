@@ -4,6 +4,6 @@ namespace gMKVToolNix.MkvExtract
     {
         NoTimecodes,
         WithTimecodes,
-        OnlyTimecodes
+        OnlyTimecodes,
     }
 }

@@ -4,6 +4,6 @@ namespace gMKVToolNix.MkvExtract
     {
         NoCues,
         WithCues,
-        OnlyCues
+        OnlyCues,
     }
 }

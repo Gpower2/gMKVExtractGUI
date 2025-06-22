@@ -20,6 +20,6 @@ namespace gMKVToolNix.MkvInfo
         version, // Show version information
         check_for_updates, // Check online for the latest release
         gui_mode, // In this mode specially-formatted lines may be output that can tell a controlling GUI what's happening
-        no_gui // It doesn't show the GUI but the CLI
+        no_gui, // It doesn't show the GUI but the CLI
     }
 }

@@ -4,6 +4,6 @@
     {
         video,
         audio,
-        subtitles
+        subtitles,
     }
 }

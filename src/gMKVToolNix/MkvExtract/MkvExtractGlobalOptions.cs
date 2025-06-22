@@ -12,6 +12,6 @@ namespace gMKVToolNix.MkvExtract
         help,
         version,
         check_for_updates,
-        gui_mode
+        gui_mode,
     }
 }

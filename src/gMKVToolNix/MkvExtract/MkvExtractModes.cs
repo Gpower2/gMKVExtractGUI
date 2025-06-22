@@ -9,6 +9,6 @@ namespace gMKVToolNix.MkvExtract
         cuesheet,
         timecodes_v2,
         cues,
-        timestamps_v2
+        timestamps_v2,
     }
 }
