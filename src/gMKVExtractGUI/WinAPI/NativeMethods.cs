@@ -22,7 +22,7 @@ namespace gMKVToolNix.WinAPI // Or any appropriate namespace
         /// <returns>true if successful, false otherwise.</returns>
         public static bool TrySetImmersiveDarkMode(IntPtr handle, bool enabled)
         {
-            if (gMKVHelper.IsOnLinux)
+            if (PlatformExtensions.IsOnLinux)
             {
                 return true;
             }
@@ -85,7 +85,7 @@ namespace gMKVToolNix.WinAPI // Or any appropriate namespace
 
         private static bool SetWindowThemeInternal(IntPtr hWnd, string mode, string pszSubIdList = null)
         {
-            if (gMKVHelper.IsOnLinux)
+            if (PlatformExtensions.IsOnLinux)
             {
                 return true;
             }

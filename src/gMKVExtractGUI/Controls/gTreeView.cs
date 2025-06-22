@@ -164,7 +164,7 @@ namespace gMKVToolNix
 
             // If we are on Linux, we can't use P/Invoke to user32.dll
             // So this function can't do anything
-            if (gMKVHelper.IsOnLinux) return;
+            if (PlatformExtensions.IsOnLinux) return;
 
             var tvi = new TVITEM
             {
@@ -191,7 +191,7 @@ namespace gMKVToolNix
 
             // If we are on Linux, we can't use P/Invoke to user32.dll
             // So if the node's check box visibility has the same value as the node's TreeView CheckBoxes property 
-            if (gMKVHelper.IsOnLinux) return node.TreeView.CheckBoxes;
+            if (PlatformExtensions.IsOnLinux) return node.TreeView.CheckBoxes;
 
             var tvi = new TVITEM
             {

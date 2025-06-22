@@ -214,7 +214,7 @@ namespace gMKVToolNix.Forms
                         // MKVToolnix could not be found anywhere
                         // Select exception message according to running OS
                         string exceptionMessage = "";
-                        if (gMKVHelper.IsOnLinux)
+                        if (PlatformExtensions.IsOnLinux)
                         {
                             exceptionMessage = "Could not find MKVToolNix in /usr/bin, or in the current directory, or in the ini file!";
                         }
@@ -253,7 +253,7 @@ namespace gMKVToolNix.Forms
             {
                 gMKVLogger.Log($"mkvmerge was not found in current directory! ({currentDirectory})");
 
-                if (!gMKVHelper.IsOnLinux)
+                if (!PlatformExtensions.IsOnLinux)
                 {
                     // When on Windows, check the registry
                     gMKVLogger.Log("Checking registry for mkvmerge...");

@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
-using System.Reflection;
-using System.Text;
+using System.Linq;
 using gMKVToolNix.Log;
 using gMKVToolNix.MkvInfo;
 using gMKVToolNix.MkvMerge;
@@ -14,29 +12,6 @@ namespace gMKVToolNix
 {
     public static class gMKVHelper
     {
-        private static bool? _isOnLinux = null;
-
-        /// <summary>
-        /// Returns if the running Platform is Linux Or MacOSX
-        /// </summary>
-        public static bool IsOnLinux
-        {
-            get
-            {
-                if (_isOnLinux.HasValue)
-                {
-                    return _isOnLinux.Value;
-                }
-
-                PlatformID myPlatform = Environment.OSVersion.Platform;
-
-                // 128 is Mono 1.x specific value for Linux systems, so it's there to provide compatibility
-                _isOnLinux = (myPlatform == PlatformID.Unix) || (myPlatform == PlatformID.MacOSX) || ((int)myPlatform == 128);
-
-                return _isOnLinux.Value;
-            }
-        }
-
         private static string _mkvMergeGuiFilename = null;
 
         /// <summary>
@@ -51,7 +26,7 @@ namespace gMKVToolNix
                     return _mkvMergeGuiFilename;
                 }
 
-                _mkvMergeGuiFilename = IsOnLinux ? "mmg" : "mmg.exe";
+                _mkvMergeGuiFilename = PlatformExtensions.IsOnLinux ? "mmg" : "mmg.exe";
 
                 return _mkvMergeGuiFilename;
             }
@@ -71,7 +46,7 @@ namespace gMKVToolNix
                     return _mkvMergeNewGuiFilename;
                 }
 
-                _mkvMergeNewGuiFilename = IsOnLinux ? "mkvmerge" : "mkvmerge.exe";
+                _mkvMergeNewGuiFilename = PlatformExtensions.IsOnLinux ? "mkvmerge" : "mkvmerge.exe";
 
                 return _mkvMergeNewGuiFilename;
             }
@@ -120,7 +95,7 @@ namespace gMKVToolNix
         public static string GetMKVToolnixPathViaRegistry()
         {
             // Check if we are on Linux, so we don't have to check the registry
-            if (gMKVHelper.IsOnLinux)
+            if (PlatformExtensions.IsOnLinux)
             {
                 throw new Exception("Running on Linux...");
             }
@@ -269,90 +244,91 @@ namespace gMKVToolNix
         /// <returns></returns>
         public static List<gMKVSegment> GetMergedMkvSegmentList(string argMkvToolnixPath, string argInputFile)
         {
-            gMKVMerge g = new gMKVMerge(argMkvToolnixPath);
+            gMKVMerge gMerge = new gMKVMerge(argMkvToolnixPath);
             gMKVInfo gInfo = new gMKVInfo(argMkvToolnixPath);
 
-            List<gMKVSegment> segmentList = g.GetMKVSegments(argInputFile);
+            List<gMKVSegment> segmentListFromMkvMerge = gMerge.GetMKVSegments(argInputFile);
 
             // Check if information was found in mkvmerge output
-            bool segmentInfoWasFound = false;
-            foreach (gMKVSegment seg in segmentList)
+            bool segmentInfoWasFoundInMkvMerge = false;
+            foreach (gMKVSegment seg in segmentListFromMkvMerge)
             {
                 if (seg is gMKVSegmentInfo)
                 {
-                    segmentInfoWasFound = true;
+                    segmentInfoWasFoundInMkvMerge = true;
                     break;
                 }
             }
 
             // Check if codec_private_data was found in mkvmerge output
-            bool codecPrivateDataWasFound = false;
-            foreach (gMKVSegment seg in segmentList)
+            bool codecPrivateDataWasFoundInMkvMerge = false;
+            foreach (gMKVTrack segTrackFromMkvMerge in segmentListFromMkvMerge.OfType<gMKVTrack>())
             {
-                if (seg is gMKVTrack)
+                if (!string.IsNullOrWhiteSpace(segTrackFromMkvMerge.CodecPrivateData))
                 {
-                    if (!string.IsNullOrWhiteSpace(((gMKVTrack)seg).CodecPrivateData))
-                    {
-                        codecPrivateDataWasFound = true;
-                        break;
-                    }                    
+                    codecPrivateDataWasFoundInMkvMerge = true;
+                    break;
                 }
             }
 
-            if (!segmentInfoWasFound || !codecPrivateDataWasFound)
+            if (!segmentInfoWasFoundInMkvMerge || !codecPrivateDataWasFoundInMkvMerge)
             {
-                List<gMKVSegment> segmentListInfo = gInfo.GetMKVSegments(argInputFile);
-                foreach (gMKVSegment seg in segmentListInfo)
+                List<gMKVSegment> segmentListFromMkvInfo = gInfo.GetMKVSegments(argInputFile);
+                foreach (gMKVSegment segFromMkvInfo in segmentListFromMkvInfo)
                 {
-                    if (seg is gMKVSegmentInfo && !segmentInfoWasFound)
+                    if (!segmentInfoWasFoundInMkvMerge && segFromMkvInfo is gMKVSegmentInfo)
                     {
-                        segmentList.Insert(0, seg);
+                        // Segment info should aleays be first in the list
+                        segmentListFromMkvMerge.Insert(0, segFromMkvInfo);
                     }
-                    else if (seg is gMKVTrack && !codecPrivateDataWasFound)
+                    else if (!codecPrivateDataWasFoundInMkvMerge && segFromMkvInfo is gMKVTrack trackFromMkvInfo)
                     {
                         // Update CodecPrivate info from mkvinfo to mkvextract segments
-                        foreach (gMKVSegment seg2 in segmentList)
+                        foreach (gMKVTrack trackFromMkvMerge in segmentListFromMkvMerge.OfType<gMKVTrack>())
                         {
-                            if (seg2 is gMKVTrack)
+                            if (trackFromMkvMerge.TrackID == trackFromMkvInfo.TrackID)
                             {
-                                if (((gMKVTrack)seg2).TrackID == ((gMKVTrack)seg).TrackID)
+                                if (!string.IsNullOrWhiteSpace(trackFromMkvInfo.CodecPrivate))
                                 {
-                                    if (!string.IsNullOrWhiteSpace(((gMKVTrack)seg).CodecPrivate))
-                                    {
-                                        ((gMKVTrack)seg2).CodecPrivate = ((gMKVTrack)seg).CodecPrivate;
-                                    }
-                                    if (((gMKVTrack)seg2).TrackType == MkvTrackType.video)
-                                    {
-                                        if (((gMKVTrack)seg2).VideoPixelWidth < ((gMKVTrack)seg).VideoPixelWidth)
-                                        {
-                                            ((gMKVTrack)seg2).VideoPixelWidth = ((gMKVTrack)seg).VideoPixelWidth;
-                                        }
-                                        if (((gMKVTrack)seg2).VideoPixelHeight < ((gMKVTrack)seg).VideoPixelHeight)
-                                        {
-                                            ((gMKVTrack)seg2).VideoPixelHeight = ((gMKVTrack)seg).VideoPixelHeight;
-                                        }
-                                        if (!string.IsNullOrWhiteSpace(((gMKVTrack)seg).ExtraInfo))
-                                        {
-                                            ((gMKVTrack)seg2).ExtraInfo = ((gMKVTrack)seg).ExtraInfo;
-                                        }
-                                    }
-                                    else if (((gMKVTrack)seg2).TrackType == MkvTrackType.audio)
-                                    {
-                                        if (((gMKVTrack)seg2).AudioChannels < ((gMKVTrack)seg).AudioChannels)
-                                        {
-                                            ((gMKVTrack)seg2).AudioChannels = ((gMKVTrack)seg).AudioChannels;
-                                        }
-                                        if (((gMKVTrack)seg2).AudioSamplingFrequency < ((gMKVTrack)seg).AudioSamplingFrequency)
-                                        {
-                                            ((gMKVTrack)seg2).AudioSamplingFrequency = ((gMKVTrack)seg).AudioSamplingFrequency;
-                                        }
-                                        if (!string.IsNullOrWhiteSpace(((gMKVTrack)seg).ExtraInfo))
-                                        {
-                                            ((gMKVTrack)seg2).ExtraInfo = ((gMKVTrack)seg).ExtraInfo;
-                                        }
-                                    }
-                                    break;
+                                    trackFromMkvMerge.CodecPrivate = trackFromMkvInfo.CodecPrivate;
                                 }
+
+                                if (trackFromMkvMerge.TrackType == MkvTrackType.video)
+                                {
+                                    if (trackFromMkvMerge.VideoPixelWidth < trackFromMkvInfo.VideoPixelWidth)
+                                    {
+                                        trackFromMkvMerge.VideoPixelWidth = trackFromMkvInfo.VideoPixelWidth;
+                                    }
+
+                                    if (trackFromMkvMerge.VideoPixelHeight < trackFromMkvInfo.VideoPixelHeight)
+                                    {
+                                        trackFromMkvMerge.VideoPixelHeight = trackFromMkvInfo.VideoPixelHeight;
+                                    }
+
+                                    if (!string.IsNullOrWhiteSpace(trackFromMkvInfo.ExtraInfo))
+                                    {
+                                        trackFromMkvMerge.ExtraInfo = trackFromMkvInfo.ExtraInfo;
+                                    }
+                                }
+                                else if (trackFromMkvMerge.TrackType == MkvTrackType.audio)
+                                {
+                                    if (trackFromMkvMerge.AudioChannels < trackFromMkvInfo.AudioChannels)
+                                    {
+                                        trackFromMkvMerge.AudioChannels = trackFromMkvInfo.AudioChannels;
+                                    }
+
+                                    if (trackFromMkvMerge.AudioSamplingFrequency < trackFromMkvInfo.AudioSamplingFrequency)
+                                    {
+                                        trackFromMkvMerge.AudioSamplingFrequency = trackFromMkvInfo.AudioSamplingFrequency;
+                                    }
+
+                                    if (!string.IsNullOrWhiteSpace(trackFromMkvInfo.ExtraInfo))
+                                    {
+                                        trackFromMkvMerge.ExtraInfo = trackFromMkvInfo.ExtraInfo;
+                                    }
+                                }
+
+                                break;
                             }
                         }
                     }
@@ -360,76 +336,16 @@ namespace gMKVToolNix
             }
 
             // Try to determine the delays from mkvmerge info
-            if (!g.FindDelays(segmentList))
+            if (!gMerge.FindAndSetDelays(segmentListFromMkvMerge))
             {
                 // If we couldn't determine the delays from mkvmerge info, then we use mkvinfo
-                gInfo.FindAndSetDelays(segmentList, argInputFile);
+                gInfo.FindAndSetDelays(segmentListFromMkvMerge, argInputFile);
             }
 
             // Translate codec_private_data in codec_private information
-            g.FindCodecPrivate(segmentList);
+            gMerge.FindAndSetCodecPrivate(segmentListFromMkvMerge);
 
-            return segmentList;
-        }
-
-        private static readonly FieldInfo _dataReceivedEventArgsFieldInfo = typeof(DataReceivedEventArgs)
-            .GetFields(BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.DeclaredOnly)[0];
-
-        /// <summary>
-        /// Creates a DataReceivedEventArgs instance with the given Data.
-        /// </summary>
-        /// <param name="argData"></param>
-        /// <returns></returns>
-        public static DataReceivedEventArgs GetDataReceivedEventArgs(object argData)
-        {
-            DataReceivedEventArgs eventArgs = (DataReceivedEventArgs)System.Runtime.Serialization.FormatterServices
-                .GetUninitializedObject(typeof(DataReceivedEventArgs));
-
-            _dataReceivedEventArgsFieldInfo.SetValue(eventArgs, argData);
-
-            return eventArgs;
-        }
-
-        /// <summary>
-        /// Reads a Process's standard output stream character by character and calls the user defined method for each line
-        /// </summary>
-        /// <param name="argProcess"></param>
-        /// <param name="argHandler"></param>
-        public static void ReadStreamPerCharacter(Process argProcess, DataReceivedEventHandler argHandler)
-        {
-            StreamReader reader = argProcess.StandardOutput;
-            StringBuilder line = new StringBuilder();
-            while (true)
-            {
-                if (!reader.EndOfStream)
-                {
-                    char c = (char)reader.Read();
-                    if (c == '\r')
-                    {
-                        if ((char)reader.Peek() == '\n')
-                        {
-                            // consume the next character
-                            reader.Read();
-                        }
-
-                        argHandler(argProcess, GetDataReceivedEventArgs(line.ToString()));
-                        line.Length = 0;
-                    }
-                    else if (c == '\n')
-                    {
-                        argHandler(argProcess, GetDataReceivedEventArgs(line.ToString()));
-                        line.Length = 0;
-                    }
-                    else
-                    {
-                        line.Append(c);
-                    }
-                }
-                else
-                {
-                    break;
-                }
-            }
+            return segmentListFromMkvMerge;
         }
     }
 }

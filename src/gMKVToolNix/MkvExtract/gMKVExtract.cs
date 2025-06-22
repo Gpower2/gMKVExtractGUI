@@ -62,7 +62,7 @@ namespace gMKVToolNix.MkvExtract
         /// </summary>
         public static string MKV_EXTRACT_FILENAME
         {
-            get { return gMKVHelper.IsOnLinux ? "mkvextract" : "mkvextract.exe"; }
+            get { return PlatformExtensions.IsOnLinux ? "mkvextract" : "mkvextract.exe"; }
         }
 
         private static readonly XmlSerializer _chaptersXmlSerializer = new XmlSerializer(typeof(Chapters));
@@ -299,6 +299,7 @@ namespace gMKVToolNix.MkvExtract
                         break;
                     }
                 }
+
                 if (currentPar != null)
                 {
                     currentPar.TrackOutput = $"{currentPar.TrackOutput} {initPar.TrackOutput}";
@@ -327,7 +328,6 @@ namespace gMKVToolNix.MkvExtract
 
                     OnMkvExtractTrackUpdated(argMKVFile, finalPar.ExtractMode.ToString());
                     ExtractMkvSegment(argMKVFile, finalPar);
-
                 }
                 catch (Exception ex)
                 {
@@ -722,6 +722,7 @@ namespace gMKVToolNix.MkvExtract
             {
                 throw new Exception($"Could not find {MKV_EXTRACT_FILENAME}!{Environment.NewLine}{_MKVExtractFilename}");
             }
+
             DataReceivedEventHandler handler = null;
 
             // Check the file version of the mkvextract
@@ -730,7 +731,8 @@ namespace gMKVToolNix.MkvExtract
                 _Version = GetMKVExtractVersion();
             }
 
-            // Since MKVToolNix v17.0, items that were written to the standard output (chapters, tags and cue sheets) are now always written to files instead.
+            // Since MKVToolNix v17.0, items that were written to the standard output (chapters, tags and cue sheets)
+            // are now always written to files instead.
             if (argParameter.WriteOutputToFile && _Version.FileMajorPart < 17)
             {
                 handler = myProcess_OutputDataReceived_WriteToFile;
@@ -772,7 +774,7 @@ namespace gMKVToolNix.MkvExtract
                 else
                 {
                     // Before MKVToolNix 9.7.0, the safest way to ensure English output on Linux is through the EnvironmentVariables
-                    if (gMKVHelper.IsOnLinux)
+                    if (PlatformExtensions.IsOnLinux)
                     {
                         // Get the original values
                         LC_ALL = Environment.GetEnvironmentVariable("LC_ALL", EnvironmentVariableTarget.Process);
@@ -793,7 +795,7 @@ namespace gMKVToolNix.MkvExtract
                 // if on Linux, the language output must be defined from the environment variables LC_ALL, LANG, and LC_MESSAGES
                 // After talking with Mosu, the language output is defined from ui-language, with different language codes for Windows and Linux
                 string options = "";
-                if (gMKVHelper.IsOnLinux)
+                if (PlatformExtensions.IsOnLinux)
                 {
                     options = $"{parameters} --ui-language en_US {argParameter.Options}";
                 }
@@ -816,7 +818,9 @@ namespace gMKVToolNix.MkvExtract
                         || argParameter.ExtractMode == MkvExtractModes.timecodes_v2
                         || argParameter.ExtractMode == MkvExtractModes.timestamps_v2
                         || argParameter.ExtractMode == MkvExtractModes.cues
-                        || argParameter.ExtractMode == MkvExtractModes.attachments ? argParameter.TrackOutput : string.Format("\"{0}\"", argParameter.TrackOutput)
+                        || argParameter.ExtractMode == MkvExtractModes.attachments 
+                            ? argParameter.TrackOutput 
+                            : string.Format("\"{0}\"", argParameter.TrackOutput)
                     );
                 }
                 else
@@ -847,7 +851,7 @@ namespace gMKVToolNix.MkvExtract
                 myProcess.Start();
 
                 // Read the Standard output character by character
-                gMKVHelper.ReadStreamPerCharacter(myProcess, argHandler);
+                myProcess.ReadStreamPerCharacter(argHandler);
 
                 // Wait for the process to exit
                 myProcess.WaitForExit();
@@ -873,7 +877,7 @@ namespace gMKVToolNix.MkvExtract
                 }
 
                 // Before MKVToolNix 9.7.0, the safest way to ensure English output on Linux is through the EnvironmentVariables
-                if (gMKVHelper.IsOnLinux)
+                if (PlatformExtensions.IsOnLinux)
                 {
                     if (_Version.FileMajorPart < 9 ||
                         (_Version.FileMajorPart == 9 && _Version.FileMinorPart < 7))
@@ -902,7 +906,7 @@ namespace gMKVToolNix.MkvExtract
                 throw new Exception($"Could not find {MKV_EXTRACT_FILENAME}!{Environment.NewLine}{_MKVExtractFilename}");
             }
 
-            if (gMKVHelper.IsOnLinux)
+            if (PlatformExtensions.IsOnLinux)
             {
                 // When on Linux, we need to run mkvextract
 
@@ -944,7 +948,7 @@ namespace gMKVToolNix.MkvExtract
                     myProcess.Start();
 
                     // Read the Standard output character by character
-                    gMKVHelper.ReadStreamPerCharacter(myProcess, myProcess_OutputDataReceived);
+                    myProcess.ReadStreamPerCharacter(myProcess_OutputDataReceived);
 
                     // Wait for the process to exit
                     myProcess.WaitForExit();
@@ -975,7 +979,7 @@ namespace gMKVToolNix.MkvExtract
             {
                 // When on Windows, we can use FileVersionInfo.GetVersionInfo
                 var version = FileVersionInfo.GetVersionInfo(_MKVExtractFilename);
-                _Version = new gMKVToolNix.gMKVVersion()
+                _Version = new gMKVVersion()
                 {
                     FileMajorPart = version.FileMajorPart,
                     FileMinorPart = version.FileMinorPart,
@@ -1083,44 +1087,7 @@ namespace gMKVToolNix.MkvExtract
 
         private void ParseVersionOutput()
         {
-            string fileMajorVersion = "0";
-            string fileMinorVersion = "0";
-            string filePrivateVersion = "0";
-            if (_MKVExtractOutput != null && _MKVExtractOutput.Length > 0)
-            {
-                string[] outputLines = _MKVExtractOutput.ToString().Split(new string[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
-                foreach (string outputLine in outputLines)
-                {
-                    if (outputLine.StartsWith("mkvextract v"))
-                    {
-                        string versionString = outputLine.Substring(11);
-                        versionString = versionString.Substring(1, versionString.IndexOf(" "));
-                        if (versionString.Contains("."))
-                        {
-                            string[] parts = versionString.Split(new string[] { "." }, StringSplitOptions.None);
-                            if (parts.Length >= 2)
-                            {
-                                fileMajorVersion = parts[0];
-                                fileMinorVersion = parts[1];
-                                if (parts.Length > 2)
-                                {
-                                    filePrivateVersion = parts[2];
-                                }
-                            }
-                        }
-                        break;
-                    }
-                }
-            }
-
-            gMKVVersion version = new gMKVVersion()
-            {
-                FileMajorPart = int.TryParse(fileMajorVersion, out int majorVersion) ? majorVersion : 0,
-                FileMinorPart = int.TryParse(fileMinorVersion, out int minorVersion) ? minorVersion : 0,
-                FilePrivatePart = int.TryParse(filePrivateVersion, out int privateVersion) ? privateVersion : 0
-            };
-
-            _Version = version;
+            _Version = gMKVVersionParser.ParseVersionOutput(_MKVExtractOutput?.ToString());
         }
 
         public static string ReplaceFilenamePlaceholders(gMKVSegment argSeg, string argMKVFile, string argFilenamePattern)
@@ -1202,8 +1169,7 @@ namespace gMKVToolNix.MkvExtract
             , string argMKVFile
             , gMKVExtractFilenamePatterns argFilenamePatterns
             , MkvExtractModes argMkvExtractMode
-            , MkvChapterTypes argMkvChapterType = MkvChapterTypes.XML
-            )
+            , MkvChapterTypes argMkvChapterType = MkvChapterTypes.XML)
         {
             string outputFilename = "";
             string outputFileExtension = "";
@@ -1323,35 +1289,7 @@ namespace gMKVToolNix.MkvExtract
                     break;
             }
 
-            // Check if file already exists
-            while (File.Exists(outputFilename))
-            {
-                string outputFilenameDirectory = Path.GetDirectoryName(outputFilename);
-                string outputFilenameWithoutExtension = Path.GetFileNameWithoutExtension(outputFilename);
-                string outputFilenameExtension = Path.GetExtension(outputFilename);
-                int lastDotIndex = outputFilenameWithoutExtension.LastIndexOf('.');
-
-                int outputFilenameCounter = 0;
-                // Check if the filename contains a dot
-                if (lastDotIndex > -1)
-                {
-                    // Get the last part of filename after the last dot
-                    string outputFilenameCounterString = outputFilenameWithoutExtension.Substring(lastDotIndex + 1);
-                    // Check if it's an integer (counter)
-                    if (int.TryParse(outputFilenameCounterString, out outputFilenameCounter))
-                    {
-                        // Isolate the filename without the counter part
-                        outputFilenameWithoutExtension = outputFilenameWithoutExtension.Substring(0, lastDotIndex);
-                    }
-                }
-
-                outputFilename = Path.Combine(
-                    outputFilenameDirectory,
-                    string.Format("{0}.{1}{2}", outputFilenameWithoutExtension, (outputFilenameCounter + 1), outputFilenameExtension)
-                );
-            }
-
-            return outputFilename;
+            return outputFilename.GetOutputFilename();
         }
 
         private static string GetVideoFileExtensionFromCodecID(gMKVTrack argTrack)

@@ -1,11 +1,15 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio Version 17
+VisualStudioVersion = 17.14.36203.30 d17.14
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "gMKVExtractGUI", "src\gMKVExtractGUI\gMKVExtractGUI.csproj", "{20EBEFF3-C838-4239-A236-EC055BF51398}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "gMKVToolNix", "src\gMKVToolNix\gMKVToolNix.csproj", "{82FC8FA8-50C0-44FA-8801-80050C0ED89F}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{02EA681E-C7D8-13C7-8484-4AC65E1B71E8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "gMKVToolnix.Unit.Tests", "tests\gMKVToolnix.Unit.Tests\gMKVToolnix.Unit.Tests.csproj", "{F6B51E91-8B20-47AD-B161-D7789D46E0A9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -31,8 +35,19 @@ Global
 		{82FC8FA8-50C0-44FA-8801-80050C0ED89F}.Release|Any CPU.Build.0 = Release|Any CPU
 		{82FC8FA8-50C0-44FA-8801-80050C0ED89F}.Release|x86.ActiveCfg = Release|x86
 		{82FC8FA8-50C0-44FA-8801-80050C0ED89F}.Release|x86.Build.0 = Release|x86
+		{F6B51E91-8B20-47AD-B161-D7789D46E0A9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F6B51E91-8B20-47AD-B161-D7789D46E0A9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F6B51E91-8B20-47AD-B161-D7789D46E0A9}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{F6B51E91-8B20-47AD-B161-D7789D46E0A9}.Debug|x86.Build.0 = Debug|Any CPU
+		{F6B51E91-8B20-47AD-B161-D7789D46E0A9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F6B51E91-8B20-47AD-B161-D7789D46E0A9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F6B51E91-8B20-47AD-B161-D7789D46E0A9}.Release|x86.ActiveCfg = Release|Any CPU
+		{F6B51E91-8B20-47AD-B161-D7789D46E0A9}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{F6B51E91-8B20-47AD-B161-D7789D46E0A9} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
 	EndGlobalSection
 EndGlobal

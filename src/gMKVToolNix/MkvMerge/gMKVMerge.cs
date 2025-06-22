@@ -62,7 +62,7 @@ namespace gMKVToolNix.MkvMerge
         /// </summary>
         public static string MKV_MERGE_FILENAME
         {
-            get { return gMKVHelper.IsOnLinux ? "mkvmerge" : "mkvmerge.exe"; }
+            get { return PlatformExtensions.IsOnLinux ? "mkvmerge" : "mkvmerge.exe"; }
         }
 
         private readonly string _MKVToolnixPath = "";
@@ -133,7 +133,7 @@ namespace gMKVToolNix.MkvMerge
             return _SegmentList;
         }
 
-        public bool FindDelays(List<gMKVSegment> argSegmentList)
+        public bool FindAndSetDelays(List<gMKVSegment> argSegmentList)
         {
             // Check to see if the list contains segments
             if (argSegmentList == null || argSegmentList.Count == 0)
@@ -222,7 +222,7 @@ namespace gMKVToolNix.MkvMerge
             return hexAsBytes;
         }
 
-        public void FindCodecPrivate(List<gMKVSegment> argSegmentList)
+        public void FindAndSetCodecPrivate(List<gMKVSegment> argSegmentList)
         {
             foreach (gMKVTrack track in argSegmentList.OfType<gMKVTrack>())
             {
@@ -385,7 +385,7 @@ namespace gMKVToolNix.MkvMerge
                 throw new Exception($"Could not find {MKV_MERGE_FILENAME}!{Environment.NewLine}{_MKVMergeFilename}");
             }
 
-            if (gMKVHelper.IsOnLinux)
+            if (PlatformExtensions.IsOnLinux)
             {
                 // When on Linux, we need to run mkvmerge
 
@@ -427,7 +427,7 @@ namespace gMKVToolNix.MkvMerge
                     myProcess.Start();
 
                     // Read the Standard output character by character
-                    gMKVHelper.ReadStreamPerCharacter(myProcess, myProcess_OutputDataReceived);
+                    myProcess.ReadStreamPerCharacter(myProcess_OutputDataReceived);
 
                     // Wait for the process to exit
                     myProcess.WaitForExit();
@@ -496,7 +496,7 @@ namespace gMKVToolNix.MkvMerge
 
                 // if on Linux, the language output must be defined from the environment variables LC_ALL, LANG, and LC_MESSAGES
                 // After talking with Mosu, the language output is defined from ui-language, with different language codes for Windows and Linux
-                if (gMKVHelper.IsOnLinux)
+                if (PlatformExtensions.IsOnLinux)
                 {
                     optionList.Add(new OptionValue(MkvMergeOptions.ui_language, "en_US"));
                 }
@@ -523,7 +523,7 @@ namespace gMKVToolNix.MkvMerge
                         optionList.Add(new OptionValue(MkvMergeOptions.identify_verbose, ""));
 
                         // Before JSON output, the safest way to ensure English output on Linux is throught the EnvironmentVariables
-                        if (gMKVHelper.IsOnLinux)
+                        if (PlatformExtensions.IsOnLinux)
                         {
                             // Get the original values
                             LC_ALL = Environment.GetEnvironmentVariable("LC_ALL", EnvironmentVariableTarget.Process);
@@ -579,7 +579,7 @@ namespace gMKVToolNix.MkvMerge
                 myProcess.Start();
 
                 // Read the Standard output character by character
-                gMKVHelper.ReadStreamPerCharacter(myProcess, argHandler);
+                myProcess.ReadStreamPerCharacter(argHandler);
 
                 // Wait for the process to exit
                 myProcess.WaitForExit();
@@ -600,7 +600,7 @@ namespace gMKVToolNix.MkvMerge
                 }
 
                 // Before JSON output, the safest way to ensure English output on Linux is throught the EnvironmentVariables
-                if (gMKVHelper.IsOnLinux)
+                if (PlatformExtensions.IsOnLinux)
                 {
                     if (_Version.FileMajorPart < 9 ||
                         (_Version.FileMajorPart == 9 && _Version.FileMinorPart < 6))
@@ -629,12 +629,11 @@ namespace gMKVToolNix.MkvMerge
             // Parse all the children tokens accordingly
             foreach (JToken token in jsonObject.Children())
             {
-                if (!(token is JProperty))
+                if (!(token is JProperty jProp))
                 {
                     continue;
                 }
 
-                JProperty jProp = token as JProperty;
                 if (jProp == null || string.IsNullOrWhiteSpace(jProp.Name) || !jProp.HasValues)
                 {
                     continue;
@@ -645,7 +644,7 @@ namespace gMKVToolNix.MkvMerge
                 {
                     foreach (JToken entry in jProp)
                     {
-                        if (entry is JArray && (entry as JArray).Count > 0)
+                        if (entry is JArray entryArray && entryArray.Count > 0)
                         {
                             foreach (JToken entryTokens in entry)
                             {
@@ -674,13 +673,13 @@ namespace gMKVToolNix.MkvMerge
                             gMKVAttachment tmpAttachment = new gMKVAttachment();
                             foreach (JToken propertyAttachmentToken in finalAttachmentToken)
                             {
-                                if (propertyAttachmentToken is JProperty)
+                                if (propertyAttachmentToken is JProperty prop)
                                 {
-                                    JProperty prop = propertyAttachmentToken as JProperty;
                                     if (prop == null || string.IsNullOrWhiteSpace(prop.Name))
                                     {
                                         continue;
                                     }
+
                                     string propName = prop.Name.ToLower().Trim();
                                     if (propName == "content_type")
                                     {
@@ -713,14 +712,14 @@ namespace gMKVToolNix.MkvMerge
                         {
                             continue;
                         }
+
                         foreach (JToken value in child)
                         {
-                            if (!(value is JProperty))
+                            if (!(value is JProperty valueProperty))
                             {
                                 continue;
                             }
 
-                            JProperty valueProperty = value as JProperty;
                             if (valueProperty == null || string.IsNullOrWhiteSpace(valueProperty.Name))
                             {
                                 continue;
@@ -747,15 +746,16 @@ namespace gMKVToolNix.MkvMerge
                                 {
                                     foreach (JToken childPreFinalProperty in childProperty)
                                     {
-                                        if (!(childPreFinalProperty is JProperty))
+                                        if (!(childPreFinalProperty is JProperty childFinalProperty))
                                         {
                                             continue;
                                         }
-                                        JProperty childFinalProperty = childPreFinalProperty as JProperty;
+
                                         if (childFinalProperty == null || string.IsNullOrWhiteSpace(childFinalProperty.Name))
                                         {
                                             continue;
                                         }
+
                                         string childFinalPropertyName = childFinalProperty.Name.ToLower().Trim();
                                         if (childFinalPropertyName == "date_utc")
                                         {
@@ -812,15 +812,16 @@ namespace gMKVToolNix.MkvMerge
 
                             foreach (JToken childPreFinalProperty in value)
                             {
-                                if (!(childPreFinalProperty is JProperty))
+                                if (!(childPreFinalProperty is JProperty childFinalProperty))
                                 {
                                     continue;
                                 }
-                                JProperty childFinalProperty = childPreFinalProperty as JProperty;
+
                                 if (childFinalProperty == null || string.IsNullOrWhiteSpace(childFinalProperty.Name))
                                 {
                                     continue;
                                 }
+
                                 string childFinalPropertyName = childFinalProperty.Name.ToLower().Trim();
                                 if (childFinalPropertyName == "id")
                                 {
@@ -836,26 +837,29 @@ namespace gMKVToolNix.MkvMerge
                                     {
                                         continue;
                                     }
+
                                     foreach (JToken propertyChild in childFinalProperty)
                                     {
                                         if (!propertyChild.HasValues)
                                         {
                                             continue;
                                         }
+
                                         string audioChannels = "";
                                         string audioFrequency = "";
                                         string videoDimensions = "";
                                         foreach (JToken propertyFinalChild in propertyChild)
                                         {
-                                            if (!propertyFinalChild.HasValues || !(propertyFinalChild is JProperty))
+                                            if (!propertyFinalChild.HasValues || !(propertyFinalChild is JProperty propertyFinal))
                                             {
                                                 continue;
                                             }
-                                            JProperty propertyFinal = propertyFinalChild as JProperty;
+
                                             if (propertyFinal == null || string.IsNullOrWhiteSpace(propertyFinal.Name))
                                             {
                                                 continue;
                                             }
+
                                             string propertyFinalName = propertyFinal.Name.ToLower().Trim();
                                             if (propertyFinalName == "codec_id")
                                             {
@@ -922,9 +926,11 @@ namespace gMKVToolNix.MkvMerge
                                                 }
                                             }
                                         }
-                                        else if (!string.IsNullOrWhiteSpace(audioChannels) || !string.IsNullOrWhiteSpace(audioFrequency))
+                                        else if (!string.IsNullOrWhiteSpace(audioChannels) 
+                                            || !string.IsNullOrWhiteSpace(audioFrequency))
                                         {
-                                            if (!string.IsNullOrWhiteSpace(audioChannels) && !string.IsNullOrWhiteSpace(audioFrequency))
+                                            if (!string.IsNullOrWhiteSpace(audioChannels) 
+                                                && !string.IsNullOrWhiteSpace(audioFrequency))
                                             {
                                                 tmpTrack.ExtraInfo = $"{audioFrequency}Hz, Ch: {audioChannels}";
                                             }
@@ -981,16 +987,19 @@ namespace gMKVToolNix.MkvMerge
                     {
                         tmpSegInfo.MuxingApplication = ExtractProperty(outputLine, "muxing_application");
                     }
+
                     if (outputLine.Contains("writing_application:"))
                     {
                         tmpSegInfo.WritingApplication = ExtractProperty(outputLine, "writing_application");
                     }
+
                     if (outputLine.Contains("date_utc:"))
                     {
                         tmpSegInfo.Date = DateTime.ParseExact(ExtractProperty(outputLine, "date_utc"), _dateFormats, CultureInfo.InvariantCulture, DateTimeStyles.AssumeUniversal).
                             ToUniversalTime().
                             ToString("ddd MMM dd HH:mm:ss yyyy UTC", CultureInfo.InvariantCulture);
                     }
+
                     if (outputLine.Contains("duration:"))
                     {
                         // Duration: 5979.008s (01:39:39.008)
@@ -1014,6 +1023,7 @@ namespace gMKVToolNix.MkvMerge
                 else if (outputLine.StartsWith("Track ID "))
                 {
                     int trackID = int.TryParse(outputLine.Substring(0, outputLine.IndexOf(":")).Replace("Track ID", "").Trim(), out int trackId) ? trackId : 0;
+                    
                     // Check if there is already a track with the same TrackID (workaround for a weird bug in MKVToolnix v4 when identifying files from AviDemux)
                     bool trackFound = false;
                     foreach (gMKVSegment tmpSeg in _SegmentList)
@@ -1035,7 +1045,12 @@ namespace gMKVToolNix.MkvMerge
 
                     gMKVTrack tmpTrack = new gMKVTrack
                     {
-                        TrackType = (MkvTrackType)Enum.Parse(typeof(MkvTrackType), outputLine.Substring(outputLine.IndexOf(":") + 1, outputLine.IndexOf("(") - outputLine.IndexOf(":") - 1).Trim()),
+                        TrackType = (MkvTrackType)Enum.Parse(
+                            typeof(MkvTrackType), 
+                            outputLine.Substring(
+                                outputLine.IndexOf(":") + 1, 
+                                outputLine.IndexOf("(") - outputLine.IndexOf(":") - 1)
+                            .Trim()),
                         TrackID = trackID
                     };
 
@@ -1049,6 +1064,7 @@ namespace gMKVToolNix.MkvMerge
                         // if we have version 4.x and older
                         tmpTrack.TrackNumber = tmpTrack.TrackID;
                     }
+
                     if (outputLine.Contains("codec_id"))
                     {
                         // if we have version 5.x and newer
@@ -1064,14 +1080,17 @@ namespace gMKVToolNix.MkvMerge
                     {
                         tmpTrack.Language = ExtractProperty(outputLine, "language");
                     }
+
                     if (outputLine.Contains("language_ietf:"))
                     {
                         tmpTrack.LanguageIetf = ExtractProperty(outputLine, "language_ietf");
                     }
+
                     if (outputLine.Contains("track_name:"))
                     {
                         tmpTrack.TrackName = ExtractProperty(outputLine, "track_name");
                     }
+
                     if (outputLine.Contains("codec_private_data:"))
                     {
                         tmpTrack.CodecPrivateData = ExtractProperty(outputLine, "codec_private_data");
@@ -1106,6 +1125,7 @@ namespace gMKVToolNix.MkvMerge
                                     tmpTrack.MinimumTimestamp = tmpLong;
                                 }
                             }
+
                             break;
                         case MkvTrackType.audio:
                             if (outputLine.Contains("audio_sampling_frequency:"))
@@ -1139,6 +1159,7 @@ namespace gMKVToolNix.MkvMerge
                                     tmpTrack.MinimumTimestamp = tmpLong;
                                 }
                             }
+
                             break;
                         case MkvTrackType.subtitles:
                             break;
@@ -1199,44 +1220,7 @@ namespace gMKVToolNix.MkvMerge
 
         private void ParseVersionOutput()
         {
-            string fileMajorVersion = "0";
-            string fileMinorVersion = "0";
-            string filePrivateVersion = "0";
-            if (_MKVMergeOutput != null && _MKVMergeOutput.Length > 0)
-            {
-                string[] outputLines = _MKVMergeOutput.ToString().Split(new string[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
-                foreach (string outputLine in outputLines)
-                {
-                    if (outputLine.StartsWith("mkvmerge v"))
-                    {
-                        string versionString = outputLine.Substring(9);
-                        versionString = versionString.Substring(1, versionString.IndexOf(" "));
-                        if (versionString.Contains("."))
-                        {
-                            string[] parts = versionString.Split(new string[] { "." }, StringSplitOptions.None);
-                            if (parts.Length >= 2)
-                            {
-                                fileMajorVersion = parts[0];
-                                fileMinorVersion = parts[1];
-                                if (parts.Length > 2)
-                                {
-                                    filePrivateVersion = parts[2];
-                                }
-                            }
-                        }
-                        break;
-                    }
-                }
-            }
-
-            gMKVVersion version = new gMKVToolNix.gMKVVersion()
-            {
-                FileMajorPart = int.TryParse(fileMajorVersion, out int majorVersion) ? majorVersion : 0,
-                FileMinorPart = int.TryParse(fileMinorVersion, out int minorVersion) ? minorVersion : 0,
-                FilePrivatePart = int.TryParse(filePrivateVersion, out int privateVersion) ? privateVersion : 0
-            };
-
-            _Version = version;
+            _Version = gMKVVersionParser.ParseVersionOutput(_MKVMergeOutput?.ToString());
         }
 
         private void myProcess_OutputDataReceived(object sender, DataReceivedEventArgs e)

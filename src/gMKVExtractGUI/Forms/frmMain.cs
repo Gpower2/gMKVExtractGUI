@@ -95,7 +95,7 @@ namespace gMKVToolNix
                 // Find MKVToolnix path
                 try
                 {
-                    if (!gMKVHelper.IsOnLinux)
+                    if (!PlatformExtensions.IsOnLinux)
                     {
                         // When on Windows, check the registry first
                         gMKVLogger.Log("Checking registry for mkvmerge...");
@@ -140,7 +140,7 @@ namespace gMKVToolNix
                         {
                             // Select exception message according to running OS
                             String exceptionMessage = "";
-                            if (gMKVHelper.IsOnLinux)
+                            if (PlatformExtensions.IsOnLinux)
                             {
                                 exceptionMessage = "Could not find MKVToolNix in /usr/bin, or in the current directory, or in the ini file!";
                             }

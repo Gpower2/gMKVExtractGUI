@@ -62,7 +62,12 @@
     </Compile>
     <Compile Include="CueSheet\Cue.cs" />
     <Compile Include="CueSheet\CueTrack.cs" />
+    <Compile Include="FileExtensions.cs" />
+    <Compile Include="gMKVVersionParser.cs" />
     <Compile Include="MkvExtract\CuesExtractionMode.cs" />
+    <Compile Include="PlatformExtensions.cs" />
+    <Compile Include="ProcessExtensions.cs" />
+    <Compile Include="ProcessStream.cs" />
     <Compile Include="Segments\MkvChapterTypes.cs" />
     <Compile Include="MkvExtract\MkvExtractGlobalOptions.cs" />
     <Compile Include="MkvExtract\MkvExtractModes.cs" />
