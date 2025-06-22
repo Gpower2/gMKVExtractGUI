@@ -32,7 +32,22 @@ namespace gMKVToolNix
 
             if (!File.Exists(Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "gMKVToolNix.dll")))
             {
-                MessageBox.Show("The gMKVToolNix.dll was not found! Please download and reinstall gMKVExtractGUI!", "An error has occured!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(
+                    "The gMKVToolNix.dll was not found! Please download and reinstall gMKVExtractGUI!", 
+                    "An error has occured!", 
+                    MessageBoxButtons.OK, 
+                    MessageBoxIcon.Error);
+
+                Environment.Exit(1);
+            }
+
+            if (!File.Exists(Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "Newtonsoft.Json.dll")))
+            {
+                MessageBox.Show(
+                    "The Newtonsoft.Json.dll was not found! Please download and reinstall gMKVExtractGUI!",
+                    "An error has occured!",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
 
                 Environment.Exit(1);
             }

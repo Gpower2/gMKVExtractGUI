@@ -9,6 +9,6 @@ namespace gMKVToolNix.Forms
         Tracks_And_Timecodes,
         Cues,
         Tracks_And_Cues,
-        Tracks_And_Cues_And_Timecodes
+        Tracks_And_Cues_And_Timecodes,
     }
 }

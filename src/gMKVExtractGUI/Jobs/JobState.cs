@@ -6,6 +6,6 @@
         Pending,
         Running,
         Completed,
-        Failed
+        Failed,
     }
 }
