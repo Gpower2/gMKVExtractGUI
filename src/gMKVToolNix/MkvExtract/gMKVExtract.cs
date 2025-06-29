@@ -55,9 +55,9 @@ namespace gMKVToolNix.MkvExtract
 
         public bool AbortAll { get; set; }
 
-        public gMKVExtract(string mkvToonlixPath)
+        public gMKVExtract(string mkvToolnixPath)
         {
-            _MKVToolnixPath = mkvToonlixPath;
+            _MKVToolnixPath = mkvToolnixPath;
             _MKVExtractFilename = Path.Combine(_MKVToolnixPath, MKV_EXTRACT_FILENAME);
 
             // check for existence of mkvextract
