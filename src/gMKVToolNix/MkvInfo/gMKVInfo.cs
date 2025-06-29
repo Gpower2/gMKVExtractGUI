@@ -851,8 +851,6 @@ namespace gMKVToolNix.MkvInfo
                         if (tr.Delay == int.MinValue && e.Data.Contains($"track number {tr.TrackNumber}"))
                         {
                             // try to find the delay
-                            //Match m = Regex.Match(e.Data, string.Format(@"track number {0}, \d+ frame\(s\), timecode (\d+\.\d+)s", tr.TrackNumber));
-                            //Match m2 = Regex.Match(e.Data, string.Format(@"track number {0}, \d+ frame\(s\), timestamp (\d{{2}}):(\d{{2}}):(\d{{2}}).(\d{{9}})", tr.TrackNumber));
                             Match m = _timecodeTrackRegex.Match(e.Data);
                             Match m2 = _timestampTrackRegex.Match(e.Data);
                             Match m3 = _timestampNewTrackRegex.Match(e.Data);
