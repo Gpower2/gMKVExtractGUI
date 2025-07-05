@@ -945,9 +945,13 @@ namespace gMKVToolNix.MkvExtract
             StringBuilder optionString = new StringBuilder();
             foreach (OptionValue optVal in listOptionValue)
             {
-                optionString.AppendFormat(" {0} {1}", 
-                    ConvertEnumOptionToStringOption(optVal.Option), 
-                    optVal.Parameter);
+                optionString.Append(' ');
+                optionString.Append(ConvertEnumOptionToStringOption(optVal.Option));
+                if (!string.IsNullOrWhiteSpace(optVal.Parameter))
+                {
+                    optionString.Append(' ');
+                    optionString.Append(optVal.Parameter);
+                }
             }
 
             return optionString.ToString();

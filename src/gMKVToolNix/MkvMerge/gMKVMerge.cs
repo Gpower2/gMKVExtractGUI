@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
@@ -67,26 +66,40 @@ namespace gMKVToolNix.MkvMerge
 
         private readonly string _MKVToolnixPath = "";
         private readonly string _MKVMergeFilename = "";
-        private readonly List<gMKVSegment> _SegmentList = new List<gMKVSegment>();
+
         private readonly StringBuilder _MKVMergeOutput = new StringBuilder();
         private readonly StringBuilder _ErrorBuilder = new StringBuilder();
-        private gMKVVersion _Version = null;
+        private readonly gMKVVersion _Version = null;
 
-        public gMKVMerge(string mkvToonlixPath)
+        public gMKVMerge(string mkvToolnixPath)
         {
-            if (string.IsNullOrWhiteSpace(mkvToonlixPath))
+            if (string.IsNullOrWhiteSpace(mkvToolnixPath))
             {
                 throw new Exception("The MKVToolNix path was not provided!");
             }
-            if (!Directory.Exists(mkvToonlixPath))
+
+            if (!Directory.Exists(mkvToolnixPath))
             {
-                throw new Exception(string.Format("The MKVToolNix path {0} does not exist!", mkvToonlixPath));
+                throw new Exception(string.Format("The MKVToolNix path {0} does not exist!", mkvToolnixPath));
             }
-            _MKVToolnixPath = mkvToonlixPath;
+
+            _MKVToolnixPath = mkvToolnixPath;
             _MKVMergeFilename = Path.Combine(_MKVToolnixPath, MKV_MERGE_FILENAME);
+
             if (!File.Exists(_MKVMergeFilename))
             {
                 throw new Exception(string.Format("Could not find {0}!" + Environment.NewLine + "{1}", MKV_MERGE_FILENAME, _MKVMergeFilename));
+            }
+
+            _Version = GetMKVMergeVersion();
+
+            if (_Version != null)
+            {
+                gMKVLogger.Log(string.Format("Detected mkvmerge version: {0}.{1}.{2}",
+                    _Version.FileMajorPart,
+                    _Version.FileMinorPart,
+                    _Version.FilePrivatePart
+                ));
             }
         }
 
@@ -97,40 +110,38 @@ namespace gMKVToolNix.MkvMerge
             { 
                 throw new Exception(string.Format("Could not find {0}!" + Environment.NewLine + "{1}", MKV_MERGE_FILENAME, _MKVMergeFilename)); 
             }
-            // First clear the segment list
-            _SegmentList.Clear();
+
             // Clear the mkvmerge output
             _MKVMergeOutput.Length = 0;
             // Clear the error builder
             _ErrorBuilder.Length = 0;
             // Execute the mkvmerge
             ExecuteMkvMerge(null, argMKVFile, myProcess_OutputDataReceived);
+
+            // Set the segment list
+            List<gMKVSegment> segmentList = new List<gMKVSegment>();
+
             // Start the parsing of the output
             // Since MKVToolNix v9.6.0, start parsing the JSON identification info
-            if (_Version == null)
-            {
-                _Version = GetMKVMergeVersion();
-            }
-
             if (_Version.FileMajorPart > 9 ||
                 (_Version.FileMajorPart == 9 && _Version.FileMinorPart >= 6))
             {
-                ParseMkvMergeJsonOutput();
+                segmentList.AddRange(ParseMkvMergeJsonOutput(_MKVMergeOutput.ToString()));
             }
             else
             {
-                ParseMkvMergeOutput();
+                segmentList.AddRange(ParseMkvMergeOutput(_MKVMergeOutput.ToString()));
             }
 
             // Add the file properties in gMKVSegmentInfo
-            gMKVSegmentInfo seg = _SegmentList.OfType<gMKVSegmentInfo>().FirstOrDefault();
+            gMKVSegmentInfo seg = segmentList.OfType<gMKVSegmentInfo>().FirstOrDefault();
             if (seg != null)
             {
                 seg.Directory = Path.GetDirectoryName(argMKVFile);
                 seg.Filename = Path.GetFileName(argMKVFile);
             }
 
-            return _SegmentList;
+            return segmentList;
         }
 
         public bool FindAndSetDelays(List<gMKVSegment> argSegmentList)
@@ -205,170 +216,11 @@ namespace gMKVToolNix.MkvMerge
             return true;
         }
 
-        private static byte[] HexStringToByteArray(string hexString)
-        {
-            if (hexString.Length % 2 == 1)
-            {
-                throw new ArgumentException($"The binary key cannot have an odd number of digits: {hexString}");
-            }
-
-            byte[] hexAsBytes = new byte[hexString.Length / 2];
-            for (int index = 0; index < hexAsBytes.Length; index++)
-            {
-                string byteValue = hexString.Substring(index * 2, 2);
-                hexAsBytes[index] = byte.Parse(byteValue, NumberStyles.HexNumber, CultureInfo.InvariantCulture);
-            }
-
-            return hexAsBytes;
-        }
-
         public void FindAndSetCodecPrivate(List<gMKVSegment> argSegmentList)
         {
             foreach (gMKVTrack track in argSegmentList.OfType<gMKVTrack>())
             {
-                // Check if the track has CodecPrivateData
-                // and it doesn't have a text representation of CodecPrivate
-                if (!string.IsNullOrWhiteSpace(track.CodecPrivateData)
-                    && string.IsNullOrWhiteSpace(track.CodecPrivate))
-                {
-                    byte[] codecPrivateBytes = HexStringToByteArray(track.CodecPrivateData);
-                    if (track.TrackType == MkvTrackType.video)
-                    {
-                        if (track.CodecID == "V_MS/VFW/FOURCC")
-                        {
-                            track.CodecPrivate = string.Format("length {0} (FourCC: \"{1}\")"
-                                , codecPrivateBytes.Length
-                                ,
-                                ((32 <= codecPrivateBytes[16]) && (127 > codecPrivateBytes[16]) ? Encoding.ASCII.GetString(new byte[] { codecPrivateBytes[16] }) : "?") +
-                                ((32 <= codecPrivateBytes[17]) && (127 > codecPrivateBytes[17]) ? Encoding.ASCII.GetString(new byte[] { codecPrivateBytes[17] }) : "?") +
-                                ((32 <= codecPrivateBytes[18]) && (127 > codecPrivateBytes[18]) ? Encoding.ASCII.GetString(new byte[] { codecPrivateBytes[18] }) : "?") +
-                                ((32 <= codecPrivateBytes[19]) && (127 > codecPrivateBytes[19]) ? Encoding.ASCII.GetString(new byte[] { codecPrivateBytes[19] }) : "?")
-                            );
-                        }
-                        else if (track.CodecID == "V_MPEG4/ISO/AVC")
-                        {
-                            int profileIdc = codecPrivateBytes[1];
-                            int levelIdc = codecPrivateBytes[3];
-
-                            string profileIdcString;
-
-                            switch (profileIdc)
-                            {
-                                case 44:
-                                    profileIdcString = "CAVLC 4:4:4 Intra";
-                                    break;
-                                case 66:
-                                    profileIdcString = "Baseline";
-                                    break;
-                                case 77:
-                                    profileIdcString = "Main";
-                                    break;
-                                case 83:
-                                    profileIdcString = "Scalable Baseline";
-                                    break;
-                                case 86:
-                                    profileIdcString = "Scalable High";
-                                    break;
-                                case 88:
-                                    profileIdcString = "Extended";
-                                    break;
-                                case 100:
-                                    profileIdcString = "High";
-                                    break;
-                                case 110:
-                                    profileIdcString = "High 10";
-                                    break;
-                                case 118:
-                                    profileIdcString = "Multiview High";
-                                    break;
-                                case 122:
-                                    profileIdcString = "High 4:2:2";
-                                    break;
-                                case 128:
-                                    profileIdcString = "Stereo High";
-                                    break;
-                                case 144:
-                                    profileIdcString = "High 4:4:4";
-                                    break;
-                                case 244:
-                                    profileIdcString = "High 4:4:4 Predictive";
-                                    break;
-                                default:
-                                    profileIdcString = "Unknown";
-                                    break;
-                            }
-
-                            track.CodecPrivate = string.Format("length {0} (h.264 profile: {1} @L{2}.{3})"
-                                , codecPrivateBytes.Length
-                                , profileIdcString
-                                , levelIdc / 10
-                                , levelIdc % 10
-                            );
-                        }
-                        else if (track.CodecID == "V_MPEGH/ISO/HEVC")
-                        {
-                            BitArray codecPrivateBits = new BitArray(new byte[] { codecPrivateBytes[1] });
-
-                            int profileIdc = Convert.ToInt32(
-                                (codecPrivateBits[4] ? "1" : "0") +
-                                (codecPrivateBits[3] ? "1" : "0") +
-                                (codecPrivateBits[2] ? "1" : "0") +
-                                (codecPrivateBits[1] ? "1" : "0") +
-                                (codecPrivateBits[0] ? "1" : "0"), 2);
-
-                            int levelIdc = codecPrivateBytes[12];
-
-                            string profileIdcString;
-
-                            switch (profileIdc)
-                            {
-                                case 1:
-                                    profileIdcString = "Main";
-                                    break;
-                                case 2:
-                                    profileIdcString = "Main 10";
-                                    break;
-                                case 3:
-                                    profileIdcString = "Main Still Picture";
-                                    break;
-                                default:
-                                    profileIdcString = "Unknown";
-                                    break;
-                            }
-
-                            track.CodecPrivate = string.Format("length {0} (HEVC profile: {1} @L{2}.{3})"
-                                , codecPrivateBytes.Length
-                                , profileIdcString
-                                , levelIdc / 3 / 10
-                                , levelIdc / 3 % 10
-                            );
-                        }
-                        else
-                        {
-                            track.CodecPrivate = $"length {codecPrivateBytes.Length}";
-                        }
-                    }
-                    else if (track.TrackType == MkvTrackType.audio)
-                    {
-                        if (track.CodecID == "A_MS/ACM")
-                        {
-                            //UInt16 formatTag = BitConverter.ToUInt16(new byte[] { codecPrivateBytes[1], codecPrivateBytes[0] }, 0);
-                            track.CodecPrivate = string.Format("length {0} (format tag: 0x{1:x2}{2:x2})"
-                                , codecPrivateBytes.Length
-                                , codecPrivateBytes[0]
-                                , codecPrivateBytes[1]
-                            );
-                        }
-                        else
-                        {
-                            track.CodecPrivate = $"length {codecPrivateBytes.Length}";
-                        }
-                    }
-                    else
-                    {
-                        track.CodecPrivate = $"length {codecPrivateBytes.Length}";
-                    }
-                }
+                track.CodecPrivate = track.GetTrackCodecPrivate();
             }
         }
 
@@ -448,34 +300,25 @@ namespace gMKVToolNix.MkvMerge
                     }
                 }
 
-                // Parse version info
-                ParseVersionOutput();
+                string outputString = _MKVMergeOutput?.ToString();
 
                 // Clear the mkvmerge output
                 _MKVMergeOutput.Length = 0;
+
+                // Parse version info
+                return gMKVVersionParser.ParseVersionOutput(outputString);
             }
             else
             {
                 // When on Windows, we can use FileVersionInfo.GetVersionInfo
                 var version = FileVersionInfo.GetVersionInfo(_MKVMergeFilename);
-                _Version = new gMKVVersion()
+                return new gMKVVersion()
                 {
                     FileMajorPart = version.FileMajorPart,
                     FileMinorPart = version.FileMinorPart,
                     FilePrivatePart = version.FilePrivatePart
                 };
             }
-
-            if (_Version != null)
-            {
-                gMKVLogger.Log(string.Format("Detected mkvmerge version: {0}.{1}.{2}",
-                    _Version.FileMajorPart,
-                    _Version.FileMinorPart,
-                    _Version.FilePrivatePart
-                ));
-            }
-
-            return _Version;
         }
 
         private void ExecuteMkvMerge(List<OptionValue> argOptionList, string argMKVFile, DataReceivedEventHandler argHandler)
@@ -483,12 +326,6 @@ namespace gMKVToolNix.MkvMerge
             using (Process myProcess = new Process())
             {
                 List<OptionValue> optionList = new List<OptionValue>();
-
-                // Check the file version of the mkvmerge.exe
-                if (_Version == null)
-                {
-                    _Version = GetMKVMergeVersion();
-                }
 
                 string LC_ALL = "";
                 string LANG = "";
@@ -616,15 +453,17 @@ namespace gMKVToolNix.MkvMerge
             }
         }
 
-        private void ParseMkvMergeJsonOutput()
+        private static List<gMKVSegment> ParseMkvMergeJsonOutput(string output)
         {
             // Read the JSON output data to a JObject
-            JObject jsonObject = JObject.Parse(_MKVMergeOutput.ToString());
+            JObject jsonObject = JObject.Parse(output);
 
             // Create temporary Lists for the segments
             List<gMKVSegment> chapters = new List<gMKVSegment>();
             List<gMKVSegment> attachments = new List<gMKVSegment>();
             List<gMKVSegment> tracks = new List<gMKVSegment>();
+
+            List<gMKVSegment> finalList = new List<gMKVSegment>();
 
             // Parse all the children tokens accordingly
             foreach (JToken token in jsonObject.Children())
@@ -790,7 +629,7 @@ namespace gMKVToolNix.MkvMerge
                         }
                     }
 
-                    _SegmentList.Add(tmpSegInfo);
+                    finalList.Add(tmpSegInfo);
                 } // "container"
                 else if (pName == "tracks")
                 {
@@ -963,22 +802,26 @@ namespace gMKVToolNix.MkvMerge
             // Add the segments in the correct order
             foreach (gMKVSegment seg in tracks)
             {
-                _SegmentList.Add(seg);
+                finalList.Add(seg);
             }
             foreach (gMKVSegment seg in attachments)
             {
-                _SegmentList.Add(seg);
+                finalList.Add(seg);
             }
             foreach (gMKVSegment seg in chapters)
             {
-                _SegmentList.Add(seg);
+                finalList.Add(seg);
             }
+
+            return finalList;
         }
 
-        private void ParseMkvMergeOutput()
+        private static List<gMKVSegment> ParseMkvMergeOutput(string output)
         {
+            List<gMKVSegment> finalList = new List<gMKVSegment>();
+
             // start the loop for each line of the output
-            foreach (string outputLine in _MKVMergeOutput.ToString().Split(new string[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries))
+            foreach (string outputLine in output.Split(new string[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries))
             {
                 if (outputLine.StartsWith("File "))
                 {
@@ -1017,7 +860,7 @@ namespace gMKVToolNix.MkvMerge
                         && !string.IsNullOrWhiteSpace(tmpSegInfo.WritingApplication)
                         && !string.IsNullOrWhiteSpace(tmpSegInfo.Duration))
                     {
-                        _SegmentList.Add(tmpSegInfo);
+                        finalList.Add(tmpSegInfo);
                     }
                 }
                 else if (outputLine.StartsWith("Track ID "))
@@ -1026,7 +869,7 @@ namespace gMKVToolNix.MkvMerge
                     
                     // Check if there is already a track with the same TrackID (workaround for a weird bug in MKVToolnix v4 when identifying files from AviDemux)
                     bool trackFound = false;
-                    foreach (gMKVSegment tmpSeg in _SegmentList)
+                    foreach (gMKVSegment tmpSeg in finalList)
                     {
                         if (tmpSeg is gMKVTrack track && track.TrackID == trackID)
                         {
@@ -1167,7 +1010,7 @@ namespace gMKVToolNix.MkvMerge
                             break;
                     }
 
-                    _SegmentList.Add(tmpTrack);
+                    finalList.Add(tmpTrack);
                 }
                 else if (outputLine.StartsWith("Attachment ID "))
                 {
@@ -1178,7 +1021,7 @@ namespace gMKVToolNix.MkvMerge
                     tmp.FileSize = outputLine.Substring(outputLine.IndexOf("size")).Replace("size", "").Split(new string[] { "," }, StringSplitOptions.RemoveEmptyEntries)[0].Replace("bytes", "").Trim();
                     tmp.MimeType = outputLine.Substring(outputLine.IndexOf("type")).Replace("type", "").Split(new string[] { "," }, StringSplitOptions.RemoveEmptyEntries)[0].Replace("'", "").Trim();
 
-                    _SegmentList.Add(tmp);
+                    finalList.Add(tmp);
                 }
                 else if (outputLine.StartsWith("Chapters: "))
                 {
@@ -1188,39 +1031,44 @@ namespace gMKVToolNix.MkvMerge
                         ? chapterCount : 0
                     };
 
-                    _SegmentList.Add(tmp);
+                    finalList.Add(tmp);
                 }
             }
+
+            return finalList;
         }
 
         private static string ExtractProperty(string line, string propertyName)
         {
-            if (!line.Contains(propertyName + ":"))
+            string propertyNameWithSuffix = propertyName + ":";
+            int startIdx = line.IndexOf(propertyNameWithSuffix, StringComparison.Ordinal);
+            if (startIdx < 0)
             {
                 return "";
             }
 
-            string endCharacter = "";
-            string propertyPart = line.Substring(line.IndexOf(propertyName + ":"));
-            if (propertyPart.Contains(" "))
+            startIdx += propertyNameWithSuffix.Length;
+            int endIdx = line.IndexOf(' ', startIdx);
+            int bracketIdx = line.IndexOf(']', startIdx);
+
+            // Find the nearest end character (space or ])
+            if (endIdx == -1 
+                || (bracketIdx != -1 && bracketIdx < endIdx))
             {
-                endCharacter = " ";
-            }
-            else if (propertyPart.Contains("]"))
-            {
-                endCharacter = "]";
+                endIdx = bracketIdx;
             }
 
-            return gMKVHelper.UnescapeString(
-                propertyPart
-                .Substring(0, string.IsNullOrEmpty(endCharacter) ? propertyPart.Length : propertyPart.IndexOf(endCharacter))
-                .Replace(propertyName + ":", ""))
-                .Trim();
-        }
+            string value;
+            if (endIdx == -1)
+            {
+                value = line.Substring(startIdx);
+            }
+            else
+            {
+                value = line.Substring(startIdx, endIdx - startIdx);
+            }
 
-        private void ParseVersionOutput()
-        {
-            _Version = gMKVVersionParser.ParseVersionOutput(_MKVMergeOutput?.ToString());
+            return gMKVHelper.UnescapeString(value).Trim();
         }
 
         private void myProcess_OutputDataReceived(object sender, DataReceivedEventArgs e)
@@ -1249,14 +1097,29 @@ namespace gMKVToolNix.MkvMerge
             StringBuilder optionString = new StringBuilder();
             foreach (OptionValue optVal in listOptionValue)
             {
-                optionString.AppendFormat(" {0} {1}", ConvertEnumOptionToStringOption(optVal.Option), optVal.Parameter);
+                optionString.Append(' ');
+                optionString.Append(ConvertEnumOptionToStringOption(optVal.Option));
+                if (!string.IsNullOrWhiteSpace(optVal.Parameter))
+                {
+                    optionString.Append(' ');
+                    optionString.Append(optVal.Parameter);
+                }
             }
+
             return optionString.ToString();
         }
 
+        private static readonly Dictionary<MkvMergeOptions, string> _MkvMergeOptionsToStringMap =
+            Enum.GetValues(typeof(MkvMergeOptions))
+            .Cast<MkvMergeOptions>()
+            .ToDictionary(
+                val => val,
+                val => $"--{val.ToString().Replace("_", "-")}"
+            );
+
         private static string ConvertEnumOptionToStringOption(MkvMergeOptions enumOption)
         {
-            return $"--{enumOption}".Replace("_", "-");
+            return _MkvMergeOptionsToStringMap[enumOption];
         }
     }
 }

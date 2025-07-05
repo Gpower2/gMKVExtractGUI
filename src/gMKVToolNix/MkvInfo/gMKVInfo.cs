@@ -82,7 +82,7 @@ namespace gMKVToolNix.MkvInfo
 
             if (_Version != null)
             {
-                gMKVLogger.Log(string.Format("Detected mkvextract version: {0}.{1}.{2}",
+                gMKVLogger.Log(string.Format("Detected mkvinfo version: {0}.{1}.{2}",
                     _Version.FileMajorPart,
                     _Version.FileMinorPart,
                     _Version.FilePrivatePart
@@ -925,17 +925,24 @@ namespace gMKVToolNix.MkvInfo
             }
         }
 
-        private static string ConvertOptionValueListToString(List<OptionValue> argListOptionValue)
+        private static string ConvertOptionValueListToString(List<OptionValue> listOptionValue)
         {
             StringBuilder optionString = new StringBuilder();
-            foreach (OptionValue optVal in argListOptionValue)
+            foreach (OptionValue optVal in listOptionValue)
             {
-                optionString.AppendFormat(" {0} {1}", ConvertEnumOptionToStringOption(optVal.Option), optVal.Parameter);
+                optionString.Append(' ');
+                optionString.Append(ConvertEnumOptionToStringOption(optVal.Option));
+                if (!string.IsNullOrWhiteSpace(optVal.Parameter))
+                {
+                    optionString.Append(' ');
+                    optionString.Append(optVal.Parameter);
+                }
             }
+
             return optionString.ToString();
         }
 
-        private static readonly Dictionary<MkvInfoOptions, string> _MkvInfoOptionsOptionsToStringMap =
+        private static readonly Dictionary<MkvInfoOptions, string> _MkvInfoOptionsToStringMap =
             Enum.GetValues(typeof(MkvInfoOptions))
             .Cast<MkvInfoOptions>()
             .ToDictionary(
@@ -945,7 +952,7 @@ namespace gMKVToolNix.MkvInfo
 
         private static string ConvertEnumOptionToStringOption(MkvInfoOptions argEnumOption)
         {
-            return _MkvInfoOptionsOptionsToStringMap[argEnumOption];
+            return _MkvInfoOptionsToStringMap[argEnumOption];
         }
     }
 }
