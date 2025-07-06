@@ -50,9 +50,7 @@ namespace gMKVToolNix.MkvInfo
         private readonly string _MKVToolnixPath = "";
         private readonly string _MKVInfoFilename = "";
         private readonly List<gMKVSegment> _SegmentList = new List<gMKVSegment>();
-        private readonly StringBuilder _MKVInfoOutput = new StringBuilder();
         private readonly StringBuilder _ErrorBuilder = new StringBuilder();
-        private Process _MyProcess = null;
         private readonly List<gMKVTrack> _TrackList = new List<gMKVTrack>();
         private int _TrackDelaysFound = 0;
         private int _VideoTrackDelay = int.MinValue;
@@ -100,16 +98,16 @@ namespace gMKVToolNix.MkvInfo
 
             // First clear the segment list
             _SegmentList.Clear();
-            // Clear the mkvinfo output
-            _MKVInfoOutput.Length = 0;
             // Clear the error builder
             _ErrorBuilder.Length = 0;
 
+            List<string> outputLines = new List<string>();
+
             // Execute MKVInfo
-            ExecuteMkvInfo(null, argMKVFile, myProcess_OutputDataReceived);
+            ExecuteMkvInfo(null, argMKVFile, CreateProcessOutputHandlerFactory((string line) => outputLines.Add(line)));
 
             // Start the parsing of the output
-            ParseMkvInfoOutput();
+            ParseMkvInfoOutput(outputLines);
 
             // Add the file properties in gMKVSegmentInfo
             var segInfo = _SegmentList.OfType<gMKVSegmentInfo>().FirstOrDefault();
@@ -181,7 +179,8 @@ namespace gMKVToolNix.MkvInfo
             // Execute MKVInfo
             try
             {
-                ExecuteMkvInfo(optionList, argMKVFile, myProcess_OutputDataReceived_Delays);
+                ExecuteMkvInfo(optionList, argMKVFile, ProcessLineReceivedDelaysHandler);
+
                 // set the effective delays for all tracks
                 foreach (gMKVTrack tr in _TrackList)
                 {
@@ -243,8 +242,6 @@ namespace gMKVToolNix.MkvInfo
             {
                 // When on Linux, we need to run mkvinfo 
 
-                // Clear the mkvinfo output
-                _MKVInfoOutput.Length = 0;
                 // Clear the error builder
                 _ErrorBuilder.Length = 0;
 
@@ -253,6 +250,8 @@ namespace gMKVToolNix.MkvInfo
                 {
                     new OptionValue(MkvInfoOptions.version, "")
                 };
+
+                List<string> versionOutputLines = new List<string>();
 
                 using (Process myProcess = new Process())
                 {
@@ -280,11 +279,8 @@ namespace gMKVToolNix.MkvInfo
                     // Start the mkvinfo process
                     myProcess.Start();
 
-                    // Get the Process
-                    _MyProcess = myProcess;
-
                     // Read the Standard output character by character
-                    myProcess.ReadStreamPerCharacter(myProcess_OutputDataReceived);
+                    myProcess.ReadStreamPerCharacter(CreateProcessOutputHandlerFactory((string line) => versionOutputLines.Add(line)));
 
                     // Wait for the process to exit
                     myProcess.WaitForExit();
@@ -293,8 +289,6 @@ namespace gMKVToolNix.MkvInfo
                     string exitString = $"Exit code: {myProcess.ExitCode}";
                     Debug.WriteLine(exitString);
                     gMKVLogger.Log(exitString);
-
-                    _MyProcess = null;
 
                     // Check the exit code
                     // ExitCode 1 is for warnings only, so ignore it
@@ -307,13 +301,8 @@ namespace gMKVToolNix.MkvInfo
                     }
                 }
 
-                string outputString = _MKVInfoOutput?.ToString();
-
-                // Clear the mkvinfo output
-                _MKVInfoOutput.Length = 0;
-
                 // Parse version info
-                return gMKVVersionParser.ParseVersionOutput(outputString);
+                return gMKVVersionParser.ParseVersionOutput(versionOutputLines);
             }
             else
             {
@@ -328,7 +317,7 @@ namespace gMKVToolNix.MkvInfo
             }
         }
 
-        private void ExecuteMkvInfo(List<OptionValue> argOptionList, string argMKVFile, DataReceivedEventHandler argHandler)
+        private void ExecuteMkvInfo(List<OptionValue> argOptionList, string argMKVFile, Action<Process, string> argHandler)
         {
             using (Process myProcess = new Process())
             {
@@ -414,9 +403,6 @@ namespace gMKVToolNix.MkvInfo
                 // Start the mkvinfo process
                 myProcess.Start();
 
-                // Get the Process
-                _MyProcess = myProcess;
-
                 // Read the Standard output character by character
                 myProcess.ReadStreamPerCharacter(argHandler);
 
@@ -427,8 +413,6 @@ namespace gMKVToolNix.MkvInfo
                 string exitString = $"Exit code: {myProcess.ExitCode}";
                 Debug.WriteLine(exitString);
                 gMKVLogger.Log(exitString);
-
-                _MyProcess = null;
 
                 // Check the exit code
                 // ExitCode 1 is for warnings only, so ignore it
@@ -458,18 +442,24 @@ namespace gMKVToolNix.MkvInfo
             InsideSegmentInfo,
             InsideTrackInfo,
             InsideAttachentInfo,
-            InsideChapterInfo
+            InsideChapterInfo,
         }
 
-        private void ParseMkvInfoOutput()
+        private void ParseMkvInfoOutput(List<string> outputLines)
         {
             // start the loop for each line of the output
             gMKVSegment tmpSegment = null;
             MkvInfoParseState tmpState = MkvInfoParseState.Searching;
             int attachmentID = 1;
-            string[] outputLines = _MKVInfoOutput.ToString().Split(new string[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
+
             foreach (string outputLine in outputLines)
             {
+                if (string.IsNullOrWhiteSpace(outputLine))
+                {
+                    // skip empty lines
+                    continue;
+                }
+
                 // first determine the parse state we are in
                 //if (outputLine.Contains("Segment,"))
                 //{
@@ -805,121 +795,131 @@ namespace gMKVToolNix.MkvInfo
             }
         }
 
-        private void myProcess_OutputDataReceived(object sender, DataReceivedEventArgs e)
+        /// Factory that creates a process output handler with a custom output action.
+        /// </summary>
+        /// <param name="outputAction">The action to perform with the received line of text.</param>
+        /// <returns>A new Action<Process, string> that can be used as a handler.</returns>
+        public Action<Process, string> CreateProcessOutputHandlerFactory(Action<string> outputAction)
         {
-            if (e.Data != null)
-            {
-                if (e.Data.Trim().Length > 0)
-                {
-                    // debug write the output line
-                    Debug.WriteLine(e.Data);
-                    // log the output
-                    gMKVLogger.Log(e.Data);
+            // Return a new lambda expression that matches the Action<Process, string> signature.
+            // This lambda "closes over" the outputAction parameter.
+            return (process, line) => ProcessLineReceivedHandler(process, line, outputAction);
+        }
 
-                    // add the line to the output stringbuilder
-                    _MKVInfoOutput.AppendLine(e.Data);
-                    // check for errors
-                    if (e.Data.Contains("Error:"))
-                    {
-                        _ErrorBuilder.AppendLine(e.Data.Substring(e.Data.IndexOf(":") + 1).Trim());
-                    }
-                }
+        private void ProcessLineReceivedHandler(Process sender, string lineReceived, Action<string> outputAction)
+        {
+            if (string.IsNullOrWhiteSpace(lineReceived))
+            {
+                return;
+            }
+
+            // debug write the output line
+            Debug.WriteLine(lineReceived);
+            // log the output
+            gMKVLogger.Log(lineReceived);
+
+            // Call the outputAction with the received line
+            outputAction(lineReceived);
+
+            // check for errors
+            if (lineReceived.Contains("Error:"))
+            {
+                _ErrorBuilder.AppendLine(lineReceived.Substring(lineReceived.IndexOf(":") + 1).Trim());
             }
         }
 
-        private void myProcess_OutputDataReceived_Delays(object sender, DataReceivedEventArgs e)
+        private void ProcessLineReceivedDelaysHandler(Process sender, string lineReceived)
         {
-            if (e.Data != null)
+            if (string.IsNullOrWhiteSpace(lineReceived))
             {
-                if (e.Data.Trim().Length > 0)
+                return;
+            }
+
+            // debug write the output line
+            Debug.WriteLine(lineReceived);
+            // log the output
+            gMKVLogger.Log(lineReceived);
+
+            // check for errors                    
+            if (lineReceived.Contains("Error:"))
+            {
+                _ErrorBuilder.AppendLine(lineReceived.Substring(lineReceived.IndexOf(":") + 1).Trim());
+            }
+
+            // check if line contains the first timecode for one of the requested tracks
+            foreach (gMKVTrack tr in _TrackList)
+            {
+                // check if the delay is already found
+                if (tr.Delay == int.MinValue && lineReceived.Contains($"track number {tr.TrackNumber}"))
                 {
-                    // debug write the output line
-                    Debug.WriteLine(e.Data);
-                    // log the output
-                    gMKVLogger.Log(e.Data);
-
-                    // check for errors                    
-                    if (e.Data.Contains("Error:"))
+                    // try to find the delay
+                    Match m = _timecodeTrackRegex.Match(lineReceived);
+                    Match m2 = _timestampTrackRegex.Match(lineReceived);
+                    Match m3 = _timestampNewTrackRegex.Match(lineReceived);
+                    if (m.Success)
                     {
-                        _ErrorBuilder.AppendLine(e.Data.Substring(e.Data.IndexOf(":") + 1).Trim());
-                    }
-
-                    // check if line contains the first timecode for one of the requested tracks
-                    foreach (gMKVTrack tr in _TrackList)
-                    {
-                        // check if the delay is already found
-                        if (tr.Delay == int.MinValue && e.Data.Contains($"track number {tr.TrackNumber}"))
+                        // Parse the delay (get the seconds in decimal, multiply by 1000 to convert them to ms, and then convert to Int32
+                        int delay = Convert.ToInt32(decimal.Parse(m.Groups[1].Value, CultureInfo.InvariantCulture) * 1000m);
+                        // set the track delay
+                        tr.Delay = delay;
+                        // increase the number of track delays found
+                        _TrackDelaysFound++;
+                        // check if the track is a videotrack and set the VideoTrackDelay
+                        if (tr.TrackType == MkvTrackType.video)
                         {
-                            // try to find the delay
-                            Match m = _timecodeTrackRegex.Match(e.Data);
-                            Match m2 = _timestampTrackRegex.Match(e.Data);
-                            Match m3 = _timestampNewTrackRegex.Match(e.Data);
-                            if (m.Success)
-                            {
-                                // Parse the delay (get the seconds in decimal, multiply by 1000 to convert them to ms, and then convert to Int32
-                                int delay = Convert.ToInt32(decimal.Parse(m.Groups[1].Value, CultureInfo.InvariantCulture) * 1000m);
-                                // set the track delay
-                                tr.Delay = delay;
-                                // increase the number of track delays found
-                                _TrackDelaysFound++;
-                                // check if the track is a videotrack and set the VideoTrackDelay
-                                if (tr.TrackType == MkvTrackType.video)
-                                {
-                                    // set the video track delay
-                                    _VideoTrackDelay = delay;
-                                }
-                                break;
-                            }
-                            else if (m2.Success)
-                            {
-                                // Parse the delay (get the seconds in decimal, multiply by 1000 to convert them to ms, and then convert to Int32
-                                int delay = Convert.ToInt32(decimal.Parse(m2.Groups[1].Value, CultureInfo.InvariantCulture) * 1000m);
-                                // set the track delay
-                                tr.Delay = delay;
-                                // increase the number of track delays found
-                                _TrackDelaysFound++;
-                                // check if the track is a videotrack and set the VideoTrackDelay
-                                if (tr.TrackType == MkvTrackType.video)
-                                {
-                                    // set the video track delay
-                                    _VideoTrackDelay = delay;
-                                }
-                                break;
-                            }
-                            else if (m3.Success)
-                            {
-                                // Parse the delay (get the seconds in nanoseconds
-                                int delayHours = Convert.ToInt32(long.Parse(m3.Groups[1].Value, CultureInfo.InvariantCulture));
-                                int delayMinutes = Convert.ToInt32(long.Parse(m3.Groups[2].Value, CultureInfo.InvariantCulture));
-                                int delaySeconds = Convert.ToInt32(long.Parse(m3.Groups[3].Value, CultureInfo.InvariantCulture));
-                                int delayNanoSeconds = Convert.ToInt32(long.Parse(m3.Groups[4].Value, CultureInfo.InvariantCulture));
-
-                                int delay = Convert.ToInt32(new TimeSpan(0, delayHours, delayMinutes, delaySeconds, delayNanoSeconds / 1000000).TotalMilliseconds);
-                                // set the track delay
-                                tr.Delay = delay;
-                                // increase the number of track delays found
-                                _TrackDelaysFound++;
-                                // check if the track is a videotrack and set the VideoTrackDelay
-                                if (tr.TrackType == MkvTrackType.video)
-                                {
-                                    // set the video track delay
-                                    _VideoTrackDelay = delay;
-                                }
-                                break;
-                            }
+                            // set the video track delay
+                            _VideoTrackDelay = delay;
                         }
+                        break;
                     }
-
-                    // check if first timecodes for all tracks where found
-                    if (_TrackDelaysFound == _TrackList.Count)
+                    else if (m2.Success)
                     {
-                        if (_MyProcess != null)
+                        // Parse the delay (get the seconds in decimal, multiply by 1000 to convert them to ms, and then convert to Int32
+                        int delay = Convert.ToInt32(decimal.Parse(m2.Groups[1].Value, CultureInfo.InvariantCulture) * 1000m);
+                        // set the track delay
+                        tr.Delay = delay;
+                        // increase the number of track delays found
+                        _TrackDelaysFound++;
+                        // check if the track is a videotrack and set the VideoTrackDelay
+                        if (tr.TrackType == MkvTrackType.video)
                         {
-                            if (!_MyProcess.HasExited)
-                            {
-                                _MyProcess.Kill();
-                            }
+                            // set the video track delay
+                            _VideoTrackDelay = delay;
                         }
+                        break;
+                    }
+                    else if (m3.Success)
+                    {
+                        // Parse the delay (get the seconds in nanoseconds
+                        int delayHours = Convert.ToInt32(long.Parse(m3.Groups[1].Value, CultureInfo.InvariantCulture));
+                        int delayMinutes = Convert.ToInt32(long.Parse(m3.Groups[2].Value, CultureInfo.InvariantCulture));
+                        int delaySeconds = Convert.ToInt32(long.Parse(m3.Groups[3].Value, CultureInfo.InvariantCulture));
+                        int delayNanoSeconds = Convert.ToInt32(long.Parse(m3.Groups[4].Value, CultureInfo.InvariantCulture));
+
+                        int delay = Convert.ToInt32(new TimeSpan(0, delayHours, delayMinutes, delaySeconds, delayNanoSeconds / 1000000).TotalMilliseconds);
+                        // set the track delay
+                        tr.Delay = delay;
+                        // increase the number of track delays found
+                        _TrackDelaysFound++;
+                        // check if the track is a videotrack and set the VideoTrackDelay
+                        if (tr.TrackType == MkvTrackType.video)
+                        {
+                            // set the video track delay
+                            _VideoTrackDelay = delay;
+                        }
+                        break;
+                    }
+                }
+            }
+
+            // check if first timecodes for all tracks where found
+            if (_TrackDelaysFound == _TrackList.Count)
+            {
+                if (sender != null)
+                {
+                    if (!sender.HasExited)
+                    {
+                        sender.Kill();
                     }
                 }
             }

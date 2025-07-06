@@ -67,7 +67,6 @@ namespace gMKVToolNix.MkvMerge
         private readonly string _MKVToolnixPath = "";
         private readonly string _MKVMergeFilename = "";
 
-        private readonly StringBuilder _MKVMergeOutput = new StringBuilder();
         private readonly StringBuilder _ErrorBuilder = new StringBuilder();
         private readonly gMKVVersion _Version = null;
 
@@ -111,12 +110,13 @@ namespace gMKVToolNix.MkvMerge
                 throw new Exception(string.Format("Could not find {0}!" + Environment.NewLine + "{1}", MKV_MERGE_FILENAME, _MKVMergeFilename)); 
             }
 
-            // Clear the mkvmerge output
-            _MKVMergeOutput.Length = 0;
             // Clear the error builder
             _ErrorBuilder.Length = 0;
+
+            List<string> outputLines = new List<string>();
+
             // Execute the mkvmerge
-            ExecuteMkvMerge(null, argMKVFile, myProcess_OutputDataReceived);
+            ExecuteMkvMerge(null, argMKVFile, CreateProcessOutputHandlerFactory((string line) => outputLines.Add(line)));
 
             // Set the segment list
             List<gMKVSegment> segmentList = new List<gMKVSegment>();
@@ -126,11 +126,11 @@ namespace gMKVToolNix.MkvMerge
             if (_Version.FileMajorPart > 9 ||
                 (_Version.FileMajorPart == 9 && _Version.FileMinorPart >= 6))
             {
-                segmentList.AddRange(ParseMkvMergeJsonOutput(_MKVMergeOutput.ToString()));
+                segmentList.AddRange(ParseMkvMergeJsonOutput(string.Join(Environment.NewLine, outputLines)));
             }
             else
             {
-                segmentList.AddRange(ParseMkvMergeOutput(_MKVMergeOutput.ToString()));
+                segmentList.AddRange(ParseMkvMergeOutput(outputLines));
             }
 
             // Add the file properties in gMKVSegmentInfo
@@ -241,8 +241,6 @@ namespace gMKVToolNix.MkvMerge
             {
                 // When on Linux, we need to run mkvmerge
 
-                // Clear the mkvmerge output
-                _MKVMergeOutput.Length = 0;
                 // Clear the error builder
                 _ErrorBuilder.Length = 0;
 
@@ -251,6 +249,8 @@ namespace gMKVToolNix.MkvMerge
                 {
                     new OptionValue(MkvMergeOptions.version, "")
                 };
+
+                List<string> versionOutputLines = new List<string>();
 
                 using (Process myProcess = new Process())
                 {
@@ -279,7 +279,7 @@ namespace gMKVToolNix.MkvMerge
                     myProcess.Start();
 
                     // Read the Standard output character by character
-                    myProcess.ReadStreamPerCharacter(myProcess_OutputDataReceived);
+                    myProcess.ReadStreamPerCharacter(CreateProcessOutputHandlerFactory((string line) => versionOutputLines.Add(line)));
 
                     // Wait for the process to exit
                     myProcess.WaitForExit();
@@ -300,13 +300,8 @@ namespace gMKVToolNix.MkvMerge
                     }
                 }
 
-                string outputString = _MKVMergeOutput?.ToString();
-
-                // Clear the mkvmerge output
-                _MKVMergeOutput.Length = 0;
-
                 // Parse version info
-                return gMKVVersionParser.ParseVersionOutput(outputString);
+                return gMKVVersionParser.ParseVersionOutput(versionOutputLines);
             }
             else
             {
@@ -321,7 +316,7 @@ namespace gMKVToolNix.MkvMerge
             }
         }
 
-        private void ExecuteMkvMerge(List<OptionValue> argOptionList, string argMKVFile, DataReceivedEventHandler argHandler)
+        private void ExecuteMkvMerge(List<OptionValue> argOptionList, string argMKVFile, Action<Process, string> argHandler)
         {
             using (Process myProcess = new Process())
             {
@@ -816,13 +811,19 @@ namespace gMKVToolNix.MkvMerge
             return finalList;
         }
 
-        private static List<gMKVSegment> ParseMkvMergeOutput(string output)
+        private static List<gMKVSegment> ParseMkvMergeOutput(List<string> output)
         {
             List<gMKVSegment> finalList = new List<gMKVSegment>();
 
             // start the loop for each line of the output
-            foreach (string outputLine in output.Split(new string[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries))
+            foreach (string outputLine in output)
             {
+                if (string.IsNullOrWhiteSpace(outputLine))
+                {
+                    // skip empty lines
+                    continue;
+                }
+
                 if (outputLine.StartsWith("File "))
                 {
                     gMKVSegmentInfo tmpSegInfo = new gMKVSegmentInfo();
@@ -1071,23 +1072,34 @@ namespace gMKVToolNix.MkvMerge
             return gMKVHelper.UnescapeString(value).Trim();
         }
 
-        private void myProcess_OutputDataReceived(object sender, DataReceivedEventArgs e)
+        /// Factory that creates a process output handler with a custom output action.
+        /// </summary>
+        /// <param name="outputAction">The action to perform with the received line of text.</param>
+        /// <returns>A new Action<Process, string> that can be used as a handler.</returns>
+        public Action<Process, string> CreateProcessOutputHandlerFactory(Action<string> outputAction)
         {
-            if (e.Data != null)
+            // Return a new lambda expression that matches the Action<Process, string> signature.
+            // This lambda "closes over" the outputAction parameter.
+            return (process, line) => ProcessLineReceivedHandler(process, line, outputAction);
+        }
+
+        private void ProcessLineReceivedHandler(Process sender, string lineReceived, Action<string> outputAction)
+        {
+            if (!string.IsNullOrWhiteSpace(lineReceived))
             {
-                if (e.Data.Trim().Length > 0)
+                // debug write the output line
+                Debug.WriteLine(lineReceived);
+
+                // log the output
+                gMKVLogger.Log(lineReceived);
+
+                // Call the outputAction with the received line
+                outputAction(lineReceived);
+
+                // check for errors
+                if (lineReceived.Contains("Error:"))
                 {
-                    // add the line to the output stringbuilder
-                    _MKVMergeOutput.AppendLine(e.Data);
-                    // check for errors
-                    if (e.Data.Contains("Error:"))
-                    {
-                        _ErrorBuilder.AppendLine(e.Data.Substring(e.Data.IndexOf(":") + 1).Trim());
-                    }
-                    // debug write the output line
-                    Debug.WriteLine(e.Data);
-                    // log the output
-                    gMKVLogger.Log(e.Data);
+                    _ErrorBuilder.AppendLine(lineReceived.Substring(lineReceived.IndexOf(":") + 1).Trim());
                 }
             }
         }

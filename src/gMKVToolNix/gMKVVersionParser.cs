@@ -1,4 +1,5 @@
-﻿using System;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Text.RegularExpressions;
 
 namespace gMKVToolNix
@@ -16,9 +17,9 @@ namespace gMKVToolNix
             FilePrivatePart = 0
         };
 
-        public static gMKVVersion ParseVersionOutput(string mkvtoolnixOutput)
+        public static gMKVVersion ParseVersionOutput(List<string> mkvtoolnixOutputLines)
         {
-            if (string.IsNullOrWhiteSpace(mkvtoolnixOutput))
+            if (mkvtoolnixOutputLines == null || !mkvtoolnixOutputLines.Any())
             {
                 return _defaultEmptyVersion;
             }
@@ -27,9 +28,13 @@ namespace gMKVToolNix
             string fileMinorVersion = null;
             string filePrivateVersion = null;
 
-            string[] outputLines = mkvtoolnixOutput.Split(new string[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
-            foreach (string outputLine in outputLines)
+            foreach (string outputLine in mkvtoolnixOutputLines)
             {
+                if (string.IsNullOrWhiteSpace(outputLine))
+                {
+                    continue; // Skip empty or whitespace lines
+                }
+
                 Match match = _versionRegEx.Match(outputLine);
                 if (match.Success)
                 {

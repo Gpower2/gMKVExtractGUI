@@ -40,8 +40,6 @@ namespace gMKVToolNix.MkvExtract
 
         private readonly string _MKVToolnixPath = "";
         private readonly string _MKVExtractFilename = "";
-        private readonly StringBuilder _MKVExtractOutput = new StringBuilder();
-        private StreamWriter _OutputFileWriter = null;
         private readonly StringBuilder _ErrorBuilder = new StringBuilder();
         private readonly gMKVVersion _Version = null;
 
@@ -113,7 +111,6 @@ namespace gMKVToolNix.MkvExtract
             Abort = false;
             AbortAll = false;
             _ErrorBuilder.Length = 0;
-            _MKVExtractOutput.Length = 0;
             
             // Analyze the MKV segments and get the initial parameters
             List<TrackParameter> initialParameters = new List<TrackParameter>();
@@ -178,15 +175,16 @@ namespace gMKVToolNix.MkvExtract
                     break;
                 }
 
+                StreamWriter outputFileWriter = null;
                 try
                 {
                     if (finalPar.WriteOutputToFile)
                     {
-                        _OutputFileWriter = new StreamWriter(finalPar.OutputFilename, false, new UTF8Encoding(false, true));
+                        outputFileWriter = new StreamWriter(finalPar.OutputFilename, false, new UTF8Encoding(false, true));
                     }
 
                     OnMkvExtractTrackUpdated(argMKVFile, finalPar.ExtractMode.ToString());
-                    ExtractMkvSegment(argMKVFile, finalPar);
+                    ExtractMkvSegment(argMKVFile, finalPar, outputFileWriter);
                 }
                 catch (Exception ex)
                 {
@@ -195,10 +193,10 @@ namespace gMKVToolNix.MkvExtract
                 }
                 finally
                 {
-                    if (_OutputFileWriter != null)
+                    if (outputFileWriter != null)
                     {
-                        _OutputFileWriter.Close();
-                        _OutputFileWriter = null;
+                        outputFileWriter.Close();
+                        outputFileWriter = null;
                     }
 
                     try
@@ -325,9 +323,10 @@ namespace gMKVToolNix.MkvExtract
             Abort = false;
             AbortAll = false;
             _ErrorBuilder.Length = 0;
-            _MKVExtractOutput.Length = 0;
 
             string cueFile = gMKVExtractExtensions.GetOutputFilename(null, argOutputDirectory, argMKVFile, argFilenamePatterns, MkvExtractModes.cuesheet);
+
+            StreamWriter outputFileWriter = null;
             try
             {
                 OnMkvExtractTrackUpdated(argMKVFile, "Cue Sheet");
@@ -335,18 +334,19 @@ namespace gMKVToolNix.MkvExtract
                 // are now always written to files instead.
                 if (_Version.FileMajorPart < 17)
                 {
-                    _OutputFileWriter = new StreamWriter(cueFile, false, new UTF8Encoding(false, true));
+                    outputFileWriter = new StreamWriter(cueFile, false, new UTF8Encoding(false, true));
                 }
 
                 ExtractMkvSegment(
                     argMKVFile
-                     , new TrackParameter(
+                    , new TrackParameter(
                         MkvExtractModes.cuesheet
                         , ""
                         , _Version.FileMajorPart >= 17 ? cueFile : ""
                         , _Version.FileMajorPart < 17
                         , _Version.FileMajorPart >= 17 ? "" : cueFile
                     )
+                    , outputFileWriter
                );
             }
             catch (Exception ex)
@@ -355,10 +355,10 @@ namespace gMKVToolNix.MkvExtract
             }
             finally
             {
-                if (_OutputFileWriter != null)
+                if (outputFileWriter != null)
                 {
-                    _OutputFileWriter.Close();
-                    _OutputFileWriter = null;
+                    outputFileWriter.Close();
+                    outputFileWriter = null;
                 }
             }
 
@@ -392,9 +392,10 @@ namespace gMKVToolNix.MkvExtract
             Abort = false;
             AbortAll = false;
             _ErrorBuilder.Length = 0;
-            _MKVExtractOutput.Length = 0;
 
             string tagsFile = gMKVExtractExtensions.GetOutputFilename(null, argOutputDirectory, argMKVFile, argFilenamePatterns, MkvExtractModes.tags);
+            
+            StreamWriter outputFileWriter = null;
             try
             {
                 OnMkvExtractTrackUpdated(argMKVFile, "Tags");
@@ -402,7 +403,7 @@ namespace gMKVToolNix.MkvExtract
                 // are now always written to files instead.
                 if (_Version.FileMajorPart < 17)
                 {
-                    _OutputFileWriter = new StreamWriter(tagsFile, false, new UTF8Encoding(false, true));
+                    outputFileWriter = new StreamWriter(tagsFile, false, new UTF8Encoding(false, true));
                 }
 
                 ExtractMkvSegment(
@@ -414,6 +415,7 @@ namespace gMKVToolNix.MkvExtract
                         , _Version.FileMajorPart < 17
                         , _Version.FileMajorPart >= 17 ? "" : tagsFile
                     )
+                    , outputFileWriter
                 );
             }
             catch (Exception ex)
@@ -422,10 +424,10 @@ namespace gMKVToolNix.MkvExtract
             }
             finally
             {
-                if (_OutputFileWriter != null)
+                if (outputFileWriter != null)
                 {
-                    _OutputFileWriter.Close();
-                    _OutputFileWriter = null;
+                    outputFileWriter.Close();
+                    outputFileWriter = null;
                 }
             }
 
@@ -595,7 +597,7 @@ namespace gMKVToolNix.MkvExtract
             return trackParameterList;
         }
 
-        private void ExtractMkvSegment(string argMKVFile, TrackParameter argParameter)
+        private void ExtractMkvSegment(string argMKVFile, TrackParameter argParameter, StreamWriter argOutputFileWriter)
         {
             OnMkvExtractProgressUpdated(0);
 
@@ -605,23 +607,23 @@ namespace gMKVToolNix.MkvExtract
                 throw new Exception($"Could not find {MKV_EXTRACT_FILENAME}!{Environment.NewLine}{_MKVExtractFilename}");
             }
 
-            DataReceivedEventHandler handler = null;
+            Action<Process, string> handler = null;
 
             // Since MKVToolNix v17.0, items that were written to the standard output (chapters, tags and cue sheets)
             // are now always written to files instead.
             if (argParameter.WriteOutputToFile && _Version.FileMajorPart < 17)
             {
-                handler = myProcess_OutputDataReceived_WriteToFile;
+                handler = CreateProcessOutputHandlerFactory((string s) => argOutputFileWriter.WriteLine(s));
             }
             else
             {
-                handler = myProcess_OutputDataReceived;
+                handler = CreateProcessOutputHandlerFactory((string s) => { });
             }
 
             ExecuteMkvExtract(argMKVFile, argParameter, handler);
         }
 
-        private void ExecuteMkvExtract(string argMKVFile, TrackParameter argParameter, DataReceivedEventHandler argHandler)
+        private void ExecuteMkvExtract(string argMKVFile, TrackParameter argParameter, Action<Process, string> argHandler)
         {
             using (Process myProcess = new Process())
             {
@@ -774,8 +776,6 @@ namespace gMKVToolNix.MkvExtract
             {
                 // When on Linux, we need to run mkvextract
 
-                // Clear the mkvextract output
-                _MKVExtractOutput.Length = 0;
                 // Clear the error builder
                 _ErrorBuilder.Length = 0;
 
@@ -784,6 +784,8 @@ namespace gMKVToolNix.MkvExtract
                 {
                     new OptionValue(MkvExtractGlobalOptions.version, "")
                 };
+
+                List<string> versionOutputLines = new List<string>();
 
                 using (Process myProcess = new Process())
                 {
@@ -812,7 +814,7 @@ namespace gMKVToolNix.MkvExtract
                     myProcess.Start();
 
                     // Read the Standard output character by character
-                    myProcess.ReadStreamPerCharacter(myProcess_OutputDataReceived);
+                    myProcess.ReadStreamPerCharacter(CreateProcessOutputHandlerFactory((string line) => versionOutputLines.Add(line)));
 
                     // Wait for the process to exit
                     myProcess.WaitForExit();
@@ -833,13 +835,8 @@ namespace gMKVToolNix.MkvExtract
                     }
                 }
 
-                string outputString = _MKVExtractOutput?.ToString();
-
-                // Clear the mkvextract output
-                _MKVExtractOutput.Length = 0;
-
                 // Parse version info
-                return gMKVVersionParser.ParseVersionOutput(outputString);
+                return gMKVVersionParser.ParseVersionOutput(versionOutputLines);
             }
             else
             {
@@ -854,89 +851,60 @@ namespace gMKVToolNix.MkvExtract
             }
         }
 
-        void myProcess_OutputDataReceived_WriteToFile(object sender, DataReceivedEventArgs e)
+        /// <summary>
+        /// Factory that creates a process output handler with a custom output action.
+        /// </summary>
+        /// <param name="outputAction">The action to perform with the received line of text.</param>
+        /// <returns>A new Action<Process, string> that can be used as a handler.</returns>
+        public Action<Process, string> CreateProcessOutputHandlerFactory(Action<string> outputAction)
         {
-            // check for user abort
-            if (Abort)
-            {
-                ((Process)sender).Kill();
-                Abort = false;
-                return;
-            }
-
-            if (!string.IsNullOrWhiteSpace(e.Data))
-            {
-                // add the line to the output stringbuilder
-                _OutputFileWriter.WriteLine(e.Data);
-
-                // check for progress (in gui-mode)
-                if (e.Data.Contains("#GUI#progress"))
-                {
-                    OnMkvExtractProgressUpdated(Convert.ToInt32(e.Data.Substring(e.Data.IndexOf(" ") + 1, e.Data.IndexOf("%") - e.Data.IndexOf(" ") - 1)));
-                }
-                // check for progress
-                else if (e.Data.Contains("Progress:"))
-                {
-                    OnMkvExtractProgressUpdated(Convert.ToInt32(e.Data.Substring(e.Data.IndexOf(":") + 1, e.Data.IndexOf("%") - e.Data.IndexOf(":") - 1)));
-                }
-                else if (e.Data.Contains("#GUI#error"))
-                {
-                    _ErrorBuilder.AppendLine(e.Data.Substring(e.Data.IndexOf(" ") + 1).Trim());
-                }
-                // check for errors
-                else if (e.Data.Contains("Error:"))
-                {
-                    _ErrorBuilder.AppendLine(e.Data.Substring(e.Data.IndexOf(":") + 1).Trim());
-                }
-
-                // debug write the output line
-                Debug.WriteLine(e.Data);
-
-                // log the output
-                gMKVLogger.Log(e.Data);
-            }
+            // Return a new lambda expression that matches the Action<Process, string> signature.
+            // This lambda "closes over" the outputAction parameter.
+            return (process, line) => ProcessLineReceivedHandler(process, line, outputAction);
         }
 
-        void myProcess_OutputDataReceived(object sender, DataReceivedEventArgs e)
+        void ProcessLineReceivedHandler(Process senderProcess, string lineReceived, Action<string> outputAction)
         {
             // check for user abort
             if (Abort)
             {
-                ((Process)sender).Kill();
+                senderProcess.Kill();
                 Abort = false;
                 return;
             }
 
-            if (!string.IsNullOrWhiteSpace(e.Data))
+            if (string.IsNullOrWhiteSpace(lineReceived))
             {
-                // add the line to the output stringbuilder
-                _MKVExtractOutput.AppendLine(e.Data);
+                return;
+            }
 
-                // check for progress (in gui-mode)
-                if (e.Data.Contains("#GUI#progress"))
-                {
-                    OnMkvExtractProgressUpdated(Convert.ToInt32(e.Data.Substring(e.Data.IndexOf(" ") + 1, e.Data.IndexOf("%") - e.Data.IndexOf(" ") - 1)));
-                }
-                // check for progress
-                else if (e.Data.Contains("Progress:"))
-                {
-                    OnMkvExtractProgressUpdated(Convert.ToInt32(e.Data.Substring(e.Data.IndexOf(":") + 1, e.Data.IndexOf("%") - e.Data.IndexOf(":") - 1)));
-                }
-                else if (e.Data.Contains("#GUI#error"))
-                {
-                    _ErrorBuilder.AppendLine(e.Data.Substring(e.Data.IndexOf(" ") + 1).Trim());
-                }
-                // check for errors
-                else if (e.Data.Contains("Error:"))
-                {
-                    _ErrorBuilder.AppendLine(e.Data.Substring(e.Data.IndexOf(":") + 1).Trim());
-                }
+            // debug write the output line
+            Debug.WriteLine(lineReceived);
 
-                // debug write the output line
-                Debug.WriteLine(e.Data);
+            // log the output
+            gMKVLogger.Log(lineReceived);
 
-                // log the output
-                gMKVLogger.Log(e.Data);
+            // Call the outputAction with the received line
+            outputAction(lineReceived);
+
+            // check for progress (in gui-mode)
+            if (lineReceived.Contains("#GUI#progress"))
+            {
+                OnMkvExtractProgressUpdated(Convert.ToInt32(lineReceived.Substring(lineReceived.IndexOf(" ") + 1, lineReceived.IndexOf("%") - lineReceived.IndexOf(" ") - 1)));
+            }
+            // check for progress
+            else if (lineReceived.Contains("Progress:"))
+            {
+                OnMkvExtractProgressUpdated(Convert.ToInt32(lineReceived.Substring(lineReceived.IndexOf(":") + 1, lineReceived.IndexOf("%") - lineReceived.IndexOf(":") - 1)));
+            }
+            else if (lineReceived.Contains("#GUI#error"))
+            {
+                _ErrorBuilder.AppendLine(lineReceived.Substring(lineReceived.IndexOf(" ") + 1).Trim());
+            }
+            // check for errors
+            else if (lineReceived.Contains("Error:"))
+            {
+                _ErrorBuilder.AppendLine(lineReceived.Substring(lineReceived.IndexOf(":") + 1).Trim());
             }
         }
 

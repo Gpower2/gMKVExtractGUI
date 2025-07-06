@@ -34,7 +34,7 @@ namespace gMKVToolNix
         /// <param name="processStream"></param>
         public static void ReadStreamPerCharacter(
             this Process argProcess, 
-            DataReceivedEventHandler argHandler, 
+            Action<Process, string> argLineDataHandler,
             ProcessStream processStream = ProcessStream.StandardOutput)
         {
             StreamReader reader;
@@ -66,12 +66,12 @@ namespace gMKVToolNix
                             reader.Read();
                         }
 
-                        argHandler(argProcess, GetDataReceivedEventArgs(line.ToString()));
+                        argLineDataHandler(argProcess, line.ToString());
                         line.Length = 0;
                     }
                     else if (c == '\n')
                     {
-                        argHandler(argProcess, GetDataReceivedEventArgs(line.ToString()));
+                        argLineDataHandler(argProcess, line.ToString());
                         line.Length = 0;
                     }
                     else
