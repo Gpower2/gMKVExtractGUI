@@ -67,7 +67,6 @@ namespace gMKVToolNix.MkvMerge
         private readonly string _MKVToolnixPath = "";
         private readonly string _MKVMergeFilename = "";
 
-        private readonly StringBuilder _ErrorBuilder = new StringBuilder();
         private readonly gMKVVersion _Version = null;
 
         public gMKVMerge(string mkvToolnixPath)
@@ -110,13 +109,13 @@ namespace gMKVToolNix.MkvMerge
                 throw new Exception(string.Format("Could not find {0}!" + Environment.NewLine + "{1}", MKV_MERGE_FILENAME, _MKVMergeFilename)); 
             }
 
-            // Clear the error builder
-            _ErrorBuilder.Length = 0;
-
             List<string> outputLines = new List<string>();
+            List<string> errors = new List<string>();
 
             // Execute the mkvmerge
-            ExecuteMkvMerge(null, argMKVFile, CreateProcessOutputHandlerFactory((string line) => outputLines.Add(line)));
+            ExecuteMkvMerge(null, argMKVFile, errors, CreateProcessOutputHandlerFactory(
+                (string line) => outputLines.Add(line),
+                (string error) => errors.Add(error)));
 
             // Set the segment list
             List<gMKVSegment> segmentList = new List<gMKVSegment>();
@@ -241,9 +240,6 @@ namespace gMKVToolNix.MkvMerge
             {
                 // When on Linux, we need to run mkvmerge
 
-                // Clear the error builder
-                _ErrorBuilder.Length = 0;
-
                 // Execute mkvmerge
                 List<OptionValue> options = new List<OptionValue>
                 {
@@ -251,6 +247,7 @@ namespace gMKVToolNix.MkvMerge
                 };
 
                 List<string> versionOutputLines = new List<string>();
+                List<string> errors = new List<string>();
 
                 using (Process myProcess = new Process())
                 {
@@ -279,7 +276,9 @@ namespace gMKVToolNix.MkvMerge
                     myProcess.Start();
 
                     // Read the Standard output character by character
-                    myProcess.ReadStreamPerCharacter(CreateProcessOutputHandlerFactory((string line) => versionOutputLines.Add(line)));
+                    myProcess.ReadStreamPerCharacter(CreateProcessOutputHandlerFactory(
+                        (string line) => versionOutputLines.Add(line),
+                        (string error) => errors.Add(error)));
 
                     // Wait for the process to exit
                     myProcess.WaitForExit();
@@ -296,7 +295,7 @@ namespace gMKVToolNix.MkvMerge
                         // something went wrong!
                         throw new Exception(string.Format("Mkvmerge exited with error code {0}!" +
                             Environment.NewLine + Environment.NewLine + "Errors reported:" + Environment.NewLine + "{1}",
-                            myProcess.ExitCode, _ErrorBuilder.ToString()));
+                            myProcess.ExitCode, string.Join(Environment.NewLine, errors)));
                     }
                 }
 
@@ -316,7 +315,7 @@ namespace gMKVToolNix.MkvMerge
             }
         }
 
-        private void ExecuteMkvMerge(List<OptionValue> argOptionList, string argMKVFile, Action<Process, string> argHandler)
+        private void ExecuteMkvMerge(List<OptionValue> argOptionList, string argMKVFile, List<string> errors, Action<Process, string> argHandler)
         {
             using (Process myProcess = new Process())
             {
@@ -428,7 +427,7 @@ namespace gMKVToolNix.MkvMerge
                     // something went wrong!
                     throw new Exception(string.Format("Mkvmerge exited with error code {0}!" +
                         Environment.NewLine + Environment.NewLine + "Errors reported:" + Environment.NewLine + "{1}",
-                        myProcess.ExitCode, _ErrorBuilder.ToString()));
+                        myProcess.ExitCode, string.Join(Environment.NewLine, errors)));
                 }
 
                 // Before JSON output, the safest way to ensure English output on Linux is throught the EnvironmentVariables
@@ -1076,14 +1075,14 @@ namespace gMKVToolNix.MkvMerge
         /// </summary>
         /// <param name="outputAction">The action to perform with the received line of text.</param>
         /// <returns>A new Action<Process, string> that can be used as a handler.</returns>
-        public Action<Process, string> CreateProcessOutputHandlerFactory(Action<string> outputAction)
+        public Action<Process, string> CreateProcessOutputHandlerFactory(Action<string> outputAction, Action<string> errorAction)
         {
             // Return a new lambda expression that matches the Action<Process, string> signature.
             // This lambda "closes over" the outputAction parameter.
-            return (process, line) => ProcessLineReceivedHandler(process, line, outputAction);
+            return (process, line) => ProcessLineReceivedHandler(process, line, outputAction, errorAction);
         }
 
-        private void ProcessLineReceivedHandler(Process sender, string lineReceived, Action<string> outputAction)
+        private void ProcessLineReceivedHandler(Process sender, string lineReceived, Action<string> outputAction, Action<string> errorAction)
         {
             if (!string.IsNullOrWhiteSpace(lineReceived))
             {
@@ -1099,7 +1098,7 @@ namespace gMKVToolNix.MkvMerge
                 // check for errors
                 if (lineReceived.Contains("Error:"))
                 {
-                    _ErrorBuilder.AppendLine(lineReceived.Substring(lineReceived.IndexOf(":") + 1).Trim());
+                    errorAction(lineReceived.Substring(lineReceived.IndexOf(":") + 1).Trim());
                 }
             }
         }

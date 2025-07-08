@@ -50,7 +50,6 @@ namespace gMKVToolNix.MkvInfo
         private readonly string _MKVToolnixPath = "";
         private readonly string _MKVInfoFilename = "";
         private readonly List<gMKVSegment> _SegmentList = new List<gMKVSegment>();
-        private readonly StringBuilder _ErrorBuilder = new StringBuilder();
         private readonly List<gMKVTrack> _TrackList = new List<gMKVTrack>();
         private int _TrackDelaysFound = 0;
         private int _VideoTrackDelay = int.MinValue;
@@ -98,13 +97,14 @@ namespace gMKVToolNix.MkvInfo
 
             // First clear the segment list
             _SegmentList.Clear();
-            // Clear the error builder
-            _ErrorBuilder.Length = 0;
 
             List<string> outputLines = new List<string>();
+            List<string> errors = new List<string>();
 
             // Execute MKVInfo
-            ExecuteMkvInfo(null, argMKVFile, CreateProcessOutputHandlerFactory((string line) => outputLines.Add(line)));
+            ExecuteMkvInfo(null, argMKVFile, errors, CreateProcessOutputHandlerFactory(
+                (string line) => outputLines.Add(line),
+                (string error) => errors.Add(error)));
 
             // Start the parsing of the output
             ParseMkvInfoOutput(outputLines);
@@ -175,11 +175,13 @@ namespace gMKVToolNix.MkvInfo
             {
                 new OptionValue(MkvInfoOptions.check_mode, "")
             };
+            List<string> errors = new List<string>();
 
             // Execute MKVInfo
             try
             {
-                ExecuteMkvInfo(optionList, argMKVFile, ProcessLineReceivedDelaysHandler);
+                ExecuteMkvInfo(optionList, argMKVFile, errors, 
+                    CreateProcessOutputDelaysHandlerFactory((string error) => errors.Add(error)));
 
                 // set the effective delays for all tracks
                 foreach (gMKVTrack tr in _TrackList)
@@ -242,9 +244,6 @@ namespace gMKVToolNix.MkvInfo
             {
                 // When on Linux, we need to run mkvinfo 
 
-                // Clear the error builder
-                _ErrorBuilder.Length = 0;
-
                 // Execute MKVInfo
                 List<OptionValue> options = new List<OptionValue>
                 {
@@ -252,6 +251,7 @@ namespace gMKVToolNix.MkvInfo
                 };
 
                 List<string> versionOutputLines = new List<string>();
+                List<string> errors = new List<string>();
 
                 using (Process myProcess = new Process())
                 {
@@ -280,7 +280,9 @@ namespace gMKVToolNix.MkvInfo
                     myProcess.Start();
 
                     // Read the Standard output character by character
-                    myProcess.ReadStreamPerCharacter(CreateProcessOutputHandlerFactory((string line) => versionOutputLines.Add(line)));
+                    myProcess.ReadStreamPerCharacter(CreateProcessOutputHandlerFactory(
+                        (string line) => versionOutputLines.Add(line),
+                        (string error) => errors.Add(error)));
 
                     // Wait for the process to exit
                     myProcess.WaitForExit();
@@ -297,7 +299,7 @@ namespace gMKVToolNix.MkvInfo
                         // something went wrong!
                         throw new Exception(string.Format("Mkvinfo exited with error code {0}!" +
                             Environment.NewLine + Environment.NewLine + "Errors reported:" + Environment.NewLine + "{1}",
-                            myProcess.ExitCode, _ErrorBuilder.ToString()));
+                            myProcess.ExitCode, string.Join(Environment.NewLine, errors)));
                     }
                 }
 
@@ -317,7 +319,7 @@ namespace gMKVToolNix.MkvInfo
             }
         }
 
-        private void ExecuteMkvInfo(List<OptionValue> argOptionList, string argMKVFile, Action<Process, string> argHandler)
+        private void ExecuteMkvInfo(List<OptionValue> argOptionList, string argMKVFile, List<string> errors, Action<Process, string> argHandler)
         {
             using (Process myProcess = new Process())
             {
@@ -421,7 +423,7 @@ namespace gMKVToolNix.MkvInfo
                     // something went wrong!
                     throw new Exception(string.Format("Mkvinfo exited with error code {0}!" +
                         Environment.NewLine + Environment.NewLine + "Errors reported:" + Environment.NewLine + "{1}",
-                        myProcess.ExitCode, _ErrorBuilder.ToString()));
+                        myProcess.ExitCode, string.Join(Environment.NewLine, errors)));
                 }
 
                 if (PlatformExtensions.IsOnLinux)
@@ -799,14 +801,14 @@ namespace gMKVToolNix.MkvInfo
         /// </summary>
         /// <param name="outputAction">The action to perform with the received line of text.</param>
         /// <returns>A new Action<Process, string> that can be used as a handler.</returns>
-        public Action<Process, string> CreateProcessOutputHandlerFactory(Action<string> outputAction)
+        public Action<Process, string> CreateProcessOutputHandlerFactory(Action<string> outputAction, Action<string> errorAction)
         {
             // Return a new lambda expression that matches the Action<Process, string> signature.
             // This lambda "closes over" the outputAction parameter.
-            return (process, line) => ProcessLineReceivedHandler(process, line, outputAction);
+            return (process, line) => ProcessLineReceivedHandler(process, line, outputAction, errorAction);
         }
 
-        private void ProcessLineReceivedHandler(Process sender, string lineReceived, Action<string> outputAction)
+        private void ProcessLineReceivedHandler(Process sender, string lineReceived, Action<string> outputAction, Action<string> errorAction)
         {
             if (string.IsNullOrWhiteSpace(lineReceived))
             {
@@ -824,11 +826,22 @@ namespace gMKVToolNix.MkvInfo
             // check for errors
             if (lineReceived.Contains("Error:"))
             {
-                _ErrorBuilder.AppendLine(lineReceived.Substring(lineReceived.IndexOf(":") + 1).Trim());
+                errorAction(lineReceived.Substring(lineReceived.IndexOf(":") + 1).Trim());                
             }
         }
 
-        private void ProcessLineReceivedDelaysHandler(Process sender, string lineReceived)
+        /// Factory that creates a process output handler with a custom output action.
+        /// </summary>
+        /// <param name="errorAction"></param>
+        /// <returns>A new Action<Process, string> that can be used as a handler.</returns>
+        public Action<Process, string> CreateProcessOutputDelaysHandlerFactory(Action<string> errorAction)
+        {
+            // Return a new lambda expression that matches the Action<Process, string> signature.
+            // This lambda "closes over" the outputAction parameter.
+            return (process, line) => ProcessLineReceivedDelaysHandler(process, line, errorAction);
+        }
+
+        private void ProcessLineReceivedDelaysHandler(Process sender, string lineReceived, Action<string> errorAction)
         {
             if (string.IsNullOrWhiteSpace(lineReceived))
             {
@@ -843,7 +856,7 @@ namespace gMKVToolNix.MkvInfo
             // check for errors                    
             if (lineReceived.Contains("Error:"))
             {
-                _ErrorBuilder.AppendLine(lineReceived.Substring(lineReceived.IndexOf(":") + 1).Trim());
+                errorAction(lineReceived.Substring(lineReceived.IndexOf(":") + 1).Trim());
             }
 
             // check if line contains the first timecode for one of the requested tracks
