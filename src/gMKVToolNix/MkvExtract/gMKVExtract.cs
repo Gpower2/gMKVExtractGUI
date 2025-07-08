@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
-using System.Linq;
 using System.Text;
 using System.Xml.Serialization;
 using gMKVToolNix.Log;
@@ -15,19 +14,6 @@ namespace gMKVToolNix.MkvExtract
 
     public class gMKVExtract
     {
-        private class OptionValue
-        {
-            public MkvExtractGlobalOptions Option { get; set; }
-
-            public string Parameter { get; set; } = "";
-
-            public OptionValue(MkvExtractGlobalOptions option, string parameter)
-            {
-                Option = option;
-                Parameter = parameter;
-            }
-        }
-
         /// <summary>
         /// Gets the mkvextract executable filename
         /// </summary>
@@ -782,9 +768,9 @@ namespace gMKVToolNix.MkvExtract
                 // When on Linux, we need to run mkvextract
 
                 // Execute mkvextract
-                List<OptionValue> options = new List<OptionValue>
+                List<OptionValue<MkvExtractGlobalOptions>> options = new List<OptionValue<MkvExtractGlobalOptions>>
                 {
-                    new OptionValue(MkvExtractGlobalOptions.version, "")
+                    new OptionValue<MkvExtractGlobalOptions>(MkvExtractGlobalOptions.version, "")
                 };
 
                 List<string> versionOutputLines = new List<string>();
@@ -794,12 +780,12 @@ namespace gMKVToolNix.MkvExtract
                 {
                     // if on Linux, the language output must be defined from the environment variables LC_ALL, LANG, and LC_MESSAGES
                     // After talking with Mosu, the language output is defined from ui-language, with different language codes for Windows and Linux
-                    options.Add(new OptionValue(MkvExtractGlobalOptions.ui_language, "en_US"));
+                    options.Add(new OptionValue<MkvExtractGlobalOptions>(MkvExtractGlobalOptions.ui_language, "en_US"));
 
                     ProcessStartInfo myProcessInfo = new ProcessStartInfo
                     {
                         FileName = _MKVExtractFilename,
-                        Arguments = ConvertOptionValueListToString(options),
+                        Arguments = options.ConvertOptionValueListToString(),
                         UseShellExecute = false,
                         RedirectStandardOutput = true,
                         StandardOutputEncoding = Encoding.UTF8,
@@ -916,36 +902,6 @@ namespace gMKVToolNix.MkvExtract
             {
                 errorAction(lineReceived.Substring(lineReceived.IndexOf(":") + 1).Trim());
             }
-        }
-
-        private static string ConvertOptionValueListToString(List<OptionValue> listOptionValue)
-        {
-            StringBuilder optionString = new StringBuilder();
-            foreach (OptionValue optVal in listOptionValue)
-            {
-                optionString.Append(' ');
-                optionString.Append(ConvertEnumOptionToStringOption(optVal.Option));
-                if (!string.IsNullOrWhiteSpace(optVal.Parameter))
-                {
-                    optionString.Append(' ');
-                    optionString.Append(optVal.Parameter);
-                }
-            }
-
-            return optionString.ToString();
-        }
-
-        private static readonly Dictionary<MkvExtractGlobalOptions, string> _MkvExtractGlobalOptionsToStringMap = 
-            Enum.GetValues(typeof(MkvExtractGlobalOptions))
-            .Cast<MkvExtractGlobalOptions>()
-            .ToDictionary(
-                val => val,
-                val => $"--{val.ToString().Replace("_", "-")}"
-            );
-
-        private static string ConvertEnumOptionToStringOption(MkvExtractGlobalOptions enumOption)
-        {
-            return _MkvExtractGlobalOptionsToStringMap[enumOption];
         }
     }
 }

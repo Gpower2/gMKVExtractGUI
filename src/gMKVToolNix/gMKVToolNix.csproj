@@ -69,6 +69,8 @@
     <Compile Include="MkvExtract\gMKVExtractExtensions.cs" />
     <Compile Include="MkvExtract\TrackParameter.cs" />
     <Compile Include="MkvMerge\CodecPrivateDataExtensions.cs" />
+    <Compile Include="OptionValue.cs" />
+    <Compile Include="OptionValueExtensions.cs" />
     <Compile Include="PlatformExtensions.cs" />
     <Compile Include="ProcessExtensions.cs" />
     <Compile Include="ProcessStream.cs" />

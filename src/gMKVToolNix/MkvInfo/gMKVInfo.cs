@@ -14,18 +14,6 @@ namespace gMKVToolNix.MkvInfo
     public class gMKVInfo
     {
         // mkvinfo [options] <inname>
-        private class OptionValue
-        {
-            public MkvInfoOptions Option { get; set; }
-
-            public string Parameter { get; set; }
-
-            public OptionValue(MkvInfoOptions opt, string par)
-            {
-                Option = opt;
-                Parameter = par;
-            }
-        }
 
         /// <summary>
         /// Gets the mkvinfo executable filename
@@ -171,9 +159,9 @@ namespace gMKVToolNix.MkvInfo
             }
 
             // add the check_mode option for mkvinfo
-            List<OptionValue> optionList = new List<OptionValue>
+            List<OptionValue<MkvInfoOptions>> optionList = new List<OptionValue<MkvInfoOptions>>
             {
-                new OptionValue(MkvInfoOptions.check_mode, "")
+                new OptionValue<MkvInfoOptions>(MkvInfoOptions.check_mode, "")
             };
             List<string> errors = new List<string>();
 
@@ -245,9 +233,9 @@ namespace gMKVToolNix.MkvInfo
                 // When on Linux, we need to run mkvinfo 
 
                 // Execute MKVInfo
-                List<OptionValue> options = new List<OptionValue>
+                List<OptionValue<MkvInfoOptions>> options = new List<OptionValue<MkvInfoOptions>>
                 {
-                    new OptionValue(MkvInfoOptions.version, "")
+                    new OptionValue<MkvInfoOptions>(MkvInfoOptions.version, "")
                 };
 
                 List<string> versionOutputLines = new List<string>();
@@ -257,12 +245,12 @@ namespace gMKVToolNix.MkvInfo
                 {
                     // if on Linux, the language output must be defined from the environment variables LC_ALL, LANG, and LC_MESSAGES
                     // After talking with Mosu, the language output is defined from ui-language, with different language codes for Windows and Linux
-                    options.Add(new OptionValue(MkvInfoOptions.ui_language, "en_US"));
+                    options.Add(new OptionValue<MkvInfoOptions>(MkvInfoOptions.ui_language, "en_US"));
 
                     ProcessStartInfo myProcessInfo = new ProcessStartInfo
                     {
                         FileName = _MKVInfoFilename,
-                        Arguments = ConvertOptionValueListToString(options),
+                        Arguments = options.ConvertOptionValueListToString(),
                         UseShellExecute = false,
                         RedirectStandardOutput = true,
                         StandardOutputEncoding = Encoding.UTF8,
@@ -319,12 +307,12 @@ namespace gMKVToolNix.MkvInfo
             }
         }
 
-        private void ExecuteMkvInfo(List<OptionValue> argOptionList, string argMKVFile, List<string> errors, Action<Process, string> argHandler)
+        private void ExecuteMkvInfo(List<OptionValue<MkvInfoOptions>> argOptionList, string argMKVFile, List<string> errors, Action<Process, string> argHandler)
         {
             using (Process myProcess = new Process())
             {
                 // add the default options for running mkvinfo
-                List<OptionValue> optionList = new List<OptionValue>();
+                List<OptionValue<MkvInfoOptions>> optionList = new List<OptionValue<MkvInfoOptions>>();
 
                 string LC_ALL = "";
                 string LANG = "";
@@ -335,7 +323,7 @@ namespace gMKVToolNix.MkvInfo
                 // It appears that the safest way to ensure english output is through the environment variables
                 if (PlatformExtensions.IsOnLinux)
                 {
-                    optionList.Add(new OptionValue(MkvInfoOptions.ui_language, "en_US"));
+                    optionList.Add(new OptionValue<MkvInfoOptions>(MkvInfoOptions.ui_language, "en_US"));
 
                     // Get the original values
                     LC_ALL = Environment.GetEnvironmentVariable("LC_ALL", EnvironmentVariableTarget.Process);
@@ -354,7 +342,7 @@ namespace gMKVToolNix.MkvInfo
                 }
                 else
                 {
-                    optionList.Add(new OptionValue(MkvInfoOptions.ui_language, "en"));
+                    optionList.Add(new OptionValue<MkvInfoOptions>(MkvInfoOptions.ui_language, "en"));
                 }
 
                 //optionList.Add(new OptionValue(MkvInfoOptions.command_line_charset, "\"UTF-8\""));
@@ -366,7 +354,7 @@ namespace gMKVToolNix.MkvInfo
                 {
                     if (_Version.FileMajorPart == 9 && _Version.FileMinorPart < 2)
                     {
-                        optionList.Add(new OptionValue(MkvInfoOptions.no_gui, ""));
+                        optionList.Add(new OptionValue<MkvInfoOptions>(MkvInfoOptions.no_gui, ""));
                     }
                 }
 
@@ -391,11 +379,11 @@ namespace gMKVToolNix.MkvInfo
                 // if we didn't provide a filename, then we want to execute mkvinfo with other parameters
                 if (!string.IsNullOrWhiteSpace(argMKVFile))
                 {
-                    myProcessInfo.Arguments = $"{ConvertOptionValueListToString(optionList)} \"{argMKVFile}\"";
+                    myProcessInfo.Arguments = $"{optionList.ConvertOptionValueListToString()} \"{argMKVFile}\"";
                 }
                 else
                 {
-                    myProcessInfo.Arguments = ConvertOptionValueListToString(optionList);
+                    myProcessInfo.Arguments = optionList.ConvertOptionValueListToString();
                 }
                 myProcess.StartInfo = myProcessInfo;
 
@@ -936,36 +924,6 @@ namespace gMKVToolNix.MkvInfo
                     }
                 }
             }
-        }
-
-        private static string ConvertOptionValueListToString(List<OptionValue> listOptionValue)
-        {
-            StringBuilder optionString = new StringBuilder();
-            foreach (OptionValue optVal in listOptionValue)
-            {
-                optionString.Append(' ');
-                optionString.Append(ConvertEnumOptionToStringOption(optVal.Option));
-                if (!string.IsNullOrWhiteSpace(optVal.Parameter))
-                {
-                    optionString.Append(' ');
-                    optionString.Append(optVal.Parameter);
-                }
-            }
-
-            return optionString.ToString();
-        }
-
-        private static readonly Dictionary<MkvInfoOptions, string> _MkvInfoOptionsToStringMap =
-            Enum.GetValues(typeof(MkvInfoOptions))
-            .Cast<MkvInfoOptions>()
-            .ToDictionary(
-                val => val,
-                val => $"--{val.ToString().Replace("_", "-")}"
-            );
-
-        private static string ConvertEnumOptionToStringOption(MkvInfoOptions argEnumOption)
-        {
-            return _MkvInfoOptionsToStringMap[argEnumOption];
         }
     }
 }

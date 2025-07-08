@@ -43,19 +43,6 @@ namespace gMKVToolNix.MkvMerge
             "yyyy-MM-ddT"
         };
 
-        private class OptionValue
-        {
-            public string Parameter { get; set; }
-
-            public MkvMergeOptions Option { get; set; }
-
-            public OptionValue(MkvMergeOptions opt, string par)
-            {
-                Option = opt;
-                Parameter = par;
-            }
-        }
-
         /// <summary>
         /// Gets the mkvinfo executable filename
         /// </summary>
@@ -241,9 +228,9 @@ namespace gMKVToolNix.MkvMerge
                 // When on Linux, we need to run mkvmerge
 
                 // Execute mkvmerge
-                List<OptionValue> options = new List<OptionValue>
+                List<OptionValue<MkvMergeOptions>> options = new List<OptionValue<MkvMergeOptions>>
                 {
-                    new OptionValue(MkvMergeOptions.version, "")
+                    new OptionValue<MkvMergeOptions>(MkvMergeOptions.version, "")
                 };
 
                 List<string> versionOutputLines = new List<string>();
@@ -253,12 +240,12 @@ namespace gMKVToolNix.MkvMerge
                 {
                     // if on Linux, the language output must be defined from the environment variables LC_ALL, LANG, and LC_MESSAGES
                     // After talking with Mosu, the language output is defined from ui-language, with different language codes for Windows and Linux
-                    options.Add(new OptionValue(MkvMergeOptions.ui_language, "en_US"));
+                    options.Add(new OptionValue<MkvMergeOptions>(MkvMergeOptions.ui_language, "en_US"));
 
                     ProcessStartInfo myProcessInfo = new ProcessStartInfo
                     {
                         FileName = _MKVMergeFilename,
-                        Arguments = ConvertOptionValueListToString(options),
+                        Arguments = options.ConvertOptionValueListToString(),
                         UseShellExecute = false,
                         RedirectStandardOutput = true,
                         StandardOutputEncoding = Encoding.UTF8,
@@ -315,11 +302,11 @@ namespace gMKVToolNix.MkvMerge
             }
         }
 
-        private void ExecuteMkvMerge(List<OptionValue> argOptionList, string argMKVFile, List<string> errors, Action<Process, string> argHandler)
+        private void ExecuteMkvMerge(List<OptionValue<MkvMergeOptions>> argOptionList, string argMKVFile, List<string> errors, Action<Process, string> argHandler)
         {
             using (Process myProcess = new Process())
             {
-                List<OptionValue> optionList = new List<OptionValue>();
+                List<OptionValue<MkvMergeOptions>> optionList = new List<OptionValue<MkvMergeOptions>>();
 
                 string LC_ALL = "";
                 string LANG = "";
@@ -329,11 +316,11 @@ namespace gMKVToolNix.MkvMerge
                 // After talking with Mosu, the language output is defined from ui-language, with different language codes for Windows and Linux
                 if (PlatformExtensions.IsOnLinux)
                 {
-                    optionList.Add(new OptionValue(MkvMergeOptions.ui_language, "en_US"));
+                    optionList.Add(new OptionValue<MkvMergeOptions>(MkvMergeOptions.ui_language, "en_US"));
                 }
                 else
                 {
-                    optionList.Add(new OptionValue(MkvMergeOptions.ui_language, "en"));
+                    optionList.Add(new OptionValue<MkvMergeOptions>(MkvMergeOptions.ui_language, "en"));
                 }
                 //optionList.Add(new OptionValue(MkvMergeOptions.command_line_charset, "\"UTF-8\""));
                 //optionList.Add(new OptionValue(MkvMergeOptions.output_charset, "\"UTF-8\""));
@@ -345,13 +332,13 @@ namespace gMKVToolNix.MkvMerge
                     if (_Version.FileMajorPart > 9 ||
                         (_Version.FileMajorPart == 9 && _Version.FileMinorPart >= 6))
                     {
-                        optionList.Add(new OptionValue(MkvMergeOptions.identify, ""));
-                        optionList.Add(new OptionValue(MkvMergeOptions.identification_format, "json"));
+                        optionList.Add(new OptionValue<MkvMergeOptions>(MkvMergeOptions.identify, ""));
+                        optionList.Add(new OptionValue<MkvMergeOptions>(MkvMergeOptions.identification_format, "json"));
                     }
                     else
                     {
                         // For previous mkvmerge versions, keep compatibility
-                        optionList.Add(new OptionValue(MkvMergeOptions.identify_verbose, ""));
+                        optionList.Add(new OptionValue<MkvMergeOptions>(MkvMergeOptions.identify_verbose, ""));
 
                         // Before JSON output, the safest way to ensure English output on Linux is throught the EnvironmentVariables
                         if (PlatformExtensions.IsOnLinux)
@@ -394,11 +381,11 @@ namespace gMKVToolNix.MkvMerge
 
                 if (!string.IsNullOrWhiteSpace(argMKVFile))
                 {
-                    myProcessInfo.Arguments = string.Format("{0} \"{1}\"", ConvertOptionValueListToString(optionList), argMKVFile);
+                    myProcessInfo.Arguments = string.Format("{0} \"{1}\"", optionList.ConvertOptionValueListToString(), argMKVFile);
                 }
                 else
                 {
-                    myProcessInfo.Arguments = ConvertOptionValueListToString(optionList);
+                    myProcessInfo.Arguments = optionList.ConvertOptionValueListToString();
                 }
 
                 myProcess.StartInfo = myProcessInfo;
@@ -1101,36 +1088,6 @@ namespace gMKVToolNix.MkvMerge
                     errorAction(lineReceived.Substring(lineReceived.IndexOf(":") + 1).Trim());
                 }
             }
-        }
-
-        private static string ConvertOptionValueListToString(List<OptionValue> listOptionValue)
-        {
-            StringBuilder optionString = new StringBuilder();
-            foreach (OptionValue optVal in listOptionValue)
-            {
-                optionString.Append(' ');
-                optionString.Append(ConvertEnumOptionToStringOption(optVal.Option));
-                if (!string.IsNullOrWhiteSpace(optVal.Parameter))
-                {
-                    optionString.Append(' ');
-                    optionString.Append(optVal.Parameter);
-                }
-            }
-
-            return optionString.ToString();
-        }
-
-        private static readonly Dictionary<MkvMergeOptions, string> _MkvMergeOptionsToStringMap =
-            Enum.GetValues(typeof(MkvMergeOptions))
-            .Cast<MkvMergeOptions>()
-            .ToDictionary(
-                val => val,
-                val => $"--{val.ToString().Replace("_", "-")}"
-            );
-
-        private static string ConvertEnumOptionToStringOption(MkvMergeOptions enumOption)
-        {
-            return _MkvMergeOptionsToStringMap[enumOption];
         }
     }
 }
