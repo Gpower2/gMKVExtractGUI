@@ -853,7 +853,7 @@ namespace gMKVToolNix.MkvMerge
                 else if (outputLine.StartsWith("Track ID "))
                 {
                     int trackID = int.TryParse(outputLine.Substring(0, outputLine.IndexOf(":")).Replace("Track ID", "").Trim(), out int trackId) ? trackId : 0;
-                    
+
                     // Check if there is already a track with the same TrackID (workaround for a weird bug in MKVToolnix v4 when identifying files from AviDemux)
                     bool trackFound = false;
                     foreach (gMKVSegment tmpSeg in finalList)
@@ -876,9 +876,9 @@ namespace gMKVToolNix.MkvMerge
                     gMKVTrack tmpTrack = new gMKVTrack
                     {
                         TrackType = (MkvTrackType)Enum.Parse(
-                            typeof(MkvTrackType), 
+                            typeof(MkvTrackType),
                             outputLine.Substring(
-                                outputLine.IndexOf(":") + 1, 
+                                outputLine.IndexOf(":") + 1,
                                 outputLine.IndexOf("(") - outputLine.IndexOf(":") - 1)
                             .Trim()),
                         TrackID = trackID
@@ -1002,11 +1002,41 @@ namespace gMKVToolNix.MkvMerge
                 else if (outputLine.StartsWith("Attachment ID "))
                 {
                     gMKVAttachment tmp = new gMKVAttachment();
-                    tmp.ID = int.Parse(outputLine.Substring(0, outputLine.IndexOf(":")).Replace("Attachment ID", "").Trim());
-                    tmp.Filename = outputLine.Substring(outputLine.IndexOf("file name")).Replace("file name", "");
-                    tmp.Filename = tmp.Filename.Substring(tmp.Filename.IndexOf("'") + 1, tmp.Filename.LastIndexOf("'") - 2).Trim();
-                    tmp.FileSize = outputLine.Substring(outputLine.IndexOf("size")).Replace("size", "").Split(new string[] { "," }, StringSplitOptions.RemoveEmptyEntries)[0].Replace("bytes", "").Trim();
-                    tmp.MimeType = outputLine.Substring(outputLine.IndexOf("type")).Replace("type", "").Split(new string[] { "," }, StringSplitOptions.RemoveEmptyEntries)[0].Replace("'", "").Trim();
+                    tmp.ID = int.Parse(outputLine.Substring("Attachment ID".Length, outputLine.IndexOf(":") - "Attachment ID".Length).Trim());
+
+                    // Extract filename between single quotes after "file name"
+                    int fileNameStart = outputLine.IndexOf("file name");
+                    if (fileNameStart >= 0)
+                    {
+                        int firstQuote = outputLine.IndexOf('\'', fileNameStart);
+                        int lastQuote = outputLine.IndexOf('\'', firstQuote + 1);
+                        if (firstQuote >= 0 && lastQuote > firstQuote)
+                        {
+                            tmp.Filename = outputLine.Substring(firstQuote + 1, lastQuote - firstQuote - 1).Trim();
+                        }
+                    }
+
+                    // Extract file size after "size"
+                    int sizeStart = outputLine.IndexOf("size");
+                    if (sizeStart >= 0)
+                    {
+                        int sizeEnd = outputLine.IndexOf(',', sizeStart);
+                        string sizePart = sizeEnd > sizeStart
+                            ? outputLine.Substring(sizeStart + 4, sizeEnd - sizeStart - 4)
+                            : outputLine.Substring(sizeStart + 4);
+                        tmp.FileSize = sizePart.Replace("bytes", "").Trim();
+                    }
+
+                    // Extract mime type after "type"
+                    int typeStart = outputLine.IndexOf("type");
+                    if (typeStart >= 0)
+                    {
+                        int typeEnd = outputLine.IndexOf(',', typeStart);
+                        string typePart = typeEnd > typeStart
+                            ? outputLine.Substring(typeStart + 4, typeEnd - typeStart - 4)
+                            : outputLine.Substring(typeStart + 4);
+                        tmp.MimeType = typePart.Replace("'", "").Trim();
+                    }
 
                     finalList.Add(tmp);
                 }
@@ -1014,7 +1044,13 @@ namespace gMKVToolNix.MkvMerge
                 {
                     gMKVChapter tmp = new gMKVChapter
                     {
-                        ChapterCount = int.TryParse(outputLine.Replace("Chapters: ", "").Replace("entry", "").Replace("entries", "").Trim(), out int chapterCount)
+                        ChapterCount = int.TryParse(
+                            outputLine
+                                .Replace("Chapters: ", "")
+                                .Replace("entry", "")
+                                .Replace("entries", "")
+                                .Trim(), 
+                            out int chapterCount)
                         ? chapterCount : 0
                     };
 
