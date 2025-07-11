@@ -40,7 +40,6 @@ namespace gMKVToolNix.MkvInfo
         private readonly List<gMKVSegment> _SegmentList = new List<gMKVSegment>();
         private readonly List<gMKVTrack> _TrackList = new List<gMKVTrack>();
         private int _TrackDelaysFound = 0;
-        private int _VideoTrackDelay = int.MinValue;
         private readonly gMKVVersion _Version = null;
 
         public gMKVInfo(string mkvToolnixPath)
@@ -168,34 +167,38 @@ namespace gMKVToolNix.MkvInfo
             // Execute MKVInfo
             try
             {
-                ExecuteMkvInfo(optionList, argMKVFile, errors, 
-                    CreateProcessOutputDelaysHandlerFactory((string error) => errors.Add(error)));
+                int videoDelay = int.MinValue;
+
+                ExecuteMkvInfo(optionList, argMKVFile, errors,
+                    CreateProcessOutputDelaysHandlerFactory(
+                        (string error) => errors.Add(error),
+                        (int delay) => { videoDelay = delay; }));
 
                 // set the effective delays for all tracks
                 foreach (gMKVTrack tr in _TrackList)
                 {
                     if (tr.TrackType == MkvTrackType.video)
                     {
-                        if (_VideoTrackDelay == int.MinValue)
+                        if (videoDelay == int.MinValue)
                         {
                             tr.EffectiveDelay = tr.Delay;
                         }
                         else
                         {
-                            tr.EffectiveDelay = _VideoTrackDelay;
+                            tr.EffectiveDelay = videoDelay;
                         }
                     }
                     else
                     {
                         // check if the video track delay was found
-                        if (_VideoTrackDelay == int.MinValue)
+                        if (videoDelay == int.MinValue)
                         {
                             tr.EffectiveDelay = tr.Delay;
                         }
                         else
                         {
                             // set the effective delay
-                            tr.EffectiveDelay = tr.Delay - _VideoTrackDelay;
+                            tr.EffectiveDelay = tr.Delay - videoDelay;
                         }
                     }
 
@@ -822,14 +825,14 @@ namespace gMKVToolNix.MkvInfo
         /// </summary>
         /// <param name="errorAction"></param>
         /// <returns>A new Action<Process, string> that can be used as a handler.</returns>
-        public Action<Process, string> CreateProcessOutputDelaysHandlerFactory(Action<string> errorAction)
+        public Action<Process, string> CreateProcessOutputDelaysHandlerFactory(Action<string> errorAction, Action<int> setVideoDelayAction)
         {
             // Return a new lambda expression that matches the Action<Process, string> signature.
             // This lambda "closes over" the outputAction parameter.
-            return (process, line) => ProcessLineReceivedDelaysHandler(process, line, errorAction);
+            return (process, line) => ProcessLineReceivedDelaysHandler(process, line, errorAction, setVideoDelayAction);
         }
 
-        private void ProcessLineReceivedDelaysHandler(Process sender, string lineReceived, Action<string> errorAction)
+        private void ProcessLineReceivedDelaysHandler(Process sender, string lineReceived, Action<string> errorAction, Action<int> setVideoDelayAction)
         {
             if (string.IsNullOrWhiteSpace(lineReceived))
             {
@@ -869,7 +872,7 @@ namespace gMKVToolNix.MkvInfo
                         if (tr.TrackType == MkvTrackType.video)
                         {
                             // set the video track delay
-                            _VideoTrackDelay = delay;
+                            setVideoDelayAction(delay);
                         }
                         break;
                     }
@@ -885,7 +888,7 @@ namespace gMKVToolNix.MkvInfo
                         if (tr.TrackType == MkvTrackType.video)
                         {
                             // set the video track delay
-                            _VideoTrackDelay = delay;
+                            setVideoDelayAction(delay);
                         }
                         break;
                     }
@@ -906,7 +909,7 @@ namespace gMKVToolNix.MkvInfo
                         if (tr.TrackType == MkvTrackType.video)
                         {
                             // set the video track delay
-                            _VideoTrackDelay = delay;
+                            setVideoDelayAction(delay);
                         }
                         break;
                     }
