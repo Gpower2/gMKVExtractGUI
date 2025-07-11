@@ -189,7 +189,8 @@ namespace gMKVToolNix.MkvExtract
                         // If we have chapters with CUE or PBF format, then we read the XML chapters and convert it to CUE or PBF format
                         if (finalPar.ExtractMode == MkvExtractModes.chapters)
                         {
-                            // Since MKVToolNix v17.0, items that were written to the standard output (chapters, tags and cue sheets) are now always written to files instead.
+                            // Since MKVToolNix v17.0, items that were written to the standard output (chapters, tags and cue sheets)
+                            // are now always written to files instead.
                             string outputFile = _Version.FileMajorPart >= 17 
                                 ? finalPar.TrackOutput 
                                 : finalPar.OutputFilename;
@@ -308,7 +309,12 @@ namespace gMKVToolNix.MkvExtract
             Abort = false;
             AbortAll = false;
 
-            string cueFile = gMKVExtractExtensions.GetOutputFilename(null, argOutputDirectory, argMKVFile, argFilenamePatterns, MkvExtractModes.cuesheet);
+            string cueFile = gMKVExtractExtensions.GetOutputFilename(
+                null, 
+                argOutputDirectory, 
+                argMKVFile, 
+                argFilenamePatterns, 
+                MkvExtractModes.cuesheet);
 
             List<string> errors = new List<string>();
             StreamWriter outputFileWriter = null;
@@ -378,7 +384,12 @@ namespace gMKVToolNix.MkvExtract
             Abort = false;
             AbortAll = false;
 
-            string tagsFile = gMKVExtractExtensions.GetOutputFilename(null, argOutputDirectory, argMKVFile, argFilenamePatterns, MkvExtractModes.tags);
+            string tagsFile = gMKVExtractExtensions.GetOutputFilename(
+                null, 
+                argOutputDirectory, 
+                argMKVFile, 
+                argFilenamePatterns, 
+                MkvExtractModes.tags);
 
             List<string> errors = new List<string>();
             StreamWriter outputFileWriter = null;
@@ -460,7 +471,11 @@ namespace gMKVToolNix.MkvExtract
                         "",
                         string.Format("{0}:\"{1}\"",
                             track.TrackID,
-                            argSeg.GetOutputFilename(argOutputDirectory, argMKVFile, argFilenamePatterns, MkvExtractModes.timestamps_v2)
+                            argSeg.GetOutputFilename(
+                                argOutputDirectory, 
+                                argMKVFile, 
+                                argFilenamePatterns, 
+                                MkvExtractModes.timestamps_v2)
                         ),
                         false,
                         ""
@@ -475,7 +490,11 @@ namespace gMKVToolNix.MkvExtract
                         "",
                         string.Format("{0}:\"{1}\"",
                             track.TrackID,
-                            argSeg.GetOutputFilename(argOutputDirectory, argMKVFile, argFilenamePatterns, MkvExtractModes.cues)
+                            argSeg.GetOutputFilename(
+                                argOutputDirectory, 
+                                argMKVFile, 
+                                argFilenamePatterns, 
+                                MkvExtractModes.cues)
                         ),
                         false,
                         ""
@@ -504,7 +523,11 @@ namespace gMKVToolNix.MkvExtract
                         "",
                         string.Format("{0}:\"{1}\"",
                             track.TrackID,
-                            argSeg.GetOutputFilename(argOutputDirectory, argMKVFile, argFilenamePatterns, MkvExtractModes.tracks)
+                            argSeg.GetOutputFilename(
+                                argOutputDirectory, 
+                                argMKVFile, 
+                                argFilenamePatterns, 
+                                MkvExtractModes.tracks)
                         ),
                         false,
                         ""
@@ -535,7 +558,11 @@ namespace gMKVToolNix.MkvExtract
                         "",
                         string.Format("{0}:\"{1}\"",
                             attachment.ID,
-                            argSeg.GetOutputFilename(argOutputDirectory, argMKVFile, argFilenamePatterns, MkvExtractModes.attachments)
+                            argSeg.GetOutputFilename(
+                                argOutputDirectory, 
+                                argMKVFile, 
+                                argFilenamePatterns, 
+                                MkvExtractModes.attachments)
                         ),
                         false,
                         ""
@@ -567,7 +594,12 @@ namespace gMKVToolNix.MkvExtract
                         options = "--simple";
                     }
 
-                    string chapterFile = argSeg.GetOutputFilename(argOutputDirectory, argMKVFile, argFilenamePatterns, MkvExtractModes.chapters, argChapterType);
+                    string chapterFile = argSeg.GetOutputFilename(
+                        argOutputDirectory, 
+                        argMKVFile, 
+                        argFilenamePatterns, 
+                        MkvExtractModes.chapters, 
+                        argChapterType);
 
                     // add the parameter for extracting the chapters
                     // Since MKVToolNix v17.0, items that were written to the standard output (chapters, tags and cue sheets) are now always written to files instead.
@@ -584,7 +616,11 @@ namespace gMKVToolNix.MkvExtract
             return trackParameterList;
         }
 
-        private void ExtractMkvSegment(string argMKVFile, TrackParameter argParameter, List<string> errors, StreamWriter argOutputFileWriter)
+        private void ExtractMkvSegment(
+            string argMKVFile, 
+            TrackParameter argParameter, 
+            List<string> errors, 
+            StreamWriter argOutputFileWriter)
         {
             OnMkvExtractProgressUpdated(0);
 
@@ -614,7 +650,11 @@ namespace gMKVToolNix.MkvExtract
             ExecuteMkvExtract(argMKVFile, argParameter, handler, errors);
         }
 
-        private void ExecuteMkvExtract(string argMKVFile, TrackParameter argParameter, Action<Process, string> argHandler, List<string> errors)
+        private void ExecuteMkvExtract(
+            string argMKVFile, 
+            TrackParameter argParameter, 
+            Action<Process, string> argHandler, 
+            List<string> errors)
         {
             using (Process myProcess = new Process())
             {
@@ -855,7 +895,7 @@ namespace gMKVToolNix.MkvExtract
             return (process, line) => ProcessLineReceivedHandler(process, line, outputAction, errorAction);
         }
 
-        void ProcessLineReceivedHandler(
+        private void ProcessLineReceivedHandler(
             Process senderProcess, 
             string lineReceived, 
             Action<string> outputAction,

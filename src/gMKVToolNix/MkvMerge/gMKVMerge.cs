@@ -302,7 +302,11 @@ namespace gMKVToolNix.MkvMerge
             }
         }
 
-        private void ExecuteMkvMerge(List<OptionValue<MkvMergeOptions>> argOptionList, string argMKVFile, List<string> errors, Action<Process, string> argHandler)
+        private void ExecuteMkvMerge(
+            List<OptionValue<MkvMergeOptions>> argOptionList, 
+            string argMKVFile, 
+            List<string> errors, 
+            Action<Process, string> argHandler)
         {
             using (Process myProcess = new Process())
             {
@@ -1105,7 +1109,11 @@ namespace gMKVToolNix.MkvMerge
             return (process, line) => ProcessLineReceivedHandler(process, line, outputAction, errorAction);
         }
 
-        private void ProcessLineReceivedHandler(Process sender, string lineReceived, Action<string> outputAction, Action<string> errorAction)
+        private void ProcessLineReceivedHandler(
+            Process sender, 
+            string lineReceived, 
+            Action<string> outputAction, 
+            Action<string> errorAction)
         {
             if (!string.IsNullOrWhiteSpace(lineReceived))
             {

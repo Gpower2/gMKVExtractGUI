@@ -308,7 +308,11 @@ namespace gMKVToolNix.MkvInfo
             }
         }
 
-        private void ExecuteMkvInfo(List<OptionValue<MkvInfoOptions>> argOptionList, string argMKVFile, List<string> errors, Action<Process, string> argHandler)
+        private void ExecuteMkvInfo(
+            List<OptionValue<MkvInfoOptions>> argOptionList, 
+            string argMKVFile, 
+            List<string> errors, 
+            Action<Process, string> argHandler)
         {
             using (Process myProcess = new Process())
             {
