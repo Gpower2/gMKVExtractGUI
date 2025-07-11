@@ -38,8 +38,6 @@ namespace gMKVToolNix.MkvInfo
         private readonly string _MKVToolnixPath = "";
         private readonly string _MKVInfoFilename = "";
         private readonly List<gMKVSegment> _SegmentList = new List<gMKVSegment>();
-        private readonly List<gMKVTrack> _TrackList = new List<gMKVTrack>();
-        private int _TrackDelaysFound = 0;
         private readonly gMKVVersion _Version = null;
 
         public gMKVInfo(string mkvToolnixPath)
@@ -136,11 +134,11 @@ namespace gMKVToolNix.MkvInfo
                 // Everything is fine, return true
                 return;
             }
-
-            // clear the track list 
-            _TrackList.Clear();
+          
             // reset the found delays counter
-            _TrackDelaysFound = 0;
+            int trackDelaysFound = 0;
+
+            List<gMKVTrack> trackList = new List<gMKVTrack>();
 
             // get only video and audio track in a trackList
             foreach (gMKVTrack segTrack in segmentTracks)
@@ -148,11 +146,11 @@ namespace gMKVToolNix.MkvInfo
                 // only find delays for video and audio tracks
                 if (segTrack.TrackType != MkvTrackType.subtitles)
                 {
-                    _TrackList.Add(segTrack);
+                    trackList.Add(segTrack);
                     // Update the number of tracks for which delays were found, in order to exit early later on
                     if (segTrack.Delay != int.MinValue)
                     {
-                        _TrackDelaysFound++;
+                        trackDelaysFound++;
                     }
                 }
             }
@@ -172,10 +170,11 @@ namespace gMKVToolNix.MkvInfo
                 ExecuteMkvInfo(optionList, argMKVFile, errors,
                     CreateProcessOutputDelaysHandlerFactory(
                         (string error) => errors.Add(error),
-                        (int delay) => { videoDelay = delay; }));
+                        (int delay) => { videoDelay = delay; },
+                        trackList));
 
                 // set the effective delays for all tracks
-                foreach (gMKVTrack tr in _TrackList)
+                foreach (gMKVTrack tr in trackList)
                 {
                     if (tr.TrackType == MkvTrackType.video)
                     {
@@ -825,14 +824,22 @@ namespace gMKVToolNix.MkvInfo
         /// </summary>
         /// <param name="errorAction"></param>
         /// <returns>A new Action<Process, string> that can be used as a handler.</returns>
-        public Action<Process, string> CreateProcessOutputDelaysHandlerFactory(Action<string> errorAction, Action<int> setVideoDelayAction)
+        public Action<Process, string> CreateProcessOutputDelaysHandlerFactory(
+            Action<string> errorAction, 
+            Action<int> setVideoDelayAction, 
+            List<gMKVTrack> trackList)
         {
             // Return a new lambda expression that matches the Action<Process, string> signature.
             // This lambda "closes over" the outputAction parameter.
-            return (process, line) => ProcessLineReceivedDelaysHandler(process, line, errorAction, setVideoDelayAction);
+            return (process, line) => ProcessLineReceivedDelaysHandler(process, line, trackList, errorAction, setVideoDelayAction);
         }
 
-        private void ProcessLineReceivedDelaysHandler(Process sender, string lineReceived, Action<string> errorAction, Action<int> setVideoDelayAction)
+        private void ProcessLineReceivedDelaysHandler(
+            Process sender, 
+            string lineReceived,
+            List<gMKVTrack> trackList,
+            Action<string> errorAction, 
+            Action<int> setVideoDelayAction)
         {
             if (string.IsNullOrWhiteSpace(lineReceived))
             {
@@ -851,7 +858,7 @@ namespace gMKVToolNix.MkvInfo
             }
 
             // check if line contains the first timecode for one of the requested tracks
-            foreach (gMKVTrack tr in _TrackList)
+            foreach (gMKVTrack tr in trackList)
             {
                 // check if the delay is already found
                 if (tr.Delay == int.MinValue && lineReceived.Contains($"track number {tr.TrackNumber}"))
@@ -917,7 +924,7 @@ namespace gMKVToolNix.MkvInfo
             }
 
             // check if first timecodes for all tracks where found
-            if (_TrackDelaysFound == _TrackList.Count)
+            if (_TrackDelaysFound == trackList.Count)
             {
                 if (sender != null)
                 {
