@@ -37,7 +37,6 @@ namespace gMKVToolNix.MkvInfo
         
         private readonly string _MKVToolnixPath = "";
         private readonly string _MKVInfoFilename = "";
-        private readonly List<gMKVSegment> _SegmentList = new List<gMKVSegment>();
         private readonly gMKVVersion _Version = null;
 
         public gMKVInfo(string mkvToolnixPath)
@@ -80,9 +79,7 @@ namespace gMKVToolNix.MkvInfo
                 throw new Exception($"Could not find {MKV_INFO_FILENAME}!{Environment.NewLine}{_MKVInfoFilename}");
             }
 
-            // First clear the segment list
-            _SegmentList.Clear();
-
+            List<gMKVSegment> segmentList = new List<gMKVSegment>();
             List<string> outputLines = new List<string>();
             List<string> errors = new List<string>();
 
@@ -92,17 +89,17 @@ namespace gMKVToolNix.MkvInfo
                 (string error) => errors.Add(error)));
 
             // Start the parsing of the output
-            ParseMkvInfoOutput(outputLines);
+            ParseMkvInfoOutput(outputLines, segmentList);
 
             // Add the file properties in gMKVSegmentInfo
-            var segInfo = _SegmentList.OfType<gMKVSegmentInfo>().FirstOrDefault();
+            var segInfo = segmentList.OfType<gMKVSegmentInfo>().FirstOrDefault();
             if (segInfo != null)
             {
                 segInfo.Directory = Path.GetDirectoryName(argMKVFile);
                 segInfo.Filename = Path.GetFileName(argMKVFile);
             }
 
-            return _SegmentList;
+            return segmentList;
         }
 
         public void FindAndSetDelays(List<gMKVSegment> argSegmentsList, string argMKVFile)
@@ -439,7 +436,7 @@ namespace gMKVToolNix.MkvInfo
             InsideChapterInfo,
         }
 
-        private void ParseMkvInfoOutput(List<string> outputLines)
+        private void ParseMkvInfoOutput(List<string> outputLines, List<gMKVSegment> segmentList)
         {
             // start the loop for each line of the output
             gMKVSegment tmpSegment = null;
@@ -465,7 +462,7 @@ namespace gMKVToolNix.MkvInfo
                     // if previous segment is not null, add it to the list and create a new one
                     if (tmpSegment != null)
                     {
-                        _SegmentList.Add(tmpSegment);
+                        segmentList.Add(tmpSegment);
                     }
                     tmpSegment = new gMKVSegmentInfo();
                     tmpState = MkvInfoParseState.InsideSegmentInfo;
@@ -541,7 +538,7 @@ namespace gMKVToolNix.MkvInfo
                             // if previous segment is not null, add it to the list and create a new one
                             if (tmpSegment != null)
                             {
-                                _SegmentList.Add(tmpSegment);
+                                segmentList.Add(tmpSegment);
                             }
                             tmpSegment = new gMKVTrack();
                         }
@@ -662,7 +659,7 @@ namespace gMKVToolNix.MkvInfo
                             // if previous segment is not null, add it to the list and create a new one
                             if (tmpSegment != null)
                             {
-                                _SegmentList.Add(tmpSegment);
+                                segmentList.Add(tmpSegment);
                             }
                             tmpSegment = new gMKVAttachment();
                             ((gMKVAttachment)tmpSegment).ID = attachmentID;
@@ -725,7 +722,7 @@ namespace gMKVToolNix.MkvInfo
                             // if previous segment is not null, add it to the list and create a new one
                             if (tmpSegment != null)
                             {
-                                _SegmentList.Add(tmpSegment);
+                                segmentList.Add(tmpSegment);
                             }
                             tmpSegment = new gMKVChapter();
                         }
@@ -785,7 +782,7 @@ namespace gMKVToolNix.MkvInfo
             // if the last segment was not added to the list and it is not null, add it to the list
             if (tmpSegment != null)
             {
-                _SegmentList.Add(tmpSegment);
+                segmentList.Add(tmpSegment);
             }
         }
 
