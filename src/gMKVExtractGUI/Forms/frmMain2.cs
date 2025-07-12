@@ -12,6 +12,8 @@ using System.Windows.Forms;
 using gMKVToolNix.Jobs;
 using gMKVToolNix.Log;
 using gMKVToolNix.MkvExtract;
+using gMKVToolNix.MkvInfo;
+using gMKVToolNix.MkvMerge;
 using gMKVToolNix.Segments;
 using gMKVToolNix.Theming;
 using gMKVToolNix.WinAPI;
@@ -632,8 +634,10 @@ namespace gMKVToolNix.Forms
             {
                 tlpMain.Enabled = false;
                 Application.DoEvents();
+
                 // empty all the controls in any case
                 ClearControls();
+
                 // Check for append file or not
                 if (!argAppend)
                 {
@@ -679,6 +683,7 @@ namespace gMKVToolNix.Forms
 
                 // Add the nodes to the TreeView
                 trvInputFiles.Nodes.AddRange(results.Nodes.ToArray());
+
                 // Remove the check box from the nodes that contain the gMKVSegmentInfo
                 trvInputFiles.AllNodes.Where(n => n != null && n.Tag != null && n.Tag is gMKVSegmentInfo)
                     .ToList()
@@ -711,6 +716,9 @@ namespace gMKVToolNix.Forms
             NodeResults results = new NodeResults();
             List<TreeNode> fileNodes = new List<TreeNode>();
 
+            gMKVMerge gMerge = new gMKVMerge(argMKVToolNixPath);
+            gMKVInfo gInfo = new gMKVInfo(argMKVToolNixPath);
+
             statusStrip.Invoke((MethodInvoker)delegate
             {
                 prgBrStatus.Maximum = argFiles.Count;
@@ -734,7 +742,7 @@ namespace gMKVToolNix.Forms
 
                 try
                 {
-                    fileNodes.Add(GetFileNode(argMKVToolNixPath, sf));
+                    fileNodes.Add(GetFileNode(gMerge, gInfo, sf));
                 }
                 catch (Exception ex)
                 {
@@ -751,14 +759,8 @@ namespace gMKVToolNix.Forms
             return results;
         }
 
-        private TreeNode GetFileNode(string argMKVToolNixPath, string argFilename)
+        private TreeNode GetFileNode(gMKVMerge gMerge, gMKVInfo gInfo, string argFilename)
         {
-            // Check if MKVToolNix path was provided
-            if (string.IsNullOrWhiteSpace(argMKVToolNixPath))
-            {
-                throw new Exception("The MKVToolNix path was not provided!");
-            }
-
             // Check if filename was provided
             if (string.IsNullOrWhiteSpace(argFilename))
             {
@@ -782,8 +784,8 @@ namespace gMKVToolNix.Forms
                 throw new Exception($"The input file {argFilename}{Environment.NewLine}{Environment.NewLine}is not a valid matroska file!");
             }
 
-            // get the file information                    
-            List<gMKVSegment> segmentList = gMKVHelper.GetMergedMkvSegmentList(argMKVToolNixPath, argFilename);
+            // get the file information
+            List<gMKVSegment> segmentList = gMKVHelper.GetMergedMkvSegmentList(gMerge, gInfo, argFilename);
 
             gMKVSegmentInfo segInfo = segmentList.OfType<gMKVSegmentInfo>().FirstOrDefault();
 

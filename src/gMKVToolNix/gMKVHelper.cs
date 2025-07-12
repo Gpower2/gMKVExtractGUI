@@ -237,16 +237,32 @@ namespace gMKVToolNix
         }
 
         /// <summary>
-        /// 
+        /// Creates a merged list of MKV segments using both MKVMerge and MKVInfo tools.
+        /// This is a convenience method that constructs the necessary tool instances and delegates
+        /// to the more detailed overload.
         /// </summary>
-        /// <param name="argMkvToolnixPath"></param>
-        /// <param name="argInputFile"></param>
-        /// <returns></returns>
+        /// <param name="argMkvToolnixPath">The path to the MKVToolnix installation directory</param>
+        /// <param name="argInputFile">The input MKV file to analyze</param>
+        /// <returns>A complete list of gMKVSegment objects with merged information from both tools</returns>
         public static List<gMKVSegment> GetMergedMkvSegmentList(string argMkvToolnixPath, string argInputFile)
         {
             gMKVMerge gMerge = new gMKVMerge(argMkvToolnixPath);
             gMKVInfo gInfo = new gMKVInfo(argMkvToolnixPath);
 
+            return GetMergedMkvSegmentList(gMerge, gInfo, argInputFile);
+        }
+
+        /// <summary>
+        /// Gets a merged list of MKV segments by combining information from both mkvmerge and mkvinfo.
+        /// This method retrieves segment data from mkvmerge first, then supplements missing information 
+        /// (segment info, codec private data, delays, etc.) from mkvinfo if needed.
+        /// </summary>
+        /// <param name="gMerge">The gMKVMerge instance to use for primary segment extraction</param>
+        /// <param name="gInfo">The gMKVInfo instance to use for supplementary information</param>
+        /// <param name="argInputFile">The input MKV file path to analyze</param>
+        /// <returns>A complete list of gMKVSegment objects with merged information from both tools</returns>
+        public static List<gMKVSegment> GetMergedMkvSegmentList(gMKVMerge gMerge, gMKVInfo gInfo, string argInputFile)
+        {
             List<gMKVSegment> segmentListFromMkvMerge = gMerge.GetMKVSegments(argInputFile);
 
             // Check if information was found in mkvmerge output
