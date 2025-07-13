@@ -471,38 +471,30 @@ namespace gMKVToolNix.Forms
                     Cursor = Cursors.Default;
                     var result = ShowQuestion("Do you want to include files in sub directories?", "Sub directories found!");
                     Cursor = Cursors.WaitCursor;
-                    if (result == DialogResult.Yes)
-                    {
-                        using (Task ta = Task.Factory.StartNew(() =>
-                        {
-                            // Add the subdirectory files
-                            argFileDrop.Where(f => Directory.Exists(f))
-                            .ToList()
-                            .ForEach(t => fileList.AddRange(Directory.GetFiles(t, "*", SearchOption.AllDirectories).ToList()));
-                        }))
-                        {
-                            while (!ta.IsCompleted) { Application.DoEvents(); }
-                            if (ta.Exception != null) { throw ta.Exception; }
-                        }
-                    }
-                    else if (result == DialogResult.No)
-                    {
-                        using (Task ta = Task.Factory.StartNew(() =>
-                        {
-                            // Add the top level directory files
-                            argFileDrop.Where(f => Directory.Exists(f))
-                            .ToList()
-                            .ForEach(t => fileList.AddRange(Directory.GetFiles(t, "*", SearchOption.TopDirectoryOnly).ToList()));
-                        }))
-                        {
-                            while (!ta.IsCompleted) { Application.DoEvents(); }
-                            if (ta.Exception != null) { throw ta.Exception; }
-                        }
-                    }
-                    else if (result == DialogResult.Cancel)
+
+                    if (result == DialogResult.Cancel)
                     {
                         Cursor = Cursors.Default;
                         return new List<string>();
+                    }
+
+                    using (Task ta = Task.Factory.StartNew(() =>
+                    {
+                        // Add the subdirectory files
+                        argFileDrop.Where(f => Directory
+                            .Exists(f))
+                            .ToList()
+                            .ForEach(t => fileList.AddRange(Directory.GetFiles(
+                                t, 
+                                "*", 
+                                result == DialogResult.Yes 
+                                    ? SearchOption.AllDirectories
+                                    : SearchOption.TopDirectoryOnly)
+                            .ToList()));
+                    }))
+                    {
+                        while (!ta.IsCompleted) { Application.DoEvents(); }
+                        if (ta.Exception != null) { throw ta.Exception; }
                     }
                 }
                 else
