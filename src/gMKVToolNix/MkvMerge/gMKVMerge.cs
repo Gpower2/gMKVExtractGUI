@@ -90,12 +90,6 @@ namespace gMKVToolNix.MkvMerge
 
         public List<gMKVSegment> GetMKVSegments(string argMKVFile)
         {
-            // check for existence of MKVMerge
-            if (!File.Exists(_MKVMergeFilename)) 
-            { 
-                throw new Exception(string.Format("Could not find {0}!" + Environment.NewLine + "{1}", MKV_MERGE_FILENAME, _MKVMergeFilename)); 
-            }
-
             List<string> outputLines = new List<string>();
             List<string> errors = new List<string>();
 
@@ -215,12 +209,6 @@ namespace gMKVToolNix.MkvMerge
             if (_Version != null)
             {
                 return _Version;
-            }
-
-            // check for existence of mkvmerge
-            if (!File.Exists(_MKVMergeFilename))
-            {
-                throw new Exception($"Could not find {MKV_MERGE_FILENAME}!{Environment.NewLine}{_MKVMergeFilename}");
             }
 
             if (PlatformExtensions.IsOnLinux)

@@ -73,12 +73,6 @@ namespace gMKVToolNix.MkvInfo
 
         public List<gMKVSegment> GetMKVSegments(string argMKVFile)
         {
-            // Check for existence of MKVInfo
-            if (!File.Exists(_MKVInfoFilename))
-            {
-                throw new Exception($"Could not find {MKV_INFO_FILENAME}!{Environment.NewLine}{_MKVInfoFilename}");
-            }
-
             List<gMKVSegment> segmentList = new List<gMKVSegment>();
             List<string> outputLines = new List<string>();
             List<string> errors = new List<string>();
@@ -104,12 +98,6 @@ namespace gMKVToolNix.MkvInfo
 
         public void FindAndSetDelays(List<gMKVSegment> argSegmentsList, string argMKVFile)
         {
-            // check for existence of MKVInfo
-            if (!File.Exists(_MKVInfoFilename))
-            {
-                throw new Exception($"Could not find {MKV_INFO_FILENAME}!{Environment.NewLine}{_MKVInfoFilename}");
-            }
-
             // check for list of track numbers
             if (argSegmentsList == null || argSegmentsList.Count == 0)
             {

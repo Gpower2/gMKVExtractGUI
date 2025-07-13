@@ -624,12 +624,6 @@ namespace gMKVToolNix.MkvExtract
         {
             OnMkvExtractProgressUpdated(0);
 
-            // check for existence of MKVExtract
-            if (!File.Exists(_MKVExtractFilename))
-            {
-                throw new Exception($"Could not find {MKV_EXTRACT_FILENAME}!{Environment.NewLine}{_MKVExtractFilename}");
-            }
-
             Action<Process, string> handler = null;
 
             // Since MKVToolNix v17.0, items that were written to the standard output (chapters, tags and cue sheets)
