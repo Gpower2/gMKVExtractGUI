@@ -11,10 +11,9 @@ on:
 
 jobs:
   build:
-    # Use a modern Windows runner. 'windows-latest' will point to the newest stable Windows environment (e.g., windows-2022).
+    # Use a modern Windows runner.
     runs-on: windows-latest
 
-    # Environment variables to easily manage your project names
     env:
       SOLUTION_FILE_PATH: gMKVExtractGUI.sln
       TEST_ASSEMBLY_PATTERN: '*gMKVToolnix.Unit.Tests.dll'
@@ -29,21 +28,31 @@ jobs:
         fetch-depth: 0
 
     # Install the .NET 4.0 Targeting Pack using the VS Installer.
+    # UPDATED: Corrected the script to properly pass the VS path to the installer.
     - name: Install .NET 4.0 Targeting Pack
       run: |
         $vsInstaller = "C:\Program Files (x86)\Microsoft Visual Studio\Installer\vs_installer.exe"
         $componentID = "Microsoft.VisualStudio.Component.Framework40.TargetingPack"
-        Write-Host "Adding component '$componentID'..."
-        $process = Start-Process -FilePath $vsInstaller -ArgumentList "modify --installPath (vswhere -latest -property installationPath) --add $componentID --quiet --norestart" -Wait -PassThru
+        
+        # First, execute vswhere and store its output in a variable
+        $vsPath = vswhere -latest -property installationPath
+        
+        Write-Host "Adding component '$componentID' to VS installation at '$vsPath'..."
+        
+        # Then, build the argument list using the variable
+        $argumentList = "modify --installPath ""$vsPath"" --add $componentID --quiet --norestart"
+        
+        # Execute the installer with the correctly formatted arguments
+        $process = Start-Process -FilePath $vsInstaller -ArgumentList $argumentList -Wait -PassThru
+        
         if ($process.ExitCode -ne 0) {
-          Write-Error "VS Installer failed with exit code $($process.ExitCode)"
+          Write-Error "VS Installer failed with exit code $($process.ExitCode). Arguments used: $argumentList"
           exit $process.ExitCode
         }
         Write-Host ".NET 4.0 Targeting Pack installed successfully."
       shell: powershell
 
-    # NEW: Add a diagnostic step to verify the installation of reference assemblies.
-    # This helps debug by showing if the files exist at the expected path.
+    # Add a diagnostic step to verify the installation of reference assemblies.
     - name: Verify Reference Assembly Installation
       run: |
         if (Test-Path "${{ env.FRAMEWORK_REFERENCE_ASSEMBLIES_PATH }}") {
@@ -51,13 +60,11 @@ jobs:
           Get-ChildItem -Path "${{ env.FRAMEWORK_REFERENCE_ASSEMBLIES_PATH }}"
         } else {
           Write-Error "Reference assemblies directory NOT FOUND at ${{ env.FRAMEWORK_REFERENCE_ASSEMBLIES_PATH }}"
-          # Also check the parent directory in case the path is slightly different
-          Get-ChildItem -Path "C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework" -ErrorAction SilentlyContinue
           exit 1
         }
       shell: powershell
 
-    # Sets up MSBuild in the environment. This step must run after installing any targeting packs.
+    # Sets up MSBuild in the environment.
     - name: Setup MSBuild
       uses: microsoft/setup-msbuild@v2
 
@@ -72,8 +79,7 @@ jobs:
       run: nuget restore ${{ env.SOLUTION_FILE_PATH }}
 
     # Builds the solution.
-    # UPDATED: Explicitly override the framework path for MSBuild.
-    # This directly tells MSBuild where to find the .NET 4.0 assemblies, bypassing any auto-detection issues.
+    # Explicitly overrides the framework path for MSBuild to ensure it finds the assemblies.
     - name: Build solution
       run: >
         msbuild ${{ env.SOLUTION_FILE_PATH }} 
