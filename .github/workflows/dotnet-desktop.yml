@@ -30,7 +30,6 @@ jobs:
 
     # NEW: Install the .NET 4.0 Targeting Pack, which is not included by default on newer runners.
     # This uses the Visual Studio Installer command line to add the required component.
-    # It first uses 'vswhere' to find the Visual Studio installation directory.
     - name: Install .NET 4.0 Targeting Pack
       run: |
         # Use vswhere to get the installation path of the latest Visual Studio version
@@ -38,12 +37,12 @@ jobs:
         # The VS installer is in a standard, fixed location on GitHub runners
         $vsInstaller = "C:\Program Files (x86)\Microsoft Visual Studio\Installer\vs_installer.exe"
         
-        Write-Host "Adding Microsoft.Net.Framework.v4.0.TargetingPack to VS installation at $vsPath"
+        # UPDATED: Using the correct component ID for VS 2022.
+        $componentID = "Microsoft.VisualStudio.Component.Framework40.TargetingPack"
+        Write-Host "Adding component '$componentID' to VS installation at $vsPath"
         
         # Construct the arguments and execute the installer to add the component
-        # --wait ensures the workflow pauses until the installation is complete.
-        # --quiet and --norestart are used for a non-interactive, script-friendly installation.
-        $process = Start-Process -FilePath $vsInstaller -ArgumentList "modify --installPath ""$vsPath"" --add Microsoft.Net.Framework.v4.0.TargetingPack --quiet --norestart" -Wait -PassThru
+        $process = Start-Process -FilePath $vsInstaller -ArgumentList "modify --installPath ""$vsPath"" --add $componentID --quiet --norestart" -Wait -PassThru
         
         # Check the exit code to ensure the installation was successful
         if ($process.ExitCode -ne 0) {
@@ -54,12 +53,11 @@ jobs:
       shell: powershell
 
     # Sets up MSBuild in the environment. This is crucial for building .NET Framework projects.
-    # UPDATED: Using v2 of the action for the latest features and compatibility.
+    # MOVED: This step now runs *after* installing the targeting pack to ensure MSBuild finds it.
     - name: Setup MSBuild
       uses: microsoft/setup-msbuild@v2
 
     # Sets up the NuGet CLI for restoring packages
-    # UPDATED: Using v2 of the action and 'latest' nuget-version.
     - name: Setup NuGet
       uses: nuget/setup-nuget@v2
       with:
@@ -80,7 +78,6 @@ jobs:
     - name: Run unit tests
       run: |
         # UPDATED: Use vswhere to robustly find the path to vstest.console.exe.
-        # This is more reliable than searching the entire file system.
         $vstestPath = vswhere -latest -requires Microsoft.VisualStudio.PackageGroup.TestTools.Core -find **\vstest.console.exe | Select-Object -First 1
         if (-not $vstestPath) {
           Write-Error "vstest.console.exe not found."
@@ -90,7 +87,6 @@ jobs:
       shell: powershell
 
     # (Optional) Publishes the test results so they can be viewed in the GitHub Actions summary.
-    # This provides a clear and accessible report of your test outcomes.
     - name: Publish test results
       uses: dorny/test-reporter@v1
       if: always() # This ensures the report is published even if tests fail
