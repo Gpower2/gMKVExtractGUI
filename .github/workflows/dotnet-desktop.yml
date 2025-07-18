@@ -1,0 +1,67 @@
+# GitHub Workflow for building and testing a .NET Framework WinForms application
+# This workflow is triggered on pushes and pull requests to the 'main' branch.
+
+name: .NET Framework CI
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  build:
+    # Use a Windows runner because .NET Framework is Windows-specific
+    runs-on: windows-latest
+
+    # Environment variables to easily manage your project names
+    env:
+      SOLUTION_FILE_PATH: gMKVExtractGUI.sln
+      TEST_ASSEMBLY_PATTERN: '*gMKVToolnix.Unit.Tests.dll'
+
+    steps:
+    # Checks out a copy of your repository on the runner.
+    # fetch-depth: 0 fetches all history for all branches and tags.
+    - name: Checkout
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+
+    # Sets up MSBuild in the environment. This is crucial for building .NET Framework projects.
+    - name: Setup MSBuild
+      uses: microsoft/setup-msbuild@v1.1
+
+    # Sets up the NuGet CLI for restoring packages
+    - name: Setup NuGet
+      uses: nuget/setup-nuget@v1
+      with:
+        # You can specify the version of NuGet to use
+        nuget-version: '5.x'
+
+    # Restores the NuGet packages for your solution using the environment variable
+    - name: Restore NuGet packages
+      run: nuget restore ${{ env.SOLUTION_FILE_PATH }}
+
+    # Builds the solution using the environment variable.
+    # The /p:Configuration=Release flag builds the project in Release mode.
+    - name: Build solution
+      run: msbuild ${{ env.SOLUTION_FILE_PATH }} /p:Configuration=Release
+
+    # Runs the unit tests for your project.
+    # This command finds and runs tests from assemblies matching the pattern in the environment variable.
+    # You might need to adjust the path to vstest.console.exe if it's not in the default location.
+    # The test results are logged to a .trx file, which can be used by other actions.
+    - name: Run unit tests
+      run: |
+        $vstestPath = (Get-ChildItem -Path "C:\Program Files (x86)\Microsoft Visual Studio" -Recurse -Filter "vstest.console.exe").FullName | Select-Object -First 1
+        & $vstestPath (Get-ChildItem -Recurse -Filter ${{ env.TEST_ASSEMBLY_PATTERN }} | Where-Object { $_.Name -notlike "*obj*" } | Select-Object -ExpandProperty FullName) /Logger:trx
+
+    # (Optional) Publishes the test results so they can be viewed in the GitHub Actions summary.
+    # This provides a clear and accessible report of your test outcomes.
+    - name: Publish test results
+      uses: dorny/test-reporter@v1
+      if: always() # This ensures the report is published even if tests fail
+      with:
+        name: Test Results
+        path: TestResults/*.trx
+        reporter: dotnet-trx
