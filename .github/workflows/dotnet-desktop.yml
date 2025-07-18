@@ -11,40 +11,30 @@ on:
 
 jobs:
   build:
-    # UPDATED: Use a modern Windows runner. 'windows-2019' is decommissioned.
-    # 'windows-latest' will point to the newest stable Windows environment (e.g., windows-2022).
+    # Use a modern Windows runner. 'windows-latest' will point to the newest stable Windows environment (e.g., windows-2022).
     runs-on: windows-latest
 
     # Environment variables to easily manage your project names
     env:
       SOLUTION_FILE_PATH: gMKVExtractGUI.sln
       TEST_ASSEMBLY_PATTERN: '*gMKVToolnix.Unit.Tests.dll'
+      # Define the expected path for the reference assemblies
+      FRAMEWORK_REFERENCE_ASSEMBLIES_PATH: "C:\\Program Files (x86)\\Reference Assemblies\\Microsoft\\Framework\\.NETFramework\\v4.0"
 
     steps:
     # Checks out a copy of your repository on the runner.
-    # fetch-depth: 0 fetches all history for all branches and tags.
     - name: Checkout
       uses: actions/checkout@v4
       with:
         fetch-depth: 0
 
-    # NEW: Install the .NET 4.0 Targeting Pack, which is not included by default on newer runners.
-    # This uses the Visual Studio Installer command line to add the required component.
+    # Install the .NET 4.0 Targeting Pack using the VS Installer.
     - name: Install .NET 4.0 Targeting Pack
       run: |
-        # Use vswhere to get the installation path of the latest Visual Studio version
-        $vsPath = & vswhere -latest -property installationPath
-        # The VS installer is in a standard, fixed location on GitHub runners
         $vsInstaller = "C:\Program Files (x86)\Microsoft Visual Studio\Installer\vs_installer.exe"
-        
-        # UPDATED: Using the correct component ID for VS 2022.
         $componentID = "Microsoft.VisualStudio.Component.Framework40.TargetingPack"
-        Write-Host "Adding component '$componentID' to VS installation at $vsPath"
-        
-        # Construct the arguments and execute the installer to add the component
-        $process = Start-Process -FilePath $vsInstaller -ArgumentList "modify --installPath ""$vsPath"" --add $componentID --quiet --norestart" -Wait -PassThru
-        
-        # Check the exit code to ensure the installation was successful
+        Write-Host "Adding component '$componentID'..."
+        $process = Start-Process -FilePath $vsInstaller -ArgumentList "modify --installPath (vswhere -latest -property installationPath) --add $componentID --quiet --norestart" -Wait -PassThru
         if ($process.ExitCode -ne 0) {
           Write-Error "VS Installer failed with exit code $($process.ExitCode)"
           exit $process.ExitCode
@@ -52,32 +42,48 @@ jobs:
         Write-Host ".NET 4.0 Targeting Pack installed successfully."
       shell: powershell
 
-    # Sets up MSBuild in the environment. This is crucial for building .NET Framework projects.
-    # MOVED: This step now runs *after* installing the targeting pack to ensure MSBuild finds it.
+    # NEW: Add a diagnostic step to verify the installation of reference assemblies.
+    # This helps debug by showing if the files exist at the expected path.
+    - name: Verify Reference Assembly Installation
+      run: |
+        if (Test-Path "${{ env.FRAMEWORK_REFERENCE_ASSEMBLIES_PATH }}") {
+          Write-Host "Reference assemblies found at ${{ env.FRAMEWORK_REFERENCE_ASSEMBLIES_PATH }}. Listing contents:"
+          Get-ChildItem -Path "${{ env.FRAMEWORK_REFERENCE_ASSEMBLIES_PATH }}"
+        } else {
+          Write-Error "Reference assemblies directory NOT FOUND at ${{ env.FRAMEWORK_REFERENCE_ASSEMBLIES_PATH }}"
+          # Also check the parent directory in case the path is slightly different
+          Get-ChildItem -Path "C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework" -ErrorAction SilentlyContinue
+          exit 1
+        }
+      shell: powershell
+
+    # Sets up MSBuild in the environment. This step must run after installing any targeting packs.
     - name: Setup MSBuild
       uses: microsoft/setup-msbuild@v2
 
-    # Sets up the NuGet CLI for restoring packages
+    # Sets up the NuGet CLI for restoring packages.
     - name: Setup NuGet
       uses: nuget/setup-nuget@v2
       with:
         nuget-version: 'latest'
 
-    # Restores the NuGet packages for your solution using the environment variable
+    # Restores the NuGet packages for your solution.
     - name: Restore NuGet packages
       run: nuget restore ${{ env.SOLUTION_FILE_PATH }}
 
-    # Builds the solution using the environment variable.
-    # The /p:Configuration=Release flag builds the project in Release mode.
-    # ADDED: Explicitly setting the TargetFrameworkVersion to v4.0 for clarity and to avoid potential build issues.
+    # Builds the solution.
+    # UPDATED: Explicitly override the framework path for MSBuild.
+    # This directly tells MSBuild where to find the .NET 4.0 assemblies, bypassing any auto-detection issues.
     - name: Build solution
-      run: msbuild ${{ env.SOLUTION_FILE_PATH }} /p:Configuration=Release /p:TargetFrameworkVersion=v4.0
+      run: >
+        msbuild ${{ env.SOLUTION_FILE_PATH }} 
+        /p:Configuration=Release 
+        /p:TargetFrameworkVersion=v4.0 
+        /p:FrameworkPathOverride="${{ env.FRAMEWORK_REFERENCE_ASSEMBLIES_PATH }}"
 
     # Runs the unit tests for your project.
-    # This command finds and runs tests from assemblies matching the pattern in the environment variable.
     - name: Run unit tests
       run: |
-        # UPDATED: Use vswhere to robustly find the path to vstest.console.exe.
         $vstestPath = vswhere -latest -requires Microsoft.VisualStudio.PackageGroup.TestTools.Core -find **\vstest.console.exe | Select-Object -First 1
         if (-not $vstestPath) {
           Write-Error "vstest.console.exe not found."
@@ -86,10 +92,10 @@ jobs:
         & $vstestPath (Get-ChildItem -Recurse -Filter ${{ env.TEST_ASSEMBLY_PATTERN }} | Where-Object { $_.Name -notlike "*obj*" } | Select-Object -ExpandProperty FullName) /Logger:trx
       shell: powershell
 
-    # (Optional) Publishes the test results so they can be viewed in the GitHub Actions summary.
+    # Publishes the test results.
     - name: Publish test results
       uses: dorny/test-reporter@v1
-      if: always() # This ensures the report is published even if tests fail
+      if: always()
       with:
         name: Test Results
         path: TestResults/*.trx
