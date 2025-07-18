@@ -17,6 +17,7 @@ jobs:
     # Environment variables to easily manage your project names
     env:
       SOLUTION_FILE_PATH: gMKVExtractGUI.sln
+      TEST_ASSEMBLY_PATTERN: '*gMKVToolnix.Unit.Tests.dll'
 
     steps:
     # Checks out a copy of your repository on the runner.
@@ -25,35 +26,46 @@ jobs:
       with:
         fetch-depth: 0
 
-    # Install the .NET 4.0 Targeting Pack using the VS Installer.
-    # UPDATED: Add a second, related component to ensure all necessary assemblies are installed.
-    - name: Install .NET 4.0 Targeting Pack
-      run: |
-        $vsInstaller = "C:\Program Files (x86)\Microsoft Visual Studio\Installer\vs_installer.exe"
-        $vsPath = vswhere -latest -property installationPath
-        Write-Host "Adding .NET 4.0 targeting components to VS installation at '$vsPath'..."
-        $argumentList = "modify --installPath ""$vsPath"" --add Microsoft.VisualStudio.Component.Framework40.TargetingPack --add Microsoft.VisualStudio.Component.NetFx4-TargetingPack --quiet --norestart"
-        $process = Start-Process -FilePath $vsInstaller -ArgumentList $argumentList -Wait -PassThru
-        if ($process.ExitCode -ne 0) {
-          Write-Error "VS Installer failed with exit code $($process.ExitCode). Arguments used: $argumentList"
-          exit $process.ExitCode
-        }
-        Write-Host ".NET 4.0 Targeting Packs installed successfully."
-      shell: powershell
-
     # Sets up the NuGet CLI. This is still needed for the nuget command.
     - name: Setup NuGet
       uses: nuget/setup-nuget@v2
       with:
         nuget-version: 'latest'
 
-    # Use the classic Developer Command Prompt to set the environment before building.
-    - name: Restore and Build solution
+    # UPDATED: Merged install, restore, and build into a single step to ensure a consistent environment.
+    - name: Install, Restore, and Build solution
       run: |
+        echo "Starting installation of .NET 4.0 Targeting Packs..."
+        powershell -Command "$vsInstaller = 'C:\Program Files (x86)\Microsoft Visual Studio\Installer\vs_installer.exe'; $vsPath = vswhere -latest -property installationPath; Write-Host 'Adding .NET 4.0 targeting components to VS installation at '+$vsPath; $argumentList = 'modify --installPath ""' + $vsPath + '"" --add Microsoft.VisualStudio.Component.Framework40.TargetingPack --add Microsoft.VisualStudio.Component.NetFx4-TargetingPack --quiet --norestart'; $process = Start-Process -FilePath $vsInstaller -ArgumentList $argumentList -Wait -PassThru; if ($process.ExitCode -ne 0) { Write-Error 'VS Installer failed.'; exit $process.ExitCode }"
+        
+        echo "Installation complete. Configuring build environment..."
         for /f "usebackq tokens=*" %%i in (`vswhere -latest -property installationPath`) do set VS_PATH=%%i
         call "%VS_PATH%\Common7\Tools\VsDevCmd.bat" -arch=x86
+
         echo "Environment configured. Restoring NuGet packages..."
         nuget restore ${{ env.SOLUTION_FILE_PATH }}
+
         echo "NuGet packages restored. Building solution..."
         msbuild ${{ env.SOLUTION_FILE_PATH }} /p:Configuration=Release /p:TargetFrameworkVersion=v4.0
       shell: cmd
+
+    # NOTE: The following test steps are commented out.
+    # Once the build succeeds, you can uncomment them to re-enable your tests.
+    #
+    # - name: Run unit tests
+    #   run: |
+    #     $vstestPath = vswhere -latest -requires Microsoft.VisualStudio.PackageGroup.TestTools.Core -find **\vstest.console.exe | Select-Object -First 1
+    #     if (-not $vstestPath) {
+    #       Write-Error "vstest.console.exe not found."
+    #       exit 1
+    #     }
+    #     & $vstestPath (Get-ChildItem -Recurse -Filter ${{ env.TEST_ASSEMBLY_PATTERN }} | Where-Object { $_.Name -notlike "*obj*" } | Select-Object -ExpandProperty FullName) /Logger:trx
+    #   shell: powershell
+    #
+    # - name: Publish test results
+    #   uses: dorny/test-reporter@v1
+    #   if: always()
+    #   with:
+    #     name: Test Results
+    #     path: TestResults/*.trx
+    #     reporter: dotnet-trx
