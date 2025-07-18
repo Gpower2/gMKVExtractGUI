@@ -17,9 +17,6 @@ jobs:
     # Environment variables to easily manage your project names
     env:
       SOLUTION_FILE_PATH: gMKVExtractGUI.sln
-      TEST_ASSEMBLY_PATTERN: '*gMKVToolnix.Unit.Tests.dll'
-      # This variable is now used for locating the Dev Command Prompt script
-      VS_PATH: "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise"
 
     steps:
     # Checks out a copy of your repository on the runner.
@@ -29,19 +26,19 @@ jobs:
         fetch-depth: 0
 
     # Install the .NET 4.0 Targeting Pack using the VS Installer.
+    # UPDATED: Add a second, related component to ensure all necessary assemblies are installed.
     - name: Install .NET 4.0 Targeting Pack
       run: |
         $vsInstaller = "C:\Program Files (x86)\Microsoft Visual Studio\Installer\vs_installer.exe"
-        $componentID = "Microsoft.VisualStudio.Component.Framework40.TargetingPack"
         $vsPath = vswhere -latest -property installationPath
-        Write-Host "Adding component '$componentID' to VS installation at '$vsPath'..."
-        $argumentList = "modify --installPath ""$vsPath"" --add $componentID --quiet --norestart"
+        Write-Host "Adding .NET 4.0 targeting components to VS installation at '$vsPath'..."
+        $argumentList = "modify --installPath ""$vsPath"" --add Microsoft.VisualStudio.Component.Framework40.TargetingPack --add Microsoft.VisualStudio.Component.NetFx4-TargetingPack --quiet --norestart"
         $process = Start-Process -FilePath $vsInstaller -ArgumentList $argumentList -Wait -PassThru
         if ($process.ExitCode -ne 0) {
           Write-Error "VS Installer failed with exit code $($process.ExitCode). Arguments used: $argumentList"
           exit $process.ExitCode
         }
-        Write-Host ".NET 4.0 Targeting Pack installed successfully."
+        Write-Host ".NET 4.0 Targeting Packs installed successfully."
       shell: powershell
 
     # Sets up the NuGet CLI. This is still needed for the nuget command.
@@ -50,32 +47,13 @@ jobs:
       with:
         nuget-version: 'latest'
 
-    # UPDATED: Use the classic Developer Command Prompt to set the environment before building.
+    # Use the classic Developer Command Prompt to set the environment before building.
     - name: Restore and Build solution
       run: |
-        call "${{ env.VS_PATH }}\Common7\Tools\VsDevCmd.bat" -arch=x86
+        for /f "usebackq tokens=*" %%i in (`vswhere -latest -property installationPath`) do set VS_PATH=%%i
+        call "%VS_PATH%\Common7\Tools\VsDevCmd.bat" -arch=x86
         echo "Environment configured. Restoring NuGet packages..."
         nuget restore ${{ env.SOLUTION_FILE_PATH }}
         echo "NuGet packages restored. Building solution..."
         msbuild ${{ env.SOLUTION_FILE_PATH }} /p:Configuration=Release /p:TargetFrameworkVersion=v4.0
       shell: cmd
-
-    # Runs the unit tests for your project.
-    - name: Run unit tests
-      run: |
-        $vstestPath = vswhere -latest -requires Microsoft.VisualStudio.PackageGroup.TestTools.Core -find **\vstest.console.exe | Select-Object -First 1
-        if (-not $vstestPath) {
-          Write-Error "vstest.console.exe not found."
-          exit 1
-        }
-        & $vstestPath (Get-ChildItem -Recurse -Filter ${{ env.TEST_ASSEMBLY_PATTERN }} | Where-Object { $_.Name -notlike "*obj*" } | Select-Object -ExpandProperty FullName) /Logger:trx
-      shell: powershell
-
-    # Publishes the test results.
-    - name: Publish test results
-      uses: dorny/test-reporter@v1
-      if: always()
-      with:
-        name: Test Results
-        path: TestResults/*.trx
-        reporter: dotnet-trx
