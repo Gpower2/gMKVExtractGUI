@@ -27,6 +27,12 @@ jobs:
       with:
         fetch-depth: 0
 
+    # Enable .NET Framework 3.5 feature, as it might be a dependency.
+    - name: Enable .NET Framework 3.5
+      run: |
+        dism /online /enable-feature /featurename:NetFX3 /all /norestart
+      shell: powershell
+
     # Install the .NET 4.0 Targeting Pack using the VS Installer.
     - name: Install .NET 4.0 Targeting Pack
       run: |
@@ -55,9 +61,10 @@ jobs:
         # Initialize the Visual Studio Developer Shell environment. This sets all necessary paths.
         $vsPath = vswhere -latest -property installationPath
         Import-Module -Name (Join-Path $vsPath "Common7\Tools\Microsoft.VisualStudio.DevShell.dll")
-        Enter-VsDevShell -VsInstallPath $vsPath -SkipAutomaticLocation
+        # UPDATED: Explicitly set the architecture to x86 to match the .NET Framework SDK locations.
+        Enter-VsDevShell -VsInstallPath $vsPath -SkipAutomaticLocation -Arch x86
         
-        Write-Host "Environment configured. Restoring NuGet packages..."
+        Write-Host "Environment configured for x86. Restoring NuGet packages..."
         nuget restore ${{ env.SOLUTION_FILE_PATH }}
         
         Write-Host "NuGet packages restored. Building solution..."
