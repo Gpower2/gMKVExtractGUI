@@ -18,7 +18,8 @@ jobs:
     env:
       SOLUTION_FILE_PATH: gMKVExtractGUI.sln
       TEST_ASSEMBLY_PATTERN: '*gMKVToolnix.Unit.Tests.dll'
-      FRAMEWORK_REFERENCE_ASSEMBLIES_PATH: "C:\\Program Files (x86)\\Reference Assemblies\\Microsoft\\Framework\\.NETFramework\\v4.0"
+      # This variable is now used for locating the Dev Command Prompt script
+      VS_PATH: "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise"
 
     steps:
     # Checks out a copy of your repository on the runner.
@@ -26,12 +27,6 @@ jobs:
       uses: actions/checkout@v4
       with:
         fetch-depth: 0
-
-    # Enable .NET Framework 3.5 feature, as it might be a dependency.
-    - name: Enable .NET Framework 3.5
-      run: |
-        dism /online /enable-feature /featurename:NetFX3 /all /norestart
-      shell: powershell
 
     # Install the .NET 4.0 Targeting Pack using the VS Installer.
     - name: Install .NET 4.0 Targeting Pack
@@ -55,22 +50,19 @@ jobs:
       with:
         nuget-version: 'latest'
 
-    # UPDATED: Combine Restore, Build, and Test into a single step within a configured developer environment.
-    - name: Restore, Build, and Test
+    # UPDATED: Use the classic Developer Command Prompt to set the environment before building.
+    - name: Restore and Build solution
       run: |
-        # Initialize the Visual Studio Developer Shell environment. This sets all necessary paths.
-        $vsPath = vswhere -latest -property installationPath
-        Import-Module -Name (Join-Path $vsPath "Common7\Tools\Microsoft.VisualStudio.DevShell.dll")
-        # UPDATED: Explicitly set the architecture to x86 to match the .NET Framework SDK locations.
-        Enter-VsDevShell -VsInstallPath $vsPath -SkipAutomaticLocation -Arch x86
-        
-        Write-Host "Environment configured for x86. Restoring NuGet packages..."
+        call "${{ env.VS_PATH }}\Common7\Tools\VsDevCmd.bat" -arch=x86
+        echo "Environment configured. Restoring NuGet packages..."
         nuget restore ${{ env.SOLUTION_FILE_PATH }}
-        
-        Write-Host "NuGet packages restored. Building solution..."
+        echo "NuGet packages restored. Building solution..."
         msbuild ${{ env.SOLUTION_FILE_PATH }} /p:Configuration=Release /p:TargetFrameworkVersion=v4.0
-        
-        Write-Host "Build complete. Running unit tests..."
+      shell: cmd
+
+    # Runs the unit tests for your project.
+    - name: Run unit tests
+      run: |
         $vstestPath = vswhere -latest -requires Microsoft.VisualStudio.PackageGroup.TestTools.Core -find **\vstest.console.exe | Select-Object -First 1
         if (-not $vstestPath) {
           Write-Error "vstest.console.exe not found."
