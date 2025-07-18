@@ -18,7 +18,6 @@ jobs:
     env:
       SOLUTION_FILE_PATH: gMKVExtractGUI.sln
       TEST_ASSEMBLY_PATTERN: '*gMKVToolnix.Unit.Tests.dll'
-      # Define the expected path for the reference assemblies
       FRAMEWORK_REFERENCE_ASSEMBLIES_PATH: "C:\\Program Files (x86)\\Reference Assemblies\\Microsoft\\Framework\\.NETFramework\\v4.0"
 
     steps:
@@ -28,23 +27,14 @@ jobs:
       with:
         fetch-depth: 0
 
-    # NEW: Enable .NET Framework 3.5 feature, as it might be a dependency.
-    - name: Enable .NET Framework 3.5
-      run: |
-        dism /online /enable-feature /featurename:NetFX3 /all /norestart
-      shell: powershell
-
     # Install the .NET 4.0 Targeting Pack using the VS Installer.
     - name: Install .NET 4.0 Targeting Pack
       run: |
         $vsInstaller = "C:\Program Files (x86)\Microsoft Visual Studio\Installer\vs_installer.exe"
         $componentID = "Microsoft.VisualStudio.Component.Framework40.TargetingPack"
-        # First, execute vswhere and store its output in a variable
         $vsPath = vswhere -latest -property installationPath
         Write-Host "Adding component '$componentID' to VS installation at '$vsPath'..."
-        # Then, build the argument list using the variable
         $argumentList = "modify --installPath ""$vsPath"" --add $componentID --quiet --norestart"
-        # Execute the installer with the correctly formatted arguments
         $process = Start-Process -FilePath $vsInstaller -ArgumentList $argumentList -Wait -PassThru
         if ($process.ExitCode -ne 0) {
           Write-Error "VS Installer failed with exit code $($process.ExitCode). Arguments used: $argumentList"
@@ -53,43 +43,27 @@ jobs:
         Write-Host ".NET 4.0 Targeting Pack installed successfully."
       shell: powershell
 
-    # Add a diagnostic step to verify the installation of reference assemblies.
-    - name: Verify Reference Assembly Installation
-      run: |
-        if (Test-Path "${{ env.FRAMEWORK_REFERENCE_ASSEMBLIES_PATH }}") {
-          Write-Host "Reference assemblies found at ${{ env.FRAMEWORK_REFERENCE_ASSEMBLIES_PATH }}. Listing contents:"
-          Get-ChildItem -Path "${{ env.FRAMEWORK_REFERENCE_ASSEMBLIES_PATH }}"
-        } else {
-          Write-Error "Reference assemblies directory NOT FOUND at ${{ env.FRAMEWORK_REFERENCE_ASSEMBLIES_PATH }}"
-          exit 1
-        }
-      shell: powershell
-
-    # Sets up MSBuild in the environment. This step must run after installing any targeting packs.
-    - name: Setup MSBuild
-      uses: microsoft/setup-msbuild@v2
-
-    # Sets up the NuGet CLI for restoring packages.
+    # Sets up the NuGet CLI. This is still needed for the nuget command.
     - name: Setup NuGet
       uses: nuget/setup-nuget@v2
       with:
         nuget-version: 'latest'
 
-    # Restores the NuGet packages for your solution.
-    - name: Restore NuGet packages
-      run: nuget restore ${{ env.SOLUTION_FILE_PATH }}
-
-    # Builds the solution.
-    # REMOVED: The /p:FrameworkPathOverride is removed. MSBuild should now find the assemblies correctly on its own.
-    - name: Build solution
-      run: >
-        msbuild ${{ env.SOLUTION_FILE_PATH }} 
-        /p:Configuration=Release 
-        /p:TargetFrameworkVersion=v4.0
-
-    # Runs the unit tests for your project.
-    - name: Run unit tests
+    # UPDATED: Combine Restore, Build, and Test into a single step within a configured developer environment.
+    - name: Restore, Build, and Test
       run: |
+        # Initialize the Visual Studio Developer Shell environment. This sets all necessary paths.
+        $vsPath = vswhere -latest -property installationPath
+        Import-Module -Name (Join-Path $vsPath "Common7\Tools\Microsoft.VisualStudio.DevShell.dll")
+        Enter-VsDevShell -VsInstallPath $vsPath -SkipAutomaticLocation
+        
+        Write-Host "Environment configured. Restoring NuGet packages..."
+        nuget restore ${{ env.SOLUTION_FILE_PATH }}
+        
+        Write-Host "NuGet packages restored. Building solution..."
+        msbuild ${{ env.SOLUTION_FILE_PATH }} /p:Configuration=Release /p:TargetFrameworkVersion=v4.0
+        
+        Write-Host "Build complete. Running unit tests..."
         $vstestPath = vswhere -latest -requires Microsoft.VisualStudio.PackageGroup.TestTools.Core -find **\vstest.console.exe | Select-Object -First 1
         if (-not $vstestPath) {
           Write-Error "vstest.console.exe not found."
