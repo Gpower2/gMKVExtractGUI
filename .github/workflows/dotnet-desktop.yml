@@ -11,9 +11,10 @@ on:
 
 jobs:
   build:
-    # Use a modern Windows runner.
+    # Use a modern Windows runner. 'windows-latest' will point to the newest stable Windows environment (e.g., windows-2022).
     runs-on: windows-latest
 
+    # Environment variables to easily manage your project names
     env:
       SOLUTION_FILE_PATH: gMKVExtractGUI.sln
       TEST_ASSEMBLY_PATTERN: '*gMKVToolnix.Unit.Tests.dll'
@@ -27,24 +28,24 @@ jobs:
       with:
         fetch-depth: 0
 
+    # NEW: Enable .NET Framework 3.5 feature, as it might be a dependency.
+    - name: Enable .NET Framework 3.5
+      run: |
+        dism /online /enable-feature /featurename:NetFX3 /all /norestart
+      shell: powershell
+
     # Install the .NET 4.0 Targeting Pack using the VS Installer.
-    # UPDATED: Corrected the script to properly pass the VS path to the installer.
     - name: Install .NET 4.0 Targeting Pack
       run: |
         $vsInstaller = "C:\Program Files (x86)\Microsoft Visual Studio\Installer\vs_installer.exe"
         $componentID = "Microsoft.VisualStudio.Component.Framework40.TargetingPack"
-        
         # First, execute vswhere and store its output in a variable
         $vsPath = vswhere -latest -property installationPath
-        
         Write-Host "Adding component '$componentID' to VS installation at '$vsPath'..."
-        
         # Then, build the argument list using the variable
         $argumentList = "modify --installPath ""$vsPath"" --add $componentID --quiet --norestart"
-        
         # Execute the installer with the correctly formatted arguments
         $process = Start-Process -FilePath $vsInstaller -ArgumentList $argumentList -Wait -PassThru
-        
         if ($process.ExitCode -ne 0) {
           Write-Error "VS Installer failed with exit code $($process.ExitCode). Arguments used: $argumentList"
           exit $process.ExitCode
@@ -64,7 +65,7 @@ jobs:
         }
       shell: powershell
 
-    # Sets up MSBuild in the environment.
+    # Sets up MSBuild in the environment. This step must run after installing any targeting packs.
     - name: Setup MSBuild
       uses: microsoft/setup-msbuild@v2
 
@@ -79,13 +80,12 @@ jobs:
       run: nuget restore ${{ env.SOLUTION_FILE_PATH }}
 
     # Builds the solution.
-    # Explicitly overrides the framework path for MSBuild to ensure it finds the assemblies.
+    # REMOVED: The /p:FrameworkPathOverride is removed. MSBuild should now find the assemblies correctly on its own.
     - name: Build solution
       run: >
         msbuild ${{ env.SOLUTION_FILE_PATH }} 
         /p:Configuration=Release 
-        /p:TargetFrameworkVersion=v4.0 
-        /p:FrameworkPathOverride="${{ env.FRAMEWORK_REFERENCE_ASSEMBLIES_PATH }}"
+        /p:TargetFrameworkVersion=v4.0
 
     # Runs the unit tests for your project.
     - name: Run unit tests
