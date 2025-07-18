@@ -12,7 +12,7 @@ on:
 jobs:
   build:
     # Use a Windows runner because .NET Framework is Windows-specific
-    runs-on: windows-latest
+    runs-on: windows-2019
 
     # Environment variables to easily manage your project names
     env:
