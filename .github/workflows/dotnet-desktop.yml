@@ -49,7 +49,7 @@ jobs:
         Write-Host ".NET 4.0 Targeting Packs installed successfully."
       shell: powershell
 
-    # UPDATED: This step now explicitly calls the 32-bit (x86) MSBuild executable.
+    # UPDATED: This step now constructs the path to the 32-bit MSBuild executable dynamically.
     - name: Restore and Build solution
       run: |
         echo "Configuring build environment..."
@@ -60,8 +60,8 @@ jobs:
         nuget restore ${{ env.SOLUTION_FILE_PATH }}
 
         echo "NuGet packages restored. Building solution with explicit x86 MSBuild..."
-        REM The key change is calling the x86 MSBuild directly from the Program Files (x86) directory.
-        "C:\Program Files (x86)\Microsoft Visual Studio\2022\Enterprise\MSBuild\Current\Bin\MSBuild.exe" ${{ env.SOLUTION_FILE_PATH }} /p:Configuration=Release /p:TargetFrameworkVersion=v4.0
+        REM The key change is constructing the path to MSBuild dynamically using the VS_PATH variable.
+        call "%VS_PATH%\MSBuild\Current\Bin\MSBuild.exe" ${{ env.SOLUTION_FILE_PATH }} /p:Configuration=Release /p:TargetFrameworkVersion=v4.0
       shell: cmd
 
     - name: Run unit tests
