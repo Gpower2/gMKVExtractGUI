@@ -18,6 +18,8 @@ jobs:
     env:
       SOLUTION_FILE_PATH: gMKVExtractGUI.sln
       TEST_ASSEMBLY_PATTERN: '*gMKVToolnix.Unit.Tests.dll'
+      # Define the root path for .NET Framework reference assemblies.
+      FRAMEWORK_ROOT_PATH: "C:\\Program Files (x86)\\Reference Assemblies\\Microsoft\\Framework\\"
 
     steps:
     # Checks out a copy of your repository on the runner.
@@ -49,7 +51,7 @@ jobs:
         Write-Host ".NET 4.0 Targeting Packs installed successfully."
       shell: powershell
 
-    # UPDATED: This step now constructs the path to the 32-bit MSBuild executable dynamically.
+    # UPDATED: This step now explicitly tells MSBuild where to find the reference assembly root.
     - name: Restore and Build solution
       run: |
         echo "Configuring build environment..."
@@ -59,9 +61,8 @@ jobs:
         echo "Environment configured. Restoring NuGet packages..."
         nuget restore ${{ env.SOLUTION_FILE_PATH }}
 
-        echo "NuGet packages restored. Building solution with explicit x86 MSBuild..."
-        REM The key change is constructing the path to MSBuild dynamically using the VS_PATH variable.
-        call "%VS_PATH%\MSBuild\Current\Bin\MSBuild.exe" ${{ env.SOLUTION_FILE_PATH }} /p:Configuration=Release /p:TargetFrameworkVersion=v4.0
+        echo "NuGet packages restored. Building solution with explicit TargetFrameworkRootPath..."
+        msbuild ${{ env.SOLUTION_FILE_PATH }} /p:Configuration=Release /p:TargetFrameworkVersion=v4.0 /p:TargetFrameworkRootPath="${{ env.FRAMEWORK_ROOT_PATH }}"
       shell: cmd
 
     - name: Run unit tests
