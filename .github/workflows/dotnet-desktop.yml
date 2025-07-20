@@ -18,8 +18,6 @@ jobs:
     env:
       SOLUTION_FILE_PATH: gMKVExtractGUI.sln
       TEST_ASSEMBLY_PATTERN: '*gMKVToolnix.Unit.Tests.dll'
-      # Define the path to the .NET 4.x SDK tools. This is a standard path on the runners.
-      NETFX_SDK_TOOLS_PATH: "C:\\Program Files (x86)\\Microsoft SDKs\\Windows\\v10.0A\\bin\\NETFX 4.8 Tools\\"
 
     steps:
     # Checks out a copy of your repository on the runner.
@@ -34,7 +32,7 @@ jobs:
       with:
         nuget-version: 'latest'
 
-    # UPDATED: Isolate the VS Installer into its own dedicated PowerShell step to prevent hangs.
+    # Isolate the VS Installer into its own dedicated PowerShell step to prevent hangs.
     - name: Install .NET 4.0 Targeting Packs
       run: |
         echo "Starting installation of .NET 4.0 Targeting Packs..."
@@ -51,7 +49,7 @@ jobs:
         Write-Host ".NET 4.0 Targeting Packs installed successfully."
       shell: powershell
 
-    # UPDATED: This step now runs separately and configures its own environment just-in-time.
+    # UPDATED: This step now explicitly calls the 32-bit (x86) MSBuild executable.
     - name: Restore and Build solution
       run: |
         echo "Configuring build environment..."
@@ -61,8 +59,9 @@ jobs:
         echo "Environment configured. Restoring NuGet packages..."
         nuget restore ${{ env.SOLUTION_FILE_PATH }}
 
-        echo "NuGet packages restored. Building solution with explicit SDK path..."
-        msbuild ${{ env.SOLUTION_FILE_PATH }} /p:Configuration=Release /p:TargetFrameworkVersion=v4.0 /p:TargetFrameworkSDKToolsDirectory="${{ env.NETFX_SDK_TOOLS_PATH }}"
+        echo "NuGet packages restored. Building solution with explicit x86 MSBuild..."
+        REM The key change is calling the x86 MSBuild directly from the Program Files (x86) directory.
+        "C:\Program Files (x86)\Microsoft Visual Studio\2022\Enterprise\MSBuild\Current\Bin\MSBuild.exe" ${{ env.SOLUTION_FILE_PATH }} /p:Configuration=Release /p:TargetFrameworkVersion=v4.0
       shell: cmd
 
     - name: Run unit tests
