@@ -18,6 +18,8 @@ jobs:
     env:
       SOLUTION_FILE_PATH: gMKVExtractGUI.sln
       TEST_ASSEMBLY_PATTERN: '*gMKVToolnix.Unit.Tests.dll'
+      # Define the path to the .NET 4.x SDK tools. This is a standard path on the runners.
+      NETFX_SDK_TOOLS_PATH: "C:\\Program Files (x86)\\Microsoft SDKs\\Windows\\v10.0A\\bin\\NETFX 4.8 Tools\\"
 
     steps:
     # Checks out a copy of your repository on the runner.
@@ -32,36 +34,23 @@ jobs:
       with:
         nuget-version: 'latest'
 
-    # UPDATED: This step installs dependencies and then saves the build environment for subsequent steps.
-    - name: Setup Build Environment
+    # UPDATED: Combined install, restore, and build into a single CMD session.
+    # This ensures a consistent environment and explicitly points MSBuild to the correct SDK tools.
+    - name: Install, Restore, and Build
       run: |
         echo "Starting installation of .NET 4.0 Targeting Packs..."
-        $vsInstaller = "C:\Program Files (x86)\Microsoft Visual Studio\Installer\vs_installer.exe"
-        $vsPath = vswhere -latest -property installationPath
-        # Use -passive instead of -quiet to show progress and prevent timeouts
-        $argumentList = "modify --installPath ""$vsPath"" --add Microsoft.VisualStudio.Component.Framework40.TargetingPack --add Microsoft.VisualStudio.Component.NetFx4-TargetingPack --passive --norestart"
-        $process = Start-Process -FilePath $vsInstaller -ArgumentList $argumentList -Wait -PassThru
-        if ($process.ExitCode -ne 0) {
-          Write-Error "VS Installer failed with exit code $($process.ExitCode)."
-          exit $process.ExitCode
-        }
+        powershell -Command "$vsInstaller = 'C:\Program Files (x86)\Microsoft Visual Studio\Installer\vs_installer.exe'; $vsPath = vswhere -latest -property installationPath; Write-Host 'Adding .NET 4.0 targeting components to VS installation at '+$vsPath; $argumentList = 'modify --installPath ""' + $vsPath + '"" --add Microsoft.VisualStudio.Component.Framework40.TargetingPack --add Microsoft.VisualStudio.Component.NetFx4-TargetingPack --passive --norestart'; $process = Start-Process -FilePath $vsInstaller -ArgumentList $argumentList -Wait -PassThru; if ($process.ExitCode -ne 0) { Write-Error 'VS Installer failed.'; exit $process.ExitCode }"
         
-        echo "Installation complete. Configuring and saving build environment..."
-        # Get the environment variables from the Developer Command Prompt and save them to the GITHUB_ENV file
-        $devCmdPath = Join-Path $vsPath "Common7\Tools\VsDevCmd.bat"
-        cmd.exe /c "`"$devCmdPath`" -arch=x86 && set" | ForEach-Object {
-          if ($_ -match "=") {
-            $key, $value = $_.Split("=", 2)
-            "$key=$value" >> $env:GITHUB_ENV
-          }
-        }
-      shell: powershell
+        echo "Installation complete. Configuring build environment..."
+        for /f "usebackq tokens=*" %%i in (`vswhere -latest -property installationPath`) do set VS_PATH=%%i
+        call "%VS_PATH%\Common7\Tools\VsDevCmd.bat" -arch=x86
 
-    - name: Restore NuGet Packages
-      run: nuget restore ${{ env.SOLUTION_FILE_PATH }}
+        echo "Environment configured. Restoring NuGet packages..."
+        nuget restore ${{ env.SOLUTION_FILE_PATH }}
 
-    - name: Build solution
-      run: msbuild ${{ env.SOLUTION_FILE_PATH }} /p:Configuration=Release /p:TargetFrameworkVersion=v4.0
+        echo "NuGet packages restored. Building solution with explicit SDK path..."
+        msbuild ${{ env.SOLUTION_FILE_PATH }} /p:Configuration=Release /p:TargetFrameworkVersion=v4.0 /p:TargetFrameworkSDKToolsDirectory="${{ env.NETFX_SDK_TOOLS_PATH }}"
+      shell: cmd
 
     - name: Run unit tests
       run: |
