@@ -51,7 +51,7 @@ jobs:
         Write-Host ".NET 4.0 Targeting Packs installed successfully."
       shell: powershell
 
-    # UPDATED: This step now combines forcing the platform AND specifying the assembly root path.
+    # UPDATED: This step now uses maximum explicitness to force the correct build context.
     - name: Restore and Build solution
       run: |
         echo "Configuring build environment..."
@@ -61,9 +61,9 @@ jobs:
         echo "Environment configured. Restoring NuGet packages..."
         nuget restore ${{ env.SOLUTION_FILE_PATH }}
 
-        echo "NuGet packages restored. Building solution for x86 platform with explicit root path..."
-        rem The key change is using both /p:Platform and /p:TargetFrameworkRootPath
-        call "%VS_PATH%\MSBuild\Current\Bin\MSBuild.exe" ${{ env.SOLUTION_FILE_PATH }} /p:Configuration=Release /p:Platform=x86 /p:TargetFrameworkVersion=v4.0 /p:TargetFrameworkRootPath="${{ env.FRAMEWORK_ROOT_PATH }}"
+        echo "NuGet packages restored. Building solution with maximum explicitness..."
+        rem The key change is using Platform, ProcessorArchitecture, and TargetFrameworkRootPath together.
+        call "%VS_PATH%\MSBuild\Current\Bin\MSBuild.exe" ${{ env.SOLUTION_FILE_PATH }} /p:Configuration=Release /p:Platform=x86 /p:ProcessorArchitecture=x86 /p:TargetFrameworkVersion=v4.0 /p:TargetFrameworkRootPath="${{ env.FRAMEWORK_ROOT_PATH }}"
       shell: cmd
 
     - name: Run unit tests
