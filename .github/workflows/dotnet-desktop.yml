@@ -34,14 +34,27 @@ jobs:
       with:
         nuget-version: 'latest'
 
-    # UPDATED: Combined install, restore, and build into a single CMD session.
-    # This ensures a consistent environment and explicitly points MSBuild to the correct SDK tools.
-    - name: Install, Restore, and Build
+    # UPDATED: Isolate the VS Installer into its own dedicated PowerShell step to prevent hangs.
+    - name: Install .NET 4.0 Targeting Packs
       run: |
         echo "Starting installation of .NET 4.0 Targeting Packs..."
-        powershell -Command "$vsInstaller = 'C:\Program Files (x86)\Microsoft Visual Studio\Installer\vs_installer.exe'; $vsPath = vswhere -latest -property installationPath; Write-Host 'Adding .NET 4.0 targeting components to VS installation at '+$vsPath; $argumentList = 'modify --installPath ""' + $vsPath + '"" --add Microsoft.VisualStudio.Component.Framework40.TargetingPack --add Microsoft.VisualStudio.Component.NetFx4-TargetingPack --passive --norestart'; $process = Start-Process -FilePath $vsInstaller -ArgumentList $argumentList -Wait -PassThru; if ($process.ExitCode -ne 0) { Write-Error 'VS Installer failed.'; exit $process.ExitCode }"
-        
-        echo "Installation complete. Configuring build environment..."
+        $vsInstaller = "C:\Program Files (x86)\Microsoft Visual Studio\Installer\vs_installer.exe"
+        $vsPath = vswhere -latest -property installationPath
+        Write-Host "Adding .NET 4.0 targeting components to VS installation at $vsPath"
+        # Use -passive to show progress and -norestart to prevent the runner from rebooting.
+        $argumentList = "modify --installPath ""$vsPath"" --add Microsoft.VisualStudio.Component.Framework40.TargetingPack --add Microsoft.VisualStudio.Component.NetFx4-TargetingPack --passive --norestart"
+        $process = Start-Process -FilePath $vsInstaller -ArgumentList $argumentList -Wait -PassThru
+        if ($process.ExitCode -ne 0) {
+          Write-Error "VS Installer failed with exit code $($process.ExitCode)."
+          exit $process.ExitCode
+        }
+        Write-Host ".NET 4.0 Targeting Packs installed successfully."
+      shell: powershell
+
+    # UPDATED: This step now runs separately and configures its own environment just-in-time.
+    - name: Restore and Build solution
+      run: |
+        echo "Configuring build environment..."
         for /f "usebackq tokens=*" %%i in (`vswhere -latest -property installationPath`) do set VS_PATH=%%i
         call "%VS_PATH%\Common7\Tools\VsDevCmd.bat" -arch=x86
 
