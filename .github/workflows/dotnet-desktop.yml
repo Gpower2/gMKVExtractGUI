@@ -18,8 +18,8 @@ jobs:
     env:
       SOLUTION_FILE_PATH: gMKVExtractGUI.sln
       TEST_ASSEMBLY_PATTERN: '*gMKVToolnix.Unit.Tests.dll'
-      # Define the root path for .NET Framework reference assemblies.
-      FRAMEWORK_ROOT_PATH: "C:\\Program Files (x86)\\Reference Assemblies\\Microsoft\\Framework\\"
+      # UPDATED: Removed the trailing backslash to prevent shell escaping issues.
+      FRAMEWORK_ROOT_PATH: "C:\\Program Files (x86)\\Reference Assemblies\\Microsoft\\Framework"
 
     steps:
     # Checks out a copy of your repository on the runner.
@@ -51,7 +51,7 @@ jobs:
         Write-Host ".NET 4.0 Targeting Packs installed successfully."
       shell: powershell
 
-    # UPDATED: This step now explicitly tells MSBuild where to find the reference assembly root.
+    # This step now explicitly tells MSBuild where to find the reference assembly root.
     - name: Restore and Build solution
       run: |
         echo "Configuring build environment..."
