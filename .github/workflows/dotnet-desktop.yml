@@ -18,8 +18,8 @@ jobs:
     env:
       SOLUTION_FILE_PATH: gMKVExtractGUI.sln
       TEST_ASSEMBLY_PATTERN: '*gMKVToolnix.Unit.Tests.dll'
-      # Define the root path for .NET Framework reference assemblies, without a trailing slash.
-      FRAMEWORK_ROOT_PATH: "C:\\Program Files (x86)\\Reference Assemblies\\Microsoft\\Framework"
+      # UPDATED: Pointing to the specific .NETFramework directory.
+      FRAMEWORK_ROOT_PATH: "C:\\Program Files (x86)\\Reference Assemblies\\Microsoft\\Framework\\.NETFramework"
 
     steps:
     # Checks out a copy of your repository on the runner.
@@ -51,7 +51,7 @@ jobs:
         Write-Host ".NET 4.0 Targeting Packs installed successfully."
       shell: powershell
 
-    # UPDATED: This step now uses maximum explicitness to force the correct build context.
+    # UPDATED: This step now bypasses the failing MSBuild target by setting the directory property directly.
     - name: Restore and Build solution
       run: |
         echo "Configuring build environment..."
@@ -61,9 +61,9 @@ jobs:
         echo "Environment configured. Restoring NuGet packages..."
         nuget restore ${{ env.SOLUTION_FILE_PATH }}
 
-        echo "NuGet packages restored. Building solution with maximum explicitness..."
-        rem The key change is using Platform, ProcessorArchitecture, and TargetFrameworkRootPath together.
-        call "%VS_PATH%\MSBuild\Current\Bin\MSBuild.exe" ${{ env.SOLUTION_FILE_PATH }} /p:Configuration=Release /p:Platform=x86 /p:ProcessorArchitecture=x86 /p:TargetFrameworkVersion=v4.0 /p:TargetFrameworkRootPath="${{ env.FRAMEWORK_ROOT_PATH }}"
+        echo "NuGet packages restored. Building solution with direct assembly path..."
+        rem The key change is using /p:_TargetFrameworkDirectories to bypass the failing GetReferenceAssemblyPaths target.
+        call "%VS_PATH%\MSBuild\Current\Bin\MSBuild.exe" ${{ env.SOLUTION_FILE_PATH }} /p:Configuration=Release /p:Platform=x86 /p:TargetFrameworkVersion=v4.0 /p:_TargetFrameworkDirectories="${{ env.FRAMEWORK_ROOT_PATH }}\v4.0"
       shell: cmd
 
     - name: Run unit tests
