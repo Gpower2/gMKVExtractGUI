@@ -89,6 +89,7 @@ namespace gMKVToolNix.MkvExtract
             , string argOutputDirectory
             , string argMKVFile
             , gMKVExtractFilenamePatterns argFilenamePatterns
+            , bool argOverwriteExistingFile
             , MkvExtractModes argMkvExtractMode
             , MkvChapterTypes argMkvChapterType = MkvChapterTypes.XML)
         {
@@ -212,7 +213,7 @@ namespace gMKVToolNix.MkvExtract
                     break;
             }
 
-            return outputFilename.GetOutputFilename();
+            return outputFilename.GetOutputFilename(argOverwriteExistingFile);
         }
 
         private static string GetVideoFileExtensionFromCodecID(this gMKVTrack argTrack)

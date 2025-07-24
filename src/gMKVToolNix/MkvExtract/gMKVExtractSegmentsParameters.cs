@@ -14,6 +14,7 @@ namespace gMKVToolNix.MkvExtract
         public TimecodesExtractionMode TimecodesExtractionMode { get; set; }
         public CuesExtractionMode CueExtractionMode { get; set; }
         public gMKVExtractFilenamePatterns FilenamePatterns { get; set; }
+        public bool OverwriteExistingFile { get; set; } = false;
 
         public override bool Equals(object oth)
         {
@@ -33,6 +34,7 @@ namespace gMKVToolNix.MkvExtract
                 && TimecodesExtractionMode == other.TimecodesExtractionMode
                 && CueExtractionMode == other.CueExtractionMode
                 && FilenamePatterns.Equals(other.FilenamePatterns)
+                && OverwriteExistingFile.Equals(other.OverwriteExistingFile)
             ;
         }
 
@@ -48,6 +50,7 @@ namespace gMKVToolNix.MkvExtract
                 hash = hash * 23 + TimecodesExtractionMode.GetHashCode();
                 hash = hash * 23 + CueExtractionMode.GetHashCode();
                 hash = hash * 23 + FilenamePatterns.GetHashCode();
+                hash = hash * 23 + OverwriteExistingFile.GetHashCode();
                 return hash;
             }
         }

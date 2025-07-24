@@ -74,7 +74,8 @@ namespace gMKVToolNix.MkvExtract
                     parameters.ChapterType,
                     parameters.TimecodesExtractionMode,
                     parameters.CueExtractionMode,
-                    parameters.FilenamePatterns
+                    parameters.FilenamePatterns,
+                    parameters.OverwriteExistingFile
                 );
             }
             catch (Exception ex)
@@ -91,6 +92,7 @@ namespace gMKVToolNix.MkvExtract
             , TimecodesExtractionMode argTimecodesExtractionMode
             , CuesExtractionMode argCueExtractionMode
             , gMKVExtractFilenamePatterns argFilenamePatterns
+            , bool argOverwriteExistingFile
         )
         {
             Abort = false;
@@ -118,6 +120,7 @@ namespace gMKVToolNix.MkvExtract
                             argTimecodesExtractionMode, 
                             argCueExtractionMode, 
                             argFilenamePatterns,
+                            argOverwriteExistingFile,
                             _Version));
                 }
                 catch (Exception ex)
@@ -255,7 +258,8 @@ namespace gMKVToolNix.MkvExtract
                     parameters.ChapterType,
                     TimecodesExtractionMode.OnlyTimecodes,
                     CuesExtractionMode.NoCues,
-                    parameters.FilenamePatterns
+                    parameters.FilenamePatterns,
+                    parameters.OverwriteExistingFile
                 );
             }
             catch (Exception ex)
@@ -277,7 +281,8 @@ namespace gMKVToolNix.MkvExtract
                     parameters.ChapterType,
                     TimecodesExtractionMode.NoTimecodes,
                     CuesExtractionMode.OnlyCues,
-                    parameters.FilenamePatterns
+                    parameters.FilenamePatterns,
+                    parameters.OverwriteExistingFile
                 );
             }
             catch (Exception ex)
@@ -295,7 +300,8 @@ namespace gMKVToolNix.MkvExtract
                 ExtractMkvCuesheet(
                     parameters.MKVFile,
                     parameters.OutputDirectory,
-                    parameters.FilenamePatterns
+                    parameters.FilenamePatterns,
+                    parameters.OverwriteExistingFile
                 );
             }
             catch (Exception ex)
@@ -304,7 +310,11 @@ namespace gMKVToolNix.MkvExtract
             }
         }
 
-        public void ExtractMkvCuesheet(string argMKVFile, string argOutputDirectory, gMKVExtractFilenamePatterns argFilenamePatterns)
+        public void ExtractMkvCuesheet(
+            string argMKVFile, 
+            string argOutputDirectory, 
+            gMKVExtractFilenamePatterns argFilenamePatterns,
+            bool argOverwriteExistingFile)
         {
             Abort = false;
             AbortAll = false;
@@ -313,7 +323,8 @@ namespace gMKVToolNix.MkvExtract
                 null, 
                 argOutputDirectory, 
                 argMKVFile, 
-                argFilenamePatterns, 
+                argFilenamePatterns,
+                argOverwriteExistingFile,
                 MkvExtractModes.cuesheet);
 
             List<string> errors = new List<string>();
@@ -370,7 +381,8 @@ namespace gMKVToolNix.MkvExtract
                 ExtractMkvTags(
                     parameters.MKVFile,
                     parameters.OutputDirectory,
-                    parameters.FilenamePatterns
+                    parameters.FilenamePatterns,
+                    parameters.OverwriteExistingFile
                 );
             }
             catch (Exception ex)
@@ -379,7 +391,11 @@ namespace gMKVToolNix.MkvExtract
             }
         }
 
-        public void ExtractMkvTags(string argMKVFile, string argOutputDirectory, gMKVExtractFilenamePatterns argFilenamePatterns)
+        public void ExtractMkvTags(
+            string argMKVFile, 
+            string argOutputDirectory, 
+            gMKVExtractFilenamePatterns argFilenamePatterns,
+            bool argOverwriteExistingFile)
         {
             Abort = false;
             AbortAll = false;
@@ -388,7 +404,8 @@ namespace gMKVToolNix.MkvExtract
                 null, 
                 argOutputDirectory, 
                 argMKVFile, 
-                argFilenamePatterns, 
+                argFilenamePatterns,
+                argOverwriteExistingFile,
                 MkvExtractModes.tags);
 
             List<string> errors = new List<string>();
@@ -454,6 +471,7 @@ namespace gMKVToolNix.MkvExtract
             , TimecodesExtractionMode argTimecodesExtractionMode
             , CuesExtractionMode argCueExtractionMode
             , gMKVExtractFilenamePatterns argFilenamePatterns
+            , bool argOverwriteExistingFile
             , gMKVVersion version)
         {
             // create the new parameter list type
@@ -474,7 +492,8 @@ namespace gMKVToolNix.MkvExtract
                             argSeg.GetOutputFilename(
                                 argOutputDirectory, 
                                 argMKVFile, 
-                                argFilenamePatterns, 
+                                argFilenamePatterns,
+                                argOverwriteExistingFile,
                                 MkvExtractModes.timestamps_v2)
                         ),
                         false,
@@ -493,7 +512,8 @@ namespace gMKVToolNix.MkvExtract
                             argSeg.GetOutputFilename(
                                 argOutputDirectory, 
                                 argMKVFile, 
-                                argFilenamePatterns, 
+                                argFilenamePatterns,
+                                argOverwriteExistingFile,
                                 MkvExtractModes.cues)
                         ),
                         false,
@@ -526,7 +546,8 @@ namespace gMKVToolNix.MkvExtract
                             argSeg.GetOutputFilename(
                                 argOutputDirectory, 
                                 argMKVFile, 
-                                argFilenamePatterns, 
+                                argFilenamePatterns,
+                                argOverwriteExistingFile,
                                 MkvExtractModes.tracks)
                         ),
                         false,
@@ -561,7 +582,8 @@ namespace gMKVToolNix.MkvExtract
                             argSeg.GetOutputFilename(
                                 argOutputDirectory, 
                                 argMKVFile, 
-                                argFilenamePatterns, 
+                                argFilenamePatterns,
+                                argOverwriteExistingFile,
                                 MkvExtractModes.attachments)
                         ),
                         false,
@@ -598,7 +620,8 @@ namespace gMKVToolNix.MkvExtract
                         argOutputDirectory, 
                         argMKVFile, 
                         argFilenamePatterns, 
-                        MkvExtractModes.chapters, 
+                        argOverwriteExistingFile,
+                        MkvExtractModes.chapters,
                         argChapterType);
 
                     // add the parameter for extracting the chapters

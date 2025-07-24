@@ -55,6 +55,7 @@ namespace gMKVToolNix.Forms
             this.setAsDefaultDirectoryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.useCurrentlySetDefaultDirectoryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.grpConfig = new gMKVToolNix.gGroupBox();
+            this.btnAutoDetectMkvToolnix = new System.Windows.Forms.Button();
             this.txtMKVToolnixPath = new gMKVToolNix.gTextBox();
             this.btnBrowseMKVToolnixPath = new System.Windows.Forms.Button();
             this.grpInputFiles = new gMKVToolNix.gGroupBox();
@@ -96,6 +97,8 @@ namespace gMKVToolNix.Forms
             this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
             this.expandAllToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.collapseAllToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.pnlFileOptions = new System.Windows.Forms.Panel();
+            this.chkOverwriteExistingFiles = new System.Windows.Forms.CheckBox();
             this.chkAppendOnDragAndDrop = new System.Windows.Forms.CheckBox();
             this.grpSelectedFileInfo = new gMKVToolNix.gGroupBox();
             this.txtSegmentInfo = new gMKVToolNix.gRichTextBox();
@@ -103,7 +106,6 @@ namespace gMKVToolNix.Forms
             this.btnAbortAll = new System.Windows.Forms.Button();
             this.btnOptions = new System.Windows.Forms.Button();
             this.chkDarkMode = new System.Windows.Forms.CheckBox();
-            this.btnAutoDetectMkvToolnix = new System.Windows.Forms.Button();
             this.statusStrip.SuspendLayout();
             this.tlpMain.SuspendLayout();
             this.grpActions.SuspendLayout();
@@ -113,6 +115,7 @@ namespace gMKVToolNix.Forms
             this.grpInputFiles.SuspendLayout();
             this.tlpInput.SuspendLayout();
             this.contextMenuStrip.SuspendLayout();
+            this.pnlFileOptions.SuspendLayout();
             this.grpSelectedFileInfo.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -381,6 +384,17 @@ namespace gMKVToolNix.Forms
             this.grpConfig.TabStop = false;
             this.grpConfig.Text = "MKVToolnix Directory (you can drag and drop the directory)";
             // 
+            // btnAutoDetectMkvToolnix
+            // 
+            this.btnAutoDetectMkvToolnix.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnAutoDetectMkvToolnix.Location = new System.Drawing.Point(531, 18);
+            this.btnAutoDetectMkvToolnix.Name = "btnAutoDetectMkvToolnix";
+            this.btnAutoDetectMkvToolnix.Size = new System.Drawing.Size(80, 30);
+            this.btnAutoDetectMkvToolnix.TabIndex = 8;
+            this.btnAutoDetectMkvToolnix.Text = "Auto Detect";
+            this.btnAutoDetectMkvToolnix.UseVisualStyleBackColor = true;
+            this.btnAutoDetectMkvToolnix.Click += new System.EventHandler(this.btnAutoDetectMkvToolnix_Click);
+            // 
             // txtMKVToolnixPath
             // 
             this.txtMKVToolnixPath.AllowDrop = true;
@@ -424,7 +438,7 @@ namespace gMKVToolNix.Forms
             this.tlpInput.ColumnCount = 1;
             this.tlpInput.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tlpInput.Controls.Add(this.trvInputFiles, 0, 0);
-            this.tlpInput.Controls.Add(this.chkAppendOnDragAndDrop, 0, 1);
+            this.tlpInput.Controls.Add(this.pnlFileOptions, 0, 1);
             this.tlpInput.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tlpInput.Location = new System.Drawing.Point(3, 19);
             this.tlpInput.Name = "tlpInput";
@@ -727,10 +741,32 @@ namespace gMKVToolNix.Forms
             this.collapseAllToolStripMenuItem.Text = "Collapse All";
             this.collapseAllToolStripMenuItem.Click += new System.EventHandler(this.collapseAllToolStripMenuItem_Click);
             // 
+            // pnlFileOptions
+            // 
+            this.pnlFileOptions.Controls.Add(this.chkOverwriteExistingFiles);
+            this.pnlFileOptions.Controls.Add(this.chkAppendOnDragAndDrop);
+            this.pnlFileOptions.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pnlFileOptions.Location = new System.Drawing.Point(0, 192);
+            this.pnlFileOptions.Margin = new System.Windows.Forms.Padding(0);
+            this.pnlFileOptions.Name = "pnlFileOptions";
+            this.pnlFileOptions.Size = new System.Drawing.Size(612, 25);
+            this.pnlFileOptions.TabIndex = 1;
+            // 
+            // chkOverwriteExistingFiles
+            // 
+            this.chkOverwriteExistingFiles.AutoSize = true;
+            this.chkOverwriteExistingFiles.Location = new System.Drawing.Point(203, 3);
+            this.chkOverwriteExistingFiles.Name = "chkOverwriteExistingFiles";
+            this.chkOverwriteExistingFiles.Size = new System.Drawing.Size(144, 19);
+            this.chkOverwriteExistingFiles.TabIndex = 2;
+            this.chkOverwriteExistingFiles.Text = "Overwrite existing files";
+            this.chkOverwriteExistingFiles.UseVisualStyleBackColor = true;
+            this.chkOverwriteExistingFiles.CheckedChanged += new System.EventHandler(this.chkOverwriteExistingFiles_CheckedChanged);
+            // 
             // chkAppendOnDragAndDrop
             // 
             this.chkAppendOnDragAndDrop.AutoSize = true;
-            this.chkAppendOnDragAndDrop.Location = new System.Drawing.Point(3, 195);
+            this.chkAppendOnDragAndDrop.Location = new System.Drawing.Point(3, 3);
             this.chkAppendOnDragAndDrop.Name = "chkAppendOnDragAndDrop";
             this.chkAppendOnDragAndDrop.Size = new System.Drawing.Size(194, 19);
             this.chkAppendOnDragAndDrop.TabIndex = 1;
@@ -811,17 +847,6 @@ namespace gMKVToolNix.Forms
             this.chkDarkMode.UseVisualStyleBackColor = true;
             this.chkDarkMode.CheckedChanged += new System.EventHandler(this.chkDarkMode_CheckedChanged);
             // 
-            // btnAutoDetectMkvToolnix
-            // 
-            this.btnAutoDetectMkvToolnix.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnAutoDetectMkvToolnix.Location = new System.Drawing.Point(531, 18);
-            this.btnAutoDetectMkvToolnix.Name = "btnAutoDetectMkvToolnix";
-            this.btnAutoDetectMkvToolnix.Size = new System.Drawing.Size(80, 30);
-            this.btnAutoDetectMkvToolnix.TabIndex = 8;
-            this.btnAutoDetectMkvToolnix.Text = "Auto Detect";
-            this.btnAutoDetectMkvToolnix.UseVisualStyleBackColor = true;
-            this.btnAutoDetectMkvToolnix.Click += new System.EventHandler(this.btnAutoDetectMkvToolnix_Click);
-            // 
             // frmMain2
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
@@ -854,8 +879,9 @@ namespace gMKVToolNix.Forms
             this.grpConfig.PerformLayout();
             this.grpInputFiles.ResumeLayout(false);
             this.tlpInput.ResumeLayout(false);
-            this.tlpInput.PerformLayout();
             this.contextMenuStrip.ResumeLayout(false);
+            this.pnlFileOptions.ResumeLayout(false);
+            this.pnlFileOptions.PerformLayout();
             this.grpSelectedFileInfo.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -937,5 +963,7 @@ namespace gMKVToolNix.Forms
         private System.Windows.Forms.CheckBox chkAppendOnDragAndDrop;
         private System.Windows.Forms.CheckBox chkDarkMode;
         private System.Windows.Forms.Button btnAutoDetectMkvToolnix;
+        private System.Windows.Forms.Panel pnlFileOptions;
+        private System.Windows.Forms.CheckBox chkOverwriteExistingFiles;
     }
 }

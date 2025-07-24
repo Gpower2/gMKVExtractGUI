@@ -100,6 +100,7 @@ namespace gMKVToolNix.Forms
                 }
                 chkShowPopup.Checked = _Settings.ShowPopup;
                 chkAppendOnDragAndDrop.Checked = _Settings.AppendOnDragAndDrop;
+                chkOverwriteExistingFiles.Checked = _Settings.OverwriteExistingFiles;
                 chkDarkMode.Checked = _Settings.DarkMode;
                 gMKVLogger.Log("Finished setting chapter type, output directory and job mode from settings!");
 
@@ -1095,16 +1096,19 @@ namespace gMKVToolNix.Forms
                             parameterList.TimecodesExtractionMode = TimecodesExtractionMode.NoTimecodes;
                             parameterList.CueExtractionMode = CuesExtractionMode.NoCues;
                             parameterList.FilenamePatterns = GetFilenamePatterns();
+                            parameterList.OverwriteExistingFile = chkOverwriteExistingFiles.Checked;
                             break;
                         case FormMkvExtractionMode.Cue_Sheet:
                             parameterList.MKVFile = infoSegment.Path;
                             parameterList.OutputDirectory = outputDirectory;
                             parameterList.FilenamePatterns = GetFilenamePatterns();
+                            parameterList.OverwriteExistingFile = chkOverwriteExistingFiles.Checked;
                             break;
                         case FormMkvExtractionMode.Tags:
                             parameterList.MKVFile = infoSegment.Path;
                             parameterList.OutputDirectory = outputDirectory;
                             parameterList.FilenamePatterns = GetFilenamePatterns();
+                            parameterList.OverwriteExistingFile = chkOverwriteExistingFiles.Checked;
                             break;
                         case FormMkvExtractionMode.Timecodes:
                             parameterList.MKVFile = infoSegment.Path;
@@ -1114,6 +1118,7 @@ namespace gMKVToolNix.Forms
                             parameterList.TimecodesExtractionMode = TimecodesExtractionMode.OnlyTimecodes;
                             parameterList.CueExtractionMode = CuesExtractionMode.NoCues;
                             parameterList.FilenamePatterns = GetFilenamePatterns();
+                            parameterList.OverwriteExistingFile = chkOverwriteExistingFiles.Checked;
                             break;
                         case FormMkvExtractionMode.Tracks_And_Timecodes:
                             parameterList.MKVFile = infoSegment.Path;
@@ -1123,6 +1128,7 @@ namespace gMKVToolNix.Forms
                             parameterList.TimecodesExtractionMode = TimecodesExtractionMode.WithTimecodes;
                             parameterList.CueExtractionMode = CuesExtractionMode.NoCues;
                             parameterList.FilenamePatterns = GetFilenamePatterns();
+                            parameterList.OverwriteExistingFile = chkOverwriteExistingFiles.Checked;
                             break;
                         case FormMkvExtractionMode.Cues:
                             parameterList.MKVFile = infoSegment.Path;
@@ -1132,6 +1138,7 @@ namespace gMKVToolNix.Forms
                             parameterList.TimecodesExtractionMode = TimecodesExtractionMode.NoTimecodes;
                             parameterList.CueExtractionMode = CuesExtractionMode.OnlyCues;
                             parameterList.FilenamePatterns = GetFilenamePatterns();
+                            parameterList.OverwriteExistingFile = chkOverwriteExistingFiles.Checked;
                             break;
                         case FormMkvExtractionMode.Tracks_And_Cues:
                             parameterList.MKVFile = infoSegment.Path;
@@ -1141,6 +1148,7 @@ namespace gMKVToolNix.Forms
                             parameterList.TimecodesExtractionMode = TimecodesExtractionMode.NoTimecodes;
                             parameterList.CueExtractionMode = CuesExtractionMode.WithCues;
                             parameterList.FilenamePatterns = GetFilenamePatterns();
+                            parameterList.OverwriteExistingFile = chkOverwriteExistingFiles.Checked;
                             break;
                         case FormMkvExtractionMode.Tracks_And_Cues_And_Timecodes:
                             parameterList.MKVFile = infoSegment.Path;
@@ -1150,6 +1158,7 @@ namespace gMKVToolNix.Forms
                             parameterList.TimecodesExtractionMode = TimecodesExtractionMode.WithTimecodes;
                             parameterList.CueExtractionMode = CuesExtractionMode.WithCues;
                             parameterList.FilenamePatterns = GetFilenamePatterns();
+                            parameterList.OverwriteExistingFile = chkOverwriteExistingFiles.Checked;
                             break;
                     }
                     jobs.Add(new gMKVJob(extractionMode, txtMKVToolnixPath.Text, parameterList));
@@ -1644,6 +1653,16 @@ namespace gMKVToolNix.Forms
             {
                 _Settings.AppendOnDragAndDrop = chkAppendOnDragAndDrop.Checked;
                 gMKVLogger.Log("Changing AppendOnDragAndDrop");
+                _Settings.Save();
+            }
+        }
+
+        private void chkOverwriteExistingFiles_CheckedChanged(object sender, EventArgs e)
+        {
+            if (!_FromConstructor)
+            {
+                _Settings.OverwriteExistingFiles = chkOverwriteExistingFiles.Checked;
+                gMKVLogger.Log("Changing OverwriteExistingFiles");
                 _Settings.Save();
             }
         }

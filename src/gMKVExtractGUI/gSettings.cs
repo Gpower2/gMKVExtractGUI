@@ -110,6 +110,13 @@ namespace gMKVToolNix
             set { _AppendOnDragAndDrop = value; }
         }
 
+        private bool _OverwriteExistingFiles = false;
+        public bool OverwriteExistingFiles
+        {
+            get { return _OverwriteExistingFiles; }
+            set { _OverwriteExistingFiles = value; }
+        }
+
         private bool _DarkMode = false;
         public bool DarkMode
         {
@@ -514,6 +521,19 @@ namespace gMKVToolNix
                                 _AppendOnDragAndDrop = false;
                             }
                         }
+                        else if (line.StartsWith("Overwrite Existing Files:"))
+                        {
+                            try
+                            {
+                                _OverwriteExistingFiles = bool.Parse(line.Substring(line.IndexOf(":") + 1));
+                            }
+                            catch (Exception ex)
+                            {
+                                Debug.WriteLine(ex);
+                                gMKVLogger.Log(string.Format("Error reading Overwrite Existing Files! {0}", ex.Message));
+                                _OverwriteExistingFiles = false;
+                            }
+                        }
                         else if (line.StartsWith("DarkMode:"))
                         {
                             try
@@ -552,6 +572,7 @@ namespace gMKVToolNix
                 sw.WriteLine(string.Format("Show Popup:{0}", _ShowPopup));
                 sw.WriteLine(string.Format("Show Popup In Job Manager:{0}", _ShowPopupInJobManager));
                 sw.WriteLine(string.Format("Append On Drag and Drop:{0}", _AppendOnDragAndDrop));
+                sw.WriteLine(string.Format("Overwrite Existing Files:{0}", _OverwriteExistingFiles));
                 sw.WriteLine(string.Format("DarkMode:{0}", _DarkMode));
 
                 sw.WriteLine(string.Format("VideoTrackFilenamePattern:{0}", _VideoTrackFilenamePattern));
