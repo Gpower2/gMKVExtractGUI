@@ -685,6 +685,10 @@ namespace gMKVToolNix.MkvMerge
                                             {
                                                 tmpTrack.TrackName = propertyFinal.ToObject<string>();
                                             }
+                                            else if (propertyFinalName == "forced_track")
+                                            {
+                                                tmpTrack.Forced = propertyFinal.ToObject<bool>();
+                                            }
                                             else if (propertyFinalName == "language")
                                             {
                                                 tmpTrack.Language = propertyFinal.ToObject<string>();
@@ -911,6 +915,12 @@ namespace gMKVToolNix.MkvMerge
                     if (outputLine.Contains("track_name:"))
                     {
                         tmpTrack.TrackName = ExtractProperty(outputLine, "track_name");
+                    }
+                    
+                    if (outputLine.Contains("forced_track:"))
+                    {
+                        string forcedProperty = ExtractProperty(outputLine, "forced_track");
+                        tmpTrack.Forced = forcedProperty.Trim().Equals("1");
                     }
 
                     if (outputLine.Contains("codec_private_data:"))

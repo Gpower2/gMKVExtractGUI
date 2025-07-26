@@ -17,6 +17,8 @@ namespace gMKVToolNix.Segments
         public string CodecPrivate { get; set; } = "";
 
         public string CodecPrivateData { get; set; } = "";
+        
+        public bool Forced { get; set; } = false;
 
         public string Language { get; set; } = "";
 
@@ -35,7 +37,6 @@ namespace gMKVToolNix.Segments
         /// </summary>
         public long MinimumTimestamp { get; set; } = long.MinValue;
 
-
         public int VideoPixelWidth { get; set; }
         public int VideoPixelHeight { get; set; }
 
@@ -46,14 +47,32 @@ namespace gMKVToolNix.Segments
         {
             StringBuilder outputBuilder = new StringBuilder();
 
-            outputBuilder.Append($"Track {TrackNumber} [TID {TrackID}][{TrackType}][{CodecID}][{TrackName}][{Language}]");
+            outputBuilder.Append($"Track {TrackNumber} [TID {TrackID}][{TrackType}][{CodecID}]");
+
+            if (!string.IsNullOrWhiteSpace(TrackName))
+            {
+                outputBuilder.Append($"[{TrackName}]");
+            }
+
+            if (!string.IsNullOrWhiteSpace(Language))
+            {
+                outputBuilder.Append($"[{Language}]");
+            }
 
             if (!string.IsNullOrWhiteSpace(LanguageIetf))
             {
                 outputBuilder.Append($"[{LanguageIetf}]");
             }
 
-            outputBuilder.Append($"[{ExtraInfo}]");
+            if (Forced)
+            {
+                outputBuilder.Append("[FORCED]");
+            }
+
+            if (!string.IsNullOrWhiteSpace(ExtraInfo))
+            {
+                outputBuilder.Append($"[{ExtraInfo}]");
+            }            
 
             if (!string.IsNullOrWhiteSpace(CodecPrivate))
             {
@@ -85,6 +104,7 @@ namespace gMKVToolNix.Segments
                 && Delay == other.Delay
                 && EffectiveDelay == other.EffectiveDelay
                 && ExtraInfo.Equals(other.ExtraInfo, StringComparison.OrdinalIgnoreCase)
+                && Forced.Equals(other.Forced)
                 && Language.Equals(other.Language, StringComparison.OrdinalIgnoreCase)
                 && LanguageIetf.Equals(other.LanguageIetf, StringComparison.OrdinalIgnoreCase)
                 && MinimumTimestamp == other.MinimumTimestamp
@@ -112,6 +132,7 @@ namespace gMKVToolNix.Segments
                 hash = hash * 23 + Delay.GetHashCode();
                 hash = hash * 23 + EffectiveDelay.GetHashCode();
                 hash = hash * 23 + ExtraInfo.GetHashCode();
+                hash = hash * 23 + Forced.GetHashCode();
                 hash = hash * 23 + Language.GetHashCode();
                 hash = hash * 23 + LanguageIetf.GetHashCode();
                 hash = hash * 23 + MinimumTimestamp.GetHashCode();
