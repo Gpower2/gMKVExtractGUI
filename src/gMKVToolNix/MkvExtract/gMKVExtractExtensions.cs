@@ -44,6 +44,7 @@ namespace gMKVToolNix.MkvExtract
                 finalFilename = finalFilename.Replace(gMKVExtractFilenamePatterns.TrackCodecPrivate, track.CodecPrivate);
                 finalFilename = finalFilename.Replace(gMKVExtractFilenamePatterns.TrackDelay, track.Delay.ToString());
                 finalFilename = finalFilename.Replace(gMKVExtractFilenamePatterns.TrackEffectiveDelay, track.EffectiveDelay.ToString());
+                finalFilename = finalFilename.Replace(gMKVExtractFilenamePatterns.TrackForced, track.Forced ? "FORCED" : "");
 
                 // Video Track placeholders
                 if (track.TrackType == MkvTrackType.video)

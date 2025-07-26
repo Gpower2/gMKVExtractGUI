@@ -25,6 +25,7 @@ namespace gMKVToolNix.MkvExtract
         public static readonly string TrackCodecPrivate = "{CodecPrivate}";
         public static readonly string TrackDelay = "{Delay}";
         public static readonly string TrackEffectiveDelay = "{EffectiveDelay}";
+        public static readonly string TrackForced = "{TrackForced}";
 
         // Video Track placeholders
         public static readonly string VideoPixelWidth = "{PixelWidth}";

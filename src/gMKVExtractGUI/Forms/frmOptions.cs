@@ -181,6 +181,7 @@ namespace gMKVToolNix.Forms
             _VideoTrackContextMenu.Items.Add(GetToolstripMenuItem("Track Codec Private", gMKVExtractFilenamePatterns.TrackCodecPrivate, txtVideoTracksFilename));
             _VideoTrackContextMenu.Items.Add(GetToolstripMenuItem("Track Delay", gMKVExtractFilenamePatterns.TrackDelay, txtVideoTracksFilename));
             _VideoTrackContextMenu.Items.Add(GetToolstripMenuItem("Track Effective Delay", gMKVExtractFilenamePatterns.TrackEffectiveDelay, txtVideoTracksFilename));
+            _VideoTrackContextMenu.Items.Add(GetToolstripMenuItem("Track Forced", gMKVExtractFilenamePatterns.TrackForced, txtVideoTracksFilename));
             _VideoTrackContextMenu.Items.Add("-");
 
             var audTrackNumber = new ToolStripMenuItem("Track Number...", null);
@@ -208,6 +209,7 @@ namespace gMKVToolNix.Forms
             _AudioTrackContextMenu.Items.Add(GetToolstripMenuItem("Track Codec Private", gMKVExtractFilenamePatterns.TrackCodecPrivate, txtAudioTracksFilename));
             _AudioTrackContextMenu.Items.Add(GetToolstripMenuItem("Track Delay", gMKVExtractFilenamePatterns.TrackDelay, txtAudioTracksFilename));
             _AudioTrackContextMenu.Items.Add(GetToolstripMenuItem("Track Effective Delay", gMKVExtractFilenamePatterns.TrackEffectiveDelay, txtAudioTracksFilename));
+            _AudioTrackContextMenu.Items.Add(GetToolstripMenuItem("Track Forced", gMKVExtractFilenamePatterns.TrackForced, txtAudioTracksFilename));
             _AudioTrackContextMenu.Items.Add("-");
 
             var subTrackNumber = new ToolStripMenuItem("Track Number...", null);
@@ -235,6 +237,7 @@ namespace gMKVToolNix.Forms
             _SubtitleTrackContextMenu.Items.Add(GetToolstripMenuItem("Track Codec Private", gMKVExtractFilenamePatterns.TrackCodecPrivate, txtSubtitleTracksFilename));
             _SubtitleTrackContextMenu.Items.Add(GetToolstripMenuItem("Track Delay", gMKVExtractFilenamePatterns.TrackDelay, txtSubtitleTracksFilename));
             _SubtitleTrackContextMenu.Items.Add(GetToolstripMenuItem("Track Effective Delay", gMKVExtractFilenamePatterns.TrackEffectiveDelay, txtSubtitleTracksFilename));
+            _SubtitleTrackContextMenu.Items.Add(GetToolstripMenuItem("Track Forced", gMKVExtractFilenamePatterns.TrackForced, txtSubtitleTracksFilename));
             // ============================================================================================================================
 
             // Video Track placeholders
