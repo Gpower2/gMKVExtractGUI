@@ -37,6 +37,7 @@ namespace gMKVToolNix.Forms
     {
         private frmLog _LogForm = null;
         private frmJobManager _JobManagerForm = null;
+        private readonly ToolTip _ToolTip = new ToolTip();
 
         private gMKVExtract _gMkvExtract = null;
 
@@ -101,6 +102,7 @@ namespace gMKVToolNix.Forms
                 chkShowPopup.Checked = _Settings.ShowPopup;
                 chkAppendOnDragAndDrop.Checked = _Settings.AppendOnDragAndDrop;
                 chkOverwriteExistingFiles.Checked = _Settings.OverwriteExistingFiles;
+                chkDisableTooltips.Checked = _Settings.DisableTooltips;
                 chkDarkMode.Checked = _Settings.DarkMode;
                 gMKVLogger.Log("Finished setting chapter type, output directory and job mode from settings!");
 
@@ -128,6 +130,9 @@ namespace gMKVToolNix.Forms
 
                 // Initialize the DPI aware scaling
                 InitDPI();
+
+                // Set the tooltips for the controls
+                SetTooltips(!chkDisableTooltips.Checked);
 
                 // Check if user manually provided MKVToolNix path
                 bool manualMkvToolNixPath = false;
@@ -282,6 +287,56 @@ namespace gMKVToolNix.Forms
                     }
                 }
             }
+        }
+
+        private void SetTooltips(bool argEnabled)
+        {
+            if (argEnabled)
+            {
+                AddTooltips();
+            }
+            else
+            {
+                ClearTooltips();
+            }
+        }
+
+        private void AddTooltips()
+        {
+            // General ToolTip properties
+            _ToolTip.AutoPopDelay = 10000;
+            _ToolTip.InitialDelay = 1000;
+            _ToolTip.ReshowDelay = 100;
+            _ToolTip.IsBalloon = false;
+
+            _ToolTip.SetToolTip(btnAutoDetectMkvToolnix, 
+                "Press to try and auto-detect the MKVToolnix installation");
+            
+            _ToolTip.SetToolTip(grpInputFiles, 
+@"Contains the list of opened files with their tracks.
+You can check the individual tracks in order to select them for extracting.
+
+Note: There is a context menu (right-click on the list) that contains many options for batch selecting tracks.");
+            
+            _ToolTip.SetToolTip(chkAppendOnDragAndDrop,
+@"Check if you want to append files in the input list on drag and drop.
+Uncheck if you want to reset the input list every time you drag and drop a new file.");
+
+            _ToolTip.SetToolTip(chkOverwriteExistingFiles,
+@"Check if you want the output files to always overwrite existing files with the same filename.
+Uncheck if you want the output files to automatically be renamed with a different filename to avoid overwriting existing files.");
+
+            _ToolTip.SetToolTip(chkUseSourceDirectory,
+@"Check if you want the output files to be saved in the same directory as the source files.
+Uncheck if you want to manually select an output directory for ALL extracted files.");
+
+            _ToolTip.SetToolTip(chkShowPopup, 
+                "Check if you want to show a popup message when the extraction is finished.");
+        }
+
+        private void ClearTooltips()
+        {
+            _ToolTip.RemoveAll();
         }
 
         private void btnAutoDetectMkvToolnix_Click(object sender, EventArgs e)
@@ -1663,6 +1718,17 @@ namespace gMKVToolNix.Forms
             {
                 _Settings.OverwriteExistingFiles = chkOverwriteExistingFiles.Checked;
                 gMKVLogger.Log("Changing OverwriteExistingFiles");
+                _Settings.Save();
+            }
+        }
+
+        private void chkDisableTooltips_CheckedChanged(object sender, EventArgs e)
+        {
+            if (!_FromConstructor)
+            {
+                _Settings.DisableTooltips = chkDisableTooltips.Checked;
+                SetTooltips(!chkDisableTooltips.Checked);
+                gMKVLogger.Log("Changing DisableTooltips");
                 _Settings.Save();
             }
         }

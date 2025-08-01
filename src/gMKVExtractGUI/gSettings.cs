@@ -117,6 +117,13 @@ namespace gMKVToolNix
             set { _OverwriteExistingFiles = value; }
         }
 
+        private bool _DisableTooltips = false;
+        public bool DisableTooltips
+        {
+            get { return _DisableTooltips; }
+            set { _DisableTooltips = value; }
+        }
+
         private bool _DarkMode = false;
         public bool DarkMode
         {
@@ -124,7 +131,7 @@ namespace gMKVToolNix
             set { _DarkMode = value; }
         }
 
-        private String _VideoTrackFilenamePattern = "{FilenameNoExt}_track{TrackNumber}_[{Language}]";
+        private string _VideoTrackFilenamePattern = "{FilenameNoExt}_track{TrackNumber}_[{Language}]";
         [DefaultValue("{FilenameNoExt}_track{TrackNumber}_[{Language}]")]
         public string VideoTrackFilenamePattern
         {
@@ -534,6 +541,19 @@ namespace gMKVToolNix
                                 _OverwriteExistingFiles = false;
                             }
                         }
+                        else if (line.StartsWith("Disable Tooltips:"))
+                        {
+                            try
+                            {
+                                _DisableTooltips = bool.Parse(line.Substring(line.IndexOf(":") + 1));
+                            }
+                            catch (Exception ex)
+                            {
+                                Debug.WriteLine(ex);
+                                gMKVLogger.Log(string.Format("Error reading Disable Tooltips! {0}", ex.Message));
+                                _DisableTooltips = false;
+                            }
+                        }
                         else if (line.StartsWith("DarkMode:"))
                         {
                             try
@@ -573,6 +593,7 @@ namespace gMKVToolNix
                 sw.WriteLine(string.Format("Show Popup In Job Manager:{0}", _ShowPopupInJobManager));
                 sw.WriteLine(string.Format("Append On Drag and Drop:{0}", _AppendOnDragAndDrop));
                 sw.WriteLine(string.Format("Overwrite Existing Files:{0}", _OverwriteExistingFiles));
+                sw.WriteLine(string.Format("Disable Tooltips:{0}", _DisableTooltips));
                 sw.WriteLine(string.Format("DarkMode:{0}", _DarkMode));
 
                 sw.WriteLine(string.Format("VideoTrackFilenamePattern:{0}", _VideoTrackFilenamePattern));

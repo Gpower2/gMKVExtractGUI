@@ -106,6 +106,7 @@ namespace gMKVToolNix.Forms
             this.btnAbortAll = new System.Windows.Forms.Button();
             this.btnOptions = new System.Windows.Forms.Button();
             this.chkDarkMode = new System.Windows.Forms.CheckBox();
+            this.chkDisableTooltips = new System.Windows.Forms.CheckBox();
             this.statusStrip.SuspendLayout();
             this.tlpMain.SuspendLayout();
             this.grpActions.SuspendLayout();
@@ -743,6 +744,7 @@ namespace gMKVToolNix.Forms
             // 
             // pnlFileOptions
             // 
+            this.pnlFileOptions.Controls.Add(this.chkDisableTooltips);
             this.pnlFileOptions.Controls.Add(this.chkOverwriteExistingFiles);
             this.pnlFileOptions.Controls.Add(this.chkAppendOnDragAndDrop);
             this.pnlFileOptions.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -846,6 +848,17 @@ namespace gMKVToolNix.Forms
             this.chkDarkMode.Text = "Dark";
             this.chkDarkMode.UseVisualStyleBackColor = true;
             this.chkDarkMode.CheckedChanged += new System.EventHandler(this.chkDarkMode_CheckedChanged);
+            // 
+            // chkDisableTooltips
+            // 
+            this.chkDisableTooltips.AutoSize = true;
+            this.chkDisableTooltips.Location = new System.Drawing.Point(358, 3);
+            this.chkDisableTooltips.Name = "chkDisableTooltips";
+            this.chkDisableTooltips.Size = new System.Drawing.Size(107, 19);
+            this.chkDisableTooltips.TabIndex = 3;
+            this.chkDisableTooltips.Text = "Disable tooltips";
+            this.chkDisableTooltips.UseVisualStyleBackColor = true;
+            this.chkDisableTooltips.CheckedChanged += new System.EventHandler(this.chkDisableTooltips_CheckedChanged);
             // 
             // frmMain2
             // 
@@ -965,5 +978,6 @@ namespace gMKVToolNix.Forms
         private System.Windows.Forms.Button btnAutoDetectMkvToolnix;
         private System.Windows.Forms.Panel pnlFileOptions;
         private System.Windows.Forms.CheckBox chkOverwriteExistingFiles;
+        private System.Windows.Forms.CheckBox chkDisableTooltips;
     }
 }

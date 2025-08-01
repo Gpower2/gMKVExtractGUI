@@ -19,9 +19,10 @@ namespace gMKVToolNix.Forms
         private ContextMenuStrip _AttachmentContextMenu = null;
         private ContextMenuStrip _TagsContextMenu = null;
 
-        private readonly static string INFO_TEXT = "Here you can specify the output filename format for each kind of track." + Environment.NewLine +
-            "Pressing the \"Add...\" button you will see the list with the available placeholders and select them." + Environment.NewLine +
-            "Pressing the \"Default\" button you will reset the output filename format to its default value.";
+        private readonly static string INFO_TEXT = 
+@"Here you can specify the output filename format for each kind of track.
+Pressing the ""Add..."" button you will see the list with the available placeholders and select them.
+Pressing the ""Default"" button you will reset the output filename format to its default value.";
 
         public frmOptions()
         {

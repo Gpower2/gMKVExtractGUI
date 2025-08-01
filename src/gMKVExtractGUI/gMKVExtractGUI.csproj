@@ -155,6 +155,7 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmMain2.resx">
       <DependentUpon>frmMain2.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmOptions.resx">
       <DependentUpon>frmOptions.cs</DependentUpon>
