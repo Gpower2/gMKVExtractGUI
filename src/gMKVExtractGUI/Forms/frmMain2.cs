@@ -196,10 +196,9 @@ namespace gMKVToolNix.Forms
                     try
                     {
                         // First check the ini file
-                        gMKVLogger.Log($"Checking in ini path for mkvmerge... ({_Settings.MkvToolnixPath})");
-
-                        if (File.Exists(Path.Combine(_Settings.MkvToolnixPath, gMKVHelper.MKV_MERGE_GUI_FILENAME))
-                            || File.Exists(Path.Combine(_Settings.MkvToolnixPath, gMKVHelper.MKV_MERGE_NEW_GUI_FILENAME)))
+                        if (!string.IsNullOrWhiteSpace(_Settings.MkvToolnixPath)
+                            && (File.Exists(Path.Combine(_Settings.MkvToolnixPath, gMKVHelper.MKV_MERGE_GUI_FILENAME))
+                            || File.Exists(Path.Combine(_Settings.MkvToolnixPath, gMKVHelper.MKV_MERGE_NEW_GUI_FILENAME))))
                         {
                             // We set the flag to bypass the checks
                             // since the path already exists in the settings
