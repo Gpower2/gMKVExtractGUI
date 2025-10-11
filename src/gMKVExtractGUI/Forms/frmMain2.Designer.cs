@@ -98,6 +98,8 @@ namespace gMKVToolNix.Forms
             this.expandAllToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.collapseAllToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.pnlFileOptions = new System.Windows.Forms.Panel();
+            this.btnSelect = new System.Windows.Forms.Button();
+            this.chkDisableTooltips = new System.Windows.Forms.CheckBox();
             this.chkOverwriteExistingFiles = new System.Windows.Forms.CheckBox();
             this.chkAppendOnDragAndDrop = new System.Windows.Forms.CheckBox();
             this.grpSelectedFileInfo = new gMKVToolNix.gGroupBox();
@@ -106,7 +108,6 @@ namespace gMKVToolNix.Forms
             this.btnAbortAll = new System.Windows.Forms.Button();
             this.btnOptions = new System.Windows.Forms.Button();
             this.chkDarkMode = new System.Windows.Forms.CheckBox();
-            this.chkDisableTooltips = new System.Windows.Forms.CheckBox();
             this.statusStrip.SuspendLayout();
             this.tlpMain.SuspendLayout();
             this.grpActions.SuspendLayout();
@@ -445,7 +446,7 @@ namespace gMKVToolNix.Forms
             this.tlpInput.Name = "tlpInput";
             this.tlpInput.RowCount = 2;
             this.tlpInput.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tlpInput.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
+            this.tlpInput.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 32F));
             this.tlpInput.Size = new System.Drawing.Size(612, 217);
             this.tlpInput.TabIndex = 1;
             // 
@@ -461,7 +462,7 @@ namespace gMKVToolNix.Forms
             this.trvInputFiles.Name = "trvInputFiles";
             this.trvInputFiles.SelectOnRightClick = true;
             this.trvInputFiles.ShowNodeToolTips = true;
-            this.trvInputFiles.Size = new System.Drawing.Size(606, 186);
+            this.trvInputFiles.Size = new System.Drawing.Size(606, 179);
             this.trvInputFiles.TabIndex = 0;
             this.trvInputFiles.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.trvInputFiles_AfterSelect);
             this.trvInputFiles.DragDrop += new System.Windows.Forms.DragEventHandler(this.trvInputFiles_DragDrop);
@@ -744,20 +745,43 @@ namespace gMKVToolNix.Forms
             // 
             // pnlFileOptions
             // 
+            this.pnlFileOptions.Controls.Add(this.btnSelect);
             this.pnlFileOptions.Controls.Add(this.chkDisableTooltips);
             this.pnlFileOptions.Controls.Add(this.chkOverwriteExistingFiles);
             this.pnlFileOptions.Controls.Add(this.chkAppendOnDragAndDrop);
             this.pnlFileOptions.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pnlFileOptions.Location = new System.Drawing.Point(0, 192);
+            this.pnlFileOptions.Location = new System.Drawing.Point(0, 185);
             this.pnlFileOptions.Margin = new System.Windows.Forms.Padding(0);
             this.pnlFileOptions.Name = "pnlFileOptions";
-            this.pnlFileOptions.Size = new System.Drawing.Size(612, 25);
+            this.pnlFileOptions.Size = new System.Drawing.Size(612, 32);
             this.pnlFileOptions.TabIndex = 1;
+            // 
+            // btnSelect
+            // 
+            this.btnSelect.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnSelect.Location = new System.Drawing.Point(529, 0);
+            this.btnSelect.Name = "btnSelect";
+            this.btnSelect.Size = new System.Drawing.Size(80, 30);
+            this.btnSelect.TabIndex = 4;
+            this.btnSelect.Text = "Select...";
+            this.btnSelect.UseVisualStyleBackColor = true;
+            this.btnSelect.Click += new System.EventHandler(this.btnSelect_Click);
+            // 
+            // chkDisableTooltips
+            // 
+            this.chkDisableTooltips.AutoSize = true;
+            this.chkDisableTooltips.Location = new System.Drawing.Point(358, 6);
+            this.chkDisableTooltips.Name = "chkDisableTooltips";
+            this.chkDisableTooltips.Size = new System.Drawing.Size(107, 19);
+            this.chkDisableTooltips.TabIndex = 3;
+            this.chkDisableTooltips.Text = "Disable tooltips";
+            this.chkDisableTooltips.UseVisualStyleBackColor = true;
+            this.chkDisableTooltips.CheckedChanged += new System.EventHandler(this.chkDisableTooltips_CheckedChanged);
             // 
             // chkOverwriteExistingFiles
             // 
             this.chkOverwriteExistingFiles.AutoSize = true;
-            this.chkOverwriteExistingFiles.Location = new System.Drawing.Point(203, 3);
+            this.chkOverwriteExistingFiles.Location = new System.Drawing.Point(203, 6);
             this.chkOverwriteExistingFiles.Name = "chkOverwriteExistingFiles";
             this.chkOverwriteExistingFiles.Size = new System.Drawing.Size(144, 19);
             this.chkOverwriteExistingFiles.TabIndex = 2;
@@ -768,7 +792,7 @@ namespace gMKVToolNix.Forms
             // chkAppendOnDragAndDrop
             // 
             this.chkAppendOnDragAndDrop.AutoSize = true;
-            this.chkAppendOnDragAndDrop.Location = new System.Drawing.Point(3, 3);
+            this.chkAppendOnDragAndDrop.Location = new System.Drawing.Point(3, 6);
             this.chkAppendOnDragAndDrop.Name = "chkAppendOnDragAndDrop";
             this.chkAppendOnDragAndDrop.Size = new System.Drawing.Size(194, 19);
             this.chkAppendOnDragAndDrop.TabIndex = 1;
@@ -848,17 +872,6 @@ namespace gMKVToolNix.Forms
             this.chkDarkMode.Text = "Dark";
             this.chkDarkMode.UseVisualStyleBackColor = true;
             this.chkDarkMode.CheckedChanged += new System.EventHandler(this.chkDarkMode_CheckedChanged);
-            // 
-            // chkDisableTooltips
-            // 
-            this.chkDisableTooltips.AutoSize = true;
-            this.chkDisableTooltips.Location = new System.Drawing.Point(358, 3);
-            this.chkDisableTooltips.Name = "chkDisableTooltips";
-            this.chkDisableTooltips.Size = new System.Drawing.Size(107, 19);
-            this.chkDisableTooltips.TabIndex = 3;
-            this.chkDisableTooltips.Text = "Disable tooltips";
-            this.chkDisableTooltips.UseVisualStyleBackColor = true;
-            this.chkDisableTooltips.CheckedChanged += new System.EventHandler(this.chkDisableTooltips_CheckedChanged);
             // 
             // frmMain2
             // 
@@ -979,5 +992,6 @@ namespace gMKVToolNix.Forms
         private System.Windows.Forms.Panel pnlFileOptions;
         private System.Windows.Forms.CheckBox chkOverwriteExistingFiles;
         private System.Windows.Forms.CheckBox chkDisableTooltips;
+        private System.Windows.Forms.Button btnSelect;
     }
 }
