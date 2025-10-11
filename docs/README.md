@@ -27,14 +27,18 @@ This manual describes the user interface and functionality of gMKVExtractGUI, or
     - Checkbox to append files to the list when dragging and dropping.
   - **Overwrite Existing Files:**
     - Checkbox to allow overwriting files in the output directory.
+  - **Select...:**
+    - Button to display the Context Menu.
 - **Selected File Information:**
   - Displays information about the selected MKV file.
 
 ### Output Section
 - **Output Directory:**
   - Text box to specify where extracted files will be saved.
-  - **Browse...** button: Opens a folder dialog to select the output directory.
-  - **Use Source:** Checkbox to select the source directory of the selected file as the output directory.
+- **Browse...**
+  - Button to open a folder dialog to select the output directory.
+- **Use Source:**
+  - Checkbox to select the source directory of the selected file as the output directory.
 
 ### Actions Section
 - **Logs:**
@@ -125,5 +129,6 @@ This manual describes the user interface and functionality of gMKVExtractGUI, or
   - **Popup:** Checkbox to enable/disable popup notifications for jobs.
 
 ---
+
 
 This manual covers all main UI elements and their functions for end-users.
