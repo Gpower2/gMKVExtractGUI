@@ -22,21 +22,13 @@ namespace gMKVToolNix
             this.DetectUrls = false;            
         }
 
-        protected override void OnKeyDown(KeyEventArgs e)
+        protected override bool ProcessCmdKey(ref Message m, Keys keyData)
         {
-            base.OnKeyDown(e);
             try
             {
-                if (e.Control && e.KeyCode == Keys.A)
+                if (keyData == (Keys.Control | Keys.A))
                 {
                     this.SelectAll();
-                }
-                else if (e.Control && e.KeyCode == Keys.C)
-                {
-                    if (!string.IsNullOrWhiteSpace(this.SelectedText))
-                    {
-                        Clipboard.SetText(this.SelectedText, TextDataFormat.UnicodeText);
-                    }
                 }
             }
             catch (Exception ex)
@@ -44,6 +36,8 @@ namespace gMKVToolNix
                 Debug.WriteLine(ex);
                 ex.ShowException(this.FindForm());
             }
+
+            return base.ProcessCmdKey(ref m, keyData);
         }
 
         protected override void WndProc(ref Message m)

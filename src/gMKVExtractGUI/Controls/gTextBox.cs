@@ -14,17 +14,15 @@ namespace gMKVToolNix
             SetStyle(ControlStyles.OptimizedDoubleBuffer, true);
         }
 
-        protected override void OnKeyDown(KeyEventArgs e)
+        protected override bool ProcessCmdKey(ref Message m, Keys keyData)
         {
-            base.OnKeyDown(e);
-
             try
             {
-                if (e.Control && e.KeyCode == Keys.A)
+                if (keyData == (Keys.Control | Keys.A))
                 {
                     this.SelectAll();
                 }
-                else if (e.Control && e.KeyCode == Keys.C)
+                else if (keyData == (Keys.Control | Keys.C))
                 {
                     if (!string.IsNullOrWhiteSpace(this.SelectedText))
                     {
@@ -37,6 +35,8 @@ namespace gMKVToolNix
                 Debug.WriteLine(ex);
                 ex.ShowException(this.FindForm());
             }
+
+            return base.ProcessCmdKey(ref m, keyData);
         }
     }
 }
