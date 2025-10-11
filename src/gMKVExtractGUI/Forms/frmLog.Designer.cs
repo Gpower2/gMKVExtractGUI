@@ -30,7 +30,7 @@
         {
             this.tlpMain = new gMKVToolNix.gTableLayoutPanel();
             this.grpLog = new gMKVToolNix.gGroupBox();
-            this.txtLog = new gMKVToolNix.gTextBox();
+            this.txtLog = new gMKVToolNix.gRichTextBox();
             this.grpActions = new gMKVToolNix.gGroupBox();
             this.btnSave = new System.Windows.Forms.Button();
             this.btnClear = new System.Windows.Forms.Button();
@@ -77,7 +77,7 @@
             this.txtLog.Multiline = true;
             this.txtLog.Name = "txtLog";
             this.txtLog.ReadOnly = true;
-            this.txtLog.ScrollBars = System.Windows.Forms.ScrollBars.Both;
+            this.txtLog.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.Both;
             this.txtLog.Size = new System.Drawing.Size(592, 413);
             this.txtLog.TabIndex = 0;
             this.txtLog.WordWrap = false;
@@ -175,7 +175,7 @@
 
         private gTableLayoutPanel tlpMain;
         private gGroupBox grpLog;
-        private gTextBox txtLog;
+        private gRichTextBox txtLog;
         private gGroupBox grpActions;
         private System.Windows.Forms.Button btnCopy;
         private System.Windows.Forms.Button btnClose;

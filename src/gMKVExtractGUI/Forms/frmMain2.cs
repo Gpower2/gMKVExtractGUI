@@ -114,6 +114,7 @@ namespace gMKVToolNix.Forms
                 {
                     chkDarkMode.BackColor = Color.FromArgb(55, 55, 55);
                 }
+
                 if (this.Handle != IntPtr.Zero) // Ensure handle is created
                 {
                     NativeMethods.SetWindowThemeManaged(this.Handle, _Settings.DarkMode);

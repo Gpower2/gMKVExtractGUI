@@ -32,7 +32,7 @@ namespace gMKVToolNix
 
         private BindingList<gMKVJobInfo> _JobList = new BindingList<gMKVJobInfo>();
 
-        private Boolean _AbortAll = false;
+        private bool _AbortAll = false;
 
         public frmJobManager(IFormMain argMainForm)
         {

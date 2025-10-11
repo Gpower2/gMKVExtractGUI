@@ -23,20 +23,21 @@ namespace gMKVToolNix
             _Settings = new gSettings(this.GetCurrentDirectory());
             _Settings.Reload();
 
-            if (this.Handle != IntPtr.Zero)
+            ThemeManager.ApplyTheme(this, _Settings.DarkMode);
+
+            if (this.Handle != IntPtr.Zero) // Ensure handle is created
             {
                 NativeMethods.SetWindowThemeManaged(this.Handle, _Settings.DarkMode);
                 NativeMethods.TrySetImmersiveDarkMode(this.Handle, _Settings.DarkMode);
             }
             else
             {
-                this.Shown += (s, ev) => 
-                {
+                // If handle not created yet, do it in Load or Shown event
+                this.Shown += (s, ev) => {
                     NativeMethods.SetWindowThemeManaged(this.Handle, _Settings.DarkMode);
-                    NativeMethods.TrySetImmersiveDarkMode(this.Handle, _Settings.DarkMode); 
+                    NativeMethods.TrySetImmersiveDarkMode(this.Handle, _Settings.DarkMode);
                 };
             }
-            ThemeManager.ApplyTheme(this, _Settings.DarkMode);
 
             InitDPI();
         }

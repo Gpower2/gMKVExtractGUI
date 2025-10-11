@@ -1,31 +1,12 @@
 ﻿using System;
 using System.Diagnostics;
 using System.IO;
-using System.Reflection;
 using System.Text;
 
 namespace gMKVToolNix
 {
     public static class ProcessExtensions
     {
-        private static readonly FieldInfo _dataReceivedEventArgsFieldInfo = typeof(DataReceivedEventArgs)
-            .GetFields(BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.DeclaredOnly)[0];
-
-        /// <summary>
-        /// Creates a DataReceivedEventArgs instance with the given Data.
-        /// </summary>
-        /// <param name="argData"></param>
-        /// <returns></returns>
-        public static DataReceivedEventArgs GetDataReceivedEventArgs(object argData)
-        {
-            DataReceivedEventArgs eventArgs = (DataReceivedEventArgs)System.Runtime.Serialization.FormatterServices
-                .GetUninitializedObject(typeof(DataReceivedEventArgs));
-
-            _dataReceivedEventArgsFieldInfo.SetValue(eventArgs, argData);
-
-            return eventArgs;
-        }
-
         /// <summary>
         /// Reads a Process's standard reader stream character by character and calls the user defined method for each line
         /// </summary>
