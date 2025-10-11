@@ -311,12 +311,16 @@ namespace gMKVToolNix.Forms
             _ToolTip.SetToolTip(btnAutoDetectMkvToolnix, 
                 "Press to try and auto-detect the MKVToolnix installation");
             
-            _ToolTip.SetToolTip(grpInputFiles, 
+            const string inputTooltip =
 @"Contains the list of opened files with their tracks.
 You can check the individual tracks in order to select them for extracting.
 
-Note: There is a context menu (right-click on the list) that contains many options for batch selecting tracks.");
-            
+Note: There is a context menu (right-click on the list) that contains many options for batch selecting tracks.";
+
+            _ToolTip.SetToolTip(grpInputFiles, inputTooltip);
+
+            _ToolTip.SetToolTip(trvInputFiles, inputTooltip);
+
             _ToolTip.SetToolTip(chkAppendOnDragAndDrop,
 @"Check if you want to append files in the input list on drag and drop.
 Uncheck if you want to reset the input list every time you drag and drop a new file.");
@@ -331,6 +335,9 @@ Uncheck if you want to manually select an output directory for ALL extracted fil
 
             _ToolTip.SetToolTip(chkShowPopup, 
                 "Check if you want to show a popup message when the extraction is finished.");
+
+            _ToolTip.SetToolTip(btnSelect,
+                "Press to display the menu that contains many options for batch selecting tracks.");
         }
 
         private void ClearTooltips()
@@ -2812,6 +2819,28 @@ Uncheck if you want to manually select an output directory for ALL extracted fil
                     }
                     // Add other forms here if they also need dynamic theming
                 }
+            }
+        }
+
+        private void btnSelect_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                SetContextMenuText();
+
+                // Apply theme to context menu and its items
+                if (contextMenuStrip != null)
+                {
+                    ThemeManager.ApplyTheme(contextMenuStrip, _Settings.DarkMode);
+                }
+
+                contextMenuStrip.Show(btnSelect, new Point(0, btnSelect.Height));
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex);
+                gMKVLogger.Log(ex.ToString());
+                ShowErrorMessage(ex.Message);
             }
         }
     }
