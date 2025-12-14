@@ -519,6 +519,10 @@ Pressing the ""Default"" button you will reset the output filename format to its
                 defaultValue = _Settings.GetPropertyDefaultValue<string>(nameof(_Settings.AttachmentFilenamePattern));
                 _Settings.AttachmentFilenamePattern = defaultValue;
 
+                chkTextFilesWithoutBom.Checked = false;
+                chkRawMode.Checked = false;
+                chkFullRawMode.Checked = false;
+
                 FillFromSettings();
             }
             catch (Exception ex)
