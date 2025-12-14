@@ -83,6 +83,11 @@ This manual describes the user interface and functionality of gMKVExtractGUI, or
     - **Add...** button: Opens a menu to insert placeholders (e.g., {FilenameNoExt}, {TrackNumber}, etc.).
     - **Default** button: Resets the pattern to its default value.
 
+- **Advanced Options:**
+  - **Disable BOM to text files (v96.0+):** Checkbox to disable writing Byte Order Mark in output text files (eg. subtitles).
+  - **Use \`raw\` extraction:** Checkbox to enable raw extraction mode (--raw option). Applicable only for tracks extraction mode.
+  - **Use \`full raw\` extraction:** Checkbox to enable full raw extraction mode (--fullraw option, takes precedence over \`raw\` mode). Applicable only for tracks extraction mode.
+
 - **Actions:**
   - **Defaults:** Button to reset all patterns to their defaults.
   - **OK:** Save changes and close the window.
