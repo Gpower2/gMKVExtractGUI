@@ -1159,18 +1159,21 @@ Uncheck if you want to manually select an output directory for ALL extracted fil
                             parameterList.CueExtractionMode = CuesExtractionMode.NoCues;
                             parameterList.FilenamePatterns = GetFilenamePatterns();
                             parameterList.OverwriteExistingFile = chkOverwriteExistingFiles.Checked;
+                            parameterList.DisableBomForTextFiles = _Settings.DisableBomForTextFiles;
                             break;
                         case FormMkvExtractionMode.Cue_Sheet:
                             parameterList.MKVFile = infoSegment.Path;
                             parameterList.OutputDirectory = outputDirectory;
                             parameterList.FilenamePatterns = GetFilenamePatterns();
                             parameterList.OverwriteExistingFile = chkOverwriteExistingFiles.Checked;
+                            parameterList.DisableBomForTextFiles = _Settings.DisableBomForTextFiles;
                             break;
                         case FormMkvExtractionMode.Tags:
                             parameterList.MKVFile = infoSegment.Path;
                             parameterList.OutputDirectory = outputDirectory;
                             parameterList.FilenamePatterns = GetFilenamePatterns();
                             parameterList.OverwriteExistingFile = chkOverwriteExistingFiles.Checked;
+                            parameterList.DisableBomForTextFiles = _Settings.DisableBomForTextFiles;
                             break;
                         case FormMkvExtractionMode.Timecodes:
                             parameterList.MKVFile = infoSegment.Path;
@@ -1181,6 +1184,7 @@ Uncheck if you want to manually select an output directory for ALL extracted fil
                             parameterList.CueExtractionMode = CuesExtractionMode.NoCues;
                             parameterList.FilenamePatterns = GetFilenamePatterns();
                             parameterList.OverwriteExistingFile = chkOverwriteExistingFiles.Checked;
+                            parameterList.DisableBomForTextFiles = _Settings.DisableBomForTextFiles;
                             break;
                         case FormMkvExtractionMode.Tracks_And_Timecodes:
                             parameterList.MKVFile = infoSegment.Path;
@@ -1191,6 +1195,7 @@ Uncheck if you want to manually select an output directory for ALL extracted fil
                             parameterList.CueExtractionMode = CuesExtractionMode.NoCues;
                             parameterList.FilenamePatterns = GetFilenamePatterns();
                             parameterList.OverwriteExistingFile = chkOverwriteExistingFiles.Checked;
+                            parameterList.DisableBomForTextFiles = _Settings.DisableBomForTextFiles;
                             break;
                         case FormMkvExtractionMode.Cues:
                             parameterList.MKVFile = infoSegment.Path;
@@ -1201,6 +1206,7 @@ Uncheck if you want to manually select an output directory for ALL extracted fil
                             parameterList.CueExtractionMode = CuesExtractionMode.OnlyCues;
                             parameterList.FilenamePatterns = GetFilenamePatterns();
                             parameterList.OverwriteExistingFile = chkOverwriteExistingFiles.Checked;
+                            parameterList.DisableBomForTextFiles = _Settings.DisableBomForTextFiles;
                             break;
                         case FormMkvExtractionMode.Tracks_And_Cues:
                             parameterList.MKVFile = infoSegment.Path;
@@ -1211,6 +1217,7 @@ Uncheck if you want to manually select an output directory for ALL extracted fil
                             parameterList.CueExtractionMode = CuesExtractionMode.WithCues;
                             parameterList.FilenamePatterns = GetFilenamePatterns();
                             parameterList.OverwriteExistingFile = chkOverwriteExistingFiles.Checked;
+                            parameterList.DisableBomForTextFiles = _Settings.DisableBomForTextFiles;
                             break;
                         case FormMkvExtractionMode.Tracks_And_Cues_And_Timecodes:
                             parameterList.MKVFile = infoSegment.Path;
@@ -1221,6 +1228,7 @@ Uncheck if you want to manually select an output directory for ALL extracted fil
                             parameterList.CueExtractionMode = CuesExtractionMode.WithCues;
                             parameterList.FilenamePatterns = GetFilenamePatterns();
                             parameterList.OverwriteExistingFile = chkOverwriteExistingFiles.Checked;
+                            parameterList.DisableBomForTextFiles = _Settings.DisableBomForTextFiles;
                             break;
                     }
                     jobs.Add(new gMKVJob(extractionMode, txtMKVToolnixPath.Text, parameterList));

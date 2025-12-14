@@ -89,6 +89,7 @@ Pressing the ""Default"" button you will reset the output filename format to its
             txtChaptersFilename.Text = _Settings.ChapterFilenamePattern;
             txtAttachmentsFilename.Text = _Settings.AttachmentFilenamePattern;
             txtTagsFilename.Text = _Settings.TagsFilenamePattern;
+            chkTextFilesWithoutBom.Checked = _Settings.DisableBomForTextFiles;
         }
 
         private void UpdateSettings()
@@ -99,6 +100,7 @@ Pressing the ""Default"" button you will reset the output filename format to its
             _Settings.ChapterFilenamePattern = txtChaptersFilename.Text;
             _Settings.AttachmentFilenamePattern = txtAttachmentsFilename.Text;
             _Settings.TagsFilenamePattern = txtTagsFilename.Text;
+            _Settings.DisableBomForTextFiles = chkTextFilesWithoutBom.Checked;
         }
 
         private ToolStripMenuItem GetToolstripMenuItem(string description, string placeholder, TextBox txtBox)

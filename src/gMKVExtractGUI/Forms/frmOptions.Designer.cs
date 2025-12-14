@@ -37,10 +37,6 @@
             this.btnDefaultChapterPlaceholder = new System.Windows.Forms.Button();
             this.btnAddChapterPlaceholder = new System.Windows.Forms.Button();
             this.txtChaptersFilename = new gMKVToolNix.gTextBox();
-            this.grpActions = new gMKVToolNix.gGroupBox();
-            this.btnDefaults = new System.Windows.Forms.Button();
-            this.btnOK = new System.Windows.Forms.Button();
-            this.btnCancel = new System.Windows.Forms.Button();
             this.grpVideoTracks = new gMKVToolNix.gGroupBox();
             this.btnDefaultVideoTrackPlaceholder = new System.Windows.Forms.Button();
             this.btnAddVideoTrackPlaceholder = new System.Windows.Forms.Button();
@@ -60,15 +56,22 @@
             this.grpInfo = new gMKVToolNix.gGroupBox();
             this.txtInfo = new gMKVToolNix.gRichTextBox();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
+            this.grpActions = new gMKVToolNix.gGroupBox();
+            this.btnDefaults = new System.Windows.Forms.Button();
+            this.btnOK = new System.Windows.Forms.Button();
+            this.btnCancel = new System.Windows.Forms.Button();
+            this.grpAdvanced = new gMKVToolNix.gGroupBox();
+            this.chkTextFilesWithoutBom = new System.Windows.Forms.CheckBox();
             this.tlpMain.SuspendLayout();
             this.grpTags.SuspendLayout();
             this.grpChapters.SuspendLayout();
-            this.grpActions.SuspendLayout();
             this.grpVideoTracks.SuspendLayout();
             this.grpAudioTracks.SuspendLayout();
             this.grpSubtitleTracks.SuspendLayout();
             this.grpAttachments.SuspendLayout();
             this.grpInfo.SuspendLayout();
+            this.grpActions.SuspendLayout();
+            this.grpAdvanced.SuspendLayout();
             this.SuspendLayout();
             // 
             // tlpMain
@@ -77,17 +80,18 @@
             this.tlpMain.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tlpMain.Controls.Add(this.grpTags, 0, 6);
             this.tlpMain.Controls.Add(this.grpChapters, 0, 4);
-            this.tlpMain.Controls.Add(this.grpActions, 0, 7);
             this.tlpMain.Controls.Add(this.grpVideoTracks, 0, 1);
             this.tlpMain.Controls.Add(this.grpAudioTracks, 0, 2);
             this.tlpMain.Controls.Add(this.grpSubtitleTracks, 0, 3);
             this.tlpMain.Controls.Add(this.grpAttachments, 0, 5);
             this.tlpMain.Controls.Add(this.grpInfo, 0, 0);
-            this.tlpMain.Controls.Add(this.statusStrip1, 0, 8);
+            this.tlpMain.Controls.Add(this.statusStrip1, 0, 9);
+            this.tlpMain.Controls.Add(this.grpActions, 0, 8);
+            this.tlpMain.Controls.Add(this.grpAdvanced, 0, 7);
             this.tlpMain.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tlpMain.Location = new System.Drawing.Point(0, 0);
             this.tlpMain.Name = "tlpMain";
-            this.tlpMain.RowCount = 9;
+            this.tlpMain.RowCount = 10;
             this.tlpMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tlpMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 60F));
             this.tlpMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 60F));
@@ -96,8 +100,9 @@
             this.tlpMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 60F));
             this.tlpMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 60F));
             this.tlpMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 60F));
+            this.tlpMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 60F));
             this.tlpMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tlpMain.Size = new System.Drawing.Size(654, 561);
+            this.tlpMain.Size = new System.Drawing.Size(654, 621);
             this.tlpMain.TabIndex = 0;
             // 
             // grpTags
@@ -189,51 +194,6 @@
             this.txtChaptersFilename.Name = "txtChaptersFilename";
             this.txtChaptersFilename.Size = new System.Drawing.Size(462, 23);
             this.txtChaptersFilename.TabIndex = 1;
-            // 
-            // grpActions
-            // 
-            this.grpActions.Controls.Add(this.btnDefaults);
-            this.grpActions.Controls.Add(this.btnOK);
-            this.grpActions.Controls.Add(this.btnCancel);
-            this.grpActions.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.grpActions.Location = new System.Drawing.Point(3, 484);
-            this.grpActions.Name = "grpActions";
-            this.grpActions.Size = new System.Drawing.Size(648, 54);
-            this.grpActions.TabIndex = 0;
-            this.grpActions.TabStop = false;
-            // 
-            // btnDefaults
-            // 
-            this.btnDefaults.Location = new System.Drawing.Point(9, 17);
-            this.btnDefaults.Name = "btnDefaults";
-            this.btnDefaults.Size = new System.Drawing.Size(83, 30);
-            this.btnDefaults.TabIndex = 6;
-            this.btnDefaults.Text = "Defaults";
-            this.btnDefaults.UseVisualStyleBackColor = true;
-            this.btnDefaults.Click += new System.EventHandler(this.btnDefaults_Click);
-            // 
-            // btnOK
-            // 
-            this.btnOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnOK.Location = new System.Drawing.Point(476, 17);
-            this.btnOK.Name = "btnOK";
-            this.btnOK.Size = new System.Drawing.Size(80, 30);
-            this.btnOK.TabIndex = 1;
-            this.btnOK.Text = "OK";
-            this.btnOK.UseVisualStyleBackColor = true;
-            this.btnOK.Click += new System.EventHandler(this.btnOK_Click);
-            // 
-            // btnCancel
-            // 
-            this.btnCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.btnCancel.Location = new System.Drawing.Point(562, 17);
-            this.btnCancel.Name = "btnCancel";
-            this.btnCancel.Size = new System.Drawing.Size(80, 30);
-            this.btnCancel.TabIndex = 0;
-            this.btnCancel.Text = "Cancel";
-            this.btnCancel.UseVisualStyleBackColor = true;
-            this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
             // 
             // grpVideoTracks
             // 
@@ -442,16 +402,82 @@
             // statusStrip1
             // 
             this.statusStrip1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.statusStrip1.Location = new System.Drawing.Point(0, 541);
+            this.statusStrip1.Location = new System.Drawing.Point(0, 601);
             this.statusStrip1.Name = "statusStrip1";
             this.statusStrip1.Size = new System.Drawing.Size(654, 20);
             this.statusStrip1.TabIndex = 6;
             this.statusStrip1.Text = "statusStrip1";
             // 
+            // grpActions
+            // 
+            this.grpActions.Controls.Add(this.btnDefaults);
+            this.grpActions.Controls.Add(this.btnOK);
+            this.grpActions.Controls.Add(this.btnCancel);
+            this.grpActions.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.grpActions.Location = new System.Drawing.Point(3, 544);
+            this.grpActions.Name = "grpActions";
+            this.grpActions.Size = new System.Drawing.Size(648, 54);
+            this.grpActions.TabIndex = 0;
+            this.grpActions.TabStop = false;
+            // 
+            // btnDefaults
+            // 
+            this.btnDefaults.Location = new System.Drawing.Point(9, 17);
+            this.btnDefaults.Name = "btnDefaults";
+            this.btnDefaults.Size = new System.Drawing.Size(83, 30);
+            this.btnDefaults.TabIndex = 6;
+            this.btnDefaults.Text = "Defaults";
+            this.btnDefaults.UseVisualStyleBackColor = true;
+            this.btnDefaults.Click += new System.EventHandler(this.btnDefaults_Click);
+            // 
+            // btnOK
+            // 
+            this.btnOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnOK.Location = new System.Drawing.Point(476, 17);
+            this.btnOK.Name = "btnOK";
+            this.btnOK.Size = new System.Drawing.Size(80, 30);
+            this.btnOK.TabIndex = 1;
+            this.btnOK.Text = "OK";
+            this.btnOK.UseVisualStyleBackColor = true;
+            this.btnOK.Click += new System.EventHandler(this.btnOK_Click);
+            // 
+            // btnCancel
+            // 
+            this.btnCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+            this.btnCancel.Location = new System.Drawing.Point(562, 17);
+            this.btnCancel.Name = "btnCancel";
+            this.btnCancel.Size = new System.Drawing.Size(80, 30);
+            this.btnCancel.TabIndex = 0;
+            this.btnCancel.Text = "Cancel";
+            this.btnCancel.UseVisualStyleBackColor = true;
+            this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
+            // 
+            // grpAdvanced
+            // 
+            this.grpAdvanced.Controls.Add(this.chkTextFilesWithoutBom);
+            this.grpAdvanced.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.grpAdvanced.Location = new System.Drawing.Point(3, 484);
+            this.grpAdvanced.Name = "grpAdvanced";
+            this.grpAdvanced.Size = new System.Drawing.Size(648, 54);
+            this.grpAdvanced.TabIndex = 8;
+            this.grpAdvanced.TabStop = false;
+            this.grpAdvanced.Text = "Advanced Options";
+            // 
+            // chkTextFilesWithoutBom
+            // 
+            this.chkTextFilesWithoutBom.AutoSize = true;
+            this.chkTextFilesWithoutBom.Location = new System.Drawing.Point(9, 22);
+            this.chkTextFilesWithoutBom.Name = "chkTextFilesWithoutBom";
+            this.chkTextFilesWithoutBom.Size = new System.Drawing.Size(200, 19);
+            this.chkTextFilesWithoutBom.TabIndex = 0;
+            this.chkTextFilesWithoutBom.Text = "Disable BOM to text files (v96.0+)";
+            this.chkTextFilesWithoutBom.UseVisualStyleBackColor = true;
+            // 
             // frmOptions
             // 
             this.CancelButton = this.btnCancel;
-            this.ClientSize = new System.Drawing.Size(654, 561);
+            this.ClientSize = new System.Drawing.Size(654, 621);
             this.Controls.Add(this.tlpMain);
             this.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(161)));
             this.MinimumSize = new System.Drawing.Size(400, 400);
@@ -465,7 +491,6 @@
             this.grpTags.PerformLayout();
             this.grpChapters.ResumeLayout(false);
             this.grpChapters.PerformLayout();
-            this.grpActions.ResumeLayout(false);
             this.grpVideoTracks.ResumeLayout(false);
             this.grpVideoTracks.PerformLayout();
             this.grpAudioTracks.ResumeLayout(false);
@@ -475,6 +500,9 @@
             this.grpAttachments.ResumeLayout(false);
             this.grpAttachments.PerformLayout();
             this.grpInfo.ResumeLayout(false);
+            this.grpActions.ResumeLayout(false);
+            this.grpAdvanced.ResumeLayout(false);
+            this.grpAdvanced.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -513,5 +541,7 @@
         private System.Windows.Forms.Button btnDefaultTagsPlaceholder;
         private System.Windows.Forms.Button btnAddTagsPlaceholder;
         private gTextBox txtTagsFilename;
+        private gGroupBox grpAdvanced;
+        private System.Windows.Forms.CheckBox chkTextFilesWithoutBom;
     }
 }
