@@ -15,6 +15,8 @@ namespace gMKVToolNix.MkvExtract
         public CuesExtractionMode CueExtractionMode { get; set; }
         public gMKVExtractFilenamePatterns FilenamePatterns { get; set; }
         public bool DisableBomForTextFiles { get; set; } = false;
+        public bool UseRawExtractionMode { get; set; } = false;
+        public bool UseFullRawExtractionMode { get; set; } = false;
         public bool OverwriteExistingFile { get; set; } = false;
 
         public override bool Equals(object oth)
@@ -36,6 +38,8 @@ namespace gMKVToolNix.MkvExtract
                 && CueExtractionMode == other.CueExtractionMode
                 && FilenamePatterns.Equals(other.FilenamePatterns)
                 && DisableBomForTextFiles.Equals(other.DisableBomForTextFiles)
+                && UseRawExtractionMode.Equals(other.UseRawExtractionMode)
+                && UseFullRawExtractionMode.Equals(other.UseFullRawExtractionMode)
                 && OverwriteExistingFile.Equals(other.OverwriteExistingFile)
             ;
         }
@@ -53,6 +57,8 @@ namespace gMKVToolNix.MkvExtract
                 hash = hash * 23 + CueExtractionMode.GetHashCode();
                 hash = hash * 23 + FilenamePatterns.GetHashCode();
                 hash = hash * 23 + DisableBomForTextFiles.GetHashCode();
+                hash = hash * 23 + UseRawExtractionMode.GetHashCode();
+                hash = hash * 23 + UseFullRawExtractionMode.GetHashCode();
                 hash = hash * 23 + OverwriteExistingFile.GetHashCode();
                 return hash;
             }

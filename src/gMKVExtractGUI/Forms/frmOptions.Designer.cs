@@ -61,7 +61,9 @@
             this.btnOK = new System.Windows.Forms.Button();
             this.btnCancel = new System.Windows.Forms.Button();
             this.grpAdvanced = new gMKVToolNix.gGroupBox();
+            this.chkRawMode = new System.Windows.Forms.CheckBox();
             this.chkTextFilesWithoutBom = new System.Windows.Forms.CheckBox();
+            this.chkFullRawMode = new System.Windows.Forms.CheckBox();
             this.tlpMain.SuspendLayout();
             this.grpTags.SuspendLayout();
             this.grpChapters.SuspendLayout();
@@ -455,6 +457,8 @@
             // 
             // grpAdvanced
             // 
+            this.grpAdvanced.Controls.Add(this.chkFullRawMode);
+            this.grpAdvanced.Controls.Add(this.chkRawMode);
             this.grpAdvanced.Controls.Add(this.chkTextFilesWithoutBom);
             this.grpAdvanced.Dock = System.Windows.Forms.DockStyle.Fill;
             this.grpAdvanced.Location = new System.Drawing.Point(3, 484);
@@ -463,6 +467,16 @@
             this.grpAdvanced.TabIndex = 8;
             this.grpAdvanced.TabStop = false;
             this.grpAdvanced.Text = "Advanced Options";
+            // 
+            // chkRawMode
+            // 
+            this.chkRawMode.AutoSize = true;
+            this.chkRawMode.Location = new System.Drawing.Point(225, 22);
+            this.chkRawMode.Name = "chkRawMode";
+            this.chkRawMode.Size = new System.Drawing.Size(128, 19);
+            this.chkRawMode.TabIndex = 1;
+            this.chkRawMode.Text = "Use `raw` extraction";
+            this.chkRawMode.UseVisualStyleBackColor = true;
             // 
             // chkTextFilesWithoutBom
             // 
@@ -473,6 +487,16 @@
             this.chkTextFilesWithoutBom.TabIndex = 0;
             this.chkTextFilesWithoutBom.Text = "Disable BOM to text files (v96.0+)";
             this.chkTextFilesWithoutBom.UseVisualStyleBackColor = true;
+            // 
+            // chkFullRawMode
+            // 
+            this.chkFullRawMode.AutoSize = true;
+            this.chkFullRawMode.Location = new System.Drawing.Point(369, 22);
+            this.chkFullRawMode.Name = "chkFullRawMode";
+            this.chkFullRawMode.Size = new System.Drawing.Size(148, 19);
+            this.chkFullRawMode.TabIndex = 2;
+            this.chkFullRawMode.Text = "Use `full raw` extraction";
+            this.chkFullRawMode.UseVisualStyleBackColor = true;
             // 
             // frmOptions
             // 
@@ -543,5 +567,7 @@
         private gTextBox txtTagsFilename;
         private gGroupBox grpAdvanced;
         private System.Windows.Forms.CheckBox chkTextFilesWithoutBom;
+        private System.Windows.Forms.CheckBox chkRawMode;
+        private System.Windows.Forms.CheckBox chkFullRawMode;
     }
 }

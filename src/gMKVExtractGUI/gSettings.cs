@@ -138,6 +138,20 @@ namespace gMKVToolNix
             set { _DisableBomForTextFiles = value; }
         }
 
+        private bool _UseRawExtractionMode = false;
+        public bool UseRawExtractionMode
+        {
+            get { return _UseRawExtractionMode; }
+            set { _UseRawExtractionMode = value; }
+        }
+
+        private bool _UseFullRawExtractionMode = false;
+        public bool UseFullRawExtractionMode
+        {
+            get { return _UseFullRawExtractionMode; }
+            set { _UseFullRawExtractionMode = value; }
+        }
+        
         private string _VideoTrackFilenamePattern = "{FilenameNoExt}_track{TrackNumber}_[{Language}]";
         [DefaultValue("{FilenameNoExt}_track{TrackNumber}_[{Language}]")]
         public string VideoTrackFilenamePattern
@@ -587,6 +601,32 @@ namespace gMKVToolNix
                                 _DisableBomForTextFiles = false; // Default to false on error
                             }
                         }
+                        else if (line.StartsWith("UseRawExtractionMode:"))
+                        {
+                            try
+                            {
+                                _UseRawExtractionMode = bool.Parse(line.Substring(line.IndexOf(":") + 1));
+                            }
+                            catch (Exception ex)
+                            {
+                                Debug.WriteLine(ex);
+                                gMKVLogger.Log(string.Format("Error reading UseRawExtractionMode! {0}", ex.Message));
+                                _UseRawExtractionMode = false; // Default to false on error
+                            }
+                        }
+                        else if (line.StartsWith("UseFullRawExtractionMode:"))
+                        {
+                            try
+                            {
+                                _UseFullRawExtractionMode = bool.Parse(line.Substring(line.IndexOf(":") + 1));
+                            }
+                            catch (Exception ex)
+                            {
+                                Debug.WriteLine(ex);
+                                gMKVLogger.Log(string.Format("Error reading UseFullRawExtractionMode! {0}", ex.Message));
+                                _UseFullRawExtractionMode = false; // Default to false on error
+                            }
+                        }
                     }
                 }
                 gMKVLogger.Log("Finished loading settings!");
@@ -616,6 +656,8 @@ namespace gMKVToolNix
                 sw.WriteLine(string.Format("Disable Tooltips:{0}", _DisableTooltips));
                 sw.WriteLine(string.Format("DarkMode:{0}", _DarkMode));
                 sw.WriteLine(string.Format("DisableBomForTextFiles:{0}", _DisableBomForTextFiles));
+                sw.WriteLine(string.Format("UseRawExtractionMode:{0}", _UseRawExtractionMode));
+                sw.WriteLine(string.Format("UseFullRawExtractionMode:{0}", _UseFullRawExtractionMode));
 
                 sw.WriteLine(string.Format("VideoTrackFilenamePattern:{0}", _VideoTrackFilenamePattern));
                 sw.WriteLine(string.Format("AudioTrackFilenamePattern:{0}", _AudioTrackFilenamePattern));
