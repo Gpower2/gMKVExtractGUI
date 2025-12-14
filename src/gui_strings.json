@@ -1,0 +1,4216 @@
+[
+  {
+    "FilePath": "\\gMKVExtractGUI\\Controls\\ExceptionExtensions.cs",
+    "LineNumber": 18,
+    "FoundString": "An exception has occured!{Environment.NewLine}{Environment.NewLine}{ex.Message}",
+    "SuggestedKey": "gMKVToolNix.Controls.ExceptionExtensions.An_exception_has_occured__Envi",
+    "FullLine": "$\"An exception has occured!{Environment.NewLine}{Environment.NewLine}{ex.Message}\","
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Controls\\ExceptionExtensions.cs",
+    "LineNumber": 19,
+    "FoundString": "An exception has occured!",
+    "SuggestedKey": "gMKVToolNix.Controls.ExceptionExtensions.An_exception_has_occured_",
+    "FullLine": "\"An exception has occured!\","
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Controls\\gComboBox.cs",
+    "LineNumber": 11,
+    "FoundString": "Clear",
+    "SuggestedKey": "gMKVToolNix.Controls.ComboBox.Clear",
+    "FullLine": "protected ToolStripMenuItem _ClearMenu = new ToolStripMenuItem(\"Clear\");"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Controls\\gComboBox.cs",
+    "LineNumber": 12,
+    "FoundString": "Copy",
+    "SuggestedKey": "gMKVToolNix.Controls.ComboBox.Copy",
+    "FullLine": "protected ToolStripMenuItem _CopyMenu = new ToolStripMenuItem(\"Copy\");"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Controls\\gForm.cs",
+    "LineNumber": 12,
+    "FoundString": "An error has occured!{Environment.NewLine}{Environment.NewLine}",
+    "SuggestedKey": "gMKVToolNix.Form.An_error_has_occured__Environm",
+    "FullLine": "private static readonly string _errorMessagePrefix = $\"An error has occured!{Environment.NewLine}{Environment.NewLine}\";"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Controls\\gForm.cs",
+    "LineNumber": 216,
+    "FoundString": "Error!",
+    "SuggestedKey": "gMKVToolNix.Form.Error_",
+    "FullLine": "\"Error!\","
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Controls\\gForm.cs",
+    "LineNumber": 226,
+    "FoundString": "Error!",
+    "SuggestedKey": "gMKVToolNix.Form.Error_",
+    "FullLine": "\"Error!\","
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Controls\\gForm.cs",
+    "LineNumber": 247,
+    "FoundString": "Success!",
+    "SuggestedKey": "gMKVToolNix.Form.Success_",
+    "FullLine": "\"Success!\","
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Controls\\gForm.cs",
+    "LineNumber": 258,
+    "FoundString": "Success!",
+    "SuggestedKey": "gMKVToolNix.Form.Success_",
+    "FullLine": "\"Success!\","
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Controls\\gTreeView.cs",
+    "LineNumber": 162,
+    "FoundString": "node",
+    "SuggestedKey": "gMKVToolNix.TreeView.node",
+    "FullLine": "if (node == null) throw new ArgumentNullException(\"node\");"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Controls\\gTreeView.cs",
+    "LineNumber": 163,
+    "FoundString": "The node does not belong to a tree.",
+    "SuggestedKey": "gMKVToolNix.TreeView.The_node_does_not_belong_to_a_",
+    "FullLine": "if (node.TreeView == null) throw new InvalidOperationException(\"The node does not belong to a tree.\");"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Controls\\gTreeView.cs",
+    "LineNumber": 179,
+    "FoundString": "Error setting TreeNode state.",
+    "SuggestedKey": "gMKVToolNix.TreeView.Error_setting_TreeNode_state_",
+    "FullLine": "if (result == IntPtr.Zero) throw new ApplicationException(\"Error setting TreeNode state.\");"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Controls\\gTreeView.cs",
+    "LineNumber": 189,
+    "FoundString": "node",
+    "SuggestedKey": "gMKVToolNix.TreeView.node",
+    "FullLine": "if (node == null) throw new ArgumentNullException(\"node\");"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Controls\\gTreeView.cs",
+    "LineNumber": 190,
+    "FoundString": "The node does not belong to a tree.",
+    "SuggestedKey": "gMKVToolNix.TreeView.The_node_does_not_belong_to_a_",
+    "FullLine": "if (node.TreeView == null) throw new InvalidOperationException(\"The node does not belong to a tree.\");"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Controls\\gTreeView.cs",
+    "LineNumber": 204,
+    "FoundString": "Error getting TreeNode state.",
+    "SuggestedKey": "gMKVToolNix.TreeView.Error_getting_TreeNode_state_",
+    "FullLine": "if (result == IntPtr.Zero) throw new ApplicationException(\"Error getting TreeNode state.\");"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmJobManager.cs",
+    "LineNumber": 46,
+    "FoundString": "gMKVExtractGUI v{0} -- Job Manager",
+    "SuggestedKey": "gMKVToolNix.gForm.gMKVExtractGUI_v_0_____Job_Man",
+    "FullLine": "Text = string.Format(\"gMKVExtractGUI v{0} -- Job Manager\", GetCurrentVersion());"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmJobManager.cs",
+    "LineNumber": 163,
+    "FoundString": "There is an extraction process running! Please abort before closing!",
+    "SuggestedKey": "gMKVToolNix.gForm.There_is_an_extraction_process",
+    "FullLine": "ShowErrorMessage(\"There is an extraction process running! Please abort before closing!\");"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmJobManager.cs",
+    "LineNumber": 243,
+    "FoundString": "Exception for job {0}: {1}{2}",
+    "SuggestedKey": "gMKVToolNix.gForm.Exception_for_job__0____1__2_",
+    "FullLine": "_ExceptionBuilder.AppendFormat(\"Exception for job {0}: {1}{2}\", jobInfo.ToString(), ex.Message, Environment.NewLine);"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmJobManager.cs",
+    "LineNumber": 269,
+    "FoundString": "{0} from {1}",
+    "SuggestedKey": "gMKVToolNix.gForm._0__from__1_",
+    "FullLine": "txtCurrentTrack.Text = string.Format(\"{0} from {1}\", val, Path.GetFileName((string)filename));"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmJobManager.cs",
+    "LineNumber": 279,
+    "FoundString": "There are no available jobs to run!",
+    "SuggestedKey": "gMKVToolNix.gForm.There_are_no_available_jobs_to",
+    "FullLine": "throw new Exception(\"There are no available jobs to run!\");"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmJobManager.cs",
+    "LineNumber": 333,
+    "FoundString": "The jobs completed successfully!",
+    "SuggestedKey": "gMKVToolNix.gForm.The_jobs_completed_successfull",
+    "FullLine": "ShowSuccessMessage(\"The jobs completed successfully!\", true);"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmJobManager.cs",
+    "LineNumber": 359,
+    "FoundString": "Extraction completed!",
+    "SuggestedKey": "gMKVToolNix.gForm.Extraction_completed_",
+    "FullLine": "txtCurrentTrack.Text = \"Extraction completed!\";"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmJobManager.cs",
+    "LineNumber": 450,
+    "FoundString": "Select job file...",
+    "SuggestedKey": "gMKVToolNix.gForm.Select_job_file___",
+    "FullLine": "Title = \"Select job file...\","
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmJobManager.cs",
+    "LineNumber": 468,
+    "FoundString": "The jobs were save successfully!",
+    "SuggestedKey": "gMKVToolNix.gForm.The_jobs_were_save_successfull",
+    "FullLine": "ShowSuccessMessage(\"The jobs were save successfully!\");"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmJobManager.cs",
+    "LineNumber": 487,
+    "FoundString": "Select jobs file...",
+    "SuggestedKey": "gMKVToolNix.gForm.Select_jobs_file___",
+    "FullLine": "Title = \"Select jobs file...\","
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmJobManager.cs",
+    "LineNumber": 500,
+    "FoundString": "The jobs were loaded successfully!",
+    "SuggestedKey": "gMKVToolNix.gForm.The_jobs_were_loaded_successfu",
+    "FullLine": "ShowSuccessMessage(\"The jobs were loaded successfully!\");"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmJobManager.cs",
+    "LineNumber": 574,
+    "FoundString": "Jobs ({0})",
+    "SuggestedKey": "gMKVToolNix.gForm.Jobs___0__",
+    "FullLine": "grpJobs.Text = string.Format(\"Jobs ({0})\", grdJobs.Rows.Count);"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmJobManager.Designer.cs",
+    "LineNumber": 98,
+    "FoundString": "Progress",
+    "SuggestedKey": "gMKVToolNix.frmJobManager.Progress",
+    "FullLine": "this.grpProgress.Text = \"Progress\";"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmJobManager.Designer.cs",
+    "LineNumber": 118,
+    "FoundString": "Current Track",
+    "SuggestedKey": "gMKVToolNix.frmJobManager.Current_Track",
+    "FullLine": "this.lblCurrentTrack.Text = \"Current Track\";"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmJobManager.Designer.cs",
+    "LineNumber": 145,
+    "FoundString": "Total Progress",
+    "SuggestedKey": "gMKVToolNix.frmJobManager.Total_Progress",
+    "FullLine": "this.lblTotalProgress.Text = \"Total Progress\";"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmJobManager.Designer.cs",
+    "LineNumber": 154,
+    "FoundString": "Current Progress",
+    "SuggestedKey": "gMKVToolNix.frmJobManager.Current_Progress",
+    "FullLine": "this.lblCurrentProgress.Text = \"Current Progress\";"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmJobManager.Designer.cs",
+    "LineNumber": 199,
+    "FoundString": "Jobs",
+    "SuggestedKey": "gMKVToolNix.frmJobManager.Jobs",
+    "FullLine": "this.grpJobs.Text = \"Jobs\";"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmJobManager.Designer.cs",
+    "LineNumber": 239,
+    "FoundString": "Change to Ready Status",
+    "SuggestedKey": "gMKVToolNix.frmJobManager.Change_to_Ready_Status",
+    "FullLine": "this.changeToReadyStatusToolStripMenuItem.Text = \"Change to Ready Status\";"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmJobManager.Designer.cs",
+    "LineNumber": 257,
+    "FoundString": "Actions",
+    "SuggestedKey": "gMKVToolNix.frmJobManager.Actions",
+    "FullLine": "this.grpActions.Text = \"Actions\";"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmJobManager.Designer.cs",
+    "LineNumber": 267,
+    "FoundString": "Popup",
+    "SuggestedKey": "gMKVToolNix.frmJobManager.Popup",
+    "FullLine": "this.chkShowPopup.Text = \"Popup\";"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmJobManager.Designer.cs",
+    "LineNumber": 278,
+    "FoundString": "Save Jobs...",
+    "SuggestedKey": "gMKVToolNix.frmJobManager.Save_Jobs___",
+    "FullLine": "this.btnSaveJobs.Text = \"Save Jobs...\";"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmJobManager.Designer.cs",
+    "LineNumber": 288,
+    "FoundString": "Load Jobs...",
+    "SuggestedKey": "gMKVToolNix.frmJobManager.Load_Jobs___",
+    "FullLine": "this.btnLoadJobs.Text = \"Load Jobs...\";"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmJobManager.Designer.cs",
+    "LineNumber": 299,
+    "FoundString": "Abort All",
+    "SuggestedKey": "gMKVToolNix.frmJobManager.Abort_All",
+    "FullLine": "this.btnAbortAll.Text = \"Abort All\";"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmJobManager.Designer.cs",
+    "LineNumber": 310,
+    "FoundString": "Abort",
+    "SuggestedKey": "gMKVToolNix.frmJobManager.Abort",
+    "FullLine": "this.btnAbort.Text = \"Abort\";"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmJobManager.Designer.cs",
+    "LineNumber": 320,
+    "FoundString": "Run Jobs",
+    "SuggestedKey": "gMKVToolNix.frmJobManager.Run_Jobs",
+    "FullLine": "this.btnRunAll.Text = \"Run Jobs\";"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmJobManager.Designer.cs",
+    "LineNumber": 330,
+    "FoundString": "Remove",
+    "SuggestedKey": "gMKVToolNix.frmJobManager.Remove",
+    "FullLine": "this.btnRemove.Text = \"Remove\";"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmJobManager.Designer.cs",
+    "LineNumber": 338,
+    "FoundString": "Select All",
+    "SuggestedKey": "gMKVToolNix.frmJobManager.Select_All",
+    "FullLine": "this.selectAllToolStripMenuItem.Text = \"Select All\";"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmJobManager.Designer.cs",
+    "LineNumber": 345,
+    "FoundString": "Deselect All",
+    "SuggestedKey": "gMKVToolNix.frmJobManager.Deselect_All",
+    "FullLine": "this.deselectAllToolStripMenuItem.Text = \"Deselect All\";"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmJobManager.Designer.cs",
+    "LineNumber": 362,
+    "FoundString": "frmJobManager",
+    "SuggestedKey": "gMKVToolNix.frmJobManager.frmJobManager",
+    "FullLine": "this.Text = \"frmJobManager\";"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmLog.cs",
+    "LineNumber": 48,
+    "FoundString": "gMKVExtractGUI v{0} -- Log",
+    "SuggestedKey": "gMKVToolNix.gForm.gMKVExtractGUI_v_0_____Log",
+    "FullLine": "Text = string.Format(\"gMKVExtractGUI v{0} -- Log\", GetCurrentVersion());"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmLog.cs",
+    "LineNumber": 60,
+    "FoundString": "Log ({0})",
+    "SuggestedKey": "gMKVToolNix.gForm.Log___0__",
+    "FullLine": "grpLog.Text = string.Format(\"Log ({0})\", txtLog.Lines.LongLength);"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmLog.cs",
+    "LineNumber": 119,
+    "FoundString": "Are you sure you want to clear the log?",
+    "SuggestedKey": "gMKVToolNix.gForm.Are_you_sure_you_want_to_clear",
+    "FullLine": "if (ShowQuestion(\"Are you sure you want to clear the log?\", \"Are you sure?\") == DialogResult.Yes)"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmLog.cs",
+    "LineNumber": 119,
+    "FoundString": "Are you sure?",
+    "SuggestedKey": "gMKVToolNix.gForm.Are_you_sure_",
+    "FullLine": "if (ShowQuestion(\"Are you sure you want to clear the log?\", \"Are you sure?\") == DialogResult.Yes)"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmLog.cs",
+    "LineNumber": 137,
+    "FoundString": "Select filename for log...",
+    "SuggestedKey": "gMKVToolNix.gForm.Select_filename_for_log___",
+    "FullLine": "sfd.Title = \"Select filename for log...\";"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmLog.cs",
+    "LineNumber": 151,
+    "FoundString": "The log was saved to {0}!",
+    "SuggestedKey": "gMKVToolNix.gForm.The_log_was_saved_to__0__",
+    "FullLine": "ShowSuccessMessage(string.Format(\"The log was saved to {0}!\", sfd.FileName));"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmLog.Designer.cs",
+    "LineNumber": 69,
+    "FoundString": "Log",
+    "SuggestedKey": "gMKVToolNix.frmLog.Log",
+    "FullLine": "this.grpLog.Text = \"Log\";"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmLog.Designer.cs",
+    "LineNumber": 99,
+    "FoundString": "Actions",
+    "SuggestedKey": "gMKVToolNix.frmLog.Actions",
+    "FullLine": "this.grpActions.Text = \"Actions\";"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmLog.Designer.cs",
+    "LineNumber": 107,
+    "FoundString": "Save...",
+    "SuggestedKey": "gMKVToolNix.frmLog.Save___",
+    "FullLine": "this.btnSave.Text = \"Save...\";"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmLog.Designer.cs",
+    "LineNumber": 117,
+    "FoundString": "Clear Log",
+    "SuggestedKey": "gMKVToolNix.frmLog.Clear_Log",
+    "FullLine": "this.btnClear.Text = \"Clear Log\";"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmLog.Designer.cs",
+    "LineNumber": 128,
+    "FoundString": "Refresh",
+    "SuggestedKey": "gMKVToolNix.frmLog.Refresh",
+    "FullLine": "this.btnRefresh.Text = \"Refresh\";"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmLog.Designer.cs",
+    "LineNumber": 139,
+    "FoundString": "Copy Selection",
+    "SuggestedKey": "gMKVToolNix.frmLog.Copy_Selection",
+    "FullLine": "this.btnCopy.Text = \"Copy Selection\";"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmLog.Designer.cs",
+    "LineNumber": 150,
+    "FoundString": "Close",
+    "SuggestedKey": "gMKVToolNix.frmLog.Close",
+    "FullLine": "this.btnClose.Text = \"Close\";"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmLog.Designer.cs",
+    "LineNumber": 163,
+    "FoundString": "frmLog",
+    "SuggestedKey": "gMKVToolNix.frmLog.frmLog",
+    "FullLine": "this.Text = \"frmLog\";"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmMain.cs",
+    "LineNumber": 57,
+    "FoundString": "gMKVExtractGUI v{0} -- By Gpower2",
+    "SuggestedKey": "gMKVToolNix.IFormMain.gMKVExtractGUI_v_0_____By_Gpow",
+    "FullLine": "Text = String.Format(\"gMKVExtractGUI v{0} -- By Gpower2\", Assembly.GetExecutingAssembly().GetName().Version);"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmMain.cs",
+    "LineNumber": 74,
+    "FoundString": "Begin setting form size and position from settings...",
+    "SuggestedKey": "gMKVToolNix.IFormMain.Begin_setting_form_size_and_po",
+    "FullLine": "gMKVLogger.Log(\"Begin setting form size and position from settings...\");"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmMain.cs",
+    "LineNumber": 79,
+    "FoundString": "Finished setting form size and position from settings!",
+    "SuggestedKey": "gMKVToolNix.IFormMain.Finished_setting_form_size_and",
+    "FullLine": "gMKVLogger.Log(\"Finished setting form size and position from settings!\");"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmMain.cs",
+    "LineNumber": 82,
+    "FoundString": "Begin setting chapter type, output directory and job mode from settings...",
+    "SuggestedKey": "gMKVToolNix.IFormMain.Begin_setting_chapter_type__ou",
+    "FullLine": "gMKVLogger.Log(\"Begin setting chapter type, output directory and job mode from settings...\");"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmMain.cs",
+    "LineNumber": 88,
+    "FoundString": "Finished setting chapter type, output directory and job mode from settings!",
+    "SuggestedKey": "gMKVToolNix.IFormMain.Finished_setting_chapter_type_",
+    "FullLine": "gMKVLogger.Log(\"Finished setting chapter type, output directory and job mode from settings!\");"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmMain.cs",
+    "LineNumber": 101,
+    "FoundString": "Checking registry for mkvmerge...",
+    "SuggestedKey": "gMKVToolNix.IFormMain.Checking_registry_for_mkvmerge",
+    "FullLine": "gMKVLogger.Log(\"Checking registry for mkvmerge...\");"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmMain.cs",
+    "LineNumber": 145,
+    "FoundString": "Could not find MKVToolNix in /usr/bin, or in the current directory, or in the ini file!",
+    "SuggestedKey": "gMKVToolNix.IFormMain.Could_not_find_MKVToolNix_in__",
+    "FullLine": "exceptionMessage = \"Could not find MKVToolNix in /usr/bin, or in the current directory, or in the ini file!\";"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmMain.cs",
+    "LineNumber": 149,
+    "FoundString": "Could not find MKVToolNix in registry, or in the current directory, or in the ini file!",
+    "SuggestedKey": "gMKVToolNix.IFormMain.Could_not_find_MKVToolNix_in_r",
+    "FullLine": "exceptionMessage = \"Could not find MKVToolNix in registry, or in the current directory, or in the ini file!\";"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmMain.cs",
+    "LineNumber": 152,
+    "FoundString": "Please download and reinstall or provide a manual path!",
+    "SuggestedKey": "gMKVToolNix.IFormMain.Please_download_and_reinstall_",
+    "FullLine": "throw new Exception(exceptionMessage + Environment.NewLine + \"Please download and reinstall or provide a manual path!\");"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmMain.cs",
+    "LineNumber": 224,
+    "FoundString": "Do you really want to change MKVToolnix path?",
+    "SuggestedKey": "gMKVToolNix.IFormMain.Do_you_really_want_to_change_M",
+    "FullLine": "if (ShowQuestion(\"Do you really want to change MKVToolnix path?\", \"Are you sure?\") != DialogResult.Yes)"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmMain.cs",
+    "LineNumber": 224,
+    "FoundString": "Are you sure?",
+    "SuggestedKey": "gMKVToolNix.IFormMain.Are_you_sure_",
+    "FullLine": "if (ShowQuestion(\"Do you really want to change MKVToolnix path?\", \"Are you sure?\") != DialogResult.Yes)"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmMain.cs",
+    "LineNumber": 387,
+    "FoundString": "The folder does not contain MKVToolnix!",
+    "SuggestedKey": "gMKVToolNix.IFormMain.The_folder_does_not_contain_MK",
+    "FullLine": "throw new Exception(\"The folder does not contain MKVToolnix!\");"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmMain.cs",
+    "LineNumber": 392,
+    "FoundString": "Changing MkvToolnixPath",
+    "SuggestedKey": "gMKVToolNix.IFormMain.Changing_MkvToolnixPath",
+    "FullLine": "gMKVLogger.Log(\"Changing MkvToolnixPath\");"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmMain.cs",
+    "LineNumber": 418,
+    "FoundString": "Changing ChapterType",
+    "SuggestedKey": "gMKVToolNix.IFormMain.Changing_ChapterType",
+    "FullLine": "gMKVLogger.Log(\"Changing ChapterType\");"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmMain.cs",
+    "LineNumber": 444,
+    "FoundString": "The input file ",
+    "SuggestedKey": "gMKVToolNix.IFormMain.The_input_file_",
+    "FullLine": "throw new Exception(\"The input file \" + Environment.NewLine + Environment.NewLine + txtInputFile.Text.Trim() + Environment.NewLine + Environment.NewLine + \"does not exist!\");"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmMain.cs",
+    "LineNumber": 444,
+    "FoundString": "does not exist!",
+    "SuggestedKey": "gMKVToolNix.IFormMain.does_not_exist_",
+    "FullLine": "throw new Exception(\"The input file \" + Environment.NewLine + Environment.NewLine + txtInputFile.Text.Trim() + Environment.NewLine + Environment.NewLine + \"does not exist!\");"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmMain.cs",
+    "LineNumber": 454,
+    "FoundString": "The input file ",
+    "SuggestedKey": "gMKVToolNix.IFormMain.The_input_file_",
+    "FullLine": "throw new Exception(\"The input file \" + Environment.NewLine + Environment.NewLine + txtInputFile.Text.Trim() + Environment.NewLine + Environment.NewLine + \"is not a valid matroska file!\");"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmMain.cs",
+    "LineNumber": 454,
+    "FoundString": "is not a valid matroska file!",
+    "SuggestedKey": "gMKVToolNix.IFormMain.is_not_a_valid_matroska_file_",
+    "FullLine": "throw new Exception(\"The input file \" + Environment.NewLine + Environment.NewLine + txtInputFile.Text.Trim() + Environment.NewLine + Environment.NewLine + \"is not a valid matroska file!\");"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmMain.cs",
+    "LineNumber": 469,
+    "FoundString": "Writing Application: {1}{0}Muxing Application: {2}{0}Duration: {3}{0}Date: {4}",
+    "SuggestedKey": "gMKVToolNix.IFormMain.Writing_Application___1__0_Mux",
+    "FullLine": "txtSegmentInfo.Text = String.Format(\"Writing Application: {1}{0}Muxing Application: {2}{0}Duration: {3}{0}Date: {4}\","
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmMain.cs",
+    "LineNumber": 495,
+    "FoundString": "Input File Information ({0} Tracks)",
+    "SuggestedKey": "gMKVToolNix.IFormMain.Input_File_Information___0__Tr",
+    "FullLine": "grpInputFileInfo.Text = String.Format(\"Input File Information ({0} Tracks)\", chkLstInputFileTracks.Items.Count);"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmMain.cs",
+    "LineNumber": 514,
+    "FoundString": "Select an input mkv file...",
+    "SuggestedKey": "gMKVToolNix.IFormMain.Select_an_input_mkv_file___",
+    "FullLine": "ofd.Title = \"Select an input mkv file...\";"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmMain.cs",
+    "LineNumber": 538,
+    "FoundString": "Changing OutputDirectory",
+    "SuggestedKey": "gMKVToolNix.IFormMain.Changing_OutputDirectory",
+    "FullLine": "gMKVLogger.Log(\"Changing OutputDirectory\");"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmMain.cs",
+    "LineNumber": 566,
+    "FoundString": "Changing LockedOutputDirectory",
+    "SuggestedKey": "gMKVToolNix.IFormMain.Changing_LockedOutputDirectory",
+    "FullLine": "gMKVLogger.Log(\"Changing LockedOutputDirectory\");"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmMain.cs",
+    "LineNumber": 590,
+    "FoundString": "Select directory",
+    "SuggestedKey": "gMKVToolNix.IFormMain.Select_directory",
+    "FullLine": "sfd.FileName = \"Select directory\";"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmMain.cs",
+    "LineNumber": 591,
+    "FoundString": "Select output directory...",
+    "SuggestedKey": "gMKVToolNix.IFormMain.Select_output_directory___",
+    "FullLine": "sfd.Title = \"Select output directory...\";"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmMain.cs",
+    "LineNumber": 613,
+    "FoundString": "Do you really want to change MKVToolnix path?",
+    "SuggestedKey": "gMKVToolNix.IFormMain.Do_you_really_want_to_change_M",
+    "FullLine": "if (ShowQuestion(\"Do you really want to change MKVToolnix path?\", \"Are you sure?\") != DialogResult.Yes)"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmMain.cs",
+    "LineNumber": 613,
+    "FoundString": "Are you sure?",
+    "SuggestedKey": "gMKVToolNix.IFormMain.Are_you_sure_",
+    "FullLine": "if (ShowQuestion(\"Do you really want to change MKVToolnix path?\", \"Are you sure?\") != DialogResult.Yes)"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmMain.cs",
+    "LineNumber": 623,
+    "FoundString": "Select directory",
+    "SuggestedKey": "gMKVToolNix.IFormMain.Select_directory",
+    "FullLine": "ofd.FileName = \"Select directory\";"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmMain.cs",
+    "LineNumber": 624,
+    "FoundString": "Select MKVToolnix directory...",
+    "SuggestedKey": "gMKVToolNix.IFormMain.Select_MKVToolnix_directory___",
+    "FullLine": "ofd.Title = \"Select MKVToolnix directory...\";"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmMain.cs",
+    "LineNumber": 827,
+    "FoundString": "Extracting...",
+    "SuggestedKey": "gMKVToolNix.IFormMain.Extracting___",
+    "FullLine": "gTaskbarProgress.SetOverlayIcon(this, SystemIcons.Shield, \"Extracting...\");"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmMain.cs",
+    "LineNumber": 841,
+    "FoundString": "The extraction was completed successfully!",
+    "SuggestedKey": "gMKVToolNix.IFormMain.The_extraction_was_completed_s",
+    "FullLine": "ShowSuccessMessage(\"The extraction was completed successfully!\");"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmMain.cs",
+    "LineNumber": 855,
+    "FoundString": "Error!",
+    "SuggestedKey": "gMKVToolNix.IFormMain.Error_",
+    "FullLine": "gTaskbarProgress.SetOverlayIcon(this, SystemIcons.Error, \"Error!\");"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmMain.cs",
+    "LineNumber": 961,
+    "FoundString": "You must provide with a valid Matroska file!",
+    "SuggestedKey": "gMKVToolNix.IFormMain.You_must_provide_with_a_valid_",
+    "FullLine": "throw new Exception(\"You must provide with a valid Matroska file!\");"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmMain.cs",
+    "LineNumber": 965,
+    "FoundString": "The input file does not exist!",
+    "SuggestedKey": "gMKVToolNix.IFormMain.The_input_file_does_not_exist_",
+    "FullLine": "throw new Exception(\"The input file does not exist!\");"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmMain.cs",
+    "LineNumber": 970,
+    "FoundString": "You must provide with MKVToolnix path!",
+    "SuggestedKey": "gMKVToolNix.IFormMain.You_must_provide_with_MKVTooln",
+    "FullLine": "throw new Exception(\"You must provide with MKVToolnix path!\");"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmMain.cs",
+    "LineNumber": 975,
+    "FoundString": "The MKVToolnix path provided does not contain MKVToolnix files!",
+    "SuggestedKey": "gMKVToolNix.IFormMain.The_MKVToolnix_path_provided_d",
+    "FullLine": "throw new Exception(\"The MKVToolnix path provided does not contain MKVToolnix files!\");"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmMain.cs",
+    "LineNumber": 982,
+    "FoundString": "You must select a track to extract!",
+    "SuggestedKey": "gMKVToolNix.IFormMain.You_must_select_a_track_to_ext",
+    "FullLine": "throw new Exception(\"You must select a track to extract!\");"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmMain.cs",
+    "LineNumber": 1002,
+    "FoundString": "You must select a video, audio or subtitles track to extract timecodes!",
+    "SuggestedKey": "gMKVToolNix.IFormMain.You_must_select_a_video__audio",
+    "FullLine": "throw new Exception(\"You must select a video, audio or subtitles track to extract timecodes!\");"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmMain.cs",
+    "LineNumber": 1021,
+    "FoundString": "You must select a video, audio or subtitles track to extract cues!",
+    "SuggestedKey": "gMKVToolNix.IFormMain.You_must_select_a_video__audio",
+    "FullLine": "throw new Exception(\"You must select a video, audio or subtitles track to extract cues!\");"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmMain.cs",
+    "LineNumber": 1034,
+    "FoundString": "You must select a chapter type!",
+    "SuggestedKey": "gMKVToolNix.IFormMain.You_must_select_a_chapter_type",
+    "FullLine": "throw new Exception(\"You must select a chapter type!\");"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmMain.cs",
+    "LineNumber": 1112,
+    "FoundString": "Select All Video Tracks ({1}/{0})",
+    "SuggestedKey": "gMKVToolNix.IFormMain.Select_All_Video_Tracks___1___",
+    "FullLine": "selectAllVideoTracksToolStripMenuItem.Text = String.Format(\"Select All Video Tracks ({1}/{0})\", videoTracksCount, selectedVideoTracksCount);"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmMain.cs",
+    "LineNumber": 1113,
+    "FoundString": "Select All Audio Tracks ({1}/{0})",
+    "SuggestedKey": "gMKVToolNix.IFormMain.Select_All_Audio_Tracks___1___",
+    "FullLine": "selectAllAudioTracksToolStripMenuItem.Text = String.Format(\"Select All Audio Tracks ({1}/{0})\", audioTracksCount, selectedAudioTracksCount);"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmMain.cs",
+    "LineNumber": 1114,
+    "FoundString": "Select All Subtitle Tracks ({1}/{0})",
+    "SuggestedKey": "gMKVToolNix.IFormMain.Select_All_Subtitle_Tracks___1",
+    "FullLine": "selectAllSubtitleTracksToolStripMenuItem.Text = String.Format(\"Select All Subtitle Tracks ({1}/{0})\", subtitleTracksCount, selectedSubtitleTracksCount);"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmMain.cs",
+    "LineNumber": 1115,
+    "FoundString": "Select All Chapter Tracks ({1}/{0})",
+    "SuggestedKey": "gMKVToolNix.IFormMain.Select_All_Chapter_Tracks___1_",
+    "FullLine": "selectAllChapterTracksToolStripMenuItem.Text = String.Format(\"Select All Chapter Tracks ({1}/{0})\", chapterTracksCount, selectedChapterTracksCount);"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmMain.cs",
+    "LineNumber": 1116,
+    "FoundString": "Select All Attachment Tracks ({1}/{0})",
+    "SuggestedKey": "gMKVToolNix.IFormMain.Select_All_Attachment_Tracks__",
+    "FullLine": "selectAllAttachmentsToolStripMenuItem.Text = String.Format(\"Select All Attachment Tracks ({1}/{0})\", attachmentTracksCount, selectedAttachmentTracksCount);"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmMain.cs",
+    "LineNumber": 1117,
+    "FoundString": "Select All Tracks ({1}/{0})",
+    "SuggestedKey": "gMKVToolNix.IFormMain.Select_All_Tracks___1___0__",
+    "FullLine": "selectAllTracksToolStripMenuItem.Text = String.Format(\"Select All Tracks ({1}/{0})\", chkLstInputFileTracks.Items.Count, chkLstInputFileTracks.CheckedItems.Count);"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmMain.cs",
+    "LineNumber": 1118,
+    "FoundString": "Unselect All Tracks ({1}/{0})",
+    "SuggestedKey": "gMKVToolNix.IFormMain.Unselect_All_Tracks___1___0__",
+    "FullLine": "unselectAllTracksToolStripMenuItem.Text = String.Format(\"Unselect All Tracks ({1}/{0})\", chkLstInputFileTracks.Items.Count, chkLstInputFileTracks.CheckedItems.Count);"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmMain.cs",
+    "LineNumber": 1240,
+    "FoundString": "Changing WindowPosX, WindowPosY, WindowState",
+    "SuggestedKey": "gMKVToolNix.IFormMain.Changing_WindowPosX__WindowPos",
+    "FullLine": "gMKVLogger.Log(\"Changing WindowPosX, WindowPosY, WindowState\");"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmMain.cs",
+    "LineNumber": 1259,
+    "FoundString": "Changing WindowSizeWidth, WindowSizeHeight, WindowState",
+    "SuggestedKey": "gMKVToolNix.IFormMain.Changing_WindowSizeWidth__Wind",
+    "FullLine": "gMKVLogger.Log(\"Changing WindowSizeWidth, WindowSizeHeight, WindowState\");"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmMain.cs",
+    "LineNumber": 1276,
+    "FoundString": "Changing WindowState",
+    "SuggestedKey": "gMKVToolNix.IFormMain.Changing_WindowState",
+    "FullLine": "gMKVLogger.Log(\"Changing WindowState\");"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmMain.cs",
+    "LineNumber": 1293,
+    "FoundString": "There is an extraction process running! Please abort before closing!",
+    "SuggestedKey": "gMKVToolNix.IFormMain.There_is_an_extraction_process",
+    "FullLine": "ShowErrorMessage(\"There is an extraction process running! Please abort before closing!\");"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmMain.cs",
+    "LineNumber": 1309,
+    "FoundString": "Add job",
+    "SuggestedKey": "gMKVToolNix.IFormMain.Add_job",
+    "FullLine": "btnExtract.Text = _JobMode ? \"Add job\" : \"Extract\";"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmMain.cs",
+    "LineNumber": 1309,
+    "FoundString": "Extract",
+    "SuggestedKey": "gMKVToolNix.IFormMain.Extract",
+    "FullLine": "btnExtract.Text = _JobMode ? \"Add job\" : \"Extract\";"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmMain.cs",
+    "LineNumber": 1310,
+    "FoundString": "Jobs...",
+    "SuggestedKey": "gMKVToolNix.IFormMain.Jobs___",
+    "FullLine": "btnShowLog.Text = _JobMode ? \"Jobs...\" : \"Log...\";"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmMain.cs",
+    "LineNumber": 1310,
+    "FoundString": "Log...",
+    "SuggestedKey": "gMKVToolNix.IFormMain.Log___",
+    "FullLine": "btnShowLog.Text = _JobMode ? \"Jobs...\" : \"Log...\";"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmMain.cs",
+    "LineNumber": 1314,
+    "FoundString": "Changing JobMode",
+    "SuggestedKey": "gMKVToolNix.IFormMain.Changing_JobMode",
+    "FullLine": "gMKVLogger.Log(\"Changing JobMode\");"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmMain.cs",
+    "LineNumber": 1324,
+    "FoundString": "Changing ShowPopup",
+    "SuggestedKey": "gMKVToolNix.IFormMain.Changing_ShowPopup",
+    "FullLine": "gMKVLogger.Log(\"Changing ShowPopup\");"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmMain.Designer.cs",
+    "LineNumber": 107,
+    "FoundString": "Select All Tracks",
+    "SuggestedKey": "gMKVToolNix.frmMain.Select_All_Tracks",
+    "FullLine": "this.selectAllTracksToolStripMenuItem.Text = \"Select All Tracks\";"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmMain.Designer.cs",
+    "LineNumber": 114,
+    "FoundString": "Select All Video Tracks",
+    "SuggestedKey": "gMKVToolNix.frmMain.Select_All_Video_Tracks",
+    "FullLine": "this.selectAllVideoTracksToolStripMenuItem.Text = \"Select All Video Tracks\";"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmMain.Designer.cs",
+    "LineNumber": 121,
+    "FoundString": "Select All Audio Tracks",
+    "SuggestedKey": "gMKVToolNix.frmMain.Select_All_Audio_Tracks",
+    "FullLine": "this.selectAllAudioTracksToolStripMenuItem.Text = \"Select All Audio Tracks\";"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmMain.Designer.cs",
+    "LineNumber": 128,
+    "FoundString": "Select All Subtitle Tracks",
+    "SuggestedKey": "gMKVToolNix.frmMain.Select_All_Subtitle_Tracks",
+    "FullLine": "this.selectAllSubtitleTracksToolStripMenuItem.Text = \"Select All Subtitle Tracks\";"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmMain.Designer.cs",
+    "LineNumber": 135,
+    "FoundString": "Select All Chapter Tracks",
+    "SuggestedKey": "gMKVToolNix.frmMain.Select_All_Chapter_Tracks",
+    "FullLine": "this.selectAllChapterTracksToolStripMenuItem.Text = \"Select All Chapter Tracks\";"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmMain.Designer.cs",
+    "LineNumber": 142,
+    "FoundString": "Select All Attachments Tracks",
+    "SuggestedKey": "gMKVToolNix.frmMain.Select_All_Attachments_Tracks",
+    "FullLine": "this.selectAllAttachmentsToolStripMenuItem.Text = \"Select All Attachments Tracks\";"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmMain.Designer.cs",
+    "LineNumber": 154,
+    "FoundString": "Unselect All tracks",
+    "SuggestedKey": "gMKVToolNix.frmMain.Unselect_All_tracks",
+    "FullLine": "this.unselectAllTracksToolStripMenuItem.Text = \"Unselect All tracks\";"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmMain.Designer.cs",
+    "LineNumber": 174,
+    "FoundString": "toolStripContainer1",
+    "SuggestedKey": "gMKVToolNix.frmMain.toolStripContainer1",
+    "FullLine": "this.toolStripContainer1.Text = \"toolStripContainer1\";"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmMain.Designer.cs",
+    "LineNumber": 184,
+    "FoundString": "Abort",
+    "SuggestedKey": "gMKVToolNix.frmMain.Abort",
+    "FullLine": "this.btnAbort.Text = \"Abort\";"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmMain.Designer.cs",
+    "LineNumber": 195,
+    "FoundString": "Abort All",
+    "SuggestedKey": "gMKVToolNix.frmMain.Abort_All",
+    "FullLine": "this.btnAbortAll.Text = \"Abort All\";"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmMain.Designer.cs",
+    "LineNumber": 231,
+    "FoundString": "Input file (you can drag and drop the file)",
+    "SuggestedKey": "gMKVToolNix.frmMain.Input_file__you_can_drag_and_d",
+    "FullLine": "this.grpInputFile.Text = \"Input file (you can drag and drop the file)\";"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmMain.Designer.cs",
+    "LineNumber": 258,
+    "FoundString": "Browse...",
+    "SuggestedKey": "gMKVToolNix.frmMain.Browse___",
+    "FullLine": "this.btnBrowseInputFile.Text = \"Browse...\";"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmMain.Designer.cs",
+    "LineNumber": 273,
+    "FoundString": "Output Directory",
+    "SuggestedKey": "gMKVToolNix.frmMain.Output_Directory",
+    "FullLine": "this.grpOutputDirectory.Text = \"Output Directory\";"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmMain.Designer.cs",
+    "LineNumber": 284,
+    "FoundString": "Lock",
+    "SuggestedKey": "gMKVToolNix.frmMain.Lock",
+    "FullLine": "this.chkLockOutputDirectory.Text = \"Lock\";"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmMain.Designer.cs",
+    "LineNumber": 295,
+    "FoundString": "Browse...",
+    "SuggestedKey": "gMKVToolNix.frmMain.Browse___",
+    "FullLine": "this.btnBrowseOutputDirectory.Text = \"Browse...\";"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmMain.Designer.cs",
+    "LineNumber": 330,
+    "FoundString": "Actions",
+    "SuggestedKey": "gMKVToolNix.frmMain.Actions",
+    "FullLine": "this.grpActions.Text = \"Actions\";"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmMain.Designer.cs",
+    "LineNumber": 340,
+    "FoundString": "Popup",
+    "SuggestedKey": "gMKVToolNix.frmMain.Popup",
+    "FullLine": "this.chkShowPopup.Text = \"Popup\";"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmMain.Designer.cs",
+    "LineNumber": 353,
+    "FoundString": "Job Mode",
+    "SuggestedKey": "gMKVToolNix.frmMain.Job_Mode",
+    "FullLine": "this.chkJobMode.Text = \"Job Mode\";"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmMain.Designer.cs",
+    "LineNumber": 365,
+    "FoundString": "Extract",
+    "SuggestedKey": "gMKVToolNix.frmMain.Extract",
+    "FullLine": "this.btnExtract.Text = \"Extract\";"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmMain.Designer.cs",
+    "LineNumber": 377,
+    "FoundString": "Extract:",
+    "SuggestedKey": "gMKVToolNix.frmMain.Extract_",
+    "FullLine": "this.lblExtractionMode.Text = \"Extract:\";"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmMain.Designer.cs",
+    "LineNumber": 396,
+    "FoundString": "Log...",
+    "SuggestedKey": "gMKVToolNix.frmMain.Log___",
+    "FullLine": "this.btnShowLog.Text = \"Log...\";"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmMain.Designer.cs",
+    "LineNumber": 408,
+    "FoundString": "Chapter",
+    "SuggestedKey": "gMKVToolNix.frmMain.Chapter",
+    "FullLine": "this.lblChapterType.Text = \"Chapter\";"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmMain.Designer.cs",
+    "LineNumber": 432,
+    "FoundString": "MKVToolnix Directory (you can drag and drop the directory)",
+    "SuggestedKey": "gMKVToolNix.frmMain.MKVToolnix_Directory__you_can_",
+    "FullLine": "this.grpConfig.Text = \"MKVToolnix Directory (you can drag and drop the directory)\";"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmMain.Designer.cs",
+    "LineNumber": 441,
+    "FoundString": "Browse...",
+    "SuggestedKey": "gMKVToolNix.frmMain.Browse___",
+    "FullLine": "this.btnBrowseMKVToolnixPath.Text = \"Browse...\";"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmMain.Designer.cs",
+    "LineNumber": 471,
+    "FoundString": "Input File Information",
+    "SuggestedKey": "gMKVToolNix.frmMain.Input_File_Information",
+    "FullLine": "this.grpInputFileInfo.Text = \"Input File Information\";"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmMain.Designer.cs",
+    "LineNumber": 527,
+    "FoundString": "statusStrip1",
+    "SuggestedKey": "gMKVToolNix.frmMain.statusStrip1",
+    "FullLine": "this.statusStrip1.Text = \"statusStrip1\";"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmMain.Designer.cs",
+    "LineNumber": 539,
+    "FoundString": "track",
+    "SuggestedKey": "gMKVToolNix.frmMain.track",
+    "FullLine": "this.lblTrack.Text = \"track\";"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmMain.Designer.cs",
+    "LineNumber": 554,
+    "FoundString": "Log",
+    "SuggestedKey": "gMKVToolNix.frmMain.Log",
+    "FullLine": "this.grpLog.Text = \"Log\";"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmMain.Designer.cs",
+    "LineNumber": 566,
+    "FoundString": "gMKVExtractGUI",
+    "SuggestedKey": "gMKVToolNix.frmMain.gMKVExtractGUI",
+    "FullLine": "this.Text = \"gMKVExtractGUI\";"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmMain2.cs",
+    "LineNumber": 70,
+    "FoundString": "gMKVExtractGUI v{0} -- By Gpower2",
+    "SuggestedKey": "gMKVToolNix.Forms.IFormMain.gMKVExtractGUI_v_0_____By_Gpow",
+    "FullLine": "Text = string.Format(\"gMKVExtractGUI v{0} -- By Gpower2\", this.GetCurrentVersion());"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmMain2.cs",
+    "LineNumber": 86,
+    "FoundString": "Begin setting form size and position from settings...",
+    "SuggestedKey": "gMKVToolNix.Forms.IFormMain.Begin_setting_form_size_and_po",
+    "FullLine": "gMKVLogger.Log(\"Begin setting form size and position from settings...\");"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmMain2.cs",
+    "LineNumber": 91,
+    "FoundString": "Finished setting form size and position from settings!",
+    "SuggestedKey": "gMKVToolNix.Forms.IFormMain.Finished_setting_form_size_and",
+    "FullLine": "gMKVLogger.Log(\"Finished setting form size and position from settings!\");"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmMain2.cs",
+    "LineNumber": 94,
+    "FoundString": "Begin setting chapter type, output directory and job mode from settings...",
+    "SuggestedKey": "gMKVToolNix.Forms.IFormMain.Begin_setting_chapter_type__ou",
+    "FullLine": "gMKVLogger.Log(\"Begin setting chapter type, output directory and job mode from settings...\");"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmMain2.cs",
+    "LineNumber": 107,
+    "FoundString": "Finished setting chapter type, output directory and job mode from settings!",
+    "SuggestedKey": "gMKVToolNix.Forms.IFormMain.Finished_setting_chapter_type_",
+    "FullLine": "gMKVLogger.Log(\"Finished setting chapter type, output directory and job mode from settings!\");"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmMain2.cs",
+    "LineNumber": 154,
+    "FoundString": "User provided a manual path for MKVToolNix: {manualPath}",
+    "SuggestedKey": "gMKVToolNix.Forms.IFormMain.User_provided_a_manual_path_fo",
+    "FullLine": "gMKVLogger.Log($\"User provided a manual path for MKVToolNix: {manualPath}\");"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmMain2.cs",
+    "LineNumber": 159,
+    "FoundString": "The manual path for MKVToolNix was empty!",
+    "SuggestedKey": "gMKVToolNix.Forms.IFormMain.The_manual_path_for_MKVToolNix",
+    "FullLine": "gMKVLogger.Log(\"The manual path for MKVToolNix was empty!\");"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmMain2.cs",
+    "LineNumber": 166,
+    "FoundString": "The manual path for MKVToolNix does not exist! ({manualPath})",
+    "SuggestedKey": "gMKVToolNix.Forms.IFormMain.The_manual_path_for_MKVToolNix",
+    "FullLine": "gMKVLogger.Log($\"The manual path for MKVToolNix does not exist! ({manualPath})\");"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmMain2.cs",
+    "LineNumber": 175,
+    "FoundString": "mkvmerge was not found in manual path! ({manualPath})",
+    "SuggestedKey": "gMKVToolNix.Forms.IFormMain.mkvmerge_was_not_found_in_manu",
+    "FullLine": "gMKVLogger.Log($\"mkvmerge was not found in manual path! ({manualPath})\");"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmMain2.cs",
+    "LineNumber": 191,
+    "FoundString": "Failed to set manual path! Trying to auto-detect...",
+    "SuggestedKey": "gMKVToolNix.Forms.IFormMain.Failed_to_set_manual_path__Try",
+    "FullLine": "gMKVLogger.Log(\"Failed to set manual path! Trying to auto-detect...\");"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmMain2.cs",
+    "LineNumber": 212,
+    "FoundString": "mkvmerge was not found in ini path! ({_Settings.MkvToolnixPath})",
+    "SuggestedKey": "gMKVToolNix.Forms.IFormMain.mkvmerge_was_not_found_in_ini_",
+    "FullLine": "gMKVLogger.Log($\"mkvmerge was not found in ini path! ({_Settings.MkvToolnixPath})\");"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmMain2.cs",
+    "LineNumber": 227,
+    "FoundString": "Could not find MKVToolNix in /usr/bin, or in the current directory, or in the ini file!",
+    "SuggestedKey": "gMKVToolNix.Forms.IFormMain.Could_not_find_MKVToolNix_in__",
+    "FullLine": "exceptionMessage = \"Could not find MKVToolNix in /usr/bin, or in the current directory, or in the ini file!\";"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmMain2.cs",
+    "LineNumber": 231,
+    "FoundString": "Could not find MKVToolNix in registry, or in the current directory, or in the ini file!",
+    "SuggestedKey": "gMKVToolNix.Forms.IFormMain.Could_not_find_MKVToolNix_in_r",
+    "FullLine": "exceptionMessage = \"Could not find MKVToolNix in registry, or in the current directory, or in the ini file!\";"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmMain2.cs",
+    "LineNumber": 234,
+    "FoundString": "Please download and reinstall or provide a manual path!",
+    "SuggestedKey": "gMKVToolNix.Forms.IFormMain.Please_download_and_reinstall_",
+    "FullLine": "throw new Exception(exceptionMessage + Environment.NewLine + \"Please download and reinstall or provide a manual path!\");"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmMain2.cs",
+    "LineNumber": 251,
+    "FoundString": "Checking in current Directory for mkvmerge... ({currentDirectory})",
+    "SuggestedKey": "gMKVToolNix.Forms.IFormMain.Checking_in_current_Directory_",
+    "FullLine": "gMKVLogger.Log($\"Checking in current Directory for mkvmerge... ({currentDirectory})\");"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmMain2.cs",
+    "LineNumber": 262,
+    "FoundString": "mkvmerge was not found in current directory! ({currentDirectory})",
+    "SuggestedKey": "gMKVToolNix.Forms.IFormMain.mkvmerge_was_not_found_in_curr",
+    "FullLine": "gMKVLogger.Log($\"mkvmerge was not found in current directory! ({currentDirectory})\");"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmMain2.cs",
+    "LineNumber": 267,
+    "FoundString": "Checking registry for mkvmerge...",
+    "SuggestedKey": "gMKVToolNix.Forms.IFormMain.Checking_registry_for_mkvmerge",
+    "FullLine": "gMKVLogger.Log(\"Checking registry for mkvmerge...\");"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmMain2.cs",
+    "LineNumber": 286,
+    "FoundString": "mkvmerge was not found in path {linuxDefaultPath}!",
+    "SuggestedKey": "gMKVToolNix.Forms.IFormMain.mkvmerge_was_not_found_in_path",
+    "FullLine": "throw new Exception($\"mkvmerge was not found in path {linuxDefaultPath}!\");"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmMain2.cs",
+    "LineNumber": 313,
+    "FoundString": "Press to try and auto-detect the MKVToolnix installation",
+    "SuggestedKey": "gMKVToolNix.Forms.IFormMain.Press_to_try_and_auto_detect_t",
+    "FullLine": "\"Press to try and auto-detect the MKVToolnix installation\");"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmMain2.cs",
+    "LineNumber": 338,
+    "FoundString": "Check if you want to show a popup message when the extraction is finished.",
+    "SuggestedKey": "gMKVToolNix.Forms.IFormMain.Check_if_you_want_to_show_a_po",
+    "FullLine": "\"Check if you want to show a popup message when the extraction is finished.\");"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmMain2.cs",
+    "LineNumber": 341,
+    "FoundString": "Press to display the menu that contains many options for batch selecting tracks.",
+    "SuggestedKey": "gMKVToolNix.Forms.IFormMain.Press_to_display_the_menu_that",
+    "FullLine": "\"Press to display the menu that contains many options for batch selecting tracks.\");"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmMain2.cs",
+    "LineNumber": 373,
+    "FoundString": "Getting files...",
+    "SuggestedKey": "gMKVToolNix.Forms.IFormMain.Getting_files___",
+    "FullLine": "txtSegmentInfo.Text = \"Getting files...\";"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmMain2.cs",
+    "LineNumber": 381,
+    "FoundString": "No valid matroska files were provided!",
+    "SuggestedKey": "gMKVToolNix.Forms.IFormMain.No_valid_matroska_files_were_p",
+    "FullLine": "throw new Exception(\"No valid matroska files were provided!\");"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmMain2.cs",
+    "LineNumber": 413,
+    "FoundString": "Found command line arguments: {0}",
+    "SuggestedKey": "gMKVToolNix.Forms.IFormMain.Found_command_line_arguments__",
+    "FullLine": "gMKVLogger.Log(string.Format(\"Found command line arguments: {0}\", string.Join(\",\", _CmdArguments)));"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmMain2.cs",
+    "LineNumber": 430,
+    "FoundString": "Do you really want to change MKVToolnix path?",
+    "SuggestedKey": "gMKVToolNix.Forms.IFormMain.Do_you_really_want_to_change_M",
+    "FullLine": "if (ShowQuestion(\"Do you really want to change MKVToolnix path?\", \"Are you sure?\", false) != DialogResult.Yes)"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmMain2.cs",
+    "LineNumber": 430,
+    "FoundString": "Are you sure?",
+    "SuggestedKey": "gMKVToolNix.Forms.IFormMain.Are_you_sure_",
+    "FullLine": "if (ShowQuestion(\"Do you really want to change MKVToolnix path?\", \"Are you sure?\", false) != DialogResult.Yes)"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmMain2.cs",
+    "LineNumber": 535,
+    "FoundString": "Do you want to include files in sub directories?",
+    "SuggestedKey": "gMKVToolNix.Forms.IFormMain.Do_you_want_to_include_files_i",
+    "FullLine": "var result = ShowQuestion(\"Do you want to include files in sub directories?\", \"Sub directories found!\");"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmMain2.cs",
+    "LineNumber": 535,
+    "FoundString": "Sub directories found!",
+    "SuggestedKey": "gMKVToolNix.Forms.IFormMain.Sub_directories_found_",
+    "FullLine": "var result = ShowQuestion(\"Do you want to include files in sub directories?\", \"Sub directories found!\");"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmMain2.cs",
+    "LineNumber": 618,
+    "FoundString": "Getting files...",
+    "SuggestedKey": "gMKVToolNix.Forms.IFormMain.Getting_files___",
+    "FullLine": "txtSegmentInfo.Text = \"Getting files...\";"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmMain2.cs",
+    "LineNumber": 626,
+    "FoundString": "No valid matroska files were provided!",
+    "SuggestedKey": "gMKVToolNix.Forms.IFormMain.No_valid_matroska_files_were_p",
+    "FullLine": "throw new Exception(\"No valid matroska files were provided!\");"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmMain2.cs",
+    "LineNumber": 715,
+    "FoundString": "No new files to add!",
+    "SuggestedKey": "gMKVToolNix.Forms.NodeResults.No_new_files_to_add_",
+    "FullLine": "throw new Exception(\"No new files to add!\");"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmMain2.cs",
+    "LineNumber": 760,
+    "FoundString": "Input Files (you can drag and drop files or directories) ({0} files)",
+    "SuggestedKey": "gMKVToolNix.Forms.NodeResults.Input_Files__you_can_drag_and_",
+    "FullLine": "grpInputFiles.Text = string.Format(\"Input Files (you can drag and drop files or directories) ({0} files)\","
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmMain2.cs",
+    "LineNumber": 788,
+    "FoundString": "Analyzing {0}...",
+    "SuggestedKey": "gMKVToolNix.Forms.NodeResults.Analyzing__0____",
+    "FullLine": "txtSegmentInfo.Text = string.Format(\"Analyzing {0}...\", Path.GetFileName(sf));"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmMain2.cs",
+    "LineNumber": 804,
+    "FoundString": "file: {0} error: {1}",
+    "SuggestedKey": "gMKVToolNix.Forms.NodeResults.file___0__error___1_",
+    "FullLine": "results.ErrorMessages.Add(string.Format(\"file: {0} error: {1}\", Path.GetFileName(sf), ex.Message));"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmMain2.cs",
+    "LineNumber": 822,
+    "FoundString": "No filename was provided!",
+    "SuggestedKey": "gMKVToolNix.Forms.NodeResults.No_filename_was_provided_",
+    "FullLine": "throw new Exception(\"No filename was provided!\");"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmMain2.cs",
+    "LineNumber": 828,
+    "FoundString": "The file {0} does not exist!",
+    "SuggestedKey": "gMKVToolNix.Forms.NodeResults.The_file__0__does_not_exist_",
+    "FullLine": "throw new Exception(string.Format(\"The file {0} does not exist!\", argFilename));"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmMain2.cs",
+    "LineNumber": 839,
+    "FoundString": "The input file {argFilename}{Environment.NewLine}{Environment.NewLine}is not a valid matroska file!",
+    "SuggestedKey": "gMKVToolNix.Forms.NodeResults.The_input_file__argFilename__E",
+    "FullLine": "throw new Exception($\"The input file {argFilename}{Environment.NewLine}{Environment.NewLine}is not a valid matroska file!\");"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmMain2.cs",
+    "LineNumber": 873,
+    "FoundString": "Selected node has null tag!",
+    "SuggestedKey": "gMKVToolNix.Forms.NodeResults.Selected_node_has_null_tag_",
+    "FullLine": "throw new Exception(\"Selected node has null tag!\");"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmMain2.cs",
+    "LineNumber": 882,
+    "FoundString": "Selected node has no parent node!",
+    "SuggestedKey": "gMKVToolNix.Forms.NodeResults.Selected_node_has_no_parent_no",
+    "FullLine": "throw new Exception(\"Selected node has no parent node!\");"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmMain2.cs",
+    "LineNumber": 887,
+    "FoundString": "Selected node has null tag!",
+    "SuggestedKey": "gMKVToolNix.Forms.NodeResults.Selected_node_has_null_tag_",
+    "FullLine": "throw new Exception(\"Selected node has null tag!\");"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmMain2.cs",
+    "LineNumber": 892,
+    "FoundString": "Selected node has no info!",
+    "SuggestedKey": "gMKVToolNix.Forms.NodeResults.Selected_node_has_no_info_",
+    "FullLine": "throw new Exception(\"Selected node has no info!\");"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmMain2.cs",
+    "LineNumber": 897,
+    "FoundString": "Writing Application: {1}{0}Muxing Application: {2}{0}Duration: {3}{0}Date: {4}",
+    "SuggestedKey": "gMKVToolNix.Forms.NodeResults.Writing_Application___1__0_Mux",
+    "FullLine": "txtSegmentInfo.Text = string.Format(\"Writing Application: {1}{0}Muxing Application: {2}{0}Duration: {3}{0}Date: {4}\","
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmMain2.cs",
+    "LineNumber": 912,
+    "FoundString": "Selected File Information ({seg.Filename})",
+    "SuggestedKey": "gMKVToolNix.Forms.NodeResults.Selected_File_Information___se",
+    "FullLine": "grpSelectedFileInfo.Text = $\"Selected File Information ({seg.Filename})\";"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmMain2.cs",
+    "LineNumber": 917,
+    "FoundString": "Selected File Information",
+    "SuggestedKey": "gMKVToolNix.Forms.NodeResults.Selected_File_Information",
+    "FullLine": "grpSelectedFileInfo.Text = \"Selected File Information\";"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmMain2.cs",
+    "LineNumber": 954,
+    "FoundString": "Extracting {0} from {1}...",
+    "SuggestedKey": "gMKVToolNix.Forms.NodeResults.Extracting__0__from__1____",
+    "FullLine": "txtSegmentInfo.Text = string.Format(\"Extracting {0} from {1}...\", val, Path.GetFileName((string)filename));"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmMain2.cs",
+    "LineNumber": 962,
+    "FoundString": "You must provide with MKVToolnix path!",
+    "SuggestedKey": "gMKVToolNix.Forms.NodeResults.You_must_provide_with_MKVTooln",
+    "FullLine": "throw new Exception(\"You must provide with MKVToolnix path!\");"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmMain2.cs",
+    "LineNumber": 968,
+    "FoundString": "The MKVToolnix path provided does not contain MKVToolnix files!",
+    "SuggestedKey": "gMKVToolNix.Forms.NodeResults.The_MKVToolnix_path_provided_d",
+    "FullLine": "throw new Exception(\"The MKVToolnix path provided does not contain MKVToolnix files!\");"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmMain2.cs",
+    "LineNumber": 973,
+    "FoundString": "You haven't specified an output directory!",
+    "SuggestedKey": "gMKVToolNix.Forms.NodeResults.You_haven_t_specified_an_outpu",
+    "FullLine": "throw new Exception(\"You haven't specified an output directory!\");"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmMain2.cs",
+    "LineNumber": 990,
+    "FoundString": "You must select a file's track in order to extract {cmbExtractionMode.SelectedItem}!",
+    "SuggestedKey": "gMKVToolNix.Forms.NodeResults.You_must_select_a_file_s_track",
+    "FullLine": "throw new Exception($\"You must select a file's track in order to extract {cmbExtractionMode.SelectedItem}!\");"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmMain2.cs",
+    "LineNumber": 994,
+    "FoundString": "You must select a track to extract!",
+    "SuggestedKey": "gMKVToolNix.Forms.NodeResults.You_must_select_a_track_to_ext",
+    "FullLine": "throw new Exception(\"You must select a track to extract!\");"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmMain2.cs",
+    "LineNumber": 1005,
+    "FoundString": "You must select a video, audio or subtitles track to extract timecodes!",
+    "SuggestedKey": "gMKVToolNix.Forms.NodeResults.You_must_select_a_video__audio",
+    "FullLine": "throw new Exception(\"You must select a video, audio or subtitles track to extract timecodes!\");"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmMain2.cs",
+    "LineNumber": 1016,
+    "FoundString": "You must select a video, audio or subtitles track to extract cues!",
+    "SuggestedKey": "gMKVToolNix.Forms.NodeResults.You_must_select_a_video__audio",
+    "FullLine": "throw new Exception(\"You must select a video, audio or subtitles track to extract cues!\");"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmMain2.cs",
+    "LineNumber": 1027,
+    "FoundString": "You must select a chapter type!",
+    "SuggestedKey": "gMKVToolNix.Forms.NodeResults.You_must_select_a_chapter_type",
+    "FullLine": "throw new Exception(\"You must select a chapter type!\");"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmMain2.cs",
+    "LineNumber": 1035,
+    "FoundString": "The output directory \\",
+    "SuggestedKey": "gMKVToolNix.Forms.NodeResults.The_output_directory__",
+    "FullLine": "if (ShowQuestion(string.Format(\"The output directory \\\"{0}\\\" does not exist!{1}{1}Do you want to create it?\", txtOutputDirectory.Text.Trim(), Environment.NewLine), \"Output directory does not exist!\", false) != DialogResult.Yes)"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmMain2.cs",
+    "LineNumber": 1035,
+    "FoundString": " does not exist!{1}{1}Do you want to create it?",
+    "SuggestedKey": "gMKVToolNix.Forms.NodeResults._does_not_exist__1__1_Do_you_w",
+    "FullLine": "if (ShowQuestion(string.Format(\"The output directory \\\"{0}\\\" does not exist!{1}{1}Do you want to create it?\", txtOutputDirectory.Text.Trim(), Environment.NewLine), \"Output directory does not exist!\", false) != DialogResult.Yes)"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmMain2.cs",
+    "LineNumber": 1035,
+    "FoundString": "Output directory does not exist!",
+    "SuggestedKey": "gMKVToolNix.Forms.NodeResults.Output_directory_does_not_exis",
+    "FullLine": "if (ShowQuestion(string.Format(\"The output directory \\\"{0}\\\" does not exist!{1}{1}Do you want to create it?\", txtOutputDirectory.Text.Trim(), Environment.NewLine), \"Output directory does not exist!\", false) != DialogResult.Yes)"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmMain2.cs",
+    "LineNumber": 1037,
+    "FoundString": "The output directory \\",
+    "SuggestedKey": "gMKVToolNix.Forms.NodeResults.The_output_directory__",
+    "FullLine": "throw new Exception(string.Format(\"The output directory \\\"{0}\\\" does not exist!{1}{1}Extraction was cancelled!\", txtOutputDirectory.Text.Trim(), Environment.NewLine));"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmMain2.cs",
+    "LineNumber": 1037,
+    "FoundString": " does not exist!{1}{1}Extraction was cancelled!",
+    "SuggestedKey": "gMKVToolNix.Forms.NodeResults._does_not_exist__1__1_Extracti",
+    "FullLine": "throw new Exception(string.Format(\"The output directory \\\"{0}\\\" does not exist!{1}{1}Extraction was cancelled!\", txtOutputDirectory.Text.Trim(), Environment.NewLine));"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmMain2.cs",
+    "LineNumber": 1264,
+    "FoundString": "Extracting...",
+    "SuggestedKey": "gMKVToolNix.Forms.NodeResults.Extracting___",
+    "FullLine": "gTaskbarProgress.SetOverlayIcon(this, SystemIcons.Shield, \"Extracting...\");"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmMain2.cs",
+    "LineNumber": 1285,
+    "FoundString": "The extraction was completed successfully!",
+    "SuggestedKey": "gMKVToolNix.Forms.NodeResults.The_extraction_was_completed_s",
+    "FullLine": "ShowSuccessMessage(\"The extraction was completed successfully!\", true);"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmMain2.cs",
+    "LineNumber": 1299,
+    "FoundString": "Error!",
+    "SuggestedKey": "gMKVToolNix.Forms.NodeResults.Error_",
+    "FullLine": "gTaskbarProgress.SetOverlayIcon(this, SystemIcons.Error, \"Error!\");"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmMain2.cs",
+    "LineNumber": 1313,
+    "FoundString": "Selected File Information",
+    "SuggestedKey": "gMKVToolNix.Forms.NodeResults.Selected_File_Information",
+    "FullLine": "grpSelectedFileInfo.Text = \"Selected File Information\";"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmMain2.cs",
+    "LineNumber": 1323,
+    "FoundString": "Extraction completed!",
+    "SuggestedKey": "gMKVToolNix.Forms.NodeResults.Extraction_completed_",
+    "FullLine": "txtSegmentInfo.Text = \"Extraction completed!\";"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmMain2.cs",
+    "LineNumber": 1347,
+    "FoundString": "Input Files (you can drag and drop files or directories)",
+    "SuggestedKey": "gMKVToolNix.Forms.NodeResults.Input_Files__you_can_drag_and_",
+    "FullLine": "grpInputFiles.Text = \"Input Files (you can drag and drop files or directories)\";"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmMain2.cs",
+    "LineNumber": 1348,
+    "FoundString": "Selected File Information",
+    "SuggestedKey": "gMKVToolNix.Forms.NodeResults.Selected_File_Information",
+    "FullLine": "grpSelectedFileInfo.Text = \"Selected File Information\";"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmMain2.cs",
+    "LineNumber": 1377,
+    "FoundString": "The folder does not contain MKVToolnix! {trimmedPath}",
+    "SuggestedKey": "gMKVToolNix.Forms.NodeResults.The_folder_does_not_contain_MK",
+    "FullLine": "throw new Exception($\"The folder does not contain MKVToolnix! {trimmedPath}\");"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmMain2.cs",
+    "LineNumber": 1382,
+    "FoundString": "Changing MkvToolnixPath to {trimmedPath}",
+    "SuggestedKey": "gMKVToolNix.Forms.NodeResults.Changing_MkvToolnixPath_to__tr",
+    "FullLine": "gMKVLogger.Log($\"Changing MkvToolnixPath to {trimmedPath}\");"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmMain2.cs",
+    "LineNumber": 1415,
+    "FoundString": "Changing ChapterType...",
+    "SuggestedKey": "gMKVToolNix.Forms.NodeResults.Changing_ChapterType___",
+    "FullLine": "gMKVLogger.Log(\"Changing ChapterType...\");"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmMain2.cs",
+    "LineNumber": 1435,
+    "FoundString": "Changing OutputDirectory...",
+    "SuggestedKey": "gMKVToolNix.Forms.NodeResults.Changing_OutputDirectory___",
+    "FullLine": "gMKVLogger.Log(\"Changing OutputDirectory...\");"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmMain2.cs",
+    "LineNumber": 1457,
+    "FoundString": "Changing LockedOutputDirectory",
+    "SuggestedKey": "gMKVToolNix.Forms.NodeResults.Changing_LockedOutputDirectory",
+    "FullLine": "gMKVLogger.Log(\"Changing LockedOutputDirectory\");"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmMain2.cs",
+    "LineNumber": 1482,
+    "FoundString": "Select directory",
+    "SuggestedKey": "gMKVToolNix.Forms.NodeResults.Select_directory",
+    "FullLine": "FileName = \"Select directory\","
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmMain2.cs",
+    "LineNumber": 1483,
+    "FoundString": "Select output directory...",
+    "SuggestedKey": "gMKVToolNix.Forms.NodeResults.Select_output_directory___",
+    "FullLine": "Title = \"Select output directory...\""
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmMain2.cs",
+    "LineNumber": 1506,
+    "FoundString": "Do you really want to change MKVToolnix path?",
+    "SuggestedKey": "gMKVToolNix.Forms.NodeResults.Do_you_really_want_to_change_M",
+    "FullLine": "if (ShowQuestion(\"Do you really want to change MKVToolnix path?\", \"Are you sure?\", false) != DialogResult.Yes)"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmMain2.cs",
+    "LineNumber": 1506,
+    "FoundString": "Are you sure?",
+    "SuggestedKey": "gMKVToolNix.Forms.NodeResults.Are_you_sure_",
+    "FullLine": "if (ShowQuestion(\"Do you really want to change MKVToolnix path?\", \"Are you sure?\", false) != DialogResult.Yes)"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmMain2.cs",
+    "LineNumber": 1517,
+    "FoundString": "Select directory",
+    "SuggestedKey": "gMKVToolNix.Forms.NodeResults.Select_directory",
+    "FullLine": "FileName = \"Select directory\","
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmMain2.cs",
+    "LineNumber": 1518,
+    "FoundString": "Select MKVToolnix directory...",
+    "SuggestedKey": "gMKVToolNix.Forms.NodeResults.Select_MKVToolnix_directory___",
+    "FullLine": "Title = \"Select MKVToolnix directory...\""
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmMain2.cs",
+    "LineNumber": 1632,
+    "FoundString": "Changing WindowPosX, WindowPosY, WindowState",
+    "SuggestedKey": "gMKVToolNix.Forms.NodeResults.Changing_WindowPosX__WindowPos",
+    "FullLine": "gMKVLogger.Log(\"Changing WindowPosX, WindowPosY, WindowState\");"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmMain2.cs",
+    "LineNumber": 1652,
+    "FoundString": "Changing WindowSizeWidth, WindowSizeHeight, WindowState",
+    "SuggestedKey": "gMKVToolNix.Forms.NodeResults.Changing_WindowSizeWidth__Wind",
+    "FullLine": "gMKVLogger.Log(\"Changing WindowSizeWidth, WindowSizeHeight, WindowState\");"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmMain2.cs",
+    "LineNumber": 1670,
+    "FoundString": "Changing WindowState",
+    "SuggestedKey": "gMKVToolNix.Forms.NodeResults.Changing_WindowState",
+    "FullLine": "gMKVLogger.Log(\"Changing WindowState\");"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmMain2.cs",
+    "LineNumber": 1688,
+    "FoundString": "There is an extraction process running! Please abort before closing!",
+    "SuggestedKey": "gMKVToolNix.Forms.NodeResults.There_is_an_extraction_process",
+    "FullLine": "ShowErrorMessage(\"There is an extraction process running! Please abort before closing!\");"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmMain2.cs",
+    "LineNumber": 1707,
+    "FoundString": "Changing ShowPopup",
+    "SuggestedKey": "gMKVToolNix.Forms.NodeResults.Changing_ShowPopup",
+    "FullLine": "gMKVLogger.Log(\"Changing ShowPopup\");"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmMain2.cs",
+    "LineNumber": 1717,
+    "FoundString": "Changing AppendOnDragAndDrop",
+    "SuggestedKey": "gMKVToolNix.Forms.NodeResults.Changing_AppendOnDragAndDrop",
+    "FullLine": "gMKVLogger.Log(\"Changing AppendOnDragAndDrop\");"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmMain2.cs",
+    "LineNumber": 1727,
+    "FoundString": "Changing OverwriteExistingFiles",
+    "SuggestedKey": "gMKVToolNix.Forms.NodeResults.Changing_OverwriteExistingFile",
+    "FullLine": "gMKVLogger.Log(\"Changing OverwriteExistingFiles\");"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmMain2.cs",
+    "LineNumber": 1738,
+    "FoundString": "Changing DisableTooltips",
+    "SuggestedKey": "gMKVToolNix.Forms.NodeResults.Changing_DisableTooltips",
+    "FullLine": "gMKVLogger.Log(\"Changing DisableTooltips\");"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmMain2.cs",
+    "LineNumber": 1785,
+    "FoundString": "Check All Tracks ({0}/{1})",
+    "SuggestedKey": "gMKVToolNix.Forms.NodeResults.Check_All_Tracks___0___1__",
+    "FullLine": "checkTracksToolStripMenuItem.Text = string.Format(\"Check All Tracks ({0}/{1})\", checkedAllTracksCount, allTracksCount);"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmMain2.cs",
+    "LineNumber": 1787,
+    "FoundString": "Check Video Tracks... ({0}/{1})",
+    "SuggestedKey": "gMKVToolNix.Forms.NodeResults.Check_Video_Tracks______0___1_",
+    "FullLine": "checkVideoTracksToolStripMenuItem.Text = string.Format(\"Check Video Tracks... ({0}/{1})\", checkedVideoTracksCount, videoTracksCount);"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmMain2.cs",
+    "LineNumber": 1788,
+    "FoundString": "Check Audio Tracks... ({0}/{1})",
+    "SuggestedKey": "gMKVToolNix.Forms.NodeResults.Check_Audio_Tracks______0___1_",
+    "FullLine": "checkAudioTracksToolStripMenuItem.Text = string.Format(\"Check Audio Tracks... ({0}/{1})\", checkedAudioTracksCount, audioTracksCount);"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmMain2.cs",
+    "LineNumber": 1789,
+    "FoundString": "Check Subtitle Tracks... ({0}/{1})",
+    "SuggestedKey": "gMKVToolNix.Forms.NodeResults.Check_Subtitle_Tracks______0__",
+    "FullLine": "checkSubtitleTracksToolStripMenuItem.Text = string.Format(\"Check Subtitle Tracks... ({0}/{1})\", checkedSubtitleTracksCount, subtitleTracksCount);"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmMain2.cs",
+    "LineNumber": 1790,
+    "FoundString": "Check Chapter Tracks... ({0}/{1})",
+    "SuggestedKey": "gMKVToolNix.Forms.NodeResults.Check_Chapter_Tracks______0___",
+    "FullLine": "checkChapterTracksToolStripMenuItem.Text = string.Format(\"Check Chapter Tracks... ({0}/{1})\", checkedChapterTracksCount, chapterTracksCount);"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmMain2.cs",
+    "LineNumber": 1791,
+    "FoundString": "Check Attachment Tracks... ({0}/{1})",
+    "SuggestedKey": "gMKVToolNix.Forms.NodeResults.Check_Attachment_Tracks______0",
+    "FullLine": "checkAttachmentTracksToolStripMenuItem.Text = string.Format(\"Check Attachment Tracks... ({0}/{1})\", checkedAttachmentTracksCount, attachmentTracksCount);"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmMain2.cs",
+    "LineNumber": 1793,
+    "FoundString": "All Video Tracks ({0}/{1})",
+    "SuggestedKey": "gMKVToolNix.Forms.NodeResults.All_Video_Tracks___0___1__",
+    "FullLine": "allVideoTracksToolStripMenuItem.Text = string.Format(\"All Video Tracks ({0}/{1})\", checkedVideoTracksCount, videoTracksCount);"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmMain2.cs",
+    "LineNumber": 1794,
+    "FoundString": "All Audio Tracks ({0}/{1})",
+    "SuggestedKey": "gMKVToolNix.Forms.NodeResults.All_Audio_Tracks___0___1__",
+    "FullLine": "allAudioTracksToolStripMenuItem.Text = string.Format(\"All Audio Tracks ({0}/{1})\", checkedAudioTracksCount, audioTracksCount);"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmMain2.cs",
+    "LineNumber": 1795,
+    "FoundString": "All Subtitle Tracks ({0}/{1})",
+    "SuggestedKey": "gMKVToolNix.Forms.NodeResults.All_Subtitle_Tracks___0___1__",
+    "FullLine": "allSubtitleTracksToolStripMenuItem.Text = string.Format(\"All Subtitle Tracks ({0}/{1})\", checkedSubtitleTracksCount, subtitleTracksCount);"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmMain2.cs",
+    "LineNumber": 1796,
+    "FoundString": "All Chapter Tracks ({0}/{1})",
+    "SuggestedKey": "gMKVToolNix.Forms.NodeResults.All_Chapter_Tracks___0___1__",
+    "FullLine": "allChapterTracksToolStripMenuItem.Text = string.Format(\"All Chapter Tracks ({0}/{1})\", checkedChapterTracksCount, chapterTracksCount);"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmMain2.cs",
+    "LineNumber": 1797,
+    "FoundString": "All Attachment Tracks ({0}/{1})",
+    "SuggestedKey": "gMKVToolNix.Forms.NodeResults.All_Attachment_Tracks___0___1_",
+    "FullLine": "allAttachmentTracksToolStripMenuItem.Text = string.Format(\"All Attachment Tracks ({0}/{1})\", checkedAttachmentTracksCount, attachmentTracksCount);"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmMain2.cs",
+    "LineNumber": 1799,
+    "FoundString": "Uncheck All Tracks ({0}/{1})",
+    "SuggestedKey": "gMKVToolNix.Forms.NodeResults.Uncheck_All_Tracks___0___1__",
+    "FullLine": "uncheckTracksToolStripMenuItem.Text = string.Format(\"Uncheck All Tracks ({0}/{1})\", (allTracksCount - checkedAllTracksCount), allTracksCount);"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmMain2.cs",
+    "LineNumber": 1801,
+    "FoundString": "Uncheck Video Tracks... ({0}/{1})",
+    "SuggestedKey": "gMKVToolNix.Forms.NodeResults.Uncheck_Video_Tracks______0___",
+    "FullLine": "uncheckVideoTracksToolStripMenuItem.Text = string.Format(\"Uncheck Video Tracks... ({0}/{1})\", videoTracksCount - checkedVideoTracksCount, videoTracksCount);"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmMain2.cs",
+    "LineNumber": 1802,
+    "FoundString": "Uncheck Audio Tracks... ({0}/{1})",
+    "SuggestedKey": "gMKVToolNix.Forms.NodeResults.Uncheck_Audio_Tracks______0___",
+    "FullLine": "uncheckAudioTracksToolStripMenuItem.Text = string.Format(\"Uncheck Audio Tracks... ({0}/{1})\", audioTracksCount - checkedAudioTracksCount, audioTracksCount);"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmMain2.cs",
+    "LineNumber": 1803,
+    "FoundString": "Uncheck Subtitle Tracks... ({0}/{1})",
+    "SuggestedKey": "gMKVToolNix.Forms.NodeResults.Uncheck_Subtitle_Tracks______0",
+    "FullLine": "uncheckSubtitleTracksToolStripMenuItem.Text = string.Format(\"Uncheck Subtitle Tracks... ({0}/{1})\", subtitleTracksCount - checkedSubtitleTracksCount, subtitleTracksCount);"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmMain2.cs",
+    "LineNumber": 1804,
+    "FoundString": "Uncheck Chapter Tracks... ({0}/{1})",
+    "SuggestedKey": "gMKVToolNix.Forms.NodeResults.Uncheck_Chapter_Tracks______0_",
+    "FullLine": "uncheckChapterTracksToolStripMenuItem.Text = string.Format(\"Uncheck Chapter Tracks... ({0}/{1})\", chapterTracksCount - checkedChapterTracksCount, chapterTracksCount);"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmMain2.cs",
+    "LineNumber": 1805,
+    "FoundString": "Uncheck Attachment Tracks... ({0}/{1})",
+    "SuggestedKey": "gMKVToolNix.Forms.NodeResults.Uncheck_Attachment_Tracks_____",
+    "FullLine": "uncheckAttachmentTracksToolStripMenuItem.Text = string.Format(\"Uncheck Attachment Tracks... ({0}/{1})\", attachmentTracksCount - checkedAttachmentTracksCount, attachmentTracksCount);"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmMain2.cs",
+    "LineNumber": 1807,
+    "FoundString": "All Video Tracks ({0}/{1})",
+    "SuggestedKey": "gMKVToolNix.Forms.NodeResults.All_Video_Tracks___0___1__",
+    "FullLine": "allVideoTracksToolStripMenuItem1.Text = string.Format(\"All Video Tracks ({0}/{1})\", videoTracksCount - checkedVideoTracksCount, videoTracksCount);"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmMain2.cs",
+    "LineNumber": 1808,
+    "FoundString": "All Audio Tracks ({0}/{1})",
+    "SuggestedKey": "gMKVToolNix.Forms.NodeResults.All_Audio_Tracks___0___1__",
+    "FullLine": "allAudioTracksToolStripMenuItem1.Text = string.Format(\"All Audio Tracks ({0}/{1})\", audioTracksCount - checkedAudioTracksCount, audioTracksCount);"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmMain2.cs",
+    "LineNumber": 1809,
+    "FoundString": "All Subtitle Tracks ({0}/{1})",
+    "SuggestedKey": "gMKVToolNix.Forms.NodeResults.All_Subtitle_Tracks___0___1__",
+    "FullLine": "allSubtitleTracksToolStripMenuItem1.Text = string.Format(\"All Subtitle Tracks ({0}/{1})\", subtitleTracksCount - checkedSubtitleTracksCount, subtitleTracksCount);"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmMain2.cs",
+    "LineNumber": 1810,
+    "FoundString": "All Chapter Tracks ({0}/{1})",
+    "SuggestedKey": "gMKVToolNix.Forms.NodeResults.All_Chapter_Tracks___0___1__",
+    "FullLine": "allChapterTracksToolStripMenuItem1.Text = string.Format(\"All Chapter Tracks ({0}/{1})\", chapterTracksCount - checkedChapterTracksCount, chapterTracksCount);"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmMain2.cs",
+    "LineNumber": 1811,
+    "FoundString": "All Attachment Tracks ({0}/{1})",
+    "SuggestedKey": "gMKVToolNix.Forms.NodeResults.All_Attachment_Tracks___0___1_",
+    "FullLine": "allAttachmentTracksToolStripMenuItem1.Text = string.Format(\"All Attachment Tracks ({0}/{1})\", attachmentTracksCount - checkedAttachmentTracksCount, attachmentTracksCount);"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmMain2.cs",
+    "LineNumber": 1813,
+    "FoundString": "Remove All Input Files ({0})",
+    "SuggestedKey": "gMKVToolNix.Forms.NodeResults.Remove_All_Input_Files___0__",
+    "FullLine": "removeAllInputFilesToolStripMenuItem.Text = string.Format(\"Remove All Input Files ({0})\", allInputFilesCount);"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmMain2.cs",
+    "LineNumber": 1815,
+    "FoundString": "Remove Selected Input File",
+    "SuggestedKey": "gMKVToolNix.Forms.NodeResults.Remove_Selected_Input_File",
+    "FullLine": "removeSelectedInputFileToolStripMenuItem.Text = \"Remove Selected Input File\";"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmMain2.cs",
+    "LineNumber": 1841,
+    "FoundString": "Video Tracks by Language ({0})...",
+    "SuggestedKey": "gMKVToolNix.Forms.NodeResults.Video_Tracks_by_Language___0__",
+    "FullLine": "ToolStripMenuItem tsCheckVideoTracksByLanguage = new ToolStripMenuItem(string.Format(\"Video Tracks by Language ({0})...\", videoLanguages.Count));"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmMain2.cs",
+    "LineNumber": 1843,
+    "FoundString": "Video Tracks by Language ({0})...",
+    "SuggestedKey": "gMKVToolNix.Forms.NodeResults.Video_Tracks_by_Language___0__",
+    "FullLine": "ToolStripMenuItem tsUncheckVideoTracksByLanguage = new ToolStripMenuItem(string.Format(\"Video Tracks by Language ({0})...\", videoLanguages.Count));"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmMain2.cs",
+    "LineNumber": 1869,
+    "FoundString": "Video Tracks by Language IETF ({0})...",
+    "SuggestedKey": "gMKVToolNix.Forms.NodeResults.Video_Tracks_by_Language_IETF_",
+    "FullLine": "ToolStripMenuItem tsCheckVideoTracksByLanguageIetf = new ToolStripMenuItem(string.Format(\"Video Tracks by Language IETF ({0})...\", videoLanguagesIetf.Count));"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmMain2.cs",
+    "LineNumber": 1871,
+    "FoundString": "Video Tracks by Language IETF ({0})...",
+    "SuggestedKey": "gMKVToolNix.Forms.NodeResults.Video_Tracks_by_Language_IETF_",
+    "FullLine": "ToolStripMenuItem tsUncheckVideoTracksByLanguageIetf = new ToolStripMenuItem(string.Format(\"Video Tracks by Language IETF ({0})...\", videoLanguagesIetf.Count));"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmMain2.cs",
+    "LineNumber": 1897,
+    "FoundString": "Video Tracks by Codec ({0})...",
+    "SuggestedKey": "gMKVToolNix.Forms.NodeResults.Video_Tracks_by_Codec___0_____",
+    "FullLine": "ToolStripMenuItem tsCheckVideoTracksByCodec = new ToolStripMenuItem(string.Format(\"Video Tracks by Codec ({0})...\", videoCodecs.Count));"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmMain2.cs",
+    "LineNumber": 1899,
+    "FoundString": "Video Tracks by Codec ({0})...",
+    "SuggestedKey": "gMKVToolNix.Forms.NodeResults.Video_Tracks_by_Codec___0_____",
+    "FullLine": "ToolStripMenuItem tsUncheckVideoTracksByCodec = new ToolStripMenuItem(string.Format(\"Video Tracks by Codec ({0})...\", videoCodecs.Count));"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmMain2.cs",
+    "LineNumber": 1925,
+    "FoundString": "Video Tracks by Resolution ({0})...",
+    "SuggestedKey": "gMKVToolNix.Forms.NodeResults.Video_Tracks_by_Resolution___0",
+    "FullLine": "ToolStripMenuItem tsCheckVideoTracksByResolution = new ToolStripMenuItem(string.Format(\"Video Tracks by Resolution ({0})...\", videoExtra.Count));"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmMain2.cs",
+    "LineNumber": 1927,
+    "FoundString": "Video Tracks by Resolution ({0})...",
+    "SuggestedKey": "gMKVToolNix.Forms.NodeResults.Video_Tracks_by_Resolution___0",
+    "FullLine": "ToolStripMenuItem tsUncheckVideoTracksByResolution = new ToolStripMenuItem(string.Format(\"Video Tracks by Resolution ({0})...\", videoExtra.Count));"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmMain2.cs",
+    "LineNumber": 1956,
+    "FoundString": "Video Tracks by Track Name ({0})...",
+    "SuggestedKey": "gMKVToolNix.Forms.NodeResults.Video_Tracks_by_Track_Name___0",
+    "FullLine": "ToolStripMenuItem tsCheckVideoTracksByName = new ToolStripMenuItem(string.Format(\"Video Tracks by Track Name ({0})...\", videoNames.Count));"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmMain2.cs",
+    "LineNumber": 1958,
+    "FoundString": "Video Tracks by Track Name ({0})...",
+    "SuggestedKey": "gMKVToolNix.Forms.NodeResults.Video_Tracks_by_Track_Name___0",
+    "FullLine": "ToolStripMenuItem tsUncheckVideoTracksByName = new ToolStripMenuItem(string.Format(\"Video Tracks by Track Name ({0})...\", videoNames.Count));"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmMain2.cs",
+    "LineNumber": 1985,
+    "FoundString": "Video Tracks by Forced ({0})...",
+    "SuggestedKey": "gMKVToolNix.Forms.NodeResults.Video_Tracks_by_Forced___0____",
+    "FullLine": "ToolStripMenuItem tsCheckVideoTracksByForced = new ToolStripMenuItem(string.Format(\"Video Tracks by Forced ({0})...\", videoForced.Count));"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmMain2.cs",
+    "LineNumber": 1987,
+    "FoundString": "Video Tracks by Forced ({0})...",
+    "SuggestedKey": "gMKVToolNix.Forms.NodeResults.Video_Tracks_by_Forced___0____",
+    "FullLine": "ToolStripMenuItem tsUncheckVideoTracksByForced = new ToolStripMenuItem(string.Format(\"Video Tracks by Forced ({0})...\", videoForced.Count));"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmMain2.cs",
+    "LineNumber": 2016,
+    "FoundString": "Audio Tracks by Language ({0})...",
+    "SuggestedKey": "gMKVToolNix.Forms.NodeResults.Audio_Tracks_by_Language___0__",
+    "FullLine": "ToolStripMenuItem tsCheckAudioTracksByLanguage = new ToolStripMenuItem(string.Format(\"Audio Tracks by Language ({0})...\", audioLanguages.Count));"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmMain2.cs",
+    "LineNumber": 2018,
+    "FoundString": "Audio Tracks by Language ({0})...",
+    "SuggestedKey": "gMKVToolNix.Forms.NodeResults.Audio_Tracks_by_Language___0__",
+    "FullLine": "ToolStripMenuItem tsUncheckAudioTracksByLanguage = new ToolStripMenuItem(string.Format(\"Audio Tracks by Language ({0})...\", audioLanguages.Count));"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmMain2.cs",
+    "LineNumber": 2044,
+    "FoundString": "Audio Tracks by Language IETF ({0})...",
+    "SuggestedKey": "gMKVToolNix.Forms.NodeResults.Audio_Tracks_by_Language_IETF_",
+    "FullLine": "ToolStripMenuItem tsCheckAudioTracksByLanguageIetf = new ToolStripMenuItem(string.Format(\"Audio Tracks by Language IETF ({0})...\", audioLanguagesIetf.Count));"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmMain2.cs",
+    "LineNumber": 2046,
+    "FoundString": "Audio Tracks by Language IETF  ({0})...",
+    "SuggestedKey": "gMKVToolNix.Forms.NodeResults.Audio_Tracks_by_Language_IETF_",
+    "FullLine": "ToolStripMenuItem tsUncheckAudioTracksByLanguageIetf = new ToolStripMenuItem(string.Format(\"Audio Tracks by Language IETF  ({0})...\", audioLanguagesIetf.Count));"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmMain2.cs",
+    "LineNumber": 2072,
+    "FoundString": "Audio Tracks by Codec ({0})...",
+    "SuggestedKey": "gMKVToolNix.Forms.NodeResults.Audio_Tracks_by_Codec___0_____",
+    "FullLine": "ToolStripMenuItem tsCheckAudioTracksByCodec = new ToolStripMenuItem(string.Format(\"Audio Tracks by Codec ({0})...\", audioCodecs.Count));"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmMain2.cs",
+    "LineNumber": 2074,
+    "FoundString": "Audio Tracks by Codec ({0})...",
+    "SuggestedKey": "gMKVToolNix.Forms.NodeResults.Audio_Tracks_by_Codec___0_____",
+    "FullLine": "ToolStripMenuItem tsUncheckAudioTracksByCodec = new ToolStripMenuItem(string.Format(\"Audio Tracks by Codec ({0})...\", audioCodecs.Count));"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmMain2.cs",
+    "LineNumber": 2100,
+    "FoundString": "Audio Tracks by Channels ({0})...",
+    "SuggestedKey": "gMKVToolNix.Forms.NodeResults.Audio_Tracks_by_Channels___0__",
+    "FullLine": "ToolStripMenuItem tsCheckAudioTracksByChannels = new ToolStripMenuItem(string.Format(\"Audio Tracks by Channels ({0})...\", audioExtraInfo.Count));"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmMain2.cs",
+    "LineNumber": 2102,
+    "FoundString": "Audio Tracks by Channels ({0})...",
+    "SuggestedKey": "gMKVToolNix.Forms.NodeResults.Audio_Tracks_by_Channels___0__",
+    "FullLine": "ToolStripMenuItem tsUncheckAudioTracksByChannels = new ToolStripMenuItem(string.Format(\"Audio Tracks by Channels ({0})...\", audioExtraInfo.Count));"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmMain2.cs",
+    "LineNumber": 2131,
+    "FoundString": "Audio Tracks by Track Name ({0})...",
+    "SuggestedKey": "gMKVToolNix.Forms.NodeResults.Audio_Tracks_by_Track_Name___0",
+    "FullLine": "ToolStripMenuItem tsCheckAudioTracksByName = new ToolStripMenuItem(string.Format(\"Audio Tracks by Track Name ({0})...\", audioNames.Count));"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmMain2.cs",
+    "LineNumber": 2133,
+    "FoundString": "Audio Tracks by Track Name ({0})...",
+    "SuggestedKey": "gMKVToolNix.Forms.NodeResults.Audio_Tracks_by_Track_Name___0",
+    "FullLine": "ToolStripMenuItem tsUncheckAudioTracksByName = new ToolStripMenuItem(string.Format(\"Audio Tracks by Track Name ({0})...\", audioNames.Count));"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmMain2.cs",
+    "LineNumber": 2160,
+    "FoundString": "Audio Tracks by Forced ({0})...",
+    "SuggestedKey": "gMKVToolNix.Forms.NodeResults.Audio_Tracks_by_Forced___0____",
+    "FullLine": "ToolStripMenuItem tsCheckAudioTracksByForced = new ToolStripMenuItem(string.Format(\"Audio Tracks by Forced ({0})...\", audioForced.Count));"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmMain2.cs",
+    "LineNumber": 2162,
+    "FoundString": "Audio Tracks by Forced ({0})...",
+    "SuggestedKey": "gMKVToolNix.Forms.NodeResults.Audio_Tracks_by_Forced___0____",
+    "FullLine": "ToolStripMenuItem tsUncheckAudioTracksByForced = new ToolStripMenuItem(string.Format(\"Audio Tracks by Forced ({0})...\", audioForced.Count));"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmMain2.cs",
+    "LineNumber": 2191,
+    "FoundString": "Subtitle Tracks by Language ({0})...",
+    "SuggestedKey": "gMKVToolNix.Forms.NodeResults.Subtitle_Tracks_by_Language___",
+    "FullLine": "ToolStripMenuItem tsCheckSubtitleTracksByLanguage = new ToolStripMenuItem(string.Format(\"Subtitle Tracks by Language ({0})...\", subLanguages.Count));"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmMain2.cs",
+    "LineNumber": 2193,
+    "FoundString": "Subtitle Tracks by Language ({0})...",
+    "SuggestedKey": "gMKVToolNix.Forms.NodeResults.Subtitle_Tracks_by_Language___",
+    "FullLine": "ToolStripMenuItem tsUncheckSubtitleTracksByLanguage = new ToolStripMenuItem(string.Format(\"Subtitle Tracks by Language ({0})...\", subLanguages.Count));"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmMain2.cs",
+    "LineNumber": 2219,
+    "FoundString": "Subtitle Tracks by Language IETF ({0})...",
+    "SuggestedKey": "gMKVToolNix.Forms.NodeResults.Subtitle_Tracks_by_Language_IE",
+    "FullLine": "ToolStripMenuItem tsCheckSubtitleTracksByLanguageIetf = new ToolStripMenuItem(string.Format(\"Subtitle Tracks by Language IETF ({0})...\", subLanguagesIetf.Count));"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmMain2.cs",
+    "LineNumber": 2221,
+    "FoundString": "Subtitle Tracks by Language IETF ({0})...",
+    "SuggestedKey": "gMKVToolNix.Forms.NodeResults.Subtitle_Tracks_by_Language_IE",
+    "FullLine": "ToolStripMenuItem tsUncheckSubtitleTracksByLanguageIetf = new ToolStripMenuItem(string.Format(\"Subtitle Tracks by Language IETF ({0})...\", subLanguagesIetf.Count));"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmMain2.cs",
+    "LineNumber": 2247,
+    "FoundString": "Subtitle Tracks by Codec ({0})...",
+    "SuggestedKey": "gMKVToolNix.Forms.NodeResults.Subtitle_Tracks_by_Codec___0__",
+    "FullLine": "ToolStripMenuItem tsCheckSubtitleTracksByCodec = new ToolStripMenuItem(string.Format(\"Subtitle Tracks by Codec ({0})...\", subCodecs.Count));"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmMain2.cs",
+    "LineNumber": 2249,
+    "FoundString": "Subtitle Tracks by Codec ({0})...",
+    "SuggestedKey": "gMKVToolNix.Forms.NodeResults.Subtitle_Tracks_by_Codec___0__",
+    "FullLine": "ToolStripMenuItem tsUncheckSubtitleTracksByCodec = new ToolStripMenuItem(string.Format(\"Subtitle Tracks by Codec ({0})...\", subCodecs.Count));"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmMain2.cs",
+    "LineNumber": 2278,
+    "FoundString": "Subtitle Tracks by Track Name ({0})...",
+    "SuggestedKey": "gMKVToolNix.Forms.NodeResults.Subtitle_Tracks_by_Track_Name_",
+    "FullLine": "ToolStripMenuItem tsCheckSubtitleTracksByName = new ToolStripMenuItem(string.Format(\"Subtitle Tracks by Track Name ({0})...\", subNames.Count));"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmMain2.cs",
+    "LineNumber": 2280,
+    "FoundString": "Subtitle Tracks by Track Name ({0})...",
+    "SuggestedKey": "gMKVToolNix.Forms.NodeResults.Subtitle_Tracks_by_Track_Name_",
+    "FullLine": "ToolStripMenuItem tsUncheckSubtitleTracksByName = new ToolStripMenuItem(string.Format(\"Subtitle Tracks by Track Name ({0})...\", subNames.Count));"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmMain2.cs",
+    "LineNumber": 2307,
+    "FoundString": "Subtitle Tracks by Forced ({0})...",
+    "SuggestedKey": "gMKVToolNix.Forms.NodeResults.Subtitle_Tracks_by_Forced___0_",
+    "FullLine": "ToolStripMenuItem tsCheckSubtitlesTracksByForced = new ToolStripMenuItem(string.Format(\"Subtitle Tracks by Forced ({0})...\", subtitleForced.Count));"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmMain2.cs",
+    "LineNumber": 2309,
+    "FoundString": "Subtitle Tracks by Forced ({0})...",
+    "SuggestedKey": "gMKVToolNix.Forms.NodeResults.Subtitle_Tracks_by_Forced___0_",
+    "FullLine": "ToolStripMenuItem tsUncheckSubtitlesTracksByForced = new ToolStripMenuItem(string.Format(\"Subtitle Tracks by Forced ({0})...\", subtitleForced.Count));"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmMain2.cs",
+    "LineNumber": 2568,
+    "FoundString": "Input Files (you can drag and drop files or directories) ({0} files)",
+    "SuggestedKey": "gMKVToolNix.Forms.NodeResults.Input_Files__you_can_drag_and_",
+    "FullLine": "\"Input Files (you can drag and drop files or directories) ({0} files)\","
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmMain2.cs",
+    "LineNumber": 2626,
+    "FoundString": "explorer.exe",
+    "SuggestedKey": "gMKVToolNix.Forms.NodeResults.explorer_exe",
+    "FullLine": "Process.Start(\"explorer.exe\", string.Format(\"/select, \\\"{0}\\\"\", segInfo.Path));"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmMain2.cs",
+    "LineNumber": 2626,
+    "FoundString": "/select, \\",
+    "SuggestedKey": "gMKVToolNix.Forms.NodeResults._select___",
+    "FullLine": "Process.Start(\"explorer.exe\", string.Format(\"/select, \\\"{0}\\\"\", segInfo.Path));"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmMain2.cs",
+    "LineNumber": 2630,
+    "FoundString": "explorer.exe",
+    "SuggestedKey": "gMKVToolNix.Forms.NodeResults.explorer_exe",
+    "FullLine": "Process.Start(\"explorer.exe\", segInfo.Directory);"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmMain2.cs",
+    "LineNumber": 2648,
+    "FoundString": "Select an input matroska file...",
+    "SuggestedKey": "gMKVToolNix.Forms.NodeResults.Select_an_input_matroska_file_",
+    "FullLine": "Title = \"Select an input matroska file...\","
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmMain2.cs",
+    "LineNumber": 2701,
+    "FoundString": "Use Currently Set Default Directory: ({0})",
+    "SuggestedKey": "gMKVToolNix.Forms.NodeResults.Use_Currently_Set_Default_Dire",
+    "FullLine": "useCurrentlySetDefaultDirectoryToolStripMenuItem.Text = string.Format(\"Use Currently Set Default Directory: ({0})\", _Settings.DefaultOutputDirectory);"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmMain2.cs",
+    "LineNumber": 2706,
+    "FoundString": "Use Currently Set Default Directory: (Not Set!)",
+    "SuggestedKey": "gMKVToolNix.Forms.NodeResults.Use_Currently_Set_Default_Dire",
+    "FullLine": "useCurrentlySetDefaultDirectoryToolStripMenuItem.Text = \"Use Currently Set Default Directory: (Not Set!)\";"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmMain2.cs",
+    "LineNumber": 2727,
+    "FoundString": "Are you sure you want to change the currently set ({0}) default output directory?",
+    "SuggestedKey": "gMKVToolNix.Forms.NodeResults.Are_you_sure_you_want_to_chang",
+    "FullLine": "if (ShowQuestion(string.Format(\"Are you sure you want to change the currently set ({0}) default output directory?\","
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmMain2.cs",
+    "LineNumber": 2728,
+    "FoundString": "Are you sure?",
+    "SuggestedKey": "gMKVToolNix.Forms.NodeResults.Are_you_sure_",
+    "FullLine": "_Settings.DefaultOutputDirectory), \"Are you sure?\", false) == DialogResult.No)"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmMain2.cs",
+    "LineNumber": 2735,
+    "FoundString": "Changing Default Output Directory...",
+    "SuggestedKey": "gMKVToolNix.Forms.NodeResults.Changing_Default_Output_Direct",
+    "FullLine": "gMKVLogger.Log(\"Changing Default Output Directory...\");"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmMain2.Designer.cs",
+    "LineNumber": 136,
+    "FoundString": "statusStrip1",
+    "SuggestedKey": "gMKVToolNix.Forms.frmMain2.statusStrip1",
+    "FullLine": "this.statusStrip.Text = \"statusStrip1\";"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmMain2.Designer.cs",
+    "LineNumber": 201,
+    "FoundString": "Actions",
+    "SuggestedKey": "gMKVToolNix.Forms.frmMain2.Actions",
+    "FullLine": "this.grpActions.Text = \"Actions\";"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmMain2.Designer.cs",
+    "LineNumber": 210,
+    "FoundString": "Add Jobs",
+    "SuggestedKey": "gMKVToolNix.Forms.frmMain2.Add_Jobs",
+    "FullLine": "this.btnAddJobs.Text = \"Add Jobs\";"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmMain2.Designer.cs",
+    "LineNumber": 220,
+    "FoundString": "Jobs...",
+    "SuggestedKey": "gMKVToolNix.Forms.frmMain2.Jobs___",
+    "FullLine": "this.btnShowJobs.Text = \"Jobs...\";"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmMain2.Designer.cs",
+    "LineNumber": 231,
+    "FoundString": "Popup",
+    "SuggestedKey": "gMKVToolNix.Forms.frmMain2.Popup",
+    "FullLine": "this.chkShowPopup.Text = \"Popup\";"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmMain2.Designer.cs",
+    "LineNumber": 242,
+    "FoundString": "Extract",
+    "SuggestedKey": "gMKVToolNix.Forms.frmMain2.Extract",
+    "FullLine": "this.btnExtract.Text = \"Extract\";"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmMain2.Designer.cs",
+    "LineNumber": 254,
+    "FoundString": "Extract",
+    "SuggestedKey": "gMKVToolNix.Forms.frmMain2.Extract",
+    "FullLine": "this.lblExtractionMode.Text = \"Extract\";"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmMain2.Designer.cs",
+    "LineNumber": 273,
+    "FoundString": "Log...",
+    "SuggestedKey": "gMKVToolNix.Forms.frmMain2.Log___",
+    "FullLine": "this.btnShowLog.Text = \"Log...\";"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmMain2.Designer.cs",
+    "LineNumber": 285,
+    "FoundString": "Chapter",
+    "SuggestedKey": "gMKVToolNix.Forms.frmMain2.Chapter",
+    "FullLine": "this.lblChapterType.Text = \"Chapter\";"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmMain2.Designer.cs",
+    "LineNumber": 310,
+    "FoundString": "Output Directory for Selected File (you can drag and drop the directory)",
+    "SuggestedKey": "gMKVToolNix.Forms.frmMain2.Output_Directory_for_Selected_",
+    "FullLine": "this.grpOutputDirectory.Text = \"Output Directory for Selected File (you can drag and drop the directory)\";"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmMain2.Designer.cs",
+    "LineNumber": 321,
+    "FoundString": "Use Source",
+    "SuggestedKey": "gMKVToolNix.Forms.frmMain2.Use_Source",
+    "FullLine": "this.chkUseSourceDirectory.Text = \"Use Source\";"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmMain2.Designer.cs",
+    "LineNumber": 332,
+    "FoundString": "Browse...",
+    "SuggestedKey": "gMKVToolNix.Forms.frmMain2.Browse___",
+    "FullLine": "this.btnBrowseOutputDirectory.Text = \"Browse...\";"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmMain2.Designer.cs",
+    "LineNumber": 365,
+    "FoundString": "Set As Default Directory",
+    "SuggestedKey": "gMKVToolNix.Forms.frmMain2.Set_As_Default_Directory",
+    "FullLine": "this.setAsDefaultDirectoryToolStripMenuItem.Text = \"Set As Default Directory\";"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmMain2.Designer.cs",
+    "LineNumber": 373,
+    "FoundString": "Use Currently Set Default Directory:",
+    "SuggestedKey": "gMKVToolNix.Forms.frmMain2.Use_Currently_Set_Default_Dire",
+    "FullLine": "this.useCurrentlySetDefaultDirectoryToolStripMenuItem.Text = \"Use Currently Set Default Directory:\";"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmMain2.Designer.cs",
+    "LineNumber": 387,
+    "FoundString": "MKVToolnix Directory (you can drag and drop the directory)",
+    "SuggestedKey": "gMKVToolNix.Forms.frmMain2.MKVToolnix_Directory__you_can_",
+    "FullLine": "this.grpConfig.Text = \"MKVToolnix Directory (you can drag and drop the directory)\";"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmMain2.Designer.cs",
+    "LineNumber": 396,
+    "FoundString": "Auto Detect",
+    "SuggestedKey": "gMKVToolNix.Forms.frmMain2.Auto_Detect",
+    "FullLine": "this.btnAutoDetectMkvToolnix.Text = \"Auto Detect\";"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmMain2.Designer.cs",
+    "LineNumber": 423,
+    "FoundString": "Browse...",
+    "SuggestedKey": "gMKVToolNix.Forms.frmMain2.Browse___",
+    "FullLine": "this.btnBrowseMKVToolnixPath.Text = \"Browse...\";"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmMain2.Designer.cs",
+    "LineNumber": 436,
+    "FoundString": "Input Files (you can drag and drop files or directories)",
+    "SuggestedKey": "gMKVToolNix.Forms.frmMain2.Input_Files__you_can_drag_and_",
+    "FullLine": "this.grpInputFiles.Text = \"Input Files (you can drag and drop files or directories)\";"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmMain2.Designer.cs",
+    "LineNumber": 507,
+    "FoundString": "Add Input File(s)...",
+    "SuggestedKey": "gMKVToolNix.Forms.frmMain2.Add_Input_File_s____",
+    "FullLine": "this.addInputFileToolStripMenuItem.Text = \"Add Input File(s)...\";"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmMain2.Designer.cs",
+    "LineNumber": 519,
+    "FoundString": "Check All Tracks",
+    "SuggestedKey": "gMKVToolNix.Forms.frmMain2.Check_All_Tracks",
+    "FullLine": "this.checkTracksToolStripMenuItem.Text = \"Check All Tracks\";"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmMain2.Designer.cs",
+    "LineNumber": 533,
+    "FoundString": "Check Video Tracks...",
+    "SuggestedKey": "gMKVToolNix.Forms.frmMain2.Check_Video_Tracks___",
+    "FullLine": "this.checkVideoTracksToolStripMenuItem.Text = \"Check Video Tracks...\";"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmMain2.Designer.cs",
+    "LineNumber": 539,
+    "FoundString": "All Video Tracks",
+    "SuggestedKey": "gMKVToolNix.Forms.frmMain2.All_Video_Tracks",
+    "FullLine": "this.allVideoTracksToolStripMenuItem.Text = \"All Video Tracks\";"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmMain2.Designer.cs",
+    "LineNumber": 548,
+    "FoundString": "Check Audio Tracks...",
+    "SuggestedKey": "gMKVToolNix.Forms.frmMain2.Check_Audio_Tracks___",
+    "FullLine": "this.checkAudioTracksToolStripMenuItem.Text = \"Check Audio Tracks...\";"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmMain2.Designer.cs",
+    "LineNumber": 554,
+    "FoundString": "All Audio Tracks",
+    "SuggestedKey": "gMKVToolNix.Forms.frmMain2.All_Audio_Tracks",
+    "FullLine": "this.allAudioTracksToolStripMenuItem.Text = \"All Audio Tracks\";"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmMain2.Designer.cs",
+    "LineNumber": 563,
+    "FoundString": "Check Subtitle Tracks...",
+    "SuggestedKey": "gMKVToolNix.Forms.frmMain2.Check_Subtitle_Tracks___",
+    "FullLine": "this.checkSubtitleTracksToolStripMenuItem.Text = \"Check Subtitle Tracks...\";"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmMain2.Designer.cs",
+    "LineNumber": 569,
+    "FoundString": "All Subtitle Tracks",
+    "SuggestedKey": "gMKVToolNix.Forms.frmMain2.All_Subtitle_Tracks",
+    "FullLine": "this.allSubtitleTracksToolStripMenuItem.Text = \"All Subtitle Tracks\";"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmMain2.Designer.cs",
+    "LineNumber": 578,
+    "FoundString": "Check Chapter Tracks...",
+    "SuggestedKey": "gMKVToolNix.Forms.frmMain2.Check_Chapter_Tracks___",
+    "FullLine": "this.checkChapterTracksToolStripMenuItem.Text = \"Check Chapter Tracks...\";"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmMain2.Designer.cs",
+    "LineNumber": 584,
+    "FoundString": "All Chapter Tracks",
+    "SuggestedKey": "gMKVToolNix.Forms.frmMain2.All_Chapter_Tracks",
+    "FullLine": "this.allChapterTracksToolStripMenuItem.Text = \"All Chapter Tracks\";"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmMain2.Designer.cs",
+    "LineNumber": 593,
+    "FoundString": "Check Attachment Tracks...",
+    "SuggestedKey": "gMKVToolNix.Forms.frmMain2.Check_Attachment_Tracks___",
+    "FullLine": "this.checkAttachmentTracksToolStripMenuItem.Text = \"Check Attachment Tracks...\";"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmMain2.Designer.cs",
+    "LineNumber": 599,
+    "FoundString": "All Attachment Tracks",
+    "SuggestedKey": "gMKVToolNix.Forms.frmMain2.All_Attachment_Tracks",
+    "FullLine": "this.allAttachmentTracksToolStripMenuItem.Text = \"All Attachment Tracks\";"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmMain2.Designer.cs",
+    "LineNumber": 611,
+    "FoundString": "Uncheck All Tracks",
+    "SuggestedKey": "gMKVToolNix.Forms.frmMain2.Uncheck_All_Tracks",
+    "FullLine": "this.uncheckTracksToolStripMenuItem.Text = \"Uncheck All Tracks\";"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmMain2.Designer.cs",
+    "LineNumber": 625,
+    "FoundString": "Uncheck Video Tracks...",
+    "SuggestedKey": "gMKVToolNix.Forms.frmMain2.Uncheck_Video_Tracks___",
+    "FullLine": "this.uncheckVideoTracksToolStripMenuItem.Text = \"Uncheck Video Tracks...\";"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmMain2.Designer.cs",
+    "LineNumber": 631,
+    "FoundString": "All Video Tracks",
+    "SuggestedKey": "gMKVToolNix.Forms.frmMain2.All_Video_Tracks",
+    "FullLine": "this.allVideoTracksToolStripMenuItem1.Text = \"All Video Tracks\";"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmMain2.Designer.cs",
+    "LineNumber": 640,
+    "FoundString": "Uncheck Audio Tracks...",
+    "SuggestedKey": "gMKVToolNix.Forms.frmMain2.Uncheck_Audio_Tracks___",
+    "FullLine": "this.uncheckAudioTracksToolStripMenuItem.Text = \"Uncheck Audio Tracks...\";"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmMain2.Designer.cs",
+    "LineNumber": 646,
+    "FoundString": "All Audio Tracks",
+    "SuggestedKey": "gMKVToolNix.Forms.frmMain2.All_Audio_Tracks",
+    "FullLine": "this.allAudioTracksToolStripMenuItem1.Text = \"All Audio Tracks\";"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmMain2.Designer.cs",
+    "LineNumber": 655,
+    "FoundString": "Uncheck Subtitle Tracks...",
+    "SuggestedKey": "gMKVToolNix.Forms.frmMain2.Uncheck_Subtitle_Tracks___",
+    "FullLine": "this.uncheckSubtitleTracksToolStripMenuItem.Text = \"Uncheck Subtitle Tracks...\";"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmMain2.Designer.cs",
+    "LineNumber": 661,
+    "FoundString": "All Subtitle Tracks",
+    "SuggestedKey": "gMKVToolNix.Forms.frmMain2.All_Subtitle_Tracks",
+    "FullLine": "this.allSubtitleTracksToolStripMenuItem1.Text = \"All Subtitle Tracks\";"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmMain2.Designer.cs",
+    "LineNumber": 670,
+    "FoundString": "Uncheck Chapter Tracks...",
+    "SuggestedKey": "gMKVToolNix.Forms.frmMain2.Uncheck_Chapter_Tracks___",
+    "FullLine": "this.uncheckChapterTracksToolStripMenuItem.Text = \"Uncheck Chapter Tracks...\";"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmMain2.Designer.cs",
+    "LineNumber": 676,
+    "FoundString": "All Chapter Tracks",
+    "SuggestedKey": "gMKVToolNix.Forms.frmMain2.All_Chapter_Tracks",
+    "FullLine": "this.allChapterTracksToolStripMenuItem1.Text = \"All Chapter Tracks\";"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmMain2.Designer.cs",
+    "LineNumber": 685,
+    "FoundString": "Uncheck Attachment Tracks...",
+    "SuggestedKey": "gMKVToolNix.Forms.frmMain2.Uncheck_Attachment_Tracks___",
+    "FullLine": "this.uncheckAttachmentTracksToolStripMenuItem.Text = \"Uncheck Attachment Tracks...\";"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmMain2.Designer.cs",
+    "LineNumber": 691,
+    "FoundString": "All Attachment Tracks",
+    "SuggestedKey": "gMKVToolNix.Forms.frmMain2.All_Attachment_Tracks",
+    "FullLine": "this.allAttachmentTracksToolStripMenuItem1.Text = \"All Attachment Tracks\";"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmMain2.Designer.cs",
+    "LineNumber": 703,
+    "FoundString": "Remove All Input Files",
+    "SuggestedKey": "gMKVToolNix.Forms.frmMain2.Remove_All_Input_Files",
+    "FullLine": "this.removeAllInputFilesToolStripMenuItem.Text = \"Remove All Input Files\";"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmMain2.Designer.cs",
+    "LineNumber": 710,
+    "FoundString": "Remove Selected Input File",
+    "SuggestedKey": "gMKVToolNix.Forms.frmMain2.Remove_Selected_Input_File",
+    "FullLine": "this.removeSelectedInputFileToolStripMenuItem.Text = \"Remove Selected Input File\";"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmMain2.Designer.cs",
+    "LineNumber": 717,
+    "FoundString": "Open Selected File...",
+    "SuggestedKey": "gMKVToolNix.Forms.frmMain2.Open_Selected_File___",
+    "FullLine": "this.openSelectedFileToolStripMenuItem.Text = \"Open Selected File...\";"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmMain2.Designer.cs",
+    "LineNumber": 724,
+    "FoundString": "Open Selected File Folder...",
+    "SuggestedKey": "gMKVToolNix.Forms.frmMain2.Open_Selected_File_Folder___",
+    "FullLine": "this.openSelectedFileFolderToolStripMenuItem.Text = \"Open Selected File Folder...\";"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmMain2.Designer.cs",
+    "LineNumber": 736,
+    "FoundString": "Expand All",
+    "SuggestedKey": "gMKVToolNix.Forms.frmMain2.Expand_All",
+    "FullLine": "this.expandAllToolStripMenuItem.Text = \"Expand All\";"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmMain2.Designer.cs",
+    "LineNumber": 743,
+    "FoundString": "Collapse All",
+    "SuggestedKey": "gMKVToolNix.Forms.frmMain2.Collapse_All",
+    "FullLine": "this.collapseAllToolStripMenuItem.Text = \"Collapse All\";"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmMain2.Designer.cs",
+    "LineNumber": 766,
+    "FoundString": "Select...",
+    "SuggestedKey": "gMKVToolNix.Forms.frmMain2.Select___",
+    "FullLine": "this.btnSelect.Text = \"Select...\";"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmMain2.Designer.cs",
+    "LineNumber": 777,
+    "FoundString": "Disable tooltips",
+    "SuggestedKey": "gMKVToolNix.Forms.frmMain2.Disable_tooltips",
+    "FullLine": "this.chkDisableTooltips.Text = \"Disable tooltips\";"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmMain2.Designer.cs",
+    "LineNumber": 788,
+    "FoundString": "Overwrite existing files",
+    "SuggestedKey": "gMKVToolNix.Forms.frmMain2.Overwrite_existing_files",
+    "FullLine": "this.chkOverwriteExistingFiles.Text = \"Overwrite existing files\";"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmMain2.Designer.cs",
+    "LineNumber": 799,
+    "FoundString": "Append input on drag and drop",
+    "SuggestedKey": "gMKVToolNix.Forms.frmMain2.Append_input_on_drag_and_drop",
+    "FullLine": "this.chkAppendOnDragAndDrop.Text = \"Append input on drag and drop\";"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmMain2.Designer.cs",
+    "LineNumber": 813,
+    "FoundString": "Selected File Information",
+    "SuggestedKey": "gMKVToolNix.Forms.frmMain2.Selected_File_Information",
+    "FullLine": "this.grpSelectedFileInfo.Text = \"Selected File Information\";"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmMain2.Designer.cs",
+    "LineNumber": 838,
+    "FoundString": "Abort",
+    "SuggestedKey": "gMKVToolNix.Forms.frmMain2.Abort",
+    "FullLine": "this.btnAbort.Text = \"Abort\";"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmMain2.Designer.cs",
+    "LineNumber": 849,
+    "FoundString": "Abort All",
+    "SuggestedKey": "gMKVToolNix.Forms.frmMain2.Abort_All",
+    "FullLine": "this.btnAbortAll.Text = \"Abort All\";"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmMain2.Designer.cs",
+    "LineNumber": 860,
+    "FoundString": "Options...",
+    "SuggestedKey": "gMKVToolNix.Forms.frmMain2.Options___",
+    "FullLine": "this.btnOptions.Text = \"Options...\";"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmMain2.Designer.cs",
+    "LineNumber": 872,
+    "FoundString": "Dark",
+    "SuggestedKey": "gMKVToolNix.Forms.frmMain2.Dark",
+    "FullLine": "this.chkDarkMode.Text = \"Dark\";"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmMain2.Designer.cs",
+    "LineNumber": 890,
+    "FoundString": "gMKVExtractGUI",
+    "SuggestedKey": "gMKVToolNix.Forms.frmMain2.gMKVExtractGUI",
+    "FullLine": "this.Text = \"gMKVExtractGUI\";"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmOptions.cs",
+    "LineNumber": 24,
+    "FoundString": "\"Add...",
+    "SuggestedKey": "gMKVToolNix.Forms.gMKVToolNix.gForm._Add___",
+    "FullLine": "Pressing the \"\"Add...\"\" button you will see the list with the available placeholders and select them."
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmOptions.cs",
+    "LineNumber": 25,
+    "FoundString": "\"Default",
+    "SuggestedKey": "gMKVToolNix.Forms.gMKVToolNix.gForm._Default",
+    "FullLine": "Pressing the \"\"Default\"\" button you will reset the output filename format to its default value.\";"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmOptions.cs",
+    "LineNumber": 25,
+    "FoundString": " button you will reset the output filename format to its default value.",
+    "SuggestedKey": "gMKVToolNix.Forms.gMKVToolNix.gForm._button_you_will_reset_the_out",
+    "FullLine": "Pressing the \"\"Default\"\" button you will reset the output filename format to its default value.\";"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmOptions.cs",
+    "LineNumber": 34,
+    "FoundString": "gMKVExtractGUI v{0} -- Options",
+    "SuggestedKey": "gMKVToolNix.Forms.gMKVToolNix.gForm.gMKVExtractGUI_v_0_____Options",
+    "FullLine": "Text = string.Format(\"gMKVExtractGUI v{0} -- Options\", GetCurrentVersion());"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmOptions.cs",
+    "LineNumber": 123,
+    "FoundString": "Input Filename (without extension)",
+    "SuggestedKey": "gMKVToolNix.Forms.gMKVToolNix.gForm.Input_Filename__without_extens",
+    "FullLine": "_VideoTrackContextMenu.Items.Add(GetToolstripMenuItem(\"Input Filename (without extension)\", gMKVExtractFilenamePatterns.FilenameNoExt, txtVideoTracksFilename));"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmOptions.cs",
+    "LineNumber": 124,
+    "FoundString": "Input Filename (with extension)",
+    "SuggestedKey": "gMKVToolNix.Forms.gMKVToolNix.gForm.Input_Filename__with_extension",
+    "FullLine": "_VideoTrackContextMenu.Items.Add(GetToolstripMenuItem(\"Input Filename (with extension)\", gMKVExtractFilenamePatterns.Filename, txtVideoTracksFilename));"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmOptions.cs",
+    "LineNumber": 126,
+    "FoundString": "Directory Separator",
+    "SuggestedKey": "gMKVToolNix.Forms.gMKVToolNix.gForm.Directory_Separator",
+    "FullLine": "_VideoTrackContextMenu.Items.Add(GetToolstripMenuItem(\"Directory Separator\", gMKVExtractFilenamePatterns.DirectorySeparator, txtVideoTracksFilename));"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmOptions.cs",
+    "LineNumber": 129,
+    "FoundString": "Input Filename (without extension)",
+    "SuggestedKey": "gMKVToolNix.Forms.gMKVToolNix.gForm.Input_Filename__without_extens",
+    "FullLine": "_AudioTrackContextMenu.Items.Add(GetToolstripMenuItem(\"Input Filename (without extension)\", gMKVExtractFilenamePatterns.FilenameNoExt, txtAudioTracksFilename));"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmOptions.cs",
+    "LineNumber": 130,
+    "FoundString": "Input Filename (with extension)",
+    "SuggestedKey": "gMKVToolNix.Forms.gMKVToolNix.gForm.Input_Filename__with_extension",
+    "FullLine": "_AudioTrackContextMenu.Items.Add(GetToolstripMenuItem(\"Input Filename (with extension)\", gMKVExtractFilenamePatterns.Filename, txtAudioTracksFilename));"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmOptions.cs",
+    "LineNumber": 132,
+    "FoundString": "Directory Separator",
+    "SuggestedKey": "gMKVToolNix.Forms.gMKVToolNix.gForm.Directory_Separator",
+    "FullLine": "_AudioTrackContextMenu.Items.Add(GetToolstripMenuItem(\"Directory Separator\", gMKVExtractFilenamePatterns.DirectorySeparator, txtAudioTracksFilename));"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmOptions.cs",
+    "LineNumber": 135,
+    "FoundString": "Input Filename (without extension)",
+    "SuggestedKey": "gMKVToolNix.Forms.gMKVToolNix.gForm.Input_Filename__without_extens",
+    "FullLine": "_SubtitleTrackContextMenu.Items.Add(GetToolstripMenuItem(\"Input Filename (without extension)\", gMKVExtractFilenamePatterns.FilenameNoExt, txtSubtitleTracksFilename));"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmOptions.cs",
+    "LineNumber": 136,
+    "FoundString": "Input Filename (with extension)",
+    "SuggestedKey": "gMKVToolNix.Forms.gMKVToolNix.gForm.Input_Filename__with_extension",
+    "FullLine": "_SubtitleTrackContextMenu.Items.Add(GetToolstripMenuItem(\"Input Filename (with extension)\", gMKVExtractFilenamePatterns.Filename, txtSubtitleTracksFilename));"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmOptions.cs",
+    "LineNumber": 138,
+    "FoundString": "Directory Separator",
+    "SuggestedKey": "gMKVToolNix.Forms.gMKVToolNix.gForm.Directory_Separator",
+    "FullLine": "_SubtitleTrackContextMenu.Items.Add(GetToolstripMenuItem(\"Directory Separator\", gMKVExtractFilenamePatterns.DirectorySeparator, txtSubtitleTracksFilename));"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmOptions.cs",
+    "LineNumber": 141,
+    "FoundString": "Input Filename (without extension)",
+    "SuggestedKey": "gMKVToolNix.Forms.gMKVToolNix.gForm.Input_Filename__without_extens",
+    "FullLine": "_ChapterContextMenu.Items.Add(GetToolstripMenuItem(\"Input Filename (without extension)\", gMKVExtractFilenamePatterns.FilenameNoExt, txtChaptersFilename));"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmOptions.cs",
+    "LineNumber": 142,
+    "FoundString": "Input Filename (with extension)",
+    "SuggestedKey": "gMKVToolNix.Forms.gMKVToolNix.gForm.Input_Filename__with_extension",
+    "FullLine": "_ChapterContextMenu.Items.Add(GetToolstripMenuItem(\"Input Filename (with extension)\", gMKVExtractFilenamePatterns.Filename, txtChaptersFilename));"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmOptions.cs",
+    "LineNumber": 144,
+    "FoundString": "Directory Separator",
+    "SuggestedKey": "gMKVToolNix.Forms.gMKVToolNix.gForm.Directory_Separator",
+    "FullLine": "_ChapterContextMenu.Items.Add(GetToolstripMenuItem(\"Directory Separator\", gMKVExtractFilenamePatterns.DirectorySeparator, txtChaptersFilename));"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmOptions.cs",
+    "LineNumber": 146,
+    "FoundString": "Input Filename (without extension)",
+    "SuggestedKey": "gMKVToolNix.Forms.gMKVToolNix.gForm.Input_Filename__without_extens",
+    "FullLine": "_AttachmentContextMenu.Items.Add(GetToolstripMenuItem(\"Input Filename (without extension)\", gMKVExtractFilenamePatterns.FilenameNoExt, txtAttachmentsFilename));"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmOptions.cs",
+    "LineNumber": 147,
+    "FoundString": "Input Filename (with extension)",
+    "SuggestedKey": "gMKVToolNix.Forms.gMKVToolNix.gForm.Input_Filename__with_extension",
+    "FullLine": "_AttachmentContextMenu.Items.Add(GetToolstripMenuItem(\"Input Filename (with extension)\", gMKVExtractFilenamePatterns.Filename, txtAttachmentsFilename));"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmOptions.cs",
+    "LineNumber": 149,
+    "FoundString": "Directory Separator",
+    "SuggestedKey": "gMKVToolNix.Forms.gMKVToolNix.gForm.Directory_Separator",
+    "FullLine": "_AttachmentContextMenu.Items.Add(GetToolstripMenuItem(\"Directory Separator\", gMKVExtractFilenamePatterns.DirectorySeparator, txtAttachmentsFilename));"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmOptions.cs",
+    "LineNumber": 152,
+    "FoundString": "Input Filename (without extension)",
+    "SuggestedKey": "gMKVToolNix.Forms.gMKVToolNix.gForm.Input_Filename__without_extens",
+    "FullLine": "_TagsContextMenu.Items.Add(GetToolstripMenuItem(\"Input Filename (without extension)\", gMKVExtractFilenamePatterns.FilenameNoExt, txtTagsFilename));"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmOptions.cs",
+    "LineNumber": 153,
+    "FoundString": "Input Filename (with extension)",
+    "SuggestedKey": "gMKVToolNix.Forms.gMKVToolNix.gForm.Input_Filename__with_extension",
+    "FullLine": "_TagsContextMenu.Items.Add(GetToolstripMenuItem(\"Input Filename (with extension)\", gMKVExtractFilenamePatterns.Filename, txtTagsFilename));"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmOptions.cs",
+    "LineNumber": 155,
+    "FoundString": "Directory Separator",
+    "SuggestedKey": "gMKVToolNix.Forms.gMKVToolNix.gForm.Directory_Separator",
+    "FullLine": "_TagsContextMenu.Items.Add(GetToolstripMenuItem(\"Directory Separator\", gMKVExtractFilenamePatterns.DirectorySeparator, txtTagsFilename));"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmOptions.cs",
+    "LineNumber": 160,
+    "FoundString": "Track Number...",
+    "SuggestedKey": "gMKVToolNix.Forms.gMKVToolNix.gForm.Track_Number___",
+    "FullLine": "var vidTrackNumber = new ToolStripMenuItem(\"Track Number...\", null);"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmOptions.cs",
+    "LineNumber": 161,
+    "FoundString": "Track Number (No format)",
+    "SuggestedKey": "gMKVToolNix.Forms.gMKVToolNix.gForm.Track_Number__No_format_",
+    "FullLine": "vidTrackNumber.DropDownItems.Add(GetToolstripMenuItem(\"Track Number (No format)\", gMKVExtractFilenamePatterns.TrackNumber, txtVideoTracksFilename));"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmOptions.cs",
+    "LineNumber": 162,
+    "FoundString": "Track Number (1 digit)",
+    "SuggestedKey": "gMKVToolNix.Forms.gMKVToolNix.gForm.Track_Number__1_digit_",
+    "FullLine": "vidTrackNumber.DropDownItems.Add(GetToolstripMenuItem(\"Track Number (1 digit)\", gMKVExtractFilenamePatterns.TrackNumber_0, txtVideoTracksFilename));"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmOptions.cs",
+    "LineNumber": 163,
+    "FoundString": "Track Number (2 digits)",
+    "SuggestedKey": "gMKVToolNix.Forms.gMKVToolNix.gForm.Track_Number__2_digits_",
+    "FullLine": "vidTrackNumber.DropDownItems.Add(GetToolstripMenuItem(\"Track Number (2 digits)\", gMKVExtractFilenamePatterns.TrackNumber_00, txtVideoTracksFilename));"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmOptions.cs",
+    "LineNumber": 164,
+    "FoundString": "Track Number (3 digits)",
+    "SuggestedKey": "gMKVToolNix.Forms.gMKVToolNix.gForm.Track_Number__3_digits_",
+    "FullLine": "vidTrackNumber.DropDownItems.Add(GetToolstripMenuItem(\"Track Number (3 digits)\", gMKVExtractFilenamePatterns.TrackNumber_000, txtVideoTracksFilename));"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmOptions.cs",
+    "LineNumber": 169,
+    "FoundString": "Track ID...",
+    "SuggestedKey": "gMKVToolNix.Forms.gMKVToolNix.gForm.Track_ID___",
+    "FullLine": "var vidTrackID = new ToolStripMenuItem(\"Track ID...\", null);"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmOptions.cs",
+    "LineNumber": 170,
+    "FoundString": "Track ID (No format)",
+    "SuggestedKey": "gMKVToolNix.Forms.gMKVToolNix.gForm.Track_ID__No_format_",
+    "FullLine": "vidTrackID.DropDownItems.Add(GetToolstripMenuItem(\"Track ID (No format)\", gMKVExtractFilenamePatterns.TrackID, txtVideoTracksFilename));"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmOptions.cs",
+    "LineNumber": 171,
+    "FoundString": "Track ID (1 digit)",
+    "SuggestedKey": "gMKVToolNix.Forms.gMKVToolNix.gForm.Track_ID__1_digit_",
+    "FullLine": "vidTrackID.DropDownItems.Add(GetToolstripMenuItem(\"Track ID (1 digit)\", gMKVExtractFilenamePatterns.TrackID_0, txtVideoTracksFilename));"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmOptions.cs",
+    "LineNumber": 172,
+    "FoundString": "Track ID (2 digits)",
+    "SuggestedKey": "gMKVToolNix.Forms.gMKVToolNix.gForm.Track_ID__2_digits_",
+    "FullLine": "vidTrackID.DropDownItems.Add(GetToolstripMenuItem(\"Track ID (2 digits)\", gMKVExtractFilenamePatterns.TrackID_00, txtVideoTracksFilename));"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmOptions.cs",
+    "LineNumber": 173,
+    "FoundString": "Track ID (3 digits)",
+    "SuggestedKey": "gMKVToolNix.Forms.gMKVToolNix.gForm.Track_ID__3_digits_",
+    "FullLine": "vidTrackID.DropDownItems.Add(GetToolstripMenuItem(\"Track ID (3 digits)\", gMKVExtractFilenamePatterns.TrackID_000, txtVideoTracksFilename));"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmOptions.cs",
+    "LineNumber": 178,
+    "FoundString": "Track Name",
+    "SuggestedKey": "gMKVToolNix.Forms.gMKVToolNix.gForm.Track_Name",
+    "FullLine": "_VideoTrackContextMenu.Items.Add(GetToolstripMenuItem(\"Track Name\", gMKVExtractFilenamePatterns.TrackName, txtVideoTracksFilename));"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmOptions.cs",
+    "LineNumber": 179,
+    "FoundString": "Track Language",
+    "SuggestedKey": "gMKVToolNix.Forms.gMKVToolNix.gForm.Track_Language",
+    "FullLine": "_VideoTrackContextMenu.Items.Add(GetToolstripMenuItem(\"Track Language\", gMKVExtractFilenamePatterns.TrackLanguage, txtVideoTracksFilename));"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmOptions.cs",
+    "LineNumber": 180,
+    "FoundString": "Track Language IETF",
+    "SuggestedKey": "gMKVToolNix.Forms.gMKVToolNix.gForm.Track_Language_IETF",
+    "FullLine": "_VideoTrackContextMenu.Items.Add(GetToolstripMenuItem(\"Track Language IETF\", gMKVExtractFilenamePatterns.TrackLanguageIetf, txtVideoTracksFilename));"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmOptions.cs",
+    "LineNumber": 181,
+    "FoundString": "Track Codec ID",
+    "SuggestedKey": "gMKVToolNix.Forms.gMKVToolNix.gForm.Track_Codec_ID",
+    "FullLine": "_VideoTrackContextMenu.Items.Add(GetToolstripMenuItem(\"Track Codec ID\", gMKVExtractFilenamePatterns.TrackCodecID, txtVideoTracksFilename));"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmOptions.cs",
+    "LineNumber": 182,
+    "FoundString": "Track Codec Private",
+    "SuggestedKey": "gMKVToolNix.Forms.gMKVToolNix.gForm.Track_Codec_Private",
+    "FullLine": "_VideoTrackContextMenu.Items.Add(GetToolstripMenuItem(\"Track Codec Private\", gMKVExtractFilenamePatterns.TrackCodecPrivate, txtVideoTracksFilename));"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmOptions.cs",
+    "LineNumber": 183,
+    "FoundString": "Track Delay",
+    "SuggestedKey": "gMKVToolNix.Forms.gMKVToolNix.gForm.Track_Delay",
+    "FullLine": "_VideoTrackContextMenu.Items.Add(GetToolstripMenuItem(\"Track Delay\", gMKVExtractFilenamePatterns.TrackDelay, txtVideoTracksFilename));"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmOptions.cs",
+    "LineNumber": 184,
+    "FoundString": "Track Effective Delay",
+    "SuggestedKey": "gMKVToolNix.Forms.gMKVToolNix.gForm.Track_Effective_Delay",
+    "FullLine": "_VideoTrackContextMenu.Items.Add(GetToolstripMenuItem(\"Track Effective Delay\", gMKVExtractFilenamePatterns.TrackEffectiveDelay, txtVideoTracksFilename));"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmOptions.cs",
+    "LineNumber": 185,
+    "FoundString": "Track Forced",
+    "SuggestedKey": "gMKVToolNix.Forms.gMKVToolNix.gForm.Track_Forced",
+    "FullLine": "_VideoTrackContextMenu.Items.Add(GetToolstripMenuItem(\"Track Forced\", gMKVExtractFilenamePatterns.TrackForced, txtVideoTracksFilename));"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmOptions.cs",
+    "LineNumber": 188,
+    "FoundString": "Track Number...",
+    "SuggestedKey": "gMKVToolNix.Forms.gMKVToolNix.gForm.Track_Number___",
+    "FullLine": "var audTrackNumber = new ToolStripMenuItem(\"Track Number...\", null);"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmOptions.cs",
+    "LineNumber": 189,
+    "FoundString": "Track Number (No format)",
+    "SuggestedKey": "gMKVToolNix.Forms.gMKVToolNix.gForm.Track_Number__No_format_",
+    "FullLine": "audTrackNumber.DropDownItems.Add(GetToolstripMenuItem(\"Track Number (No format)\", gMKVExtractFilenamePatterns.TrackNumber, txtAudioTracksFilename));"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmOptions.cs",
+    "LineNumber": 190,
+    "FoundString": "Track Number (1 digit)",
+    "SuggestedKey": "gMKVToolNix.Forms.gMKVToolNix.gForm.Track_Number__1_digit_",
+    "FullLine": "audTrackNumber.DropDownItems.Add(GetToolstripMenuItem(\"Track Number (1 digit)\", gMKVExtractFilenamePatterns.TrackNumber_0, txtAudioTracksFilename));"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmOptions.cs",
+    "LineNumber": 191,
+    "FoundString": "Track Number (2 digits)",
+    "SuggestedKey": "gMKVToolNix.Forms.gMKVToolNix.gForm.Track_Number__2_digits_",
+    "FullLine": "audTrackNumber.DropDownItems.Add(GetToolstripMenuItem(\"Track Number (2 digits)\", gMKVExtractFilenamePatterns.TrackNumber_00, txtAudioTracksFilename));"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmOptions.cs",
+    "LineNumber": 192,
+    "FoundString": "Track Number (3 digits)",
+    "SuggestedKey": "gMKVToolNix.Forms.gMKVToolNix.gForm.Track_Number__3_digits_",
+    "FullLine": "audTrackNumber.DropDownItems.Add(GetToolstripMenuItem(\"Track Number (3 digits)\", gMKVExtractFilenamePatterns.TrackNumber_000, txtAudioTracksFilename));"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmOptions.cs",
+    "LineNumber": 197,
+    "FoundString": "Track ID...",
+    "SuggestedKey": "gMKVToolNix.Forms.gMKVToolNix.gForm.Track_ID___",
+    "FullLine": "var audTrackID = new ToolStripMenuItem(\"Track ID...\", null);"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmOptions.cs",
+    "LineNumber": 198,
+    "FoundString": "Track ID (No format)",
+    "SuggestedKey": "gMKVToolNix.Forms.gMKVToolNix.gForm.Track_ID__No_format_",
+    "FullLine": "audTrackID.DropDownItems.Add(GetToolstripMenuItem(\"Track ID (No format)\", gMKVExtractFilenamePatterns.TrackID, txtAudioTracksFilename));"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmOptions.cs",
+    "LineNumber": 199,
+    "FoundString": "Track ID (1 digit)",
+    "SuggestedKey": "gMKVToolNix.Forms.gMKVToolNix.gForm.Track_ID__1_digit_",
+    "FullLine": "audTrackID.DropDownItems.Add(GetToolstripMenuItem(\"Track ID (1 digit)\", gMKVExtractFilenamePatterns.TrackID_0, txtAudioTracksFilename));"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmOptions.cs",
+    "LineNumber": 200,
+    "FoundString": "Track ID (2 digits)",
+    "SuggestedKey": "gMKVToolNix.Forms.gMKVToolNix.gForm.Track_ID__2_digits_",
+    "FullLine": "audTrackID.DropDownItems.Add(GetToolstripMenuItem(\"Track ID (2 digits)\", gMKVExtractFilenamePatterns.TrackID_00, txtAudioTracksFilename));"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmOptions.cs",
+    "LineNumber": 201,
+    "FoundString": "Track ID (3 digits)",
+    "SuggestedKey": "gMKVToolNix.Forms.gMKVToolNix.gForm.Track_ID__3_digits_",
+    "FullLine": "audTrackID.DropDownItems.Add(GetToolstripMenuItem(\"Track ID (3 digits)\", gMKVExtractFilenamePatterns.TrackID_000, txtAudioTracksFilename));"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmOptions.cs",
+    "LineNumber": 206,
+    "FoundString": "Track Name",
+    "SuggestedKey": "gMKVToolNix.Forms.gMKVToolNix.gForm.Track_Name",
+    "FullLine": "_AudioTrackContextMenu.Items.Add(GetToolstripMenuItem(\"Track Name\", gMKVExtractFilenamePatterns.TrackName, txtAudioTracksFilename));"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmOptions.cs",
+    "LineNumber": 207,
+    "FoundString": "Track Language",
+    "SuggestedKey": "gMKVToolNix.Forms.gMKVToolNix.gForm.Track_Language",
+    "FullLine": "_AudioTrackContextMenu.Items.Add(GetToolstripMenuItem(\"Track Language\", gMKVExtractFilenamePatterns.TrackLanguage, txtAudioTracksFilename));"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmOptions.cs",
+    "LineNumber": 208,
+    "FoundString": "Track Language IETF",
+    "SuggestedKey": "gMKVToolNix.Forms.gMKVToolNix.gForm.Track_Language_IETF",
+    "FullLine": "_AudioTrackContextMenu.Items.Add(GetToolstripMenuItem(\"Track Language IETF\", gMKVExtractFilenamePatterns.TrackLanguageIetf, txtAudioTracksFilename));"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmOptions.cs",
+    "LineNumber": 209,
+    "FoundString": "Track Codec ID",
+    "SuggestedKey": "gMKVToolNix.Forms.gMKVToolNix.gForm.Track_Codec_ID",
+    "FullLine": "_AudioTrackContextMenu.Items.Add(GetToolstripMenuItem(\"Track Codec ID\", gMKVExtractFilenamePatterns.TrackCodecID, txtAudioTracksFilename));"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmOptions.cs",
+    "LineNumber": 210,
+    "FoundString": "Track Codec Private",
+    "SuggestedKey": "gMKVToolNix.Forms.gMKVToolNix.gForm.Track_Codec_Private",
+    "FullLine": "_AudioTrackContextMenu.Items.Add(GetToolstripMenuItem(\"Track Codec Private\", gMKVExtractFilenamePatterns.TrackCodecPrivate, txtAudioTracksFilename));"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmOptions.cs",
+    "LineNumber": 211,
+    "FoundString": "Track Delay",
+    "SuggestedKey": "gMKVToolNix.Forms.gMKVToolNix.gForm.Track_Delay",
+    "FullLine": "_AudioTrackContextMenu.Items.Add(GetToolstripMenuItem(\"Track Delay\", gMKVExtractFilenamePatterns.TrackDelay, txtAudioTracksFilename));"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmOptions.cs",
+    "LineNumber": 212,
+    "FoundString": "Track Effective Delay",
+    "SuggestedKey": "gMKVToolNix.Forms.gMKVToolNix.gForm.Track_Effective_Delay",
+    "FullLine": "_AudioTrackContextMenu.Items.Add(GetToolstripMenuItem(\"Track Effective Delay\", gMKVExtractFilenamePatterns.TrackEffectiveDelay, txtAudioTracksFilename));"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmOptions.cs",
+    "LineNumber": 213,
+    "FoundString": "Track Forced",
+    "SuggestedKey": "gMKVToolNix.Forms.gMKVToolNix.gForm.Track_Forced",
+    "FullLine": "_AudioTrackContextMenu.Items.Add(GetToolstripMenuItem(\"Track Forced\", gMKVExtractFilenamePatterns.TrackForced, txtAudioTracksFilename));"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmOptions.cs",
+    "LineNumber": 216,
+    "FoundString": "Track Number...",
+    "SuggestedKey": "gMKVToolNix.Forms.gMKVToolNix.gForm.Track_Number___",
+    "FullLine": "var subTrackNumber = new ToolStripMenuItem(\"Track Number...\", null);"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmOptions.cs",
+    "LineNumber": 217,
+    "FoundString": "Track Number (No format)",
+    "SuggestedKey": "gMKVToolNix.Forms.gMKVToolNix.gForm.Track_Number__No_format_",
+    "FullLine": "subTrackNumber.DropDownItems.Add(GetToolstripMenuItem(\"Track Number (No format)\", gMKVExtractFilenamePatterns.TrackNumber, txtSubtitleTracksFilename));"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmOptions.cs",
+    "LineNumber": 218,
+    "FoundString": "Track Number (1 digit)",
+    "SuggestedKey": "gMKVToolNix.Forms.gMKVToolNix.gForm.Track_Number__1_digit_",
+    "FullLine": "subTrackNumber.DropDownItems.Add(GetToolstripMenuItem(\"Track Number (1 digit)\", gMKVExtractFilenamePatterns.TrackNumber_0, txtSubtitleTracksFilename));"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmOptions.cs",
+    "LineNumber": 219,
+    "FoundString": "Track Number (2 digits)",
+    "SuggestedKey": "gMKVToolNix.Forms.gMKVToolNix.gForm.Track_Number__2_digits_",
+    "FullLine": "subTrackNumber.DropDownItems.Add(GetToolstripMenuItem(\"Track Number (2 digits)\", gMKVExtractFilenamePatterns.TrackNumber_00, txtSubtitleTracksFilename));"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmOptions.cs",
+    "LineNumber": 220,
+    "FoundString": "Track Number (3 digits)",
+    "SuggestedKey": "gMKVToolNix.Forms.gMKVToolNix.gForm.Track_Number__3_digits_",
+    "FullLine": "subTrackNumber.DropDownItems.Add(GetToolstripMenuItem(\"Track Number (3 digits)\", gMKVExtractFilenamePatterns.TrackNumber_000, txtSubtitleTracksFilename));"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmOptions.cs",
+    "LineNumber": 225,
+    "FoundString": "Track ID...",
+    "SuggestedKey": "gMKVToolNix.Forms.gMKVToolNix.gForm.Track_ID___",
+    "FullLine": "var subTrackID = new ToolStripMenuItem(\"Track ID...\", null);"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmOptions.cs",
+    "LineNumber": 226,
+    "FoundString": "Track ID (No format)",
+    "SuggestedKey": "gMKVToolNix.Forms.gMKVToolNix.gForm.Track_ID__No_format_",
+    "FullLine": "subTrackID.DropDownItems.Add(GetToolstripMenuItem(\"Track ID (No format)\", gMKVExtractFilenamePatterns.TrackID, txtSubtitleTracksFilename));"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmOptions.cs",
+    "LineNumber": 227,
+    "FoundString": "Track ID (1 digit)",
+    "SuggestedKey": "gMKVToolNix.Forms.gMKVToolNix.gForm.Track_ID__1_digit_",
+    "FullLine": "subTrackID.DropDownItems.Add(GetToolstripMenuItem(\"Track ID (1 digit)\", gMKVExtractFilenamePatterns.TrackID_0, txtSubtitleTracksFilename));"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmOptions.cs",
+    "LineNumber": 228,
+    "FoundString": "Track ID (2 digits)",
+    "SuggestedKey": "gMKVToolNix.Forms.gMKVToolNix.gForm.Track_ID__2_digits_",
+    "FullLine": "subTrackID.DropDownItems.Add(GetToolstripMenuItem(\"Track ID (2 digits)\", gMKVExtractFilenamePatterns.TrackID_00, txtSubtitleTracksFilename));"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmOptions.cs",
+    "LineNumber": 229,
+    "FoundString": "Track ID (3 digits)",
+    "SuggestedKey": "gMKVToolNix.Forms.gMKVToolNix.gForm.Track_ID__3_digits_",
+    "FullLine": "subTrackID.DropDownItems.Add(GetToolstripMenuItem(\"Track ID (3 digits)\", gMKVExtractFilenamePatterns.TrackID_000, txtSubtitleTracksFilename));"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmOptions.cs",
+    "LineNumber": 234,
+    "FoundString": "Track Name",
+    "SuggestedKey": "gMKVToolNix.Forms.gMKVToolNix.gForm.Track_Name",
+    "FullLine": "_SubtitleTrackContextMenu.Items.Add(GetToolstripMenuItem(\"Track Name\", gMKVExtractFilenamePatterns.TrackName, txtSubtitleTracksFilename));"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmOptions.cs",
+    "LineNumber": 235,
+    "FoundString": "Track Language",
+    "SuggestedKey": "gMKVToolNix.Forms.gMKVToolNix.gForm.Track_Language",
+    "FullLine": "_SubtitleTrackContextMenu.Items.Add(GetToolstripMenuItem(\"Track Language\", gMKVExtractFilenamePatterns.TrackLanguage, txtSubtitleTracksFilename));"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmOptions.cs",
+    "LineNumber": 236,
+    "FoundString": "Track Language IETF",
+    "SuggestedKey": "gMKVToolNix.Forms.gMKVToolNix.gForm.Track_Language_IETF",
+    "FullLine": "_SubtitleTrackContextMenu.Items.Add(GetToolstripMenuItem(\"Track Language IETF\", gMKVExtractFilenamePatterns.TrackLanguageIetf, txtSubtitleTracksFilename));"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmOptions.cs",
+    "LineNumber": 237,
+    "FoundString": "Track Codec ID",
+    "SuggestedKey": "gMKVToolNix.Forms.gMKVToolNix.gForm.Track_Codec_ID",
+    "FullLine": "_SubtitleTrackContextMenu.Items.Add(GetToolstripMenuItem(\"Track Codec ID\", gMKVExtractFilenamePatterns.TrackCodecID, txtSubtitleTracksFilename));"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmOptions.cs",
+    "LineNumber": 238,
+    "FoundString": "Track Codec Private",
+    "SuggestedKey": "gMKVToolNix.Forms.gMKVToolNix.gForm.Track_Codec_Private",
+    "FullLine": "_SubtitleTrackContextMenu.Items.Add(GetToolstripMenuItem(\"Track Codec Private\", gMKVExtractFilenamePatterns.TrackCodecPrivate, txtSubtitleTracksFilename));"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmOptions.cs",
+    "LineNumber": 239,
+    "FoundString": "Track Delay",
+    "SuggestedKey": "gMKVToolNix.Forms.gMKVToolNix.gForm.Track_Delay",
+    "FullLine": "_SubtitleTrackContextMenu.Items.Add(GetToolstripMenuItem(\"Track Delay\", gMKVExtractFilenamePatterns.TrackDelay, txtSubtitleTracksFilename));"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmOptions.cs",
+    "LineNumber": 240,
+    "FoundString": "Track Effective Delay",
+    "SuggestedKey": "gMKVToolNix.Forms.gMKVToolNix.gForm.Track_Effective_Delay",
+    "FullLine": "_SubtitleTrackContextMenu.Items.Add(GetToolstripMenuItem(\"Track Effective Delay\", gMKVExtractFilenamePatterns.TrackEffectiveDelay, txtSubtitleTracksFilename));"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmOptions.cs",
+    "LineNumber": 241,
+    "FoundString": "Track Forced",
+    "SuggestedKey": "gMKVToolNix.Forms.gMKVToolNix.gForm.Track_Forced",
+    "FullLine": "_SubtitleTrackContextMenu.Items.Add(GetToolstripMenuItem(\"Track Forced\", gMKVExtractFilenamePatterns.TrackForced, txtSubtitleTracksFilename));"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmOptions.cs",
+    "LineNumber": 246,
+    "FoundString": "Video Pixel Width",
+    "SuggestedKey": "gMKVToolNix.Forms.gMKVToolNix.gForm.Video_Pixel_Width",
+    "FullLine": "_VideoTrackContextMenu.Items.Add(GetToolstripMenuItem(\"Video Pixel Width\", gMKVExtractFilenamePatterns.VideoPixelWidth, txtVideoTracksFilename));"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmOptions.cs",
+    "LineNumber": 247,
+    "FoundString": "Video Pixel Height",
+    "SuggestedKey": "gMKVToolNix.Forms.gMKVToolNix.gForm.Video_Pixel_Height",
+    "FullLine": "_VideoTrackContextMenu.Items.Add(GetToolstripMenuItem(\"Video Pixel Height\", gMKVExtractFilenamePatterns.VideoPixelHeight, txtVideoTracksFilename));"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmOptions.cs",
+    "LineNumber": 252,
+    "FoundString": "Audio Sampling Frequency",
+    "SuggestedKey": "gMKVToolNix.Forms.gMKVToolNix.gForm.Audio_Sampling_Frequency",
+    "FullLine": "_AudioTrackContextMenu.Items.Add(GetToolstripMenuItem(\"Audio Sampling Frequency\", gMKVExtractFilenamePatterns.AudioSamplingFrequency, txtAudioTracksFilename));"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmOptions.cs",
+    "LineNumber": 253,
+    "FoundString": "Audio Channels",
+    "SuggestedKey": "gMKVToolNix.Forms.gMKVToolNix.gForm.Audio_Channels",
+    "FullLine": "_AudioTrackContextMenu.Items.Add(GetToolstripMenuItem(\"Audio Channels\", gMKVExtractFilenamePatterns.AudioChannels, txtAudioTracksFilename));"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmOptions.cs",
+    "LineNumber": 258,
+    "FoundString": "Attachment ID...",
+    "SuggestedKey": "gMKVToolNix.Forms.gMKVToolNix.gForm.Attachment_ID___",
+    "FullLine": "var attachmentID = new ToolStripMenuItem(\"Attachment ID...\", null);"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmOptions.cs",
+    "LineNumber": 259,
+    "FoundString": "Attachment ID (No format)",
+    "SuggestedKey": "gMKVToolNix.Forms.gMKVToolNix.gForm.Attachment_ID__No_format_",
+    "FullLine": "attachmentID.DropDownItems.Add(GetToolstripMenuItem(\"Attachment ID (No format)\", gMKVExtractFilenamePatterns.AttachmentID, txtAttachmentsFilename));"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmOptions.cs",
+    "LineNumber": 260,
+    "FoundString": "Attachment ID (1 digit)",
+    "SuggestedKey": "gMKVToolNix.Forms.gMKVToolNix.gForm.Attachment_ID__1_digit_",
+    "FullLine": "attachmentID.DropDownItems.Add(GetToolstripMenuItem(\"Attachment ID (1 digit)\", gMKVExtractFilenamePatterns.AttachmentID_0, txtAttachmentsFilename));"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmOptions.cs",
+    "LineNumber": 261,
+    "FoundString": "Attachment ID (2 digits)",
+    "SuggestedKey": "gMKVToolNix.Forms.gMKVToolNix.gForm.Attachment_ID__2_digits_",
+    "FullLine": "attachmentID.DropDownItems.Add(GetToolstripMenuItem(\"Attachment ID (2 digits)\", gMKVExtractFilenamePatterns.AttachmentID_00, txtAttachmentsFilename));"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmOptions.cs",
+    "LineNumber": 262,
+    "FoundString": "Attachment ID (3 digits)",
+    "SuggestedKey": "gMKVToolNix.Forms.gMKVToolNix.gForm.Attachment_ID__3_digits_",
+    "FullLine": "attachmentID.DropDownItems.Add(GetToolstripMenuItem(\"Attachment ID (3 digits)\", gMKVExtractFilenamePatterns.AttachmentID_000, txtAttachmentsFilename));"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmOptions.cs",
+    "LineNumber": 267,
+    "FoundString": "Attachment Filename",
+    "SuggestedKey": "gMKVToolNix.Forms.gMKVToolNix.gForm.Attachment_Filename",
+    "FullLine": "_AttachmentContextMenu.Items.Add(GetToolstripMenuItem(\"Attachment Filename\", gMKVExtractFilenamePatterns.AttachmentFilename, txtAttachmentsFilename));"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmOptions.cs",
+    "LineNumber": 268,
+    "FoundString": "Attachment MIME Type",
+    "SuggestedKey": "gMKVToolNix.Forms.gMKVToolNix.gForm.Attachment_MIME_Type",
+    "FullLine": "_AttachmentContextMenu.Items.Add(GetToolstripMenuItem(\"Attachment MIME Type\", gMKVExtractFilenamePatterns.AttachmentMimeType, txtAttachmentsFilename));"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmOptions.cs",
+    "LineNumber": 269,
+    "FoundString": "Attachment File Size (bytes)",
+    "SuggestedKey": "gMKVToolNix.Forms.gMKVToolNix.gForm.Attachment_File_Size__bytes_",
+    "FullLine": "_AttachmentContextMenu.Items.Add(GetToolstripMenuItem(\"Attachment File Size (bytes)\", gMKVExtractFilenamePatterns.AttachmentFileSize, txtAttachmentsFilename));"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmOptions.Designer.cs",
+    "LineNumber": 114,
+    "FoundString": "Attachments",
+    "SuggestedKey": "gMKVToolNix.Forms.frmOptions.Attachments",
+    "FullLine": "this.grpTags.Text = \"Attachments\";"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmOptions.Designer.cs",
+    "LineNumber": 123,
+    "FoundString": "Default",
+    "SuggestedKey": "gMKVToolNix.Forms.frmOptions.Default",
+    "FullLine": "this.btnDefaultTagsPlaceholder.Text = \"Default\";"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmOptions.Designer.cs",
+    "LineNumber": 134,
+    "FoundString": "Add...",
+    "SuggestedKey": "gMKVToolNix.Forms.frmOptions.Add___",
+    "FullLine": "this.btnAddTagsPlaceholder.Text = \"Add...\";"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmOptions.Designer.cs",
+    "LineNumber": 159,
+    "FoundString": "Chapters",
+    "SuggestedKey": "gMKVToolNix.Forms.frmOptions.Chapters",
+    "FullLine": "this.grpChapters.Text = \"Chapters\";"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmOptions.Designer.cs",
+    "LineNumber": 168,
+    "FoundString": "Default",
+    "SuggestedKey": "gMKVToolNix.Forms.frmOptions.Default",
+    "FullLine": "this.btnDefaultChapterPlaceholder.Text = \"Default\";"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmOptions.Designer.cs",
+    "LineNumber": 179,
+    "FoundString": "Add...",
+    "SuggestedKey": "gMKVToolNix.Forms.frmOptions.Add___",
+    "FullLine": "this.btnAddChapterPlaceholder.Text = \"Add...\";"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmOptions.Designer.cs",
+    "LineNumber": 211,
+    "FoundString": "Defaults",
+    "SuggestedKey": "gMKVToolNix.Forms.frmOptions.Defaults",
+    "FullLine": "this.btnDefaults.Text = \"Defaults\";"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmOptions.Designer.cs",
+    "LineNumber": 222,
+    "FoundString": "OK",
+    "SuggestedKey": "gMKVToolNix.Forms.frmOptions.OK",
+    "FullLine": "this.btnOK.Text = \"OK\";"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmOptions.Designer.cs",
+    "LineNumber": 234,
+    "FoundString": "Cancel",
+    "SuggestedKey": "gMKVToolNix.Forms.frmOptions.Cancel",
+    "FullLine": "this.btnCancel.Text = \"Cancel\";"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmOptions.Designer.cs",
+    "LineNumber": 249,
+    "FoundString": "Video Tracks",
+    "SuggestedKey": "gMKVToolNix.Forms.frmOptions.Video_Tracks",
+    "FullLine": "this.grpVideoTracks.Text = \"Video Tracks\";"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmOptions.Designer.cs",
+    "LineNumber": 258,
+    "FoundString": "Default",
+    "SuggestedKey": "gMKVToolNix.Forms.frmOptions.Default",
+    "FullLine": "this.btnDefaultVideoTrackPlaceholder.Text = \"Default\";"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmOptions.Designer.cs",
+    "LineNumber": 269,
+    "FoundString": "Add...",
+    "SuggestedKey": "gMKVToolNix.Forms.frmOptions.Add___",
+    "FullLine": "this.btnAddVideoTrackPlaceholder.Text = \"Add...\";"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmOptions.Designer.cs",
+    "LineNumber": 294,
+    "FoundString": "Audio Tracks",
+    "SuggestedKey": "gMKVToolNix.Forms.frmOptions.Audio_Tracks",
+    "FullLine": "this.grpAudioTracks.Text = \"Audio Tracks\";"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmOptions.Designer.cs",
+    "LineNumber": 303,
+    "FoundString": "Default",
+    "SuggestedKey": "gMKVToolNix.Forms.frmOptions.Default",
+    "FullLine": "this.btnDefaultAudioTrackPlaceholder.Text = \"Default\";"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmOptions.Designer.cs",
+    "LineNumber": 314,
+    "FoundString": "Add...",
+    "SuggestedKey": "gMKVToolNix.Forms.frmOptions.Add___",
+    "FullLine": "this.btnAddAudioTrackPlaceholder.Text = \"Add...\";"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmOptions.Designer.cs",
+    "LineNumber": 339,
+    "FoundString": "Subtitle Tracks",
+    "SuggestedKey": "gMKVToolNix.Forms.frmOptions.Subtitle_Tracks",
+    "FullLine": "this.grpSubtitleTracks.Text = \"Subtitle Tracks\";"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmOptions.Designer.cs",
+    "LineNumber": 348,
+    "FoundString": "Default",
+    "SuggestedKey": "gMKVToolNix.Forms.frmOptions.Default",
+    "FullLine": "this.btnDefaultSubtitleTrackPlaceholder.Text = \"Default\";"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmOptions.Designer.cs",
+    "LineNumber": 359,
+    "FoundString": "Add...",
+    "SuggestedKey": "gMKVToolNix.Forms.frmOptions.Add___",
+    "FullLine": "this.btnAddSubtitleTrackPlaceholder.Text = \"Add...\";"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmOptions.Designer.cs",
+    "LineNumber": 384,
+    "FoundString": "Attachments",
+    "SuggestedKey": "gMKVToolNix.Forms.frmOptions.Attachments",
+    "FullLine": "this.grpAttachments.Text = \"Attachments\";"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmOptions.Designer.cs",
+    "LineNumber": 393,
+    "FoundString": "Default",
+    "SuggestedKey": "gMKVToolNix.Forms.frmOptions.Default",
+    "FullLine": "this.btnDefaultAttachmentPlaceholder.Text = \"Default\";"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmOptions.Designer.cs",
+    "LineNumber": 404,
+    "FoundString": "Add...",
+    "SuggestedKey": "gMKVToolNix.Forms.frmOptions.Add___",
+    "FullLine": "this.btnAddAttachmentPlaceholder.Text = \"Add...\";"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmOptions.Designer.cs",
+    "LineNumber": 427,
+    "FoundString": "Information",
+    "SuggestedKey": "gMKVToolNix.Forms.frmOptions.Information",
+    "FullLine": "this.grpInfo.Text = \"Information\";"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmOptions.Designer.cs",
+    "LineNumber": 449,
+    "FoundString": "statusStrip1",
+    "SuggestedKey": "gMKVToolNix.Forms.frmOptions.statusStrip1",
+    "FullLine": "this.statusStrip1.Text = \"statusStrip1\";"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Forms\\frmOptions.Designer.cs",
+    "LineNumber": 460,
+    "FoundString": "Options",
+    "SuggestedKey": "gMKVToolNix.Forms.frmOptions.Options",
+    "FullLine": "this.Text = \"Options\";"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Jobs\\gMKVJob.cs",
+    "LineNumber": 55,
+    "FoundString": "Unsupported Extraction Mode!",
+    "SuggestedKey": "gMKVToolNix.Jobs.gMKVJob.Unsupported_Extraction_Mode_",
+    "FullLine": "throw new Exception(\"Unsupported Extraction Mode!\");"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Jobs\\gMKVJob.cs",
+    "LineNumber": 92,
+    "FoundString": "Tracks {0} \\r\\n{1} \\r\\n{2}",
+    "SuggestedKey": "gMKVToolNix.Jobs.gMKVJob.Tracks__0___r_n_1___r_n_2_",
+    "FullLine": "retValue.AppendFormat(\"Tracks {0} \\r\\n{1} \\r\\n{2}\","
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Jobs\\gMKVJob.cs",
+    "LineNumber": 97,
+    "FoundString": "Cue Sheet \\r\\n{0} \\r\\n{1}'",
+    "SuggestedKey": "gMKVToolNix.Jobs.gMKVJob.Cue_Sheet__r_n_0___r_n_1__",
+    "FullLine": "retValue.AppendFormat(\"Cue Sheet \\r\\n{0} \\r\\n{1}'\","
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Jobs\\gMKVJob.cs",
+    "LineNumber": 101,
+    "FoundString": "Tags \\r\\n{0} \\r\\n{1}",
+    "SuggestedKey": "gMKVToolNix.Jobs.gMKVJob.Tags__r_n_0___r_n_1_",
+    "FullLine": "retValue.AppendFormat(\"Tags \\r\\n{0} \\r\\n{1}\","
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Jobs\\gMKVJob.cs",
+    "LineNumber": 105,
+    "FoundString": "Timecodes {0} \\r\\n{1} \\r\\n{2}",
+    "SuggestedKey": "gMKVToolNix.Jobs.gMKVJob.Timecodes__0___r_n_1___r_n_2_",
+    "FullLine": "retValue.AppendFormat(\"Timecodes {0} \\r\\n{1} \\r\\n{2}\","
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Jobs\\gMKVJob.cs",
+    "LineNumber": 110,
+    "FoundString": "Tracks/Timecodes {0} \\r\\n{1} \\r\\n{2}",
+    "SuggestedKey": "gMKVToolNix.Jobs.gMKVJob.Tracks_Timecodes__0___r_n_1___",
+    "FullLine": "retValue.AppendFormat(\"Tracks/Timecodes {0} \\r\\n{1} \\r\\n{2}\","
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Jobs\\gMKVJob.cs",
+    "LineNumber": 115,
+    "FoundString": "Cues {0} \\r\\n{1} \\r\\n{2}",
+    "SuggestedKey": "gMKVToolNix.Jobs.gMKVJob.Cues__0___r_n_1___r_n_2_",
+    "FullLine": "retValue.AppendFormat(\"Cues {0} \\r\\n{1} \\r\\n{2}\","
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Jobs\\gMKVJob.cs",
+    "LineNumber": 120,
+    "FoundString": "Tracks/Cues {0} \\r\\n{1} \\r\\n{2}",
+    "SuggestedKey": "gMKVToolNix.Jobs.gMKVJob.Tracks_Cues__0___r_n_1___r_n_2",
+    "FullLine": "retValue.AppendFormat(\"Tracks/Cues {0} \\r\\n{1} \\r\\n{2}\","
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Jobs\\gMKVJob.cs",
+    "LineNumber": 125,
+    "FoundString": "Tracks/Cues/Timecodes {0} \\r\\n{1} \\r\\n{2}",
+    "SuggestedKey": "gMKVToolNix.Jobs.gMKVJob.Tracks_Cues_Timecodes__0___r_n",
+    "FullLine": "retValue.AppendFormat(\"Tracks/Cues/Timecodes {0} \\r\\n{1} \\r\\n{2}\","
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Jobs\\gMKVJob.cs",
+    "LineNumber": 130,
+    "FoundString": "Unknown job!!!",
+    "SuggestedKey": "gMKVToolNix.Jobs.gMKVJob.Unknown_job___",
+    "FullLine": "retValue.AppendFormat(\"Unknown job!!!\");"
+  },
+  {
+    "FilePath": "\\gMKVExtractGUI\\Theming\\ThemeManager.cs",
+    "LineNumber": 393,
+    "FoundString": "beautiful",
+    "SuggestedKey": "gMKVToolNix.Theming.ThemeManager.beautiful",
+    "FullLine": "item.BackColor = SystemColors.ControlLightLight; // Keep for \"beautiful\" context menus"
+  },
+  {
+    "FilePath": "\\gMKVToolNix\\FileExtensions.cs",
+    "LineNumber": 33,
+    "FoundString": "{0}.{1}{2}",
+    "SuggestedKey": "gMKVToolNix.FileExtensions._0___1__2_",
+    "FullLine": "string.Format(\"{0}.{1}{2}\", outputFilenameWithoutExtension, (outputFilenameCounter + 1), outputFilenameExtension)"
+  },
+  {
+    "FilePath": "\\gMKVToolNix\\gMKVHelper.cs",
+    "LineNumber": 100,
+    "FoundString": "Running on Linux...",
+    "SuggestedKey": "gMKVToolNix.gMKVHelper.Running_on_Linux___",
+    "FullLine": "throw new Exception(\"Running on Linux...\");"
+  },
+  {
+    "FilePath": "\\gMKVToolNix\\gMKVHelper.cs",
+    "LineNumber": 132,
+    "FoundString": "Found MKVToolNix in registry (Win32): {valuePath}",
+    "SuggestedKey": "gMKVToolNix.gMKVHelper.Found_MKVToolNix_in_registry__",
+    "FullLine": "gMKVLogger.Log($\"Found MKVToolNix in registry (Win32): {valuePath}\");"
+  },
+  {
+    "FilePath": "\\gMKVToolNix\\gMKVHelper.cs",
+    "LineNumber": 165,
+    "FoundString": "Found MKVToolNix in registry (Win64): {valuePath}",
+    "SuggestedKey": "gMKVToolNix.gMKVHelper.Found_MKVToolNix_in_registry__",
+    "FullLine": "gMKVLogger.Log($\"Found MKVToolNix in registry (Win64): {valuePath}\");"
+  },
+  {
+    "FilePath": "\\gMKVToolNix\\gMKVHelper.cs",
+    "LineNumber": 191,
+    "FoundString": "Couldn't find MKVToolNix in your system!{Environment.NewLine}Please download and install it or provide a manual path!",
+    "SuggestedKey": "gMKVToolNix.gMKVHelper.Couldn_t_find_MKVToolNix_in_yo",
+    "FullLine": "throw new Exception($\"Couldn't find MKVToolNix in your system!{Environment.NewLine}Please download and install it or provide a manual path!\");"
+  },
+  {
+    "FilePath": "\\gMKVToolNix\\gMKVHelper.cs",
+    "LineNumber": 208,
+    "FoundString": "Found MKVToolNix in your system but not the registry Key GUI!",
+    "SuggestedKey": "gMKVToolNix.gMKVHelper.Found_MKVToolNix_in_your_syste",
+    "FullLine": "throw new Exception(\"Found MKVToolNix in your system but not the registry Key GUI!\");"
+  },
+  {
+    "FilePath": "\\gMKVToolNix\\gMKVHelper.cs",
+    "LineNumber": 216,
+    "FoundString": "mkvmerge_executable",
+    "SuggestedKey": "gMKVToolNix.gMKVHelper.mkvmerge_executable",
+    "FullLine": "valuePath = (string)regGui.GetValue(\"mkvmerge_executable\");"
+  },
+  {
+    "FilePath": "\\gMKVToolNix\\gMKVHelper.cs",
+    "LineNumber": 217,
+    "FoundString": "Found MKVToolNix in registry (CURRENT_USER): {valuePath}",
+    "SuggestedKey": "gMKVToolNix.gMKVHelper.Found_MKVToolNix_in_registry__",
+    "FullLine": "gMKVLogger.Log($\"Found MKVToolNix in registry (CURRENT_USER): {valuePath}\");"
+  },
+  {
+    "FilePath": "\\gMKVToolNix\\gMKVHelper.cs",
+    "LineNumber": 224,
+    "FoundString": "Found MKVToolNix in your system but not the registry value mkvmerge_executable!",
+    "SuggestedKey": "gMKVToolNix.gMKVHelper.Found_MKVToolNix_in_your_syste",
+    "FullLine": "throw new Exception(\"Found MKVToolNix in your system but not the registry value mkvmerge_executable!\");"
+  },
+  {
+    "FilePath": "\\gMKVToolNix\\gMKVHelper.cs",
+    "LineNumber": 232,
+    "FoundString": "Found a registry value ({valuePath}) for MKVToolNix in your system but it is not valid!",
+    "SuggestedKey": "gMKVToolNix.gMKVHelper.Found_a_registry_value___value",
+    "FullLine": "throw new Exception($\"Found a registry value ({valuePath}) for MKVToolNix in your system but it is not valid!\");"
+  },
+  {
+    "FilePath": "\\gMKVToolNix\\ProcessExtensions.cs",
+    "LineNumber": 25,
+    "FoundString": "Cannot read from StandardInput stream!",
+    "SuggestedKey": "gMKVToolNix.ProcessExtensions.Cannot_read_from_StandardInput",
+    "FullLine": "throw new InvalidOperationException(\"Cannot read from StandardInput stream!\");"
+  },
+  {
+    "FilePath": "\\gMKVToolNix\\MkvExtract\\gMKVExtract.cs",
+    "LineNumber": 49,
+    "FoundString": "Could not find {MKV_EXTRACT_FILENAME}!{Environment.NewLine}{_MKVExtractFilename}",
+    "SuggestedKey": "gMKVToolNix.MkvExtract.gMKVExtract.Could_not_find__MKV_EXTRACT_FI",
+    "FullLine": "throw new Exception($\"Could not find {MKV_EXTRACT_FILENAME}!{Environment.NewLine}{_MKVExtractFilename}\");"
+  },
+  {
+    "FilePath": "\\gMKVToolNix\\MkvExtract\\gMKVExtract.cs",
+    "LineNumber": 56,
+    "FoundString": "Detected mkvextract version: {0}.{1}.{2}",
+    "SuggestedKey": "gMKVToolNix.MkvExtract.gMKVExtract.Detected_mkvextract_version___",
+    "FullLine": "gMKVLogger.Log(string.Format(\"Detected mkvextract version: {0}.{1}.{2}\","
+  },
+  {
+    "FilePath": "\\gMKVToolNix\\MkvExtract\\gMKVExtract.cs",
+    "LineNumber": 108,
+    "FoundString": "User aborted all the processes!",
+    "SuggestedKey": "gMKVToolNix.MkvExtract.gMKVExtract.User_aborted_all_the_processes",
+    "FullLine": "errors.Add(\"User aborted all the processes!\");"
+  },
+  {
+    "FilePath": "\\gMKVToolNix\\MkvExtract\\gMKVExtract.cs",
+    "LineNumber": 129,
+    "FoundString": "Segment: {seg}{Environment.NewLine}Exception: {ex.Message}{Environment.NewLine}",
+    "SuggestedKey": "gMKVToolNix.MkvExtract.gMKVExtract.Segment___seg__Environment_New",
+    "FullLine": "errors.Add($\"Segment: {seg}{Environment.NewLine}Exception: {ex.Message}{Environment.NewLine}\");"
+  },
+  {
+    "FilePath": "\\gMKVToolNix\\MkvExtract\\gMKVExtract.cs",
+    "LineNumber": 149,
+    "FoundString": "{currentPar.TrackOutput} {initPar.TrackOutput}",
+    "SuggestedKey": "gMKVToolNix.MkvExtract.gMKVExtract._currentPar_TrackOutput___init",
+    "FullLine": "currentPar.TrackOutput = $\"{currentPar.TrackOutput} {initPar.TrackOutput}\";"
+  },
+  {
+    "FilePath": "\\gMKVToolNix\\MkvExtract\\gMKVExtract.cs",
+    "LineNumber": 162,
+    "FoundString": "User aborted all the processes!",
+    "SuggestedKey": "gMKVToolNix.MkvExtract.gMKVExtract.User_aborted_all_the_processes",
+    "FullLine": "errors.Add(\"User aborted all the processes!\");"
+  },
+  {
+    "FilePath": "\\gMKVToolNix\\MkvExtract\\gMKVExtract.cs",
+    "LineNumber": 180,
+    "FoundString": "Track output: {finalPar.TrackOutput}{Environment.NewLine}Exception: {ex.Message}{Environment.NewLine}",
+    "SuggestedKey": "gMKVToolNix.MkvExtract.gMKVExtract.Track_output___finalPar_TrackO",
+    "FullLine": "errors.Add($\"Track output: {finalPar.TrackOutput}{Environment.NewLine}Exception: {ex.Message}{Environment.NewLine}\");"
+  },
+  {
+    "FilePath": "\\gMKVToolNix\\MkvExtract\\gMKVExtract.cs",
+    "LineNumber": 236,
+    "FoundString": "Track output: {finalPar.TrackOutput}{Environment.NewLine}Exception: {exc.Message}{Environment.NewLine}",
+    "SuggestedKey": "gMKVToolNix.MkvExtract.gMKVExtract.Track_output___finalPar_TrackO",
+    "FullLine": "errors.Add($\"Track output: {finalPar.TrackOutput}{Environment.NewLine}Exception: {exc.Message}{Environment.NewLine}\");"
+  },
+  {
+    "FilePath": "\\gMKVToolNix\\MkvExtract\\gMKVExtract.cs",
+    "LineNumber": 334,
+    "FoundString": "Cue Sheet",
+    "SuggestedKey": "gMKVToolNix.MkvExtract.gMKVExtract.Cue_Sheet",
+    "FullLine": "OnMkvExtractTrackUpdated(argMKVFile, \"Cue Sheet\");"
+  },
+  {
+    "FilePath": "\\gMKVToolNix\\MkvExtract\\gMKVExtract.cs",
+    "LineNumber": 415,
+    "FoundString": "Tags",
+    "SuggestedKey": "gMKVToolNix.MkvExtract.gMKVExtract.Tags",
+    "FullLine": "OnMkvExtractTrackUpdated(argMKVFile, \"Tags\");"
+  },
+  {
+    "FilePath": "\\gMKVToolNix\\MkvExtract\\gMKVExtract.cs",
+    "LineNumber": 490,
+    "FoundString": "{0}:\\",
+    "SuggestedKey": "gMKVToolNix.MkvExtract.gMKVExtract._0___",
+    "FullLine": "string.Format(\"{0}:\\\"{1}\\\"\","
+  },
+  {
+    "FilePath": "\\gMKVToolNix\\MkvExtract\\gMKVExtract.cs",
+    "LineNumber": 510,
+    "FoundString": "{0}:\\",
+    "SuggestedKey": "gMKVToolNix.MkvExtract.gMKVExtract._0___",
+    "FullLine": "string.Format(\"{0}:\\\"{1}\\\"\","
+  },
+  {
+    "FilePath": "\\gMKVToolNix\\MkvExtract\\gMKVExtract.cs",
+    "LineNumber": 544,
+    "FoundString": "{0}:\\",
+    "SuggestedKey": "gMKVToolNix.MkvExtract.gMKVExtract._0___",
+    "FullLine": "string.Format(\"{0}:\\\"{1}\\\"\","
+  },
+  {
+    "FilePath": "\\gMKVToolNix\\MkvExtract\\gMKVExtract.cs",
+    "LineNumber": 580,
+    "FoundString": "{0}:\\",
+    "SuggestedKey": "gMKVToolNix.MkvExtract.gMKVExtract._0___",
+    "FullLine": "string.Format(\"{0}:\\\"{1}\\\"\","
+  },
+  {
+    "FilePath": "\\gMKVToolNix\\MkvExtract\\gMKVExtract.cs",
+    "LineNumber": 616,
+    "FoundString": "--simple",
+    "SuggestedKey": "gMKVToolNix.MkvExtract.gMKVExtract.__simple",
+    "FullLine": "options = \"--simple\";"
+  },
+  {
+    "FilePath": "\\gMKVToolNix\\MkvExtract\\gMKVExtract.cs",
+    "LineNumber": 692,
+    "FoundString": "--gui-mode",
+    "SuggestedKey": "gMKVToolNix.MkvExtract.gMKVExtract.__gui_mode",
+    "FullLine": "parameters = \"--gui-mode\";"
+  },
+  {
+    "FilePath": "\\gMKVToolNix\\MkvExtract\\gMKVExtract.cs",
+    "LineNumber": 704,
+    "FoundString": "Detected Environment Variables: LC_ALL=\\",
+    "SuggestedKey": "gMKVToolNix.MkvExtract.gMKVExtract.Detected_Environment_Variables",
+    "FullLine": "gMKVLogger.Log($\"Detected Environment Variables: LC_ALL=\\\"{LC_ALL}\\\",LANG=\\\"{LANG}\\\",LC_MESSAGES=\\\"{LC_MESSAGES}\\\"\");"
+  },
+  {
+    "FilePath": "\\gMKVToolNix\\MkvExtract\\gMKVExtract.cs",
+    "LineNumber": 704,
+    "FoundString": ",LANG=\\",
+    "SuggestedKey": "gMKVToolNix.MkvExtract.gMKVExtract._LANG__",
+    "FullLine": "gMKVLogger.Log($\"Detected Environment Variables: LC_ALL=\\\"{LC_ALL}\\\",LANG=\\\"{LANG}\\\",LC_MESSAGES=\\\"{LC_MESSAGES}\\\"\");"
+  },
+  {
+    "FilePath": "\\gMKVToolNix\\MkvExtract\\gMKVExtract.cs",
+    "LineNumber": 704,
+    "FoundString": ",LC_MESSAGES=\\",
+    "SuggestedKey": "gMKVToolNix.MkvExtract.gMKVExtract._LC_MESSAGES__",
+    "FullLine": "gMKVLogger.Log($\"Detected Environment Variables: LC_ALL=\\\"{LC_ALL}\\\",LANG=\\\"{LANG}\\\",LC_MESSAGES=\\\"{LC_MESSAGES}\\\"\");"
+  },
+  {
+    "FilePath": "\\gMKVToolNix\\MkvExtract\\gMKVExtract.cs",
+    "LineNumber": 711,
+    "FoundString": "Setting Environment Variables: LC_ALL=LANG=LC_MESSAGES=\\",
+    "SuggestedKey": "gMKVToolNix.MkvExtract.gMKVExtract.Setting_Environment_Variables_",
+    "FullLine": "gMKVLogger.Log(\"Setting Environment Variables: LC_ALL=LANG=LC_MESSAGES=\\\"en_US.UTF-8\\\"\");"
+  },
+  {
+    "FilePath": "\\gMKVToolNix\\MkvExtract\\gMKVExtract.cs",
+    "LineNumber": 720,
+    "FoundString": "{parameters} --ui-language en_US {argParameter.Options}",
+    "SuggestedKey": "gMKVToolNix.MkvExtract.gMKVExtract._parameters____ui_language_en_",
+    "FullLine": "options = $\"{parameters} --ui-language en_US {argParameter.Options}\";"
+  },
+  {
+    "FilePath": "\\gMKVToolNix\\MkvExtract\\gMKVExtract.cs",
+    "LineNumber": 724,
+    "FoundString": "{parameters} --ui-language en {argParameter.Options}",
+    "SuggestedKey": "gMKVToolNix.MkvExtract.gMKVExtract._parameters____ui_language_en_",
+    "FullLine": "options = $\"{parameters} --ui-language en {argParameter.Options}\";"
+  },
+  {
+    "FilePath": "\\gMKVToolNix\\MkvExtract\\gMKVExtract.cs",
+    "LineNumber": 780,
+    "FoundString": "Exit code: {myProcess.ExitCode}",
+    "SuggestedKey": "gMKVToolNix.MkvExtract.gMKVExtract.Exit_code___myProcess_ExitCode",
+    "FullLine": "string exitString = $\"Exit code: {myProcess.ExitCode}\";"
+  },
+  {
+    "FilePath": "\\gMKVToolNix\\MkvExtract\\gMKVExtract.cs",
+    "LineNumber": 789,
+    "FoundString": "Mkvextract exited with error code {0}!",
+    "SuggestedKey": "gMKVToolNix.MkvExtract.gMKVExtract.Mkvextract_exited_with_error_c",
+    "FullLine": "throw new Exception(string.Format(\"Mkvextract exited with error code {0}!\""
+  },
+  {
+    "FilePath": "\\gMKVToolNix\\MkvExtract\\gMKVExtract.cs",
+    "LineNumber": 790,
+    "FoundString": "Errors reported:",
+    "SuggestedKey": "gMKVToolNix.MkvExtract.gMKVExtract.Errors_reported_",
+    "FullLine": "+ Environment.NewLine + Environment.NewLine + \"Errors reported:\" + Environment.NewLine + \"{1}\","
+  },
+  {
+    "FilePath": "\\gMKVToolNix\\MkvExtract\\gMKVExtract.cs",
+    "LineNumber": 790,
+    "FoundString": "{1}",
+    "SuggestedKey": "gMKVToolNix.MkvExtract.gMKVExtract._1_",
+    "FullLine": "+ Environment.NewLine + Environment.NewLine + \"Errors reported:\" + Environment.NewLine + \"{1}\","
+  },
+  {
+    "FilePath": "\\gMKVToolNix\\MkvExtract\\gMKVExtract.cs",
+    "LineNumber": 796,
+    "FoundString": "User aborted the current process!",
+    "SuggestedKey": "gMKVToolNix.MkvExtract.gMKVExtract.User_aborted_the_current_proce",
+    "FullLine": "throw new Exception(\"User aborted the current process!\");"
+  },
+  {
+    "FilePath": "\\gMKVToolNix\\MkvExtract\\gMKVExtract.cs",
+    "LineNumber": 810,
+    "FoundString": "Resetting Environment Variables: LC_ALL=\\",
+    "SuggestedKey": "gMKVToolNix.MkvExtract.gMKVExtract.Resetting_Environment_Variable",
+    "FullLine": "gMKVLogger.Log($\"Resetting Environment Variables: LC_ALL=\\\"{LC_ALL}\\\",LANG=\\\"{LANG}\\\",LC_MESSAGES=\\\"{LC_MESSAGES}\\\"\");"
+  },
+  {
+    "FilePath": "\\gMKVToolNix\\MkvExtract\\gMKVExtract.cs",
+    "LineNumber": 810,
+    "FoundString": ",LANG=\\",
+    "SuggestedKey": "gMKVToolNix.MkvExtract.gMKVExtract._LANG__",
+    "FullLine": "gMKVLogger.Log($\"Resetting Environment Variables: LC_ALL=\\\"{LC_ALL}\\\",LANG=\\\"{LANG}\\\",LC_MESSAGES=\\\"{LC_MESSAGES}\\\"\");"
+  },
+  {
+    "FilePath": "\\gMKVToolNix\\MkvExtract\\gMKVExtract.cs",
+    "LineNumber": 810,
+    "FoundString": ",LC_MESSAGES=\\",
+    "SuggestedKey": "gMKVToolNix.MkvExtract.gMKVExtract._LC_MESSAGES__",
+    "FullLine": "gMKVLogger.Log($\"Resetting Environment Variables: LC_ALL=\\\"{LC_ALL}\\\",LANG=\\\"{LANG}\\\",LC_MESSAGES=\\\"{LC_MESSAGES}\\\"\");"
+  },
+  {
+    "FilePath": "\\gMKVToolNix\\MkvExtract\\gMKVExtract.cs",
+    "LineNumber": 871,
+    "FoundString": "Exit code: {myProcess.ExitCode}",
+    "SuggestedKey": "gMKVToolNix.MkvExtract.gMKVExtract.Exit_code___myProcess_ExitCode",
+    "FullLine": "string exitString = $\"Exit code: {myProcess.ExitCode}\";"
+  },
+  {
+    "FilePath": "\\gMKVToolNix\\MkvExtract\\gMKVExtract.cs",
+    "LineNumber": 880,
+    "FoundString": "Mkvmerge exited with error code {0}!",
+    "SuggestedKey": "gMKVToolNix.MkvExtract.gMKVExtract.Mkvmerge_exited_with_error_cod",
+    "FullLine": "throw new Exception(string.Format(\"Mkvmerge exited with error code {0}!\" +"
+  },
+  {
+    "FilePath": "\\gMKVToolNix\\MkvExtract\\gMKVExtract.cs",
+    "LineNumber": 881,
+    "FoundString": "Errors reported:",
+    "SuggestedKey": "gMKVToolNix.MkvExtract.gMKVExtract.Errors_reported_",
+    "FullLine": "Environment.NewLine + Environment.NewLine + \"Errors reported:\" + Environment.NewLine + \"{1}\","
+  },
+  {
+    "FilePath": "\\gMKVToolNix\\MkvExtract\\gMKVExtract.cs",
+    "LineNumber": 881,
+    "FoundString": "{1}",
+    "SuggestedKey": "gMKVToolNix.MkvExtract.gMKVExtract._1_",
+    "FullLine": "Environment.NewLine + Environment.NewLine + \"Errors reported:\" + Environment.NewLine + \"{1}\","
+  },
+  {
+    "FilePath": "\\gMKVToolNix\\MkvExtract\\gMKVExtractExtensions.cs",
+    "LineNumber": 109,
+    "FoundString": "Called GetOutputFilename without track!",
+    "SuggestedKey": "gMKVToolNix.MkvExtract.gMKVExtractExtensions.Called_GetOutputFilename_witho",
+    "FullLine": "throw new Exception(\"Called GetOutputFilename without track!\");"
+  },
+  {
+    "FilePath": "\\gMKVToolNix\\MkvExtract\\gMKVExtractExtensions.cs",
+    "LineNumber": 135,
+    "FoundString": "{0}.{1}",
+    "SuggestedKey": "gMKVToolNix.MkvExtract.gMKVExtractExtensions._0___1_",
+    "FullLine": "string.Format(\"{0}.{1}\","
+  },
+  {
+    "FilePath": "\\gMKVToolNix\\MkvExtract\\gMKVExtractExtensions.cs",
+    "LineNumber": 150,
+    "FoundString": "Called GetOutputFilename without attachment!",
+    "SuggestedKey": "gMKVToolNix.MkvExtract.gMKVExtractExtensions.Called_GetOutputFilename_witho",
+    "FullLine": "throw new Exception(\"Called GetOutputFilename without attachment!\");"
+  },
+  {
+    "FilePath": "\\gMKVToolNix\\MkvExtract\\gMKVExtractExtensions.cs",
+    "LineNumber": 178,
+    "FoundString": "{0}.{1}",
+    "SuggestedKey": "gMKVToolNix.MkvExtract.gMKVExtractExtensions._0___1_",
+    "FullLine": "string.Format(\"{0}.{1}\","
+  },
+  {
+    "FilePath": "\\gMKVToolNix\\MkvExtract\\gMKVExtractExtensions.cs",
+    "LineNumber": 186,
+    "FoundString": "{0}_cuesheet.cue",
+    "SuggestedKey": "gMKVToolNix.MkvExtract.gMKVExtractExtensions._0__cuesheet_cue",
+    "FullLine": "string.Format(\"{0}_cuesheet.cue\", argMkvFilenameNoExt));"
+  },
+  {
+    "FilePath": "\\gMKVToolNix\\MkvExtract\\gMKVExtractExtensions.cs",
+    "LineNumber": 192,
+    "FoundString": "Called GetOutputFilename without track/timestamps!",
+    "SuggestedKey": "gMKVToolNix.MkvExtract.gMKVExtractExtensions.Called_GetOutputFilename_witho",
+    "FullLine": "throw new Exception(\"Called GetOutputFilename without track/timestamps!\");"
+  },
+  {
+    "FilePath": "\\gMKVToolNix\\MkvExtract\\gMKVExtractExtensions.cs",
+    "LineNumber": 204,
+    "FoundString": "Called GetOutputFilename without track/cues!",
+    "SuggestedKey": "gMKVToolNix.MkvExtract.gMKVExtractExtensions.Called_GetOutputFilename_witho",
+    "FullLine": "throw new Exception(\"Called GetOutputFilename without track/cues!\");"
+  },
+  {
+    "FilePath": "\\gMKVToolNix\\MkvInfo\\gMKVInfo.cs",
+    "LineNumber": 27,
+    "FoundString": "track number \\d+, \\d+ frame\\(s\\), timecode (\\d+\\.\\d+)s",
+    "SuggestedKey": "gMKVToolNix.MkvInfo.gMKVInfo.track_number__d____d__frame__s",
+    "FullLine": "@\"track number \\d+, \\d+ frame\\(s\\), timecode (\\d+\\.\\d+)s\","
+  },
+  {
+    "FilePath": "\\gMKVToolNix\\MkvInfo\\gMKVInfo.cs",
+    "LineNumber": 31,
+    "FoundString": "track number \\d+, \\d+ frame\\(s\\), timestamp (\\d+\\.\\d+)s",
+    "SuggestedKey": "gMKVToolNix.MkvInfo.gMKVInfo.track_number__d____d__frame__s",
+    "FullLine": "@\"track number \\d+, \\d+ frame\\(s\\), timestamp (\\d+\\.\\d+)s\","
+  },
+  {
+    "FilePath": "\\gMKVToolNix\\MkvInfo\\gMKVInfo.cs",
+    "LineNumber": 35,
+    "FoundString": "track number \\d+, \\d+ frame\\(s\\), timestamp (\\d{2}):(\\d{2}):(\\d{2}).(\\d{9})",
+    "SuggestedKey": "gMKVToolNix.MkvInfo.gMKVInfo.track_number__d____d__frame__s",
+    "FullLine": "@\"track number \\d+, \\d+ frame\\(s\\), timestamp (\\d{2}):(\\d{2}):(\\d{2}).(\\d{9})\","
+  },
+  {
+    "FilePath": "\\gMKVToolNix\\MkvInfo\\gMKVInfo.cs",
+    "LineNumber": 46,
+    "FoundString": "The MKVToolNix path was not provided!",
+    "SuggestedKey": "gMKVToolNix.MkvInfo.gMKVInfo.The_MKVToolNix_path_was_not_pr",
+    "FullLine": "throw new Exception(\"The MKVToolNix path was not provided!\");"
+  },
+  {
+    "FilePath": "\\gMKVToolNix\\MkvInfo\\gMKVInfo.cs",
+    "LineNumber": 51,
+    "FoundString": "The MKVToolNix path {mkvToolnixPath} does not exist!",
+    "SuggestedKey": "gMKVToolNix.MkvInfo.gMKVInfo.The_MKVToolNix_path__mkvToolni",
+    "FullLine": "throw new Exception($\"The MKVToolNix path {mkvToolnixPath} does not exist!\");"
+  },
+  {
+    "FilePath": "\\gMKVToolNix\\MkvInfo\\gMKVInfo.cs",
+    "LineNumber": 59,
+    "FoundString": "Could not find {MKV_INFO_FILENAME}!{Environment.NewLine}{_MKVInfoFilename}",
+    "SuggestedKey": "gMKVToolNix.MkvInfo.gMKVInfo.Could_not_find__MKV_INFO_FILEN",
+    "FullLine": "throw new Exception($\"Could not find {MKV_INFO_FILENAME}!{Environment.NewLine}{_MKVInfoFilename}\");"
+  },
+  {
+    "FilePath": "\\gMKVToolNix\\MkvInfo\\gMKVInfo.cs",
+    "LineNumber": 66,
+    "FoundString": "Detected mkvinfo version: {0}.{1}.{2}",
+    "SuggestedKey": "gMKVToolNix.MkvInfo.gMKVInfo.Detected_mkvinfo_version___0__",
+    "FullLine": "gMKVLogger.Log(string.Format(\"Detected mkvinfo version: {0}.{1}.{2}\","
+  },
+  {
+    "FilePath": "\\gMKVToolNix\\MkvInfo\\gMKVInfo.cs",
+    "LineNumber": 104,
+    "FoundString": "No mkv segments were provided!",
+    "SuggestedKey": "gMKVToolNix.MkvInfo.gMKVInfo.No_mkv_segments_were_provided_",
+    "FullLine": "throw new Exception(\"No mkv segments were provided!\");"
+  },
+  {
+    "FilePath": "\\gMKVToolNix\\MkvInfo\\gMKVInfo.cs",
+    "LineNumber": 268,
+    "FoundString": "Exit code: {myProcess.ExitCode}",
+    "SuggestedKey": "gMKVToolNix.MkvInfo.gMKVInfo.Exit_code___myProcess_ExitCode",
+    "FullLine": "string exitString = $\"Exit code: {myProcess.ExitCode}\";"
+  },
+  {
+    "FilePath": "\\gMKVToolNix\\MkvInfo\\gMKVInfo.cs",
+    "LineNumber": 277,
+    "FoundString": "Mkvinfo exited with error code {0}!",
+    "SuggestedKey": "gMKVToolNix.MkvInfo.gMKVInfo.Mkvinfo_exited_with_error_code",
+    "FullLine": "throw new Exception(string.Format(\"Mkvinfo exited with error code {0}!\" +"
+  },
+  {
+    "FilePath": "\\gMKVToolNix\\MkvInfo\\gMKVInfo.cs",
+    "LineNumber": 278,
+    "FoundString": "Errors reported:",
+    "SuggestedKey": "gMKVToolNix.MkvInfo.gMKVInfo.Errors_reported_",
+    "FullLine": "Environment.NewLine + Environment.NewLine + \"Errors reported:\" + Environment.NewLine + \"{1}\","
+  },
+  {
+    "FilePath": "\\gMKVToolNix\\MkvInfo\\gMKVInfo.cs",
+    "LineNumber": 278,
+    "FoundString": "{1}",
+    "SuggestedKey": "gMKVToolNix.MkvInfo.gMKVInfo._1_",
+    "FullLine": "Environment.NewLine + Environment.NewLine + \"Errors reported:\" + Environment.NewLine + \"{1}\","
+  },
+  {
+    "FilePath": "\\gMKVToolNix\\MkvInfo\\gMKVInfo.cs",
+    "LineNumber": 326,
+    "FoundString": "Detected Environment Variables: LC_ALL=\\",
+    "SuggestedKey": "gMKVToolNix.MkvInfo.gMKVInfo.Detected_Environment_Variables",
+    "FullLine": "gMKVLogger.Log(string.Format(\"Detected Environment Variables: LC_ALL=\\\"{0}\\\",LANG=\\\"{1}\\\",LC_MESSAGES=\\\"{2}\\\"\","
+  },
+  {
+    "FilePath": "\\gMKVToolNix\\MkvInfo\\gMKVInfo.cs",
+    "LineNumber": 326,
+    "FoundString": ",LANG=\\",
+    "SuggestedKey": "gMKVToolNix.MkvInfo.gMKVInfo._LANG__",
+    "FullLine": "gMKVLogger.Log(string.Format(\"Detected Environment Variables: LC_ALL=\\\"{0}\\\",LANG=\\\"{1}\\\",LC_MESSAGES=\\\"{2}\\\"\","
+  },
+  {
+    "FilePath": "\\gMKVToolNix\\MkvInfo\\gMKVInfo.cs",
+    "LineNumber": 326,
+    "FoundString": ",LC_MESSAGES=\\",
+    "SuggestedKey": "gMKVToolNix.MkvInfo.gMKVInfo._LC_MESSAGES__",
+    "FullLine": "gMKVLogger.Log(string.Format(\"Detected Environment Variables: LC_ALL=\\\"{0}\\\",LANG=\\\"{1}\\\",LC_MESSAGES=\\\"{2}\\\"\","
+  },
+  {
+    "FilePath": "\\gMKVToolNix\\MkvInfo\\gMKVInfo.cs",
+    "LineNumber": 334,
+    "FoundString": "Setting Environment Variables: LC_ALL=LANG=LC_MESSAGES=\\",
+    "SuggestedKey": "gMKVToolNix.MkvInfo.gMKVInfo.Setting_Environment_Variables_",
+    "FullLine": "gMKVLogger.Log(\"Setting Environment Variables: LC_ALL=LANG=LC_MESSAGES=\\\"en_US.UTF-8\\\"\");"
+  },
+  {
+    "FilePath": "\\gMKVToolNix\\MkvInfo\\gMKVInfo.cs",
+    "LineNumber": 396,
+    "FoundString": "Exit code: {myProcess.ExitCode}",
+    "SuggestedKey": "gMKVToolNix.MkvInfo.gMKVInfo.Exit_code___myProcess_ExitCode",
+    "FullLine": "string exitString = $\"Exit code: {myProcess.ExitCode}\";"
+  },
+  {
+    "FilePath": "\\gMKVToolNix\\MkvInfo\\gMKVInfo.cs",
+    "LineNumber": 405,
+    "FoundString": "Mkvinfo exited with error code {0}!",
+    "SuggestedKey": "gMKVToolNix.MkvInfo.gMKVInfo.Mkvinfo_exited_with_error_code",
+    "FullLine": "throw new Exception(string.Format(\"Mkvinfo exited with error code {0}!\" +"
+  },
+  {
+    "FilePath": "\\gMKVToolNix\\MkvInfo\\gMKVInfo.cs",
+    "LineNumber": 406,
+    "FoundString": "Errors reported:",
+    "SuggestedKey": "gMKVToolNix.MkvInfo.gMKVInfo.Errors_reported_",
+    "FullLine": "Environment.NewLine + Environment.NewLine + \"Errors reported:\" + Environment.NewLine + \"{1}\","
+  },
+  {
+    "FilePath": "\\gMKVToolNix\\MkvInfo\\gMKVInfo.cs",
+    "LineNumber": 406,
+    "FoundString": "{1}",
+    "SuggestedKey": "gMKVToolNix.MkvInfo.gMKVInfo._1_",
+    "FullLine": "Environment.NewLine + Environment.NewLine + \"Errors reported:\" + Environment.NewLine + \"{1}\","
+  },
+  {
+    "FilePath": "\\gMKVToolNix\\MkvInfo\\gMKVInfo.cs",
+    "LineNumber": 417,
+    "FoundString": "Resetting Environment Variables: LC_ALL=\\",
+    "SuggestedKey": "gMKVToolNix.MkvInfo.gMKVInfo.Resetting_Environment_Variable",
+    "FullLine": "gMKVLogger.Log($\"Resetting Environment Variables: LC_ALL=\\\"{LC_ALL}\\\",LANG=\\\"{LANG}\\\",LC_MESSAGES=\\\"{LC_MESSAGES}\\\"\");"
+  },
+  {
+    "FilePath": "\\gMKVToolNix\\MkvInfo\\gMKVInfo.cs",
+    "LineNumber": 417,
+    "FoundString": ",LANG=\\",
+    "SuggestedKey": "gMKVToolNix.MkvInfo.gMKVInfo._LANG__",
+    "FullLine": "gMKVLogger.Log($\"Resetting Environment Variables: LC_ALL=\\\"{LC_ALL}\\\",LANG=\\\"{LANG}\\\",LC_MESSAGES=\\\"{LC_MESSAGES}\\\"\");"
+  },
+  {
+    "FilePath": "\\gMKVToolNix\\MkvInfo\\gMKVInfo.cs",
+    "LineNumber": 417,
+    "FoundString": ",LC_MESSAGES=\\",
+    "SuggestedKey": "gMKVToolNix.MkvInfo.gMKVInfo._LC_MESSAGES__",
+    "FullLine": "gMKVLogger.Log($\"Resetting Environment Variables: LC_ALL=\\\"{LC_ALL}\\\",LANG=\\\"{LANG}\\\",LC_MESSAGES=\\\"{LC_MESSAGES}\\\"\");"
+  },
+  {
+    "FilePath": "\\gMKVToolNix\\MkvMerge\\gMKVMerge.cs",
+    "LineNumber": 18,
+    "FoundString": "yyyyMMddTHHmmsszzz",
+    "SuggestedKey": "gMKVToolNix.MkvMerge.gMKVMerge.yyyyMMddTHHmmsszzz",
+    "FullLine": "\"yyyyMMddTHHmmsszzz\","
+  },
+  {
+    "FilePath": "\\gMKVToolNix\\MkvMerge\\gMKVMerge.cs",
+    "LineNumber": 19,
+    "FoundString": "yyyyMMddTHHmmsszz",
+    "SuggestedKey": "gMKVToolNix.MkvMerge.gMKVMerge.yyyyMMddTHHmmsszz",
+    "FullLine": "\"yyyyMMddTHHmmsszz\","
+  },
+  {
+    "FilePath": "\\gMKVToolNix\\MkvMerge\\gMKVMerge.cs",
+    "LineNumber": 20,
+    "FoundString": "yyyyMMddTHHmmssZ",
+    "SuggestedKey": "gMKVToolNix.MkvMerge.gMKVMerge.yyyyMMddTHHmmssZ",
+    "FullLine": "\"yyyyMMddTHHmmssZ\","
+  },
+  {
+    "FilePath": "\\gMKVToolNix\\MkvMerge\\gMKVMerge.cs",
+    "LineNumber": 22,
+    "FoundString": "yyyy-MM-ddTHH:mm:sszzz",
+    "SuggestedKey": "gMKVToolNix.MkvMerge.gMKVMerge.yyyy_MM_ddTHH_mm_sszzz",
+    "FullLine": "\"yyyy-MM-ddTHH:mm:sszzz\","
+  },
+  {
+    "FilePath": "\\gMKVToolNix\\MkvMerge\\gMKVMerge.cs",
+    "LineNumber": 23,
+    "FoundString": "yyyy-MM-ddTHH:mm:sszz",
+    "SuggestedKey": "gMKVToolNix.MkvMerge.gMKVMerge.yyyy_MM_ddTHH_mm_sszz",
+    "FullLine": "\"yyyy-MM-ddTHH:mm:sszz\","
+  },
+  {
+    "FilePath": "\\gMKVToolNix\\MkvMerge\\gMKVMerge.cs",
+    "LineNumber": 24,
+    "FoundString": "yyyy-MM-ddTHH:mm:ssZ",
+    "SuggestedKey": "gMKVToolNix.MkvMerge.gMKVMerge.yyyy_MM_ddTHH_mm_ssZ",
+    "FullLine": "\"yyyy-MM-ddTHH:mm:ssZ\","
+  },
+  {
+    "FilePath": "\\gMKVToolNix\\MkvMerge\\gMKVMerge.cs",
+    "LineNumber": 26,
+    "FoundString": "yyyyMMddTHHmmzzz",
+    "SuggestedKey": "gMKVToolNix.MkvMerge.gMKVMerge.yyyyMMddTHHmmzzz",
+    "FullLine": "\"yyyyMMddTHHmmzzz\","
+  },
+  {
+    "FilePath": "\\gMKVToolNix\\MkvMerge\\gMKVMerge.cs",
+    "LineNumber": 27,
+    "FoundString": "yyyyMMddTHHmmzz",
+    "SuggestedKey": "gMKVToolNix.MkvMerge.gMKVMerge.yyyyMMddTHHmmzz",
+    "FullLine": "\"yyyyMMddTHHmmzz\","
+  },
+  {
+    "FilePath": "\\gMKVToolNix\\MkvMerge\\gMKVMerge.cs",
+    "LineNumber": 28,
+    "FoundString": "yyyyMMddTHHmmZ",
+    "SuggestedKey": "gMKVToolNix.MkvMerge.gMKVMerge.yyyyMMddTHHmmZ",
+    "FullLine": "\"yyyyMMddTHHmmZ\","
+  },
+  {
+    "FilePath": "\\gMKVToolNix\\MkvMerge\\gMKVMerge.cs",
+    "LineNumber": 29,
+    "FoundString": "yyyy-MM-ddTHH:mmzzz",
+    "SuggestedKey": "gMKVToolNix.MkvMerge.gMKVMerge.yyyy_MM_ddTHH_mmzzz",
+    "FullLine": "\"yyyy-MM-ddTHH:mmzzz\","
+  },
+  {
+    "FilePath": "\\gMKVToolNix\\MkvMerge\\gMKVMerge.cs",
+    "LineNumber": 30,
+    "FoundString": "yyyy-MM-ddTHH:mmzz",
+    "SuggestedKey": "gMKVToolNix.MkvMerge.gMKVMerge.yyyy_MM_ddTHH_mmzz",
+    "FullLine": "\"yyyy-MM-ddTHH:mmzz\","
+  },
+  {
+    "FilePath": "\\gMKVToolNix\\MkvMerge\\gMKVMerge.cs",
+    "LineNumber": 31,
+    "FoundString": "yyyy-MM-ddTHH:mmZ",
+    "SuggestedKey": "gMKVToolNix.MkvMerge.gMKVMerge.yyyy_MM_ddTHH_mmZ",
+    "FullLine": "\"yyyy-MM-ddTHH:mmZ\","
+  },
+  {
+    "FilePath": "\\gMKVToolNix\\MkvMerge\\gMKVMerge.cs",
+    "LineNumber": 33,
+    "FoundString": "yyyyMMddTHHzzz",
+    "SuggestedKey": "gMKVToolNix.MkvMerge.gMKVMerge.yyyyMMddTHHzzz",
+    "FullLine": "\"yyyyMMddTHHzzz\","
+  },
+  {
+    "FilePath": "\\gMKVToolNix\\MkvMerge\\gMKVMerge.cs",
+    "LineNumber": 34,
+    "FoundString": "yyyyMMddTHHzz",
+    "SuggestedKey": "gMKVToolNix.MkvMerge.gMKVMerge.yyyyMMddTHHzz",
+    "FullLine": "\"yyyyMMddTHHzz\","
+  },
+  {
+    "FilePath": "\\gMKVToolNix\\MkvMerge\\gMKVMerge.cs",
+    "LineNumber": 35,
+    "FoundString": "yyyyMMddTHHZ",
+    "SuggestedKey": "gMKVToolNix.MkvMerge.gMKVMerge.yyyyMMddTHHZ",
+    "FullLine": "\"yyyyMMddTHHZ\","
+  },
+  {
+    "FilePath": "\\gMKVToolNix\\MkvMerge\\gMKVMerge.cs",
+    "LineNumber": 36,
+    "FoundString": "yyyy-MM-ddTHHzzz",
+    "SuggestedKey": "gMKVToolNix.MkvMerge.gMKVMerge.yyyy_MM_ddTHHzzz",
+    "FullLine": "\"yyyy-MM-ddTHHzzz\","
+  },
+  {
+    "FilePath": "\\gMKVToolNix\\MkvMerge\\gMKVMerge.cs",
+    "LineNumber": 37,
+    "FoundString": "yyyy-MM-ddTHHzz",
+    "SuggestedKey": "gMKVToolNix.MkvMerge.gMKVMerge.yyyy_MM_ddTHHzz",
+    "FullLine": "\"yyyy-MM-ddTHHzz\","
+  },
+  {
+    "FilePath": "\\gMKVToolNix\\MkvMerge\\gMKVMerge.cs",
+    "LineNumber": 38,
+    "FoundString": "yyyy-MM-ddTHHZ",
+    "SuggestedKey": "gMKVToolNix.MkvMerge.gMKVMerge.yyyy_MM_ddTHHZ",
+    "FullLine": "\"yyyy-MM-ddTHHZ\","
+  },
+  {
+    "FilePath": "\\gMKVToolNix\\MkvMerge\\gMKVMerge.cs",
+    "LineNumber": 40,
+    "FoundString": "yyyyMMdd",
+    "SuggestedKey": "gMKVToolNix.MkvMerge.gMKVMerge.yyyyMMdd",
+    "FullLine": "\"yyyyMMdd\","
+  },
+  {
+    "FilePath": "\\gMKVToolNix\\MkvMerge\\gMKVMerge.cs",
+    "LineNumber": 41,
+    "FoundString": "yyyyMMddT",
+    "SuggestedKey": "gMKVToolNix.MkvMerge.gMKVMerge.yyyyMMddT",
+    "FullLine": "\"yyyyMMddT\","
+  },
+  {
+    "FilePath": "\\gMKVToolNix\\MkvMerge\\gMKVMerge.cs",
+    "LineNumber": 42,
+    "FoundString": "yyyy-MM-dd",
+    "SuggestedKey": "gMKVToolNix.MkvMerge.gMKVMerge.yyyy_MM_dd",
+    "FullLine": "\"yyyy-MM-dd\","
+  },
+  {
+    "FilePath": "\\gMKVToolNix\\MkvMerge\\gMKVMerge.cs",
+    "LineNumber": 43,
+    "FoundString": "yyyy-MM-ddT",
+    "SuggestedKey": "gMKVToolNix.MkvMerge.gMKVMerge.yyyy_MM_ddT",
+    "FullLine": "\"yyyy-MM-ddT\""
+  },
+  {
+    "FilePath": "\\gMKVToolNix\\MkvMerge\\gMKVMerge.cs",
+    "LineNumber": 63,
+    "FoundString": "The MKVToolNix path was not provided!",
+    "SuggestedKey": "gMKVToolNix.MkvMerge.gMKVMerge.The_MKVToolNix_path_was_not_pr",
+    "FullLine": "throw new Exception(\"The MKVToolNix path was not provided!\");"
+  },
+  {
+    "FilePath": "\\gMKVToolNix\\MkvMerge\\gMKVMerge.cs",
+    "LineNumber": 68,
+    "FoundString": "The MKVToolNix path {0} does not exist!",
+    "SuggestedKey": "gMKVToolNix.MkvMerge.gMKVMerge.The_MKVToolNix_path__0__does_n",
+    "FullLine": "throw new Exception(string.Format(\"The MKVToolNix path {0} does not exist!\", mkvToolnixPath));"
+  },
+  {
+    "FilePath": "\\gMKVToolNix\\MkvMerge\\gMKVMerge.cs",
+    "LineNumber": 76,
+    "FoundString": "Could not find {0}!",
+    "SuggestedKey": "gMKVToolNix.MkvMerge.gMKVMerge.Could_not_find__0__",
+    "FullLine": "throw new Exception(string.Format(\"Could not find {0}!\" + Environment.NewLine + \"{1}\", MKV_MERGE_FILENAME, _MKVMergeFilename));"
+  },
+  {
+    "FilePath": "\\gMKVToolNix\\MkvMerge\\gMKVMerge.cs",
+    "LineNumber": 76,
+    "FoundString": "{1}",
+    "SuggestedKey": "gMKVToolNix.MkvMerge.gMKVMerge._1_",
+    "FullLine": "throw new Exception(string.Format(\"Could not find {0}!\" + Environment.NewLine + \"{1}\", MKV_MERGE_FILENAME, _MKVMergeFilename));"
+  },
+  {
+    "FilePath": "\\gMKVToolNix\\MkvMerge\\gMKVMerge.cs",
+    "LineNumber": 83,
+    "FoundString": "Detected mkvmerge version: {0}.{1}.{2}",
+    "SuggestedKey": "gMKVToolNix.MkvMerge.gMKVMerge.Detected_mkvmerge_version___0_",
+    "FullLine": "gMKVLogger.Log(string.Format(\"Detected mkvmerge version: {0}.{1}.{2}\","
+  },
+  {
+    "FilePath": "\\gMKVToolNix\\MkvMerge\\gMKVMerge.cs",
+    "LineNumber": 262,
+    "FoundString": "Exit code: {myProcess.ExitCode}",
+    "SuggestedKey": "gMKVToolNix.MkvMerge.gMKVMerge.Exit_code___myProcess_ExitCode",
+    "FullLine": "string exitCodeString = $\"Exit code: {myProcess.ExitCode}\";"
+  },
+  {
+    "FilePath": "\\gMKVToolNix\\MkvMerge\\gMKVMerge.cs",
+    "LineNumber": 271,
+    "FoundString": "Mkvmerge exited with error code {0}!",
+    "SuggestedKey": "gMKVToolNix.MkvMerge.gMKVMerge.Mkvmerge_exited_with_error_cod",
+    "FullLine": "throw new Exception(string.Format(\"Mkvmerge exited with error code {0}!\" +"
+  },
+  {
+    "FilePath": "\\gMKVToolNix\\MkvMerge\\gMKVMerge.cs",
+    "LineNumber": 272,
+    "FoundString": "Errors reported:",
+    "SuggestedKey": "gMKVToolNix.MkvMerge.gMKVMerge.Errors_reported_",
+    "FullLine": "Environment.NewLine + Environment.NewLine + \"Errors reported:\" + Environment.NewLine + \"{1}\","
+  },
+  {
+    "FilePath": "\\gMKVToolNix\\MkvMerge\\gMKVMerge.cs",
+    "LineNumber": 272,
+    "FoundString": "{1}",
+    "SuggestedKey": "gMKVToolNix.MkvMerge.gMKVMerge._1_",
+    "FullLine": "Environment.NewLine + Environment.NewLine + \"Errors reported:\" + Environment.NewLine + \"{1}\","
+  },
+  {
+    "FilePath": "\\gMKVToolNix\\MkvMerge\\gMKVMerge.cs",
+    "LineNumber": 343,
+    "FoundString": "Detected Environment Variables: LC_ALL=\\",
+    "SuggestedKey": "gMKVToolNix.MkvMerge.gMKVMerge.Detected_Environment_Variables",
+    "FullLine": "gMKVLogger.Log(string.Format(\"Detected Environment Variables: LC_ALL=\\\"{0}\\\",LANG=\\\"{1}\\\",LC_MESSAGES=\\\"{2}\\\"\","
+  },
+  {
+    "FilePath": "\\gMKVToolNix\\MkvMerge\\gMKVMerge.cs",
+    "LineNumber": 343,
+    "FoundString": ",LANG=\\",
+    "SuggestedKey": "gMKVToolNix.MkvMerge.gMKVMerge._LANG__",
+    "FullLine": "gMKVLogger.Log(string.Format(\"Detected Environment Variables: LC_ALL=\\\"{0}\\\",LANG=\\\"{1}\\\",LC_MESSAGES=\\\"{2}\\\"\","
+  },
+  {
+    "FilePath": "\\gMKVToolNix\\MkvMerge\\gMKVMerge.cs",
+    "LineNumber": 343,
+    "FoundString": ",LC_MESSAGES=\\",
+    "SuggestedKey": "gMKVToolNix.MkvMerge.gMKVMerge._LC_MESSAGES__",
+    "FullLine": "gMKVLogger.Log(string.Format(\"Detected Environment Variables: LC_ALL=\\\"{0}\\\",LANG=\\\"{1}\\\",LC_MESSAGES=\\\"{2}\\\"\","
+  },
+  {
+    "FilePath": "\\gMKVToolNix\\MkvMerge\\gMKVMerge.cs",
+    "LineNumber": 351,
+    "FoundString": "Setting Environment Variables: LC_ALL=LANG=LC_MESSAGES=\\",
+    "SuggestedKey": "gMKVToolNix.MkvMerge.gMKVMerge.Setting_Environment_Variables_",
+    "FullLine": "gMKVLogger.Log(\"Setting Environment Variables: LC_ALL=LANG=LC_MESSAGES=\\\"en_US.UTF-8\\\"\");"
+  },
+  {
+    "FilePath": "\\gMKVToolNix\\MkvMerge\\gMKVMerge.cs",
+    "LineNumber": 398,
+    "FoundString": "Exit code: {myProcess.ExitCode}",
+    "SuggestedKey": "gMKVToolNix.MkvMerge.gMKVMerge.Exit_code___myProcess_ExitCode",
+    "FullLine": "string exitString = $\"Exit code: {myProcess.ExitCode}\";"
+  },
+  {
+    "FilePath": "\\gMKVToolNix\\MkvMerge\\gMKVMerge.cs",
+    "LineNumber": 407,
+    "FoundString": "Mkvmerge exited with error code {0}!",
+    "SuggestedKey": "gMKVToolNix.MkvMerge.gMKVMerge.Mkvmerge_exited_with_error_cod",
+    "FullLine": "throw new Exception(string.Format(\"Mkvmerge exited with error code {0}!\" +"
+  },
+  {
+    "FilePath": "\\gMKVToolNix\\MkvMerge\\gMKVMerge.cs",
+    "LineNumber": 408,
+    "FoundString": "Errors reported:",
+    "SuggestedKey": "gMKVToolNix.MkvMerge.gMKVMerge.Errors_reported_",
+    "FullLine": "Environment.NewLine + Environment.NewLine + \"Errors reported:\" + Environment.NewLine + \"{1}\","
+  },
+  {
+    "FilePath": "\\gMKVToolNix\\MkvMerge\\gMKVMerge.cs",
+    "LineNumber": 408,
+    "FoundString": "{1}",
+    "SuggestedKey": "gMKVToolNix.MkvMerge.gMKVMerge._1_",
+    "FullLine": "Environment.NewLine + Environment.NewLine + \"Errors reported:\" + Environment.NewLine + \"{1}\","
+  },
+  {
+    "FilePath": "\\gMKVToolNix\\MkvMerge\\gMKVMerge.cs",
+    "LineNumber": 423,
+    "FoundString": "Resetting Environment Variables: LC_ALL=\\",
+    "SuggestedKey": "gMKVToolNix.MkvMerge.gMKVMerge.Resetting_Environment_Variable",
+    "FullLine": "gMKVLogger.Log($\"Resetting Environment Variables: LC_ALL=\\\"{LC_ALL}\\\",LANG=\\\"{LANG}\\\",LC_MESSAGES=\\\"{LC_MESSAGES}\\\"\");"
+  },
+  {
+    "FilePath": "\\gMKVToolNix\\MkvMerge\\gMKVMerge.cs",
+    "LineNumber": 423,
+    "FoundString": ",LANG=\\",
+    "SuggestedKey": "gMKVToolNix.MkvMerge.gMKVMerge._LANG__",
+    "FullLine": "gMKVLogger.Log($\"Resetting Environment Variables: LC_ALL=\\\"{LC_ALL}\\\",LANG=\\\"{LANG}\\\",LC_MESSAGES=\\\"{LC_MESSAGES}\\\"\");"
+  },
+  {
+    "FilePath": "\\gMKVToolNix\\MkvMerge\\gMKVMerge.cs",
+    "LineNumber": 423,
+    "FoundString": ",LC_MESSAGES=\\",
+    "SuggestedKey": "gMKVToolNix.MkvMerge.gMKVMerge._LC_MESSAGES__",
+    "FullLine": "gMKVLogger.Log($\"Resetting Environment Variables: LC_ALL=\\\"{LC_ALL}\\\",LANG=\\\"{LANG}\\\",LC_MESSAGES=\\\"{LC_MESSAGES}\\\"\");"
+  },
+  {
+    "FilePath": "\\gMKVToolNix\\MkvMerge\\gMKVMerge.cs",
+    "LineNumber": 545,
+    "FoundString": "The container of the file was not recognized!",
+    "SuggestedKey": "gMKVToolNix.MkvMerge.gMKVMerge.The_container_of_the_file_was_",
+    "FullLine": "throw new Exception(\"The container of the file was not recognized!\");"
+  },
+  {
+    "FilePath": "\\gMKVToolNix\\MkvMerge\\gMKVMerge.cs",
+    "LineNumber": 552,
+    "FoundString": "The container of the file is not supported!",
+    "SuggestedKey": "gMKVToolNix.MkvMerge.gMKVMerge.The_container_of_the_file_is_n",
+    "FullLine": "throw new Exception(\"The container of the file is not supported!\");"
+  },
+  {
+    "FilePath": "\\gMKVToolNix\\MkvMerge\\gMKVMerge.cs",
+    "LineNumber": 577,
+    "FoundString": "ddd MMM dd HH:mm:ss yyyy UTC",
+    "SuggestedKey": "gMKVToolNix.MkvMerge.gMKVMerge.ddd_MMM_dd_HH_mm_ss_yyyy_UTC",
+    "FullLine": "ToString(\"ddd MMM dd HH:mm:ss yyyy UTC\", CultureInfo.InvariantCulture);"
+  },
+  {
+    "FilePath": "\\gMKVToolNix\\MkvMerge\\gMKVMerge.cs",
+    "LineNumber": 606,
+    "FoundString": "container",
+    "SuggestedKey": "gMKVToolNix.MkvMerge.gMKVMerge.container",
+    "FullLine": "} // \"container\""
+  },
+  {
+    "FilePath": "\\gMKVToolNix\\MkvMerge\\gMKVMerge.cs",
+    "LineNumber": 751,
+    "FoundString": "{audioFrequency}Hz, Ch: {audioChannels}",
+    "SuggestedKey": "gMKVToolNix.MkvMerge.gMKVMerge._audioFrequency_Hz__Ch___audio",
+    "FullLine": "tmpTrack.ExtraInfo = $\"{audioFrequency}Hz, Ch: {audioChannels}\";"
+  },
+  {
+    "FilePath": "\\gMKVToolNix\\MkvMerge\\gMKVMerge.cs",
+    "LineNumber": 776,
+    "FoundString": "tracks",
+    "SuggestedKey": "gMKVToolNix.MkvMerge.gMKVMerge.tracks",
+    "FullLine": "} // \"tracks\""
+  },
+  {
+    "FilePath": "\\gMKVToolNix\\MkvMerge\\gMKVMerge.cs",
+    "LineNumber": 826,
+    "FoundString": "ddd MMM dd HH:mm:ss yyyy UTC",
+    "SuggestedKey": "gMKVToolNix.MkvMerge.gMKVMerge.ddd_MMM_dd_HH_mm_ss_yyyy_UTC",
+    "FullLine": "ToString(\"ddd MMM dd HH:mm:ss yyyy UTC\", CultureInfo.InvariantCulture);"
+  },
+  {
+    "FilePath": "\\gMKVToolNix\\MkvMerge\\gMKVMerge.cs",
+    "LineNumber": 982,
+    "FoundString": ", Ch:",
+    "SuggestedKey": "gMKVToolNix.MkvMerge.gMKVMerge.__Ch_",
+    "FullLine": "tmpTrack.ExtraInfo += \", Ch:\" + audioChannels;"
+  },
+  {
+    "FilePath": "\\gMKVToolNix\\Segments\\gMKVChapter.cs",
+    "LineNumber": 13,
+    "FoundString": "Chapters {ChapterCount} {entryString}",
+    "SuggestedKey": "gMKVToolNix.Segments.gMKVSegment.Chapters__ChapterCount___entry",
+    "FullLine": "return $\"Chapters {ChapterCount} {entryString}\";"
+  }
+]
