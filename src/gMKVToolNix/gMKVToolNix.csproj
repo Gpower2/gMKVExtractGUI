@@ -64,6 +64,10 @@
     <Compile Include="CueSheet\CueTrack.cs" />
     <Compile Include="FileExtensions.cs" />
     <Compile Include="gMKVVersionParser.cs" />
+    <Compile Include="Localization\ILocalizationService.cs" />
+    <Compile Include="Localization\Metadata.cs" />
+    <Compile Include="Localization\TranslationEntry.cs" />
+    <Compile Include="Localization\TranslationFile.cs" />
     <Compile Include="MkvExtract\ChapterExtensions.cs" />
     <Compile Include="MkvExtract\CuesExtractionMode.cs" />
     <Compile Include="MkvExtract\gMKVExtractExtensions.cs" />
