@@ -76,7 +76,9 @@ namespace gMKVToolNix.MkvExtract
                     parameters.CueExtractionMode,
                     parameters.FilenamePatterns,
                     parameters.DisableBomForTextFiles,
-                    parameters.OverwriteExistingFile
+                    parameters.OverwriteExistingFile,
+                    parameters.UseRawExtractionMode,
+                    parameters.UseFullRawExtractionMode
                 );
             }
             catch (Exception ex)
@@ -95,6 +97,8 @@ namespace gMKVToolNix.MkvExtract
             , gMKVExtractFilenamePatterns argFilenamePatterns
             , bool argDisableBomForTextFiles
             , bool argOverwriteExistingFile
+            , bool argUseRawExtractionMode
+            , bool argUseFullRawExtractionMode
         )
         {
             Abort = false;
@@ -124,6 +128,8 @@ namespace gMKVToolNix.MkvExtract
                             argFilenamePatterns,
                             argDisableBomForTextFiles,
                             argOverwriteExistingFile,
+                            argUseRawExtractionMode,
+                            argUseFullRawExtractionMode,
                             _Version));
                 }
                 catch (Exception ex)
@@ -263,7 +269,9 @@ namespace gMKVToolNix.MkvExtract
                     CuesExtractionMode.NoCues,
                     parameters.FilenamePatterns,
                     parameters.DisableBomForTextFiles,
-                    parameters.OverwriteExistingFile
+                    parameters.OverwriteExistingFile,
+                    parameters.UseRawExtractionMode,
+                    parameters.UseFullRawExtractionMode
                 );
             }
             catch (Exception ex)
@@ -287,7 +295,9 @@ namespace gMKVToolNix.MkvExtract
                     CuesExtractionMode.OnlyCues,
                     parameters.FilenamePatterns,
                     parameters.DisableBomForTextFiles,
-                    parameters.OverwriteExistingFile
+                    parameters.OverwriteExistingFile,
+                    parameters.UseRawExtractionMode,
+                    parameters.UseFullRawExtractionMode
                 );
             }
             catch (Exception ex)
@@ -307,7 +317,9 @@ namespace gMKVToolNix.MkvExtract
                     parameters.OutputDirectory,
                     parameters.FilenamePatterns,
                     parameters.DisableBomForTextFiles,
-                    parameters.OverwriteExistingFile
+                    parameters.OverwriteExistingFile,
+                    parameters.UseRawExtractionMode,
+                    parameters.UseFullRawExtractionMode
                 );
             }
             catch (Exception ex)
@@ -321,7 +333,9 @@ namespace gMKVToolNix.MkvExtract
             string argOutputDirectory, 
             gMKVExtractFilenamePatterns argFilenamePatterns,
             bool argDisableBomForTextFiles,
-            bool argOverwriteExistingFile)
+            bool argOverwriteExistingFile,
+            bool argUseRawExtractionMode,
+            bool argUseFullRawExtractionMode)
         {
             Abort = false;
             AbortAll = false;
@@ -354,6 +368,8 @@ namespace gMKVToolNix.MkvExtract
                         , _Version.FileMajorPart >= 17 ? cueFile : ""
                         , _Version.FileMajorPart < 17
                         , argDisableBomForTextFiles
+                        , argUseRawExtractionMode
+                        , argUseFullRawExtractionMode
                         , _Version.FileMajorPart >= 17 ? "" : cueFile
                     )
                     , errors
@@ -391,7 +407,9 @@ namespace gMKVToolNix.MkvExtract
                     parameters.OutputDirectory,
                     parameters.FilenamePatterns,
                     parameters.DisableBomForTextFiles,
-                    parameters.OverwriteExistingFile
+                    parameters.OverwriteExistingFile,
+                    parameters.UseRawExtractionMode,
+                    parameters.UseFullRawExtractionMode
                 );
             }
             catch (Exception ex)
@@ -405,7 +423,9 @@ namespace gMKVToolNix.MkvExtract
             string argOutputDirectory, 
             gMKVExtractFilenamePatterns argFilenamePatterns,
             bool argDisableBomForTextFiles,
-            bool argOverwriteExistingFile)
+            bool argOverwriteExistingFile,
+            bool argUseRawExtractionMode,
+            bool argUseFullRawExtractionMode)
         {
             Abort = false;
             AbortAll = false;
@@ -438,6 +458,8 @@ namespace gMKVToolNix.MkvExtract
                         , _Version.FileMajorPart >= 17 ? tagsFile : ""
                         , _Version.FileMajorPart < 17
                         , argDisableBomForTextFiles
+                        , argUseRawExtractionMode
+                        , argUseFullRawExtractionMode
                         , _Version.FileMajorPart >= 17 ? "" : tagsFile
                     )
                     , errors
@@ -484,6 +506,8 @@ namespace gMKVToolNix.MkvExtract
             , gMKVExtractFilenamePatterns argFilenamePatterns
             , bool argDisableBomForTextFiles
             , bool argOverwriteExistingFile
+            , bool argUseRawExtractionMode
+            , bool argUseFullRawExtractionMode
             , gMKVVersion version)
         {
             // create the new parameter list type
@@ -510,6 +534,8 @@ namespace gMKVToolNix.MkvExtract
                         ),
                         false,
                         argDisableBomForTextFiles,
+                        argUseRawExtractionMode,
+                        argUseFullRawExtractionMode,
                         ""
                     ));
                 }
@@ -531,6 +557,8 @@ namespace gMKVToolNix.MkvExtract
                         ),
                         false,
                         argDisableBomForTextFiles,
+                        argUseRawExtractionMode,
+                        argUseFullRawExtractionMode,
                         ""
                     ));
                 }
@@ -566,6 +594,8 @@ namespace gMKVToolNix.MkvExtract
                         ),
                         false,
                         argDisableBomForTextFiles,
+                        argUseRawExtractionMode,
+                        argUseFullRawExtractionMode,
                         ""
                     ));
                 }
@@ -603,6 +633,8 @@ namespace gMKVToolNix.MkvExtract
                         ),
                         false,
                         argDisableBomForTextFiles,
+                        argUseRawExtractionMode,
+                        argUseFullRawExtractionMode,
                         ""
                     ));
                 }
@@ -648,6 +680,8 @@ namespace gMKVToolNix.MkvExtract
                         version.FileMajorPart >= 17 ? chapterFile : "",
                         version.FileMajorPart < 17,
                         argDisableBomForTextFiles,
+                        argUseRawExtractionMode,
+                        argUseFullRawExtractionMode,
                         version.FileMajorPart >= 17 ? "" : chapterFile
                     ));
                 }
@@ -749,6 +783,21 @@ namespace gMKVToolNix.MkvExtract
                 else
                 {
                     options = $"{parameters} --ui-language en {argParameter.Options}";
+                }
+
+                // Check for `full-raw` and `raw` extraction modes
+                // This is only valid for track extraction
+                // Full raw has precedence over raw
+                if (argParameter.ExtractMode == MkvExtractModes.tracks)
+                {
+                    if (argParameter.UseFullRawExtractionMode)
+                    {
+                        options = $"{options} --fullraw";
+                    }
+                    else if (argParameter.UseRawExtractionMode)
+                    {
+                        options = $"{options} --raw";
+                    }
                 }
 
                 // Since MKVToolNix v17.0, the syntax has changed

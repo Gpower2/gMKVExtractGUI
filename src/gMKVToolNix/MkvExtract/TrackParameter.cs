@@ -7,6 +7,8 @@
         public string TrackOutput { get; set; } = "";
         public bool WriteOutputToFile { get; set; } = false;
         public bool DisableBomForTextFiles { get; set; } = false;
+        public bool UseRawExtractionMode { get; set; } = false;
+        public bool UseFullRawExtractionMode { get; set; } = false;
         public string OutputFilename { get; set; } = "";
 
         public TrackParameter(
@@ -15,6 +17,8 @@
             string argTrackOutput,
             bool argWriteOutputToFile,
             bool argDisableBomForTextFiles,
+            bool argUseRawExtractionMode,
+            bool argUseFullRawExtractionMode,
             string argOutputFilename)
         {
             ExtractMode = argExtractMode;
@@ -22,6 +26,8 @@
             TrackOutput = argTrackOutput;
             WriteOutputToFile = argWriteOutputToFile;
             DisableBomForTextFiles = argDisableBomForTextFiles;
+            UseRawExtractionMode = argUseRawExtractionMode;
+            UseFullRawExtractionMode = argUseFullRawExtractionMode;
             OutputFilename = argOutputFilename;
         }
 
