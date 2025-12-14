@@ -131,6 +131,13 @@ namespace gMKVToolNix
             set { _DarkMode = value; }
         }
 
+        private bool _DisableBomForTextFiles = false;
+        public bool DisableBomForTextFiles
+        {
+            get { return _DisableBomForTextFiles; }
+            set { _DisableBomForTextFiles = value; }
+        }
+
         private string _VideoTrackFilenamePattern = "{FilenameNoExt}_track{TrackNumber}_[{Language}]";
         [DefaultValue("{FilenameNoExt}_track{TrackNumber}_[{Language}]")]
         public string VideoTrackFilenamePattern
@@ -567,6 +574,19 @@ namespace gMKVToolNix
                                 _DarkMode = false; // Default to false on error
                             }
                         }
+                        else if (line.StartsWith("DisableBomForTextFiles:"))
+                        {
+                            try
+                            {
+                                _DisableBomForTextFiles = bool.Parse(line.Substring(line.IndexOf(":") + 1));
+                            }
+                            catch (Exception ex)
+                            {
+                                Debug.WriteLine(ex);
+                                gMKVLogger.Log(string.Format("Error reading DisableBomForTextFiles! {0}", ex.Message));
+                                _DisableBomForTextFiles = false; // Default to false on error
+                            }
+                        }
                     }
                 }
                 gMKVLogger.Log("Finished loading settings!");
@@ -595,6 +615,7 @@ namespace gMKVToolNix
                 sw.WriteLine(string.Format("Overwrite Existing Files:{0}", _OverwriteExistingFiles));
                 sw.WriteLine(string.Format("Disable Tooltips:{0}", _DisableTooltips));
                 sw.WriteLine(string.Format("DarkMode:{0}", _DarkMode));
+                sw.WriteLine(string.Format("DisableBomForTextFiles:{0}", _DisableBomForTextFiles));
 
                 sw.WriteLine(string.Format("VideoTrackFilenamePattern:{0}", _VideoTrackFilenamePattern));
                 sw.WriteLine(string.Format("AudioTrackFilenamePattern:{0}", _AudioTrackFilenamePattern));

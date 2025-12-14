@@ -75,6 +75,7 @@ namespace gMKVToolNix.MkvExtract
                     parameters.TimecodesExtractionMode,
                     parameters.CueExtractionMode,
                     parameters.FilenamePatterns,
+                    parameters.DisableBomForTextFiles,
                     parameters.OverwriteExistingFile
                 );
             }
@@ -92,6 +93,7 @@ namespace gMKVToolNix.MkvExtract
             , TimecodesExtractionMode argTimecodesExtractionMode
             , CuesExtractionMode argCueExtractionMode
             , gMKVExtractFilenamePatterns argFilenamePatterns
+            , bool argDisableBomForTextFiles
             , bool argOverwriteExistingFile
         )
         {
@@ -120,6 +122,7 @@ namespace gMKVToolNix.MkvExtract
                             argTimecodesExtractionMode, 
                             argCueExtractionMode, 
                             argFilenamePatterns,
+                            argDisableBomForTextFiles,
                             argOverwriteExistingFile,
                             _Version));
                 }
@@ -259,6 +262,7 @@ namespace gMKVToolNix.MkvExtract
                     TimecodesExtractionMode.OnlyTimecodes,
                     CuesExtractionMode.NoCues,
                     parameters.FilenamePatterns,
+                    parameters.DisableBomForTextFiles,
                     parameters.OverwriteExistingFile
                 );
             }
@@ -282,6 +286,7 @@ namespace gMKVToolNix.MkvExtract
                     TimecodesExtractionMode.NoTimecodes,
                     CuesExtractionMode.OnlyCues,
                     parameters.FilenamePatterns,
+                    parameters.DisableBomForTextFiles,
                     parameters.OverwriteExistingFile
                 );
             }
@@ -301,6 +306,7 @@ namespace gMKVToolNix.MkvExtract
                     parameters.MKVFile,
                     parameters.OutputDirectory,
                     parameters.FilenamePatterns,
+                    parameters.DisableBomForTextFiles,
                     parameters.OverwriteExistingFile
                 );
             }
@@ -314,6 +320,7 @@ namespace gMKVToolNix.MkvExtract
             string argMKVFile, 
             string argOutputDirectory, 
             gMKVExtractFilenamePatterns argFilenamePatterns,
+            bool argDisableBomForTextFiles,
             bool argOverwriteExistingFile)
         {
             Abort = false;
@@ -346,6 +353,7 @@ namespace gMKVToolNix.MkvExtract
                         , ""
                         , _Version.FileMajorPart >= 17 ? cueFile : ""
                         , _Version.FileMajorPart < 17
+                        , argDisableBomForTextFiles
                         , _Version.FileMajorPart >= 17 ? "" : cueFile
                     )
                     , errors
@@ -382,6 +390,7 @@ namespace gMKVToolNix.MkvExtract
                     parameters.MKVFile,
                     parameters.OutputDirectory,
                     parameters.FilenamePatterns,
+                    parameters.DisableBomForTextFiles,
                     parameters.OverwriteExistingFile
                 );
             }
@@ -395,6 +404,7 @@ namespace gMKVToolNix.MkvExtract
             string argMKVFile, 
             string argOutputDirectory, 
             gMKVExtractFilenamePatterns argFilenamePatterns,
+            bool argDisableBomForTextFiles,
             bool argOverwriteExistingFile)
         {
             Abort = false;
@@ -427,6 +437,7 @@ namespace gMKVToolNix.MkvExtract
                         , ""
                         , _Version.FileMajorPart >= 17 ? tagsFile : ""
                         , _Version.FileMajorPart < 17
+                        , argDisableBomForTextFiles
                         , _Version.FileMajorPart >= 17 ? "" : tagsFile
                     )
                     , errors
@@ -471,6 +482,7 @@ namespace gMKVToolNix.MkvExtract
             , TimecodesExtractionMode argTimecodesExtractionMode
             , CuesExtractionMode argCueExtractionMode
             , gMKVExtractFilenamePatterns argFilenamePatterns
+            , bool argDisableBomForTextFiles
             , bool argOverwriteExistingFile
             , gMKVVersion version)
         {
@@ -497,6 +509,7 @@ namespace gMKVToolNix.MkvExtract
                                 MkvExtractModes.timestamps_v2)
                         ),
                         false,
+                        argDisableBomForTextFiles,
                         ""
                     ));
                 }
@@ -517,6 +530,7 @@ namespace gMKVToolNix.MkvExtract
                                 MkvExtractModes.cues)
                         ),
                         false,
+                        argDisableBomForTextFiles,
                         ""
                     ));
                 }
@@ -551,6 +565,7 @@ namespace gMKVToolNix.MkvExtract
                                 MkvExtractModes.tracks)
                         ),
                         false,
+                        argDisableBomForTextFiles,
                         ""
                     ));
                 }
@@ -587,6 +602,7 @@ namespace gMKVToolNix.MkvExtract
                                 MkvExtractModes.attachments)
                         ),
                         false,
+                        argDisableBomForTextFiles,
                         ""
                     ));
                 }
@@ -631,6 +647,7 @@ namespace gMKVToolNix.MkvExtract
                         options,
                         version.FileMajorPart >= 17 ? chapterFile : "",
                         version.FileMajorPart < 17,
+                        argDisableBomForTextFiles,
                         version.FileMajorPart >= 17 ? "" : chapterFile
                     ));
                 }
@@ -709,6 +726,16 @@ namespace gMKVToolNix.MkvExtract
                         Environment.SetEnvironmentVariable("LC_MESSAGES", "en_US.UTF-8", EnvironmentVariableTarget.Process);
 
                         gMKVLogger.Log("Setting Environment Variables: LC_ALL=LANG=LC_MESSAGES=\"en_US.UTF-8\"");
+                    }
+                }
+
+                // Since MKVToolNix v96.0, we can disable writing the BOM for output text files
+                // https://codeberg.org/mbunkus/mkvtoolnix/issues/6166
+                if (_Version.FileMajorPart >= 96)
+                {
+                    if (argParameter.DisableBomForTextFiles)
+                    {
+                        parameters = $"{parameters} --no-bom";
                     }
                 }
 
