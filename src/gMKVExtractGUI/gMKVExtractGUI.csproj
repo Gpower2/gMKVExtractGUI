@@ -142,6 +142,7 @@
     <Compile Include="Jobs\JobState.cs" />
     <Compile Include="Localization\JsonLocalizationService.cs" />
     <Compile Include="Localization\JsonLocalizationService.Defaults.cs" />
+    <Compile Include="Localization\LocalizationManager.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Theming\ThemeManager.cs" />
@@ -178,6 +179,9 @@
     </Compile>
     <EmbeddedResource Include="app.manifest" />
     <None Include="app.config" />
+    <None Include="en.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

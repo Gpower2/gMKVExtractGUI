@@ -6,11 +6,13 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Media;
+using System.Reflection;
 using System.Text;
 using System.Threading;
 using System.Windows.Forms;
 using gMKVToolNix.Forms;
 using gMKVToolNix.Jobs;
+using gMKVToolNix.Localization;
 using gMKVToolNix.Log;
 using gMKVToolNix.MkvExtract;
 using gMKVToolNix.Theming;
@@ -28,13 +30,13 @@ namespace gMKVToolNix
         private bool _ExtractRunning = false;
         private readonly gSettings _Settings = null;
         private readonly bool _FromConstructor = false;
-        private bool _isCurrentlyDarkMode = false; // Added field
+        private bool _isCurrentlyDarkMode = false;
 
         private BindingList<gMKVJobInfo> _JobList = new BindingList<gMKVJobInfo>();
 
-        private bool _AbortAll = false;
+         private bool _AbortAll = false;
 
-        public frmJobManager(IFormMain argMainForm)
+         public frmJobManager(IFormMain argMainForm)
         {
             try
             {
@@ -82,6 +84,10 @@ namespace gMKVToolNix
                 _FromConstructor = false;
 
                 SetAbortStatus(false);
+
+                // Initialize localization
+                //InitializeLocalization();
+                ApplyLocalization();
 
                 // Initialize the DPI aware scaling
                 InitDPI();
@@ -623,6 +629,35 @@ namespace gMKVToolNix
 
                 this.contextMenuStrip.Invalidate();
                 grdJobs.Invalidate();
+            }
+        }
+
+         public void ApplyLocalization()
+         {
+             try
+             {
+                 this.Text = LocalizationManager.GetString("UI.JobManager.Title");
+                 grpProgress.Text = LocalizationManager.GetString("UI.JobManager.Progress.Group");
+                 lblCurrentTrack.Text = LocalizationManager.GetString("UI.JobManager.Progress.CurrentTrack");
+                 lblTotalProgress.Text = LocalizationManager.GetString("UI.JobManager.Progress.TotalProgress");
+                 lblCurrentProgress.Text = LocalizationManager.GetString("UI.JobManager.Progress.CurrentProgress");
+                 grpJobs.Text = LocalizationManager.GetString("UI.JobManager.Jobs.Group");
+                 changeToReadyStatusToolStripMenuItem.Text = LocalizationManager.GetString("UI.JobManager.Jobs.ChangeToReadyStatus");
+                 selectAllToolStripMenuItem.Text = LocalizationManager.GetString("UI.JobManager.Jobs.SelectAll");
+                 deselectAllToolStripMenuItem.Text = LocalizationManager.GetString("UI.JobManager.Jobs.DeselectAll");
+                 grpActions.Text = LocalizationManager.GetString("UI.JobManager.Actions.Group");
+                 chkShowPopup.Text = LocalizationManager.GetString("UI.JobManager.Actions.Popup");
+                 btnSaveJobs.Text = LocalizationManager.GetString("UI.JobManager.Actions.SaveJobs");
+                 btnLoadJobs.Text = LocalizationManager.GetString("UI.JobManager.Actions.LoadJobs");
+                 btnAbortAll.Text = LocalizationManager.GetString("UI.JobManager.Actions.AbortAll");
+                 btnAbort.Text = LocalizationManager.GetString("UI.JobManager.Actions.Abort");
+                 btnRunAll.Text = LocalizationManager.GetString("UI.JobManager.Actions.RunJobs");
+                 btnRemove.Text = LocalizationManager.GetString("UI.JobManager.Actions.Remove");
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"Error applying localization: {ex.Message}");
+                gMKVLogger.Log($"Error applying localization: {ex.Message}");
             }
         }
     }

@@ -4,7 +4,9 @@ using System.Drawing;
 using System.IO;
 using System.Reflection;
 using System.Text;
+using System.Threading;
 using System.Windows.Forms;
+using gMKVToolNix.Localization;
 using gMKVToolNix.Log;
 using gMKVToolNix.Theming;
 using gMKVToolNix.WinAPI;
@@ -25,19 +27,20 @@ namespace gMKVToolNix
 
             ThemeManager.ApplyTheme(this, _Settings.DarkMode);
 
-            if (this.Handle != IntPtr.Zero) // Ensure handle is created
+            if (this.Handle != IntPtr.Zero)
             {
                 NativeMethods.SetWindowThemeManaged(this.Handle, _Settings.DarkMode);
                 NativeMethods.TrySetImmersiveDarkMode(this.Handle, _Settings.DarkMode);
             }
             else
             {
-                // If handle not created yet, do it in Load or Shown event
                 this.Shown += (s, ev) => {
                     NativeMethods.SetWindowThemeManaged(this.Handle, _Settings.DarkMode);
                     NativeMethods.TrySetImmersiveDarkMode(this.Handle, _Settings.DarkMode);
                 };
             }
+
+            ApplyLocalization();
 
             InitDPI();
         }
@@ -157,6 +160,18 @@ namespace gMKVToolNix
                 gMKVLogger.Log(ex.ToString());
                 ShowErrorMessage(ex.Message);
             }
+        }
+
+        public void ApplyLocalization()
+        {
+            this.Text = string.Format("gMKVExtractGUI v{0} -- {1}", GetCurrentVersion(), LocalizationManager.GetString("UI.LogForm.Title"));
+            grpLog.Text = LocalizationManager.GetString("UI.LogForm.Log.Group");
+            grpActions.Text = LocalizationManager.GetString("UI.LogForm.Actions.Group");
+            btnSave.Text = LocalizationManager.GetString("UI.LogForm.Actions.Save");
+            btnClear.Text = LocalizationManager.GetString("UI.LogForm.Actions.ClearLog");
+            btnRefresh.Text = LocalizationManager.GetString("UI.LogForm.Actions.Refresh");
+            btnCopy.Text = LocalizationManager.GetString("UI.LogForm.Actions.CopySelection");
+            btnClose.Text = LocalizationManager.GetString("UI.LogForm.Actions.Close");
         }
 
         public void UpdateTheme(bool darkMode)

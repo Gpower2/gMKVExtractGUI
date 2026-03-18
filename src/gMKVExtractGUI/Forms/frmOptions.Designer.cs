@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.tlpMain = new gMKVToolNix.gTableLayoutPanel();
             this.grpTags = new gMKVToolNix.gGroupBox();
             this.btnDefaultTagsPlaceholder = new System.Windows.Forms.Button();
@@ -62,8 +63,10 @@
             this.btnCancel = new System.Windows.Forms.Button();
             this.grpAdvanced = new gMKVToolNix.gGroupBox();
             this.chkRawMode = new System.Windows.Forms.CheckBox();
-            this.chkTextFilesWithoutBom = new System.Windows.Forms.CheckBox();
+            this.cmbCulture = new gMKVToolNix.Controls.gComboBox();
+            this.lblCulture = new System.Windows.Forms.Label();
             this.chkFullRawMode = new System.Windows.Forms.CheckBox();
+            this.chkTextFilesWithoutBom = new System.Windows.Forms.CheckBox();
             this.tlpMain.SuspendLayout();
             this.grpTags.SuspendLayout();
             this.grpChapters.SuspendLayout();
@@ -104,7 +107,7 @@
             this.tlpMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 60F));
             this.tlpMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 60F));
             this.tlpMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tlpMain.Size = new System.Drawing.Size(654, 621);
+            this.tlpMain.Size = new System.Drawing.Size(704, 621);
             this.tlpMain.TabIndex = 0;
             // 
             // grpTags
@@ -115,7 +118,7 @@
             this.grpTags.Dock = System.Windows.Forms.DockStyle.Fill;
             this.grpTags.Location = new System.Drawing.Point(3, 424);
             this.grpTags.Name = "grpTags";
-            this.grpTags.Size = new System.Drawing.Size(648, 54);
+            this.grpTags.Size = new System.Drawing.Size(698, 54);
             this.grpTags.TabIndex = 7;
             this.grpTags.TabStop = false;
             this.grpTags.Text = "Attachments";
@@ -123,7 +126,7 @@
             // btnDefaultTagsPlaceholder
             // 
             this.btnDefaultTagsPlaceholder.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnDefaultTagsPlaceholder.Location = new System.Drawing.Point(562, 19);
+            this.btnDefaultTagsPlaceholder.Location = new System.Drawing.Point(612, 19);
             this.btnDefaultTagsPlaceholder.Name = "btnDefaultTagsPlaceholder";
             this.btnDefaultTagsPlaceholder.Size = new System.Drawing.Size(83, 30);
             this.btnDefaultTagsPlaceholder.TabIndex = 6;
@@ -134,7 +137,7 @@
             // btnAddTagsPlaceholder
             // 
             this.btnAddTagsPlaceholder.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnAddTagsPlaceholder.Location = new System.Drawing.Point(476, 19);
+            this.btnAddTagsPlaceholder.Location = new System.Drawing.Point(526, 19);
             this.btnAddTagsPlaceholder.Name = "btnAddTagsPlaceholder";
             this.btnAddTagsPlaceholder.Size = new System.Drawing.Size(83, 30);
             this.btnAddTagsPlaceholder.TabIndex = 5;
@@ -149,7 +152,7 @@
             this.txtTagsFilename.Font = new System.Drawing.Font("Consolas", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(161)));
             this.txtTagsFilename.Location = new System.Drawing.Point(9, 23);
             this.txtTagsFilename.Name = "txtTagsFilename";
-            this.txtTagsFilename.Size = new System.Drawing.Size(462, 23);
+            this.txtTagsFilename.Size = new System.Drawing.Size(512, 23);
             this.txtTagsFilename.TabIndex = 1;
             // 
             // grpChapters
@@ -160,7 +163,7 @@
             this.grpChapters.Dock = System.Windows.Forms.DockStyle.Fill;
             this.grpChapters.Location = new System.Drawing.Point(3, 304);
             this.grpChapters.Name = "grpChapters";
-            this.grpChapters.Size = new System.Drawing.Size(648, 54);
+            this.grpChapters.Size = new System.Drawing.Size(698, 54);
             this.grpChapters.TabIndex = 0;
             this.grpChapters.TabStop = false;
             this.grpChapters.Text = "Chapters";
@@ -168,7 +171,7 @@
             // btnDefaultChapterPlaceholder
             // 
             this.btnDefaultChapterPlaceholder.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnDefaultChapterPlaceholder.Location = new System.Drawing.Point(562, 16);
+            this.btnDefaultChapterPlaceholder.Location = new System.Drawing.Point(612, 16);
             this.btnDefaultChapterPlaceholder.Name = "btnDefaultChapterPlaceholder";
             this.btnDefaultChapterPlaceholder.Size = new System.Drawing.Size(83, 30);
             this.btnDefaultChapterPlaceholder.TabIndex = 5;
@@ -179,7 +182,7 @@
             // btnAddChapterPlaceholder
             // 
             this.btnAddChapterPlaceholder.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnAddChapterPlaceholder.Location = new System.Drawing.Point(476, 16);
+            this.btnAddChapterPlaceholder.Location = new System.Drawing.Point(526, 16);
             this.btnAddChapterPlaceholder.Name = "btnAddChapterPlaceholder";
             this.btnAddChapterPlaceholder.Size = new System.Drawing.Size(83, 30);
             this.btnAddChapterPlaceholder.TabIndex = 4;
@@ -194,7 +197,7 @@
             this.txtChaptersFilename.Font = new System.Drawing.Font("Consolas", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(161)));
             this.txtChaptersFilename.Location = new System.Drawing.Point(9, 20);
             this.txtChaptersFilename.Name = "txtChaptersFilename";
-            this.txtChaptersFilename.Size = new System.Drawing.Size(462, 23);
+            this.txtChaptersFilename.Size = new System.Drawing.Size(512, 23);
             this.txtChaptersFilename.TabIndex = 1;
             // 
             // grpVideoTracks
@@ -205,7 +208,7 @@
             this.grpVideoTracks.Dock = System.Windows.Forms.DockStyle.Fill;
             this.grpVideoTracks.Location = new System.Drawing.Point(3, 124);
             this.grpVideoTracks.Name = "grpVideoTracks";
-            this.grpVideoTracks.Size = new System.Drawing.Size(648, 54);
+            this.grpVideoTracks.Size = new System.Drawing.Size(698, 54);
             this.grpVideoTracks.TabIndex = 1;
             this.grpVideoTracks.TabStop = false;
             this.grpVideoTracks.Text = "Video Tracks";
@@ -213,7 +216,7 @@
             // btnDefaultVideoTrackPlaceholder
             // 
             this.btnDefaultVideoTrackPlaceholder.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnDefaultVideoTrackPlaceholder.Location = new System.Drawing.Point(562, 18);
+            this.btnDefaultVideoTrackPlaceholder.Location = new System.Drawing.Point(612, 18);
             this.btnDefaultVideoTrackPlaceholder.Name = "btnDefaultVideoTrackPlaceholder";
             this.btnDefaultVideoTrackPlaceholder.Size = new System.Drawing.Size(83, 30);
             this.btnDefaultVideoTrackPlaceholder.TabIndex = 2;
@@ -224,7 +227,7 @@
             // btnAddVideoTrackPlaceholder
             // 
             this.btnAddVideoTrackPlaceholder.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnAddVideoTrackPlaceholder.Location = new System.Drawing.Point(476, 18);
+            this.btnAddVideoTrackPlaceholder.Location = new System.Drawing.Point(526, 18);
             this.btnAddVideoTrackPlaceholder.Name = "btnAddVideoTrackPlaceholder";
             this.btnAddVideoTrackPlaceholder.Size = new System.Drawing.Size(83, 30);
             this.btnAddVideoTrackPlaceholder.TabIndex = 1;
@@ -239,7 +242,7 @@
             this.txtVideoTracksFilename.Font = new System.Drawing.Font("Consolas", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(161)));
             this.txtVideoTracksFilename.Location = new System.Drawing.Point(9, 22);
             this.txtVideoTracksFilename.Name = "txtVideoTracksFilename";
-            this.txtVideoTracksFilename.Size = new System.Drawing.Size(462, 23);
+            this.txtVideoTracksFilename.Size = new System.Drawing.Size(512, 23);
             this.txtVideoTracksFilename.TabIndex = 0;
             // 
             // grpAudioTracks
@@ -250,7 +253,7 @@
             this.grpAudioTracks.Dock = System.Windows.Forms.DockStyle.Fill;
             this.grpAudioTracks.Location = new System.Drawing.Point(3, 184);
             this.grpAudioTracks.Name = "grpAudioTracks";
-            this.grpAudioTracks.Size = new System.Drawing.Size(648, 54);
+            this.grpAudioTracks.Size = new System.Drawing.Size(698, 54);
             this.grpAudioTracks.TabIndex = 2;
             this.grpAudioTracks.TabStop = false;
             this.grpAudioTracks.Text = "Audio Tracks";
@@ -258,7 +261,7 @@
             // btnDefaultAudioTrackPlaceholder
             // 
             this.btnDefaultAudioTrackPlaceholder.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnDefaultAudioTrackPlaceholder.Location = new System.Drawing.Point(562, 18);
+            this.btnDefaultAudioTrackPlaceholder.Location = new System.Drawing.Point(612, 18);
             this.btnDefaultAudioTrackPlaceholder.Name = "btnDefaultAudioTrackPlaceholder";
             this.btnDefaultAudioTrackPlaceholder.Size = new System.Drawing.Size(83, 30);
             this.btnDefaultAudioTrackPlaceholder.TabIndex = 3;
@@ -269,7 +272,7 @@
             // btnAddAudioTrackPlaceholder
             // 
             this.btnAddAudioTrackPlaceholder.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnAddAudioTrackPlaceholder.Location = new System.Drawing.Point(476, 18);
+            this.btnAddAudioTrackPlaceholder.Location = new System.Drawing.Point(526, 18);
             this.btnAddAudioTrackPlaceholder.Name = "btnAddAudioTrackPlaceholder";
             this.btnAddAudioTrackPlaceholder.Size = new System.Drawing.Size(83, 30);
             this.btnAddAudioTrackPlaceholder.TabIndex = 2;
@@ -284,7 +287,7 @@
             this.txtAudioTracksFilename.Font = new System.Drawing.Font("Consolas", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(161)));
             this.txtAudioTracksFilename.Location = new System.Drawing.Point(9, 22);
             this.txtAudioTracksFilename.Name = "txtAudioTracksFilename";
-            this.txtAudioTracksFilename.Size = new System.Drawing.Size(462, 23);
+            this.txtAudioTracksFilename.Size = new System.Drawing.Size(512, 23);
             this.txtAudioTracksFilename.TabIndex = 1;
             // 
             // grpSubtitleTracks
@@ -295,7 +298,7 @@
             this.grpSubtitleTracks.Dock = System.Windows.Forms.DockStyle.Fill;
             this.grpSubtitleTracks.Location = new System.Drawing.Point(3, 244);
             this.grpSubtitleTracks.Name = "grpSubtitleTracks";
-            this.grpSubtitleTracks.Size = new System.Drawing.Size(648, 54);
+            this.grpSubtitleTracks.Size = new System.Drawing.Size(698, 54);
             this.grpSubtitleTracks.TabIndex = 3;
             this.grpSubtitleTracks.TabStop = false;
             this.grpSubtitleTracks.Text = "Subtitle Tracks";
@@ -303,7 +306,7 @@
             // btnDefaultSubtitleTrackPlaceholder
             // 
             this.btnDefaultSubtitleTrackPlaceholder.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnDefaultSubtitleTrackPlaceholder.Location = new System.Drawing.Point(562, 18);
+            this.btnDefaultSubtitleTrackPlaceholder.Location = new System.Drawing.Point(612, 18);
             this.btnDefaultSubtitleTrackPlaceholder.Name = "btnDefaultSubtitleTrackPlaceholder";
             this.btnDefaultSubtitleTrackPlaceholder.Size = new System.Drawing.Size(83, 30);
             this.btnDefaultSubtitleTrackPlaceholder.TabIndex = 4;
@@ -314,7 +317,7 @@
             // btnAddSubtitleTrackPlaceholder
             // 
             this.btnAddSubtitleTrackPlaceholder.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnAddSubtitleTrackPlaceholder.Location = new System.Drawing.Point(476, 18);
+            this.btnAddSubtitleTrackPlaceholder.Location = new System.Drawing.Point(526, 18);
             this.btnAddSubtitleTrackPlaceholder.Name = "btnAddSubtitleTrackPlaceholder";
             this.btnAddSubtitleTrackPlaceholder.Size = new System.Drawing.Size(83, 30);
             this.btnAddSubtitleTrackPlaceholder.TabIndex = 3;
@@ -329,7 +332,7 @@
             this.txtSubtitleTracksFilename.Font = new System.Drawing.Font("Consolas", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(161)));
             this.txtSubtitleTracksFilename.Location = new System.Drawing.Point(9, 22);
             this.txtSubtitleTracksFilename.Name = "txtSubtitleTracksFilename";
-            this.txtSubtitleTracksFilename.Size = new System.Drawing.Size(462, 23);
+            this.txtSubtitleTracksFilename.Size = new System.Drawing.Size(512, 23);
             this.txtSubtitleTracksFilename.TabIndex = 1;
             // 
             // grpAttachments
@@ -340,7 +343,7 @@
             this.grpAttachments.Dock = System.Windows.Forms.DockStyle.Fill;
             this.grpAttachments.Location = new System.Drawing.Point(3, 364);
             this.grpAttachments.Name = "grpAttachments";
-            this.grpAttachments.Size = new System.Drawing.Size(648, 54);
+            this.grpAttachments.Size = new System.Drawing.Size(698, 54);
             this.grpAttachments.TabIndex = 4;
             this.grpAttachments.TabStop = false;
             this.grpAttachments.Text = "Attachments";
@@ -348,7 +351,7 @@
             // btnDefaultAttachmentPlaceholder
             // 
             this.btnDefaultAttachmentPlaceholder.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnDefaultAttachmentPlaceholder.Location = new System.Drawing.Point(562, 19);
+            this.btnDefaultAttachmentPlaceholder.Location = new System.Drawing.Point(612, 19);
             this.btnDefaultAttachmentPlaceholder.Name = "btnDefaultAttachmentPlaceholder";
             this.btnDefaultAttachmentPlaceholder.Size = new System.Drawing.Size(83, 30);
             this.btnDefaultAttachmentPlaceholder.TabIndex = 6;
@@ -359,7 +362,7 @@
             // btnAddAttachmentPlaceholder
             // 
             this.btnAddAttachmentPlaceholder.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnAddAttachmentPlaceholder.Location = new System.Drawing.Point(476, 19);
+            this.btnAddAttachmentPlaceholder.Location = new System.Drawing.Point(526, 19);
             this.btnAddAttachmentPlaceholder.Name = "btnAddAttachmentPlaceholder";
             this.btnAddAttachmentPlaceholder.Size = new System.Drawing.Size(83, 30);
             this.btnAddAttachmentPlaceholder.TabIndex = 5;
@@ -374,7 +377,7 @@
             this.txtAttachmentsFilename.Font = new System.Drawing.Font("Consolas", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(161)));
             this.txtAttachmentsFilename.Location = new System.Drawing.Point(9, 23);
             this.txtAttachmentsFilename.Name = "txtAttachmentsFilename";
-            this.txtAttachmentsFilename.Size = new System.Drawing.Size(462, 23);
+            this.txtAttachmentsFilename.Size = new System.Drawing.Size(512, 23);
             this.txtAttachmentsFilename.TabIndex = 1;
             // 
             // grpInfo
@@ -383,7 +386,7 @@
             this.grpInfo.Dock = System.Windows.Forms.DockStyle.Fill;
             this.grpInfo.Location = new System.Drawing.Point(3, 3);
             this.grpInfo.Name = "grpInfo";
-            this.grpInfo.Size = new System.Drawing.Size(648, 115);
+            this.grpInfo.Size = new System.Drawing.Size(698, 115);
             this.grpInfo.TabIndex = 5;
             this.grpInfo.TabStop = false;
             this.grpInfo.Text = "Information";
@@ -397,7 +400,7 @@
             this.txtInfo.Name = "txtInfo";
             this.txtInfo.ReadOnly = true;
             this.txtInfo.ShortcutsEnabled = false;
-            this.txtInfo.Size = new System.Drawing.Size(642, 93);
+            this.txtInfo.Size = new System.Drawing.Size(692, 93);
             this.txtInfo.TabIndex = 0;
             this.txtInfo.Text = "";
             // 
@@ -406,7 +409,7 @@
             this.statusStrip1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.statusStrip1.Location = new System.Drawing.Point(0, 601);
             this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(654, 20);
+            this.statusStrip1.Size = new System.Drawing.Size(704, 20);
             this.statusStrip1.TabIndex = 6;
             this.statusStrip1.Text = "statusStrip1";
             // 
@@ -418,7 +421,7 @@
             this.grpActions.Dock = System.Windows.Forms.DockStyle.Fill;
             this.grpActions.Location = new System.Drawing.Point(3, 544);
             this.grpActions.Name = "grpActions";
-            this.grpActions.Size = new System.Drawing.Size(648, 54);
+            this.grpActions.Size = new System.Drawing.Size(698, 54);
             this.grpActions.TabIndex = 0;
             this.grpActions.TabStop = false;
             // 
@@ -435,7 +438,7 @@
             // btnOK
             // 
             this.btnOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnOK.Location = new System.Drawing.Point(476, 17);
+            this.btnOK.Location = new System.Drawing.Point(526, 17);
             this.btnOK.Name = "btnOK";
             this.btnOK.Size = new System.Drawing.Size(80, 30);
             this.btnOK.TabIndex = 1;
@@ -447,7 +450,7 @@
             // 
             this.btnCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.btnCancel.Location = new System.Drawing.Point(562, 17);
+            this.btnCancel.Location = new System.Drawing.Point(612, 17);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(80, 30);
             this.btnCancel.TabIndex = 0;
@@ -457,13 +460,15 @@
             // 
             // grpAdvanced
             // 
-            this.grpAdvanced.Controls.Add(this.chkFullRawMode);
             this.grpAdvanced.Controls.Add(this.chkRawMode);
+            this.grpAdvanced.Controls.Add(this.cmbCulture);
+            this.grpAdvanced.Controls.Add(this.lblCulture);
+            this.grpAdvanced.Controls.Add(this.chkFullRawMode);
             this.grpAdvanced.Controls.Add(this.chkTextFilesWithoutBom);
             this.grpAdvanced.Dock = System.Windows.Forms.DockStyle.Fill;
             this.grpAdvanced.Location = new System.Drawing.Point(3, 484);
             this.grpAdvanced.Name = "grpAdvanced";
-            this.grpAdvanced.Size = new System.Drawing.Size(648, 54);
+            this.grpAdvanced.Size = new System.Drawing.Size(698, 54);
             this.grpAdvanced.TabIndex = 8;
             this.grpAdvanced.TabStop = false;
             this.grpAdvanced.Text = "Advanced Options";
@@ -471,37 +476,56 @@
             // chkRawMode
             // 
             this.chkRawMode.AutoSize = true;
-            this.chkRawMode.Location = new System.Drawing.Point(225, 22);
+            this.chkRawMode.Location = new System.Drawing.Point(216, 24);
             this.chkRawMode.Name = "chkRawMode";
             this.chkRawMode.Size = new System.Drawing.Size(128, 19);
-            this.chkRawMode.TabIndex = 1;
+            this.chkRawMode.TabIndex = 6;
             this.chkRawMode.Text = "Use `raw` extraction";
-            this.chkRawMode.UseVisualStyleBackColor = true;
             // 
-            // chkTextFilesWithoutBom
+            // cmbCulture
             // 
-            this.chkTextFilesWithoutBom.AutoSize = true;
-            this.chkTextFilesWithoutBom.Location = new System.Drawing.Point(9, 22);
-            this.chkTextFilesWithoutBom.Name = "chkTextFilesWithoutBom";
-            this.chkTextFilesWithoutBom.Size = new System.Drawing.Size(200, 19);
-            this.chkTextFilesWithoutBom.TabIndex = 0;
-            this.chkTextFilesWithoutBom.Text = "Disable BOM to text files (v96.0+)";
-            this.chkTextFilesWithoutBom.UseVisualStyleBackColor = true;
+            this.cmbCulture.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.cmbCulture.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbCulture.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(161)));
+            this.cmbCulture.FormattingEnabled = true;
+            this.cmbCulture.Location = new System.Drawing.Point(612, 22);
+            this.cmbCulture.Name = "cmbCulture";
+            this.cmbCulture.Size = new System.Drawing.Size(80, 23);
+            this.cmbCulture.TabIndex = 7;
+            this.cmbCulture.SelectedIndexChanged += new System.EventHandler(this.CmbCulture_SelectedIndexChanged);
+            // 
+            // lblCulture
+            // 
+            this.lblCulture.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.lblCulture.AutoSize = true;
+            this.lblCulture.Location = new System.Drawing.Point(557, 25);
+            this.lblCulture.Name = "lblCulture";
+            this.lblCulture.Size = new System.Drawing.Size(49, 15);
+            this.lblCulture.TabIndex = 3;
+            this.lblCulture.Text = "Culture:";
             // 
             // chkFullRawMode
             // 
             this.chkFullRawMode.AutoSize = true;
-            this.chkFullRawMode.Location = new System.Drawing.Point(369, 22);
+            this.chkFullRawMode.Location = new System.Drawing.Point(351, 24);
             this.chkFullRawMode.Name = "chkFullRawMode";
             this.chkFullRawMode.Size = new System.Drawing.Size(148, 19);
-            this.chkFullRawMode.TabIndex = 2;
+            this.chkFullRawMode.TabIndex = 5;
             this.chkFullRawMode.Text = "Use `full raw` extraction";
-            this.chkFullRawMode.UseVisualStyleBackColor = true;
+            // 
+            // chkTextFilesWithoutBom
+            // 
+            this.chkTextFilesWithoutBom.AutoSize = true;
+            this.chkTextFilesWithoutBom.Location = new System.Drawing.Point(9, 24);
+            this.chkTextFilesWithoutBom.Name = "chkTextFilesWithoutBom";
+            this.chkTextFilesWithoutBom.Size = new System.Drawing.Size(200, 19);
+            this.chkTextFilesWithoutBom.TabIndex = 7;
+            this.chkTextFilesWithoutBom.Text = "Disable BOM to text files (v96.0+)";
             // 
             // frmOptions
             // 
             this.CancelButton = this.btnCancel;
-            this.ClientSize = new System.Drawing.Size(654, 621);
+            this.ClientSize = new System.Drawing.Size(704, 621);
             this.Controls.Add(this.tlpMain);
             this.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(161)));
             this.MinimumSize = new System.Drawing.Size(400, 400);
@@ -569,5 +593,7 @@
         private System.Windows.Forms.CheckBox chkTextFilesWithoutBom;
         private System.Windows.Forms.CheckBox chkRawMode;
         private System.Windows.Forms.CheckBox chkFullRawMode;
+        private System.Windows.Forms.Label lblCulture;
+        private gMKVToolNix.Controls.gComboBox cmbCulture;
     }
 }

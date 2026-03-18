@@ -3,6 +3,7 @@ using System.IO;
 using System.Reflection;
 using System.Windows.Forms;
 using gMKVToolNix.Forms;
+using gMKVToolNix.Localization;
 
 namespace gMKVToolNix
 {
@@ -52,16 +53,19 @@ namespace gMKVToolNix
                 Environment.Exit(1);
             }
 
-            // If on Linux, set the enironmnet variables for locale to C (default locale)
-            // Actually set to en_US.UTF-8 locale in order to support UTF-8 filenames in Linux
-            //// After clearing things with Mosu, this is not necessary anymore, since --ui-language is more than enough!
-            //if (IsOnLinux)
-            //{
-            //    Environment.SetEnvironmentVariable("LC_ALL", "en_US.UTF-8", EnvironmentVariableTarget.Process);
-            //    Environment.SetEnvironmentVariable("LANG", "en_US.UTF-8", EnvironmentVariableTarget.Process);
-            //    Environment.SetEnvironmentVariable("LC_MESSAGES", "en_US.UTF-8", EnvironmentVariableTarget.Process);
-            //}
-            //Application.Run(new frmMain());
+            try
+            {
+                LocalizationManager.Initialize("en");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(
+                    string.Format("Failed to initialize localization: {0}", ex.Message),
+                    "Localization Error",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
+                Environment.Exit(1);
+            }
 
             Application.Run(new frmMain2());
         }

@@ -6,10 +6,12 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Media;
+using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using gMKVToolNix.Jobs;
+using gMKVToolNix.Localization;
 using gMKVToolNix.Log;
 using gMKVToolNix.MkvExtract;
 using gMKVToolNix.MkvInfo;
@@ -131,6 +133,9 @@ namespace gMKVToolNix.Forms
 
                 // Initialize the DPI aware scaling
                 InitDPI();
+
+                // Apply localization
+                ApplyLocalization();
 
                 // Set the tooltips for the controls
                 SetTooltips(!chkDisableTooltips.Checked);
@@ -2859,6 +2864,30 @@ Uncheck if you want to manually select an output directory for ALL extracted fil
                 gMKVLogger.Log(ex.ToString());
                 ShowErrorMessage(ex.Message);
             }
+        }
+
+        public void ApplyLocalization()
+        {
+            grpInputFiles.Text = string.Format("Input Files (you can drag and drop files or directories) ({0} files)", trvInputFiles.AllNodes.Count(n => n != null && n.Tag != null && n.Tag is gMKVSegmentInfo));
+            grpSelectedFileInfo.Text = "Selected File Information";
+            grpOutputDirectory.Text = LocalizationManager.GetString("UI.MainForm2.OutputDirectory.Group");
+            chkUseSourceDirectory.Text = LocalizationManager.GetString("UI.MainForm2.OutputDirectory.UseSource");
+            btnBrowseOutputDirectory.Text = LocalizationManager.GetString("UI.MainForm2.OutputDirectory.Browse");
+            grpActions.Text = LocalizationManager.GetString("UI.MainForm2.Actions.Group");
+            btnExtract.Text = LocalizationManager.GetString("UI.MainForm2.Actions.Extract");
+            btnShowJobs.Text = LocalizationManager.GetString("UI.MainForm2.Actions.ShowJobs");
+            btnShowLog.Text = LocalizationManager.GetString("UI.MainForm2.Actions.Log");
+            chkShowPopup.Text = LocalizationManager.GetString("UI.MainForm2.Actions.Popup");
+            lblExtractionMode.Text = LocalizationManager.GetString("UI.MainForm2.Actions.ExtractionMode");
+            lblChapterType.Text = LocalizationManager.GetString("UI.MainForm2.Actions.ChapterType");
+            //grpMKVToolnix.Text = LocalizationManager.GetString("UI.MainForm2.Config.Group");
+            btnAutoDetectMkvToolnix.Text = LocalizationManager.GetString("UI.MainForm2.Config.AutoDetect");
+            btnBrowseMKVToolnixPath.Text = LocalizationManager.GetString("UI.MainForm2.Config.Browse");
+            chkAppendOnDragAndDrop.Text = "Append On Drag And Drop";
+            chkOverwriteExistingFiles.Text = "Overwrite Existing Files";
+            chkDisableTooltips.Text = "Disable Tooltips";
+            chkDarkMode.Text = "Dark Mode";
+            btnOptions.Text = "Options...";
         }
     }
 }

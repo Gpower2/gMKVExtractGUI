@@ -11,6 +11,7 @@ using System.Windows.Forms;
 using gMKVToolNix.Forms;
 using gMKVToolNix.Jobs;
 using gMKVToolNix.Log;
+using gMKVToolNix.Localization;
 using gMKVToolNix.MkvExtract;
 using gMKVToolNix.Segments;
 
@@ -161,6 +162,10 @@ namespace gMKVToolNix
                     gMKVLogger.Log(String.Format("Found command line arguments: {0}", cmdArgs[1]));
                     txtInputFile.Text = cmdArgs[1];
                 }
+
+                // Initialize localization service
+                //InitializeLocalization();
+                ApplyLocalization();
             }
             catch (Exception ex)
             {
@@ -1323,6 +1328,65 @@ namespace gMKVToolNix
                 _Settings.ShowPopup = chkShowPopup.Checked;
                 gMKVLogger.Log("Changing ShowPopup");
                 _Settings.Save();
+            }
+        }
+
+         public void ApplyLocalization()
+         {
+             try
+             {
+                 // Window title
+                 this.Text = LocalizationManager.GetString("UI.MainForm.Title");
+
+                 // Context menu items
+                 selectAllTracksToolStripMenuItem.Text = LocalizationManager.GetString("UI.ContextMenu.SelectAllTracks");
+                 selectAllVideoTracksToolStripMenuItem.Text = LocalizationManager.GetString("UI.ContextMenu.SelectAllVideoTracks");
+                 selectAllAudioTracksToolStripMenuItem.Text = LocalizationManager.GetString("UI.ContextMenu.SelectAllAudioTracks");
+                 selectAllSubtitleTracksToolStripMenuItem.Text = LocalizationManager.GetString("UI.ContextMenu.SelectAllSubtitleTracks");
+                 selectAllChapterTracksToolStripMenuItem.Text = LocalizationManager.GetString("UI.ContextMenu.SelectAllChapterTracks");
+                 selectAllAttachmentsToolStripMenuItem.Text = LocalizationManager.GetString("UI.ContextMenu.SelectAllAttachmentTracks");
+                 unselectAllTracksToolStripMenuItem.Text = LocalizationManager.GetString("UI.ContextMenu.UnselectAllTracks");
+
+                 // Input file group
+                 grpInputFile.Text = LocalizationManager.GetString("UI.MainForm.InputFile.Group");
+                 btnBrowseInputFile.Text = LocalizationManager.GetString("UI.MainForm.InputFile.Browse");
+
+                 // Output directory group
+                 grpOutputDirectory.Text = LocalizationManager.GetString("UI.MainForm.OutputDirectory.Group");
+                 chkLockOutputDirectory.Text = LocalizationManager.GetString("UI.MainForm.OutputDirectory.Lock");
+                 btnBrowseOutputDirectory.Text = LocalizationManager.GetString("UI.MainForm.OutputDirectory.Browse");
+
+                 // Actions group
+                 grpActions.Text = LocalizationManager.GetString("UI.MainForm.Actions.Group");
+                 chkShowPopup.Text = LocalizationManager.GetString("UI.MainForm.Actions.Popup");
+                 chkJobMode.Text = LocalizationManager.GetString("UI.MainForm.Actions.JobMode");
+                 btnExtract.Text = LocalizationManager.GetString("UI.MainForm.Actions.Extract");
+                 lblExtractionMode.Text = LocalizationManager.GetString("UI.MainForm.Actions.ExtractionMode");
+                 btnShowLog.Text = LocalizationManager.GetString("UI.MainForm.Actions.Log");
+                 lblChapterType.Text = LocalizationManager.GetString("UI.MainForm.Actions.ChapterType");
+                 btnAbort.Text = LocalizationManager.GetString("UI.MainForm.Actions.Abort");
+                 btnAbortAll.Text = LocalizationManager.GetString("UI.MainForm.Actions.AbortAll");
+
+                 // Configuration group
+                 grpConfig.Text = LocalizationManager.GetString("UI.MainForm.Config.Group");
+                 btnBrowseMKVToolnixPath.Text = LocalizationManager.GetString("UI.MainForm.Config.Browse");
+
+                 // Input file info group
+                 grpInputFileInfo.Text = LocalizationManager.GetString("UI.MainForm.InputFileInfo.Group");
+
+                 // Status bar
+                 lblTrack.Text = LocalizationManager.GetString("UI.MainForm.Status.Track");
+                 lblStatus.Text = LocalizationManager.GetString("UI.MainForm.Status.Status");
+
+                 // Log group
+                 grpLog.Text = LocalizationManager.GetString("UI.MainForm.Log.Group");
+
+                gMKVLogger.Log("Form localization applied successfully");
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"Error applying localization: {ex.Message}");
+                gMKVLogger.Log($"Error applying localization: {ex.Message}");
             }
         }
     }

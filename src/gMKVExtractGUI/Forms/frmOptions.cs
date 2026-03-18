@@ -1,8 +1,14 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
+using System.IO;
+using System.Linq;
+using System.Reflection;
+using System.Threading;
 using System.Windows.Forms;
 using gMKVToolNix.Log;
+using gMKVToolNix.Localization;
 using gMKVToolNix.MkvExtract;
 using gMKVToolNix.Theming;
 using gMKVToolNix.WinAPI;
@@ -18,6 +24,7 @@ namespace gMKVToolNix.Forms
         private ContextMenuStrip _ChapterContextMenu = null;
         private ContextMenuStrip _AttachmentContextMenu = null;
         private ContextMenuStrip _TagsContextMenu = null;
+
 
         private readonly static string INFO_TEXT = 
 @"Here you can specify the output filename format for each kind of track.
@@ -59,6 +66,9 @@ Pressing the ""Default"" button you will reset the output filename format to its
             // Fill from settings
             FillFromSettings();
 
+            // Initialize culture selector
+            InitializeCultureSelector();
+
             // Apply Theme
             ThemeManager.ApplyTheme(this, _Settings.DarkMode);
             // Explicitly set ForeColor for txtInfo after theming
@@ -75,6 +85,9 @@ Pressing the ""Default"" button you will reset the output filename format to its
             if (_ChapterContextMenu != null) ThemeManager.ApplyTheme(_ChapterContextMenu, _Settings.DarkMode);
             if (_AttachmentContextMenu != null) ThemeManager.ApplyTheme(_AttachmentContextMenu, _Settings.DarkMode);
             if (_TagsContextMenu != null) ThemeManager.ApplyTheme(_TagsContextMenu, _Settings.DarkMode);
+
+            // Apply localization
+            ApplyLocalization();
 
             // Select the information text box
             txtInfo.Select();
@@ -105,6 +118,109 @@ Pressing the ""Default"" button you will reset the output filename format to its
             _Settings.DisableBomForTextFiles = chkTextFilesWithoutBom.Checked;
             _Settings.UseRawExtractionMode = chkRawMode.Checked;
             _Settings.UseFullRawExtractionMode = chkFullRawMode.Checked;
+        }
+
+        private void InitializeCultureSelector()
+        {
+            try
+            {
+                var cultures = GetAvailableCultures();
+                cmbCulture.Items.Clear();
+                foreach (var culture in cultures)
+                {
+                    cmbCulture.Items.Add(culture);
+                }
+
+                var currentCulture = _Settings.Culture;
+                if (cmbCulture.Items.Contains(currentCulture))
+                {
+                    cmbCulture.SelectedItem = currentCulture;
+                }
+                else if (cmbCulture.Items.Count > 0)
+                {
+                    cmbCulture.SelectedIndex = 0;
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex);
+                gMKVLogger.Log(ex.ToString());
+            }
+        }
+
+        private List<string> GetAvailableCultures()
+        {
+            var cultures = new List<string>();
+            try
+            {
+                var appDir = this.GetCurrentDirectory();
+                var jsonFiles = Directory.GetFiles(appDir, "*.json");
+                foreach (var file in jsonFiles)
+                {
+                    var filename = Path.GetFileNameWithoutExtension(file);
+                    if (filename.Length == 2 && filename.All(c => char.IsLower(c)))
+                    {
+                        cultures.Add(filename);
+                    }
+                }
+                cultures.Sort();
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex);
+                gMKVLogger.Log(ex.ToString());
+            }
+            return cultures;
+        }
+
+        private void CmbCulture_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                var selectedCulture = cmbCulture.SelectedItem?.ToString();
+                if (!string.IsNullOrEmpty(selectedCulture) && selectedCulture != _Settings.Culture)
+                {
+                    _Settings.Culture = selectedCulture;
+                    _Settings.Save();
+                    LocalizationManager.CurrentCulture = selectedCulture;
+                    ApplyLocalizationToAllForms();
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex);
+                gMKVLogger.Log(ex.ToString());
+                ShowErrorMessage(ex.Message);
+            }
+        }
+
+        private void ApplyLocalizationToAllForms()
+        {
+            try
+            {
+                var owner = this.Owner ?? this.MdiParent;
+                if (owner is Form ownerForm)
+                {
+                    foreach (Form form in ownerForm.OwnedForms)
+                    {
+                        if (form is frmMain mainForm && form.Visible)
+                            mainForm.ApplyLocalization();
+                        else if (form is frmMain2 mainForm2 && form.Visible)
+                            mainForm2.ApplyLocalization();
+                        else if (form is frmJobManager jobManager && form.Visible)
+                            jobManager.ApplyLocalization();
+                        else if (form is frmLog logForm && form.Visible)
+                            logForm.ApplyLocalization();
+                    }
+                }
+                ApplyLocalization();
+                ThemeManager.ApplyTheme(this, _Settings.DarkMode);
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex);
+                gMKVLogger.Log(ex.ToString());
+            }
         }
 
         private ToolStripMenuItem GetToolstripMenuItem(string description, string placeholder, TextBox txtBox)
@@ -531,6 +647,31 @@ Pressing the ""Default"" button you will reset the output filename format to its
                 gMKVLogger.Log(ex.ToString());
                 ShowErrorMessage(ex.Message);
             }
+        }
+
+        public void ApplyLocalization()
+        {
+            grpVideoTracks.Text = LocalizationManager.GetString("UI.OptionsForm.VideoTracks.Group");
+            btnAddVideoTrackPlaceholder.Text = LocalizationManager.GetString("UI.OptionsForm.VideoTracks.Add");
+            btnDefaultVideoTrackPlaceholder.Text = LocalizationManager.GetString("UI.OptionsForm.VideoTracks.Default");
+            grpAudioTracks.Text = LocalizationManager.GetString("UI.OptionsForm.AudioTracks.Group");
+            btnAddAudioTrackPlaceholder.Text = LocalizationManager.GetString("UI.OptionsForm.AudioTracks.Add");
+            btnDefaultAudioTrackPlaceholder.Text = LocalizationManager.GetString("UI.OptionsForm.AudioTracks.Default");
+            grpSubtitleTracks.Text = LocalizationManager.GetString("UI.OptionsForm.SubtitleTracks.Group");
+            btnAddSubtitleTrackPlaceholder.Text = LocalizationManager.GetString("UI.OptionsForm.SubtitleTracks.Add");
+            btnDefaultSubtitleTrackPlaceholder.Text = LocalizationManager.GetString("UI.OptionsForm.SubtitleTracks.Default");
+            grpChapters.Text = LocalizationManager.GetString("UI.OptionsForm.Chapters.Group");
+            btnAddChapterPlaceholder.Text = LocalizationManager.GetString("UI.OptionsForm.Chapters.Add");
+            btnDefaultChapterPlaceholder.Text = LocalizationManager.GetString("UI.OptionsForm.Chapters.Default");
+            grpAttachments.Text = LocalizationManager.GetString("UI.OptionsForm.Attachments.Group");
+            btnAddAttachmentPlaceholder.Text = LocalizationManager.GetString("UI.OptionsForm.Attachments.Add");
+            btnDefaultAttachmentPlaceholder.Text = LocalizationManager.GetString("UI.OptionsForm.Attachments.Default");
+            grpTags.Text = LocalizationManager.GetString("UI.OptionsForm.Tags.Group");
+            btnAddTagsPlaceholder.Text = LocalizationManager.GetString("UI.OptionsForm.Tags.Add");
+            btnDefaults.Text = LocalizationManager.GetString("UI.OptionsForm.Defaults");
+            chkTextFilesWithoutBom.Text = LocalizationManager.GetString("UI.OptionsForm.TextFilesWithoutBom");
+            chkRawMode.Text = LocalizationManager.GetString("UI.OptionsForm.RawMode");
+            chkFullRawMode.Text = LocalizationManager.GetString("UI.OptionsForm.FullRawMode");
         }
     }
 }

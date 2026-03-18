@@ -1,0 +1,586 @@
+{
+  "Metadata": {
+    "Culture": "en",
+    "Translator": null,
+    "CreationDate": "2025-03-17T00:00:00Z",
+    "LastEditDate": "2025-03-17T00:00:00Z"
+  },
+  "Entries": {
+    "UI.MainForm.Title": {
+      "Source": "gMKVExtractGUI",
+      "Translation": "gMKVExtractGUI",
+      "IsTranslated": true,
+      "Notes": "Application window title"
+    },
+    "UI.MainForm.InputFile.Group": {
+      "Source": "Input file (you can drag and drop the file)",
+      "Translation": "Input file (you can drag and drop the file)",
+      "IsTranslated": true,
+      "Notes": "GroupBox label for input file selection"
+    },
+    "UI.MainForm.InputFile.Browse": {
+      "Source": "Browse...",
+      "Translation": "Browse...",
+      "IsTranslated": true,
+      "Notes": "Button to browse for input file"
+    },
+    "UI.MainForm.OutputDirectory.Group": {
+      "Source": "Output Directory",
+      "Translation": "Output Directory",
+      "IsTranslated": true,
+      "Notes": "GroupBox label for output directory"
+    },
+    "UI.MainForm.OutputDirectory.Lock": {
+      "Source": "Lock",
+      "Translation": "Lock",
+      "IsTranslated": true,
+      "Notes": "Checkbox to lock output directory"
+    },
+    "UI.MainForm.OutputDirectory.Browse": {
+      "Source": "Browse...",
+      "Translation": "Browse...",
+      "IsTranslated": true,
+      "Notes": "Button to browse for output directory"
+    },
+    "UI.MainForm.Actions.Group": {
+      "Source": "Actions",
+      "Translation": "Actions",
+      "IsTranslated": true,
+      "Notes": "GroupBox label for action controls"
+    },
+    "UI.MainForm.Actions.Popup": {
+      "Source": "Popup",
+      "Translation": "Popup",
+      "IsTranslated": true,
+      "Notes": "Checkbox to show popup when extraction is complete"
+    },
+    "UI.MainForm.Actions.JobMode": {
+      "Source": "Job Mode",
+      "Translation": "Job Mode",
+      "IsTranslated": true,
+      "Notes": "Checkbox to enable job mode"
+    },
+    "UI.MainForm.Actions.Extract": {
+      "Source": "Extract",
+      "Translation": "Extract",
+      "IsTranslated": true,
+      "Notes": "Button to start extraction"
+    },
+    "UI.MainForm.Actions.ExtractionMode": {
+      "Source": "Extract:",
+      "Translation": "Extract:",
+      "IsTranslated": true,
+      "Notes": "Label for extraction mode combo box"
+    },
+    "UI.MainForm.Actions.Log": {
+      "Source": "Log...",
+      "Translation": "Log...",
+      "IsTranslated": true,
+      "Notes": "Button to show log window"
+    },
+    "UI.MainForm.Actions.ChapterType": {
+      "Source": "Chapter",
+      "Translation": "Chapter",
+      "IsTranslated": true,
+      "Notes": "Label for chapter type combo box"
+    },
+    "UI.MainForm.Actions.Abort": {
+      "Source": "Abort",
+      "Translation": "Abort",
+      "IsTranslated": true,
+      "Notes": "Button to abort current extraction"
+    },
+    "UI.MainForm.Actions.AbortAll": {
+      "Source": "Abort All",
+      "Translation": "Abort All",
+      "IsTranslated": true,
+      "Notes": "Button to abort all extractions"
+    },
+    "UI.MainForm.Config.Group": {
+      "Source": "MKVToolnix Directory (you can drag and drop the directory)",
+      "Translation": "MKVToolnix Directory (you can drag and drop the directory)",
+      "IsTranslated": true,
+      "Notes": "GroupBox label for MKVToolnix directory configuration"
+    },
+    "UI.MainForm.Config.Browse": {
+      "Source": "Browse...",
+      "Translation": "Browse...",
+      "IsTranslated": true,
+      "Notes": "Button to browse for MKVToolnix directory"
+    },
+    "UI.MainForm.InputFileInfo.Group": {
+      "Source": "Input File Information",
+      "Translation": "Input File Information",
+      "IsTranslated": true,
+      "Notes": "GroupBox label for input file information"
+    },
+    "UI.MainForm.Status.Track": {
+      "Source": "track",
+      "Translation": "track",
+      "IsTranslated": true,
+      "Notes": "Status bar label for current track"
+    },
+    "UI.MainForm.Status.Status": {
+      "Source": "status",
+      "Translation": "status",
+      "IsTranslated": true,
+      "Notes": "Status bar label for status message"
+    },
+    "UI.MainForm.Log.Group": {
+      "Source": "Log",
+      "Translation": "Log",
+      "IsTranslated": true,
+      "Notes": "GroupBox label for log display"
+    },
+    "UI.ContextMenu.SelectAllTracks": {
+      "Source": "Select All Tracks",
+      "Translation": "Select All Tracks",
+      "IsTranslated": true,
+      "Notes": "Context menu item to select all tracks"
+    },
+    "UI.ContextMenu.SelectAllVideoTracks": {
+      "Source": "Select All Video Tracks",
+      "Translation": "Select All Video Tracks",
+      "IsTranslated": true,
+      "Notes": "Context menu item to select all video tracks"
+    },
+    "UI.ContextMenu.SelectAllAudioTracks": {
+      "Source": "Select All Audio Tracks",
+      "Translation": "Select All Audio Tracks",
+      "IsTranslated": true,
+      "Notes": "Context menu item to select all audio tracks"
+    },
+    "UI.ContextMenu.SelectAllSubtitleTracks": {
+      "Source": "Select All Subtitle Tracks",
+      "Translation": "Select All Subtitle Tracks",
+      "IsTranslated": true,
+      "Notes": "Context menu item to select all subtitle tracks"
+    },
+    "UI.ContextMenu.SelectAllChapterTracks": {
+      "Source": "Select All Chapter Tracks",
+      "Translation": "Select All Chapter Tracks",
+      "IsTranslated": true,
+      "Notes": "Context menu item to select all chapter tracks"
+    },
+    "UI.ContextMenu.SelectAllAttachmentTracks": {
+      "Source": "Select All Attachments Tracks",
+      "Translation": "Select All Attachments Tracks",
+      "IsTranslated": true,
+      "Notes": "Context menu item to select all attachment tracks"
+    },
+    "UI.ContextMenu.UnselectAllTracks": {
+      "Source": "Unselect All tracks",
+      "Translation": "Unselect All tracks",
+      "IsTranslated": true,
+      "Notes": "Context menu item to unselect all tracks"
+    },
+    "UI.JobManager.Title": {
+      "Source": "Job Manager",
+      "Translation": "Job Manager",
+      "IsTranslated": true,
+      "Notes": "Job manager window title"
+    },
+    "UI.JobManager.Progress.Group": {
+      "Source": "Progress",
+      "Translation": "Progress",
+      "IsTranslated": true,
+      "Notes": "GroupBox label for progress information"
+    },
+    "UI.JobManager.Progress.CurrentTrack": {
+      "Source": "Current Track",
+      "Translation": "Current Track",
+      "IsTranslated": true,
+      "Notes": "Label for current track progress"
+    },
+    "UI.JobManager.Progress.TotalProgress": {
+      "Source": "Total Progress",
+      "Translation": "Total Progress",
+      "IsTranslated": true,
+      "Notes": "Label for total progress"
+    },
+    "UI.JobManager.Progress.CurrentProgress": {
+      "Source": "Current Progress",
+      "Translation": "Current Progress",
+      "IsTranslated": true,
+      "Notes": "Label for current extraction progress"
+    },
+    "UI.JobManager.Jobs.Group": {
+      "Source": "Jobs",
+      "Translation": "Jobs",
+      "IsTranslated": true,
+      "Notes": "GroupBox label for job list"
+    },
+    "UI.JobManager.Jobs.ChangeToReadyStatus": {
+      "Source": "Change to Ready Status",
+      "Translation": "Change to Ready Status",
+      "IsTranslated": true,
+      "Notes": "Context menu item to change job status to ready"
+    },
+    "UI.JobManager.Jobs.SelectAll": {
+      "Source": "Select All",
+      "Translation": "Select All",
+      "IsTranslated": true,
+      "Notes": "Context menu item to select all jobs"
+    },
+    "UI.JobManager.Jobs.DeselectAll": {
+      "Source": "Deselect All",
+      "Translation": "Deselect All",
+      "IsTranslated": true,
+      "Notes": "Context menu item to deselect all jobs"
+    },
+    "UI.JobManager.Actions.Group": {
+      "Source": "Actions",
+      "Translation": "Actions",
+      "IsTranslated": true,
+      "Notes": "GroupBox label for action buttons"
+    },
+    "UI.JobManager.Actions.Popup": {
+      "Source": "Popup",
+      "Translation": "Popup",
+      "IsTranslated": true,
+      "Notes": "Checkbox to show popup on job completion"
+    },
+    "UI.JobManager.Actions.SaveJobs": {
+      "Source": "Save Jobs...",
+      "Translation": "Save Jobs...",
+      "IsTranslated": true,
+      "Notes": "Button to save job queue to file"
+    },
+    "UI.JobManager.Actions.LoadJobs": {
+      "Source": "Load Jobs...",
+      "Translation": "Load Jobs...",
+      "IsTranslated": true,
+      "Notes": "Button to load job queue from file"
+    },
+    "UI.JobManager.Actions.AbortAll": {
+      "Source": "Abort All",
+      "Translation": "Abort All",
+      "IsTranslated": true,
+      "Notes": "Button to abort all jobs"
+    },
+    "UI.JobManager.Actions.Abort": {
+      "Source": "Abort",
+      "Translation": "Abort",
+      "IsTranslated": true,
+      "Notes": "Button to abort selected job"
+    },
+    "UI.JobManager.Actions.RunJobs": {
+      "Source": "Run Jobs",
+      "Translation": "Run Jobs",
+      "IsTranslated": true,
+      "Notes": "Button to start running queued jobs"
+    },
+    "UI.JobManager.Actions.Remove": {
+      "Source": "Remove",
+      "Translation": "Remove",
+      "IsTranslated": true,
+      "Notes": "Button to remove selected job"
+    },
+    "UI.LogForm.Title": {
+      "Source": "Log",
+      "Translation": "Log",
+      "IsTranslated": true,
+      "Notes": "Log window title"
+    },
+    "UI.LogForm.Log.Group": {
+      "Source": "Log",
+      "Translation": "Log",
+      "IsTranslated": true,
+      "Notes": "GroupBox label for log content"
+    },
+    "UI.LogForm.Actions.Group": {
+      "Source": "Actions",
+      "Translation": "Actions",
+      "IsTranslated": true,
+      "Notes": "GroupBox label for log action buttons"
+    },
+    "UI.LogForm.Actions.Save": {
+      "Source": "Save...",
+      "Translation": "Save...",
+      "IsTranslated": true,
+      "Notes": "Button to save log to file"
+    },
+    "UI.LogForm.Actions.ClearLog": {
+      "Source": "Clear Log",
+      "Translation": "Clear Log",
+      "IsTranslated": true,
+      "Notes": "Button to clear log content"
+    },
+    "UI.LogForm.Actions.Refresh": {
+      "Source": "Refresh",
+      "Translation": "Refresh",
+      "IsTranslated": true,
+      "Notes": "Button to refresh log display"
+    },
+    "UI.LogForm.Actions.CopySelection": {
+      "Source": "Copy Selection",
+      "Translation": "Copy Selection",
+      "IsTranslated": true,
+      "Notes": "Button to copy selected log text"
+    },
+    "UI.LogForm.Actions.Close": {
+      "Source": "Close",
+      "Translation": "Close",
+      "IsTranslated": true,
+      "Notes": "Button to close log window"
+    },
+    "UI.MainForm2.Title": {
+      "Source": "gMKVExtractGUI",
+      "Translation": "gMKVExtractGUI",
+      "IsTranslated": true,
+      "Notes": "Main form 2 window title"
+    },
+    "UI.MainForm2.Status.Status": {
+      "Source": "status",
+      "Translation": "status",
+      "IsTranslated": true,
+      "Notes": "Status bar label in main form 2"
+    },
+    "UI.MainForm2.Status.TotalStatus": {
+      "Source": "status",
+      "Translation": "status",
+      "IsTranslated": true,
+      "Notes": "Total status bar label in main form 2"
+    },
+    "UI.MainForm2.Actions.Group": {
+      "Source": "Actions",
+      "Translation": "Actions",
+      "IsTranslated": true,
+      "Notes": "GroupBox label for action controls in main form 2"
+    },
+    "UI.MainForm2.Actions.AddJobs": {
+      "Source": "Add Jobs",
+      "Translation": "Add Jobs",
+      "IsTranslated": true,
+      "Notes": "Button to add new jobs"
+    },
+    "UI.MainForm2.Actions.ShowJobs": {
+      "Source": "Jobs...",
+      "Translation": "Jobs...",
+      "IsTranslated": true,
+      "Notes": "Button to show job manager"
+    },
+    "UI.MainForm2.Actions.Popup": {
+      "Source": "Popup",
+      "Translation": "Popup",
+      "IsTranslated": true,
+      "Notes": "Checkbox to show popup when extraction is complete in main form 2"
+    },
+    "UI.MainForm2.Actions.Extract": {
+      "Source": "Extract",
+      "Translation": "Extract",
+      "IsTranslated": true,
+      "Notes": "Button to start extraction in main form 2"
+    },
+    "UI.MainForm2.Actions.ExtractionMode": {
+      "Source": "Extract",
+      "Translation": "Extract",
+      "IsTranslated": true,
+      "Notes": "Label for extraction mode combo box in main form 2"
+    },
+    "UI.MainForm2.Actions.Log": {
+      "Source": "Log...",
+      "Translation": "Log...",
+      "IsTranslated": true,
+      "Notes": "Button to show log window in main form 2"
+    },
+    "UI.MainForm2.Actions.ChapterType": {
+      "Source": "Chapter",
+      "Translation": "Chapter",
+      "IsTranslated": true,
+      "Notes": "Label for chapter type combo box in main form 2"
+    },
+    "UI.MainForm2.OutputDirectory.Group": {
+      "Source": "Output Directory for Selected File (you can drag and drop the directory)",
+      "Translation": "Output Directory for Selected File (you can drag and drop the directory)",
+      "IsTranslated": true,
+      "Notes": "GroupBox label for output directory in main form 2"
+    },
+    "UI.MainForm2.OutputDirectory.UseSource": {
+      "Source": "Use Source",
+      "Translation": "Use Source",
+      "IsTranslated": true,
+      "Notes": "Checkbox to use source directory as output in main form 2"
+    },
+    "UI.MainForm2.OutputDirectory.Browse": {
+      "Source": "Browse...",
+      "Translation": "Browse...",
+      "IsTranslated": true,
+      "Notes": "Button to browse for output directory in main form 2"
+    },
+    "UI.MainForm2.OutputDirectory.SetAsDefault": {
+      "Source": "Set As Default Directory",
+      "Translation": "Set As Default Directory",
+      "IsTranslated": true,
+      "Notes": "Context menu item to set default directory"
+    },
+    "UI.MainForm2.OutputDirectory.UseDefault": {
+      "Source": "Use Currently Set Default Directory:",
+      "Translation": "Use Currently Set Default Directory:",
+      "IsTranslated": true,
+      "Notes": "Context menu item to use default directory"
+    },
+    "UI.MainForm2.Config.Group": {
+      "Source": "MKVToolnix Directory (you can drag and drop the directory)",
+      "Translation": "MKVToolnix Directory (you can drag and drop the directory)",
+      "IsTranslated": true,
+      "Notes": "GroupBox label for MKVToolnix directory in main form 2"
+    },
+    "UI.MainForm2.Config.AutoDetect": {
+      "Source": "Auto Detect",
+      "Translation": "Auto Detect",
+      "IsTranslated": true,
+      "Notes": "Button to auto-detect MKVToolnix directory"
+    },
+    "UI.MainForm2.Config.Browse": {
+      "Source": "Browse...",
+      "Translation": "Browse...",
+      "IsTranslated": true,
+      "Notes": "Button to browse for MKVToolnix directory in main form 2"
+    },
+    "UI.MainForm2.InputFiles.Group": {
+      "Source": "Input Files (you can drag and drop files or directories)",
+      "Translation": "Input Files (you can drag and drop files or directories)",
+      "IsTranslated": true,
+      "Notes": "GroupBox label for input files in main form 2"
+    },
+    "UI.OptionsForm.Tags.Group": {
+      "Source": "Attachments",
+      "Translation": "Attachments",
+      "IsTranslated": true,
+      "Notes": "GroupBox label for attachment tags configuration"
+    },
+    "UI.OptionsForm.Tags.Default": {
+      "Source": "Default",
+      "Translation": "Default",
+      "IsTranslated": true,
+      "Notes": "Button to reset attachment tags to default"
+    },
+    "UI.OptionsForm.Tags.Add": {
+      "Source": "Add...",
+      "Translation": "Add...",
+      "IsTranslated": true,
+      "Notes": "Button to add new attachment tag"
+    },
+    "UI.OptionsForm.Chapters.Group": {
+      "Source": "Chapters",
+      "Translation": "Chapters",
+      "IsTranslated": true,
+      "Notes": "GroupBox label for chapter configuration"
+    },
+    "UI.OptionsForm.Chapters.Default": {
+      "Source": "Default",
+      "Translation": "Default",
+      "IsTranslated": true,
+      "Notes": "Button to reset chapters to default"
+    },
+    "UI.OptionsForm.Chapters.Add": {
+      "Source": "Add...",
+      "Translation": "Add...",
+      "IsTranslated": true,
+      "Notes": "Button to add new chapter"
+    },
+    "UI.OptionsForm.VideoTracks.Group": {
+      "Source": "Video Tracks",
+      "Translation": "Video Tracks",
+      "IsTranslated": true,
+      "Notes": "GroupBox label for video track configuration"
+    },
+    "UI.OptionsForm.VideoTracks.Default": {
+      "Source": "Default",
+      "Translation": "Default",
+      "IsTranslated": true,
+      "Notes": "Button to reset video tracks to default"
+    },
+    "UI.OptionsForm.VideoTracks.Add": {
+      "Source": "Add...",
+      "Translation": "Add...",
+      "IsTranslated": true,
+      "Notes": "Button to add new video track"
+    },
+    "UI.OptionsForm.AudioTracks.Group": {
+      "Source": "Audio Tracks",
+      "Translation": "Audio Tracks",
+      "IsTranslated": true,
+      "Notes": "GroupBox label for audio track configuration"
+    },
+    "UI.OptionsForm.AudioTracks.Default": {
+      "Source": "Default",
+      "Translation": "Default",
+      "IsTranslated": true,
+      "Notes": "Button to reset audio tracks to default"
+    },
+    "UI.OptionsForm.AudioTracks.Add": {
+      "Source": "Add...",
+      "Translation": "Add...",
+      "IsTranslated": true,
+      "Notes": "Button to add new audio track"
+    },
+    "UI.OptionsForm.SubtitleTracks.Group": {
+      "Source": "Subtitle Tracks",
+      "Translation": "Subtitle Tracks",
+      "IsTranslated": true,
+      "Notes": "GroupBox label for subtitle track configuration"
+    },
+    "UI.OptionsForm.SubtitleTracks.Default": {
+      "Source": "Default",
+      "Translation": "Default",
+      "IsTranslated": true,
+      "Notes": "Button to reset subtitle tracks to default"
+    },
+    "UI.OptionsForm.SubtitleTracks.Add": {
+      "Source": "Add...",
+      "Translation": "Add...",
+      "IsTranslated": true,
+      "Notes": "Button to add new subtitle track"
+    },
+    "UI.OptionsForm.Attachments.Group": {
+      "Source": "Attachments",
+      "Translation": "Attachments",
+      "IsTranslated": true,
+      "Notes": "GroupBox label for attachment configuration"
+    },
+    "UI.OptionsForm.Attachments.Default": {
+      "Source": "Default",
+      "Translation": "Default",
+      "IsTranslated": true,
+      "Notes": "Button to reset attachments to default"
+    },
+    "UI.OptionsForm.Attachments.Add": {
+      "Source": "Add...",
+      "Translation": "Add...",
+      "IsTranslated": true,
+      "Notes": "Button to add new attachment"
+    },
+    "UI.OptionsForm.Info.Group": {
+      "Source": "Information",
+      "Translation": "Information",
+      "IsTranslated": true,
+      "Notes": "GroupBox label for information display"
+    },
+    "UI.OptionsForm.Defaults": {
+      "Source": "Defaults",
+      "Translation": "Defaults",
+      "IsTranslated": true,
+      "Notes": "Button to reset all options to default"
+    },
+    "UI.OptionsForm.RawMode": {
+      "Source": "Use `raw` extraction",
+      "Translation": "Use `raw` extraction",
+      "IsTranslated": true,
+      "Notes": "Checkbox for raw extraction mode"
+    },
+    "UI.OptionsForm.FullRawMode": {
+      "Source": "Use `full raw` extraction",
+      "Translation": "Use `full raw` extraction",
+      "IsTranslated": true,
+      "Notes": "Checkbox for full raw extraction mode"
+    },
+    "UI.OptionsForm.TextFilesWithoutBom": {
+      "Source": "Disable BOM to text files (v96.0+)",
+      "Translation": "Disable BOM to text files (v96.0+)",
+      "IsTranslated": true,
+      "Notes": "Checkbox to disable BOM in text file output"
+    }
+  }
+}
