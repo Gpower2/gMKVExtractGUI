@@ -3,7 +3,7 @@
     "Culture": "en",
     "Translator": null,
     "CreationDate": "2025-03-17T00:00:00Z",
-    "LastEditDate": "2026-04-13T20:07:27Z"
+    "LastEditDate": "2026-04-13T21:25:48Z"
   },
   "Entries": {
     "UI.MainForm.Title": {
@@ -666,6 +666,48 @@
       "IsTranslated": true,
       "Notes": "Button to open the track selection context menu"
     },
+    "UI.MainForm2.Tooltips.AutoDetect": {
+      "Source": "Press to try and auto-detect the MKVToolNix installation.",
+      "Translation": "Press to try and auto-detect the MKVToolNix installation.",
+      "IsTranslated": true,
+      "Notes": "Tooltip for the auto-detect MKVToolNix button"
+    },
+    "UI.MainForm2.Tooltips.InputFiles": {
+      "Source": "Contains the list of opened files with their tracks.\nYou can check the individual tracks in order to select them for extracting.\n\nNote: There is a context menu (right-click on the list) that contains many options for batch selecting tracks.",
+      "Translation": "Contains the list of opened files with their tracks.\nYou can check the individual tracks in order to select them for extracting.\n\nNote: There is a context menu (right-click on the list) that contains many options for batch selecting tracks.",
+      "IsTranslated": true,
+      "Notes": "Tooltip for the input files tree and group"
+    },
+    "UI.MainForm2.Tooltips.AppendOnDragAndDrop": {
+      "Source": "Check if you want to append files in the input list on drag and drop.\nUncheck if you want to reset the input list every time you drag and drop a new file.",
+      "Translation": "Check if you want to append files in the input list on drag and drop.\nUncheck if you want to reset the input list every time you drag and drop a new file.",
+      "IsTranslated": true,
+      "Notes": "Tooltip for the append-on-drag-and-drop checkbox"
+    },
+    "UI.MainForm2.Tooltips.OverwriteExistingFiles": {
+      "Source": "Check if you want the output files to always overwrite existing files with the same filename.\nUncheck if you want the output files to automatically be renamed with a different filename to avoid overwriting existing files.",
+      "Translation": "Check if you want the output files to always overwrite existing files with the same filename.\nUncheck if you want the output files to automatically be renamed with a different filename to avoid overwriting existing files.",
+      "IsTranslated": true,
+      "Notes": "Tooltip for the overwrite existing files checkbox"
+    },
+    "UI.MainForm2.Tooltips.UseSourceDirectory": {
+      "Source": "Check if you want the output files to be saved in the same directory as the source files.\nUncheck if you want to manually select an output directory for ALL extracted files.",
+      "Translation": "Check if you want the output files to be saved in the same directory as the source files.\nUncheck if you want to manually select an output directory for ALL extracted files.",
+      "IsTranslated": true,
+      "Notes": "Tooltip for the use source directory checkbox"
+    },
+    "UI.MainForm2.Tooltips.ShowPopup": {
+      "Source": "Check if you want to show a popup message when the extraction is finished.",
+      "Translation": "Check if you want to show a popup message when the extraction is finished.",
+      "IsTranslated": true,
+      "Notes": "Tooltip for the show popup checkbox"
+    },
+    "UI.MainForm2.Tooltips.Select": {
+      "Source": "Press to display the menu that contains many options for batch selecting tracks.",
+      "Translation": "Press to display the menu that contains many options for batch selecting tracks.",
+      "IsTranslated": true,
+      "Notes": "Tooltip for the select button"
+    },
     "UI.MainForm2.FileOptions.AppendOnDragAndDrop": {
       "Source": "Append input on drag and drop",
       "Translation": "Append input on drag and drop",
@@ -857,6 +899,558 @@
       "Translation": "Use Currently Set Default Directory: ({0})",
       "IsTranslated": true,
       "Notes": "Context menu item to use the currently set default directory"
+    },
+    "UI.Common.Dialog.ErrorTitle": {
+      "Source": "Error!",
+      "Translation": "Error!",
+      "IsTranslated": true,
+      "Notes": "Shared error dialog title"
+    },
+    "UI.Common.Dialog.SuccessTitle": {
+      "Source": "Success!",
+      "Translation": "Success!",
+      "IsTranslated": true,
+      "Notes": "Shared success dialog title"
+    },
+    "UI.Common.Dialog.ErrorMessage": {
+      "Source": "An error has occurred!{0}{0}{1}",
+      "Translation": "An error has occurred!{0}{0}{1}",
+      "IsTranslated": true,
+      "Notes": "Shared error dialog body with a formatted message"
+    },
+    "UI.Common.Dialog.ExceptionTitle": {
+      "Source": "An exception has occurred!",
+      "Translation": "An exception has occurred!",
+      "IsTranslated": true,
+      "Notes": "Shared exception dialog title"
+    },
+    "UI.Common.Dialog.ExceptionMessage": {
+      "Source": "An exception has occurred!{0}{0}{1}",
+      "Translation": "An exception has occurred!{0}{0}{1}",
+      "IsTranslated": true,
+      "Notes": "Shared exception dialog body with a formatted message"
+    },
+    "UI.Common.Dialog.AreYouSureTitle": {
+      "Source": "Are you sure?",
+      "Translation": "Are you sure?",
+      "IsTranslated": true,
+      "Notes": "Shared confirmation dialog title"
+    },
+    "UI.Common.Dialog.SelectDirectoryPlaceholder": {
+      "Source": "Select directory",
+      "Translation": "Select directory",
+      "IsTranslated": true,
+      "Notes": "Placeholder file name used when browsing for a directory"
+    },
+    "UI.Common.Status.ExtractionCompleted": {
+      "Source": "Extraction completed!",
+      "Translation": "Extraction completed!",
+      "IsTranslated": true,
+      "Notes": "Status text shown when extraction finishes"
+    },
+    "UI.Common.Errors.ExtractionRunningBeforeClose": {
+      "Source": "There is an extraction process running! Please abort before closing!",
+      "Translation": "There is an extraction process running! Please abort before closing!",
+      "IsTranslated": true,
+      "Notes": "Error shown when trying to close while extraction is still running"
+    },
+    "UI.Controls.TreeView.Errors.NodeNotInTree": {
+      "Source": "The node does not belong to a tree.",
+      "Translation": "The node does not belong to a tree.",
+      "IsTranslated": true,
+      "Notes": "TreeView error when a node is detached from the TreeView"
+    },
+    "UI.Controls.TreeView.Errors.SetStateFailed": {
+      "Source": "Error setting TreeNode state.",
+      "Translation": "Error setting TreeNode state.",
+      "IsTranslated": true,
+      "Notes": "TreeView error when setting a checkbox state fails"
+    },
+    "UI.Controls.TreeView.Errors.GetStateFailed": {
+      "Source": "Error getting TreeNode state.",
+      "Translation": "Error getting TreeNode state.",
+      "IsTranslated": true,
+      "Notes": "TreeView error when reading a checkbox state fails"
+    },
+    "UI.MainForm2.Errors.AutoDetectLinuxNotFound": {
+      "Source": "Could not find MKVToolNix in /usr/bin, or in the current directory, or in the ini file!",
+      "Translation": "Could not find MKVToolNix in /usr/bin, or in the current directory, or in the ini file!",
+      "IsTranslated": true,
+      "Notes": "Auto-detection error when MKVToolNix cannot be found on Linux"
+    },
+    "UI.MainForm2.Errors.AutoDetectWindowsNotFound": {
+      "Source": "Could not find MKVToolNix in registry, or in the current directory, or in the ini file!",
+      "Translation": "Could not find MKVToolNix in registry, or in the current directory, or in the ini file!",
+      "IsTranslated": true,
+      "Notes": "Auto-detection error when MKVToolNix cannot be found on Windows"
+    },
+    "UI.MainForm2.Errors.AutoDetectManualPathHint": {
+      "Source": "{0}{1}Please download and reinstall or provide a manual path!",
+      "Translation": "{0}{1}Please download and reinstall or provide a manual path!",
+      "IsTranslated": true,
+      "Notes": "Auto-detection error followed by guidance to reinstall or choose a manual path"
+    },
+    "UI.MainForm2.Errors.MkvmergeNotFoundInPath": {
+      "Source": "mkvmerge was not found in path {0}!",
+      "Translation": "mkvmerge was not found in path {0}!",
+      "IsTranslated": true,
+      "Notes": "Error shown when mkvmerge cannot be found in a Linux path"
+    },
+    "UI.MainForm2.Errors.NoValidMatroskaFiles": {
+      "Source": "No valid Matroska files were provided!",
+      "Translation": "No valid Matroska files were provided!",
+      "IsTranslated": true,
+      "Notes": "Error shown when no valid input files are available"
+    },
+    "UI.MainForm2.Errors.NoNewFiles": {
+      "Source": "No new files to add!",
+      "Translation": "No new files to add!",
+      "IsTranslated": true,
+      "Notes": "Error shown when every dropped file is already in the list"
+    },
+    "UI.MainForm2.Errors.FileProcessing": {
+      "Source": "File: {0} Error: {1}",
+      "Translation": "File: {0} Error: {1}",
+      "IsTranslated": true,
+      "Notes": "Per-file error message shown while loading dropped files"
+    },
+    "UI.MainForm2.Errors.NoFilenameProvided": {
+      "Source": "No filename was provided!",
+      "Translation": "No filename was provided!",
+      "IsTranslated": true,
+      "Notes": "Error shown when no file path was supplied"
+    },
+    "UI.MainForm2.Errors.FileDoesNotExist": {
+      "Source": "The file {0} does not exist!",
+      "Translation": "The file {0} does not exist!",
+      "IsTranslated": true,
+      "Notes": "Error shown when a selected input file is missing"
+    },
+    "UI.MainForm2.Errors.InvalidMatroskaInputFile": {
+      "Source": "The input file {0}{1}{1}is not a valid Matroska file!",
+      "Translation": "The input file {0}{1}{1}is not a valid Matroska file!",
+      "IsTranslated": true,
+      "Notes": "Error shown when a selected input file is not a Matroska file"
+    },
+    "UI.MainForm2.Errors.SelectedNodeNullTag": {
+      "Source": "Selected node has a null tag!",
+      "Translation": "Selected node has a null tag!",
+      "IsTranslated": true,
+      "Notes": "Error shown when a selected TreeView node has no tag"
+    },
+    "UI.MainForm2.Errors.SelectedNodeNoParent": {
+      "Source": "Selected node has no parent node!",
+      "Translation": "Selected node has no parent node!",
+      "IsTranslated": true,
+      "Notes": "Error shown when a selected child node has no parent"
+    },
+    "UI.MainForm2.Errors.SelectedNodeNoInfo": {
+      "Source": "Selected node has no info!",
+      "Translation": "Selected node has no info!",
+      "IsTranslated": true,
+      "Notes": "Error shown when a selected TreeView node lacks segment info"
+    },
+    "UI.MainForm2.Errors.MkvToolnixPathRequired": {
+      "Source": "You must provide an MKVToolNix path!",
+      "Translation": "You must provide an MKVToolNix path!",
+      "IsTranslated": true,
+      "Notes": "Error shown when MKVToolNix path is empty"
+    },
+    "UI.MainForm2.Errors.MkvToolnixFilesMissing": {
+      "Source": "The MKVToolNix path provided does not contain MKVToolNix files!",
+      "Translation": "The MKVToolNix path provided does not contain MKVToolNix files!",
+      "IsTranslated": true,
+      "Notes": "Error shown when the selected MKVToolNix path is invalid"
+    },
+    "UI.MainForm2.Errors.OutputDirectoryRequired": {
+      "Source": "You haven't specified an output directory!",
+      "Translation": "You haven't specified an output directory!",
+      "IsTranslated": true,
+      "Notes": "Error shown when output directory is required but missing"
+    },
+    "UI.MainForm2.Errors.TrackRequiredForMode": {
+      "Source": "You must select a track from the file in order to extract {0}!",
+      "Translation": "You must select a track from the file in order to extract {0}!",
+      "IsTranslated": true,
+      "Notes": "Error shown when a file track must be selected for a specific extraction mode"
+    },
+    "UI.MainForm2.Errors.TrackRequired": {
+      "Source": "You must select a track to extract!",
+      "Translation": "You must select a track to extract!",
+      "IsTranslated": true,
+      "Notes": "Error shown when no track is selected for extraction"
+    },
+    "UI.MainForm2.Errors.TimecodesTrackRequired": {
+      "Source": "You must select a video, audio, or subtitle track to extract timecodes!",
+      "Translation": "You must select a video, audio, or subtitle track to extract timecodes!",
+      "IsTranslated": true,
+      "Notes": "Error shown when timecodes extraction requires a selected media track"
+    },
+    "UI.MainForm2.Errors.CuesTrackRequired": {
+      "Source": "You must select a video, audio, or subtitle track to extract cues!",
+      "Translation": "You must select a video, audio, or subtitle track to extract cues!",
+      "IsTranslated": true,
+      "Notes": "Error shown when cues extraction requires a selected media track"
+    },
+    "UI.MainForm2.Errors.ChapterTypeRequired": {
+      "Source": "You must select a chapter type!",
+      "Translation": "You must select a chapter type!",
+      "IsTranslated": true,
+      "Notes": "Error shown when chapter extraction requires a chapter type"
+    },
+    "UI.MainForm2.Dialogs.OutputDirectoryMissingQuestion": {
+      "Source": "The output directory \"{0}\" does not exist!{1}{1}Do you want to create it?",
+      "Translation": "The output directory \"{0}\" does not exist!{1}{1}Do you want to create it?",
+      "IsTranslated": true,
+      "Notes": "Confirmation dialog asking to create a missing output directory"
+    },
+    "UI.MainForm2.Dialogs.OutputDirectoryMissingTitle": {
+      "Source": "Output directory does not exist!",
+      "Translation": "Output directory does not exist!",
+      "IsTranslated": true,
+      "Notes": "Confirmation dialog title for missing output directory"
+    },
+    "UI.MainForm2.Errors.OutputDirectoryMissingCancelled": {
+      "Source": "The output directory \"{0}\" does not exist!{1}{1}Extraction was cancelled!",
+      "Translation": "The output directory \"{0}\" does not exist!{1}{1}Extraction was cancelled!",
+      "IsTranslated": true,
+      "Notes": "Error shown when extraction is cancelled because the output directory is missing"
+    },
+    "UI.MainForm2.Success.ExtractionCompleted": {
+      "Source": "The extraction was completed successfully!",
+      "Translation": "The extraction was completed successfully!",
+      "IsTranslated": true,
+      "Notes": "Success dialog shown when extraction finishes"
+    },
+    "UI.MainForm2.Errors.FolderDoesNotContainMkvToolnix": {
+      "Source": "The folder does not contain MKVToolNix! {0}",
+      "Translation": "The folder does not contain MKVToolNix! {0}",
+      "IsTranslated": true,
+      "Notes": "Error shown when a selected folder does not contain MKVToolNix"
+    },
+    "UI.MainForm2.Dialogs.ChangeMkvToolnixPathQuestion": {
+      "Source": "Do you really want to change the MKVToolNix path?",
+      "Translation": "Do you really want to change the MKVToolNix path?",
+      "IsTranslated": true,
+      "Notes": "Confirmation dialog shown before changing the MKVToolNix path"
+    },
+    "UI.MainForm2.Dialogs.IncludeSubDirectoriesQuestion": {
+      "Source": "Do you want to include files in subdirectories?",
+      "Translation": "Do you want to include files in subdirectories?",
+      "IsTranslated": true,
+      "Notes": "Confirmation dialog asking whether subdirectory files should be included"
+    },
+    "UI.MainForm2.Dialogs.SubDirectoriesFoundTitle": {
+      "Source": "Subdirectories found!",
+      "Translation": "Subdirectories found!",
+      "IsTranslated": true,
+      "Notes": "Confirmation dialog title shown when dropped folders contain subdirectories"
+    },
+    "UI.MainForm2.Dialogs.SelectOutputDirectoryTitle": {
+      "Source": "Select output directory...",
+      "Translation": "Select output directory...",
+      "IsTranslated": true,
+      "Notes": "File dialog title used when browsing for the output directory"
+    },
+    "UI.MainForm2.Dialogs.SelectMkvToolnixDirectoryTitle": {
+      "Source": "Select MKVToolNix directory...",
+      "Translation": "Select MKVToolNix directory...",
+      "IsTranslated": true,
+      "Notes": "File dialog title used when browsing for the MKVToolNix directory"
+    },
+    "UI.MainForm2.Dialogs.SelectInputMatroskaFileTitle": {
+      "Source": "Select an input Matroska file...",
+      "Translation": "Select an input Matroska file...",
+      "IsTranslated": true,
+      "Notes": "File dialog title used when adding Matroska input files"
+    },
+    "UI.MainForm2.Dialogs.SelectInputMatroskaFileFilter": {
+      "Source": "Matroska files (*.mkv;*.mka;*.mks;*.mk3d;*.webm)|*.mkv;*.mka;*.mks;*.mk3d;*.webm|Matroska video files (*.mkv)|*.mkv|Matroska audio files (*.mka)|*.mka|Matroska subtitle files (*.mks)|*.mks|Matroska 3D files (*.mk3d)|*.mk3d|WebM files (*.webm)|*.webm",
+      "Translation": "Matroska files (*.mkv;*.mka;*.mks;*.mk3d;*.webm)|*.mkv;*.mka;*.mks;*.mk3d;*.webm|Matroska video files (*.mkv)|*.mkv|Matroska audio files (*.mka)|*.mka|Matroska subtitle files (*.mks)|*.mks|Matroska 3D files (*.mk3d)|*.mk3d|WebM files (*.webm)|*.webm",
+      "IsTranslated": true,
+      "Notes": "File dialog filter used when adding Matroska input files"
+    },
+    "UI.MainForm2.Dialogs.ChangeDefaultOutputDirectoryQuestion": {
+      "Source": "Are you sure you want to change the currently set ({0}) default output directory?",
+      "Translation": "Are you sure you want to change the currently set ({0}) default output directory?",
+      "IsTranslated": true,
+      "Notes": "Confirmation dialog shown before changing the default output directory"
+    },
+    "UI.JobManager.Errors.NoJobsAvailable": {
+      "Source": "There are no available jobs to run!",
+      "Translation": "There are no available jobs to run!",
+      "IsTranslated": true,
+      "Notes": "Error shown when no jobs are ready to run"
+    },
+    "UI.JobManager.Errors.ExceptionForJob": {
+      "Source": "Exception for job {0}: {1}{2}",
+      "Translation": "Exception for job {0}: {1}{2}",
+      "IsTranslated": true,
+      "Notes": "Per-job exception message appended while running jobs"
+    },
+    "UI.JobManager.Errors.UnsupportedExtractionMode": {
+      "Source": "Unsupported Extraction Mode!",
+      "Translation": "Unsupported Extraction Mode!",
+      "IsTranslated": true,
+      "Notes": "Error shown when a saved job contains an unsupported extraction mode"
+    },
+    "UI.JobManager.Success.JobsCompleted": {
+      "Source": "The jobs completed successfully!",
+      "Translation": "The jobs completed successfully!",
+      "IsTranslated": true,
+      "Notes": "Success dialog shown when all jobs complete"
+    },
+    "UI.JobManager.Success.JobsSaved": {
+      "Source": "The jobs were saved successfully!",
+      "Translation": "The jobs were saved successfully!",
+      "IsTranslated": true,
+      "Notes": "Success dialog shown when jobs are saved to disk"
+    },
+    "UI.JobManager.Success.JobsLoaded": {
+      "Source": "The jobs were loaded successfully!",
+      "Translation": "The jobs were loaded successfully!",
+      "IsTranslated": true,
+      "Notes": "Success dialog shown when jobs are loaded from disk"
+    },
+    "UI.JobManager.Dialogs.SelectJobFileTitle": {
+      "Source": "Select job file...",
+      "Translation": "Select job file...",
+      "IsTranslated": true,
+      "Notes": "File dialog title used when saving jobs"
+    },
+    "UI.JobManager.Dialogs.SelectJobsFileTitle": {
+      "Source": "Select jobs file...",
+      "Translation": "Select jobs file...",
+      "IsTranslated": true,
+      "Notes": "File dialog title used when loading jobs"
+    },
+    "UI.Log.Dialogs.ClearLogQuestion": {
+      "Source": "Are you sure you want to clear the log?",
+      "Translation": "Are you sure you want to clear the log?",
+      "IsTranslated": true,
+      "Notes": "Confirmation dialog shown before clearing the log"
+    },
+    "UI.Log.Dialogs.SelectFilenameTitle": {
+      "Source": "Select filename for the log...",
+      "Translation": "Select filename for the log...",
+      "IsTranslated": true,
+      "Notes": "File dialog title used when saving the log"
+    },
+    "UI.Log.Success.LogSaved": {
+      "Source": "The log was saved to {0}!",
+      "Translation": "The log was saved to {0}!",
+      "IsTranslated": true,
+      "Notes": "Success dialog shown when the log is saved"
+    },
+    "UI.Common.Status.Extracting": {
+      "Source": "Extracting...",
+      "Translation": "Extracting...",
+      "IsTranslated": true,
+      "Notes": "Status text shown while extraction is running"
+    },
+    "UI.MainForm.Errors.ValidMatroskaFileRequired": {
+      "Source": "You must provide a valid Matroska file!",
+      "Translation": "You must provide a valid Matroska file!",
+      "IsTranslated": true,
+      "Notes": "Error shown in the legacy main form when no valid Matroska file is selected"
+    },
+    "UI.OptionsForm.Placeholders.InputFilenameWithoutExtension": {
+      "Source": "Input Filename (without extension)",
+      "Translation": "Input Filename (without extension)",
+      "IsTranslated": true,
+      "Notes": "Placeholder description for the input filename without extension"
+    },
+    "UI.OptionsForm.Placeholders.InputFilenameWithExtension": {
+      "Source": "Input Filename (with extension)",
+      "Translation": "Input Filename (with extension)",
+      "IsTranslated": true,
+      "Notes": "Placeholder description for the input filename with extension"
+    },
+    "UI.OptionsForm.Placeholders.DirectorySeparator": {
+      "Source": "Directory Separator",
+      "Translation": "Directory Separator",
+      "IsTranslated": true,
+      "Notes": "Placeholder description for the directory separator"
+    },
+    "UI.OptionsForm.Placeholders.TrackNumber.Group": {
+      "Source": "Track Number...",
+      "Translation": "Track Number...",
+      "IsTranslated": true,
+      "Notes": "Placeholder group for formatted track numbers"
+    },
+    "UI.OptionsForm.Placeholders.TrackNumber.NoFormat": {
+      "Source": "Track Number (No format)",
+      "Translation": "Track Number (No format)",
+      "IsTranslated": true,
+      "Notes": "Placeholder description for an unformatted track number"
+    },
+    "UI.OptionsForm.Placeholders.TrackNumber.OneDigit": {
+      "Source": "Track Number (1 digit)",
+      "Translation": "Track Number (1 digit)",
+      "IsTranslated": true,
+      "Notes": "Placeholder description for a one-digit track number"
+    },
+    "UI.OptionsForm.Placeholders.TrackNumber.TwoDigits": {
+      "Source": "Track Number (2 digits)",
+      "Translation": "Track Number (2 digits)",
+      "IsTranslated": true,
+      "Notes": "Placeholder description for a two-digit track number"
+    },
+    "UI.OptionsForm.Placeholders.TrackNumber.ThreeDigits": {
+      "Source": "Track Number (3 digits)",
+      "Translation": "Track Number (3 digits)",
+      "IsTranslated": true,
+      "Notes": "Placeholder description for a three-digit track number"
+    },
+    "UI.OptionsForm.Placeholders.TrackId.Group": {
+      "Source": "Track ID...",
+      "Translation": "Track ID...",
+      "IsTranslated": true,
+      "Notes": "Placeholder group for formatted track IDs"
+    },
+    "UI.OptionsForm.Placeholders.TrackId.NoFormat": {
+      "Source": "Track ID (No format)",
+      "Translation": "Track ID (No format)",
+      "IsTranslated": true,
+      "Notes": "Placeholder description for an unformatted track ID"
+    },
+    "UI.OptionsForm.Placeholders.TrackId.OneDigit": {
+      "Source": "Track ID (1 digit)",
+      "Translation": "Track ID (1 digit)",
+      "IsTranslated": true,
+      "Notes": "Placeholder description for a one-digit track ID"
+    },
+    "UI.OptionsForm.Placeholders.TrackId.TwoDigits": {
+      "Source": "Track ID (2 digits)",
+      "Translation": "Track ID (2 digits)",
+      "IsTranslated": true,
+      "Notes": "Placeholder description for a two-digit track ID"
+    },
+    "UI.OptionsForm.Placeholders.TrackId.ThreeDigits": {
+      "Source": "Track ID (3 digits)",
+      "Translation": "Track ID (3 digits)",
+      "IsTranslated": true,
+      "Notes": "Placeholder description for a three-digit track ID"
+    },
+    "UI.OptionsForm.Placeholders.TrackName": {
+      "Source": "Track Name",
+      "Translation": "Track Name",
+      "IsTranslated": true,
+      "Notes": "Placeholder description for the track name"
+    },
+    "UI.OptionsForm.Placeholders.TrackLanguage": {
+      "Source": "Track Language",
+      "Translation": "Track Language",
+      "IsTranslated": true,
+      "Notes": "Placeholder description for the track language"
+    },
+    "UI.OptionsForm.Placeholders.TrackLanguageIetf": {
+      "Source": "Track Language IETF",
+      "Translation": "Track Language IETF",
+      "IsTranslated": true,
+      "Notes": "Placeholder description for the track IETF language"
+    },
+    "UI.OptionsForm.Placeholders.TrackCodecId": {
+      "Source": "Track Codec ID",
+      "Translation": "Track Codec ID",
+      "IsTranslated": true,
+      "Notes": "Placeholder description for the track codec ID"
+    },
+    "UI.OptionsForm.Placeholders.TrackCodecPrivate": {
+      "Source": "Track Codec Private",
+      "Translation": "Track Codec Private",
+      "IsTranslated": true,
+      "Notes": "Placeholder description for the track codec private data"
+    },
+    "UI.OptionsForm.Placeholders.TrackDelay": {
+      "Source": "Track Delay",
+      "Translation": "Track Delay",
+      "IsTranslated": true,
+      "Notes": "Placeholder description for the track delay"
+    },
+    "UI.OptionsForm.Placeholders.TrackEffectiveDelay": {
+      "Source": "Track Effective Delay",
+      "Translation": "Track Effective Delay",
+      "IsTranslated": true,
+      "Notes": "Placeholder description for the track effective delay"
+    },
+    "UI.OptionsForm.Placeholders.TrackForced": {
+      "Source": "Track Forced",
+      "Translation": "Track Forced",
+      "IsTranslated": true,
+      "Notes": "Placeholder description for the track forced flag"
+    },
+    "UI.OptionsForm.Placeholders.VideoPixelWidth": {
+      "Source": "Video Pixel Width",
+      "Translation": "Video Pixel Width",
+      "IsTranslated": true,
+      "Notes": "Placeholder description for the video pixel width"
+    },
+    "UI.OptionsForm.Placeholders.VideoPixelHeight": {
+      "Source": "Video Pixel Height",
+      "Translation": "Video Pixel Height",
+      "IsTranslated": true,
+      "Notes": "Placeholder description for the video pixel height"
+    },
+    "UI.OptionsForm.Placeholders.AudioSamplingFrequency": {
+      "Source": "Audio Sampling Frequency",
+      "Translation": "Audio Sampling Frequency",
+      "IsTranslated": true,
+      "Notes": "Placeholder description for the audio sampling frequency"
+    },
+    "UI.OptionsForm.Placeholders.AudioChannels": {
+      "Source": "Audio Channels",
+      "Translation": "Audio Channels",
+      "IsTranslated": true,
+      "Notes": "Placeholder description for the audio channel count"
+    },
+    "UI.OptionsForm.Placeholders.AttachmentId.Group": {
+      "Source": "Attachment ID...",
+      "Translation": "Attachment ID...",
+      "IsTranslated": true,
+      "Notes": "Placeholder group for formatted attachment IDs"
+    },
+    "UI.OptionsForm.Placeholders.AttachmentId.NoFormat": {
+      "Source": "Attachment ID (No format)",
+      "Translation": "Attachment ID (No format)",
+      "IsTranslated": true,
+      "Notes": "Placeholder description for an unformatted attachment ID"
+    },
+    "UI.OptionsForm.Placeholders.AttachmentId.OneDigit": {
+      "Source": "Attachment ID (1 digit)",
+      "Translation": "Attachment ID (1 digit)",
+      "IsTranslated": true,
+      "Notes": "Placeholder description for a one-digit attachment ID"
+    },
+    "UI.OptionsForm.Placeholders.AttachmentId.TwoDigits": {
+      "Source": "Attachment ID (2 digits)",
+      "Translation": "Attachment ID (2 digits)",
+      "IsTranslated": true,
+      "Notes": "Placeholder description for a two-digit attachment ID"
+    },
+    "UI.OptionsForm.Placeholders.AttachmentId.ThreeDigits": {
+      "Source": "Attachment ID (3 digits)",
+      "Translation": "Attachment ID (3 digits)",
+      "IsTranslated": true,
+      "Notes": "Placeholder description for a three-digit attachment ID"
+    },
+    "UI.OptionsForm.Placeholders.AttachmentFilename": {
+      "Source": "Attachment Filename",
+      "Translation": "Attachment Filename",
+      "IsTranslated": true,
+      "Notes": "Placeholder description for the attachment filename"
+    },
+    "UI.OptionsForm.Placeholders.AttachmentMimeType": {
+      "Source": "Attachment MIME Type",
+      "Translation": "Attachment MIME Type",
+      "IsTranslated": true,
+      "Notes": "Placeholder description for the attachment MIME type"
+    },
+    "UI.OptionsForm.Placeholders.AttachmentFileSizeBytes": {
+      "Source": "Attachment File Size (bytes)",
+      "Translation": "Attachment File Size (bytes)",
+      "IsTranslated": true,
+      "Notes": "Placeholder description for the attachment size in bytes"
     }
   }
 }

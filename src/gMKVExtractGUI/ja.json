@@ -3,7 +3,7 @@
     "Culture": "ja",
     "Translator": "GitHub Copilot",
     "CreationDate": "2026-04-13T20:07:27Z",
-    "LastEditDate": "2026-04-13T20:07:27Z"
+    "LastEditDate": "2026-04-13T21:25:48Z"
   },
   "Entries": {
     "UI.MainForm.Title": {
@@ -666,6 +666,48 @@
       "IsTranslated": true,
       "Notes": "Button to open the track selection context menu"
     },
+    "UI.MainForm2.Tooltips.AutoDetect": {
+      "Source": "Press to try and auto-detect the MKVToolNix installation.",
+      "Translation": "MKVToolNix のインストールを自動検出するには押してください。",
+      "IsTranslated": true,
+      "Notes": "Tooltip for the auto-detect MKVToolNix button"
+    },
+    "UI.MainForm2.Tooltips.InputFiles": {
+      "Source": "Contains the list of opened files with their tracks.\nYou can check the individual tracks in order to select them for extracting.\n\nNote: There is a context menu (right-click on the list) that contains many options for batch selecting tracks.",
+      "Translation": "開いているファイルとそのトラックの一覧を表示します。\n個々のトラックにチェックを入れて、抽出対象として選択できます。\n\n注: 一覧にはコンテキストメニュー (一覧を右クリック) があり、トラックを一括選択するための多くのオプションが含まれています。",
+      "IsTranslated": true,
+      "Notes": "Tooltip for the input files tree and group"
+    },
+    "UI.MainForm2.Tooltips.AppendOnDragAndDrop": {
+      "Source": "Check if you want to append files in the input list on drag and drop.\nUncheck if you want to reset the input list every time you drag and drop a new file.",
+      "Translation": "ドラッグ アンド ドロップ時にファイルを入力一覧へ追加したい場合はチェックしてください。\n新しいファイルをドラッグ アンド ドロップするたびに入力一覧をリセットしたい場合はチェックを外してください。",
+      "IsTranslated": true,
+      "Notes": "Tooltip for the append-on-drag-and-drop checkbox"
+    },
+    "UI.MainForm2.Tooltips.OverwriteExistingFiles": {
+      "Source": "Check if you want the output files to always overwrite existing files with the same filename.\nUncheck if you want the output files to automatically be renamed with a different filename to avoid overwriting existing files.",
+      "Translation": "出力ファイルで同名の既存ファイルを常に上書きしたい場合はチェックしてください。\n既存ファイルの上書きを避けるため、出力ファイル名を自動的に別名へ変更したい場合はチェックを外してください。",
+      "IsTranslated": true,
+      "Notes": "Tooltip for the overwrite existing files checkbox"
+    },
+    "UI.MainForm2.Tooltips.UseSourceDirectory": {
+      "Source": "Check if you want the output files to be saved in the same directory as the source files.\nUncheck if you want to manually select an output directory for ALL extracted files.",
+      "Translation": "出力ファイルを元ファイルと同じディレクトリに保存したい場合はチェックしてください。\n抽出されたすべてのファイルに対して出力ディレクトリを手動で選択したい場合はチェックを外してください。",
+      "IsTranslated": true,
+      "Notes": "Tooltip for the use source directory checkbox"
+    },
+    "UI.MainForm2.Tooltips.ShowPopup": {
+      "Source": "Check if you want to show a popup message when the extraction is finished.",
+      "Translation": "抽出完了時にポップアップ メッセージを表示したい場合はチェックしてください。",
+      "IsTranslated": true,
+      "Notes": "Tooltip for the show popup checkbox"
+    },
+    "UI.MainForm2.Tooltips.Select": {
+      "Source": "Press to display the menu that contains many options for batch selecting tracks.",
+      "Translation": "トラックを一括選択するための多くのオプションを含むメニューを表示するには押してください。",
+      "IsTranslated": true,
+      "Notes": "Tooltip for the select button"
+    },
     "UI.MainForm2.FileOptions.AppendOnDragAndDrop": {
       "Source": "Append input on drag and drop",
       "Translation": "ドラッグ＆ドロップ時に入力を追加",
@@ -857,6 +899,558 @@
       "Translation": "現在設定されている既定のディレクトリを使用: ({0})",
       "IsTranslated": true,
       "Notes": "Context menu item to use the currently set default directory"
+    },
+    "UI.Common.Dialog.ErrorTitle": {
+      "Source": "Error!",
+      "Translation": "エラー！",
+      "IsTranslated": true,
+      "Notes": "Shared error dialog title"
+    },
+    "UI.Common.Dialog.SuccessTitle": {
+      "Source": "Success!",
+      "Translation": "成功！",
+      "IsTranslated": true,
+      "Notes": "Shared success dialog title"
+    },
+    "UI.Common.Dialog.ErrorMessage": {
+      "Source": "An error has occurred!{0}{0}{1}",
+      "Translation": "エラーが発生しました。{0}{0}{1}",
+      "IsTranslated": true,
+      "Notes": "Shared error dialog body with a formatted message"
+    },
+    "UI.Common.Dialog.ExceptionTitle": {
+      "Source": "An exception has occurred!",
+      "Translation": "例外が発生しました。",
+      "IsTranslated": true,
+      "Notes": "Shared exception dialog title"
+    },
+    "UI.Common.Dialog.ExceptionMessage": {
+      "Source": "An exception has occurred!{0}{0}{1}",
+      "Translation": "例外が発生しました。{0}{0}{1}",
+      "IsTranslated": true,
+      "Notes": "Shared exception dialog body with a formatted message"
+    },
+    "UI.Common.Dialog.AreYouSureTitle": {
+      "Source": "Are you sure?",
+      "Translation": "よろしいですか？",
+      "IsTranslated": true,
+      "Notes": "Shared confirmation dialog title"
+    },
+    "UI.Common.Dialog.SelectDirectoryPlaceholder": {
+      "Source": "Select directory",
+      "Translation": "フォルダーを選択",
+      "IsTranslated": true,
+      "Notes": "Placeholder file name used when browsing for a directory"
+    },
+    "UI.Common.Status.ExtractionCompleted": {
+      "Source": "Extraction completed!",
+      "Translation": "抽出が完了しました！",
+      "IsTranslated": true,
+      "Notes": "Status text shown when extraction finishes"
+    },
+    "UI.Common.Errors.ExtractionRunningBeforeClose": {
+      "Source": "There is an extraction process running! Please abort before closing!",
+      "Translation": "抽出処理が実行中です。閉じる前に中止してください！",
+      "IsTranslated": true,
+      "Notes": "Error shown when trying to close while extraction is still running"
+    },
+    "UI.Controls.TreeView.Errors.NodeNotInTree": {
+      "Source": "The node does not belong to a tree.",
+      "Translation": "そのノードはツリーに属していません。",
+      "IsTranslated": true,
+      "Notes": "TreeView error when a node is detached from the TreeView"
+    },
+    "UI.Controls.TreeView.Errors.SetStateFailed": {
+      "Source": "Error setting TreeNode state.",
+      "Translation": "TreeNode の状態設定中にエラーが発生しました。",
+      "IsTranslated": true,
+      "Notes": "TreeView error when setting a checkbox state fails"
+    },
+    "UI.Controls.TreeView.Errors.GetStateFailed": {
+      "Source": "Error getting TreeNode state.",
+      "Translation": "TreeNode の状態取得中にエラーが発生しました。",
+      "IsTranslated": true,
+      "Notes": "TreeView error when reading a checkbox state fails"
+    },
+    "UI.MainForm2.Errors.AutoDetectLinuxNotFound": {
+      "Source": "Could not find MKVToolNix in /usr/bin, or in the current directory, or in the ini file!",
+      "Translation": "MKVToolNix が /usr/bin、現在のディレクトリ、または ini ファイル内に見つかりませんでした。",
+      "IsTranslated": true,
+      "Notes": "Auto-detection error when MKVToolNix cannot be found on Linux"
+    },
+    "UI.MainForm2.Errors.AutoDetectWindowsNotFound": {
+      "Source": "Could not find MKVToolNix in registry, or in the current directory, or in the ini file!",
+      "Translation": "MKVToolNix がレジストリ、現在のディレクトリ、または ini ファイル内に見つかりませんでした。",
+      "IsTranslated": true,
+      "Notes": "Auto-detection error when MKVToolNix cannot be found on Windows"
+    },
+    "UI.MainForm2.Errors.AutoDetectManualPathHint": {
+      "Source": "{0}{1}Please download and reinstall or provide a manual path!",
+      "Translation": "{0}{1}アプリケーションを再ダウンロードして再インストールするか、手動でパスを指定してください。",
+      "IsTranslated": true,
+      "Notes": "Auto-detection error followed by guidance to reinstall or choose a manual path"
+    },
+    "UI.MainForm2.Errors.MkvmergeNotFoundInPath": {
+      "Source": "mkvmerge was not found in path {0}!",
+      "Translation": "パス {0} に mkvmerge が見つかりませんでした。",
+      "IsTranslated": true,
+      "Notes": "Error shown when mkvmerge cannot be found in a Linux path"
+    },
+    "UI.MainForm2.Errors.NoValidMatroskaFiles": {
+      "Source": "No valid Matroska files were provided!",
+      "Translation": "有効な Matroska ファイルが指定されていません。",
+      "IsTranslated": true,
+      "Notes": "Error shown when no valid input files are available"
+    },
+    "UI.MainForm2.Errors.NoNewFiles": {
+      "Source": "No new files to add!",
+      "Translation": "追加する新しいファイルがありません！",
+      "IsTranslated": true,
+      "Notes": "Error shown when every dropped file is already in the list"
+    },
+    "UI.MainForm2.Errors.FileProcessing": {
+      "Source": "File: {0} Error: {1}",
+      "Translation": "ファイル: {0} エラー: {1}",
+      "IsTranslated": true,
+      "Notes": "Per-file error message shown while loading dropped files"
+    },
+    "UI.MainForm2.Errors.NoFilenameProvided": {
+      "Source": "No filename was provided!",
+      "Translation": "ファイル名が指定されていません。",
+      "IsTranslated": true,
+      "Notes": "Error shown when no file path was supplied"
+    },
+    "UI.MainForm2.Errors.FileDoesNotExist": {
+      "Source": "The file {0} does not exist!",
+      "Translation": "ファイル {0} は存在しません。",
+      "IsTranslated": true,
+      "Notes": "Error shown when a selected input file is missing"
+    },
+    "UI.MainForm2.Errors.InvalidMatroskaInputFile": {
+      "Source": "The input file {0}{1}{1}is not a valid Matroska file!",
+      "Translation": "入力ファイル {0}{1}{1}は有効な Matroska ファイルではありません。",
+      "IsTranslated": true,
+      "Notes": "Error shown when a selected input file is not a Matroska file"
+    },
+    "UI.MainForm2.Errors.SelectedNodeNullTag": {
+      "Source": "Selected node has a null tag!",
+      "Translation": "選択したノードにタグがありません。",
+      "IsTranslated": true,
+      "Notes": "Error shown when a selected TreeView node has no tag"
+    },
+    "UI.MainForm2.Errors.SelectedNodeNoParent": {
+      "Source": "Selected node has no parent node!",
+      "Translation": "選択したノードに親ノードがありません。",
+      "IsTranslated": true,
+      "Notes": "Error shown when a selected child node has no parent"
+    },
+    "UI.MainForm2.Errors.SelectedNodeNoInfo": {
+      "Source": "Selected node has no info!",
+      "Translation": "選択したノードに情報がありません。",
+      "IsTranslated": true,
+      "Notes": "Error shown when a selected TreeView node lacks segment info"
+    },
+    "UI.MainForm2.Errors.MkvToolnixPathRequired": {
+      "Source": "You must provide an MKVToolNix path!",
+      "Translation": "MKVToolNix のパスを指定する必要があります。",
+      "IsTranslated": true,
+      "Notes": "Error shown when MKVToolNix path is empty"
+    },
+    "UI.MainForm2.Errors.MkvToolnixFilesMissing": {
+      "Source": "The MKVToolNix path provided does not contain MKVToolNix files!",
+      "Translation": "指定された MKVToolNix パスに MKVToolNix ファイルがありません。",
+      "IsTranslated": true,
+      "Notes": "Error shown when the selected MKVToolNix path is invalid"
+    },
+    "UI.MainForm2.Errors.OutputDirectoryRequired": {
+      "Source": "You haven't specified an output directory!",
+      "Translation": "出力ディレクトリが指定されていません。",
+      "IsTranslated": true,
+      "Notes": "Error shown when output directory is required but missing"
+    },
+    "UI.MainForm2.Errors.TrackRequiredForMode": {
+      "Source": "You must select a track from the file in order to extract {0}!",
+      "Translation": "抽出する前に、ファイルからトラックを選択する必要があります。",
+      "IsTranslated": true,
+      "Notes": "Error shown when a file track must be selected for a specific extraction mode"
+    },
+    "UI.MainForm2.Errors.TrackRequired": {
+      "Source": "You must select a track to extract!",
+      "Translation": "抽出するトラックを選択する必要があります。",
+      "IsTranslated": true,
+      "Notes": "Error shown when no track is selected for extraction"
+    },
+    "UI.MainForm2.Errors.TimecodesTrackRequired": {
+      "Source": "You must select a video, audio, or subtitle track to extract timecodes!",
+      "Translation": "タイムコードを抽出するには、映像・音声・字幕のいずれかのトラックを選択する必要があります。",
+      "IsTranslated": true,
+      "Notes": "Error shown when timecodes extraction requires a selected media track"
+    },
+    "UI.MainForm2.Errors.CuesTrackRequired": {
+      "Source": "You must select a video, audio, or subtitle track to extract cues!",
+      "Translation": "キューを抽出するには、映像・音声・字幕のいずれかのトラックを選択する必要があります。",
+      "IsTranslated": true,
+      "Notes": "Error shown when cues extraction requires a selected media track"
+    },
+    "UI.MainForm2.Errors.ChapterTypeRequired": {
+      "Source": "You must select a chapter type!",
+      "Translation": "チャプター種別を選択する必要があります。",
+      "IsTranslated": true,
+      "Notes": "Error shown when chapter extraction requires a chapter type"
+    },
+    "UI.MainForm2.Dialogs.OutputDirectoryMissingQuestion": {
+      "Source": "The output directory \"{0}\" does not exist!{1}{1}Do you want to create it?",
+      "Translation": "出力ディレクトリ \"{0}\" は存在しません。{1}{1}作成しますか？",
+      "IsTranslated": true,
+      "Notes": "Confirmation dialog asking to create a missing output directory"
+    },
+    "UI.MainForm2.Dialogs.OutputDirectoryMissingTitle": {
+      "Source": "Output directory does not exist!",
+      "Translation": "出力ディレクトリが存在しません。",
+      "IsTranslated": true,
+      "Notes": "Confirmation dialog title for missing output directory"
+    },
+    "UI.MainForm2.Errors.OutputDirectoryMissingCancelled": {
+      "Source": "The output directory \"{0}\" does not exist!{1}{1}Extraction was cancelled!",
+      "Translation": "出力ディレクトリ \"{0}\" は存在しません。{1}{1}抽出はキャンセルされました。",
+      "IsTranslated": true,
+      "Notes": "Error shown when extraction is cancelled because the output directory is missing"
+    },
+    "UI.MainForm2.Success.ExtractionCompleted": {
+      "Source": "The extraction was completed successfully!",
+      "Translation": "抽出が正常に完了しました！",
+      "IsTranslated": true,
+      "Notes": "Success dialog shown when extraction finishes"
+    },
+    "UI.MainForm2.Errors.FolderDoesNotContainMkvToolnix": {
+      "Source": "The folder does not contain MKVToolNix! {0}",
+      "Translation": "フォルダーに MKVToolNix が含まれていません。{0}",
+      "IsTranslated": true,
+      "Notes": "Error shown when a selected folder does not contain MKVToolNix"
+    },
+    "UI.MainForm2.Dialogs.ChangeMkvToolnixPathQuestion": {
+      "Source": "Do you really want to change the MKVToolNix path?",
+      "Translation": "本当に MKVToolNix のパスを変更しますか？",
+      "IsTranslated": true,
+      "Notes": "Confirmation dialog shown before changing the MKVToolNix path"
+    },
+    "UI.MainForm2.Dialogs.IncludeSubDirectoriesQuestion": {
+      "Source": "Do you want to include files in subdirectories?",
+      "Translation": "サブディレクトリ内のファイルも含めますか？",
+      "IsTranslated": true,
+      "Notes": "Confirmation dialog asking whether subdirectory files should be included"
+    },
+    "UI.MainForm2.Dialogs.SubDirectoriesFoundTitle": {
+      "Source": "Subdirectories found!",
+      "Translation": "サブディレクトリが見つかりました！",
+      "IsTranslated": true,
+      "Notes": "Confirmation dialog title shown when dropped folders contain subdirectories"
+    },
+    "UI.MainForm2.Dialogs.SelectOutputDirectoryTitle": {
+      "Source": "Select output directory...",
+      "Translation": "出力ディレクトリを選択...",
+      "IsTranslated": true,
+      "Notes": "File dialog title used when browsing for the output directory"
+    },
+    "UI.MainForm2.Dialogs.SelectMkvToolnixDirectoryTitle": {
+      "Source": "Select MKVToolNix directory...",
+      "Translation": "MKVToolNix ディレクトリを選択...",
+      "IsTranslated": true,
+      "Notes": "File dialog title used when browsing for the MKVToolNix directory"
+    },
+    "UI.MainForm2.Dialogs.SelectInputMatroskaFileTitle": {
+      "Source": "Select an input Matroska file...",
+      "Translation": "入力 Matroska ファイルを選択...",
+      "IsTranslated": true,
+      "Notes": "File dialog title used when adding Matroska input files"
+    },
+    "UI.MainForm2.Dialogs.SelectInputMatroskaFileFilter": {
+      "Source": "Matroska files (*.mkv;*.mka;*.mks;*.mk3d;*.webm)|*.mkv;*.mka;*.mks;*.mk3d;*.webm|Matroska video files (*.mkv)|*.mkv|Matroska audio files (*.mka)|*.mka|Matroska subtitle files (*.mks)|*.mks|Matroska 3D files (*.mk3d)|*.mk3d|WebM files (*.webm)|*.webm",
+      "Translation": "Matroska ファイル (*.mkv;*.mka;*.mks;*.mk3d;*.webm)|*.mkv;*.mka;*.mks;*.mk3d;*.webm|Matroska 映像ファイル (*.mkv)|*.mkv|Matroska 音声ファイル (*.mka)|*.mka|Matroska 字幕ファイル (*.mks)|*.mks|Matroska 3D ファイル (*.mk3d)|*.mk3d|WebM ファイル (*.webm)|*.webm",
+      "IsTranslated": true,
+      "Notes": "File dialog filter used when adding Matroska input files"
+    },
+    "UI.MainForm2.Dialogs.ChangeDefaultOutputDirectoryQuestion": {
+      "Source": "Are you sure you want to change the currently set ({0}) default output directory?",
+      "Translation": "現在設定されている既定の出力ディレクトリ ({0}) を本当に変更しますか？",
+      "IsTranslated": true,
+      "Notes": "Confirmation dialog shown before changing the default output directory"
+    },
+    "UI.JobManager.Errors.NoJobsAvailable": {
+      "Source": "There are no available jobs to run!",
+      "Translation": "実行可能なジョブがありません。",
+      "IsTranslated": true,
+      "Notes": "Error shown when no jobs are ready to run"
+    },
+    "UI.JobManager.Errors.ExceptionForJob": {
+      "Source": "Exception for job {0}: {1}{2}",
+      "Translation": "ジョブ {0} の例外: {1}{2}",
+      "IsTranslated": true,
+      "Notes": "Per-job exception message appended while running jobs"
+    },
+    "UI.JobManager.Errors.UnsupportedExtractionMode": {
+      "Source": "Unsupported Extraction Mode!",
+      "Translation": "未対応の抽出モードです。",
+      "IsTranslated": true,
+      "Notes": "Error shown when a saved job contains an unsupported extraction mode"
+    },
+    "UI.JobManager.Success.JobsCompleted": {
+      "Source": "The jobs completed successfully!",
+      "Translation": "ジョブが正常に完了しました！",
+      "IsTranslated": true,
+      "Notes": "Success dialog shown when all jobs complete"
+    },
+    "UI.JobManager.Success.JobsSaved": {
+      "Source": "The jobs were saved successfully!",
+      "Translation": "ジョブが正常に保存されました！",
+      "IsTranslated": true,
+      "Notes": "Success dialog shown when jobs are saved to disk"
+    },
+    "UI.JobManager.Success.JobsLoaded": {
+      "Source": "The jobs were loaded successfully!",
+      "Translation": "ジョブが正常に読み込まれました！",
+      "IsTranslated": true,
+      "Notes": "Success dialog shown when jobs are loaded from disk"
+    },
+    "UI.JobManager.Dialogs.SelectJobFileTitle": {
+      "Source": "Select job file...",
+      "Translation": "ジョブファイルを選択...",
+      "IsTranslated": true,
+      "Notes": "File dialog title used when saving jobs"
+    },
+    "UI.JobManager.Dialogs.SelectJobsFileTitle": {
+      "Source": "Select jobs file...",
+      "Translation": "ジョブファイルを選択...",
+      "IsTranslated": true,
+      "Notes": "File dialog title used when loading jobs"
+    },
+    "UI.Log.Dialogs.ClearLogQuestion": {
+      "Source": "Are you sure you want to clear the log?",
+      "Translation": "本当にログを消去しますか？",
+      "IsTranslated": true,
+      "Notes": "Confirmation dialog shown before clearing the log"
+    },
+    "UI.Log.Dialogs.SelectFilenameTitle": {
+      "Source": "Select filename for the log...",
+      "Translation": "ログのファイル名を選択...",
+      "IsTranslated": true,
+      "Notes": "File dialog title used when saving the log"
+    },
+    "UI.Log.Success.LogSaved": {
+      "Source": "The log was saved to {0}!",
+      "Translation": "ログを {0} に保存しました！",
+      "IsTranslated": true,
+      "Notes": "Success dialog shown when the log is saved"
+    },
+    "UI.Common.Status.Extracting": {
+      "Source": "Extracting...",
+      "Translation": "抽出中...",
+      "IsTranslated": true,
+      "Notes": "Status text shown while extraction is running"
+    },
+    "UI.MainForm.Errors.ValidMatroskaFileRequired": {
+      "Source": "You must provide a valid Matroska file!",
+      "Translation": "有効な Matroska ファイルを指定する必要があります。",
+      "IsTranslated": true,
+      "Notes": "Error shown in the legacy main form when no valid Matroska file is selected"
+    },
+    "UI.OptionsForm.Placeholders.InputFilenameWithoutExtension": {
+      "Source": "Input Filename (without extension)",
+      "Translation": "入力ファイル名（拡張子なし）",
+      "IsTranslated": true,
+      "Notes": "Placeholder description for the input filename without extension"
+    },
+    "UI.OptionsForm.Placeholders.InputFilenameWithExtension": {
+      "Source": "Input Filename (with extension)",
+      "Translation": "入力ファイル名（拡張子あり）",
+      "IsTranslated": true,
+      "Notes": "Placeholder description for the input filename with extension"
+    },
+    "UI.OptionsForm.Placeholders.DirectorySeparator": {
+      "Source": "Directory Separator",
+      "Translation": "ディレクトリ区切り文字",
+      "IsTranslated": true,
+      "Notes": "Placeholder description for the directory separator"
+    },
+    "UI.OptionsForm.Placeholders.TrackNumber.Group": {
+      "Source": "Track Number...",
+      "Translation": "トラック番号...",
+      "IsTranslated": true,
+      "Notes": "Placeholder group for formatted track numbers"
+    },
+    "UI.OptionsForm.Placeholders.TrackNumber.NoFormat": {
+      "Source": "Track Number (No format)",
+      "Translation": "トラック番号（書式なし）",
+      "IsTranslated": true,
+      "Notes": "Placeholder description for an unformatted track number"
+    },
+    "UI.OptionsForm.Placeholders.TrackNumber.OneDigit": {
+      "Source": "Track Number (1 digit)",
+      "Translation": "トラック番号（1 桁）",
+      "IsTranslated": true,
+      "Notes": "Placeholder description for a one-digit track number"
+    },
+    "UI.OptionsForm.Placeholders.TrackNumber.TwoDigits": {
+      "Source": "Track Number (2 digits)",
+      "Translation": "トラック番号（2 桁）",
+      "IsTranslated": true,
+      "Notes": "Placeholder description for a two-digit track number"
+    },
+    "UI.OptionsForm.Placeholders.TrackNumber.ThreeDigits": {
+      "Source": "Track Number (3 digits)",
+      "Translation": "トラック番号（3 桁）",
+      "IsTranslated": true,
+      "Notes": "Placeholder description for a three-digit track number"
+    },
+    "UI.OptionsForm.Placeholders.TrackId.Group": {
+      "Source": "Track ID...",
+      "Translation": "トラック ID...",
+      "IsTranslated": true,
+      "Notes": "Placeholder group for formatted track IDs"
+    },
+    "UI.OptionsForm.Placeholders.TrackId.NoFormat": {
+      "Source": "Track ID (No format)",
+      "Translation": "トラック ID（書式なし）",
+      "IsTranslated": true,
+      "Notes": "Placeholder description for an unformatted track ID"
+    },
+    "UI.OptionsForm.Placeholders.TrackId.OneDigit": {
+      "Source": "Track ID (1 digit)",
+      "Translation": "トラック ID（1 桁）",
+      "IsTranslated": true,
+      "Notes": "Placeholder description for a one-digit track ID"
+    },
+    "UI.OptionsForm.Placeholders.TrackId.TwoDigits": {
+      "Source": "Track ID (2 digits)",
+      "Translation": "トラック ID（2 桁）",
+      "IsTranslated": true,
+      "Notes": "Placeholder description for a two-digit track ID"
+    },
+    "UI.OptionsForm.Placeholders.TrackId.ThreeDigits": {
+      "Source": "Track ID (3 digits)",
+      "Translation": "トラック ID（3 桁）",
+      "IsTranslated": true,
+      "Notes": "Placeholder description for a three-digit track ID"
+    },
+    "UI.OptionsForm.Placeholders.TrackName": {
+      "Source": "Track Name",
+      "Translation": "トラック名",
+      "IsTranslated": true,
+      "Notes": "Placeholder description for the track name"
+    },
+    "UI.OptionsForm.Placeholders.TrackLanguage": {
+      "Source": "Track Language",
+      "Translation": "トラック言語",
+      "IsTranslated": true,
+      "Notes": "Placeholder description for the track language"
+    },
+    "UI.OptionsForm.Placeholders.TrackLanguageIetf": {
+      "Source": "Track Language IETF",
+      "Translation": "トラック IETF 言語",
+      "IsTranslated": true,
+      "Notes": "Placeholder description for the track IETF language"
+    },
+    "UI.OptionsForm.Placeholders.TrackCodecId": {
+      "Source": "Track Codec ID",
+      "Translation": "トラック コーデック ID",
+      "IsTranslated": true,
+      "Notes": "Placeholder description for the track codec ID"
+    },
+    "UI.OptionsForm.Placeholders.TrackCodecPrivate": {
+      "Source": "Track Codec Private",
+      "Translation": "トラックのプライベートコーデック",
+      "IsTranslated": true,
+      "Notes": "Placeholder description for the track codec private data"
+    },
+    "UI.OptionsForm.Placeholders.TrackDelay": {
+      "Source": "Track Delay",
+      "Translation": "トラック遅延",
+      "IsTranslated": true,
+      "Notes": "Placeholder description for the track delay"
+    },
+    "UI.OptionsForm.Placeholders.TrackEffectiveDelay": {
+      "Source": "Track Effective Delay",
+      "Translation": "トラック実効遅延",
+      "IsTranslated": true,
+      "Notes": "Placeholder description for the track effective delay"
+    },
+    "UI.OptionsForm.Placeholders.TrackForced": {
+      "Source": "Track Forced",
+      "Translation": "強制トラック",
+      "IsTranslated": true,
+      "Notes": "Placeholder description for the track forced flag"
+    },
+    "UI.OptionsForm.Placeholders.VideoPixelWidth": {
+      "Source": "Video Pixel Width",
+      "Translation": "映像ピクセル幅",
+      "IsTranslated": true,
+      "Notes": "Placeholder description for the video pixel width"
+    },
+    "UI.OptionsForm.Placeholders.VideoPixelHeight": {
+      "Source": "Video Pixel Height",
+      "Translation": "映像ピクセル高さ",
+      "IsTranslated": true,
+      "Notes": "Placeholder description for the video pixel height"
+    },
+    "UI.OptionsForm.Placeholders.AudioSamplingFrequency": {
+      "Source": "Audio Sampling Frequency",
+      "Translation": "音声サンプリング周波数",
+      "IsTranslated": true,
+      "Notes": "Placeholder description for the audio sampling frequency"
+    },
+    "UI.OptionsForm.Placeholders.AudioChannels": {
+      "Source": "Audio Channels",
+      "Translation": "音声チャンネル",
+      "IsTranslated": true,
+      "Notes": "Placeholder description for the audio channel count"
+    },
+    "UI.OptionsForm.Placeholders.AttachmentId.Group": {
+      "Source": "Attachment ID...",
+      "Translation": "添付 ID...",
+      "IsTranslated": true,
+      "Notes": "Placeholder group for formatted attachment IDs"
+    },
+    "UI.OptionsForm.Placeholders.AttachmentId.NoFormat": {
+      "Source": "Attachment ID (No format)",
+      "Translation": "添付 ID（書式なし）",
+      "IsTranslated": true,
+      "Notes": "Placeholder description for an unformatted attachment ID"
+    },
+    "UI.OptionsForm.Placeholders.AttachmentId.OneDigit": {
+      "Source": "Attachment ID (1 digit)",
+      "Translation": "添付 ID（1 桁）",
+      "IsTranslated": true,
+      "Notes": "Placeholder description for a one-digit attachment ID"
+    },
+    "UI.OptionsForm.Placeholders.AttachmentId.TwoDigits": {
+      "Source": "Attachment ID (2 digits)",
+      "Translation": "添付 ID（2 桁）",
+      "IsTranslated": true,
+      "Notes": "Placeholder description for a two-digit attachment ID"
+    },
+    "UI.OptionsForm.Placeholders.AttachmentId.ThreeDigits": {
+      "Source": "Attachment ID (3 digits)",
+      "Translation": "添付 ID（3 桁）",
+      "IsTranslated": true,
+      "Notes": "Placeholder description for a three-digit attachment ID"
+    },
+    "UI.OptionsForm.Placeholders.AttachmentFilename": {
+      "Source": "Attachment Filename",
+      "Translation": "添付ファイル名",
+      "IsTranslated": true,
+      "Notes": "Placeholder description for the attachment filename"
+    },
+    "UI.OptionsForm.Placeholders.AttachmentMimeType": {
+      "Source": "Attachment MIME Type",
+      "Translation": "添付 MIME タイプ",
+      "IsTranslated": true,
+      "Notes": "Placeholder description for the attachment MIME type"
+    },
+    "UI.OptionsForm.Placeholders.AttachmentFileSizeBytes": {
+      "Source": "Attachment File Size (bytes)",
+      "Translation": "添付ファイルサイズ（バイト）",
+      "IsTranslated": true,
+      "Notes": "Placeholder description for the attachment size in bytes"
     }
   }
 }

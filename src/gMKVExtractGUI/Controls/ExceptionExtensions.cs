@@ -1,6 +1,7 @@
-﻿using System;
+using System;
 using System.Diagnostics;
 using System.Windows.Forms;
+using gMKVToolNix.Localization;
 
 namespace gMKVToolNix.Controls
 {
@@ -15,8 +16,8 @@ namespace gMKVToolNix.Controls
             Debug.WriteLine(ex);
             MessageBox.Show(
                 form,
-                $"An exception has occured!{Environment.NewLine}{Environment.NewLine}{ex.Message}", 
-                "An exception has occured!", 
+                LocalizationManager.GetString("UI.Common.Dialog.ExceptionMessage", Environment.NewLine, ex.Message), 
+                LocalizationManager.GetString("UI.Common.Dialog.ExceptionTitle"), 
                 MessageBoxButtons.OK, 
                 MessageBoxIcon.Error);
         }

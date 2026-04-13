@@ -9,6 +9,9 @@ namespace gMKVToolNix.Theming
 {
     public static class ThemeManager
     {
+        private static readonly ToolStripRenderer DarkContextMenuRenderer = new DarkModeContextMenuRenderer();
+        private static readonly ToolStripRenderer LightContextMenuRenderer = new ToolStripProfessionalRenderer();
+
         // Define Light and Dark Colors
         // Basic Colors
         public static Color LightModeFormBackColor { get; set; } = SystemColors.Control;
@@ -299,23 +302,7 @@ namespace gMKVToolNix.Theming
             }
             else if (control is ContextMenuStrip cms)
             {
-                if (darkMode)
-                {
-                    cms.RenderMode = ToolStripRenderMode.ManagerRenderMode; // Keep for potential custom dark renderer later
-                    cms.BackColor = DarkModeMenuBackColor;
-                    cms.ForeColor = DarkModeMenuForeColor;
-                }
-                else // Light Mode
-                {
-                    cms.RenderMode = ToolStripRenderMode.Professional;
-                    cms.BackColor = SystemColors.ControlLightLight;
-                    cms.ForeColor = SystemColors.ControlText;
-                }
-                // Apply to items regardless of mode, ApplyToolStripItemTheme will handle specifics
-                foreach (ToolStripItem item in cms.Items)
-                {
-                    ApplyToolStripItemTheme(item, darkMode);
-                }
+                ApplyContextMenuTheme(cms, darkMode);
             }
             else if (control is StatusStrip ss)
             {
@@ -398,25 +385,47 @@ namespace gMKVToolNix.Theming
             // Handle dropdowns for ToolStripMenuItems (dropdowns are usually on ContextMenus, not StatusStrips)
             if (item is ToolStripMenuItem menuItem && menuItem.HasDropDownItems)
             {
-                if (darkMode)
-                {
-                    menuItem.DropDown.BackColor = DarkModeMenuBackColor;
-                }
-                else // Light Mode for dropdowns of ToolStripMenuItems
-                {
-                    // Dropdowns of context menu items should also match the ControlLightLight theme
-                    menuItem.DropDown.BackColor = SystemColors.ControlLightLight;
-                }
-                foreach (ToolStripItem dropDownItem in menuItem.DropDownItems)
-                {
-                    ApplyToolStripItemTheme(dropDownItem, darkMode); // Recursive call
-                }
+                ApplyContextMenuTheme(menuItem.DropDown, darkMode);
             }
             // No specific DropDown handling needed for ToolStripStatusLabel as it doesn't have dropdowns.
             // ToolStripDropDownItem is for general dropdowns in ToolStrips, less common in StatusStrip.
             // If general ToolStripDropDownButtons or ToolStripSplitButtons are on the StatusStrip,
             // their dropdowns might need explicit theming if they don't inherit correctly.
             // For now, this focuses on ToolStripStatusLabel and ToolStripMenuItem.
+        }
+
+        public static void ApplyContextMenuTheme(ToolStripDropDown menu, bool darkMode)
+        {
+            if (menu == null)
+            {
+                return;
+            }
+
+            if (menu is ToolStripDropDownMenu dropDownMenu)
+            {
+                dropDownMenu.ShowCheckMargin = false;
+                dropDownMenu.ShowImageMargin = true;
+            }
+
+            if (darkMode)
+            {
+                menu.Renderer = DarkContextMenuRenderer;
+                menu.BackColor = DarkModeMenuBackColor;
+                menu.ForeColor = DarkModeMenuForeColor;
+            }
+            else
+            {
+                menu.Renderer = LightContextMenuRenderer;
+                menu.BackColor = SystemColors.ControlLightLight;
+                menu.ForeColor = SystemColors.ControlText;
+            }
+
+            foreach (ToolStripItem item in menu.Items)
+            {
+                ApplyToolStripItemTheme(item, darkMode);
+            }
+
+            menu.Invalidate();
         }
 
         // New helper method within ThemeManager class
@@ -469,6 +478,105 @@ namespace gMKVToolNix.Theming
                         StringFormat.GenericTypographic);
                 }
             }
+        }
+
+        private sealed class DarkModeContextMenuRenderer : ToolStripProfessionalRenderer
+        {
+            private static readonly Color MenuHighlightColor = Color.FromArgb(80, 80, 80);
+            private static readonly Color MenuBorderColor = Color.FromArgb(95, 95, 95);
+            private static readonly Color SeparatorColor = Color.FromArgb(90, 90, 90);
+
+            public DarkModeContextMenuRenderer()
+                : base(new DarkModeContextMenuColorTable())
+            {
+            }
+
+            protected override void OnRenderToolStripBackground(ToolStripRenderEventArgs e)
+            {
+                using (var brush = new SolidBrush(DarkModeMenuBackColor))
+                {
+                    e.Graphics.FillRectangle(brush, e.AffectedBounds);
+                }
+            }
+
+            protected override void OnRenderImageMargin(ToolStripRenderEventArgs e)
+            {
+                using (var brush = new SolidBrush(DarkModeMenuBackColor))
+                {
+                    e.Graphics.FillRectangle(brush, e.AffectedBounds);
+                }
+            }
+
+            protected override void OnRenderMenuItemBackground(ToolStripItemRenderEventArgs e)
+            {
+                Rectangle bounds = new Rectangle(Point.Empty, e.Item.Size);
+                Color fillColor = (e.Item.Selected || e.Item.Pressed) ? MenuHighlightColor : DarkModeMenuBackColor;
+
+                using (var brush = new SolidBrush(fillColor))
+                {
+                    e.Graphics.FillRectangle(brush, bounds);
+                }
+
+                if (e.Item.Selected || e.Item.Pressed)
+                {
+                    using (var pen = new Pen(MenuBorderColor))
+                    {
+                        e.Graphics.DrawRectangle(pen, 0, 0, bounds.Width - 1, bounds.Height - 1);
+                    }
+                }
+            }
+
+            protected override void OnRenderItemText(ToolStripItemTextRenderEventArgs e)
+            {
+                e.TextColor = DarkModeMenuForeColor;
+                base.OnRenderItemText(e);
+            }
+
+            protected override void OnRenderArrow(ToolStripArrowRenderEventArgs e)
+            {
+                e.ArrowColor = DarkModeMenuForeColor;
+                base.OnRenderArrow(e);
+            }
+
+            protected override void OnRenderSeparator(ToolStripSeparatorRenderEventArgs e)
+            {
+                Rectangle bounds = new Rectangle(Point.Empty, e.Item.Size);
+                int y = bounds.Height / 2;
+                using (var pen = new Pen(SeparatorColor))
+                {
+                    e.Graphics.DrawLine(pen, 2, y, bounds.Width - 3, y);
+                }
+            }
+
+            protected override void OnRenderToolStripBorder(ToolStripRenderEventArgs e)
+            {
+                Rectangle bounds = new Rectangle(Point.Empty, e.ToolStrip.Size);
+                using (var pen = new Pen(MenuBorderColor))
+                {
+                    e.Graphics.DrawRectangle(pen, 0, 0, bounds.Width - 1, bounds.Height - 1);
+                }
+            }
+        }
+
+        private sealed class DarkModeContextMenuColorTable : ProfessionalColorTable
+        {
+            public override Color ToolStripDropDownBackground => DarkModeMenuBackColor;
+            public override Color ImageMarginGradientBegin => DarkModeMenuBackColor;
+            public override Color ImageMarginGradientMiddle => DarkModeMenuBackColor;
+            public override Color ImageMarginGradientEnd => DarkModeMenuBackColor;
+            public override Color MenuItemSelected => Color.FromArgb(80, 80, 80);
+            public override Color MenuItemSelectedGradientBegin => Color.FromArgb(80, 80, 80);
+            public override Color MenuItemSelectedGradientEnd => Color.FromArgb(80, 80, 80);
+            public override Color MenuItemPressedGradientBegin => Color.FromArgb(80, 80, 80);
+            public override Color MenuItemPressedGradientMiddle => Color.FromArgb(80, 80, 80);
+            public override Color MenuItemPressedGradientEnd => Color.FromArgb(80, 80, 80);
+            public override Color MenuBorder => Color.FromArgb(95, 95, 95);
+            public override Color MenuItemBorder => Color.FromArgb(95, 95, 95);
+            public override Color SeparatorDark => Color.FromArgb(90, 90, 90);
+            public override Color SeparatorLight => Color.FromArgb(90, 90, 90);
+            public override Color CheckBackground => Color.FromArgb(80, 80, 80);
+            public override Color CheckSelectedBackground => Color.FromArgb(80, 80, 80);
+            public override Color CheckPressedBackground => Color.FromArgb(80, 80, 80);
         }
     }
 }

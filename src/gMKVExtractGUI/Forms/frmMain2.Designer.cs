@@ -146,7 +146,7 @@ namespace gMKVToolNix.Forms
             this.lblStatus.AutoSize = false;
             this.lblStatus.Name = "lblStatus";
             this.lblStatus.Size = new System.Drawing.Size(50, 31);
-            this.lblStatus.Text = "status";
+            this.lblStatus.Text = "";
             // 
             // prgBrTotalStatus
             // 
@@ -158,7 +158,7 @@ namespace gMKVToolNix.Forms
             this.lblTotalStatus.AutoSize = false;
             this.lblTotalStatus.Name = "lblTotalStatus";
             this.lblTotalStatus.Size = new System.Drawing.Size(50, 31);
-            this.lblTotalStatus.Text = "status";
+            this.lblTotalStatus.Text = "";
             // 
             // tlpMain
             // 
@@ -464,6 +464,7 @@ namespace gMKVToolNix.Forms
             this.trvInputFiles.ShowNodeToolTips = true;
             this.trvInputFiles.Size = new System.Drawing.Size(606, 179);
             this.trvInputFiles.TabIndex = 0;
+            this.trvInputFiles.AfterCheck += new System.Windows.Forms.TreeViewEventHandler(this.trvInputFiles_AfterCheck);
             this.trvInputFiles.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.trvInputFiles_AfterSelect);
             this.trvInputFiles.DragDrop += new System.Windows.Forms.DragEventHandler(this.trvInputFiles_DragDrop);
             this.trvInputFiles.DragEnter += new System.Windows.Forms.DragEventHandler(this.trvInputFiles_DragEnter);

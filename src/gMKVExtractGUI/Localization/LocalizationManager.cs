@@ -80,28 +80,28 @@ namespace gMKVToolNix.Localization
         {
             EnsureInitialized();
 
-            return _service.GetString(key, _currentCulture);
+            return _service.GetStringForCulture(key, _currentCulture);
         }
 
         public static string GetString(string key, params object[] formatArgs)
         {
             EnsureInitialized();
 
-            return _service.GetString(key, _currentCulture, formatArgs);
+            return _service.GetStringForCulture(key, _currentCulture, formatArgs);
         }
 
-        public static string GetString(string key, string culture)
+        public static string GetStringForCulture(string key, string culture)
         {
             EnsureInitialized();
 
-            return _service.GetString(key, culture);
+            return _service.GetStringForCulture(key, culture);
         }
 
-        public static string GetString(string key, string culture, params object[] formatArgs)
+        public static string GetStringForCulture(string key, string culture, params object[] formatArgs)
         {
             EnsureInitialized();
 
-            return _service.GetString(key, culture, formatArgs);
+            return _service.GetStringForCulture(key, culture, formatArgs);
         }
 
         private static void EnsureInitialized()

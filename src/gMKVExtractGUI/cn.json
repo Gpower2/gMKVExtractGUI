@@ -3,7 +3,7 @@
     "Culture": "cn",
     "Translator": "GitHub Copilot",
     "CreationDate": "2026-04-13T20:07:27Z",
-    "LastEditDate": "2026-04-13T20:07:27Z"
+    "LastEditDate": "2026-04-13T21:25:48Z"
   },
   "Entries": {
     "UI.MainForm.Title": {
@@ -666,6 +666,48 @@
       "IsTranslated": true,
       "Notes": "Button to open the track selection context menu"
     },
+    "UI.MainForm2.Tooltips.AutoDetect": {
+      "Source": "Press to try and auto-detect the MKVToolNix installation.",
+      "Translation": "按一下以嘗試自動偵測 MKVToolNix 安裝位置。",
+      "IsTranslated": true,
+      "Notes": "Tooltip for the auto-detect MKVToolNix button"
+    },
+    "UI.MainForm2.Tooltips.InputFiles": {
+      "Source": "Contains the list of opened files with their tracks.\nYou can check the individual tracks in order to select them for extracting.\n\nNote: There is a context menu (right-click on the list) that contains many options for batch selecting tracks.",
+      "Translation": "包含已開啟檔案及其軌道的清單。\n您可以勾選個別軌道，以選取要擷取的內容。\n\n注意：此清單有一個內容功能表（在清單上按滑鼠右鍵），其中包含許多可批次選取軌道的選項。",
+      "IsTranslated": true,
+      "Notes": "Tooltip for the input files tree and group"
+    },
+    "UI.MainForm2.Tooltips.AppendOnDragAndDrop": {
+      "Source": "Check if you want to append files in the input list on drag and drop.\nUncheck if you want to reset the input list every time you drag and drop a new file.",
+      "Translation": "如果您想在拖放時將檔案附加到輸入清單，請勾選此項。\n如果您想每次拖放新檔案時都重設輸入清單，請取消勾選。",
+      "IsTranslated": true,
+      "Notes": "Tooltip for the append-on-drag-and-drop checkbox"
+    },
+    "UI.MainForm2.Tooltips.OverwriteExistingFiles": {
+      "Source": "Check if you want the output files to always overwrite existing files with the same filename.\nUncheck if you want the output files to automatically be renamed with a different filename to avoid overwriting existing files.",
+      "Translation": "如果您想讓輸出檔案一律覆寫同名的現有檔案，請勾選此項。\n如果您想讓輸出檔案自動重新命名為不同檔名以避免覆寫現有檔案，請取消勾選。",
+      "IsTranslated": true,
+      "Notes": "Tooltip for the overwrite existing files checkbox"
+    },
+    "UI.MainForm2.Tooltips.UseSourceDirectory": {
+      "Source": "Check if you want the output files to be saved in the same directory as the source files.\nUncheck if you want to manually select an output directory for ALL extracted files.",
+      "Translation": "如果您想讓輸出檔案儲存在與來源檔案相同的目錄中，請勾選此項。\n如果您想手動為所有擷取出的檔案選擇輸出目錄，請取消勾選。",
+      "IsTranslated": true,
+      "Notes": "Tooltip for the use source directory checkbox"
+    },
+    "UI.MainForm2.Tooltips.ShowPopup": {
+      "Source": "Check if you want to show a popup message when the extraction is finished.",
+      "Translation": "如果您想在擷取完成時顯示快顯訊息，請勾選此項。",
+      "IsTranslated": true,
+      "Notes": "Tooltip for the show popup checkbox"
+    },
+    "UI.MainForm2.Tooltips.Select": {
+      "Source": "Press to display the menu that contains many options for batch selecting tracks.",
+      "Translation": "按一下以顯示包含許多可批次選取軌道選項的功能表。",
+      "IsTranslated": true,
+      "Notes": "Tooltip for the select button"
+    },
     "UI.MainForm2.FileOptions.AppendOnDragAndDrop": {
       "Source": "Append input on drag and drop",
       "Translation": "拖放時附加輸入項目",
@@ -857,6 +899,558 @@
       "Translation": "使用目前設定的預設目錄：({0})",
       "IsTranslated": true,
       "Notes": "Context menu item to use the currently set default directory"
+    },
+    "UI.Common.Dialog.ErrorTitle": {
+      "Source": "Error!",
+      "Translation": "錯誤！",
+      "IsTranslated": true,
+      "Notes": "Shared error dialog title"
+    },
+    "UI.Common.Dialog.SuccessTitle": {
+      "Source": "Success!",
+      "Translation": "成功！",
+      "IsTranslated": true,
+      "Notes": "Shared success dialog title"
+    },
+    "UI.Common.Dialog.ErrorMessage": {
+      "Source": "An error has occurred!{0}{0}{1}",
+      "Translation": "發生錯誤！{0}{0}{1}",
+      "IsTranslated": true,
+      "Notes": "Shared error dialog body with a formatted message"
+    },
+    "UI.Common.Dialog.ExceptionTitle": {
+      "Source": "An exception has occurred!",
+      "Translation": "發生例外狀況！",
+      "IsTranslated": true,
+      "Notes": "Shared exception dialog title"
+    },
+    "UI.Common.Dialog.ExceptionMessage": {
+      "Source": "An exception has occurred!{0}{0}{1}",
+      "Translation": "發生例外狀況！{0}{0}{1}",
+      "IsTranslated": true,
+      "Notes": "Shared exception dialog body with a formatted message"
+    },
+    "UI.Common.Dialog.AreYouSureTitle": {
+      "Source": "Are you sure?",
+      "Translation": "您確定嗎？",
+      "IsTranslated": true,
+      "Notes": "Shared confirmation dialog title"
+    },
+    "UI.Common.Dialog.SelectDirectoryPlaceholder": {
+      "Source": "Select directory",
+      "Translation": "選取目錄",
+      "IsTranslated": true,
+      "Notes": "Placeholder file name used when browsing for a directory"
+    },
+    "UI.Common.Status.ExtractionCompleted": {
+      "Source": "Extraction completed!",
+      "Translation": "擷取完成！",
+      "IsTranslated": true,
+      "Notes": "Status text shown when extraction finishes"
+    },
+    "UI.Common.Errors.ExtractionRunningBeforeClose": {
+      "Source": "There is an extraction process running! Please abort before closing!",
+      "Translation": "目前有擷取程序正在執行！請先中止後再關閉！",
+      "IsTranslated": true,
+      "Notes": "Error shown when trying to close while extraction is still running"
+    },
+    "UI.Controls.TreeView.Errors.NodeNotInTree": {
+      "Source": "The node does not belong to a tree.",
+      "Translation": "該節點不屬於樹狀結構。",
+      "IsTranslated": true,
+      "Notes": "TreeView error when a node is detached from the TreeView"
+    },
+    "UI.Controls.TreeView.Errors.SetStateFailed": {
+      "Source": "Error setting TreeNode state.",
+      "Translation": "設定 TreeNode 狀態時發生錯誤。",
+      "IsTranslated": true,
+      "Notes": "TreeView error when setting a checkbox state fails"
+    },
+    "UI.Controls.TreeView.Errors.GetStateFailed": {
+      "Source": "Error getting TreeNode state.",
+      "Translation": "取得 TreeNode 狀態時發生錯誤。",
+      "IsTranslated": true,
+      "Notes": "TreeView error when reading a checkbox state fails"
+    },
+    "UI.MainForm2.Errors.AutoDetectLinuxNotFound": {
+      "Source": "Could not find MKVToolNix in /usr/bin, or in the current directory, or in the ini file!",
+      "Translation": "無法在 /usr/bin、目前目錄或 ini 檔中找到 MKVToolNix！",
+      "IsTranslated": true,
+      "Notes": "Auto-detection error when MKVToolNix cannot be found on Linux"
+    },
+    "UI.MainForm2.Errors.AutoDetectWindowsNotFound": {
+      "Source": "Could not find MKVToolNix in registry, or in the current directory, or in the ini file!",
+      "Translation": "無法在登錄、目前目錄或 ini 檔中找到 MKVToolNix！",
+      "IsTranslated": true,
+      "Notes": "Auto-detection error when MKVToolNix cannot be found on Windows"
+    },
+    "UI.MainForm2.Errors.AutoDetectManualPathHint": {
+      "Source": "{0}{1}Please download and reinstall or provide a manual path!",
+      "Translation": "{0}{1}請重新下載並安裝應用程式，或提供手動路徑。",
+      "IsTranslated": true,
+      "Notes": "Auto-detection error followed by guidance to reinstall or choose a manual path"
+    },
+    "UI.MainForm2.Errors.MkvmergeNotFoundInPath": {
+      "Source": "mkvmerge was not found in path {0}!",
+      "Translation": "在路徑 {0} 中找不到 mkvmerge！",
+      "IsTranslated": true,
+      "Notes": "Error shown when mkvmerge cannot be found in a Linux path"
+    },
+    "UI.MainForm2.Errors.NoValidMatroskaFiles": {
+      "Source": "No valid Matroska files were provided!",
+      "Translation": "未提供有效的 Matroska 檔案！",
+      "IsTranslated": true,
+      "Notes": "Error shown when no valid input files are available"
+    },
+    "UI.MainForm2.Errors.NoNewFiles": {
+      "Source": "No new files to add!",
+      "Translation": "沒有可新增的新檔案！",
+      "IsTranslated": true,
+      "Notes": "Error shown when every dropped file is already in the list"
+    },
+    "UI.MainForm2.Errors.FileProcessing": {
+      "Source": "File: {0} Error: {1}",
+      "Translation": "檔案：{0} 錯誤：{1}",
+      "IsTranslated": true,
+      "Notes": "Per-file error message shown while loading dropped files"
+    },
+    "UI.MainForm2.Errors.NoFilenameProvided": {
+      "Source": "No filename was provided!",
+      "Translation": "未提供檔名！",
+      "IsTranslated": true,
+      "Notes": "Error shown when no file path was supplied"
+    },
+    "UI.MainForm2.Errors.FileDoesNotExist": {
+      "Source": "The file {0} does not exist!",
+      "Translation": "檔案 {0} 不存在！",
+      "IsTranslated": true,
+      "Notes": "Error shown when a selected input file is missing"
+    },
+    "UI.MainForm2.Errors.InvalidMatroskaInputFile": {
+      "Source": "The input file {0}{1}{1}is not a valid Matroska file!",
+      "Translation": "輸入檔案 {0}{1}{1}不是有效的 Matroska 檔案！",
+      "IsTranslated": true,
+      "Notes": "Error shown when a selected input file is not a Matroska file"
+    },
+    "UI.MainForm2.Errors.SelectedNodeNullTag": {
+      "Source": "Selected node has a null tag!",
+      "Translation": "所選節點沒有標籤。",
+      "IsTranslated": true,
+      "Notes": "Error shown when a selected TreeView node has no tag"
+    },
+    "UI.MainForm2.Errors.SelectedNodeNoParent": {
+      "Source": "Selected node has no parent node!",
+      "Translation": "所選節點沒有父節點。",
+      "IsTranslated": true,
+      "Notes": "Error shown when a selected child node has no parent"
+    },
+    "UI.MainForm2.Errors.SelectedNodeNoInfo": {
+      "Source": "Selected node has no info!",
+      "Translation": "所選節點沒有資訊。",
+      "IsTranslated": true,
+      "Notes": "Error shown when a selected TreeView node lacks segment info"
+    },
+    "UI.MainForm2.Errors.MkvToolnixPathRequired": {
+      "Source": "You must provide an MKVToolNix path!",
+      "Translation": "必須提供 MKVToolNix 路徑！",
+      "IsTranslated": true,
+      "Notes": "Error shown when MKVToolNix path is empty"
+    },
+    "UI.MainForm2.Errors.MkvToolnixFilesMissing": {
+      "Source": "The MKVToolNix path provided does not contain MKVToolNix files!",
+      "Translation": "提供的 MKVToolNix 路徑不含 MKVToolNix 檔案！",
+      "IsTranslated": true,
+      "Notes": "Error shown when the selected MKVToolNix path is invalid"
+    },
+    "UI.MainForm2.Errors.OutputDirectoryRequired": {
+      "Source": "You haven't specified an output directory!",
+      "Translation": "尚未指定輸出目錄！",
+      "IsTranslated": true,
+      "Notes": "Error shown when output directory is required but missing"
+    },
+    "UI.MainForm2.Errors.TrackRequiredForMode": {
+      "Source": "You must select a track from the file in order to extract {0}!",
+      "Translation": "擷取前必須先從檔案中選取一個軌道。",
+      "IsTranslated": true,
+      "Notes": "Error shown when a file track must be selected for a specific extraction mode"
+    },
+    "UI.MainForm2.Errors.TrackRequired": {
+      "Source": "You must select a track to extract!",
+      "Translation": "必須選取要擷取的軌道！",
+      "IsTranslated": true,
+      "Notes": "Error shown when no track is selected for extraction"
+    },
+    "UI.MainForm2.Errors.TimecodesTrackRequired": {
+      "Source": "You must select a video, audio, or subtitle track to extract timecodes!",
+      "Translation": "必須選取視訊、音訊或字幕軌才能擷取時間碼！",
+      "IsTranslated": true,
+      "Notes": "Error shown when timecodes extraction requires a selected media track"
+    },
+    "UI.MainForm2.Errors.CuesTrackRequired": {
+      "Source": "You must select a video, audio, or subtitle track to extract cues!",
+      "Translation": "必須選取視訊、音訊或字幕軌才能擷取 cues！",
+      "IsTranslated": true,
+      "Notes": "Error shown when cues extraction requires a selected media track"
+    },
+    "UI.MainForm2.Errors.ChapterTypeRequired": {
+      "Source": "You must select a chapter type!",
+      "Translation": "必須選取章節類型！",
+      "IsTranslated": true,
+      "Notes": "Error shown when chapter extraction requires a chapter type"
+    },
+    "UI.MainForm2.Dialogs.OutputDirectoryMissingQuestion": {
+      "Source": "The output directory \"{0}\" does not exist!{1}{1}Do you want to create it?",
+      "Translation": "輸出目錄「{0}」不存在！{1}{1}您要建立它嗎？",
+      "IsTranslated": true,
+      "Notes": "Confirmation dialog asking to create a missing output directory"
+    },
+    "UI.MainForm2.Dialogs.OutputDirectoryMissingTitle": {
+      "Source": "Output directory does not exist!",
+      "Translation": "輸出目錄不存在！",
+      "IsTranslated": true,
+      "Notes": "Confirmation dialog title for missing output directory"
+    },
+    "UI.MainForm2.Errors.OutputDirectoryMissingCancelled": {
+      "Source": "The output directory \"{0}\" does not exist!{1}{1}Extraction was cancelled!",
+      "Translation": "輸出目錄「{0}」不存在！{1}{1}已取消擷取！",
+      "IsTranslated": true,
+      "Notes": "Error shown when extraction is cancelled because the output directory is missing"
+    },
+    "UI.MainForm2.Success.ExtractionCompleted": {
+      "Source": "The extraction was completed successfully!",
+      "Translation": "擷取已成功完成！",
+      "IsTranslated": true,
+      "Notes": "Success dialog shown when extraction finishes"
+    },
+    "UI.MainForm2.Errors.FolderDoesNotContainMkvToolnix": {
+      "Source": "The folder does not contain MKVToolNix! {0}",
+      "Translation": "該資料夾不含 MKVToolNix！{0}",
+      "IsTranslated": true,
+      "Notes": "Error shown when a selected folder does not contain MKVToolNix"
+    },
+    "UI.MainForm2.Dialogs.ChangeMkvToolnixPathQuestion": {
+      "Source": "Do you really want to change the MKVToolNix path?",
+      "Translation": "您確定要變更 MKVToolNix 路徑嗎？",
+      "IsTranslated": true,
+      "Notes": "Confirmation dialog shown before changing the MKVToolNix path"
+    },
+    "UI.MainForm2.Dialogs.IncludeSubDirectoriesQuestion": {
+      "Source": "Do you want to include files in subdirectories?",
+      "Translation": "您要包含子目錄中的檔案嗎？",
+      "IsTranslated": true,
+      "Notes": "Confirmation dialog asking whether subdirectory files should be included"
+    },
+    "UI.MainForm2.Dialogs.SubDirectoriesFoundTitle": {
+      "Source": "Subdirectories found!",
+      "Translation": "找到子目錄！",
+      "IsTranslated": true,
+      "Notes": "Confirmation dialog title shown when dropped folders contain subdirectories"
+    },
+    "UI.MainForm2.Dialogs.SelectOutputDirectoryTitle": {
+      "Source": "Select output directory...",
+      "Translation": "選取輸出目錄...",
+      "IsTranslated": true,
+      "Notes": "File dialog title used when browsing for the output directory"
+    },
+    "UI.MainForm2.Dialogs.SelectMkvToolnixDirectoryTitle": {
+      "Source": "Select MKVToolNix directory...",
+      "Translation": "選取 MKVToolNix 目錄...",
+      "IsTranslated": true,
+      "Notes": "File dialog title used when browsing for the MKVToolNix directory"
+    },
+    "UI.MainForm2.Dialogs.SelectInputMatroskaFileTitle": {
+      "Source": "Select an input Matroska file...",
+      "Translation": "選取 Matroska 輸入檔案...",
+      "IsTranslated": true,
+      "Notes": "File dialog title used when adding Matroska input files"
+    },
+    "UI.MainForm2.Dialogs.SelectInputMatroskaFileFilter": {
+      "Source": "Matroska files (*.mkv;*.mka;*.mks;*.mk3d;*.webm)|*.mkv;*.mka;*.mks;*.mk3d;*.webm|Matroska video files (*.mkv)|*.mkv|Matroska audio files (*.mka)|*.mka|Matroska subtitle files (*.mks)|*.mks|Matroska 3D files (*.mk3d)|*.mk3d|WebM files (*.webm)|*.webm",
+      "Translation": "Matroska 檔案 (*.mkv;*.mka;*.mks;*.mk3d;*.webm)|*.mkv;*.mka;*.mks;*.mk3d;*.webm|Matroska 視訊檔案 (*.mkv)|*.mkv|Matroska 音訊檔案 (*.mka)|*.mka|Matroska 字幕檔案 (*.mks)|*.mks|Matroska 3D 檔案 (*.mk3d)|*.mk3d|WebM 檔案 (*.webm)|*.webm",
+      "IsTranslated": true,
+      "Notes": "File dialog filter used when adding Matroska input files"
+    },
+    "UI.MainForm2.Dialogs.ChangeDefaultOutputDirectoryQuestion": {
+      "Source": "Are you sure you want to change the currently set ({0}) default output directory?",
+      "Translation": "您確定要變更目前設定的預設輸出目錄 ({0}) 嗎？",
+      "IsTranslated": true,
+      "Notes": "Confirmation dialog shown before changing the default output directory"
+    },
+    "UI.JobManager.Errors.NoJobsAvailable": {
+      "Source": "There are no available jobs to run!",
+      "Translation": "沒有可執行的工作！",
+      "IsTranslated": true,
+      "Notes": "Error shown when no jobs are ready to run"
+    },
+    "UI.JobManager.Errors.ExceptionForJob": {
+      "Source": "Exception for job {0}: {1}{2}",
+      "Translation": "工作 {0} 的例外狀況：{1}{2}",
+      "IsTranslated": true,
+      "Notes": "Per-job exception message appended while running jobs"
+    },
+    "UI.JobManager.Errors.UnsupportedExtractionMode": {
+      "Source": "Unsupported Extraction Mode!",
+      "Translation": "不支援的擷取模式！",
+      "IsTranslated": true,
+      "Notes": "Error shown when a saved job contains an unsupported extraction mode"
+    },
+    "UI.JobManager.Success.JobsCompleted": {
+      "Source": "The jobs completed successfully!",
+      "Translation": "工作已成功完成！",
+      "IsTranslated": true,
+      "Notes": "Success dialog shown when all jobs complete"
+    },
+    "UI.JobManager.Success.JobsSaved": {
+      "Source": "The jobs were saved successfully!",
+      "Translation": "工作已成功儲存！",
+      "IsTranslated": true,
+      "Notes": "Success dialog shown when jobs are saved to disk"
+    },
+    "UI.JobManager.Success.JobsLoaded": {
+      "Source": "The jobs were loaded successfully!",
+      "Translation": "工作已成功載入！",
+      "IsTranslated": true,
+      "Notes": "Success dialog shown when jobs are loaded from disk"
+    },
+    "UI.JobManager.Dialogs.SelectJobFileTitle": {
+      "Source": "Select job file...",
+      "Translation": "選取工作檔案...",
+      "IsTranslated": true,
+      "Notes": "File dialog title used when saving jobs"
+    },
+    "UI.JobManager.Dialogs.SelectJobsFileTitle": {
+      "Source": "Select jobs file...",
+      "Translation": "選取工作檔案...",
+      "IsTranslated": true,
+      "Notes": "File dialog title used when loading jobs"
+    },
+    "UI.Log.Dialogs.ClearLogQuestion": {
+      "Source": "Are you sure you want to clear the log?",
+      "Translation": "您確定要清除日誌嗎？",
+      "IsTranslated": true,
+      "Notes": "Confirmation dialog shown before clearing the log"
+    },
+    "UI.Log.Dialogs.SelectFilenameTitle": {
+      "Source": "Select filename for the log...",
+      "Translation": "選取日誌檔名...",
+      "IsTranslated": true,
+      "Notes": "File dialog title used when saving the log"
+    },
+    "UI.Log.Success.LogSaved": {
+      "Source": "The log was saved to {0}!",
+      "Translation": "日誌已儲存至 {0}！",
+      "IsTranslated": true,
+      "Notes": "Success dialog shown when the log is saved"
+    },
+    "UI.Common.Status.Extracting": {
+      "Source": "Extracting...",
+      "Translation": "正在擷取...",
+      "IsTranslated": true,
+      "Notes": "Status text shown while extraction is running"
+    },
+    "UI.MainForm.Errors.ValidMatroskaFileRequired": {
+      "Source": "You must provide a valid Matroska file!",
+      "Translation": "必須提供有效的 Matroska 檔案！",
+      "IsTranslated": true,
+      "Notes": "Error shown in the legacy main form when no valid Matroska file is selected"
+    },
+    "UI.OptionsForm.Placeholders.InputFilenameWithoutExtension": {
+      "Source": "Input Filename (without extension)",
+      "Translation": "輸入檔名（不含副檔名）",
+      "IsTranslated": true,
+      "Notes": "Placeholder description for the input filename without extension"
+    },
+    "UI.OptionsForm.Placeholders.InputFilenameWithExtension": {
+      "Source": "Input Filename (with extension)",
+      "Translation": "輸入檔名（含副檔名）",
+      "IsTranslated": true,
+      "Notes": "Placeholder description for the input filename with extension"
+    },
+    "UI.OptionsForm.Placeholders.DirectorySeparator": {
+      "Source": "Directory Separator",
+      "Translation": "目錄分隔符號",
+      "IsTranslated": true,
+      "Notes": "Placeholder description for the directory separator"
+    },
+    "UI.OptionsForm.Placeholders.TrackNumber.Group": {
+      "Source": "Track Number...",
+      "Translation": "軌道編號...",
+      "IsTranslated": true,
+      "Notes": "Placeholder group for formatted track numbers"
+    },
+    "UI.OptionsForm.Placeholders.TrackNumber.NoFormat": {
+      "Source": "Track Number (No format)",
+      "Translation": "軌道編號（不格式化）",
+      "IsTranslated": true,
+      "Notes": "Placeholder description for an unformatted track number"
+    },
+    "UI.OptionsForm.Placeholders.TrackNumber.OneDigit": {
+      "Source": "Track Number (1 digit)",
+      "Translation": "軌道編號（1 位數）",
+      "IsTranslated": true,
+      "Notes": "Placeholder description for a one-digit track number"
+    },
+    "UI.OptionsForm.Placeholders.TrackNumber.TwoDigits": {
+      "Source": "Track Number (2 digits)",
+      "Translation": "軌道編號（2 位數）",
+      "IsTranslated": true,
+      "Notes": "Placeholder description for a two-digit track number"
+    },
+    "UI.OptionsForm.Placeholders.TrackNumber.ThreeDigits": {
+      "Source": "Track Number (3 digits)",
+      "Translation": "軌道編號（3 位數）",
+      "IsTranslated": true,
+      "Notes": "Placeholder description for a three-digit track number"
+    },
+    "UI.OptionsForm.Placeholders.TrackId.Group": {
+      "Source": "Track ID...",
+      "Translation": "軌道 ID...",
+      "IsTranslated": true,
+      "Notes": "Placeholder group for formatted track IDs"
+    },
+    "UI.OptionsForm.Placeholders.TrackId.NoFormat": {
+      "Source": "Track ID (No format)",
+      "Translation": "軌道 ID（不格式化）",
+      "IsTranslated": true,
+      "Notes": "Placeholder description for an unformatted track ID"
+    },
+    "UI.OptionsForm.Placeholders.TrackId.OneDigit": {
+      "Source": "Track ID (1 digit)",
+      "Translation": "軌道 ID（1 位數）",
+      "IsTranslated": true,
+      "Notes": "Placeholder description for a one-digit track ID"
+    },
+    "UI.OptionsForm.Placeholders.TrackId.TwoDigits": {
+      "Source": "Track ID (2 digits)",
+      "Translation": "軌道 ID（2 位數）",
+      "IsTranslated": true,
+      "Notes": "Placeholder description for a two-digit track ID"
+    },
+    "UI.OptionsForm.Placeholders.TrackId.ThreeDigits": {
+      "Source": "Track ID (3 digits)",
+      "Translation": "軌道 ID（3 位數）",
+      "IsTranslated": true,
+      "Notes": "Placeholder description for a three-digit track ID"
+    },
+    "UI.OptionsForm.Placeholders.TrackName": {
+      "Source": "Track Name",
+      "Translation": "軌道名稱",
+      "IsTranslated": true,
+      "Notes": "Placeholder description for the track name"
+    },
+    "UI.OptionsForm.Placeholders.TrackLanguage": {
+      "Source": "Track Language",
+      "Translation": "軌道語言",
+      "IsTranslated": true,
+      "Notes": "Placeholder description for the track language"
+    },
+    "UI.OptionsForm.Placeholders.TrackLanguageIetf": {
+      "Source": "Track Language IETF",
+      "Translation": "軌道 IETF 語言",
+      "IsTranslated": true,
+      "Notes": "Placeholder description for the track IETF language"
+    },
+    "UI.OptionsForm.Placeholders.TrackCodecId": {
+      "Source": "Track Codec ID",
+      "Translation": "軌道編碼器 ID",
+      "IsTranslated": true,
+      "Notes": "Placeholder description for the track codec ID"
+    },
+    "UI.OptionsForm.Placeholders.TrackCodecPrivate": {
+      "Source": "Track Codec Private",
+      "Translation": "軌道私有編碼資料",
+      "IsTranslated": true,
+      "Notes": "Placeholder description for the track codec private data"
+    },
+    "UI.OptionsForm.Placeholders.TrackDelay": {
+      "Source": "Track Delay",
+      "Translation": "軌道延遲",
+      "IsTranslated": true,
+      "Notes": "Placeholder description for the track delay"
+    },
+    "UI.OptionsForm.Placeholders.TrackEffectiveDelay": {
+      "Source": "Track Effective Delay",
+      "Translation": "軌道有效延遲",
+      "IsTranslated": true,
+      "Notes": "Placeholder description for the track effective delay"
+    },
+    "UI.OptionsForm.Placeholders.TrackForced": {
+      "Source": "Track Forced",
+      "Translation": "強制軌道",
+      "IsTranslated": true,
+      "Notes": "Placeholder description for the track forced flag"
+    },
+    "UI.OptionsForm.Placeholders.VideoPixelWidth": {
+      "Source": "Video Pixel Width",
+      "Translation": "視訊像素寬度",
+      "IsTranslated": true,
+      "Notes": "Placeholder description for the video pixel width"
+    },
+    "UI.OptionsForm.Placeholders.VideoPixelHeight": {
+      "Source": "Video Pixel Height",
+      "Translation": "視訊像素高度",
+      "IsTranslated": true,
+      "Notes": "Placeholder description for the video pixel height"
+    },
+    "UI.OptionsForm.Placeholders.AudioSamplingFrequency": {
+      "Source": "Audio Sampling Frequency",
+      "Translation": "音訊取樣頻率",
+      "IsTranslated": true,
+      "Notes": "Placeholder description for the audio sampling frequency"
+    },
+    "UI.OptionsForm.Placeholders.AudioChannels": {
+      "Source": "Audio Channels",
+      "Translation": "音訊聲道",
+      "IsTranslated": true,
+      "Notes": "Placeholder description for the audio channel count"
+    },
+    "UI.OptionsForm.Placeholders.AttachmentId.Group": {
+      "Source": "Attachment ID...",
+      "Translation": "附件 ID...",
+      "IsTranslated": true,
+      "Notes": "Placeholder group for formatted attachment IDs"
+    },
+    "UI.OptionsForm.Placeholders.AttachmentId.NoFormat": {
+      "Source": "Attachment ID (No format)",
+      "Translation": "附件 ID（不格式化）",
+      "IsTranslated": true,
+      "Notes": "Placeholder description for an unformatted attachment ID"
+    },
+    "UI.OptionsForm.Placeholders.AttachmentId.OneDigit": {
+      "Source": "Attachment ID (1 digit)",
+      "Translation": "附件 ID（1 位數）",
+      "IsTranslated": true,
+      "Notes": "Placeholder description for a one-digit attachment ID"
+    },
+    "UI.OptionsForm.Placeholders.AttachmentId.TwoDigits": {
+      "Source": "Attachment ID (2 digits)",
+      "Translation": "附件 ID（2 位數）",
+      "IsTranslated": true,
+      "Notes": "Placeholder description for a two-digit attachment ID"
+    },
+    "UI.OptionsForm.Placeholders.AttachmentId.ThreeDigits": {
+      "Source": "Attachment ID (3 digits)",
+      "Translation": "附件 ID（3 位數）",
+      "IsTranslated": true,
+      "Notes": "Placeholder description for a three-digit attachment ID"
+    },
+    "UI.OptionsForm.Placeholders.AttachmentFilename": {
+      "Source": "Attachment Filename",
+      "Translation": "附件檔名",
+      "IsTranslated": true,
+      "Notes": "Placeholder description for the attachment filename"
+    },
+    "UI.OptionsForm.Placeholders.AttachmentMimeType": {
+      "Source": "Attachment MIME Type",
+      "Translation": "附件 MIME 類型",
+      "IsTranslated": true,
+      "Notes": "Placeholder description for the attachment MIME type"
+    },
+    "UI.OptionsForm.Placeholders.AttachmentFileSizeBytes": {
+      "Source": "Attachment File Size (bytes)",
+      "Translation": "附件檔案大小（位元組）",
+      "IsTranslated": true,
+      "Notes": "Placeholder description for the attachment size in bytes"
     }
   }
 }

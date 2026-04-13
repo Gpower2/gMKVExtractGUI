@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using gMKVToolNix.Forms;
+using gMKVToolNix.Localization;
 using gMKVToolNix.MkvExtract;
 using gMKVToolNix.Segments;
 
@@ -52,7 +53,7 @@ namespace gMKVToolNix.Jobs
                 case FormMkvExtractionMode.Tracks_And_Cues_And_Timecodes:
                     return argGmkvExtract.ExtractMKVSegmentsThreaded;
                 default:
-                    throw new Exception("Unsupported Extraction Mode!");
+                    throw new Exception(LocalizationManager.GetString("UI.JobManager.Errors.UnsupportedExtractionMode"));
             }
         }
 

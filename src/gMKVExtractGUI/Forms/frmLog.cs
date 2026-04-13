@@ -118,7 +118,7 @@ namespace gMKVToolNix
         {
             try
             {
-                if (ShowQuestion("Are you sure you want to clear the log?", "Are you sure?") == DialogResult.Yes)
+                if (ShowLocalizedQuestion("UI.Log.Dialogs.ClearLogQuestion", "UI.Common.Dialog.AreYouSureTitle") == DialogResult.Yes)
                 {
                     gMKVLogger.Clear();
                 }
@@ -136,7 +136,7 @@ namespace gMKVToolNix
             try
             {
                 SaveFileDialog sfd = new SaveFileDialog();
-                sfd.Title = "Select filename for log...";
+                sfd.Title = LocalizationManager.GetString("UI.Log.Dialogs.SelectFilenameTitle");
                 sfd.CheckFileExists = false; // Changed to false to allow creating new files
                 sfd.DefaultExt = "txt";
                 sfd.Filter = "*.txt|*.txt";
@@ -150,7 +150,7 @@ namespace gMKVToolNix
                     {
                         sw.Write(gMKVLogger.LogText);
                     }
-                    ShowSuccessMessage(string.Format("The log was saved to {0}!", sfd.FileName));
+                    ShowLocalizedSuccessMessage("UI.Log.Success.LogSaved", false, sfd.FileName);
                 }
             }
             catch (Exception ex)

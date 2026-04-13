@@ -82,7 +82,7 @@ namespace gMKVToolNix.Localization
                 .ToList();
         }
 
-        public string GetString(string key, string cultureName)
+        public string GetStringForCulture(string key, string cultureName)
         {
             // 1. Try to find in the requested culture (e.g., "de-DE")
             if (_runtimeCache.TryGetValue(cultureName, out var cultureDict))
@@ -119,17 +119,38 @@ namespace gMKVToolNix.Localization
             return $"!{key}!";
         }
 
-        public string GetString(string key, string cultureName, params object[] formatArgs)
+        public string GetStringForCulture(string key, string cultureName, params object[] formatArgs)
         {
-            string formatString = GetString(key, cultureName);
+            string formatString = GetStringForCulture(key, cultureName);
             try
             {
                 return string.Format(formatString, formatArgs);
             }
-            catch (FormatException)
+            catch (FormatException ex)
             {
+                string arguments = formatArgs == null
+                    ? "<null>"
+                    : string.Join(", ", formatArgs.Select(arg => arg == null ? "<null>" : arg.ToString()).ToArray());
+
+                gMKVLogger.Log(string.Format(
+                    "Localization format error for key '{0}' in culture '{1}'. Format: '{2}'. Args: [{3}]. {4}",
+                    key,
+                    cultureName,
+                    formatString,
+                    arguments,
+                    ex.Message));
                 return $"!BadFormat:{key}!";
             }
+        }
+
+        string ILocalizationService.GetString(string key, string cultureName)
+        {
+            return GetStringForCulture(key, cultureName);
+        }
+
+        string ILocalizationService.GetString(string key, string cultureName, params object[] formatArgs)
+        {
+            return GetStringForCulture(key, cultureName, formatArgs);
         }
     }
 }

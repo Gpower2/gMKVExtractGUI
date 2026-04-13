@@ -112,7 +112,7 @@ namespace gMKVToolNix
                         }
                         else
                         {
-                            throw new Exception(String.Format("mkvmerge was not found in path {0}!", Path.Combine("usr", "bin")));
+                            throw CreateLocalizedException("UI.MainForm2.Errors.MkvmergeNotFoundInPath", Path.Combine("usr", "bin"));
                         }
                     }
                 }
@@ -143,14 +143,14 @@ namespace gMKVToolNix
                             String exceptionMessage = "";
                             if (PlatformExtensions.IsOnLinux)
                             {
-                                exceptionMessage = "Could not find MKVToolNix in /usr/bin, or in the current directory, or in the ini file!";
+                                exceptionMessage = LocalizationManager.GetString("UI.MainForm2.Errors.AutoDetectLinuxNotFound");
                             }
                             else
                             {
-                                exceptionMessage = "Could not find MKVToolNix in registry, or in the current directory, or in the ini file!";
+                                exceptionMessage = LocalizationManager.GetString("UI.MainForm2.Errors.AutoDetectWindowsNotFound");
                             }
                             gMKVLogger.Log(exceptionMessage);
-                            throw new Exception(exceptionMessage + Environment.NewLine + "Please download and reinstall or provide a manual path!");
+                            throw CreateLocalizedException("UI.MainForm2.Errors.AutoDetectManualPathHint", exceptionMessage, Environment.NewLine);
                         }
                     }
                 }
@@ -226,7 +226,7 @@ namespace gMKVToolNix
                         // check if MKVToolnix Path is already set
                         if (!String.IsNullOrWhiteSpace(txtMKVToolnixPath.Text))
                         {
-                            if (ShowQuestion("Do you really want to change MKVToolnix path?", "Are you sure?") != DialogResult.Yes)
+                            if (ShowLocalizedQuestion("UI.MainForm2.Dialogs.ChangeMkvToolnixPathQuestion", "UI.Common.Dialog.AreYouSureTitle") != DialogResult.Yes)
                             {
                                 return;
                             }
@@ -383,13 +383,14 @@ namespace gMKVToolNix
                 if (!_FromConstructor)
                 {
                     // check if the folder actually contains MKVToolnix
-                    if (!File.Exists(Path.Combine(txtMKVToolnixPath.Text.Trim(), gMKVHelper.MKV_MERGE_GUI_FILENAME))
-                        && !File.Exists(Path.Combine(txtMKVToolnixPath.Text.Trim(), gMKVHelper.MKV_MERGE_NEW_GUI_FILENAME)))
+                    string trimmedPath = txtMKVToolnixPath.Text.Trim();
+                    if (!File.Exists(Path.Combine(trimmedPath, gMKVHelper.MKV_MERGE_GUI_FILENAME))
+                        && !File.Exists(Path.Combine(trimmedPath, gMKVHelper.MKV_MERGE_NEW_GUI_FILENAME)))
                     {
                         _FromConstructor = true;
                         txtMKVToolnixPath.Text = "";
                         _FromConstructor = false;
-                        throw new Exception("The folder does not contain MKVToolnix!");
+                        throw CreateLocalizedException("UI.MainForm2.Errors.FolderDoesNotContainMkvToolnix", trimmedPath);
                     }
 
                     // Write the value to the ini file
@@ -446,7 +447,7 @@ namespace gMKVToolNix
                     // check if input file is valid
                     if (!File.Exists(txtInputFile.Text.Trim()))
                     {
-                        throw new Exception("The input file " + Environment.NewLine + Environment.NewLine + txtInputFile.Text.Trim() + Environment.NewLine + Environment.NewLine + "does not exist!");
+                        throw CreateLocalizedException("UI.MainForm2.Errors.FileDoesNotExist", txtInputFile.Text.Trim());
                     }
                     // check if file is an mkv file
                     String inputExtension = Path.GetExtension(txtInputFile.Text.Trim()).ToLower();
@@ -456,7 +457,7 @@ namespace gMKVToolNix
                         && inputExtension != ".mk3d"
                         && inputExtension != ".webm")
                     {
-                        throw new Exception("The input file " + Environment.NewLine + Environment.NewLine + txtInputFile.Text.Trim() + Environment.NewLine + Environment.NewLine + "is not a valid matroska file!");
+                        throw CreateLocalizedException("UI.MainForm2.Errors.InvalidMatroskaInputFile", txtInputFile.Text.Trim(), Environment.NewLine);
                     }
                     // check if output directory is locked
                     if (!chkLockOutputDirectory.Checked)
@@ -516,8 +517,8 @@ namespace gMKVToolNix
                         ofd.InitialDirectory = Path.GetDirectoryName(txtInputFile.Text.Trim());
                     }
                 }
-                ofd.Title = "Select an input mkv file...";
-                ofd.Filter = "Matroska files (*.mkv;*.mka;*.mks;*.mk3d;*.webm)|*.mkv;*.mka;*.mks;*.mk3d;*.webm|Matroska video files (*.mkv)|*.mkv|Matroska audio files (*.mka)|*.mka|Matroska subtitle files (*.mks)|*.mks|Matroska 3D files (*.mk3d)|*.mk3d|Webm files (*.webm)|*.webm";
+                ofd.Title = LocalizationManager.GetString("UI.MainForm2.Dialogs.SelectInputMatroskaFileTitle");
+                ofd.Filter = LocalizationManager.GetString("UI.MainForm2.Dialogs.SelectInputMatroskaFileFilter");
                 ofd.Multiselect = false;
                 ofd.AutoUpgradeEnabled = true;
                 if (ofd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
@@ -592,8 +593,8 @@ namespace gMKVToolNix
                     sfd.CheckFileExists = false;
                     sfd.CheckPathExists = false;
                     sfd.OverwritePrompt = false;
-                    sfd.FileName = "Select directory";
-                    sfd.Title = "Select output directory...";
+                    sfd.FileName = LocalizationManager.GetString("UI.Common.Dialog.SelectDirectoryPlaceholder");
+                    sfd.Title = LocalizationManager.GetString("UI.MainForm2.Dialogs.SelectOutputDirectoryTitle");
                     if ((sfd.ShowDialog() == System.Windows.Forms.DialogResult.OK))
                     {
                         txtOutputDirectory.Text = Path.GetDirectoryName(sfd.FileName);
@@ -615,7 +616,7 @@ namespace gMKVToolNix
                 // check if MKVToolnix Path is already set
                 if (!String.IsNullOrWhiteSpace(txtMKVToolnixPath.Text))
                 {
-                    if (ShowQuestion("Do you really want to change MKVToolnix path?", "Are you sure?") != DialogResult.Yes)
+                    if (ShowLocalizedQuestion("UI.MainForm2.Dialogs.ChangeMkvToolnixPathQuestion", "UI.Common.Dialog.AreYouSureTitle") != DialogResult.Yes)
                     {
                         return;
                     }
@@ -625,8 +626,8 @@ namespace gMKVToolNix
                 ofd.RestoreDirectory = true;
                 ofd.CheckFileExists = false;
                 ofd.CheckPathExists = false;
-                ofd.FileName = "Select directory";
-                ofd.Title = "Select MKVToolnix directory...";
+                ofd.FileName = LocalizationManager.GetString("UI.Common.Dialog.SelectDirectoryPlaceholder");
+                ofd.Title = LocalizationManager.GetString("UI.MainForm2.Dialogs.SelectMkvToolnixDirectoryTitle");
                 if (txtMKVToolnixPath.Text.Trim().Length > 0)
                 {
                     if (Directory.Exists(txtMKVToolnixPath.Text.Trim()))
@@ -829,7 +830,7 @@ namespace gMKVToolNix
                     btnAbort.Enabled = true;
                     btnAbortAll.Enabled = true;
                     gTaskbarProgress.SetState(this, gTaskbarProgress.TaskbarStates.Normal);
-                    gTaskbarProgress.SetOverlayIcon(this, SystemIcons.Shield, "Extracting...");
+                    gTaskbarProgress.SetOverlayIcon(this, SystemIcons.Shield, LocalizationManager.GetString("UI.Common.Status.Extracting"));
                     Application.DoEvents();
                     while (myThread.ThreadState != System.Threading.ThreadState.Stopped)
                     {
@@ -843,7 +844,7 @@ namespace gMKVToolNix
                     UpdateProgress(100);
                     if (chkShowPopup.Checked)
                     {
-                        ShowSuccessMessage("The extraction was completed successfully!");
+                        ShowLocalizedSuccessMessage("UI.MainForm2.Success.ExtractionCompleted");
                     }
                     else
                     {
@@ -857,7 +858,7 @@ namespace gMKVToolNix
                 gMKVLogger.Log(ex.ToString());
 
                 gTaskbarProgress.SetState(this, gTaskbarProgress.TaskbarStates.Error);
-                gTaskbarProgress.SetOverlayIcon(this, SystemIcons.Error, "Error!");
+                gTaskbarProgress.SetOverlayIcon(this, SystemIcons.Error, LocalizationManager.GetString("UI.Common.Dialog.ErrorTitle"));
                 exceptionOccured = true;
                 ShowErrorMessage(ex.Message);
             }
@@ -877,7 +878,7 @@ namespace gMKVToolNix
                     lblTrack.Text = "";
                     if (!_JobMode)
                     {
-                        lblStatus.Text = "Extraction completed!";
+                        lblStatus.Text = LocalizationManager.GetString("UI.Common.Status.ExtractionCompleted");
                     }
                 }
                 _ExtractRunning = false;
@@ -963,28 +964,28 @@ namespace gMKVToolNix
         {
             if (String.IsNullOrWhiteSpace(txtInputFile.Text))
             {
-                throw new Exception("You must provide with a valid Matroska file!");
+                throw CreateLocalizedException("UI.MainForm.Errors.ValidMatroskaFileRequired");
             }
             if (!File.Exists(txtInputFile.Text.Trim()))
             {
-                throw new Exception("The input file does not exist!");
+                throw CreateLocalizedException("UI.MainForm2.Errors.FileDoesNotExist", txtInputFile.Text.Trim());
             }
 
             if (String.IsNullOrWhiteSpace(txtMKVToolnixPath.Text))
             {
-                throw new Exception("You must provide with MKVToolnix path!");
+                throw CreateLocalizedException("UI.MainForm2.Errors.MkvToolnixPathRequired");
             }
             if (!File.Exists(Path.Combine(txtMKVToolnixPath.Text.Trim(), gMKVHelper.MKV_MERGE_GUI_FILENAME))
                 && !File.Exists(Path.Combine(txtMKVToolnixPath.Text.Trim(), gMKVHelper.MKV_MERGE_NEW_GUI_FILENAME)))
             {
-                throw new Exception("The MKVToolnix path provided does not contain MKVToolnix files!");
+                throw CreateLocalizedException("UI.MainForm2.Errors.MkvToolnixFilesMissing");
             }
 
             if (checkSelectedTracks)
             {
                 if (chkLstInputFileTracks.CheckedItems.Count == 0)
                 {
-                    throw new Exception("You must select a track to extract!");
+                    throw CreateLocalizedException("UI.MainForm2.Errors.TrackRequired");
                 }
 
                 FormMkvExtractionMode selectedExtractionMode = (FormMkvExtractionMode)Enum.Parse(typeof(FormMkvExtractionMode), (String)cmbExtractionMode.SelectedItem);
@@ -1004,7 +1005,7 @@ namespace gMKVToolNix
                     }
                     if (!ok)
                     {
-                        throw new Exception("You must select a video, audio or subtitles track to extract timecodes!");
+                        throw CreateLocalizedException("UI.MainForm2.Errors.TimecodesTrackRequired");
                     }
                 }
 
@@ -1023,7 +1024,7 @@ namespace gMKVToolNix
                     }
                     if (!ok)
                     {
-                        throw new Exception("You must select a video, audio or subtitles track to extract cues!");
+                        throw CreateLocalizedException("UI.MainForm2.Errors.CuesTrackRequired");
                     }
                 }
             }
@@ -1036,7 +1037,7 @@ namespace gMKVToolNix
                     {
                         if (cmbChapterType.SelectedIndex == -1)
                         {
-                            throw new Exception("You must select a chapter type!");
+                            throw CreateLocalizedException("UI.MainForm2.Errors.ChapterTypeRequired");
                         }
                     }
                 }

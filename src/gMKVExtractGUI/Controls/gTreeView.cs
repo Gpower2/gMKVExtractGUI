@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Drawing;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
+using gMKVToolNix.Localization;
 
 namespace gMKVToolNix
 {
@@ -160,7 +161,7 @@ namespace gMKVToolNix
         public void SetIsCheckBoxVisible(TreeNode node, bool value)
         {
             if (node == null) throw new ArgumentNullException("node");
-            if (node.TreeView == null) throw new InvalidOperationException("The node does not belong to a tree.");
+            if (node.TreeView == null) throw new InvalidOperationException(LocalizationManager.GetString("UI.Controls.TreeView.Errors.NodeNotInTree"));
 
             // If we are on Linux, we can't use P/Invoke to user32.dll
             // So this function can't do anything
@@ -176,7 +177,7 @@ namespace gMKVToolNix
             
             var result = SendMessage(node.TreeView.Handle, TVM_SETITEM, IntPtr.Zero, ref tvi);
             
-            if (result == IntPtr.Zero) throw new ApplicationException("Error setting TreeNode state.");
+            if (result == IntPtr.Zero) throw new ApplicationException(LocalizationManager.GetString("UI.Controls.TreeView.Errors.SetStateFailed"));
         }
 
         /// <summary>
@@ -187,7 +188,7 @@ namespace gMKVToolNix
         public bool IsCheckBoxVisible(TreeNode node)
         {
             if (node == null) throw new ArgumentNullException("node");
-            if (node.TreeView == null) throw new InvalidOperationException("The node does not belong to a tree.");
+            if (node.TreeView == null) throw new InvalidOperationException(LocalizationManager.GetString("UI.Controls.TreeView.Errors.NodeNotInTree"));
 
             // If we are on Linux, we can't use P/Invoke to user32.dll
             // So if the node's check box visibility has the same value as the node's TreeView CheckBoxes property 
@@ -201,7 +202,7 @@ namespace gMKVToolNix
             
             var result = SendMessage(node.TreeView.Handle, TVM_GETITEM, node.Handle, ref tvi);
             
-            if (result == IntPtr.Zero) throw new ApplicationException("Error getting TreeNode state.");
+            if (result == IntPtr.Zero) throw new ApplicationException(LocalizationManager.GetString("UI.Controls.TreeView.Errors.GetStateFailed"));
             
             var imageIndex = (tvi.state & TVIS_STATEIMAGEMASK) >> 12;
             return (imageIndex != 0);

@@ -75,7 +75,7 @@ namespace gMKVToolNix
                 // Apply theme to context menu
                 if (contextMenuStrip != null)
                 {
-                    ThemeManager.ApplyTheme(contextMenuStrip, _isCurrentlyDarkMode); // Theme menu initially
+                    ApplyContextMenuTheme();
                 }
 
                 grdJobs.DataSource = _JobList;
@@ -165,7 +165,7 @@ namespace gMKVToolNix
             e.Cancel = true;
             if (_ExtractRunning)
             {
-                ShowErrorMessage("There is an extraction process running! Please abort before closing!");
+                ShowLocalizedErrorMessage("UI.Common.Errors.ExtractionRunningBeforeClose");
             }
             else
             {
@@ -245,7 +245,7 @@ namespace gMKVToolNix
                 }
                 catch (Exception ex)
                 {
-                    _ExceptionBuilder.AppendFormat("Exception for job {0}: {1}{2}", jobInfo.ToString(), ex.Message, Environment.NewLine);
+                    _ExceptionBuilder.AppendFormat(LocalizationManager.GetString("UI.JobManager.Errors.ExceptionForJob"), jobInfo.ToString(), ex.Message, Environment.NewLine);
                 }
                 finally
                 {
@@ -281,7 +281,7 @@ namespace gMKVToolNix
             {
                 if (GetNumberOfJobs(JobState.Ready) == 0)
                 {
-                    throw new Exception("There are no available jobs to run!");
+                    throw CreateLocalizedException("UI.JobManager.Errors.NoJobsAvailable");
                 }
                 List<gMKVJobInfo> jobList = new List<gMKVJobInfo>();
                 foreach (DataGridViewRow item in grdJobs.Rows)
@@ -335,7 +335,7 @@ namespace gMKVToolNix
                 SetAbortStatus(false);
                 if (chkShowPopup.Checked)
                 {
-                    ShowSuccessMessage("The jobs completed successfully!", true);
+                    ShowLocalizedSuccessMessage("UI.JobManager.Success.JobsCompleted", true);
                 }
                 else
                 {
@@ -361,7 +361,7 @@ namespace gMKVToolNix
                 {
                     lblCurrentProgressValue.Text = "";
                     lblTotalProgressValue.Text = "";
-                    txtCurrentTrack.Text = "Extraction completed!";
+                    txtCurrentTrack.Text = LocalizationManager.GetString("UI.Common.Status.ExtractionCompleted");
                 }
                 gTaskbarProgress.SetState(this, gTaskbarProgress.TaskbarStates.NoProgress);
                 gTaskbarProgress.SetOverlayIcon(this, null, null);
@@ -452,7 +452,7 @@ namespace gMKVToolNix
                 // ask for path
                 SaveFileDialog sfd = new SaveFileDialog
                 {
-                    Title = "Select job file...",
+                    Title = LocalizationManager.GetString("UI.JobManager.Dialogs.SelectJobFileTitle"),
                     InitialDirectory = GetCurrentDirectory(),
                     Filter = "*.xml|*.xml"
                 };
@@ -470,7 +470,7 @@ namespace gMKVToolNix
 
                         x.Serialize(sw, jobList);
                     }
-                    ShowSuccessMessage("The jobs were save successfully!");
+                    ShowLocalizedSuccessMessage("UI.JobManager.Success.JobsSaved");
                 }
             }
             catch (Exception ex)
@@ -489,7 +489,7 @@ namespace gMKVToolNix
                 OpenFileDialog ofd = new OpenFileDialog
                 {
                     InitialDirectory = GetCurrentDirectory(),
-                    Title = "Select jobs file...",
+                    Title = LocalizationManager.GetString("UI.JobManager.Dialogs.SelectJobsFileTitle"),
                     Filter = "*.xml|*.xml"
                 };
                 if (ofd.ShowDialog() == DialogResult.OK)
@@ -502,7 +502,7 @@ namespace gMKVToolNix
                         jobList = (List<gMKVJobInfo>)x.Deserialize(sr);
                     }
                     SetJobsList(new BindingList<gMKVJobInfo>(jobList));
-                    ShowSuccessMessage("The jobs were loaded successfully!");
+                    ShowLocalizedSuccessMessage("UI.JobManager.Success.JobsLoaded");
                 }
             }
             catch (Exception ex)
@@ -516,6 +516,7 @@ namespace gMKVToolNix
         private void contextMenuStrip_Opening(object sender, CancelEventArgs e)
         {
             SetContextMenuText();
+            ApplyContextMenuTheme();
         }
 
         private void SetContextMenuText()
@@ -605,30 +606,22 @@ namespace gMKVToolNix
 
             if (contextMenuStrip != null)
             {
-                // Theme the ContextMenuStrip object itself (BackColor, ForeColor, RenderMode)
-                contextMenuStrip.BackColor = _isCurrentlyDarkMode ? ThemeManager.DarkModeMenuBackColor : SystemColors.ControlLightLight; // Using ControlLightLight from recent plan
-                contextMenuStrip.ForeColor = _isCurrentlyDarkMode ? ThemeManager.DarkModeMenuForeColor : SystemColors.ControlText;
-                contextMenuStrip.RenderMode = _isCurrentlyDarkMode ? ToolStripRenderMode.ManagerRenderMode : ToolStripRenderMode.Professional;
-
-                // Iterate and theme existing items
-                foreach (ToolStripItem item in this.contextMenuStrip.Items)
-                {
-                    if (!(item is ToolStripSeparator))
-                    {
-                        ThemeManager.ApplyToolStripItemTheme(item, _isCurrentlyDarkMode);
-                    }
-                }
-
-                // Force re-assignment to the DataGridView
-                if (grdJobs.ContextMenuStrip == this.contextMenuStrip)
-                {
-                    grdJobs.ContextMenuStrip = null;
-                    grdJobs.ContextMenuStrip = this.contextMenuStrip;
-                }
-
-                this.contextMenuStrip.Invalidate();
-                grdJobs.Invalidate();
+                ApplyContextMenuTheme();
             }
+        }
+
+        private void ApplyContextMenuTheme()
+        {
+            ThemeManager.ApplyContextMenuTheme(contextMenuStrip, _isCurrentlyDarkMode);
+
+            if (grdJobs.ContextMenuStrip == this.contextMenuStrip)
+            {
+                grdJobs.ContextMenuStrip = null;
+                grdJobs.ContextMenuStrip = this.contextMenuStrip;
+            }
+
+            this.contextMenuStrip.Invalidate();
+            grdJobs.Invalidate();
         }
 
         public void ApplyLocalization()
@@ -652,6 +645,7 @@ namespace gMKVToolNix
                 btnAbort.Text = LocalizationManager.GetString("UI.JobManager.Actions.Abort");
                 btnRunAll.Text = LocalizationManager.GetString("UI.JobManager.Actions.RunJobs");
                 btnRemove.Text = LocalizationManager.GetString("UI.JobManager.Actions.Remove");
+                ApplyContextMenuTheme();
             }
             catch (Exception ex)
             {
