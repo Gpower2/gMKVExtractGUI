@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 using gMKVToolNix.Log;
@@ -37,14 +38,7 @@ namespace gMKVToolNix.Localization
             try
             {
                 gMKVLogger.Log("Initializing LocalizationManager...");
-                
-                string assemblyLocation = Assembly.GetExecutingAssembly().Location;
-                string assemblyDirectory = Path.GetDirectoryName(assemblyLocation);
-                
-                _service = new JsonLocalizationService(assemblyDirectory);
-                _currentCulture = culture;
-                _initialized = true;
-
+                Reload(culture);
                 gMKVLogger.Log(string.Format("LocalizationManager initialized successfully with culture: {0}", _currentCulture));
             }
             catch (Exception ex)
@@ -54,24 +48,74 @@ namespace gMKVToolNix.Localization
             }
         }
 
+        public static void Reload(string culture = null)
+        {
+            try
+            {
+                string targetCulture = string.IsNullOrWhiteSpace(culture)
+                    ? _currentCulture
+                    : culture;
+
+                _service = new JsonLocalizationService(GetTranslationDirectory());
+                _currentCulture = targetCulture;
+                _initialized = true;
+
+                gMKVLogger.Log(string.Format("LocalizationManager reloaded successfully with culture: {0}", _currentCulture));
+            }
+            catch (Exception ex)
+            {
+                gMKVLogger.Log(string.Format("Error reloading LocalizationManager: {0}", ex.Message));
+                throw;
+            }
+        }
+
+        public static List<string> GetAvailableCultures()
+        {
+            EnsureInitialized();
+
+            return _service.GetAvailableCultures();
+        }
+
         public static string GetString(string key)
         {
-            if (!_initialized)
-            {
-                throw new InvalidOperationException("LocalizationManager not initialized. Call Initialize() first.");
-            }
+            EnsureInitialized();
 
             return _service.GetString(key, _currentCulture);
         }
 
+        public static string GetString(string key, params object[] formatArgs)
+        {
+            EnsureInitialized();
+
+            return _service.GetString(key, _currentCulture, formatArgs);
+        }
+
         public static string GetString(string key, string culture)
+        {
+            EnsureInitialized();
+
+            return _service.GetString(key, culture);
+        }
+
+        public static string GetString(string key, string culture, params object[] formatArgs)
+        {
+            EnsureInitialized();
+
+            return _service.GetString(key, culture, formatArgs);
+        }
+
+        private static void EnsureInitialized()
         {
             if (!_initialized)
             {
                 throw new InvalidOperationException("LocalizationManager not initialized. Call Initialize() first.");
             }
+        }
 
-            return _service.GetString(key, culture);
+        private static string GetTranslationDirectory()
+        {
+            string assemblyLocation = Assembly.GetExecutingAssembly().Location;
+            return Path.GetDirectoryName(assemblyLocation);
         }
     }
 }

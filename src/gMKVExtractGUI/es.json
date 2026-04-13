@@ -1,8 +1,8 @@
 {
   "Metadata": {
-    "Culture": "en",
-    "Translator": null,
-    "CreationDate": "2025-03-17T00:00:00Z",
+    "Culture": "es",
+    "Translator": "GitHub Copilot",
+    "CreationDate": "2026-04-13T20:07:27Z",
     "LastEditDate": "2026-04-13T20:07:27Z"
   },
   "Entries": {
@@ -14,37 +14,37 @@
     },
     "UI.MainForm.InputFile.Group": {
       "Source": "Input file (you can drag and drop the file)",
-      "Translation": "Input file (you can drag and drop the file)",
+      "Translation": "Archivo de entrada (puede arrastrar y soltar el archivo)",
       "IsTranslated": true,
       "Notes": "GroupBox label for input file selection"
     },
     "UI.MainForm.InputFile.Browse": {
       "Source": "Browse...",
-      "Translation": "Browse...",
+      "Translation": "Examinar...",
       "IsTranslated": true,
       "Notes": "Button to browse for input file"
     },
     "UI.MainForm.OutputDirectory.Group": {
       "Source": "Output Directory",
-      "Translation": "Output Directory",
+      "Translation": "Directorio de salida",
       "IsTranslated": true,
       "Notes": "GroupBox label for output directory"
     },
     "UI.MainForm.OutputDirectory.Lock": {
       "Source": "Lock",
-      "Translation": "Lock",
+      "Translation": "Bloquear",
       "IsTranslated": true,
       "Notes": "Checkbox to lock output directory"
     },
     "UI.MainForm.OutputDirectory.Browse": {
       "Source": "Browse...",
-      "Translation": "Browse...",
+      "Translation": "Examinar...",
       "IsTranslated": true,
       "Notes": "Button to browse for output directory"
     },
     "UI.MainForm.Actions.Group": {
       "Source": "Actions",
-      "Translation": "Actions",
+      "Translation": "Acciones",
       "IsTranslated": true,
       "Notes": "GroupBox label for action controls"
     },
@@ -56,181 +56,181 @@
     },
     "UI.MainForm.Actions.JobMode": {
       "Source": "Job Mode",
-      "Translation": "Job Mode",
+      "Translation": "Modo trabajo",
       "IsTranslated": true,
       "Notes": "Checkbox to enable job mode"
     },
     "UI.MainForm.Actions.Extract": {
       "Source": "Extract",
-      "Translation": "Extract",
+      "Translation": "Extraer",
       "IsTranslated": true,
       "Notes": "Button to start extraction"
     },
     "UI.MainForm.Actions.ExtractionMode": {
       "Source": "Extract:",
-      "Translation": "Extract:",
+      "Translation": "Extraer:",
       "IsTranslated": true,
       "Notes": "Label for extraction mode combo box"
     },
     "UI.MainForm.Actions.Log": {
       "Source": "Log...",
-      "Translation": "Log...",
+      "Translation": "Registro...",
       "IsTranslated": true,
       "Notes": "Button to show log window"
     },
     "UI.MainForm.Actions.ChapterType": {
       "Source": "Chapter",
-      "Translation": "Chapter",
+      "Translation": "Capítulo",
       "IsTranslated": true,
       "Notes": "Label for chapter type combo box"
     },
     "UI.MainForm.Actions.Abort": {
       "Source": "Abort",
-      "Translation": "Abort",
+      "Translation": "Abortar",
       "IsTranslated": true,
       "Notes": "Button to abort current extraction"
     },
     "UI.MainForm.Actions.AbortAll": {
       "Source": "Abort All",
-      "Translation": "Abort All",
+      "Translation": "Abortar todo",
       "IsTranslated": true,
       "Notes": "Button to abort all extractions"
     },
     "UI.MainForm.Config.Group": {
       "Source": "MKVToolnix Directory (you can drag and drop the directory)",
-      "Translation": "MKVToolnix Directory (you can drag and drop the directory)",
+      "Translation": "Directorio de MKVToolnix (puede arrastrar y soltar el directorio)",
       "IsTranslated": true,
       "Notes": "GroupBox label for MKVToolnix directory configuration"
     },
     "UI.MainForm.Config.Browse": {
       "Source": "Browse...",
-      "Translation": "Browse...",
+      "Translation": "Examinar...",
       "IsTranslated": true,
       "Notes": "Button to browse for MKVToolnix directory"
     },
     "UI.MainForm.InputFileInfo.Group": {
       "Source": "Input File Information",
-      "Translation": "Input File Information",
+      "Translation": "Información del archivo de entrada",
       "IsTranslated": true,
       "Notes": "GroupBox label for input file information"
     },
     "UI.MainForm.Status.Track": {
       "Source": "track",
-      "Translation": "track",
+      "Translation": "pista",
       "IsTranslated": true,
       "Notes": "Status bar label for current track"
     },
     "UI.MainForm.Status.Status": {
       "Source": "status",
-      "Translation": "status",
+      "Translation": "estado",
       "IsTranslated": true,
       "Notes": "Status bar label for status message"
     },
     "UI.MainForm.Log.Group": {
       "Source": "Log",
-      "Translation": "Log",
+      "Translation": "Registro",
       "IsTranslated": true,
       "Notes": "GroupBox label for log display"
     },
     "UI.ContextMenu.SelectAllTracks": {
       "Source": "Select All Tracks",
-      "Translation": "Select All Tracks",
+      "Translation": "Seleccionar todas las pistas",
       "IsTranslated": true,
       "Notes": "Context menu item to select all tracks"
     },
     "UI.ContextMenu.SelectAllVideoTracks": {
       "Source": "Select All Video Tracks",
-      "Translation": "Select All Video Tracks",
+      "Translation": "Seleccionar todas las pistas de vídeo",
       "IsTranslated": true,
       "Notes": "Context menu item to select all video tracks"
     },
     "UI.ContextMenu.SelectAllAudioTracks": {
       "Source": "Select All Audio Tracks",
-      "Translation": "Select All Audio Tracks",
+      "Translation": "Seleccionar todas las pistas de audio",
       "IsTranslated": true,
       "Notes": "Context menu item to select all audio tracks"
     },
     "UI.ContextMenu.SelectAllSubtitleTracks": {
       "Source": "Select All Subtitle Tracks",
-      "Translation": "Select All Subtitle Tracks",
+      "Translation": "Seleccionar todas las pistas de subtítulos",
       "IsTranslated": true,
       "Notes": "Context menu item to select all subtitle tracks"
     },
     "UI.ContextMenu.SelectAllChapterTracks": {
       "Source": "Select All Chapter Tracks",
-      "Translation": "Select All Chapter Tracks",
+      "Translation": "Seleccionar todas las pistas de capítulos",
       "IsTranslated": true,
       "Notes": "Context menu item to select all chapter tracks"
     },
     "UI.ContextMenu.SelectAllAttachmentTracks": {
       "Source": "Select All Attachments Tracks",
-      "Translation": "Select All Attachments Tracks",
+      "Translation": "Seleccionar todas las pistas de adjuntos",
       "IsTranslated": true,
       "Notes": "Context menu item to select all attachment tracks"
     },
     "UI.ContextMenu.UnselectAllTracks": {
       "Source": "Unselect All tracks",
-      "Translation": "Unselect All tracks",
+      "Translation": "Deseleccionar todas las pistas",
       "IsTranslated": true,
       "Notes": "Context menu item to unselect all tracks"
     },
     "UI.JobManager.Title": {
       "Source": "Job Manager",
-      "Translation": "Job Manager",
+      "Translation": "Gestor de trabajos",
       "IsTranslated": true,
       "Notes": "Job manager window title"
     },
     "UI.JobManager.Progress.Group": {
       "Source": "Progress",
-      "Translation": "Progress",
+      "Translation": "Progreso",
       "IsTranslated": true,
       "Notes": "GroupBox label for progress information"
     },
     "UI.JobManager.Progress.CurrentTrack": {
       "Source": "Current Track",
-      "Translation": "Current Track",
+      "Translation": "Pista actual",
       "IsTranslated": true,
       "Notes": "Label for current track progress"
     },
     "UI.JobManager.Progress.TotalProgress": {
       "Source": "Total Progress",
-      "Translation": "Total Progress",
+      "Translation": "Progreso total",
       "IsTranslated": true,
       "Notes": "Label for total progress"
     },
     "UI.JobManager.Progress.CurrentProgress": {
       "Source": "Current Progress",
-      "Translation": "Current Progress",
+      "Translation": "Progreso actual",
       "IsTranslated": true,
       "Notes": "Label for current extraction progress"
     },
     "UI.JobManager.Jobs.Group": {
       "Source": "Jobs",
-      "Translation": "Jobs",
+      "Translation": "Trabajos",
       "IsTranslated": true,
       "Notes": "GroupBox label for job list"
     },
     "UI.JobManager.Jobs.ChangeToReadyStatus": {
       "Source": "Change to Ready Status",
-      "Translation": "Change to Ready Status",
+      "Translation": "Cambiar a estado Listo",
       "IsTranslated": true,
       "Notes": "Context menu item to change job status to ready"
     },
     "UI.JobManager.Jobs.SelectAll": {
       "Source": "Select All",
-      "Translation": "Select All",
+      "Translation": "Seleccionar todo",
       "IsTranslated": true,
       "Notes": "Context menu item to select all jobs"
     },
     "UI.JobManager.Jobs.DeselectAll": {
       "Source": "Deselect All",
-      "Translation": "Deselect All",
+      "Translation": "Deseleccionar todo",
       "IsTranslated": true,
       "Notes": "Context menu item to deselect all jobs"
     },
     "UI.JobManager.Actions.Group": {
       "Source": "Actions",
-      "Translation": "Actions",
+      "Translation": "Acciones",
       "IsTranslated": true,
       "Notes": "GroupBox label for action buttons"
     },
@@ -242,85 +242,85 @@
     },
     "UI.JobManager.Actions.SaveJobs": {
       "Source": "Save Jobs...",
-      "Translation": "Save Jobs...",
+      "Translation": "Guardar trabajos...",
       "IsTranslated": true,
       "Notes": "Button to save job queue to file"
     },
     "UI.JobManager.Actions.LoadJobs": {
       "Source": "Load Jobs...",
-      "Translation": "Load Jobs...",
+      "Translation": "Cargar trabajos...",
       "IsTranslated": true,
       "Notes": "Button to load job queue from file"
     },
     "UI.JobManager.Actions.AbortAll": {
       "Source": "Abort All",
-      "Translation": "Abort All",
+      "Translation": "Abortar todo",
       "IsTranslated": true,
       "Notes": "Button to abort all jobs"
     },
     "UI.JobManager.Actions.Abort": {
       "Source": "Abort",
-      "Translation": "Abort",
+      "Translation": "Abortar",
       "IsTranslated": true,
       "Notes": "Button to abort selected job"
     },
     "UI.JobManager.Actions.RunJobs": {
       "Source": "Run Jobs",
-      "Translation": "Run Jobs",
+      "Translation": "Ejecutar trabajos",
       "IsTranslated": true,
       "Notes": "Button to start running queued jobs"
     },
     "UI.JobManager.Actions.Remove": {
       "Source": "Remove",
-      "Translation": "Remove",
+      "Translation": "Eliminar",
       "IsTranslated": true,
       "Notes": "Button to remove selected job"
     },
     "UI.LogForm.Title": {
       "Source": "Log",
-      "Translation": "Log",
+      "Translation": "Registro",
       "IsTranslated": true,
       "Notes": "Log window title"
     },
     "UI.LogForm.Log.Group": {
       "Source": "Log",
-      "Translation": "Log",
+      "Translation": "Registro",
       "IsTranslated": true,
       "Notes": "GroupBox label for log content"
     },
     "UI.LogForm.Actions.Group": {
       "Source": "Actions",
-      "Translation": "Actions",
+      "Translation": "Acciones",
       "IsTranslated": true,
       "Notes": "GroupBox label for log action buttons"
     },
     "UI.LogForm.Actions.Save": {
       "Source": "Save...",
-      "Translation": "Save...",
+      "Translation": "Guardar...",
       "IsTranslated": true,
       "Notes": "Button to save log to file"
     },
     "UI.LogForm.Actions.ClearLog": {
       "Source": "Clear Log",
-      "Translation": "Clear Log",
+      "Translation": "Limpiar registro",
       "IsTranslated": true,
       "Notes": "Button to clear log content"
     },
     "UI.LogForm.Actions.Refresh": {
       "Source": "Refresh",
-      "Translation": "Refresh",
+      "Translation": "Actualizar",
       "IsTranslated": true,
       "Notes": "Button to refresh log display"
     },
     "UI.LogForm.Actions.CopySelection": {
       "Source": "Copy Selection",
-      "Translation": "Copy Selection",
+      "Translation": "Copiar selección",
       "IsTranslated": true,
       "Notes": "Button to copy selected log text"
     },
     "UI.LogForm.Actions.Close": {
       "Source": "Close",
-      "Translation": "Close",
+      "Translation": "Cerrar",
       "IsTranslated": true,
       "Notes": "Button to close log window"
     },
@@ -332,31 +332,31 @@
     },
     "UI.MainForm2.Status.Status": {
       "Source": "status",
-      "Translation": "status",
+      "Translation": "estado",
       "IsTranslated": true,
       "Notes": "Status bar label in main form 2"
     },
     "UI.MainForm2.Status.TotalStatus": {
       "Source": "status",
-      "Translation": "status",
+      "Translation": "estado",
       "IsTranslated": true,
       "Notes": "Total status bar label in main form 2"
     },
     "UI.MainForm2.Actions.Group": {
       "Source": "Actions",
-      "Translation": "Actions",
+      "Translation": "Acciones",
       "IsTranslated": true,
       "Notes": "GroupBox label for action controls in main form 2"
     },
     "UI.MainForm2.Actions.AddJobs": {
       "Source": "Add Jobs",
-      "Translation": "Add Jobs",
+      "Translation": "Agregar trabajos",
       "IsTranslated": true,
       "Notes": "Button to add new jobs"
     },
     "UI.MainForm2.Actions.ShowJobs": {
       "Source": "Jobs...",
-      "Translation": "Jobs...",
+      "Translation": "Trabajos...",
       "IsTranslated": true,
       "Notes": "Button to show job manager"
     },
@@ -368,409 +368,409 @@
     },
     "UI.MainForm2.Actions.Extract": {
       "Source": "Extract",
-      "Translation": "Extract",
+      "Translation": "Extraer",
       "IsTranslated": true,
       "Notes": "Button to start extraction in main form 2"
     },
     "UI.MainForm2.Actions.ExtractionMode": {
       "Source": "Extract",
-      "Translation": "Extract",
+      "Translation": "Extraer",
       "IsTranslated": true,
       "Notes": "Label for extraction mode combo box in main form 2"
     },
     "UI.MainForm2.Actions.Log": {
       "Source": "Log...",
-      "Translation": "Log...",
+      "Translation": "Registro...",
       "IsTranslated": true,
       "Notes": "Button to show log window in main form 2"
     },
     "UI.MainForm2.Actions.ChapterType": {
       "Source": "Chapter",
-      "Translation": "Chapter",
+      "Translation": "Capítulo",
       "IsTranslated": true,
       "Notes": "Label for chapter type combo box in main form 2"
     },
     "UI.MainForm2.OutputDirectory.Group": {
       "Source": "Output Directory for Selected File (you can drag and drop the directory)",
-      "Translation": "Output Directory for Selected File (you can drag and drop the directory)",
+      "Translation": "Directorio de salida para el archivo seleccionado (puede arrastrar y soltar el directorio)",
       "IsTranslated": true,
       "Notes": "GroupBox label for output directory in main form 2"
     },
     "UI.MainForm2.OutputDirectory.UseSource": {
       "Source": "Use Source",
-      "Translation": "Use Source",
+      "Translation": "Usar origen",
       "IsTranslated": true,
       "Notes": "Checkbox to use source directory as output in main form 2"
     },
     "UI.MainForm2.OutputDirectory.Browse": {
       "Source": "Browse...",
-      "Translation": "Browse...",
+      "Translation": "Examinar...",
       "IsTranslated": true,
       "Notes": "Button to browse for output directory in main form 2"
     },
     "UI.MainForm2.OutputDirectory.SetAsDefault": {
       "Source": "Set As Default Directory",
-      "Translation": "Set As Default Directory",
+      "Translation": "Establecer como directorio predeterminado",
       "IsTranslated": true,
       "Notes": "Context menu item to set default directory"
     },
     "UI.MainForm2.OutputDirectory.UseDefault": {
       "Source": "Use Currently Set Default Directory:",
-      "Translation": "Use Currently Set Default Directory:",
+      "Translation": "Usar el directorio predeterminado actual:",
       "IsTranslated": true,
       "Notes": "Context menu item to use default directory"
     },
     "UI.MainForm2.Config.Group": {
       "Source": "MKVToolnix Directory (you can drag and drop the directory)",
-      "Translation": "MKVToolnix Directory (you can drag and drop the directory)",
+      "Translation": "Directorio de MKVToolnix (puede arrastrar y soltar el directorio)",
       "IsTranslated": true,
       "Notes": "GroupBox label for MKVToolnix directory in main form 2"
     },
     "UI.MainForm2.Config.AutoDetect": {
       "Source": "Auto Detect",
-      "Translation": "Auto Detect",
+      "Translation": "Detectar automáticamente",
       "IsTranslated": true,
       "Notes": "Button to auto-detect MKVToolnix directory"
     },
     "UI.MainForm2.Config.Browse": {
       "Source": "Browse...",
-      "Translation": "Browse...",
+      "Translation": "Examinar...",
       "IsTranslated": true,
       "Notes": "Button to browse for MKVToolnix directory in main form 2"
     },
     "UI.MainForm2.InputFiles.Group": {
       "Source": "Input Files (you can drag and drop files or directories)",
-      "Translation": "Input Files (you can drag and drop files or directories)",
+      "Translation": "Archivos de entrada (puede arrastrar y soltar archivos o directorios)",
       "IsTranslated": true,
       "Notes": "GroupBox label for input files in main form 2"
     },
     "UI.OptionsForm.Tags.Group": {
       "Source": "Tags",
-      "Translation": "Tags",
+      "Translation": "Etiquetas",
       "IsTranslated": true,
       "Notes": "GroupBox label for tags configuration"
     },
     "UI.OptionsForm.Tags.Default": {
       "Source": "Default",
-      "Translation": "Default",
+      "Translation": "Predeterminado",
       "IsTranslated": true,
       "Notes": "Button to reset attachment tags to default"
     },
     "UI.OptionsForm.Tags.Add": {
       "Source": "Add...",
-      "Translation": "Add...",
+      "Translation": "Agregar...",
       "IsTranslated": true,
       "Notes": "Button to add new attachment tag"
     },
     "UI.OptionsForm.Chapters.Group": {
       "Source": "Chapters",
-      "Translation": "Chapters",
+      "Translation": "Capítulos",
       "IsTranslated": true,
       "Notes": "GroupBox label for chapter configuration"
     },
     "UI.OptionsForm.Chapters.Default": {
       "Source": "Default",
-      "Translation": "Default",
+      "Translation": "Predeterminado",
       "IsTranslated": true,
       "Notes": "Button to reset chapters to default"
     },
     "UI.OptionsForm.Chapters.Add": {
       "Source": "Add...",
-      "Translation": "Add...",
+      "Translation": "Agregar...",
       "IsTranslated": true,
       "Notes": "Button to add new chapter"
     },
     "UI.OptionsForm.VideoTracks.Group": {
       "Source": "Video Tracks",
-      "Translation": "Video Tracks",
+      "Translation": "Pistas de vídeo",
       "IsTranslated": true,
       "Notes": "GroupBox label for video track configuration"
     },
     "UI.OptionsForm.VideoTracks.Default": {
       "Source": "Default",
-      "Translation": "Default",
+      "Translation": "Predeterminado",
       "IsTranslated": true,
       "Notes": "Button to reset video tracks to default"
     },
     "UI.OptionsForm.VideoTracks.Add": {
       "Source": "Add...",
-      "Translation": "Add...",
+      "Translation": "Agregar...",
       "IsTranslated": true,
       "Notes": "Button to add new video track"
     },
     "UI.OptionsForm.AudioTracks.Group": {
       "Source": "Audio Tracks",
-      "Translation": "Audio Tracks",
+      "Translation": "Pistas de audio",
       "IsTranslated": true,
       "Notes": "GroupBox label for audio track configuration"
     },
     "UI.OptionsForm.AudioTracks.Default": {
       "Source": "Default",
-      "Translation": "Default",
+      "Translation": "Predeterminado",
       "IsTranslated": true,
       "Notes": "Button to reset audio tracks to default"
     },
     "UI.OptionsForm.AudioTracks.Add": {
       "Source": "Add...",
-      "Translation": "Add...",
+      "Translation": "Agregar...",
       "IsTranslated": true,
       "Notes": "Button to add new audio track"
     },
     "UI.OptionsForm.SubtitleTracks.Group": {
       "Source": "Subtitle Tracks",
-      "Translation": "Subtitle Tracks",
+      "Translation": "Pistas de subtítulos",
       "IsTranslated": true,
       "Notes": "GroupBox label for subtitle track configuration"
     },
     "UI.OptionsForm.SubtitleTracks.Default": {
       "Source": "Default",
-      "Translation": "Default",
+      "Translation": "Predeterminado",
       "IsTranslated": true,
       "Notes": "Button to reset subtitle tracks to default"
     },
     "UI.OptionsForm.SubtitleTracks.Add": {
       "Source": "Add...",
-      "Translation": "Add...",
+      "Translation": "Agregar...",
       "IsTranslated": true,
       "Notes": "Button to add new subtitle track"
     },
     "UI.OptionsForm.Attachments.Group": {
       "Source": "Attachments",
-      "Translation": "Attachments",
+      "Translation": "Adjuntos",
       "IsTranslated": true,
       "Notes": "GroupBox label for attachment configuration"
     },
     "UI.OptionsForm.Attachments.Default": {
       "Source": "Default",
-      "Translation": "Default",
+      "Translation": "Predeterminado",
       "IsTranslated": true,
       "Notes": "Button to reset attachments to default"
     },
     "UI.OptionsForm.Attachments.Add": {
       "Source": "Add...",
-      "Translation": "Add...",
+      "Translation": "Agregar...",
       "IsTranslated": true,
       "Notes": "Button to add new attachment"
     },
     "UI.OptionsForm.Info.Group": {
       "Source": "Information",
-      "Translation": "Information",
+      "Translation": "Información",
       "IsTranslated": true,
       "Notes": "GroupBox label for information display"
     },
     "UI.OptionsForm.Defaults": {
       "Source": "Defaults",
-      "Translation": "Defaults",
+      "Translation": "Predeterminados",
       "IsTranslated": true,
       "Notes": "Button to reset all options to default"
     },
     "UI.OptionsForm.RawMode": {
       "Source": "Use `raw` extraction",
-      "Translation": "Use `raw` extraction",
+      "Translation": "Usar extracción `raw`",
       "IsTranslated": true,
       "Notes": "Checkbox for raw extraction mode"
     },
     "UI.OptionsForm.FullRawMode": {
       "Source": "Use `full raw` extraction",
-      "Translation": "Use `full raw` extraction",
+      "Translation": "Usar extracción `full raw`",
       "IsTranslated": true,
       "Notes": "Checkbox for full raw extraction mode"
     },
     "UI.OptionsForm.TextFilesWithoutBom": {
       "Source": "Disable BOM to text files (v96.0+)",
-      "Translation": "Disable BOM to text files (v96.0+)",
+      "Translation": "Desactivar BOM en archivos de texto (v96.0+)",
       "IsTranslated": true,
       "Notes": "Checkbox to disable BOM in text file output"
     },
     "UI.Common.True": {
       "Source": "True",
-      "Translation": "True",
+      "Translation": "Verdadero",
       "IsTranslated": true,
       "Notes": "Boolean true label"
     },
     "UI.Common.False": {
       "Source": "False",
-      "Translation": "False",
+      "Translation": "Falso",
       "IsTranslated": true,
       "Notes": "Boolean false label"
     },
     "UI.Common.NotSet": {
       "Source": "Not Set!",
-      "Translation": "Not Set!",
+      "Translation": "¡No establecido!",
       "IsTranslated": true,
       "Notes": "Label for a value that has not been configured"
     },
     "UI.OptionsForm.Title": {
       "Source": "Options",
-      "Translation": "Options",
+      "Translation": "Opciones",
       "IsTranslated": true,
       "Notes": "Options form title"
     },
     "UI.OptionsForm.Actions.Group": {
       "Source": "Actions",
-      "Translation": "Actions",
+      "Translation": "Acciones",
       "IsTranslated": true,
       "Notes": "GroupBox label for options actions"
     },
     "UI.OptionsForm.Actions.OK": {
       "Source": "OK",
-      "Translation": "OK",
+      "Translation": "Aceptar",
       "IsTranslated": true,
       "Notes": "Button to confirm options"
     },
     "UI.OptionsForm.Actions.Cancel": {
       "Source": "Cancel",
-      "Translation": "Cancel",
+      "Translation": "Cancelar",
       "IsTranslated": true,
       "Notes": "Button to cancel options"
     },
     "UI.OptionsForm.Advanced.Group": {
       "Source": "Advanced Options",
-      "Translation": "Advanced Options",
+      "Translation": "Opciones avanzadas",
       "IsTranslated": true,
       "Notes": "GroupBox label for advanced options"
     },
     "UI.OptionsForm.Advanced.Culture": {
       "Source": "Culture:",
-      "Translation": "Culture:",
+      "Translation": "Idioma:",
       "IsTranslated": true,
       "Notes": "Label for culture selector"
     },
     "UI.OptionsForm.Info.Text": {
       "Source": "Here you can specify the output filename format for each kind of track.\nPressing the \"Add...\" button you will see the list with the available placeholders and select them.\nPressing the \"Default\" button you will reset the output filename format to its default value.",
-      "Translation": "Here you can specify the output filename format for each kind of track.\nPressing the \"Add...\" button you will see the list with the available placeholders and select them.\nPressing the \"Default\" button you will reset the output filename format to its default value.",
+      "Translation": "Aquí puede especificar el formato del nombre de archivo de salida para cada tipo de pista.\nAl pulsar el botón \"Agregar...\" verá la lista de marcadores disponibles y podrá seleccionarlos.\nAl pulsar el botón \"Predeterminado\" restablecerá el formato del nombre de archivo de salida a su valor predeterminado.",
       "IsTranslated": true,
       "Notes": "Help text describing filename placeholders"
     },
     "UI.MainForm2.InputFiles.GroupWithCount": {
       "Source": "Input Files (you can drag and drop files or directories) ({0} files)",
-      "Translation": "Input Files (you can drag and drop files or directories) ({0} files)",
+      "Translation": "Archivos de entrada (puede arrastrar y soltar archivos o directorios) ({0} archivos)",
       "IsTranslated": true,
       "Notes": "GroupBox label for input files with file count"
     },
     "UI.MainForm2.SelectedFileInfo.Group": {
       "Source": "Selected File Information",
-      "Translation": "Selected File Information",
+      "Translation": "Información del archivo seleccionado",
       "IsTranslated": true,
       "Notes": "GroupBox label for selected file information"
     },
     "UI.MainForm2.SelectedFileInfo.GroupWithFile": {
       "Source": "Selected File Information ({0})",
-      "Translation": "Selected File Information ({0})",
+      "Translation": "Información del archivo seleccionado ({0})",
       "IsTranslated": true,
       "Notes": "GroupBox label for selected file information with filename"
     },
     "UI.MainForm2.FileOptions.Select": {
       "Source": "Select...",
-      "Translation": "Select...",
+      "Translation": "Seleccionar...",
       "IsTranslated": true,
       "Notes": "Button to open the track selection context menu"
     },
     "UI.MainForm2.FileOptions.AppendOnDragAndDrop": {
       "Source": "Append input on drag and drop",
-      "Translation": "Append input on drag and drop",
+      "Translation": "Añadir entrada al arrastrar y soltar",
       "IsTranslated": true,
       "Notes": "Checkbox to append dropped input files"
     },
     "UI.MainForm2.FileOptions.OverwriteExistingFiles": {
       "Source": "Overwrite existing files",
-      "Translation": "Overwrite existing files",
+      "Translation": "Sobrescribir archivos existentes",
       "IsTranslated": true,
       "Notes": "Checkbox to overwrite existing output files"
     },
     "UI.MainForm2.FileOptions.DisableTooltips": {
       "Source": "Disable tooltips",
-      "Translation": "Disable tooltips",
+      "Translation": "Desactivar descripciones emergentes",
       "IsTranslated": true,
       "Notes": "Checkbox to disable tooltips"
     },
     "UI.MainForm2.Appearance.Dark": {
       "Source": "Dark",
-      "Translation": "Dark",
+      "Translation": "Oscuro",
       "IsTranslated": true,
       "Notes": "Checkbox to toggle dark appearance"
     },
     "UI.MainForm2.Appearance.Options": {
       "Source": "Options...",
-      "Translation": "Options...",
+      "Translation": "Opciones...",
       "IsTranslated": true,
       "Notes": "Button to open options"
     },
     "UI.MainForm2.ContextMenu.AddInputFiles": {
       "Source": "Add Input File(s)...",
-      "Translation": "Add Input File(s)...",
+      "Translation": "Agregar archivo(s) de entrada...",
       "IsTranslated": true,
       "Notes": "Context menu item to add input files"
     },
     "UI.MainForm2.ContextMenu.CheckAllTracks": {
       "Source": "Check All Tracks ({0}/{1})",
-      "Translation": "Check All Tracks ({0}/{1})",
+      "Translation": "Marcar todas las pistas ({0}/{1})",
       "IsTranslated": true,
       "Notes": "Context menu item to check all tracks with selected and total counts"
     },
     "UI.MainForm2.ContextMenu.CheckTrackGroup": {
       "Source": "Check {0}... ({1}/{2})",
-      "Translation": "Check {0}... ({1}/{2})",
+      "Translation": "Marcar {0}... ({1}/{2})",
       "IsTranslated": true,
       "Notes": "Context menu item to check a track group with selected and total counts"
     },
     "UI.MainForm2.ContextMenu.AllTrackGroup": {
       "Source": "All {0} ({1}/{2})",
-      "Translation": "All {0} ({1}/{2})",
+      "Translation": "Todas las {0} ({1}/{2})",
       "IsTranslated": true,
       "Notes": "Context menu item for all tracks within a group with selected and total counts"
     },
     "UI.MainForm2.ContextMenu.UncheckAllTracks": {
       "Source": "Uncheck All Tracks ({0}/{1})",
-      "Translation": "Uncheck All Tracks ({0}/{1})",
+      "Translation": "Desmarcar todas las pistas ({0}/{1})",
       "IsTranslated": true,
       "Notes": "Context menu item to uncheck all tracks with remaining and total counts"
     },
     "UI.MainForm2.ContextMenu.UncheckTrackGroup": {
       "Source": "Uncheck {0}... ({1}/{2})",
-      "Translation": "Uncheck {0}... ({1}/{2})",
+      "Translation": "Desmarcar {0}... ({1}/{2})",
       "IsTranslated": true,
       "Notes": "Context menu item to uncheck a track group with remaining and total counts"
     },
     "UI.MainForm2.ContextMenu.RemoveAllInputFiles": {
       "Source": "Remove All Input Files ({0})",
-      "Translation": "Remove All Input Files ({0})",
+      "Translation": "Eliminar todos los archivos de entrada ({0})",
       "IsTranslated": true,
       "Notes": "Context menu item to remove all input files with count"
     },
     "UI.MainForm2.ContextMenu.RemoveSelectedInputFile": {
       "Source": "Remove Selected Input File",
-      "Translation": "Remove Selected Input File",
+      "Translation": "Eliminar el archivo de entrada seleccionado",
       "IsTranslated": true,
       "Notes": "Context menu item to remove the selected input file"
     },
     "UI.MainForm2.ContextMenu.OpenSelectedFile": {
       "Source": "Open Selected File...",
-      "Translation": "Open Selected File...",
+      "Translation": "Abrir archivo seleccionado...",
       "IsTranslated": true,
       "Notes": "Context menu item to open the selected file"
     },
     "UI.MainForm2.ContextMenu.OpenSelectedFileFolder": {
       "Source": "Open Selected File Folder...",
-      "Translation": "Open Selected File Folder...",
+      "Translation": "Abrir carpeta del archivo seleccionado...",
       "IsTranslated": true,
       "Notes": "Context menu item to open the selected file folder"
     },
     "UI.MainForm2.ContextMenu.ExpandAll": {
       "Source": "Expand All",
-      "Translation": "Expand All",
+      "Translation": "Expandir todo",
       "IsTranslated": true,
       "Notes": "Context menu item to expand all input tree nodes"
     },
     "UI.MainForm2.ContextMenu.CollapseAll": {
       "Source": "Collapse All",
-      "Translation": "Collapse All",
+      "Translation": "Contraer todo",
       "IsTranslated": true,
       "Notes": "Context menu item to collapse all input tree nodes"
     },
     "UI.MainForm2.ContextMenu.TrackGroupByFilter": {
       "Source": "{0} by {1} ({2})...",
-      "Translation": "{0} by {1} ({2})...",
+      "Translation": "{0} por {1} ({2})...",
       "IsTranslated": true,
       "Notes": "Context menu item for selecting track groups by a filter"
     },
@@ -782,79 +782,79 @@
     },
     "UI.MainForm2.ContextMenu.TrackGroup.Video": {
       "Source": "Video Tracks",
-      "Translation": "Video Tracks",
+      "Translation": "Pistas de vídeo",
       "IsTranslated": true,
       "Notes": "Track group label for video tracks"
     },
     "UI.MainForm2.ContextMenu.TrackGroup.Audio": {
       "Source": "Audio Tracks",
-      "Translation": "Audio Tracks",
+      "Translation": "Pistas de audio",
       "IsTranslated": true,
       "Notes": "Track group label for audio tracks"
     },
     "UI.MainForm2.ContextMenu.TrackGroup.Subtitle": {
       "Source": "Subtitle Tracks",
-      "Translation": "Subtitle Tracks",
+      "Translation": "Pistas de subtítulos",
       "IsTranslated": true,
       "Notes": "Track group label for subtitle tracks"
     },
     "UI.MainForm2.ContextMenu.TrackGroup.Chapter": {
       "Source": "Chapter Tracks",
-      "Translation": "Chapter Tracks",
+      "Translation": "Pistas de capítulos",
       "IsTranslated": true,
       "Notes": "Track group label for chapter tracks"
     },
     "UI.MainForm2.ContextMenu.TrackGroup.Attachment": {
       "Source": "Attachment Tracks",
-      "Translation": "Attachment Tracks",
+      "Translation": "Pistas de adjuntos",
       "IsTranslated": true,
       "Notes": "Track group label for attachment tracks"
     },
     "UI.MainForm2.ContextMenu.Filter.Language": {
       "Source": "Language",
-      "Translation": "Language",
+      "Translation": "Idioma",
       "IsTranslated": true,
       "Notes": "Filter label for language"
     },
     "UI.MainForm2.ContextMenu.Filter.LanguageIetf": {
       "Source": "Language IETF",
-      "Translation": "Language IETF",
+      "Translation": "Idioma IETF",
       "IsTranslated": true,
       "Notes": "Filter label for IETF language"
     },
     "UI.MainForm2.ContextMenu.Filter.Codec": {
       "Source": "Codec",
-      "Translation": "Codec",
+      "Translation": "Códec",
       "IsTranslated": true,
       "Notes": "Filter label for codec"
     },
     "UI.MainForm2.ContextMenu.Filter.Resolution": {
       "Source": "Resolution",
-      "Translation": "Resolution",
+      "Translation": "Resolución",
       "IsTranslated": true,
       "Notes": "Filter label for video resolution"
     },
     "UI.MainForm2.ContextMenu.Filter.Channels": {
       "Source": "Channels",
-      "Translation": "Channels",
+      "Translation": "Canales",
       "IsTranslated": true,
       "Notes": "Filter label for audio channels"
     },
     "UI.MainForm2.ContextMenu.Filter.TrackName": {
       "Source": "Track Name",
-      "Translation": "Track Name",
+      "Translation": "Nombre de la pista",
       "IsTranslated": true,
       "Notes": "Filter label for track name"
     },
     "UI.MainForm2.ContextMenu.Filter.Forced": {
       "Source": "Forced",
-      "Translation": "Forced",
+      "Translation": "Forzado",
       "IsTranslated": true,
       "Notes": "Filter label for forced tracks"
     },
     "UI.MainForm2.OutputDirectory.UseDefaultWithValue": {
       "Source": "Use Currently Set Default Directory: ({0})",
-      "Translation": "Use Currently Set Default Directory: ({0})",
+      "Translation": "Usar el directorio predeterminado actual: ({0})",
       "IsTranslated": true,
       "Notes": "Context menu item to use the currently set default directory"
     }

@@ -248,6 +248,86 @@ namespace gMKVToolNix.Forms
             }
         }
 
+        private void UpdateInputFilesGroupTitle()
+        {
+            int fileCount = trvInputFiles.AllNodes.Count(n => n != null && n.Tag != null && n.Tag is gMKVSegmentInfo);
+            grpInputFiles.Text = fileCount > 0
+                ? LocalizationManager.GetString("UI.MainForm2.InputFiles.GroupWithCount", fileCount)
+                : LocalizationManager.GetString("UI.MainForm2.InputFiles.Group");
+        }
+
+        private string GetSelectedFileInfoTitle(string filename = null)
+        {
+            return string.IsNullOrWhiteSpace(filename)
+                ? LocalizationManager.GetString("UI.MainForm2.SelectedFileInfo.Group")
+                : LocalizationManager.GetString("UI.MainForm2.SelectedFileInfo.GroupWithFile", filename);
+        }
+
+        private void UpdateSelectedFileInfoTitle(TreeNode selectedNode = null)
+        {
+            TreeNode node = selectedNode ?? trvInputFiles.SelectedNode;
+            if (node != null && node.Tag != null && !(node.Tag is gMKVSegmentInfo))
+            {
+                node = node.Parent;
+            }
+
+            if (node != null && node.Tag is gMKVSegmentInfo segInfo)
+            {
+                grpSelectedFileInfo.Text = GetSelectedFileInfoTitle(segInfo.Filename);
+            }
+            else
+            {
+                grpSelectedFileInfo.Text = GetSelectedFileInfoTitle();
+            }
+        }
+
+        private string GetContextMenuTrackGroupLabel(TrackSelectionMode selectionMode)
+        {
+            switch (selectionMode)
+            {
+                case TrackSelectionMode.video:
+                    return LocalizationManager.GetString("UI.MainForm2.ContextMenu.TrackGroup.Video");
+                case TrackSelectionMode.audio:
+                    return LocalizationManager.GetString("UI.MainForm2.ContextMenu.TrackGroup.Audio");
+                case TrackSelectionMode.subtitle:
+                    return LocalizationManager.GetString("UI.MainForm2.ContextMenu.TrackGroup.Subtitle");
+                case TrackSelectionMode.chapter:
+                    return LocalizationManager.GetString("UI.MainForm2.ContextMenu.TrackGroup.Chapter");
+                case TrackSelectionMode.attachment:
+                    return LocalizationManager.GetString("UI.MainForm2.ContextMenu.TrackGroup.Attachment");
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(selectionMode), selectionMode, null);
+            }
+        }
+
+        private string GetContextMenuFilterLabel(NodeSelectionFilter filter, TrackSelectionMode selectionMode)
+        {
+            switch (filter)
+            {
+                case NodeSelectionFilter.Language:
+                    return LocalizationManager.GetString("UI.MainForm2.ContextMenu.Filter.Language");
+                case NodeSelectionFilter.LanguageIetf:
+                    return LocalizationManager.GetString("UI.MainForm2.ContextMenu.Filter.LanguageIetf");
+                case NodeSelectionFilter.ExtraInfo:
+                    return selectionMode == TrackSelectionMode.video
+                        ? LocalizationManager.GetString("UI.MainForm2.ContextMenu.Filter.Resolution")
+                        : LocalizationManager.GetString("UI.MainForm2.ContextMenu.Filter.Channels");
+                case NodeSelectionFilter.CodecId:
+                    return LocalizationManager.GetString("UI.MainForm2.ContextMenu.Filter.Codec");
+                case NodeSelectionFilter.Name:
+                    return LocalizationManager.GetString("UI.MainForm2.ContextMenu.Filter.TrackName");
+                case NodeSelectionFilter.Forced:
+                    return LocalizationManager.GetString("UI.MainForm2.ContextMenu.Filter.Forced");
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(filter), filter, null);
+            }
+        }
+
+        private string GetLocalizedBoolean(bool value)
+        {
+            return LocalizationManager.GetString(value ? "UI.Common.True" : "UI.Common.False");
+        }
+
         private void AutoDetectMkvToolnixPath()
         {
             // Check the current directory
@@ -761,8 +841,7 @@ Uncheck if you want to manually select an output directory for ALL extracted fil
                 prgBrStatus.Value = 0;
                 lblStatus.Text = "";
 
-                grpInputFiles.Text = string.Format("Input Files (you can drag and drop files or directories) ({0} files)",
-                    trvInputFiles.AllNodes.Count(n => n != null && n.Tag != null && n.Tag is gMKVSegmentInfo));
+                UpdateInputFilesGroupTitle();
 
                 tlpMain.Enabled = true;
                 gTaskbarProgress.SetState(this, gTaskbarProgress.TaskbarStates.NoProgress);
@@ -913,12 +992,12 @@ Uncheck if you want to manually select an output directory for ALL extracted fil
                     }
 
                     // Set the GroupBox title
-                    grpSelectedFileInfo.Text = $"Selected File Information ({seg.Filename})";
+                    UpdateSelectedFileInfoTitle(selNode);
                 }
                 else
                 {
                     txtSegmentInfo.Clear();
-                    grpSelectedFileInfo.Text = "Selected File Information";
+                    UpdateSelectedFileInfoTitle();
                 }
             }
             catch (Exception ex)
@@ -1330,7 +1409,7 @@ Uncheck if you want to manually select an output directory for ALL extracted fil
 
                 trvInputFiles.SelectedNode = null;
                 txtSegmentInfo.Clear();
-                grpSelectedFileInfo.Text = "Selected File Information";
+                UpdateSelectedFileInfoTitle();
 
                 if (chkShowPopup.Checked || exceptionOccured)
                 {
@@ -1364,8 +1443,8 @@ Uncheck if you want to manually select an output directory for ALL extracted fil
                 txtOutputDirectory.Clear();
             }
 
-            grpInputFiles.Text = "Input Files (you can drag and drop files or directories)";
-            grpSelectedFileInfo.Text = "Selected File Information";
+            UpdateInputFilesGroupTitle();
+            UpdateSelectedFileInfoTitle();
 
             txtSegmentInfo.Clear();
             ClearStatus();
@@ -1782,6 +1861,11 @@ Uncheck if you want to manually select an output directory for ALL extracted fil
             int checkedAttachmentTracksCount = checkedNodes.Count(n => n.Tag is gMKVAttachment);
 
             int allInputFilesCount = allNodes.Count(n => n.Tag is gMKVSegmentInfo);
+            string videoTracksLabel = GetContextMenuTrackGroupLabel(TrackSelectionMode.video);
+            string audioTracksLabel = GetContextMenuTrackGroupLabel(TrackSelectionMode.audio);
+            string subtitleTracksLabel = GetContextMenuTrackGroupLabel(TrackSelectionMode.subtitle);
+            string chapterTracksLabel = GetContextMenuTrackGroupLabel(TrackSelectionMode.chapter);
+            string attachmentTracksLabel = GetContextMenuTrackGroupLabel(TrackSelectionMode.attachment);
 
             checkTracksToolStripMenuItem.Enabled = (allTracksCount - checkedAllTracksCount > 0);
             checkVideoTracksToolStripMenuItem.Enabled = (videoTracksCount - checkedVideoTracksCount > 0);
@@ -1802,37 +1886,37 @@ Uncheck if you want to manually select an output directory for ALL extracted fil
             openSelectedFileFolderToolStripMenuItem.Enabled = (trvInputFiles.SelectedNode != null && trvInputFiles.SelectedNode.Tag != null);
             openSelectedFileToolStripMenuItem.Enabled = (trvInputFiles.SelectedNode != null && trvInputFiles.SelectedNode.Tag != null);
 
-            checkTracksToolStripMenuItem.Text = string.Format("Check All Tracks ({0}/{1})", checkedAllTracksCount, allTracksCount);
+            checkTracksToolStripMenuItem.Text = LocalizationManager.GetString("UI.MainForm2.ContextMenu.CheckAllTracks", checkedAllTracksCount, allTracksCount);
 
-            checkVideoTracksToolStripMenuItem.Text = string.Format("Check Video Tracks... ({0}/{1})", checkedVideoTracksCount, videoTracksCount);
-            checkAudioTracksToolStripMenuItem.Text = string.Format("Check Audio Tracks... ({0}/{1})", checkedAudioTracksCount, audioTracksCount);
-            checkSubtitleTracksToolStripMenuItem.Text = string.Format("Check Subtitle Tracks... ({0}/{1})", checkedSubtitleTracksCount, subtitleTracksCount);
-            checkChapterTracksToolStripMenuItem.Text = string.Format("Check Chapter Tracks... ({0}/{1})", checkedChapterTracksCount, chapterTracksCount);
-            checkAttachmentTracksToolStripMenuItem.Text = string.Format("Check Attachment Tracks... ({0}/{1})", checkedAttachmentTracksCount, attachmentTracksCount);
+            checkVideoTracksToolStripMenuItem.Text = LocalizationManager.GetString("UI.MainForm2.ContextMenu.CheckTrackGroup", videoTracksLabel, checkedVideoTracksCount, videoTracksCount);
+            checkAudioTracksToolStripMenuItem.Text = LocalizationManager.GetString("UI.MainForm2.ContextMenu.CheckTrackGroup", audioTracksLabel, checkedAudioTracksCount, audioTracksCount);
+            checkSubtitleTracksToolStripMenuItem.Text = LocalizationManager.GetString("UI.MainForm2.ContextMenu.CheckTrackGroup", subtitleTracksLabel, checkedSubtitleTracksCount, subtitleTracksCount);
+            checkChapterTracksToolStripMenuItem.Text = LocalizationManager.GetString("UI.MainForm2.ContextMenu.CheckTrackGroup", chapterTracksLabel, checkedChapterTracksCount, chapterTracksCount);
+            checkAttachmentTracksToolStripMenuItem.Text = LocalizationManager.GetString("UI.MainForm2.ContextMenu.CheckTrackGroup", attachmentTracksLabel, checkedAttachmentTracksCount, attachmentTracksCount);
 
-            allVideoTracksToolStripMenuItem.Text = string.Format("All Video Tracks ({0}/{1})", checkedVideoTracksCount, videoTracksCount);
-            allAudioTracksToolStripMenuItem.Text = string.Format("All Audio Tracks ({0}/{1})", checkedAudioTracksCount, audioTracksCount);
-            allSubtitleTracksToolStripMenuItem.Text = string.Format("All Subtitle Tracks ({0}/{1})", checkedSubtitleTracksCount, subtitleTracksCount);
-            allChapterTracksToolStripMenuItem.Text = string.Format("All Chapter Tracks ({0}/{1})", checkedChapterTracksCount, chapterTracksCount);
-            allAttachmentTracksToolStripMenuItem.Text = string.Format("All Attachment Tracks ({0}/{1})", checkedAttachmentTracksCount, attachmentTracksCount);
+            allVideoTracksToolStripMenuItem.Text = LocalizationManager.GetString("UI.MainForm2.ContextMenu.AllTrackGroup", videoTracksLabel, checkedVideoTracksCount, videoTracksCount);
+            allAudioTracksToolStripMenuItem.Text = LocalizationManager.GetString("UI.MainForm2.ContextMenu.AllTrackGroup", audioTracksLabel, checkedAudioTracksCount, audioTracksCount);
+            allSubtitleTracksToolStripMenuItem.Text = LocalizationManager.GetString("UI.MainForm2.ContextMenu.AllTrackGroup", subtitleTracksLabel, checkedSubtitleTracksCount, subtitleTracksCount);
+            allChapterTracksToolStripMenuItem.Text = LocalizationManager.GetString("UI.MainForm2.ContextMenu.AllTrackGroup", chapterTracksLabel, checkedChapterTracksCount, chapterTracksCount);
+            allAttachmentTracksToolStripMenuItem.Text = LocalizationManager.GetString("UI.MainForm2.ContextMenu.AllTrackGroup", attachmentTracksLabel, checkedAttachmentTracksCount, attachmentTracksCount);
 
-            uncheckTracksToolStripMenuItem.Text = string.Format("Uncheck All Tracks ({0}/{1})", (allTracksCount - checkedAllTracksCount), allTracksCount);
+            uncheckTracksToolStripMenuItem.Text = LocalizationManager.GetString("UI.MainForm2.ContextMenu.UncheckAllTracks", allTracksCount - checkedAllTracksCount, allTracksCount);
 
-            uncheckVideoTracksToolStripMenuItem.Text = string.Format("Uncheck Video Tracks... ({0}/{1})", videoTracksCount - checkedVideoTracksCount, videoTracksCount);
-            uncheckAudioTracksToolStripMenuItem.Text = string.Format("Uncheck Audio Tracks... ({0}/{1})", audioTracksCount - checkedAudioTracksCount, audioTracksCount);
-            uncheckSubtitleTracksToolStripMenuItem.Text = string.Format("Uncheck Subtitle Tracks... ({0}/{1})", subtitleTracksCount - checkedSubtitleTracksCount, subtitleTracksCount);
-            uncheckChapterTracksToolStripMenuItem.Text = string.Format("Uncheck Chapter Tracks... ({0}/{1})", chapterTracksCount - checkedChapterTracksCount, chapterTracksCount);
-            uncheckAttachmentTracksToolStripMenuItem.Text = string.Format("Uncheck Attachment Tracks... ({0}/{1})", attachmentTracksCount - checkedAttachmentTracksCount, attachmentTracksCount);
+            uncheckVideoTracksToolStripMenuItem.Text = LocalizationManager.GetString("UI.MainForm2.ContextMenu.UncheckTrackGroup", videoTracksLabel, videoTracksCount - checkedVideoTracksCount, videoTracksCount);
+            uncheckAudioTracksToolStripMenuItem.Text = LocalizationManager.GetString("UI.MainForm2.ContextMenu.UncheckTrackGroup", audioTracksLabel, audioTracksCount - checkedAudioTracksCount, audioTracksCount);
+            uncheckSubtitleTracksToolStripMenuItem.Text = LocalizationManager.GetString("UI.MainForm2.ContextMenu.UncheckTrackGroup", subtitleTracksLabel, subtitleTracksCount - checkedSubtitleTracksCount, subtitleTracksCount);
+            uncheckChapterTracksToolStripMenuItem.Text = LocalizationManager.GetString("UI.MainForm2.ContextMenu.UncheckTrackGroup", chapterTracksLabel, chapterTracksCount - checkedChapterTracksCount, chapterTracksCount);
+            uncheckAttachmentTracksToolStripMenuItem.Text = LocalizationManager.GetString("UI.MainForm2.ContextMenu.UncheckTrackGroup", attachmentTracksLabel, attachmentTracksCount - checkedAttachmentTracksCount, attachmentTracksCount);
 
-            allVideoTracksToolStripMenuItem1.Text = string.Format("All Video Tracks ({0}/{1})", videoTracksCount - checkedVideoTracksCount, videoTracksCount);
-            allAudioTracksToolStripMenuItem1.Text = string.Format("All Audio Tracks ({0}/{1})", audioTracksCount - checkedAudioTracksCount, audioTracksCount);
-            allSubtitleTracksToolStripMenuItem1.Text = string.Format("All Subtitle Tracks ({0}/{1})", subtitleTracksCount - checkedSubtitleTracksCount, subtitleTracksCount);
-            allChapterTracksToolStripMenuItem1.Text = string.Format("All Chapter Tracks ({0}/{1})", chapterTracksCount - checkedChapterTracksCount, chapterTracksCount);
-            allAttachmentTracksToolStripMenuItem1.Text = string.Format("All Attachment Tracks ({0}/{1})", attachmentTracksCount - checkedAttachmentTracksCount, attachmentTracksCount);
+            allVideoTracksToolStripMenuItem1.Text = LocalizationManager.GetString("UI.MainForm2.ContextMenu.AllTrackGroup", videoTracksLabel, videoTracksCount - checkedVideoTracksCount, videoTracksCount);
+            allAudioTracksToolStripMenuItem1.Text = LocalizationManager.GetString("UI.MainForm2.ContextMenu.AllTrackGroup", audioTracksLabel, audioTracksCount - checkedAudioTracksCount, audioTracksCount);
+            allSubtitleTracksToolStripMenuItem1.Text = LocalizationManager.GetString("UI.MainForm2.ContextMenu.AllTrackGroup", subtitleTracksLabel, subtitleTracksCount - checkedSubtitleTracksCount, subtitleTracksCount);
+            allChapterTracksToolStripMenuItem1.Text = LocalizationManager.GetString("UI.MainForm2.ContextMenu.AllTrackGroup", chapterTracksLabel, chapterTracksCount - checkedChapterTracksCount, chapterTracksCount);
+            allAttachmentTracksToolStripMenuItem1.Text = LocalizationManager.GetString("UI.MainForm2.ContextMenu.AllTrackGroup", attachmentTracksLabel, attachmentTracksCount - checkedAttachmentTracksCount, attachmentTracksCount);
 
-            removeAllInputFilesToolStripMenuItem.Text = string.Format("Remove All Input Files ({0})", allInputFilesCount);
+            removeAllInputFilesToolStripMenuItem.Text = LocalizationManager.GetString("UI.MainForm2.ContextMenu.RemoveAllInputFiles", allInputFilesCount);
 
-            removeSelectedInputFileToolStripMenuItem.Text = "Remove Selected Input File";
+            removeSelectedInputFileToolStripMenuItem.Text = LocalizationManager.GetString("UI.MainForm2.ContextMenu.RemoveSelectedInputFile");
 
             checkVideoTracksToolStripMenuItem.DropDownItems.Clear();
             checkVideoTracksToolStripMenuItem.DropDownItems.Add(allVideoTracksToolStripMenuItem);
@@ -1858,9 +1942,9 @@ Uncheck if you want to manually select an output directory for ALL extracted fil
             // Get all video track languages
             {
                 List<string> videoLanguages = allVideoNodes.Select(n => (n.Tag as gMKVTrack).Language).Distinct().ToList();
-                ToolStripMenuItem tsCheckVideoTracksByLanguage = new ToolStripMenuItem(string.Format("Video Tracks by Language ({0})...", videoLanguages.Count));
+                ToolStripMenuItem tsCheckVideoTracksByLanguage = new ToolStripMenuItem(LocalizationManager.GetString("UI.MainForm2.ContextMenu.TrackGroupByFilter", videoTracksLabel, GetContextMenuFilterLabel(NodeSelectionFilter.Language, TrackSelectionMode.video), videoLanguages.Count));
                 checkVideoTracksToolStripMenuItem.DropDownItems.Add(tsCheckVideoTracksByLanguage);
-                ToolStripMenuItem tsUncheckVideoTracksByLanguage = new ToolStripMenuItem(string.Format("Video Tracks by Language ({0})...", videoLanguages.Count));
+                ToolStripMenuItem tsUncheckVideoTracksByLanguage = new ToolStripMenuItem(LocalizationManager.GetString("UI.MainForm2.ContextMenu.TrackGroupByFilter", videoTracksLabel, GetContextMenuFilterLabel(NodeSelectionFilter.Language, TrackSelectionMode.video), videoLanguages.Count));
                 uncheckVideoTracksToolStripMenuItem.DropDownItems.Add(tsUncheckVideoTracksByLanguage);
                 checkItems = new List<ToolStripItem>();
                 uncheckItems = new List<ToolStripItem>();
@@ -1868,12 +1952,12 @@ Uncheck if you want to manually select an output directory for ALL extracted fil
                 {
                     int totalLanguages = allVideoNodes.Where(n => (n.Tag as gMKVTrack).Language == lang).Count();
                     int checkedLanguages = checkedVideoNodes.Where(n => (n.Tag as gMKVTrack).Language == lang).Count();
-                    var checkItem = new ToolStripMenuItem(string.Format("Language: [{0}] ({1}/{2})", lang, checkedLanguages, totalLanguages), null,
+                    var checkItem = new ToolStripMenuItem(LocalizationManager.GetString("UI.MainForm2.ContextMenu.FilterValueCount", GetContextMenuFilterLabel(NodeSelectionFilter.Language, TrackSelectionMode.video), lang, checkedLanguages, totalLanguages), null,
                             delegate { SetCheckedTracks(TrackSelectionMode.video, true, nodeSelectionFilter: NodeSelectionFilter.Language, argFilter: lang); }
                         );
                     ThemeManager.ApplyToolStripItemTheme(checkItem, _Settings.DarkMode); // Apply theme
                     checkItems.Add(checkItem);
-                    var uncheckItem = new ToolStripMenuItem(string.Format("Language: [{0}] ({1}/{2})", lang, totalLanguages - checkedLanguages, totalLanguages), null,
+                    var uncheckItem = new ToolStripMenuItem(LocalizationManager.GetString("UI.MainForm2.ContextMenu.FilterValueCount", GetContextMenuFilterLabel(NodeSelectionFilter.Language, TrackSelectionMode.video), lang, totalLanguages - checkedLanguages, totalLanguages), null,
                             delegate { SetCheckedTracks(TrackSelectionMode.video, false, nodeSelectionFilter: NodeSelectionFilter.Language, argFilter: lang); }
                         );
                     ThemeManager.ApplyToolStripItemTheme(uncheckItem, _Settings.DarkMode);
@@ -1886,9 +1970,9 @@ Uncheck if you want to manually select an output directory for ALL extracted fil
             // Get all video track languages ietf
             {
                 List<string> videoLanguagesIetf = allVideoNodes.Select(n => (n.Tag as gMKVTrack).LanguageIetf).Distinct().ToList();
-                ToolStripMenuItem tsCheckVideoTracksByLanguageIetf = new ToolStripMenuItem(string.Format("Video Tracks by Language IETF ({0})...", videoLanguagesIetf.Count));
+                ToolStripMenuItem tsCheckVideoTracksByLanguageIetf = new ToolStripMenuItem(LocalizationManager.GetString("UI.MainForm2.ContextMenu.TrackGroupByFilter", videoTracksLabel, GetContextMenuFilterLabel(NodeSelectionFilter.LanguageIetf, TrackSelectionMode.video), videoLanguagesIetf.Count));
                 checkVideoTracksToolStripMenuItem.DropDownItems.Add(tsCheckVideoTracksByLanguageIetf);
-                ToolStripMenuItem tsUncheckVideoTracksByLanguageIetf = new ToolStripMenuItem(string.Format("Video Tracks by Language IETF ({0})...", videoLanguagesIetf.Count));
+                ToolStripMenuItem tsUncheckVideoTracksByLanguageIetf = new ToolStripMenuItem(LocalizationManager.GetString("UI.MainForm2.ContextMenu.TrackGroupByFilter", videoTracksLabel, GetContextMenuFilterLabel(NodeSelectionFilter.LanguageIetf, TrackSelectionMode.video), videoLanguagesIetf.Count));
                 uncheckVideoTracksToolStripMenuItem.DropDownItems.Add(tsUncheckVideoTracksByLanguageIetf);
                 checkItems = new List<ToolStripItem>();
                 uncheckItems = new List<ToolStripItem>();
@@ -1896,12 +1980,12 @@ Uncheck if you want to manually select an output directory for ALL extracted fil
                 {
                     int totalLanguagesIetf = allVideoNodes.Where(n => (n.Tag as gMKVTrack).LanguageIetf == langIetf).Count();
                     int checkedLanguagesIetf = checkedVideoNodes.Where(n => (n.Tag as gMKVTrack).LanguageIetf == langIetf).Count();
-                    var checkItem = new ToolStripMenuItem(string.Format("Language IETF: [{0}] ({1}/{2})", langIetf, checkedLanguagesIetf, totalLanguagesIetf), null,
+                    var checkItem = new ToolStripMenuItem(LocalizationManager.GetString("UI.MainForm2.ContextMenu.FilterValueCount", GetContextMenuFilterLabel(NodeSelectionFilter.LanguageIetf, TrackSelectionMode.video), langIetf, checkedLanguagesIetf, totalLanguagesIetf), null,
                             delegate { SetCheckedTracks(TrackSelectionMode.video, true, nodeSelectionFilter: NodeSelectionFilter.LanguageIetf, argFilter: langIetf); }
                         );
                     ThemeManager.ApplyToolStripItemTheme(checkItem, _Settings.DarkMode); // Apply theme
                     checkItems.Add(checkItem);
-                    var uncheckItem = new ToolStripMenuItem(string.Format("Language IETF: [{0}] ({1}/{2})", langIetf, totalLanguagesIetf - checkedLanguagesIetf, totalLanguagesIetf), null,
+                    var uncheckItem = new ToolStripMenuItem(LocalizationManager.GetString("UI.MainForm2.ContextMenu.FilterValueCount", GetContextMenuFilterLabel(NodeSelectionFilter.LanguageIetf, TrackSelectionMode.video), langIetf, totalLanguagesIetf - checkedLanguagesIetf, totalLanguagesIetf), null,
                             delegate { SetCheckedTracks(TrackSelectionMode.video, false, nodeSelectionFilter: NodeSelectionFilter.LanguageIetf, argFilter: langIetf); }
                         );
                     ThemeManager.ApplyToolStripItemTheme(uncheckItem, _Settings.DarkMode);
@@ -1914,9 +1998,9 @@ Uncheck if you want to manually select an output directory for ALL extracted fil
             // Get all video track Codec_id
             {
                 List<string> videoCodecs = allVideoNodes.Select(n => (n.Tag as gMKVTrack).CodecID).Distinct().ToList();
-                ToolStripMenuItem tsCheckVideoTracksByCodec = new ToolStripMenuItem(string.Format("Video Tracks by Codec ({0})...", videoCodecs.Count));
+                ToolStripMenuItem tsCheckVideoTracksByCodec = new ToolStripMenuItem(LocalizationManager.GetString("UI.MainForm2.ContextMenu.TrackGroupByFilter", videoTracksLabel, GetContextMenuFilterLabel(NodeSelectionFilter.CodecId, TrackSelectionMode.video), videoCodecs.Count));
                 checkVideoTracksToolStripMenuItem.DropDownItems.Add(tsCheckVideoTracksByCodec);
-                ToolStripMenuItem tsUncheckVideoTracksByCodec = new ToolStripMenuItem(string.Format("Video Tracks by Codec ({0})...", videoCodecs.Count));
+                ToolStripMenuItem tsUncheckVideoTracksByCodec = new ToolStripMenuItem(LocalizationManager.GetString("UI.MainForm2.ContextMenu.TrackGroupByFilter", videoTracksLabel, GetContextMenuFilterLabel(NodeSelectionFilter.CodecId, TrackSelectionMode.video), videoCodecs.Count));
                 uncheckVideoTracksToolStripMenuItem.DropDownItems.Add(tsUncheckVideoTracksByCodec);
                 checkItems = new List<ToolStripItem>();
                 uncheckItems = new List<ToolStripItem>();
@@ -1924,12 +2008,12 @@ Uncheck if you want to manually select an output directory for ALL extracted fil
                 {
                     int totalLanguages = allVideoNodes.Where(n => (n.Tag as gMKVTrack).CodecID == codec).Count();
                     int checkedLanguages = checkedVideoNodes.Where(n => (n.Tag as gMKVTrack).CodecID == codec).Count();
-                    var checkItem = new ToolStripMenuItem(string.Format("Codec: [{0}] ({1}/{2})", codec, checkedLanguages, totalLanguages), null,
+                    var checkItem = new ToolStripMenuItem(LocalizationManager.GetString("UI.MainForm2.ContextMenu.FilterValueCount", GetContextMenuFilterLabel(NodeSelectionFilter.CodecId, TrackSelectionMode.video), codec, checkedLanguages, totalLanguages), null,
                             delegate { SetCheckedTracks(TrackSelectionMode.video, true, nodeSelectionFilter: NodeSelectionFilter.CodecId, argFilter: codec); }
                         );
                     ThemeManager.ApplyToolStripItemTheme(checkItem, _Settings.DarkMode); // Apply theme
                     checkItems.Add(checkItem);
-                    var uncheckItem = new ToolStripMenuItem(string.Format("Codec: [{0}] ({1}/{2})", codec, totalLanguages - checkedLanguages, totalLanguages), null,
+                    var uncheckItem = new ToolStripMenuItem(LocalizationManager.GetString("UI.MainForm2.ContextMenu.FilterValueCount", GetContextMenuFilterLabel(NodeSelectionFilter.CodecId, TrackSelectionMode.video), codec, totalLanguages - checkedLanguages, totalLanguages), null,
                             delegate { SetCheckedTracks(TrackSelectionMode.video, false, nodeSelectionFilter: NodeSelectionFilter.CodecId, argFilter: codec); }
                         );
                     ThemeManager.ApplyToolStripItemTheme(uncheckItem, _Settings.DarkMode);
@@ -1942,9 +2026,9 @@ Uncheck if you want to manually select an output directory for ALL extracted fil
             // Get all video track extra info
             {
                 List<string> videoExtra = allVideoNodes.Select(n => (n.Tag as gMKVTrack).ExtraInfo).Distinct().ToList();
-                ToolStripMenuItem tsCheckVideoTracksByResolution = new ToolStripMenuItem(string.Format("Video Tracks by Resolution ({0})...", videoExtra.Count));
+                ToolStripMenuItem tsCheckVideoTracksByResolution = new ToolStripMenuItem(LocalizationManager.GetString("UI.MainForm2.ContextMenu.TrackGroupByFilter", videoTracksLabel, GetContextMenuFilterLabel(NodeSelectionFilter.ExtraInfo, TrackSelectionMode.video), videoExtra.Count));
                 checkVideoTracksToolStripMenuItem.DropDownItems.Add(tsCheckVideoTracksByResolution);
-                ToolStripMenuItem tsUncheckVideoTracksByResolution = new ToolStripMenuItem(string.Format("Video Tracks by Resolution ({0})...", videoExtra.Count));
+                ToolStripMenuItem tsUncheckVideoTracksByResolution = new ToolStripMenuItem(LocalizationManager.GetString("UI.MainForm2.ContextMenu.TrackGroupByFilter", videoTracksLabel, GetContextMenuFilterLabel(NodeSelectionFilter.ExtraInfo, TrackSelectionMode.video), videoExtra.Count));
                 uncheckVideoTracksToolStripMenuItem.DropDownItems.Add(tsUncheckVideoTracksByResolution);
                 checkItems = new List<ToolStripItem>();
                 uncheckItems = new List<ToolStripItem>();
@@ -1952,12 +2036,12 @@ Uncheck if you want to manually select an output directory for ALL extracted fil
                 {
                     int totalLanguages = allVideoNodes.Where(n => (n.Tag as gMKVTrack).ExtraInfo == extra).Count();
                     int checkedLanguages = checkedVideoNodes.Where(n => (n.Tag as gMKVTrack).ExtraInfo == extra).Count();
-                    var checkItem = new ToolStripMenuItem(string.Format("Resolution: [{0}] ({1}/{2})", extra, checkedLanguages, totalLanguages), null,
+                    var checkItem = new ToolStripMenuItem(LocalizationManager.GetString("UI.MainForm2.ContextMenu.FilterValueCount", GetContextMenuFilterLabel(NodeSelectionFilter.ExtraInfo, TrackSelectionMode.video), extra, checkedLanguages, totalLanguages), null,
                             delegate { SetCheckedTracks(TrackSelectionMode.video, true, nodeSelectionFilter: NodeSelectionFilter.ExtraInfo, argFilter: extra); }
                         );
                     ThemeManager.ApplyToolStripItemTheme(checkItem, _Settings.DarkMode); // Apply theme
                     checkItems.Add(checkItem);
-                    var uncheckItem = new ToolStripMenuItem(string.Format("Resolution: [{0}] ({1}/{2})", extra, totalLanguages - checkedLanguages, totalLanguages), null,
+                    var uncheckItem = new ToolStripMenuItem(LocalizationManager.GetString("UI.MainForm2.ContextMenu.FilterValueCount", GetContextMenuFilterLabel(NodeSelectionFilter.ExtraInfo, TrackSelectionMode.video), extra, totalLanguages - checkedLanguages, totalLanguages), null,
                             delegate { SetCheckedTracks(TrackSelectionMode.video, false, nodeSelectionFilter: NodeSelectionFilter.ExtraInfo, argFilter: extra); }
                         );
                     ThemeManager.ApplyToolStripItemTheme(uncheckItem, _Settings.DarkMode);
@@ -1973,9 +2057,9 @@ Uncheck if you want to manually select an output directory for ALL extracted fil
                 // Only show menu items if the names are less than 50
                 if (videoNames.Any() && videoNames.Count < 50)
                 {
-                    ToolStripMenuItem tsCheckVideoTracksByName = new ToolStripMenuItem(string.Format("Video Tracks by Track Name ({0})...", videoNames.Count));
+                    ToolStripMenuItem tsCheckVideoTracksByName = new ToolStripMenuItem(LocalizationManager.GetString("UI.MainForm2.ContextMenu.TrackGroupByFilter", videoTracksLabel, GetContextMenuFilterLabel(NodeSelectionFilter.Name, TrackSelectionMode.video), videoNames.Count));
                     checkVideoTracksToolStripMenuItem.DropDownItems.Add(tsCheckVideoTracksByName);
-                    ToolStripMenuItem tsUncheckVideoTracksByName = new ToolStripMenuItem(string.Format("Video Tracks by Track Name ({0})...", videoNames.Count));
+                    ToolStripMenuItem tsUncheckVideoTracksByName = new ToolStripMenuItem(LocalizationManager.GetString("UI.MainForm2.ContextMenu.TrackGroupByFilter", videoTracksLabel, GetContextMenuFilterLabel(NodeSelectionFilter.Name, TrackSelectionMode.video), videoNames.Count));
                     uncheckVideoTracksToolStripMenuItem.DropDownItems.Add(tsUncheckVideoTracksByName);
                     checkItems = new List<ToolStripItem>();
                     uncheckItems = new List<ToolStripItem>();
@@ -1983,12 +2067,12 @@ Uncheck if you want to manually select an output directory for ALL extracted fil
                     {
                         int totalLanguages = allVideoNodes.Where(n => (n.Tag as gMKVTrack).TrackName == name).Count();
                         int checkedLanguages = checkedVideoNodes.Where(n => (n.Tag as gMKVTrack).TrackName == name).Count();
-                        var checkItem = new ToolStripMenuItem(string.Format("Track Name: [{0}] ({1}/{2})", name, checkedLanguages, totalLanguages), null,
+                        var checkItem = new ToolStripMenuItem(LocalizationManager.GetString("UI.MainForm2.ContextMenu.FilterValueCount", GetContextMenuFilterLabel(NodeSelectionFilter.Name, TrackSelectionMode.video), name, checkedLanguages, totalLanguages), null,
                                 delegate { SetCheckedTracks(TrackSelectionMode.video, true, nodeSelectionFilter: NodeSelectionFilter.Name, argFilter: name); }
                             );
                         ThemeManager.ApplyToolStripItemTheme(checkItem, _Settings.DarkMode); // Apply theme
                         checkItems.Add(checkItem);
-                        var uncheckItem = new ToolStripMenuItem(string.Format("Track Name: [{0}] ({1}/{2})", name, totalLanguages - checkedLanguages, totalLanguages), null,
+                        var uncheckItem = new ToolStripMenuItem(LocalizationManager.GetString("UI.MainForm2.ContextMenu.FilterValueCount", GetContextMenuFilterLabel(NodeSelectionFilter.Name, TrackSelectionMode.video), name, totalLanguages - checkedLanguages, totalLanguages), null,
                                 delegate { SetCheckedTracks(TrackSelectionMode.video, false, nodeSelectionFilter: NodeSelectionFilter.Name, argFilter: name); }
                             );
                         ThemeManager.ApplyToolStripItemTheme(uncheckItem, _Settings.DarkMode);
@@ -2002,9 +2086,9 @@ Uncheck if you want to manually select an output directory for ALL extracted fil
             // Get all video track Forced
             {
                 List<bool> videoForced = allVideoNodes.Select(n => (n.Tag as gMKVTrack).Forced).Distinct().ToList();
-                ToolStripMenuItem tsCheckVideoTracksByForced = new ToolStripMenuItem(string.Format("Video Tracks by Forced ({0})...", videoForced.Count));
+                ToolStripMenuItem tsCheckVideoTracksByForced = new ToolStripMenuItem(LocalizationManager.GetString("UI.MainForm2.ContextMenu.TrackGroupByFilter", videoTracksLabel, GetContextMenuFilterLabel(NodeSelectionFilter.Forced, TrackSelectionMode.video), videoForced.Count));
                 checkVideoTracksToolStripMenuItem.DropDownItems.Add(tsCheckVideoTracksByForced);
-                ToolStripMenuItem tsUncheckVideoTracksByForced = new ToolStripMenuItem(string.Format("Video Tracks by Forced ({0})...", videoForced.Count));
+                ToolStripMenuItem tsUncheckVideoTracksByForced = new ToolStripMenuItem(LocalizationManager.GetString("UI.MainForm2.ContextMenu.TrackGroupByFilter", videoTracksLabel, GetContextMenuFilterLabel(NodeSelectionFilter.Forced, TrackSelectionMode.video), videoForced.Count));
                 uncheckVideoTracksToolStripMenuItem.DropDownItems.Add(tsUncheckVideoTracksByForced);
                 checkItems = new List<ToolStripItem>();
                 uncheckItems = new List<ToolStripItem>();
@@ -2012,12 +2096,12 @@ Uncheck if you want to manually select an output directory for ALL extracted fil
                 {
                     int totalForced = allVideoNodes.Where(n => (n.Tag as gMKVTrack).Forced == forced).Count();
                     int checkedForced = checkedVideoNodes.Where(n => (n.Tag as gMKVTrack).Forced == forced).Count();
-                    var checkItem = new ToolStripMenuItem(string.Format("Forced: [{0}] ({1}/{2})", forced, checkedForced, totalForced), null,
+                    var checkItem = new ToolStripMenuItem(LocalizationManager.GetString("UI.MainForm2.ContextMenu.FilterValueCount", GetContextMenuFilterLabel(NodeSelectionFilter.Forced, TrackSelectionMode.video), GetLocalizedBoolean(forced), checkedForced, totalForced), null,
                             delegate { SetCheckedTracks(TrackSelectionMode.video, true, nodeSelectionFilter: NodeSelectionFilter.Forced, argFilter: forced.ToString()); }
                         );
                     ThemeManager.ApplyToolStripItemTheme(checkItem, _Settings.DarkMode); // Apply theme
                     checkItems.Add(checkItem);
-                    var uncheckItem = new ToolStripMenuItem(string.Format("Forced: [{0}] ({1}/{2})", forced, totalForced - checkedForced, totalForced), null,
+                    var uncheckItem = new ToolStripMenuItem(LocalizationManager.GetString("UI.MainForm2.ContextMenu.FilterValueCount", GetContextMenuFilterLabel(NodeSelectionFilter.Forced, TrackSelectionMode.video), GetLocalizedBoolean(forced), totalForced - checkedForced, totalForced), null,
                             delegate { SetCheckedTracks(TrackSelectionMode.video, false, nodeSelectionFilter: NodeSelectionFilter.Forced, argFilter: forced.ToString()); }
                         );
                     ThemeManager.ApplyToolStripItemTheme(uncheckItem, _Settings.DarkMode);
@@ -2033,9 +2117,9 @@ Uncheck if you want to manually select an output directory for ALL extracted fil
             // Get all audio track languages
             {
                 List<string> audioLanguages = allAudioNodes.Select(n => (n.Tag as gMKVTrack).Language).Distinct().ToList();
-                ToolStripMenuItem tsCheckAudioTracksByLanguage = new ToolStripMenuItem(string.Format("Audio Tracks by Language ({0})...", audioLanguages.Count));
+                ToolStripMenuItem tsCheckAudioTracksByLanguage = new ToolStripMenuItem(LocalizationManager.GetString("UI.MainForm2.ContextMenu.TrackGroupByFilter", audioTracksLabel, GetContextMenuFilterLabel(NodeSelectionFilter.Language, TrackSelectionMode.audio), audioLanguages.Count));
                 checkAudioTracksToolStripMenuItem.DropDownItems.Add(tsCheckAudioTracksByLanguage);
-                ToolStripMenuItem tsUncheckAudioTracksByLanguage = new ToolStripMenuItem(string.Format("Audio Tracks by Language ({0})...", audioLanguages.Count));
+                ToolStripMenuItem tsUncheckAudioTracksByLanguage = new ToolStripMenuItem(LocalizationManager.GetString("UI.MainForm2.ContextMenu.TrackGroupByFilter", audioTracksLabel, GetContextMenuFilterLabel(NodeSelectionFilter.Language, TrackSelectionMode.audio), audioLanguages.Count));
                 uncheckAudioTracksToolStripMenuItem.DropDownItems.Add(tsUncheckAudioTracksByLanguage);
                 checkItems = new List<ToolStripItem>();
                 uncheckItems = new List<ToolStripItem>();
@@ -2043,12 +2127,12 @@ Uncheck if you want to manually select an output directory for ALL extracted fil
                 {
                     int totalLanguages = allAudioNodes.Where(n => (n.Tag as gMKVTrack).Language == lang).Count();
                     int checkedLanguages = checkedAudioNodes.Where(n => (n.Tag as gMKVTrack).Language == lang).Count();
-                    var checkItem = new ToolStripMenuItem(string.Format("Language: [{0}] ({1}/{2})", lang, checkedLanguages, totalLanguages), null,
+                    var checkItem = new ToolStripMenuItem(LocalizationManager.GetString("UI.MainForm2.ContextMenu.FilterValueCount", GetContextMenuFilterLabel(NodeSelectionFilter.Language, TrackSelectionMode.audio), lang, checkedLanguages, totalLanguages), null,
                             delegate { SetCheckedTracks(TrackSelectionMode.audio, true, nodeSelectionFilter: NodeSelectionFilter.Language, argFilter: lang); }
                         );
                     ThemeManager.ApplyToolStripItemTheme(checkItem, _Settings.DarkMode); // Apply theme
                     checkItems.Add(checkItem);
-                    var uncheckItem = new ToolStripMenuItem(string.Format("Language: [{0}] ({1}/{2})", lang, totalLanguages - checkedLanguages, totalLanguages), null,
+                    var uncheckItem = new ToolStripMenuItem(LocalizationManager.GetString("UI.MainForm2.ContextMenu.FilterValueCount", GetContextMenuFilterLabel(NodeSelectionFilter.Language, TrackSelectionMode.audio), lang, totalLanguages - checkedLanguages, totalLanguages), null,
                             delegate { SetCheckedTracks(TrackSelectionMode.audio, false, nodeSelectionFilter: NodeSelectionFilter.Language, argFilter: lang); }
                         );
                     ThemeManager.ApplyToolStripItemTheme(uncheckItem, _Settings.DarkMode);
@@ -2061,9 +2145,9 @@ Uncheck if you want to manually select an output directory for ALL extracted fil
             // Get all audio track languages ietf
             {
                 List<string> audioLanguagesIetf = allAudioNodes.Select(n => (n.Tag as gMKVTrack).LanguageIetf).Distinct().ToList();
-                ToolStripMenuItem tsCheckAudioTracksByLanguageIetf = new ToolStripMenuItem(string.Format("Audio Tracks by Language IETF ({0})...", audioLanguagesIetf.Count));
+                ToolStripMenuItem tsCheckAudioTracksByLanguageIetf = new ToolStripMenuItem(LocalizationManager.GetString("UI.MainForm2.ContextMenu.TrackGroupByFilter", audioTracksLabel, GetContextMenuFilterLabel(NodeSelectionFilter.LanguageIetf, TrackSelectionMode.audio), audioLanguagesIetf.Count));
                 checkAudioTracksToolStripMenuItem.DropDownItems.Add(tsCheckAudioTracksByLanguageIetf);
-                ToolStripMenuItem tsUncheckAudioTracksByLanguageIetf = new ToolStripMenuItem(string.Format("Audio Tracks by Language IETF  ({0})...", audioLanguagesIetf.Count));
+                ToolStripMenuItem tsUncheckAudioTracksByLanguageIetf = new ToolStripMenuItem(LocalizationManager.GetString("UI.MainForm2.ContextMenu.TrackGroupByFilter", audioTracksLabel, GetContextMenuFilterLabel(NodeSelectionFilter.LanguageIetf, TrackSelectionMode.audio), audioLanguagesIetf.Count));
                 uncheckAudioTracksToolStripMenuItem.DropDownItems.Add(tsUncheckAudioTracksByLanguageIetf);
                 checkItems = new List<ToolStripItem>();
                 uncheckItems = new List<ToolStripItem>();
@@ -2071,12 +2155,12 @@ Uncheck if you want to manually select an output directory for ALL extracted fil
                 {
                     int totalLanguagesIetf = allAudioNodes.Where(n => (n.Tag as gMKVTrack).LanguageIetf == langIetf).Count();
                     int checkedLanguagesIetf = checkedAudioNodes.Where(n => (n.Tag as gMKVTrack).LanguageIetf == langIetf).Count();
-                    var checkItem = new ToolStripMenuItem(string.Format("Language IETF: [{0}] ({1}/{2})", langIetf, checkedLanguagesIetf, totalLanguagesIetf), null,
+                    var checkItem = new ToolStripMenuItem(LocalizationManager.GetString("UI.MainForm2.ContextMenu.FilterValueCount", GetContextMenuFilterLabel(NodeSelectionFilter.LanguageIetf, TrackSelectionMode.audio), langIetf, checkedLanguagesIetf, totalLanguagesIetf), null,
                             delegate { SetCheckedTracks(TrackSelectionMode.audio, true, nodeSelectionFilter: NodeSelectionFilter.LanguageIetf, argFilter: langIetf); }
                         );
                     ThemeManager.ApplyToolStripItemTheme(checkItem, _Settings.DarkMode); // Apply theme
                     checkItems.Add(checkItem);
-                    var uncheckItem = new ToolStripMenuItem(string.Format("Language IETF: [{0}] ({1}/{2})", langIetf, totalLanguagesIetf - checkedLanguagesIetf, totalLanguagesIetf), null,
+                    var uncheckItem = new ToolStripMenuItem(LocalizationManager.GetString("UI.MainForm2.ContextMenu.FilterValueCount", GetContextMenuFilterLabel(NodeSelectionFilter.LanguageIetf, TrackSelectionMode.audio), langIetf, totalLanguagesIetf - checkedLanguagesIetf, totalLanguagesIetf), null,
                             delegate { SetCheckedTracks(TrackSelectionMode.audio, false, nodeSelectionFilter: NodeSelectionFilter.LanguageIetf, argFilter: langIetf); }
                         );
                     ThemeManager.ApplyToolStripItemTheme(uncheckItem, _Settings.DarkMode);
@@ -2089,9 +2173,9 @@ Uncheck if you want to manually select an output directory for ALL extracted fil
             // Get all audio track Codec_id
             {
                 List<string> audioCodecs = allAudioNodes.Select(n => (n.Tag as gMKVTrack).CodecID).Distinct().ToList();
-                ToolStripMenuItem tsCheckAudioTracksByCodec = new ToolStripMenuItem(string.Format("Audio Tracks by Codec ({0})...", audioCodecs.Count));
+                ToolStripMenuItem tsCheckAudioTracksByCodec = new ToolStripMenuItem(LocalizationManager.GetString("UI.MainForm2.ContextMenu.TrackGroupByFilter", audioTracksLabel, GetContextMenuFilterLabel(NodeSelectionFilter.CodecId, TrackSelectionMode.audio), audioCodecs.Count));
                 checkAudioTracksToolStripMenuItem.DropDownItems.Add(tsCheckAudioTracksByCodec);
-                ToolStripMenuItem tsUncheckAudioTracksByCodec = new ToolStripMenuItem(string.Format("Audio Tracks by Codec ({0})...", audioCodecs.Count));
+                ToolStripMenuItem tsUncheckAudioTracksByCodec = new ToolStripMenuItem(LocalizationManager.GetString("UI.MainForm2.ContextMenu.TrackGroupByFilter", audioTracksLabel, GetContextMenuFilterLabel(NodeSelectionFilter.CodecId, TrackSelectionMode.audio), audioCodecs.Count));
                 uncheckAudioTracksToolStripMenuItem.DropDownItems.Add(tsUncheckAudioTracksByCodec);
                 checkItems = new List<ToolStripItem>();
                 uncheckItems = new List<ToolStripItem>();
@@ -2099,12 +2183,12 @@ Uncheck if you want to manually select an output directory for ALL extracted fil
                 {
                     int totalLanguages = allAudioNodes.Where(n => (n.Tag as gMKVTrack).CodecID == codec).Count();
                     int checkedLanguages = checkedAudioNodes.Where(n => (n.Tag as gMKVTrack).CodecID == codec).Count();
-                    var checkItem = new ToolStripMenuItem(string.Format("Codec: [{0}] ({1}/{2})", codec, checkedLanguages, totalLanguages), null,
+                    var checkItem = new ToolStripMenuItem(LocalizationManager.GetString("UI.MainForm2.ContextMenu.FilterValueCount", GetContextMenuFilterLabel(NodeSelectionFilter.CodecId, TrackSelectionMode.audio), codec, checkedLanguages, totalLanguages), null,
                             delegate { SetCheckedTracks(TrackSelectionMode.audio, true, nodeSelectionFilter: NodeSelectionFilter.CodecId, argFilter: codec); }
                         );
                     ThemeManager.ApplyToolStripItemTheme(checkItem, _Settings.DarkMode); // Apply theme
                     checkItems.Add(checkItem);
-                    var uncheckItem = new ToolStripMenuItem(string.Format("Codec: [{0}] ({1}/{2})", codec, totalLanguages - checkedLanguages, totalLanguages), null,
+                    var uncheckItem = new ToolStripMenuItem(LocalizationManager.GetString("UI.MainForm2.ContextMenu.FilterValueCount", GetContextMenuFilterLabel(NodeSelectionFilter.CodecId, TrackSelectionMode.audio), codec, totalLanguages - checkedLanguages, totalLanguages), null,
                             delegate { SetCheckedTracks(TrackSelectionMode.audio, false, nodeSelectionFilter: NodeSelectionFilter.CodecId, argFilter: codec); }
                         );
                     ThemeManager.ApplyToolStripItemTheme(uncheckItem, _Settings.DarkMode);
@@ -2117,9 +2201,9 @@ Uncheck if you want to manually select an output directory for ALL extracted fil
             // Get all audio track extra info
             {
                 List<string> audioExtraInfo = allAudioNodes.Select(n => (n.Tag as gMKVTrack).ExtraInfo).Distinct().ToList();
-                ToolStripMenuItem tsCheckAudioTracksByChannels = new ToolStripMenuItem(string.Format("Audio Tracks by Channels ({0})...", audioExtraInfo.Count));
+                ToolStripMenuItem tsCheckAudioTracksByChannels = new ToolStripMenuItem(LocalizationManager.GetString("UI.MainForm2.ContextMenu.TrackGroupByFilter", audioTracksLabel, GetContextMenuFilterLabel(NodeSelectionFilter.ExtraInfo, TrackSelectionMode.audio), audioExtraInfo.Count));
                 checkAudioTracksToolStripMenuItem.DropDownItems.Add(tsCheckAudioTracksByChannels);
-                ToolStripMenuItem tsUncheckAudioTracksByChannels = new ToolStripMenuItem(string.Format("Audio Tracks by Channels ({0})...", audioExtraInfo.Count));
+                ToolStripMenuItem tsUncheckAudioTracksByChannels = new ToolStripMenuItem(LocalizationManager.GetString("UI.MainForm2.ContextMenu.TrackGroupByFilter", audioTracksLabel, GetContextMenuFilterLabel(NodeSelectionFilter.ExtraInfo, TrackSelectionMode.audio), audioExtraInfo.Count));
                 uncheckAudioTracksToolStripMenuItem.DropDownItems.Add(tsUncheckAudioTracksByChannels);
                 checkItems = new List<ToolStripItem>();
                 uncheckItems = new List<ToolStripItem>();
@@ -2127,12 +2211,12 @@ Uncheck if you want to manually select an output directory for ALL extracted fil
                 {
                     int totalLanguages = allAudioNodes.Where(n => (n.Tag as gMKVTrack).ExtraInfo == extra).Count();
                     int checkedLanguages = checkedAudioNodes.Where(n => (n.Tag as gMKVTrack).ExtraInfo == extra).Count();
-                    var checkItem = new ToolStripMenuItem(string.Format("Channels: [{0}] ({1}/{2})", extra, checkedLanguages, totalLanguages), null,
+                    var checkItem = new ToolStripMenuItem(LocalizationManager.GetString("UI.MainForm2.ContextMenu.FilterValueCount", GetContextMenuFilterLabel(NodeSelectionFilter.ExtraInfo, TrackSelectionMode.audio), extra, checkedLanguages, totalLanguages), null,
                             delegate { SetCheckedTracks(TrackSelectionMode.audio, true, nodeSelectionFilter: NodeSelectionFilter.ExtraInfo, argFilter: extra); }
                         );
                     ThemeManager.ApplyToolStripItemTheme(checkItem, _Settings.DarkMode); // Apply theme
                     checkItems.Add(checkItem);
-                    var uncheckItem = new ToolStripMenuItem(string.Format("Channels: [{0}] ({1}/{2})", extra, totalLanguages - checkedLanguages, totalLanguages), null,
+                    var uncheckItem = new ToolStripMenuItem(LocalizationManager.GetString("UI.MainForm2.ContextMenu.FilterValueCount", GetContextMenuFilterLabel(NodeSelectionFilter.ExtraInfo, TrackSelectionMode.audio), extra, totalLanguages - checkedLanguages, totalLanguages), null,
                             delegate { SetCheckedTracks(TrackSelectionMode.audio, false, nodeSelectionFilter: NodeSelectionFilter.ExtraInfo, argFilter: extra); }
                         );
                     ThemeManager.ApplyToolStripItemTheme(uncheckItem, _Settings.DarkMode);
@@ -2148,9 +2232,9 @@ Uncheck if you want to manually select an output directory for ALL extracted fil
                 // Only show menu items if the names are less than 50
                 if (audioNames.Any() && audioNames.Count < 50)
                 {
-                    ToolStripMenuItem tsCheckAudioTracksByName = new ToolStripMenuItem(string.Format("Audio Tracks by Track Name ({0})...", audioNames.Count));
+                    ToolStripMenuItem tsCheckAudioTracksByName = new ToolStripMenuItem(LocalizationManager.GetString("UI.MainForm2.ContextMenu.TrackGroupByFilter", audioTracksLabel, GetContextMenuFilterLabel(NodeSelectionFilter.Name, TrackSelectionMode.audio), audioNames.Count));
                     checkAudioTracksToolStripMenuItem.DropDownItems.Add(tsCheckAudioTracksByName);
-                    ToolStripMenuItem tsUncheckAudioTracksByName = new ToolStripMenuItem(string.Format("Audio Tracks by Track Name ({0})...", audioNames.Count));
+                    ToolStripMenuItem tsUncheckAudioTracksByName = new ToolStripMenuItem(LocalizationManager.GetString("UI.MainForm2.ContextMenu.TrackGroupByFilter", audioTracksLabel, GetContextMenuFilterLabel(NodeSelectionFilter.Name, TrackSelectionMode.audio), audioNames.Count));
                     uncheckAudioTracksToolStripMenuItem.DropDownItems.Add(tsUncheckAudioTracksByName);
                     checkItems = new List<ToolStripItem>();
                     uncheckItems = new List<ToolStripItem>();
@@ -2158,12 +2242,12 @@ Uncheck if you want to manually select an output directory for ALL extracted fil
                     {
                         int totalLanguages = allAudioNodes.Where(n => (n.Tag as gMKVTrack).TrackName == name).Count();
                         int checkedLanguages = checkedAudioNodes.Where(n => (n.Tag as gMKVTrack).TrackName == name).Count();
-                        var checkItem = new ToolStripMenuItem(string.Format("Track Name: [{0}] ({1}/{2})", name, checkedLanguages, totalLanguages), null,
+                        var checkItem = new ToolStripMenuItem(LocalizationManager.GetString("UI.MainForm2.ContextMenu.FilterValueCount", GetContextMenuFilterLabel(NodeSelectionFilter.Name, TrackSelectionMode.audio), name, checkedLanguages, totalLanguages), null,
                                 delegate { SetCheckedTracks(TrackSelectionMode.audio, true, nodeSelectionFilter: NodeSelectionFilter.Name, argFilter: name); }
                             );
                         ThemeManager.ApplyToolStripItemTheme(checkItem, _Settings.DarkMode); // Apply theme
                         checkItems.Add(checkItem);
-                        var uncheckItem = new ToolStripMenuItem(string.Format("Track Name: [{0}] ({1}/{2})", name, totalLanguages - checkedLanguages, totalLanguages), null,
+                        var uncheckItem = new ToolStripMenuItem(LocalizationManager.GetString("UI.MainForm2.ContextMenu.FilterValueCount", GetContextMenuFilterLabel(NodeSelectionFilter.Name, TrackSelectionMode.audio), name, totalLanguages - checkedLanguages, totalLanguages), null,
                                 delegate { SetCheckedTracks(TrackSelectionMode.audio, false, nodeSelectionFilter: NodeSelectionFilter.Name, argFilter: name); }
                             );
                         ThemeManager.ApplyToolStripItemTheme(uncheckItem, _Settings.DarkMode);
@@ -2177,9 +2261,9 @@ Uncheck if you want to manually select an output directory for ALL extracted fil
             // Get all audio track Forced
             {
                 List<bool> audioForced = allAudioNodes.Select(n => (n.Tag as gMKVTrack).Forced).Distinct().ToList();
-                ToolStripMenuItem tsCheckAudioTracksByForced = new ToolStripMenuItem(string.Format("Audio Tracks by Forced ({0})...", audioForced.Count));
+                ToolStripMenuItem tsCheckAudioTracksByForced = new ToolStripMenuItem(LocalizationManager.GetString("UI.MainForm2.ContextMenu.TrackGroupByFilter", audioTracksLabel, GetContextMenuFilterLabel(NodeSelectionFilter.Forced, TrackSelectionMode.audio), audioForced.Count));
                 checkAudioTracksToolStripMenuItem.DropDownItems.Add(tsCheckAudioTracksByForced);
-                ToolStripMenuItem tsUncheckAudioTracksByForced = new ToolStripMenuItem(string.Format("Audio Tracks by Forced ({0})...", audioForced.Count));
+                ToolStripMenuItem tsUncheckAudioTracksByForced = new ToolStripMenuItem(LocalizationManager.GetString("UI.MainForm2.ContextMenu.TrackGroupByFilter", audioTracksLabel, GetContextMenuFilterLabel(NodeSelectionFilter.Forced, TrackSelectionMode.audio), audioForced.Count));
                 uncheckAudioTracksToolStripMenuItem.DropDownItems.Add(tsUncheckAudioTracksByForced);
                 checkItems = new List<ToolStripItem>();
                 uncheckItems = new List<ToolStripItem>();
@@ -2187,12 +2271,12 @@ Uncheck if you want to manually select an output directory for ALL extracted fil
                 {
                     int totalForced = allAudioNodes.Where(n => (n.Tag as gMKVTrack).Forced == forced).Count();
                     int checkedForced = checkedAudioNodes.Where(n => (n.Tag as gMKVTrack).Forced == forced).Count();
-                    var checkItem = new ToolStripMenuItem(string.Format("Forced: [{0}] ({1}/{2})", forced, checkedForced, totalForced), null,
+                    var checkItem = new ToolStripMenuItem(LocalizationManager.GetString("UI.MainForm2.ContextMenu.FilterValueCount", GetContextMenuFilterLabel(NodeSelectionFilter.Forced, TrackSelectionMode.audio), GetLocalizedBoolean(forced), checkedForced, totalForced), null,
                             delegate { SetCheckedTracks(TrackSelectionMode.audio, true, nodeSelectionFilter: NodeSelectionFilter.Forced, argFilter: forced.ToString()); }
                         );
                     ThemeManager.ApplyToolStripItemTheme(checkItem, _Settings.DarkMode); // Apply theme
                     checkItems.Add(checkItem);
-                    var uncheckItem = new ToolStripMenuItem(string.Format("Forced: [{0}] ({1}/{2})", forced, totalForced - checkedForced, totalForced), null,
+                    var uncheckItem = new ToolStripMenuItem(LocalizationManager.GetString("UI.MainForm2.ContextMenu.FilterValueCount", GetContextMenuFilterLabel(NodeSelectionFilter.Forced, TrackSelectionMode.audio), GetLocalizedBoolean(forced), totalForced - checkedForced, totalForced), null,
                             delegate { SetCheckedTracks(TrackSelectionMode.audio, false, nodeSelectionFilter: NodeSelectionFilter.Forced, argFilter: forced.ToString()); }
                         );
                     ThemeManager.ApplyToolStripItemTheme(uncheckItem, _Settings.DarkMode);
@@ -2208,9 +2292,9 @@ Uncheck if you want to manually select an output directory for ALL extracted fil
             // Get all subtitle track languages
             {
                 List<string> subLanguages = allSubtitleNodes.Select(n => (n.Tag as gMKVTrack).Language).Distinct().ToList();
-                ToolStripMenuItem tsCheckSubtitleTracksByLanguage = new ToolStripMenuItem(string.Format("Subtitle Tracks by Language ({0})...", subLanguages.Count));
+                ToolStripMenuItem tsCheckSubtitleTracksByLanguage = new ToolStripMenuItem(LocalizationManager.GetString("UI.MainForm2.ContextMenu.TrackGroupByFilter", subtitleTracksLabel, GetContextMenuFilterLabel(NodeSelectionFilter.Language, TrackSelectionMode.subtitle), subLanguages.Count));
                 checkSubtitleTracksToolStripMenuItem.DropDownItems.Add(tsCheckSubtitleTracksByLanguage);
-                ToolStripMenuItem tsUncheckSubtitleTracksByLanguage = new ToolStripMenuItem(string.Format("Subtitle Tracks by Language ({0})...", subLanguages.Count));
+                ToolStripMenuItem tsUncheckSubtitleTracksByLanguage = new ToolStripMenuItem(LocalizationManager.GetString("UI.MainForm2.ContextMenu.TrackGroupByFilter", subtitleTracksLabel, GetContextMenuFilterLabel(NodeSelectionFilter.Language, TrackSelectionMode.subtitle), subLanguages.Count));
                 uncheckSubtitleTracksToolStripMenuItem.DropDownItems.Add(tsUncheckSubtitleTracksByLanguage);
                 checkItems = new List<ToolStripItem>();
                 uncheckItems = new List<ToolStripItem>();
@@ -2218,12 +2302,12 @@ Uncheck if you want to manually select an output directory for ALL extracted fil
                 {
                     int totalLanguages = allSubtitleNodes.Where(n => (n.Tag as gMKVTrack).Language == lang).Count();
                     int checkedLanguages = checkedSubtitleNodes.Where(n => (n.Tag as gMKVTrack).Language == lang).Count();
-                    var checkItem = new ToolStripMenuItem(string.Format("Language: [{0}] ({1}/{2})", lang, checkedLanguages, totalLanguages), null,
+                    var checkItem = new ToolStripMenuItem(LocalizationManager.GetString("UI.MainForm2.ContextMenu.FilterValueCount", GetContextMenuFilterLabel(NodeSelectionFilter.Language, TrackSelectionMode.subtitle), lang, checkedLanguages, totalLanguages), null,
                             delegate { SetCheckedTracks(TrackSelectionMode.subtitle, true, nodeSelectionFilter: NodeSelectionFilter.Language, argFilter: lang); }
                         );
                     ThemeManager.ApplyToolStripItemTheme(checkItem, _Settings.DarkMode); // Apply theme
                     checkItems.Add(checkItem);
-                    var uncheckItem = new ToolStripMenuItem(string.Format("Language: [{0}] ({1}/{2})", lang, totalLanguages - checkedLanguages, totalLanguages), null,
+                    var uncheckItem = new ToolStripMenuItem(LocalizationManager.GetString("UI.MainForm2.ContextMenu.FilterValueCount", GetContextMenuFilterLabel(NodeSelectionFilter.Language, TrackSelectionMode.subtitle), lang, totalLanguages - checkedLanguages, totalLanguages), null,
                             delegate { SetCheckedTracks(TrackSelectionMode.subtitle, false, nodeSelectionFilter: NodeSelectionFilter.Language, argFilter: lang); }
                         );
                     ThemeManager.ApplyToolStripItemTheme(uncheckItem, _Settings.DarkMode);
@@ -2236,9 +2320,9 @@ Uncheck if you want to manually select an output directory for ALL extracted fil
             // Get all subtitle track languages IETF
             {
                 List<string> subLanguagesIetf = allSubtitleNodes.Select(n => (n.Tag as gMKVTrack).LanguageIetf).Distinct().ToList();
-                ToolStripMenuItem tsCheckSubtitleTracksByLanguageIetf = new ToolStripMenuItem(string.Format("Subtitle Tracks by Language IETF ({0})...", subLanguagesIetf.Count));
+                ToolStripMenuItem tsCheckSubtitleTracksByLanguageIetf = new ToolStripMenuItem(LocalizationManager.GetString("UI.MainForm2.ContextMenu.TrackGroupByFilter", subtitleTracksLabel, GetContextMenuFilterLabel(NodeSelectionFilter.LanguageIetf, TrackSelectionMode.subtitle), subLanguagesIetf.Count));
                 checkSubtitleTracksToolStripMenuItem.DropDownItems.Add(tsCheckSubtitleTracksByLanguageIetf);
-                ToolStripMenuItem tsUncheckSubtitleTracksByLanguageIetf = new ToolStripMenuItem(string.Format("Subtitle Tracks by Language IETF ({0})...", subLanguagesIetf.Count));
+                ToolStripMenuItem tsUncheckSubtitleTracksByLanguageIetf = new ToolStripMenuItem(LocalizationManager.GetString("UI.MainForm2.ContextMenu.TrackGroupByFilter", subtitleTracksLabel, GetContextMenuFilterLabel(NodeSelectionFilter.LanguageIetf, TrackSelectionMode.subtitle), subLanguagesIetf.Count));
                 uncheckSubtitleTracksToolStripMenuItem.DropDownItems.Add(tsUncheckSubtitleTracksByLanguageIetf);
                 checkItems = new List<ToolStripItem>();
                 uncheckItems = new List<ToolStripItem>();
@@ -2246,12 +2330,12 @@ Uncheck if you want to manually select an output directory for ALL extracted fil
                 {
                     int totalLanguagesIetf = allSubtitleNodes.Where(n => (n.Tag as gMKVTrack).LanguageIetf == langIetf).Count();
                     int checkedLanguagesIetf = checkedSubtitleNodes.Where(n => (n.Tag as gMKVTrack).LanguageIetf == langIetf).Count();
-                    var checkItem = new ToolStripMenuItem(string.Format("Language IETF: [{0}] ({1}/{2})", langIetf, checkedLanguagesIetf, totalLanguagesIetf), null,
+                    var checkItem = new ToolStripMenuItem(LocalizationManager.GetString("UI.MainForm2.ContextMenu.FilterValueCount", GetContextMenuFilterLabel(NodeSelectionFilter.LanguageIetf, TrackSelectionMode.subtitle), langIetf, checkedLanguagesIetf, totalLanguagesIetf), null,
                             delegate { SetCheckedTracks(TrackSelectionMode.subtitle, true, nodeSelectionFilter: NodeSelectionFilter.LanguageIetf, argFilter: langIetf); }
                         );
                     ThemeManager.ApplyToolStripItemTheme(checkItem, _Settings.DarkMode); // Apply theme
                     checkItems.Add(checkItem);
-                    var uncheckItem = new ToolStripMenuItem(string.Format("Language IETF: [{0}] ({1}/{2})", langIetf, totalLanguagesIetf - checkedLanguagesIetf, totalLanguagesIetf), null,
+                    var uncheckItem = new ToolStripMenuItem(LocalizationManager.GetString("UI.MainForm2.ContextMenu.FilterValueCount", GetContextMenuFilterLabel(NodeSelectionFilter.LanguageIetf, TrackSelectionMode.subtitle), langIetf, totalLanguagesIetf - checkedLanguagesIetf, totalLanguagesIetf), null,
                             delegate { SetCheckedTracks(TrackSelectionMode.subtitle, false, nodeSelectionFilter: NodeSelectionFilter.LanguageIetf, argFilter: langIetf); }
                         );
                     ThemeManager.ApplyToolStripItemTheme(uncheckItem, _Settings.DarkMode);
@@ -2264,9 +2348,9 @@ Uncheck if you want to manually select an output directory for ALL extracted fil
             // Get all subtitle track codec_id
             {
                 List<string> subCodecs = allSubtitleNodes.Select(n => (n.Tag as gMKVTrack).CodecID).Distinct().ToList();
-                ToolStripMenuItem tsCheckSubtitleTracksByCodec = new ToolStripMenuItem(string.Format("Subtitle Tracks by Codec ({0})...", subCodecs.Count));
+                ToolStripMenuItem tsCheckSubtitleTracksByCodec = new ToolStripMenuItem(LocalizationManager.GetString("UI.MainForm2.ContextMenu.TrackGroupByFilter", subtitleTracksLabel, GetContextMenuFilterLabel(NodeSelectionFilter.CodecId, TrackSelectionMode.subtitle), subCodecs.Count));
                 checkSubtitleTracksToolStripMenuItem.DropDownItems.Add(tsCheckSubtitleTracksByCodec);
-                ToolStripMenuItem tsUncheckSubtitleTracksByCodec = new ToolStripMenuItem(string.Format("Subtitle Tracks by Codec ({0})...", subCodecs.Count));
+                ToolStripMenuItem tsUncheckSubtitleTracksByCodec = new ToolStripMenuItem(LocalizationManager.GetString("UI.MainForm2.ContextMenu.TrackGroupByFilter", subtitleTracksLabel, GetContextMenuFilterLabel(NodeSelectionFilter.CodecId, TrackSelectionMode.subtitle), subCodecs.Count));
                 uncheckSubtitleTracksToolStripMenuItem.DropDownItems.Add(tsUncheckSubtitleTracksByCodec);
                 checkItems = new List<ToolStripItem>();
                 uncheckItems = new List<ToolStripItem>();
@@ -2274,12 +2358,12 @@ Uncheck if you want to manually select an output directory for ALL extracted fil
                 {
                     int totalLanguages = allSubtitleNodes.Where(n => (n.Tag as gMKVTrack).CodecID == codec).Count();
                     int checkedLanguages = checkedSubtitleNodes.Where(n => (n.Tag as gMKVTrack).CodecID == codec).Count();
-                    var checkItem = new ToolStripMenuItem(string.Format("Codec: [{0}] ({1}/{2})", codec, checkedLanguages, totalLanguages), null,
+                    var checkItem = new ToolStripMenuItem(LocalizationManager.GetString("UI.MainForm2.ContextMenu.FilterValueCount", GetContextMenuFilterLabel(NodeSelectionFilter.CodecId, TrackSelectionMode.subtitle), codec, checkedLanguages, totalLanguages), null,
                             delegate { SetCheckedTracks(TrackSelectionMode.subtitle, true, nodeSelectionFilter: NodeSelectionFilter.CodecId, argFilter: codec); }
                         );
                     ThemeManager.ApplyToolStripItemTheme(checkItem, _Settings.DarkMode); // Apply theme
                     checkItems.Add(checkItem);
-                    var uncheckItem = new ToolStripMenuItem(string.Format("Codec: [{0}] ({1}/{2})", codec, totalLanguages - checkedLanguages, totalLanguages), null,
+                    var uncheckItem = new ToolStripMenuItem(LocalizationManager.GetString("UI.MainForm2.ContextMenu.FilterValueCount", GetContextMenuFilterLabel(NodeSelectionFilter.CodecId, TrackSelectionMode.subtitle), codec, totalLanguages - checkedLanguages, totalLanguages), null,
                             delegate { SetCheckedTracks(TrackSelectionMode.subtitle, false, nodeSelectionFilter: NodeSelectionFilter.CodecId, argFilter: codec); }
                         );
                     ThemeManager.ApplyToolStripItemTheme(uncheckItem, _Settings.DarkMode);
@@ -2295,9 +2379,9 @@ Uncheck if you want to manually select an output directory for ALL extracted fil
                 // Only show menu items if the names are less than 50
                 if (subNames.Any() && subNames.Count < 50)
                 {
-                    ToolStripMenuItem tsCheckSubtitleTracksByName = new ToolStripMenuItem(string.Format("Subtitle Tracks by Track Name ({0})...", subNames.Count));
+                    ToolStripMenuItem tsCheckSubtitleTracksByName = new ToolStripMenuItem(LocalizationManager.GetString("UI.MainForm2.ContextMenu.TrackGroupByFilter", subtitleTracksLabel, GetContextMenuFilterLabel(NodeSelectionFilter.Name, TrackSelectionMode.subtitle), subNames.Count));
                     checkSubtitleTracksToolStripMenuItem.DropDownItems.Add(tsCheckSubtitleTracksByName);
-                    ToolStripMenuItem tsUncheckSubtitleTracksByName = new ToolStripMenuItem(string.Format("Subtitle Tracks by Track Name ({0})...", subNames.Count));
+                    ToolStripMenuItem tsUncheckSubtitleTracksByName = new ToolStripMenuItem(LocalizationManager.GetString("UI.MainForm2.ContextMenu.TrackGroupByFilter", subtitleTracksLabel, GetContextMenuFilterLabel(NodeSelectionFilter.Name, TrackSelectionMode.subtitle), subNames.Count));
                     uncheckSubtitleTracksToolStripMenuItem.DropDownItems.Add(tsUncheckSubtitleTracksByName);
                     checkItems = new List<ToolStripItem>();
                     uncheckItems = new List<ToolStripItem>();
@@ -2305,12 +2389,12 @@ Uncheck if you want to manually select an output directory for ALL extracted fil
                     {
                         int totalLanguages = allSubtitleNodes.Where(n => (n.Tag as gMKVTrack).TrackName == name).Count();
                         int checkedLanguages = checkedSubtitleNodes.Where(n => (n.Tag as gMKVTrack).TrackName == name).Count();
-                        var checkItem = new ToolStripMenuItem(string.Format("Track Name: [{0}] ({1}/{2})", name, checkedLanguages, totalLanguages), null,
+                        var checkItem = new ToolStripMenuItem(LocalizationManager.GetString("UI.MainForm2.ContextMenu.FilterValueCount", GetContextMenuFilterLabel(NodeSelectionFilter.Name, TrackSelectionMode.subtitle), name, checkedLanguages, totalLanguages), null,
                                 delegate { SetCheckedTracks(TrackSelectionMode.subtitle, true, nodeSelectionFilter: NodeSelectionFilter.Name, argFilter: name); }
                             );
                         ThemeManager.ApplyToolStripItemTheme(checkItem, _Settings.DarkMode); // Apply theme
                         checkItems.Add(checkItem);
-                        var uncheckItem = new ToolStripMenuItem(string.Format("Track Name: [{0}] ({1}/{2})", name, totalLanguages - checkedLanguages, totalLanguages), null,
+                        var uncheckItem = new ToolStripMenuItem(LocalizationManager.GetString("UI.MainForm2.ContextMenu.FilterValueCount", GetContextMenuFilterLabel(NodeSelectionFilter.Name, TrackSelectionMode.subtitle), name, totalLanguages - checkedLanguages, totalLanguages), null,
                                 delegate { SetCheckedTracks(TrackSelectionMode.subtitle, false, nodeSelectionFilter: NodeSelectionFilter.Name, argFilter: name); }
                             );
                         ThemeManager.ApplyToolStripItemTheme(uncheckItem, _Settings.DarkMode);
@@ -2324,9 +2408,9 @@ Uncheck if you want to manually select an output directory for ALL extracted fil
             // Get all subtitle track Forced
             {
                 List<bool> subtitleForced = allSubtitleNodes.Select(n => (n.Tag as gMKVTrack).Forced).Distinct().ToList();
-                ToolStripMenuItem tsCheckSubtitlesTracksByForced = new ToolStripMenuItem(string.Format("Subtitle Tracks by Forced ({0})...", subtitleForced.Count));
+                ToolStripMenuItem tsCheckSubtitlesTracksByForced = new ToolStripMenuItem(LocalizationManager.GetString("UI.MainForm2.ContextMenu.TrackGroupByFilter", subtitleTracksLabel, GetContextMenuFilterLabel(NodeSelectionFilter.Forced, TrackSelectionMode.subtitle), subtitleForced.Count));
                 checkSubtitleTracksToolStripMenuItem.DropDownItems.Add(tsCheckSubtitlesTracksByForced);
-                ToolStripMenuItem tsUncheckSubtitlesTracksByForced = new ToolStripMenuItem(string.Format("Subtitle Tracks by Forced ({0})...", subtitleForced.Count));
+                ToolStripMenuItem tsUncheckSubtitlesTracksByForced = new ToolStripMenuItem(LocalizationManager.GetString("UI.MainForm2.ContextMenu.TrackGroupByFilter", subtitleTracksLabel, GetContextMenuFilterLabel(NodeSelectionFilter.Forced, TrackSelectionMode.subtitle), subtitleForced.Count));
                 uncheckSubtitleTracksToolStripMenuItem.DropDownItems.Add(tsUncheckSubtitlesTracksByForced);
                 checkItems = new List<ToolStripItem>();
                 uncheckItems = new List<ToolStripItem>();
@@ -2334,12 +2418,12 @@ Uncheck if you want to manually select an output directory for ALL extracted fil
                 {
                     int totalForced = allSubtitleNodes.Where(n => (n.Tag as gMKVTrack).Forced == forced).Count();
                     int checkedForced = checkedSubtitleNodes.Where(n => (n.Tag as gMKVTrack).Forced == forced).Count();
-                    var checkItem = new ToolStripMenuItem(string.Format("Forced: [{0}] ({1}/{2})", forced, checkedForced, totalForced), null,
+                    var checkItem = new ToolStripMenuItem(LocalizationManager.GetString("UI.MainForm2.ContextMenu.FilterValueCount", GetContextMenuFilterLabel(NodeSelectionFilter.Forced, TrackSelectionMode.subtitle), GetLocalizedBoolean(forced), checkedForced, totalForced), null,
                             delegate { SetCheckedTracks(TrackSelectionMode.subtitle, true, nodeSelectionFilter: NodeSelectionFilter.Forced, argFilter: forced.ToString()); }
                         );
                     ThemeManager.ApplyToolStripItemTheme(checkItem, _Settings.DarkMode); // Apply theme
                     checkItems.Add(checkItem);
-                    var uncheckItem = new ToolStripMenuItem(string.Format("Forced: [{0}] ({1}/{2})", forced, totalForced - checkedForced, totalForced), null,
+                    var uncheckItem = new ToolStripMenuItem(LocalizationManager.GetString("UI.MainForm2.ContextMenu.FilterValueCount", GetContextMenuFilterLabel(NodeSelectionFilter.Forced, TrackSelectionMode.subtitle), GetLocalizedBoolean(forced), totalForced - checkedForced, totalForced), null,
                             delegate { SetCheckedTracks(TrackSelectionMode.subtitle, false, nodeSelectionFilter: NodeSelectionFilter.Forced, argFilter: forced.ToString()); }
                         );
                     ThemeManager.ApplyToolStripItemTheme(uncheckItem, _Settings.DarkMode);
@@ -2584,9 +2668,7 @@ Uncheck if you want to manually select an output directory for ALL extracted fil
             trvInputFiles.Nodes.Remove(node);
             if (trvInputFiles.Nodes.Count > 0)
             {
-                grpInputFiles.Text = string.Format(
-                    "Input Files (you can drag and drop files or directories) ({0} files)",
-                    trvInputFiles.AllNodes.Count(n => n != null && n.Tag != null && n.Tag is gMKVSegmentInfo));
+                UpdateInputFilesGroupTitle();
             }
             else
             {
@@ -2700,6 +2782,8 @@ Uncheck if you want to manually select an output directory for ALL extracted fil
         {
             try
             {
+                setAsDefaultDirectoryToolStripMenuItem.Text = LocalizationManager.GetString("UI.MainForm2.OutputDirectory.SetAsDefault");
+
                 // First check if we have a valid directory in the text box
                 if ((!string.IsNullOrWhiteSpace(txtOutputDirectory.Text) && Directory.Exists(txtOutputDirectory.Text))
                     && (!string.IsNullOrWhiteSpace(_Settings.DefaultOutputDirectory) && Directory.Exists(_Settings.DefaultOutputDirectory))
@@ -2718,12 +2802,12 @@ Uncheck if you want to manually select an output directory for ALL extracted fil
                     // Check if we can use the default directory
                     useCurrentlySetDefaultDirectoryToolStripMenuItem.Enabled = !chkUseSourceDirectory.Checked;
                     // Set the text
-                    useCurrentlySetDefaultDirectoryToolStripMenuItem.Text = string.Format("Use Currently Set Default Directory: ({0})", _Settings.DefaultOutputDirectory);
+                    useCurrentlySetDefaultDirectoryToolStripMenuItem.Text = LocalizationManager.GetString("UI.MainForm2.OutputDirectory.UseDefaultWithValue", _Settings.DefaultOutputDirectory);
                 }
                 else
                 {
                     useCurrentlySetDefaultDirectoryToolStripMenuItem.Enabled = false;
-                    useCurrentlySetDefaultDirectoryToolStripMenuItem.Text = "Use Currently Set Default Directory: (Not Set!)";
+                    useCurrentlySetDefaultDirectoryToolStripMenuItem.Text = LocalizationManager.GetString("UI.MainForm2.OutputDirectory.UseDefaultWithValue", LocalizationManager.GetString("UI.Common.NotSet"));
                 }
             }
             catch (Exception ex)
@@ -2789,11 +2873,12 @@ Uncheck if you want to manually select an output directory for ALL extracted fil
         {
             try
             {
-                frmOptions optionsForm = new frmOptions();
-
-                if (optionsForm.ShowDialog() == DialogResult.OK)
+                using (frmOptions optionsForm = new frmOptions())
                 {
-                    _Settings.Reload();
+                    if (optionsForm.ShowDialog(this) == DialogResult.OK)
+                    {
+                        _Settings.Reload();
+                    }
                 }
             }
             catch (Exception ex)
@@ -2867,26 +2952,38 @@ Uncheck if you want to manually select an output directory for ALL extracted fil
 
         public void ApplyLocalization()
         {
-            grpInputFiles.Text = string.Format("Input Files (you can drag and drop files or directories) ({0} files)", trvInputFiles.AllNodes.Count(n => n != null && n.Tag != null && n.Tag is gMKVSegmentInfo));
-            grpSelectedFileInfo.Text = "Selected File Information";
+            Text = string.Format("{0} v{1} -- By Gpower2", LocalizationManager.GetString("UI.MainForm2.Title"), GetCurrentVersion());
+            lblStatus.Text = LocalizationManager.GetString("UI.MainForm2.Status.Status");
+            lblTotalStatus.Text = LocalizationManager.GetString("UI.MainForm2.Status.TotalStatus");
+            UpdateInputFilesGroupTitle();
+            UpdateSelectedFileInfoTitle();
             grpOutputDirectory.Text = LocalizationManager.GetString("UI.MainForm2.OutputDirectory.Group");
             chkUseSourceDirectory.Text = LocalizationManager.GetString("UI.MainForm2.OutputDirectory.UseSource");
             btnBrowseOutputDirectory.Text = LocalizationManager.GetString("UI.MainForm2.OutputDirectory.Browse");
             grpActions.Text = LocalizationManager.GetString("UI.MainForm2.Actions.Group");
+            btnAddJobs.Text = LocalizationManager.GetString("UI.MainForm2.Actions.AddJobs");
             btnExtract.Text = LocalizationManager.GetString("UI.MainForm2.Actions.Extract");
             btnShowJobs.Text = LocalizationManager.GetString("UI.MainForm2.Actions.ShowJobs");
             btnShowLog.Text = LocalizationManager.GetString("UI.MainForm2.Actions.Log");
             chkShowPopup.Text = LocalizationManager.GetString("UI.MainForm2.Actions.Popup");
             lblExtractionMode.Text = LocalizationManager.GetString("UI.MainForm2.Actions.ExtractionMode");
             lblChapterType.Text = LocalizationManager.GetString("UI.MainForm2.Actions.ChapterType");
-            //grpMKVToolnix.Text = LocalizationManager.GetString("UI.MainForm2.Config.Group");
+            grpConfig.Text = LocalizationManager.GetString("UI.MainForm2.Config.Group");
             btnAutoDetectMkvToolnix.Text = LocalizationManager.GetString("UI.MainForm2.Config.AutoDetect");
             btnBrowseMKVToolnixPath.Text = LocalizationManager.GetString("UI.MainForm2.Config.Browse");
-            chkAppendOnDragAndDrop.Text = "Append On Drag And Drop";
-            chkOverwriteExistingFiles.Text = "Overwrite Existing Files";
-            chkDisableTooltips.Text = "Disable Tooltips";
-            chkDarkMode.Text = "Dark Mode";
-            btnOptions.Text = "Options...";
+            chkAppendOnDragAndDrop.Text = LocalizationManager.GetString("UI.MainForm2.FileOptions.AppendOnDragAndDrop");
+            chkOverwriteExistingFiles.Text = LocalizationManager.GetString("UI.MainForm2.FileOptions.OverwriteExistingFiles");
+            chkDisableTooltips.Text = LocalizationManager.GetString("UI.MainForm2.FileOptions.DisableTooltips");
+            btnSelect.Text = LocalizationManager.GetString("UI.MainForm2.FileOptions.Select");
+            chkDarkMode.Text = LocalizationManager.GetString("UI.MainForm2.Appearance.Dark");
+            btnOptions.Text = LocalizationManager.GetString("UI.MainForm2.Appearance.Options");
+            addInputFileToolStripMenuItem.Text = LocalizationManager.GetString("UI.MainForm2.ContextMenu.AddInputFiles");
+            openSelectedFileToolStripMenuItem.Text = LocalizationManager.GetString("UI.MainForm2.ContextMenu.OpenSelectedFile");
+            openSelectedFileFolderToolStripMenuItem.Text = LocalizationManager.GetString("UI.MainForm2.ContextMenu.OpenSelectedFileFolder");
+            expandAllToolStripMenuItem.Text = LocalizationManager.GetString("UI.MainForm2.ContextMenu.ExpandAll");
+            collapseAllToolStripMenuItem.Text = LocalizationManager.GetString("UI.MainForm2.ContextMenu.CollapseAll");
+            setAsDefaultDirectoryToolStripMenuItem.Text = LocalizationManager.GetString("UI.MainForm2.OutputDirectory.SetAsDefault");
+            useCurrentlySetDefaultDirectoryToolStripMenuItem.Text = LocalizationManager.GetString("UI.MainForm2.OutputDirectory.UseDefaultWithValue", LocalizationManager.GetString("UI.Common.NotSet"));
         }
     }
 }

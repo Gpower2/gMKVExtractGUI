@@ -23,12 +23,6 @@ namespace gMKVToolNix.Forms
         private ContextMenuStrip _AttachmentContextMenu = null;
         private ContextMenuStrip _TagsContextMenu = null;
 
-
-        private readonly static string INFO_TEXT = 
-@"Here you can specify the output filename format for each kind of track.
-Pressing the ""Add..."" button you will see the list with the available placeholders and select them.
-Pressing the ""Default"" button you will reset the output filename format to its default value.";
-
         public frmOptions()
         {
             try
@@ -38,8 +32,7 @@ Pressing the ""Default"" button you will reset the output filename format to its
                 Icon = Icon.ExtractAssociatedIcon(GetExecutingAssemblyLocation());
                 Text = string.Format("gMKVExtractGUI v{0} -- Options", GetCurrentVersion());
 
-                // Set the info text
-                txtInfo.Text = INFO_TEXT;
+                txtInfo.Text = LocalizationManager.GetString("UI.OptionsForm.Info.Text");
 
                 // Initialize the DPI aware scaling
                 InitDPI();
@@ -148,27 +141,20 @@ Pressing the ""Default"" button you will reset the output filename format to its
 
         private List<string> GetAvailableCultures()
         {
-            var cultures = new List<string>();
             try
             {
-                var appDir = this.GetCurrentDirectory();
-                var jsonFiles = Directory.GetFiles(appDir, "*.json");
-                foreach (var file in jsonFiles)
+                if (LocalizationManager.IsInitialized)
                 {
-                    var filename = Path.GetFileNameWithoutExtension(file);
-                    if (filename.Length == 2 && filename.All(c => char.IsLower(c)))
-                    {
-                        cultures.Add(filename);
-                    }
+                    return LocalizationManager.GetAvailableCultures().ToList();
                 }
-                cultures.Sort();
             }
             catch (Exception ex)
             {
                 Debug.WriteLine(ex);
                 gMKVLogger.Log(ex.ToString());
             }
-            return cultures;
+
+            return new List<string> { "en" };
         }
 
         private void CmbCulture_SelectedIndexChanged(object sender, EventArgs e)
@@ -180,7 +166,7 @@ Pressing the ""Default"" button you will reset the output filename format to its
                 {
                     _Settings.Culture = selectedCulture;
                     _Settings.Save();
-                    LocalizationManager.CurrentCulture = selectedCulture;
+                    LocalizationManager.Reload(selectedCulture);
                     ApplyLocalizationToAllForms();
                 }
             }
@@ -196,22 +182,20 @@ Pressing the ""Default"" button you will reset the output filename format to its
         {
             try
             {
-                var owner = this.Owner ?? this.MdiParent;
-                if (owner is Form ownerForm)
+                foreach (Form form in Application.OpenForms.Cast<Form>().ToList())
                 {
-                    foreach (Form form in ownerForm.OwnedForms)
-                    {
-                        if (form is frmMain mainForm && form.Visible)
-                            mainForm.ApplyLocalization();
-                        else if (form is frmMain2 mainForm2 && form.Visible)
-                            mainForm2.ApplyLocalization();
-                        else if (form is frmJobManager jobManager && form.Visible)
-                            jobManager.ApplyLocalization();
-                        else if (form is frmLog logForm && form.Visible)
-                            logForm.ApplyLocalization();
-                    }
+                    if (form is frmMain mainForm)
+                        mainForm.ApplyLocalization();
+                    else if (form is frmMain2 mainForm2)
+                        mainForm2.ApplyLocalization();
+                    else if (form is frmJobManager jobManager)
+                        jobManager.ApplyLocalization();
+                    else if (form is frmLog logForm)
+                        logForm.ApplyLocalization();
+                    else if (form is frmOptions optionsForm)
+                        optionsForm.ApplyLocalization();
                 }
-                ApplyLocalization();
+
                 ThemeManager.ApplyTheme(this, _Settings.DarkMode);
             }
             catch (Exception ex)
@@ -649,6 +633,9 @@ Pressing the ""Default"" button you will reset the output filename format to its
 
         public void ApplyLocalization()
         {
+            Text = string.Format("gMKVExtractGUI v{0} -- {1}", GetCurrentVersion(), LocalizationManager.GetString("UI.OptionsForm.Title"));
+            grpInfo.Text = LocalizationManager.GetString("UI.OptionsForm.Info.Group");
+            txtInfo.Text = LocalizationManager.GetString("UI.OptionsForm.Info.Text");
             grpVideoTracks.Text = LocalizationManager.GetString("UI.OptionsForm.VideoTracks.Group");
             btnAddVideoTrackPlaceholder.Text = LocalizationManager.GetString("UI.OptionsForm.VideoTracks.Add");
             btnDefaultVideoTrackPlaceholder.Text = LocalizationManager.GetString("UI.OptionsForm.VideoTracks.Default");
@@ -666,7 +653,13 @@ Pressing the ""Default"" button you will reset the output filename format to its
             btnDefaultAttachmentPlaceholder.Text = LocalizationManager.GetString("UI.OptionsForm.Attachments.Default");
             grpTags.Text = LocalizationManager.GetString("UI.OptionsForm.Tags.Group");
             btnAddTagsPlaceholder.Text = LocalizationManager.GetString("UI.OptionsForm.Tags.Add");
+            btnDefaultTagsPlaceholder.Text = LocalizationManager.GetString("UI.OptionsForm.Tags.Default");
+            grpAdvanced.Text = LocalizationManager.GetString("UI.OptionsForm.Advanced.Group");
+            lblCulture.Text = LocalizationManager.GetString("UI.OptionsForm.Advanced.Culture");
+            grpActions.Text = LocalizationManager.GetString("UI.OptionsForm.Actions.Group");
             btnDefaults.Text = LocalizationManager.GetString("UI.OptionsForm.Defaults");
+            btnOK.Text = LocalizationManager.GetString("UI.OptionsForm.Actions.OK");
+            btnCancel.Text = LocalizationManager.GetString("UI.OptionsForm.Actions.Cancel");
             chkTextFilesWithoutBom.Text = LocalizationManager.GetString("UI.OptionsForm.TextFilesWithoutBom");
             chkRawMode.Text = LocalizationManager.GetString("UI.OptionsForm.RawMode");
             chkFullRawMode.Text = LocalizationManager.GetString("UI.OptionsForm.FullRawMode");

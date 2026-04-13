@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using gMKVToolNix.Log;
 using Newtonsoft.Json;
 
@@ -18,7 +19,7 @@ namespace gMKVToolNix.Localization
 
         public JsonLocalizationService(string translationFolder)
         {
-            _runtimeCache = new Dictionary<string, Dictionary<string, string>>();
+            _runtimeCache = new Dictionary<string, Dictionary<string, string>>(System.StringComparer.OrdinalIgnoreCase);
             LoadAllTranslations(translationFolder);
         }
 
@@ -39,7 +40,10 @@ namespace gMKVToolNix.Localization
                     string jsonContent = File.ReadAllText(file);
                     var translationFile = JsonConvert.DeserializeObject<TranslationFile>(jsonContent);
 
-                    if (translationFile == null || translationFile.Entries == null) continue;
+                    if (translationFile == null || translationFile.Metadata == null || translationFile.Entries == null)
+                    {
+                        continue;
+                    }
 
                     string culture = translationFile.Metadata.Culture;
                     if (string.IsNullOrWhiteSpace(culture))
@@ -69,6 +73,13 @@ namespace gMKVToolNix.Localization
                     gMKVLogger.Log($"Failed to load {file}: {ex.Message}");
                 }
             }
+        }
+
+        public List<string> GetAvailableCultures()
+        {
+            return _runtimeCache.Keys
+                .OrderBy(culture => culture, System.StringComparer.OrdinalIgnoreCase)
+                .ToList();
         }
 
         public string GetString(string key, string cultureName)

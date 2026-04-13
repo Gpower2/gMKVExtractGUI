@@ -1,8 +1,8 @@
 {
   "Metadata": {
-    "Culture": "en",
-    "Translator": null,
-    "CreationDate": "2025-03-17T00:00:00Z",
+    "Culture": "cn",
+    "Translator": "GitHub Copilot",
+    "CreationDate": "2026-04-13T20:07:27Z",
     "LastEditDate": "2026-04-13T20:07:27Z"
   },
   "Entries": {
@@ -14,313 +14,313 @@
     },
     "UI.MainForm.InputFile.Group": {
       "Source": "Input file (you can drag and drop the file)",
-      "Translation": "Input file (you can drag and drop the file)",
+      "Translation": "輸入檔案（您可以拖放檔案）",
       "IsTranslated": true,
       "Notes": "GroupBox label for input file selection"
     },
     "UI.MainForm.InputFile.Browse": {
       "Source": "Browse...",
-      "Translation": "Browse...",
+      "Translation": "瀏覽...",
       "IsTranslated": true,
       "Notes": "Button to browse for input file"
     },
     "UI.MainForm.OutputDirectory.Group": {
       "Source": "Output Directory",
-      "Translation": "Output Directory",
+      "Translation": "輸出目錄",
       "IsTranslated": true,
       "Notes": "GroupBox label for output directory"
     },
     "UI.MainForm.OutputDirectory.Lock": {
       "Source": "Lock",
-      "Translation": "Lock",
+      "Translation": "鎖定",
       "IsTranslated": true,
       "Notes": "Checkbox to lock output directory"
     },
     "UI.MainForm.OutputDirectory.Browse": {
       "Source": "Browse...",
-      "Translation": "Browse...",
+      "Translation": "瀏覽...",
       "IsTranslated": true,
       "Notes": "Button to browse for output directory"
     },
     "UI.MainForm.Actions.Group": {
       "Source": "Actions",
-      "Translation": "Actions",
+      "Translation": "操作",
       "IsTranslated": true,
       "Notes": "GroupBox label for action controls"
     },
     "UI.MainForm.Actions.Popup": {
       "Source": "Popup",
-      "Translation": "Popup",
+      "Translation": "彈出視窗",
       "IsTranslated": true,
       "Notes": "Checkbox to show popup when extraction is complete"
     },
     "UI.MainForm.Actions.JobMode": {
       "Source": "Job Mode",
-      "Translation": "Job Mode",
+      "Translation": "工作模式",
       "IsTranslated": true,
       "Notes": "Checkbox to enable job mode"
     },
     "UI.MainForm.Actions.Extract": {
       "Source": "Extract",
-      "Translation": "Extract",
+      "Translation": "擷取",
       "IsTranslated": true,
       "Notes": "Button to start extraction"
     },
     "UI.MainForm.Actions.ExtractionMode": {
       "Source": "Extract:",
-      "Translation": "Extract:",
+      "Translation": "擷取:",
       "IsTranslated": true,
       "Notes": "Label for extraction mode combo box"
     },
     "UI.MainForm.Actions.Log": {
       "Source": "Log...",
-      "Translation": "Log...",
+      "Translation": "日誌...",
       "IsTranslated": true,
       "Notes": "Button to show log window"
     },
     "UI.MainForm.Actions.ChapterType": {
       "Source": "Chapter",
-      "Translation": "Chapter",
+      "Translation": "章節",
       "IsTranslated": true,
       "Notes": "Label for chapter type combo box"
     },
     "UI.MainForm.Actions.Abort": {
       "Source": "Abort",
-      "Translation": "Abort",
+      "Translation": "中止",
       "IsTranslated": true,
       "Notes": "Button to abort current extraction"
     },
     "UI.MainForm.Actions.AbortAll": {
       "Source": "Abort All",
-      "Translation": "Abort All",
+      "Translation": "全部中止",
       "IsTranslated": true,
       "Notes": "Button to abort all extractions"
     },
     "UI.MainForm.Config.Group": {
       "Source": "MKVToolnix Directory (you can drag and drop the directory)",
-      "Translation": "MKVToolnix Directory (you can drag and drop the directory)",
+      "Translation": "MKVToolnix 目錄（您可以拖放資料夾）",
       "IsTranslated": true,
       "Notes": "GroupBox label for MKVToolnix directory configuration"
     },
     "UI.MainForm.Config.Browse": {
       "Source": "Browse...",
-      "Translation": "Browse...",
+      "Translation": "瀏覽...",
       "IsTranslated": true,
       "Notes": "Button to browse for MKVToolnix directory"
     },
     "UI.MainForm.InputFileInfo.Group": {
       "Source": "Input File Information",
-      "Translation": "Input File Information",
+      "Translation": "輸入檔案資訊",
       "IsTranslated": true,
       "Notes": "GroupBox label for input file information"
     },
     "UI.MainForm.Status.Track": {
       "Source": "track",
-      "Translation": "track",
+      "Translation": "軌道",
       "IsTranslated": true,
       "Notes": "Status bar label for current track"
     },
     "UI.MainForm.Status.Status": {
       "Source": "status",
-      "Translation": "status",
+      "Translation": "狀態",
       "IsTranslated": true,
       "Notes": "Status bar label for status message"
     },
     "UI.MainForm.Log.Group": {
       "Source": "Log",
-      "Translation": "Log",
+      "Translation": "日誌",
       "IsTranslated": true,
       "Notes": "GroupBox label for log display"
     },
     "UI.ContextMenu.SelectAllTracks": {
       "Source": "Select All Tracks",
-      "Translation": "Select All Tracks",
+      "Translation": "選取所有軌道",
       "IsTranslated": true,
       "Notes": "Context menu item to select all tracks"
     },
     "UI.ContextMenu.SelectAllVideoTracks": {
       "Source": "Select All Video Tracks",
-      "Translation": "Select All Video Tracks",
+      "Translation": "選取所有視訊軌",
       "IsTranslated": true,
       "Notes": "Context menu item to select all video tracks"
     },
     "UI.ContextMenu.SelectAllAudioTracks": {
       "Source": "Select All Audio Tracks",
-      "Translation": "Select All Audio Tracks",
+      "Translation": "選取所有音軌",
       "IsTranslated": true,
       "Notes": "Context menu item to select all audio tracks"
     },
     "UI.ContextMenu.SelectAllSubtitleTracks": {
       "Source": "Select All Subtitle Tracks",
-      "Translation": "Select All Subtitle Tracks",
+      "Translation": "選取所有字幕軌",
       "IsTranslated": true,
       "Notes": "Context menu item to select all subtitle tracks"
     },
     "UI.ContextMenu.SelectAllChapterTracks": {
       "Source": "Select All Chapter Tracks",
-      "Translation": "Select All Chapter Tracks",
+      "Translation": "選取所有章節軌道",
       "IsTranslated": true,
       "Notes": "Context menu item to select all chapter tracks"
     },
     "UI.ContextMenu.SelectAllAttachmentTracks": {
       "Source": "Select All Attachments Tracks",
-      "Translation": "Select All Attachments Tracks",
+      "Translation": "選取所有附件軌道",
       "IsTranslated": true,
       "Notes": "Context menu item to select all attachment tracks"
     },
     "UI.ContextMenu.UnselectAllTracks": {
       "Source": "Unselect All tracks",
-      "Translation": "Unselect All tracks",
+      "Translation": "取消所有軌道選取",
       "IsTranslated": true,
       "Notes": "Context menu item to unselect all tracks"
     },
     "UI.JobManager.Title": {
       "Source": "Job Manager",
-      "Translation": "Job Manager",
+      "Translation": "工作管理員",
       "IsTranslated": true,
       "Notes": "Job manager window title"
     },
     "UI.JobManager.Progress.Group": {
       "Source": "Progress",
-      "Translation": "Progress",
+      "Translation": "進度",
       "IsTranslated": true,
       "Notes": "GroupBox label for progress information"
     },
     "UI.JobManager.Progress.CurrentTrack": {
       "Source": "Current Track",
-      "Translation": "Current Track",
+      "Translation": "目前軌道",
       "IsTranslated": true,
       "Notes": "Label for current track progress"
     },
     "UI.JobManager.Progress.TotalProgress": {
       "Source": "Total Progress",
-      "Translation": "Total Progress",
+      "Translation": "總進度",
       "IsTranslated": true,
       "Notes": "Label for total progress"
     },
     "UI.JobManager.Progress.CurrentProgress": {
       "Source": "Current Progress",
-      "Translation": "Current Progress",
+      "Translation": "目前進度",
       "IsTranslated": true,
       "Notes": "Label for current extraction progress"
     },
     "UI.JobManager.Jobs.Group": {
       "Source": "Jobs",
-      "Translation": "Jobs",
+      "Translation": "工作",
       "IsTranslated": true,
       "Notes": "GroupBox label for job list"
     },
     "UI.JobManager.Jobs.ChangeToReadyStatus": {
       "Source": "Change to Ready Status",
-      "Translation": "Change to Ready Status",
+      "Translation": "變更為就緒狀態",
       "IsTranslated": true,
       "Notes": "Context menu item to change job status to ready"
     },
     "UI.JobManager.Jobs.SelectAll": {
       "Source": "Select All",
-      "Translation": "Select All",
+      "Translation": "全選",
       "IsTranslated": true,
       "Notes": "Context menu item to select all jobs"
     },
     "UI.JobManager.Jobs.DeselectAll": {
       "Source": "Deselect All",
-      "Translation": "Deselect All",
+      "Translation": "取消全選",
       "IsTranslated": true,
       "Notes": "Context menu item to deselect all jobs"
     },
     "UI.JobManager.Actions.Group": {
       "Source": "Actions",
-      "Translation": "Actions",
+      "Translation": "操作",
       "IsTranslated": true,
       "Notes": "GroupBox label for action buttons"
     },
     "UI.JobManager.Actions.Popup": {
       "Source": "Popup",
-      "Translation": "Popup",
+      "Translation": "彈出視窗",
       "IsTranslated": true,
       "Notes": "Checkbox to show popup on job completion"
     },
     "UI.JobManager.Actions.SaveJobs": {
       "Source": "Save Jobs...",
-      "Translation": "Save Jobs...",
+      "Translation": "儲存工作...",
       "IsTranslated": true,
       "Notes": "Button to save job queue to file"
     },
     "UI.JobManager.Actions.LoadJobs": {
       "Source": "Load Jobs...",
-      "Translation": "Load Jobs...",
+      "Translation": "載入工作...",
       "IsTranslated": true,
       "Notes": "Button to load job queue from file"
     },
     "UI.JobManager.Actions.AbortAll": {
       "Source": "Abort All",
-      "Translation": "Abort All",
+      "Translation": "全部中止",
       "IsTranslated": true,
       "Notes": "Button to abort all jobs"
     },
     "UI.JobManager.Actions.Abort": {
       "Source": "Abort",
-      "Translation": "Abort",
+      "Translation": "中止",
       "IsTranslated": true,
       "Notes": "Button to abort selected job"
     },
     "UI.JobManager.Actions.RunJobs": {
       "Source": "Run Jobs",
-      "Translation": "Run Jobs",
+      "Translation": "執行工作",
       "IsTranslated": true,
       "Notes": "Button to start running queued jobs"
     },
     "UI.JobManager.Actions.Remove": {
       "Source": "Remove",
-      "Translation": "Remove",
+      "Translation": "移除",
       "IsTranslated": true,
       "Notes": "Button to remove selected job"
     },
     "UI.LogForm.Title": {
       "Source": "Log",
-      "Translation": "Log",
+      "Translation": "日誌",
       "IsTranslated": true,
       "Notes": "Log window title"
     },
     "UI.LogForm.Log.Group": {
       "Source": "Log",
-      "Translation": "Log",
+      "Translation": "日誌",
       "IsTranslated": true,
       "Notes": "GroupBox label for log content"
     },
     "UI.LogForm.Actions.Group": {
       "Source": "Actions",
-      "Translation": "Actions",
+      "Translation": "操作",
       "IsTranslated": true,
       "Notes": "GroupBox label for log action buttons"
     },
     "UI.LogForm.Actions.Save": {
       "Source": "Save...",
-      "Translation": "Save...",
+      "Translation": "儲存...",
       "IsTranslated": true,
       "Notes": "Button to save log to file"
     },
     "UI.LogForm.Actions.ClearLog": {
       "Source": "Clear Log",
-      "Translation": "Clear Log",
+      "Translation": "清除日誌",
       "IsTranslated": true,
       "Notes": "Button to clear log content"
     },
     "UI.LogForm.Actions.Refresh": {
       "Source": "Refresh",
-      "Translation": "Refresh",
+      "Translation": "重新整理",
       "IsTranslated": true,
       "Notes": "Button to refresh log display"
     },
     "UI.LogForm.Actions.CopySelection": {
       "Source": "Copy Selection",
-      "Translation": "Copy Selection",
+      "Translation": "複製選取內容",
       "IsTranslated": true,
       "Notes": "Button to copy selected log text"
     },
     "UI.LogForm.Actions.Close": {
       "Source": "Close",
-      "Translation": "Close",
+      "Translation": "關閉",
       "IsTranslated": true,
       "Notes": "Button to close log window"
     },
@@ -332,529 +332,529 @@
     },
     "UI.MainForm2.Status.Status": {
       "Source": "status",
-      "Translation": "status",
+      "Translation": "狀態",
       "IsTranslated": true,
       "Notes": "Status bar label in main form 2"
     },
     "UI.MainForm2.Status.TotalStatus": {
       "Source": "status",
-      "Translation": "status",
+      "Translation": "狀態",
       "IsTranslated": true,
       "Notes": "Total status bar label in main form 2"
     },
     "UI.MainForm2.Actions.Group": {
       "Source": "Actions",
-      "Translation": "Actions",
+      "Translation": "操作",
       "IsTranslated": true,
       "Notes": "GroupBox label for action controls in main form 2"
     },
     "UI.MainForm2.Actions.AddJobs": {
       "Source": "Add Jobs",
-      "Translation": "Add Jobs",
+      "Translation": "新增工作",
       "IsTranslated": true,
       "Notes": "Button to add new jobs"
     },
     "UI.MainForm2.Actions.ShowJobs": {
       "Source": "Jobs...",
-      "Translation": "Jobs...",
+      "Translation": "工作...",
       "IsTranslated": true,
       "Notes": "Button to show job manager"
     },
     "UI.MainForm2.Actions.Popup": {
       "Source": "Popup",
-      "Translation": "Popup",
+      "Translation": "彈出視窗",
       "IsTranslated": true,
       "Notes": "Checkbox to show popup when extraction is complete in main form 2"
     },
     "UI.MainForm2.Actions.Extract": {
       "Source": "Extract",
-      "Translation": "Extract",
+      "Translation": "擷取",
       "IsTranslated": true,
       "Notes": "Button to start extraction in main form 2"
     },
     "UI.MainForm2.Actions.ExtractionMode": {
       "Source": "Extract",
-      "Translation": "Extract",
+      "Translation": "擷取",
       "IsTranslated": true,
       "Notes": "Label for extraction mode combo box in main form 2"
     },
     "UI.MainForm2.Actions.Log": {
       "Source": "Log...",
-      "Translation": "Log...",
+      "Translation": "日誌...",
       "IsTranslated": true,
       "Notes": "Button to show log window in main form 2"
     },
     "UI.MainForm2.Actions.ChapterType": {
       "Source": "Chapter",
-      "Translation": "Chapter",
+      "Translation": "章節",
       "IsTranslated": true,
       "Notes": "Label for chapter type combo box in main form 2"
     },
     "UI.MainForm2.OutputDirectory.Group": {
       "Source": "Output Directory for Selected File (you can drag and drop the directory)",
-      "Translation": "Output Directory for Selected File (you can drag and drop the directory)",
+      "Translation": "所選檔案的輸出目錄（您可以拖放資料夾）",
       "IsTranslated": true,
       "Notes": "GroupBox label for output directory in main form 2"
     },
     "UI.MainForm2.OutputDirectory.UseSource": {
       "Source": "Use Source",
-      "Translation": "Use Source",
+      "Translation": "使用來源",
       "IsTranslated": true,
       "Notes": "Checkbox to use source directory as output in main form 2"
     },
     "UI.MainForm2.OutputDirectory.Browse": {
       "Source": "Browse...",
-      "Translation": "Browse...",
+      "Translation": "瀏覽...",
       "IsTranslated": true,
       "Notes": "Button to browse for output directory in main form 2"
     },
     "UI.MainForm2.OutputDirectory.SetAsDefault": {
       "Source": "Set As Default Directory",
-      "Translation": "Set As Default Directory",
+      "Translation": "設為預設目錄",
       "IsTranslated": true,
       "Notes": "Context menu item to set default directory"
     },
     "UI.MainForm2.OutputDirectory.UseDefault": {
       "Source": "Use Currently Set Default Directory:",
-      "Translation": "Use Currently Set Default Directory:",
+      "Translation": "使用目前設定的預設目錄：",
       "IsTranslated": true,
       "Notes": "Context menu item to use default directory"
     },
     "UI.MainForm2.Config.Group": {
       "Source": "MKVToolnix Directory (you can drag and drop the directory)",
-      "Translation": "MKVToolnix Directory (you can drag and drop the directory)",
+      "Translation": "MKVToolnix 目錄（您可以拖放資料夾）",
       "IsTranslated": true,
       "Notes": "GroupBox label for MKVToolnix directory in main form 2"
     },
     "UI.MainForm2.Config.AutoDetect": {
       "Source": "Auto Detect",
-      "Translation": "Auto Detect",
+      "Translation": "自動偵測",
       "IsTranslated": true,
       "Notes": "Button to auto-detect MKVToolnix directory"
     },
     "UI.MainForm2.Config.Browse": {
       "Source": "Browse...",
-      "Translation": "Browse...",
+      "Translation": "瀏覽...",
       "IsTranslated": true,
       "Notes": "Button to browse for MKVToolnix directory in main form 2"
     },
     "UI.MainForm2.InputFiles.Group": {
       "Source": "Input Files (you can drag and drop files or directories)",
-      "Translation": "Input Files (you can drag and drop files or directories)",
+      "Translation": "輸入檔案（您可以拖放檔案或資料夾）",
       "IsTranslated": true,
       "Notes": "GroupBox label for input files in main form 2"
     },
     "UI.OptionsForm.Tags.Group": {
       "Source": "Tags",
-      "Translation": "Tags",
+      "Translation": "標籤",
       "IsTranslated": true,
       "Notes": "GroupBox label for tags configuration"
     },
     "UI.OptionsForm.Tags.Default": {
       "Source": "Default",
-      "Translation": "Default",
+      "Translation": "預設",
       "IsTranslated": true,
       "Notes": "Button to reset attachment tags to default"
     },
     "UI.OptionsForm.Tags.Add": {
       "Source": "Add...",
-      "Translation": "Add...",
+      "Translation": "新增...",
       "IsTranslated": true,
       "Notes": "Button to add new attachment tag"
     },
     "UI.OptionsForm.Chapters.Group": {
       "Source": "Chapters",
-      "Translation": "Chapters",
+      "Translation": "章節",
       "IsTranslated": true,
       "Notes": "GroupBox label for chapter configuration"
     },
     "UI.OptionsForm.Chapters.Default": {
       "Source": "Default",
-      "Translation": "Default",
+      "Translation": "預設",
       "IsTranslated": true,
       "Notes": "Button to reset chapters to default"
     },
     "UI.OptionsForm.Chapters.Add": {
       "Source": "Add...",
-      "Translation": "Add...",
+      "Translation": "新增...",
       "IsTranslated": true,
       "Notes": "Button to add new chapter"
     },
     "UI.OptionsForm.VideoTracks.Group": {
       "Source": "Video Tracks",
-      "Translation": "Video Tracks",
+      "Translation": "視訊軌",
       "IsTranslated": true,
       "Notes": "GroupBox label for video track configuration"
     },
     "UI.OptionsForm.VideoTracks.Default": {
       "Source": "Default",
-      "Translation": "Default",
+      "Translation": "預設",
       "IsTranslated": true,
       "Notes": "Button to reset video tracks to default"
     },
     "UI.OptionsForm.VideoTracks.Add": {
       "Source": "Add...",
-      "Translation": "Add...",
+      "Translation": "新增...",
       "IsTranslated": true,
       "Notes": "Button to add new video track"
     },
     "UI.OptionsForm.AudioTracks.Group": {
       "Source": "Audio Tracks",
-      "Translation": "Audio Tracks",
+      "Translation": "音軌",
       "IsTranslated": true,
       "Notes": "GroupBox label for audio track configuration"
     },
     "UI.OptionsForm.AudioTracks.Default": {
       "Source": "Default",
-      "Translation": "Default",
+      "Translation": "預設",
       "IsTranslated": true,
       "Notes": "Button to reset audio tracks to default"
     },
     "UI.OptionsForm.AudioTracks.Add": {
       "Source": "Add...",
-      "Translation": "Add...",
+      "Translation": "新增...",
       "IsTranslated": true,
       "Notes": "Button to add new audio track"
     },
     "UI.OptionsForm.SubtitleTracks.Group": {
       "Source": "Subtitle Tracks",
-      "Translation": "Subtitle Tracks",
+      "Translation": "字幕軌",
       "IsTranslated": true,
       "Notes": "GroupBox label for subtitle track configuration"
     },
     "UI.OptionsForm.SubtitleTracks.Default": {
       "Source": "Default",
-      "Translation": "Default",
+      "Translation": "預設",
       "IsTranslated": true,
       "Notes": "Button to reset subtitle tracks to default"
     },
     "UI.OptionsForm.SubtitleTracks.Add": {
       "Source": "Add...",
-      "Translation": "Add...",
+      "Translation": "新增...",
       "IsTranslated": true,
       "Notes": "Button to add new subtitle track"
     },
     "UI.OptionsForm.Attachments.Group": {
       "Source": "Attachments",
-      "Translation": "Attachments",
+      "Translation": "附件",
       "IsTranslated": true,
       "Notes": "GroupBox label for attachment configuration"
     },
     "UI.OptionsForm.Attachments.Default": {
       "Source": "Default",
-      "Translation": "Default",
+      "Translation": "預設",
       "IsTranslated": true,
       "Notes": "Button to reset attachments to default"
     },
     "UI.OptionsForm.Attachments.Add": {
       "Source": "Add...",
-      "Translation": "Add...",
+      "Translation": "新增...",
       "IsTranslated": true,
       "Notes": "Button to add new attachment"
     },
     "UI.OptionsForm.Info.Group": {
       "Source": "Information",
-      "Translation": "Information",
+      "Translation": "資訊",
       "IsTranslated": true,
       "Notes": "GroupBox label for information display"
     },
     "UI.OptionsForm.Defaults": {
       "Source": "Defaults",
-      "Translation": "Defaults",
+      "Translation": "預設值",
       "IsTranslated": true,
       "Notes": "Button to reset all options to default"
     },
     "UI.OptionsForm.RawMode": {
       "Source": "Use `raw` extraction",
-      "Translation": "Use `raw` extraction",
+      "Translation": "使用 `raw` 擷取",
       "IsTranslated": true,
       "Notes": "Checkbox for raw extraction mode"
     },
     "UI.OptionsForm.FullRawMode": {
       "Source": "Use `full raw` extraction",
-      "Translation": "Use `full raw` extraction",
+      "Translation": "使用 `full raw` 擷取",
       "IsTranslated": true,
       "Notes": "Checkbox for full raw extraction mode"
     },
     "UI.OptionsForm.TextFilesWithoutBom": {
       "Source": "Disable BOM to text files (v96.0+)",
-      "Translation": "Disable BOM to text files (v96.0+)",
+      "Translation": "停用文字檔的 BOM (v96.0+)",
       "IsTranslated": true,
       "Notes": "Checkbox to disable BOM in text file output"
     },
     "UI.Common.True": {
       "Source": "True",
-      "Translation": "True",
+      "Translation": "真",
       "IsTranslated": true,
       "Notes": "Boolean true label"
     },
     "UI.Common.False": {
       "Source": "False",
-      "Translation": "False",
+      "Translation": "假",
       "IsTranslated": true,
       "Notes": "Boolean false label"
     },
     "UI.Common.NotSet": {
       "Source": "Not Set!",
-      "Translation": "Not Set!",
+      "Translation": "未設定！",
       "IsTranslated": true,
       "Notes": "Label for a value that has not been configured"
     },
     "UI.OptionsForm.Title": {
       "Source": "Options",
-      "Translation": "Options",
+      "Translation": "選項",
       "IsTranslated": true,
       "Notes": "Options form title"
     },
     "UI.OptionsForm.Actions.Group": {
       "Source": "Actions",
-      "Translation": "Actions",
+      "Translation": "操作",
       "IsTranslated": true,
       "Notes": "GroupBox label for options actions"
     },
     "UI.OptionsForm.Actions.OK": {
       "Source": "OK",
-      "Translation": "OK",
+      "Translation": "確定",
       "IsTranslated": true,
       "Notes": "Button to confirm options"
     },
     "UI.OptionsForm.Actions.Cancel": {
       "Source": "Cancel",
-      "Translation": "Cancel",
+      "Translation": "取消",
       "IsTranslated": true,
       "Notes": "Button to cancel options"
     },
     "UI.OptionsForm.Advanced.Group": {
       "Source": "Advanced Options",
-      "Translation": "Advanced Options",
+      "Translation": "進階選項",
       "IsTranslated": true,
       "Notes": "GroupBox label for advanced options"
     },
     "UI.OptionsForm.Advanced.Culture": {
       "Source": "Culture:",
-      "Translation": "Culture:",
+      "Translation": "語言：",
       "IsTranslated": true,
       "Notes": "Label for culture selector"
     },
     "UI.OptionsForm.Info.Text": {
       "Source": "Here you can specify the output filename format for each kind of track.\nPressing the \"Add...\" button you will see the list with the available placeholders and select them.\nPressing the \"Default\" button you will reset the output filename format to its default value.",
-      "Translation": "Here you can specify the output filename format for each kind of track.\nPressing the \"Add...\" button you will see the list with the available placeholders and select them.\nPressing the \"Default\" button you will reset the output filename format to its default value.",
+      "Translation": "您可以在此為每種軌道指定輸出檔名格式。\n按一下「新增...」按鈕後，您會看到可用的預留位置清單，並可加以選取。\n按一下「預設」按鈕後，輸出檔名格式將重設為預設值。",
       "IsTranslated": true,
       "Notes": "Help text describing filename placeholders"
     },
     "UI.MainForm2.InputFiles.GroupWithCount": {
       "Source": "Input Files (you can drag and drop files or directories) ({0} files)",
-      "Translation": "Input Files (you can drag and drop files or directories) ({0} files)",
+      "Translation": "輸入檔案（您可以拖放檔案或資料夾）({0} 個檔案)",
       "IsTranslated": true,
       "Notes": "GroupBox label for input files with file count"
     },
     "UI.MainForm2.SelectedFileInfo.Group": {
       "Source": "Selected File Information",
-      "Translation": "Selected File Information",
+      "Translation": "所選檔案資訊",
       "IsTranslated": true,
       "Notes": "GroupBox label for selected file information"
     },
     "UI.MainForm2.SelectedFileInfo.GroupWithFile": {
       "Source": "Selected File Information ({0})",
-      "Translation": "Selected File Information ({0})",
+      "Translation": "所選檔案資訊 ({0})",
       "IsTranslated": true,
       "Notes": "GroupBox label for selected file information with filename"
     },
     "UI.MainForm2.FileOptions.Select": {
       "Source": "Select...",
-      "Translation": "Select...",
+      "Translation": "選擇...",
       "IsTranslated": true,
       "Notes": "Button to open the track selection context menu"
     },
     "UI.MainForm2.FileOptions.AppendOnDragAndDrop": {
       "Source": "Append input on drag and drop",
-      "Translation": "Append input on drag and drop",
+      "Translation": "拖放時附加輸入項目",
       "IsTranslated": true,
       "Notes": "Checkbox to append dropped input files"
     },
     "UI.MainForm2.FileOptions.OverwriteExistingFiles": {
       "Source": "Overwrite existing files",
-      "Translation": "Overwrite existing files",
+      "Translation": "覆寫現有檔案",
       "IsTranslated": true,
       "Notes": "Checkbox to overwrite existing output files"
     },
     "UI.MainForm2.FileOptions.DisableTooltips": {
       "Source": "Disable tooltips",
-      "Translation": "Disable tooltips",
+      "Translation": "停用工具提示",
       "IsTranslated": true,
       "Notes": "Checkbox to disable tooltips"
     },
     "UI.MainForm2.Appearance.Dark": {
       "Source": "Dark",
-      "Translation": "Dark",
+      "Translation": "深色",
       "IsTranslated": true,
       "Notes": "Checkbox to toggle dark appearance"
     },
     "UI.MainForm2.Appearance.Options": {
       "Source": "Options...",
-      "Translation": "Options...",
+      "Translation": "選項...",
       "IsTranslated": true,
       "Notes": "Button to open options"
     },
     "UI.MainForm2.ContextMenu.AddInputFiles": {
       "Source": "Add Input File(s)...",
-      "Translation": "Add Input File(s)...",
+      "Translation": "新增輸入檔案...",
       "IsTranslated": true,
       "Notes": "Context menu item to add input files"
     },
     "UI.MainForm2.ContextMenu.CheckAllTracks": {
       "Source": "Check All Tracks ({0}/{1})",
-      "Translation": "Check All Tracks ({0}/{1})",
+      "Translation": "勾選所有軌道 ({0}/{1})",
       "IsTranslated": true,
       "Notes": "Context menu item to check all tracks with selected and total counts"
     },
     "UI.MainForm2.ContextMenu.CheckTrackGroup": {
       "Source": "Check {0}... ({1}/{2})",
-      "Translation": "Check {0}... ({1}/{2})",
+      "Translation": "勾選{0}... ({1}/{2})",
       "IsTranslated": true,
       "Notes": "Context menu item to check a track group with selected and total counts"
     },
     "UI.MainForm2.ContextMenu.AllTrackGroup": {
       "Source": "All {0} ({1}/{2})",
-      "Translation": "All {0} ({1}/{2})",
+      "Translation": "所有{0} ({1}/{2})",
       "IsTranslated": true,
       "Notes": "Context menu item for all tracks within a group with selected and total counts"
     },
     "UI.MainForm2.ContextMenu.UncheckAllTracks": {
       "Source": "Uncheck All Tracks ({0}/{1})",
-      "Translation": "Uncheck All Tracks ({0}/{1})",
+      "Translation": "取消勾選所有軌道 ({0}/{1})",
       "IsTranslated": true,
       "Notes": "Context menu item to uncheck all tracks with remaining and total counts"
     },
     "UI.MainForm2.ContextMenu.UncheckTrackGroup": {
       "Source": "Uncheck {0}... ({1}/{2})",
-      "Translation": "Uncheck {0}... ({1}/{2})",
+      "Translation": "取消勾選{0}... ({1}/{2})",
       "IsTranslated": true,
       "Notes": "Context menu item to uncheck a track group with remaining and total counts"
     },
     "UI.MainForm2.ContextMenu.RemoveAllInputFiles": {
       "Source": "Remove All Input Files ({0})",
-      "Translation": "Remove All Input Files ({0})",
+      "Translation": "移除所有輸入檔案 ({0})",
       "IsTranslated": true,
       "Notes": "Context menu item to remove all input files with count"
     },
     "UI.MainForm2.ContextMenu.RemoveSelectedInputFile": {
       "Source": "Remove Selected Input File",
-      "Translation": "Remove Selected Input File",
+      "Translation": "移除所選輸入檔案",
       "IsTranslated": true,
       "Notes": "Context menu item to remove the selected input file"
     },
     "UI.MainForm2.ContextMenu.OpenSelectedFile": {
       "Source": "Open Selected File...",
-      "Translation": "Open Selected File...",
+      "Translation": "開啟所選檔案...",
       "IsTranslated": true,
       "Notes": "Context menu item to open the selected file"
     },
     "UI.MainForm2.ContextMenu.OpenSelectedFileFolder": {
       "Source": "Open Selected File Folder...",
-      "Translation": "Open Selected File Folder...",
+      "Translation": "開啟所選檔案資料夾...",
       "IsTranslated": true,
       "Notes": "Context menu item to open the selected file folder"
     },
     "UI.MainForm2.ContextMenu.ExpandAll": {
       "Source": "Expand All",
-      "Translation": "Expand All",
+      "Translation": "全部展開",
       "IsTranslated": true,
       "Notes": "Context menu item to expand all input tree nodes"
     },
     "UI.MainForm2.ContextMenu.CollapseAll": {
       "Source": "Collapse All",
-      "Translation": "Collapse All",
+      "Translation": "全部摺疊",
       "IsTranslated": true,
       "Notes": "Context menu item to collapse all input tree nodes"
     },
     "UI.MainForm2.ContextMenu.TrackGroupByFilter": {
       "Source": "{0} by {1} ({2})...",
-      "Translation": "{0} by {1} ({2})...",
+      "Translation": "依{1}分類的{0} ({2})...",
       "IsTranslated": true,
       "Notes": "Context menu item for selecting track groups by a filter"
     },
     "UI.MainForm2.ContextMenu.FilterValueCount": {
       "Source": "{0}: [{1}] ({2}/{3})",
-      "Translation": "{0}: [{1}] ({2}/{3})",
+      "Translation": "{0}：[{1}] ({2}/{3})",
       "IsTranslated": true,
       "Notes": "Context menu item showing a filter value with selected and total counts"
     },
     "UI.MainForm2.ContextMenu.TrackGroup.Video": {
       "Source": "Video Tracks",
-      "Translation": "Video Tracks",
+      "Translation": "視訊軌",
       "IsTranslated": true,
       "Notes": "Track group label for video tracks"
     },
     "UI.MainForm2.ContextMenu.TrackGroup.Audio": {
       "Source": "Audio Tracks",
-      "Translation": "Audio Tracks",
+      "Translation": "音軌",
       "IsTranslated": true,
       "Notes": "Track group label for audio tracks"
     },
     "UI.MainForm2.ContextMenu.TrackGroup.Subtitle": {
       "Source": "Subtitle Tracks",
-      "Translation": "Subtitle Tracks",
+      "Translation": "字幕軌",
       "IsTranslated": true,
       "Notes": "Track group label for subtitle tracks"
     },
     "UI.MainForm2.ContextMenu.TrackGroup.Chapter": {
       "Source": "Chapter Tracks",
-      "Translation": "Chapter Tracks",
+      "Translation": "章節軌道",
       "IsTranslated": true,
       "Notes": "Track group label for chapter tracks"
     },
     "UI.MainForm2.ContextMenu.TrackGroup.Attachment": {
       "Source": "Attachment Tracks",
-      "Translation": "Attachment Tracks",
+      "Translation": "附件軌道",
       "IsTranslated": true,
       "Notes": "Track group label for attachment tracks"
     },
     "UI.MainForm2.ContextMenu.Filter.Language": {
       "Source": "Language",
-      "Translation": "Language",
+      "Translation": "語言",
       "IsTranslated": true,
       "Notes": "Filter label for language"
     },
     "UI.MainForm2.ContextMenu.Filter.LanguageIetf": {
       "Source": "Language IETF",
-      "Translation": "Language IETF",
+      "Translation": "IETF 語言",
       "IsTranslated": true,
       "Notes": "Filter label for IETF language"
     },
     "UI.MainForm2.ContextMenu.Filter.Codec": {
       "Source": "Codec",
-      "Translation": "Codec",
+      "Translation": "編碼器",
       "IsTranslated": true,
       "Notes": "Filter label for codec"
     },
     "UI.MainForm2.ContextMenu.Filter.Resolution": {
       "Source": "Resolution",
-      "Translation": "Resolution",
+      "Translation": "解析度",
       "IsTranslated": true,
       "Notes": "Filter label for video resolution"
     },
     "UI.MainForm2.ContextMenu.Filter.Channels": {
       "Source": "Channels",
-      "Translation": "Channels",
+      "Translation": "聲道",
       "IsTranslated": true,
       "Notes": "Filter label for audio channels"
     },
     "UI.MainForm2.ContextMenu.Filter.TrackName": {
       "Source": "Track Name",
-      "Translation": "Track Name",
+      "Translation": "軌道名稱",
       "IsTranslated": true,
       "Notes": "Filter label for track name"
     },
     "UI.MainForm2.ContextMenu.Filter.Forced": {
       "Source": "Forced",
-      "Translation": "Forced",
+      "Translation": "強制",
       "IsTranslated": true,
       "Notes": "Filter label for forced tracks"
     },
     "UI.MainForm2.OutputDirectory.UseDefaultWithValue": {
       "Source": "Use Currently Set Default Directory: ({0})",
-      "Translation": "Use Currently Set Default Directory: ({0})",
+      "Translation": "使用目前設定的預設目錄：({0})",
       "IsTranslated": true,
       "Notes": "Context menu item to use the currently set default directory"
     }

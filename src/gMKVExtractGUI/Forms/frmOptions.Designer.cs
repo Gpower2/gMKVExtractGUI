@@ -121,7 +121,7 @@
             this.grpTags.Size = new System.Drawing.Size(698, 54);
             this.grpTags.TabIndex = 7;
             this.grpTags.TabStop = false;
-            this.grpTags.Text = "Attachments";
+            this.grpTags.Text = "Tags";
             // 
             // btnDefaultTagsPlaceholder
             // 

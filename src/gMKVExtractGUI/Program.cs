@@ -31,7 +31,9 @@ namespace gMKVToolNix
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
-            if (!File.Exists(Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "gMKVToolNix.dll")))
+            string appDirectory = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+
+            if (!File.Exists(Path.Combine(appDirectory, "gMKVToolNix.dll")))
             {
                 MessageBox.Show(
                     "The gMKVToolNix.dll was not found! Please download and reinstall gMKVExtractGUI!", 
@@ -42,7 +44,7 @@ namespace gMKVToolNix
                 Environment.Exit(1);
             }
 
-            if (!File.Exists(Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "Newtonsoft.Json.dll")))
+            if (!File.Exists(Path.Combine(appDirectory, "Newtonsoft.Json.dll")))
             {
                 MessageBox.Show(
                     "The Newtonsoft.Json.dll was not found! Please download and reinstall gMKVExtractGUI!",
@@ -55,7 +57,14 @@ namespace gMKVToolNix
 
             try
             {
-                LocalizationManager.Initialize("en");
+                gSettings settings = new gSettings(appDirectory);
+                settings.Reload();
+
+                string culture = string.IsNullOrWhiteSpace(settings.Culture)
+                    ? "en"
+                    : settings.Culture;
+
+                LocalizationManager.Initialize(culture);
             }
             catch (Exception ex)
             {
