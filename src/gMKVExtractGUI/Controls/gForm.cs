@@ -43,12 +43,17 @@ namespace gMKVToolNix
 
         public gForm() :base()
         {
+            // Apply the design-time DPI baseline in the base form so every derived form
+            // gets Dpi autoscaling even if its designer file omits these properties.
+            this.AutoScaleDimensions = new SizeF(DESIGN_TIME_DPI, DESIGN_TIME_DPI);
+            this.AutoScaleMode = AutoScaleMode.Dpi;
             this.DoubleBuffered = true;
             SetStyle(ControlStyles.OptimizedDoubleBuffer, true);
         }
 
         protected void InitDPI()
         {
+            // Preserve previous DPI value
             oldDpi = currentDpi;
             float dx;
             using (Graphics g = this.CreateGraphics())
@@ -56,6 +61,14 @@ namespace gMKVToolNix
                 dx = g.DpiX;
             }
             currentDpi = dx;
+
+            // On some runtimes (notably Mono) WinForms AutoScaleMode.Dpi is not applied at startup.
+            // In that case we need to force the initial full scaling (sizes + fonts) by pretending
+            // the previous DPI was the design-time DPI so HandleDpiChanged runs the full scaling path.
+            if (oldDpi == 0F && PlatformExtensions.IsOnLinux)
+            {
+                oldDpi = DESIGN_TIME_DPI;
+            }
 
             HandleDpiChanged();
             OnDPIChanged();
@@ -281,19 +294,6 @@ namespace gMKVToolNix
                 argTitle, 
                 msgBoxBtns, 
                 MessageBoxIcon.Question);
-        }
-
-        private void InitializeComponent()
-        {
-            this.SuspendLayout();
-            // 
-            // gForm
-            // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
-            this.ClientSize = new System.Drawing.Size(284, 261);
-            this.Name = "gForm";
-            this.ResumeLayout(false);
         }
 
         protected void ToggleControls(Control argRootControl, bool argStatus)
