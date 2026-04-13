@@ -6,7 +6,6 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Media;
-using System.Reflection;
 using System.Text;
 using System.Threading;
 using System.Windows.Forms;
@@ -632,27 +631,27 @@ namespace gMKVToolNix
             }
         }
 
-         public void ApplyLocalization()
-         {
-             try
-             {
-                 this.Text = LocalizationManager.GetString("UI.JobManager.Title");
-                 grpProgress.Text = LocalizationManager.GetString("UI.JobManager.Progress.Group");
-                 lblCurrentTrack.Text = LocalizationManager.GetString("UI.JobManager.Progress.CurrentTrack");
-                 lblTotalProgress.Text = LocalizationManager.GetString("UI.JobManager.Progress.TotalProgress");
-                 lblCurrentProgress.Text = LocalizationManager.GetString("UI.JobManager.Progress.CurrentProgress");
-                 grpJobs.Text = LocalizationManager.GetString("UI.JobManager.Jobs.Group");
-                 changeToReadyStatusToolStripMenuItem.Text = LocalizationManager.GetString("UI.JobManager.Jobs.ChangeToReadyStatus");
-                 selectAllToolStripMenuItem.Text = LocalizationManager.GetString("UI.JobManager.Jobs.SelectAll");
-                 deselectAllToolStripMenuItem.Text = LocalizationManager.GetString("UI.JobManager.Jobs.DeselectAll");
-                 grpActions.Text = LocalizationManager.GetString("UI.JobManager.Actions.Group");
-                 chkShowPopup.Text = LocalizationManager.GetString("UI.JobManager.Actions.Popup");
-                 btnSaveJobs.Text = LocalizationManager.GetString("UI.JobManager.Actions.SaveJobs");
-                 btnLoadJobs.Text = LocalizationManager.GetString("UI.JobManager.Actions.LoadJobs");
-                 btnAbortAll.Text = LocalizationManager.GetString("UI.JobManager.Actions.AbortAll");
-                 btnAbort.Text = LocalizationManager.GetString("UI.JobManager.Actions.Abort");
-                 btnRunAll.Text = LocalizationManager.GetString("UI.JobManager.Actions.RunJobs");
-                 btnRemove.Text = LocalizationManager.GetString("UI.JobManager.Actions.Remove");
+        public void ApplyLocalization()
+        {
+            try
+            {
+                this.Text = string.Format("gMKVExtractGUI v{0} -- {1}", GetCurrentVersion(), LocalizationManager.GetString("UI.JobManager.Title"));
+                grpProgress.Text = LocalizationManager.GetString("UI.JobManager.Progress.Group");
+                lblCurrentTrack.Text = LocalizationManager.GetString("UI.JobManager.Progress.CurrentTrack");
+                lblTotalProgress.Text = LocalizationManager.GetString("UI.JobManager.Progress.TotalProgress");
+                lblCurrentProgress.Text = LocalizationManager.GetString("UI.JobManager.Progress.CurrentProgress");
+                grpJobs.Text = LocalizationManager.GetString("UI.JobManager.Jobs.Group");
+                changeToReadyStatusToolStripMenuItem.Text = LocalizationManager.GetString("UI.JobManager.Jobs.ChangeToReadyStatus");
+                selectAllToolStripMenuItem.Text = LocalizationManager.GetString("UI.JobManager.Jobs.SelectAll");
+                deselectAllToolStripMenuItem.Text = LocalizationManager.GetString("UI.JobManager.Jobs.DeselectAll");
+                grpActions.Text = LocalizationManager.GetString("UI.JobManager.Actions.Group");
+                chkShowPopup.Text = LocalizationManager.GetString("UI.JobManager.Actions.Popup");
+                btnSaveJobs.Text = LocalizationManager.GetString("UI.JobManager.Actions.SaveJobs");
+                btnLoadJobs.Text = LocalizationManager.GetString("UI.JobManager.Actions.LoadJobs");
+                btnAbortAll.Text = LocalizationManager.GetString("UI.JobManager.Actions.AbortAll");
+                btnAbort.Text = LocalizationManager.GetString("UI.JobManager.Actions.Abort");
+                btnRunAll.Text = LocalizationManager.GetString("UI.JobManager.Actions.RunJobs");
+                btnRemove.Text = LocalizationManager.GetString("UI.JobManager.Actions.Remove");
             }
             catch (Exception ex)
             {
