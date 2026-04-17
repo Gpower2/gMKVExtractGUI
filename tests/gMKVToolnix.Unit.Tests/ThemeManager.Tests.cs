@@ -22,12 +22,12 @@ namespace gMKVToolNix.Unit.Tests
 
                 var nestedMenu = parentItem.DropDown;
 
+                Assert.AreEqual(ToolStripRenderMode.ManagerRenderMode, menu.RenderMode);
                 Assert.AreEqual(ThemeManager.DarkModeMenuBackColor, menu.BackColor);
                 Assert.AreEqual(ThemeManager.DarkModeMenuForeColor, menu.ForeColor);
+                Assert.AreEqual(ToolStripRenderMode.ManagerRenderMode, nestedMenu.RenderMode);
                 Assert.AreEqual(ThemeManager.DarkModeMenuBackColor, nestedMenu.BackColor);
                 Assert.AreEqual(ThemeManager.DarkModeMenuForeColor, nestedMenu.ForeColor);
-                Assert.AreEqual("DarkModeContextMenuRenderer", menu.Renderer.GetType().Name);
-                Assert.AreEqual("DarkModeContextMenuRenderer", nestedMenu.Renderer.GetType().Name);
                 Assert.IsTrue(menu.ShowImageMargin);
                 Assert.IsFalse(menu.ShowCheckMargin);
                 Assert.IsTrue(((ToolStripDropDownMenu)nestedMenu).ShowImageMargin);
@@ -50,17 +50,34 @@ namespace gMKVToolNix.Unit.Tests
 
                 var nestedMenu = parentItem.DropDown;
 
+                Assert.AreEqual(ToolStripRenderMode.Professional, menu.RenderMode);
                 Assert.AreEqual(SystemColors.ControlLightLight, menu.BackColor);
                 Assert.AreEqual(SystemColors.ControlText, menu.ForeColor);
+                Assert.AreEqual(ToolStripRenderMode.Professional, nestedMenu.RenderMode);
                 Assert.AreEqual(SystemColors.ControlLightLight, nestedMenu.BackColor);
                 Assert.AreEqual(SystemColors.ControlText, nestedMenu.ForeColor);
-                Assert.AreEqual(typeof(ToolStripProfessionalRenderer), menu.Renderer.GetType());
-                Assert.AreEqual(typeof(ToolStripProfessionalRenderer), nestedMenu.Renderer.GetType());
                 Assert.IsTrue(menu.ShowImageMargin);
                 Assert.IsFalse(menu.ShowCheckMargin);
                 Assert.IsTrue(((ToolStripDropDownMenu)nestedMenu).ShowImageMargin);
                 Assert.IsFalse(((ToolStripDropDownMenu)nestedMenu).ShowCheckMargin);
                 Assert.AreEqual(SystemColors.ControlText, childItem.ForeColor);
+            }
+        }
+
+        [TestMethod]
+        public void ApplyTheme_DarkMode_ContextMenuStrip_UsesBuiltInMenuRendering()
+        {
+            using (var menu = new ContextMenuStrip())
+            {
+                var item = new ToolStripMenuItem("Leaf");
+                menu.Items.Add(item);
+
+                ThemeManager.ApplyTheme(menu, true);
+
+                Assert.AreEqual(ToolStripRenderMode.ManagerRenderMode, menu.RenderMode);
+                Assert.AreEqual(ThemeManager.DarkModeMenuBackColor, menu.BackColor);
+                Assert.AreEqual(ThemeManager.DarkModeMenuForeColor, menu.ForeColor);
+                Assert.AreEqual(ThemeManager.DarkModeMenuForeColor, item.ForeColor);
             }
         }
     }
