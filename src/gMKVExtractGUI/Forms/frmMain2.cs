@@ -1865,29 +1865,82 @@ namespace gMKVToolNix.Forms
 
                 if (!_FromConstructor
                     && !_isApplyingResponsiveLayout
-                    && this.WindowState != FormWindowState.Minimized
-                    && grpActions != null
-                    && grpActions.IsHandleCreated)
+                    && this.WindowState != FormWindowState.Minimized)
                 {
-                    tlpMain.SuspendLayout();
-                    grpActions.SuspendLayout();
-
-                    try
-                    {
-                        LayoutActionsGroup();
-                    }
-                    finally
-                    {
-                        grpActions.ResumeLayout(false);
-                        grpActions.PerformLayout();
-                        tlpMain.ResumeLayout(true);
-                    }
+                    ApplyResizeResponsiveLayout();
                 }
             }
             catch (Exception ex)
             {
                 Debug.WriteLine(ex);
                 gMKVLogger.Log(ex.ToString());
+            }
+        }
+
+        private void ApplyResizeResponsiveLayout()
+        {
+            bool hasFileOptionsLayout = pnlFileOptions != null
+                && pnlFileOptions.IsHandleCreated
+                && tlpInput != null
+                && tlpInput.RowStyles.Count > 1;
+            bool hasActionsLayout = grpActions != null && grpActions.IsHandleCreated;
+
+            if (!hasFileOptionsLayout && !hasActionsLayout)
+            {
+                return;
+            }
+
+            tlpMain.SuspendLayout();
+
+            if (hasFileOptionsLayout)
+            {
+                tlpInput.SuspendLayout();
+                pnlFileOptions.SuspendLayout();
+            }
+
+            if (hasActionsLayout)
+            {
+                grpActions.SuspendLayout();
+            }
+
+            try
+            {
+                if (hasFileOptionsLayout)
+                {
+                    if (_fileOptionsPanelBaseHeight > 0)
+                    {
+                        pnlFileOptions.Height = _fileOptionsPanelBaseHeight;
+                    }
+
+                    if (_fileOptionsRowBaseHeight > 0F)
+                    {
+                        tlpInput.RowStyles[1].Height = _fileOptionsRowBaseHeight;
+                    }
+
+                    LayoutFileOptionsPanel();
+                }
+
+                if (hasActionsLayout)
+                {
+                    LayoutActionsGroup();
+                }
+            }
+            finally
+            {
+                if (hasActionsLayout)
+                {
+                    grpActions.ResumeLayout(false);
+                    grpActions.PerformLayout();
+                }
+
+                if (hasFileOptionsLayout)
+                {
+                    pnlFileOptions.ResumeLayout(false);
+                    pnlFileOptions.PerformLayout();
+                    tlpInput.ResumeLayout(true);
+                }
+
+                tlpMain.ResumeLayout(true);
             }
         }
 
