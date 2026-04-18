@@ -34,6 +34,17 @@ namespace gMKVToolNix
         private readonly gSettings _Settings = null;
         private readonly bool _FromConstructor = false;
         private bool _isCurrentlyDarkMode = false;
+        private readonly Dictionary<Button, Size> _responsiveButtonBaseSizes = new Dictionary<Button, Size>();
+        private float _actionPanelBaseWidth;
+        private int _actionButtonBaseLeft;
+        private int _actionButtonBaseRightMargin;
+        private int _showPopupBaseLeft;
+        private int _abortButtonsBaseSpacing;
+        private int _abortAllBaseBottomMargin;
+        private int _progressLabelBaseLeft;
+        private int _progressContentBaseLeft;
+        private int _currentTrackRightMarginBase;
+        private int _progressBarRightMarginBase;
 
         private BindingList<gMKVJobInfo> _JobList = new BindingList<gMKVJobInfo>();
 
@@ -44,6 +55,7 @@ namespace gMKVToolNix
             try
             {
                 InitializeComponent();
+                CaptureResponsiveLayoutBaselines();
 
                 _MainForm = argMainForm;
 
@@ -88,12 +100,13 @@ namespace gMKVToolNix
 
                 SetAbortStatus(false);
 
+                // Initialize the DPI aware scaling
+                InitDPI();
+                CaptureResponsiveLayoutBaselines();
+
                 // Initialize localization
                 //InitializeLocalization();
                 ApplyLocalization();
-
-                // Initialize the DPI aware scaling
-                InitDPI();
             }
             catch (Exception ex)
             {
@@ -661,49 +674,171 @@ namespace gMKVToolNix
 
         private void ApplyResponsiveLayout()
         {
+            ResetResponsiveLayoutBaselines();
             ApplyActionPanelLayout();
             ApplyProgressLayout();
         }
 
+        private void CaptureResponsiveLayoutBaselines()
+        {
+            foreach (Button actionButton in GetActionButtons())
+            {
+                CaptureResponsiveButtonBaseSize(actionButton);
+            }
+
+            if (tlpJobs.ColumnStyles.Count > 1 && tlpJobs.ColumnStyles[1].Width > 0F)
+            {
+                _actionPanelBaseWidth = Math.Max(_actionPanelBaseWidth, tlpJobs.ColumnStyles[1].Width);
+            }
+
+            if (btnRemove != null)
+            {
+                if (btnRemove.Left > 0)
+                {
+                    _actionButtonBaseLeft = Math.Max(_actionButtonBaseLeft, btnRemove.Left);
+                }
+
+                if (grpActions != null && grpActions.ClientSize.Width > 0)
+                {
+                    _actionButtonBaseRightMargin = Math.Max(
+                        _actionButtonBaseRightMargin,
+                        grpActions.ClientSize.Width - btnRemove.Right);
+                }
+            }
+
+            if (chkShowPopup != null)
+            {
+                _showPopupBaseLeft = Math.Max(_showPopupBaseLeft, chkShowPopup.Left);
+            }
+
+            if (btnAbort != null && btnAbortAll != null)
+            {
+                _abortButtonsBaseSpacing = Math.Max(_abortButtonsBaseSpacing, btnAbortAll.Top - btnAbort.Bottom);
+            }
+
+            if (btnAbortAll != null && grpActions != null && grpActions.ClientSize.Height > 0)
+            {
+                _abortAllBaseBottomMargin = Math.Max(_abortAllBaseBottomMargin, grpActions.ClientSize.Height - btnAbortAll.Bottom);
+            }
+
+            if (lblCurrentTrack != null)
+            {
+                _progressLabelBaseLeft = Math.Max(_progressLabelBaseLeft, lblCurrentTrack.Left);
+            }
+
+            if (txtCurrentTrack != null)
+            {
+                _progressContentBaseLeft = Math.Max(_progressContentBaseLeft, txtCurrentTrack.Left);
+                if (grpProgress != null && grpProgress.ClientSize.Width > 0)
+                {
+                    _currentTrackRightMarginBase = Math.Max(_currentTrackRightMarginBase, grpProgress.ClientSize.Width - txtCurrentTrack.Right);
+                }
+            }
+
+            if (prgBrCurrent != null && grpProgress != null && grpProgress.ClientSize.Width > 0)
+            {
+                _progressBarRightMarginBase = Math.Max(_progressBarRightMarginBase, grpProgress.ClientSize.Width - prgBrCurrent.Right);
+            }
+        }
+
+        private void CaptureResponsiveButtonBaseSize(Button button)
+        {
+            if (button == null)
+            {
+                return;
+            }
+
+            Size currentSize = button.Size;
+            if (!_responsiveButtonBaseSizes.TryGetValue(button, out Size baseSize)
+                || currentSize.Width > baseSize.Width
+                || currentSize.Height > baseSize.Height)
+            {
+                _responsiveButtonBaseSizes[button] = currentSize;
+            }
+        }
+
+        private Size GetResponsiveButtonBaseSize(Button button, int fallbackWidth, int fallbackHeight = 30)
+        {
+            return _responsiveButtonBaseSizes.TryGetValue(button, out Size baseSize)
+                ? baseSize
+                : new Size(fallbackWidth, fallbackHeight);
+        }
+
+        private Button[] GetActionButtons()
+        {
+            return new[]
+            {
+                btnRemove,
+                btnRunAll,
+                btnLoadJobs,
+                btnSaveJobs,
+                btnAbort,
+                btnAbortAll
+            }.Where(button => button != null).ToArray();
+        }
+
+        private void ResetResponsiveLayoutBaselines()
+        {
+            if (tlpJobs.ColumnStyles.Count > 1)
+            {
+                tlpJobs.ColumnStyles[1].SizeType = SizeType.Absolute;
+                tlpJobs.ColumnStyles[1].Width = _actionPanelBaseWidth > 0F
+                    ? _actionPanelBaseWidth
+                    : ActionPanelMinWidth;
+            }
+        }
+
         private void ApplyActionPanelLayout()
         {
-            btnRemove.ApplyLocalizedButtonSize(ActionButtonMinWidth);
-            btnRunAll.ApplyLocalizedButtonSize(ActionButtonMinWidth);
-            btnLoadJobs.ApplyLocalizedButtonSize(ActionButtonMinWidth);
-            btnSaveJobs.ApplyLocalizedButtonSize(ActionButtonMinWidth);
-            btnAbort.ApplyLocalizedButtonSize(ActionButtonMinWidth);
-            btnAbortAll.ApplyLocalizedButtonSize(ActionButtonMinWidth);
-
-            int requiredButtonWidth = new[]
+            Button[] actionButtons = GetActionButtons();
+            if (actionButtons.Length == 0)
             {
-                btnRemove.Width,
-                btnRunAll.Width,
-                btnLoadJobs.Width,
-                btnSaveJobs.Width,
-                btnAbort.Width,
-                btnAbortAll.Width
-            }.Max();
+                return;
+            }
 
-            int requiredPanelWidth = Math.Max(
-                ActionPanelMinWidth,
-                Math.Max(requiredButtonWidth + 14, chkShowPopup.GetPreferredWidth(0, 6) + 14));
+            foreach (Button actionButton in actionButtons)
+            {
+                actionButton.ApplyLocalizedButtonSize(GetResponsiveButtonBaseSize(actionButton, ActionButtonMinWidth));
+            }
+
+            Size uniformButtonSize = new Size(
+                actionButtons.Max(button => button.Width),
+                actionButtons.Max(button => button.Height));
+            int requiredButtonWidth = uniformButtonSize.Width;
+
+            int actionButtonBaseLeft = _actionButtonBaseLeft > 0 ? _actionButtonBaseLeft : 7;
+            int contentRightPadding = _actionButtonBaseRightMargin > 0 ? _actionButtonBaseRightMargin : actionButtonBaseLeft;
+            int showPopupBaseLeft = _showPopupBaseLeft > 0 ? _showPopupBaseLeft : actionButtonBaseLeft;
+            Size showPopupPreferredSize = chkShowPopup.GetPreferredSize(Size.Empty);
+            int actionPanelHorizontalMargin = grpActions != null ? grpActions.Margin.Horizontal : 0;
+            int requiredGroupWidth = Math.Max(
+                requiredButtonWidth + actionButtonBaseLeft + contentRightPadding,
+                showPopupPreferredSize.Width + showPopupBaseLeft + contentRightPadding);
+            int requiredPanelWidth = (int)Math.Ceiling(Math.Max(
+                _actionPanelBaseWidth > 0F ? _actionPanelBaseWidth : ActionPanelMinWidth,
+                requiredGroupWidth + actionPanelHorizontalMargin));
 
             if (tlpJobs.ColumnStyles.Count > 1)
             {
+                tlpJobs.ColumnStyles[1].SizeType = SizeType.Absolute;
                 tlpJobs.ColumnStyles[1].Width = requiredPanelWidth;
                 tlpJobs.PerformLayout();
             }
 
-            int buttonLeft = Math.Max(7, (grpActions.ClientSize.Width - requiredButtonWidth) / 2);
+            foreach (Button actionButton in actionButtons)
+            {
+                actionButton.Size = uniformButtonSize;
+                actionButton.Left = actionButtonBaseLeft;
+            }
 
-            btnRemove.Left = buttonLeft;
-            btnRunAll.Left = buttonLeft;
-            btnLoadJobs.Left = buttonLeft;
-            btnSaveJobs.Left = buttonLeft;
-            btnAbort.Left = buttonLeft;
-            btnAbortAll.Left = buttonLeft;
+            chkShowPopup.Left = showPopupBaseLeft;
 
-            chkShowPopup.Left = Math.Max(7, (grpActions.ClientSize.Width - chkShowPopup.GetPreferredWidth()) / 2);
+            int abortButtonsBaseSpacing = _abortButtonsBaseSpacing > 0 ? _abortButtonsBaseSpacing : 6;
+            int abortAllBaseBottomMargin = _abortAllBaseBottomMargin > 0 ? _abortAllBaseBottomMargin : 3;
+            int desiredBottomPadding = Math.Max(contentRightPadding, abortAllBaseBottomMargin);
+
+            btnAbortAll.Top = grpActions.ClientSize.Height - desiredBottomPadding - btnAbortAll.Height;
+            btnAbort.Top = btnAbortAll.Top - abortButtonsBaseSpacing - btnAbort.Height;
         }
 
         private void ApplyProgressLayout()
@@ -715,20 +850,22 @@ namespace gMKVToolNix
                 lblTotalProgress.GetPreferredWidth()
             }.Max();
 
-            int contentLeft = 8 + labelColumnWidth + 14;
-            int valueLabelLeft = Math.Max(contentLeft + 120, grpProgress.ClientSize.Width - ProgressValueLabelWidth + 4);
-            int progressWidth = Math.Max(120, valueLabelLeft - contentLeft - 6);
+            int progressLabelBaseLeft = _progressLabelBaseLeft > 0 ? _progressLabelBaseLeft : 8;
+            int contentBaseLeft = _progressContentBaseLeft > 0 ? _progressContentBaseLeft : 107;
+            int currentTrackRightMargin = _currentTrackRightMarginBase > 0 ? _currentTrackRightMarginBase : 51;
+            int progressBarRightMargin = _progressBarRightMarginBase > 0 ? _progressBarRightMarginBase : 51;
+            int contentLeft = Math.Max(contentBaseLeft, progressLabelBaseLeft + labelColumnWidth + 14);
+            int trackWidth = Math.Max(120, grpProgress.ClientSize.Width - contentLeft - currentTrackRightMargin);
+            int progressWidth = Math.Max(120, grpProgress.ClientSize.Width - contentLeft - progressBarRightMargin);
 
             txtCurrentTrack.Left = contentLeft;
-            txtCurrentTrack.Width = Math.Max(120, grpProgress.ClientSize.Width - contentLeft - 12);
+            txtCurrentTrack.Width = trackWidth;
 
             prgBrCurrent.Left = contentLeft;
             prgBrCurrent.Width = progressWidth;
-            lblCurrentProgressValue.Left = prgBrCurrent.Right + 6;
 
             prgBrTotal.Left = contentLeft;
             prgBrTotal.Width = progressWidth;
-            lblTotalProgressValue.Left = prgBrTotal.Right + 6;
         }
     }
 }

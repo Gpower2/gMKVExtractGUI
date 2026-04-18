@@ -3,7 +3,7 @@
     "Culture": "pt-br",
     "Translator": "GitHub Copilot",
     "CreationDate": "2026-04-13T20:07:27Z",
-    "LastEditDate": "2026-04-18T12:22:57.0361541Z"
+    "LastEditDate": "2026-04-18T14:05:25.8206478Z"
   },
   "Entries": {
     "UI.MainForm.Title": {
@@ -1631,6 +1631,36 @@
       "Translation": "Você tem alterações não salvas para a localidade {0}. Deseja descartá-las?",
       "IsTranslated": true,
       "Notes": "Confirmation shown when switching locales or closing the editor with unsaved changes"
+    },
+    "UI.TranslationEditor.Actions.NewLocale": {
+      "Source": "New Locale...",
+      "Translation": "Nova localidade...",
+      "IsTranslated": true,
+      "Notes": "Button to open the create-new-locale flow"
+    },
+    "UI.TranslationEditor.Status.Loading": {
+      "Source": "Loading locale...",
+      "Translation": "Carregando localidade...",
+      "IsTranslated": true,
+      "Notes": "Status text shown while a locale is loading in the editor"
+    },
+    "UI.TranslationEditor.Dialogs.NewLocaleTitle": {
+      "Source": "Create New Locale",
+      "Translation": "Criar nova localidade",
+      "IsTranslated": true,
+      "Notes": "Dialog title for the create-new-locale flow"
+    },
+    "UI.TranslationEditor.Tooltips.Sync": {
+      "Source": "Sync the selected locale with the English master file. New keys are added, changed English source text resets those translations, and removed keys are deleted.",
+      "Translation": "Sincroniza a localidade selecionada com o arquivo mestre em inglês. Novas chaves são adicionadas, alterações no texto-fonte em inglês redefinem essas traduções e as chaves removidas são excluídas.",
+      "IsTranslated": true,
+      "Notes": "Tooltip for the sync button"
+    },
+    "UI.TranslationEditor.Tooltips.NewLocale": {
+      "Source": "Create a new locale from the English master file.",
+      "Translation": "Crie uma nova localidade a partir do arquivo mestre em inglês.",
+      "IsTranslated": true,
+      "Notes": "Tooltip for the new-locale button"
     }
   }
 }

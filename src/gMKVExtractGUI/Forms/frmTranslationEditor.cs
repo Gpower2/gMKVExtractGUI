@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 using gMKVToolNix.Controls;
 using gMKVToolNix.Localization;
@@ -24,17 +25,33 @@ namespace gMKVToolNix.Forms
             public string Notes { get; set; }
         }
 
+        private sealed class TranslationCultureLoadResult
+        {
+            public string Culture { get; set; }
+            public TranslationFile TranslationFile { get; set; }
+            public List<TranslationEditorRow> Rows { get; set; }
+        }
+
+        private sealed class NewLocaleRequest
+        {
+            public string Culture { get; set; }
+            public string Translator { get; set; }
+        }
+
         private readonly string _translationsDirectory;
         private readonly string _initialCulture;
         private readonly gSettings _settings;
         private readonly BindingSource _bindingSource = new BindingSource();
+        private readonly ToolTip _toolTip = new ToolTip();
 
         private TranslationFile _masterFile;
         private TranslationFile _currentFile;
         private List<TranslationEditorRow> _allRows = new List<TranslationEditorRow>();
         private bool _isLoadingCulture;
+        private bool _isBusy;
         private bool _hasPendingChanges;
         private string _selectedCulture;
+        private string _busyStatusKey;
 
         private readonly gRoot.gTableLayoutPanel _mainLayout = new gRoot.gTableLayoutPanel();
         private readonly gRoot.gGroupBox _settingsGroup = new gRoot.gGroupBox();
@@ -80,6 +97,10 @@ namespace gMKVToolNix.Forms
                 _settings.Reload();
 
                 InitializeComponent();
+                _toolTip.AutoPopDelay = 15000;
+                _toolTip.InitialDelay = 300;
+                _toolTip.ReshowDelay = 100;
+                _toolTip.ShowAlways = true;
 
                 Icon = Icon.ExtractAssociatedIcon(GetExecutingAssemblyLocation());
                 ThemeManager.ApplyTheme(this, _settings.DarkMode);
@@ -98,12 +119,12 @@ namespace gMKVToolNix.Forms
                     };
                 }
 
+                Shown += frmTranslationEditor_Shown;
                 ApplyLocalization();
                 LoadMasterFile();
                 LoadAvailableCultures();
-                SelectCulture(_initialCulture);
+                SetSelectedCultureItem(FindCultureItem(_initialCulture) ?? (_cmbTargetCulture.Items.Count > 0 ? _cmbTargetCulture.Items[0] as string : null));
                 InitDPI();
-                ApplyResponsiveLayout();
             }
             catch (Exception ex)
             {
@@ -178,8 +199,6 @@ namespace gMKVToolNix.Forms
 
             _settingsRow1.Controls.Add(_lblTargetCulture);
             _settingsRow1.Controls.Add(_cmbTargetCulture);
-            _settingsRow1.Controls.Add(_lblNewCulture);
-            _settingsRow1.Controls.Add(_txtNewCulture);
             _settingsRow1.Controls.Add(_lblTranslator);
             _settingsRow1.Controls.Add(_txtTranslator);
 
@@ -260,7 +279,8 @@ namespace gMKVToolNix.Forms
             _translationsGrid.SelectionMode = DataGridViewSelectionMode.CellSelect;
             _translationsGrid.MultiSelect = false;
             _translationsGrid.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-            _translationsGrid.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
+            _translationsGrid.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.DisplayedCellsExceptHeaders;
+            _translationsGrid.RowHeadersVisible = false;
             _translationsGrid.DataSource = _bindingSource;
             _translationsGrid.CurrentCellDirtyStateChanged += grdTranslations_CurrentCellDirtyStateChanged;
             _translationsGrid.CellValueChanged += grdTranslations_CellValueChanged;
@@ -386,14 +406,56 @@ namespace gMKVToolNix.Forms
             }
 
             _isLoadingCulture = true;
-            try
-            {
-                string path = Path.Combine(_translationsDirectory, culture + ".json");
-                _currentFile = TranslationFileService.LoadFile(path);
-                _selectedCulture = culture;
-                _txtTranslator.Text = _currentFile.Metadata.Translator ?? string.Empty;
+            SetBusyState(true, "UI.TranslationEditor.Status.Loading");
 
-                _allRows = _currentFile.Entries
+            Task.Factory
+                .StartNew(() => LoadCultureData(culture))
+                .ContinueWith(task =>
+                {
+                    try
+                    {
+                        if (IsDisposed || Disposing)
+                        {
+                            return;
+                        }
+
+                        if (task.IsFaulted)
+                        {
+                            throw task.Exception == null
+                                ? new Exception("Failed to load locale.")
+                                : task.Exception.GetBaseException();
+                        }
+
+                        ApplyLoadedCulture(task.Result);
+                    }
+                    catch (Exception ex)
+                    {
+                        if (!string.IsNullOrWhiteSpace(_selectedCulture))
+                        {
+                            SetSelectedCultureItem(_selectedCulture);
+                        }
+
+                        gMKVLogger.Log(ex.ToString());
+                        ShowErrorMessage(ex.Message);
+                    }
+                    finally
+                    {
+                        _isLoadingCulture = false;
+                        SetBusyState(false);
+                    }
+                }, TaskScheduler.FromCurrentSynchronizationContext());
+        }
+
+        private TranslationCultureLoadResult LoadCultureData(string culture)
+        {
+            string path = Path.Combine(_translationsDirectory, culture + ".json");
+            TranslationFile translationFile = TranslationFileService.LoadFile(path);
+
+            return new TranslationCultureLoadResult
+            {
+                Culture = culture,
+                TranslationFile = translationFile,
+                Rows = translationFile.Entries
                     .OrderBy(entry => entry.Key)
                     .Select(entry => new TranslationEditorRow
                     {
@@ -403,17 +465,26 @@ namespace gMKVToolNix.Forms
                         IsTranslated = entry.Value.IsTranslated,
                         Notes = entry.Value.Notes
                     })
-                    .ToList();
+                    .ToList()
+            };
+        }
 
-                ApplyFilters();
-                SetPendingChanges(false);
-                UpdateActionStates();
-                ApplyResponsiveLayout();
-            }
-            finally
+        private void ApplyLoadedCulture(TranslationCultureLoadResult loadResult)
+        {
+            if (loadResult == null)
             {
-                _isLoadingCulture = false;
+                return;
             }
+
+            _currentFile = loadResult.TranslationFile;
+            _selectedCulture = loadResult.Culture;
+            _txtTranslator.Text = _currentFile.Metadata.Translator ?? string.Empty;
+            _allRows = loadResult.Rows ?? new List<TranslationEditorRow>();
+
+            ApplyFilters();
+            SetPendingChanges(false);
+            UpdateActionStates();
+            ApplyResponsiveLayout();
         }
 
         private void ApplyFilters()
@@ -454,12 +525,50 @@ namespace gMKVToolNix.Forms
             bool hasCurrentFile = _currentFile != null;
             bool isEnglish = hasCurrentFile && string.Equals(_currentFile.Metadata.Culture, "en", StringComparison.OrdinalIgnoreCase);
 
-            _btnSave.Enabled = hasCurrentFile && _hasPendingChanges;
-            _btnSync.Enabled = hasCurrentFile && !isEnglish;
-            _lblSaveState.Text = LocalizationManager.GetString(_hasPendingChanges
-                ? "UI.TranslationEditor.Status.Dirty"
-                : "UI.TranslationEditor.Status.Clean");
+            _btnCreate.Enabled = !_isBusy;
+            _btnSave.Enabled = !_isBusy && hasCurrentFile && _hasPendingChanges;
+            _btnSync.Enabled = !_isBusy && hasCurrentFile && !isEnglish;
+            _btnClose.Enabled = !_isBusy;
+            _lblSaveState.Text = _isBusy
+                ? LocalizationManager.GetString(string.IsNullOrWhiteSpace(_busyStatusKey)
+                    ? "UI.TranslationEditor.Status.Loading"
+                    : _busyStatusKey)
+                : LocalizationManager.GetString(_hasPendingChanges
+                    ? "UI.TranslationEditor.Status.Dirty"
+                    : "UI.TranslationEditor.Status.Clean");
             UpdateWindowTitle();
+        }
+
+        private void SetBusyState(bool isBusy, string busyStatusKey = null)
+        {
+            _isBusy = isBusy;
+            _busyStatusKey = isBusy ? busyStatusKey : null;
+            UseWaitCursor = isBusy;
+            Cursor = isBusy ? Cursors.WaitCursor : Cursors.Default;
+            _settingsGroup.Enabled = !isBusy;
+            _translationsGroup.Enabled = !isBusy;
+            UpdateActionStates();
+        }
+
+        private void ApplyTooltips()
+        {
+            _toolTip.SetToolTip(_btnCreate, LocalizationManager.GetString("UI.TranslationEditor.Tooltips.NewLocale"));
+            _toolTip.SetToolTip(_btnSync, LocalizationManager.GetString("UI.TranslationEditor.Tooltips.Sync"));
+        }
+
+        private void frmTranslationEditor_Shown(object sender, EventArgs e)
+        {
+            Shown -= frmTranslationEditor_Shown;
+            BeginInvoke((MethodInvoker)delegate
+            {
+                ApplyResponsiveLayout();
+
+                string selectedCulture = _cmbTargetCulture.SelectedItem as string;
+                if (_currentFile == null && !string.IsNullOrWhiteSpace(selectedCulture))
+                {
+                    LoadSelectedCulture(selectedCulture);
+                }
+            });
         }
 
         private void CommitGridChanges()
@@ -498,6 +607,101 @@ namespace gMKVToolNix.Forms
             SetPendingChanges(false);
         }
 
+        private NewLocaleRequest ShowNewLocaleDialog()
+        {
+            using (var dialog = new gRoot.gForm())
+            {
+                var layout = new gRoot.gTableLayoutPanel();
+                var lblCulture = new Label();
+                var txtCulture = new gRoot.gTextBox();
+                var lblTranslator = new Label();
+                var txtTranslator = new gRoot.gTextBox();
+                var actionsPanel = new FlowLayoutPanel();
+                var btnCreate = new Button();
+                var btnCancel = new Button();
+
+                dialog.SuspendLayout();
+                dialog.Font = Font;
+                dialog.StartPosition = FormStartPosition.CenterParent;
+                dialog.FormBorderStyle = FormBorderStyle.FixedDialog;
+                dialog.MinimizeBox = false;
+                dialog.MaximizeBox = false;
+                dialog.ShowInTaskbar = false;
+                dialog.ClientSize = new Size(420, 150);
+                dialog.Text = LocalizationManager.GetString("UI.TranslationEditor.Dialogs.NewLocaleTitle");
+                dialog.Icon = Icon;
+
+                layout.ColumnCount = 2;
+                layout.ColumnStyles.Add(new ColumnStyle(SizeType.AutoSize));
+                layout.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
+                layout.RowCount = 3;
+                layout.RowStyles.Add(new RowStyle(SizeType.AutoSize));
+                layout.RowStyles.Add(new RowStyle(SizeType.AutoSize));
+                layout.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
+                layout.Dock = DockStyle.Fill;
+                layout.Padding = new Padding(12);
+
+                lblCulture.AutoSize = true;
+                lblCulture.Text = LocalizationManager.GetString("UI.TranslationEditor.Fields.NewCulture");
+                lblCulture.Margin = new Padding(0, 6, 12, 0);
+
+                txtCulture.Dock = DockStyle.Fill;
+                txtCulture.Margin = new Padding(0, 0, 0, 8);
+
+                lblTranslator.AutoSize = true;
+                lblTranslator.Text = LocalizationManager.GetString("UI.TranslationEditor.Fields.Translator");
+                lblTranslator.Margin = new Padding(0, 6, 12, 0);
+
+                txtTranslator.Dock = DockStyle.Fill;
+                txtTranslator.Text = string.IsNullOrWhiteSpace(_txtTranslator.Text) ? string.Empty : _txtTranslator.Text.Trim();
+
+                actionsPanel.Dock = DockStyle.Fill;
+                actionsPanel.FlowDirection = FlowDirection.RightToLeft;
+                actionsPanel.WrapContents = false;
+                actionsPanel.Margin = new Padding(0, 12, 0, 0);
+
+                btnCreate.Text = LocalizationManager.GetString("UI.TranslationEditor.Actions.Create");
+                btnCreate.ApplyLocalizedButtonSize(95);
+                btnCreate.DialogResult = DialogResult.OK;
+
+                btnCancel.Text = LocalizationManager.GetString("UI.OptionsForm.Actions.Cancel");
+                btnCancel.ApplyLocalizedButtonSize(95);
+                btnCancel.DialogResult = DialogResult.Cancel;
+
+                actionsPanel.Controls.Add(btnCancel);
+                actionsPanel.Controls.Add(btnCreate);
+
+                layout.Controls.Add(lblCulture, 0, 0);
+                layout.Controls.Add(txtCulture, 1, 0);
+                layout.Controls.Add(lblTranslator, 0, 1);
+                layout.Controls.Add(txtTranslator, 1, 1);
+                layout.Controls.Add(actionsPanel, 0, 2);
+                layout.SetColumnSpan(actionsPanel, 2);
+
+                dialog.Controls.Add(layout);
+                dialog.AcceptButton = btnCreate;
+                dialog.CancelButton = btnCancel;
+
+                ThemeManager.ApplyTheme(dialog, _settings.DarkMode);
+                if (dialog.Handle != IntPtr.Zero)
+                {
+                    NativeMethods.SetWindowThemeManaged(dialog.Handle, _settings.DarkMode);
+                    NativeMethods.TrySetImmersiveDarkMode(dialog.Handle, _settings.DarkMode);
+                }
+
+                dialog.ResumeLayout(false);
+                dialog.PerformLayout();
+
+                return dialog.ShowDialog(this) == DialogResult.OK
+                    ? new NewLocaleRequest
+                    {
+                        Culture = (txtCulture.Text ?? string.Empty).Trim().ToLowerInvariant(),
+                        Translator = string.IsNullOrWhiteSpace(txtTranslator.Text) ? null : txtTranslator.Text.Trim()
+                    }
+                    : null;
+            }
+        }
+
         private void CreateNewCulture()
         {
             if (!ConfirmDiscardPendingChanges())
@@ -505,7 +709,13 @@ namespace gMKVToolNix.Forms
                 return;
             }
 
-            string culture = (_txtNewCulture.Text ?? string.Empty).Trim().ToLowerInvariant();
+            NewLocaleRequest request = ShowNewLocaleDialog();
+            if (request == null)
+            {
+                return;
+            }
+
+            string culture = request.Culture;
             if (string.IsNullOrWhiteSpace(culture))
             {
                 throw CreateLocalizedException("UI.TranslationEditor.Errors.CultureCodeRequired");
@@ -522,16 +732,15 @@ namespace gMKVToolNix.Forms
             var newFile = TranslationMaintenanceService.CreateTemplate(
                 _masterFile,
                 culture,
-                string.IsNullOrWhiteSpace(_txtTranslator.Text) ? null : _txtTranslator.Text.Trim());
+                request.Translator);
 
             TranslationFileService.SaveFile(newFile, path);
             HasSavedChanges = true;
 
             LoadAvailableCultures();
-            SelectCulture(culture);
-            _txtNewCulture.Clear();
-
+            SetSelectedCultureItem(culture);
             ShowLocalizedSuccessMessage("UI.TranslationEditor.Success.LocaleCreated", false, culture);
+            LoadSelectedCulture(culture);
         }
 
         private void SyncCurrentCulture()
@@ -556,8 +765,6 @@ namespace gMKVToolNix.Forms
             TranslationFileService.SaveFile(result.TranslationFile, Path.Combine(_translationsDirectory, result.TranslationFile.Metadata.Culture + ".json"));
             HasSavedChanges = true;
 
-            SelectCulture(result.TranslationFile.Metadata.Culture);
-
             ShowLocalizedSuccessMessage(
                 "UI.TranslationEditor.Success.LocaleSynced",
                 false,
@@ -565,6 +772,9 @@ namespace gMKVToolNix.Forms
                 result.AddedCount,
                 result.UpdatedCount,
                 result.RemovedCount);
+
+            SetSelectedCultureItem(result.TranslationFile.Metadata.Culture);
+            LoadSelectedCulture(result.TranslationFile.Metadata.Culture);
         }
 
         private void ApplyLocalization()
@@ -579,7 +789,7 @@ namespace gMKVToolNix.Forms
             _lblSearch.Text = LocalizationManager.GetString("UI.TranslationEditor.Fields.Search");
             _chkShowOnlyUntranslated.Text = LocalizationManager.GetString("UI.TranslationEditor.Fields.ShowOnlyUntranslated");
 
-            _btnCreate.Text = LocalizationManager.GetString("UI.TranslationEditor.Actions.Create");
+            _btnCreate.Text = LocalizationManager.GetString("UI.TranslationEditor.Actions.NewLocale");
             _btnSync.Text = LocalizationManager.GetString("UI.TranslationEditor.Actions.Sync");
             _btnSave.Text = LocalizationManager.GetString("UI.TranslationEditor.Actions.Save");
             _btnClose.Text = LocalizationManager.GetString("UI.TranslationEditor.Actions.Close");
@@ -595,6 +805,7 @@ namespace gMKVToolNix.Forms
             _btnSave.ApplyLocalizedButtonSize(95);
             _btnClose.ApplyLocalizedButtonSize(95);
 
+            ApplyTooltips();
             UpdateSummary();
             UpdateActionStates();
             ApplyResponsiveLayout();
@@ -602,7 +813,7 @@ namespace gMKVToolNix.Forms
 
         private void FilterControl_Changed(object sender, EventArgs e)
         {
-            if (!_isLoadingCulture)
+            if (!_isLoadingCulture && !_isBusy)
             {
                 CommitGridChanges();
             }
@@ -805,26 +1016,24 @@ namespace gMKVToolNix.Forms
                 return;
             }
 
-            int availableWidth = Math.Max(320, _mainLayout.ClientSize.Width - _mainLayout.Padding.Horizontal - 24);
-            _settingsRow1.MaximumSize = new Size(availableWidth, 0);
-            _settingsRow2.MaximumSize = new Size(availableWidth, 0);
+            int availableWidth = Math.Max(320, ClientSize.Width - _mainLayout.Padding.Horizontal - 24);
+            int contentWidth = Math.Max(280, availableWidth - 18);
+            _settingsRow1.MaximumSize = new Size(contentWidth, 0);
+            _settingsRow2.MaximumSize = new Size(contentWidth, 0);
+            _settingsLayout.MaximumSize = new Size(contentWidth, 0);
 
-            int summaryWidth = Math.Max(180, availableWidth - (_lblSearch.Width + _txtSearch.Width + 72));
+            int summaryWidth = Math.Max(180, contentWidth - (_lblSearch.Width + _txtSearch.Width + 72));
             _lblSummary.MaximumSize = new Size(summaryWidth, 0);
 
-            int settingsHeight =
-                _settingsRow1.GetPreferredSize(new Size(availableWidth, 0)).Height +
-                _settingsRow2.GetPreferredSize(new Size(availableWidth, 0)).Height + 46;
+            int settingsHeight = Math.Max(104, _settingsLayout.GetPreferredSize(new Size(contentWidth, 0)).Height + 28);
             _mainLayout.RowStyles[0].Height = Math.Max(104, settingsHeight);
 
             int buttonsWidth = _actionsPanel.GetPreferredSize(Size.Empty).Width;
-            int saveStateWidth = Math.Max(180, availableWidth - buttonsWidth - 24);
+            int saveStateWidth = Math.Max(180, contentWidth - buttonsWidth - 24);
             _lblSaveState.MaximumSize = new Size(saveStateWidth, 0);
 
-            int actionsHeight = Math.Max(
-                _actionsPanel.GetPreferredSize(Size.Empty).Height,
-                _lblSaveState.GetPreferredSize(new Size(saveStateWidth, 0)).Height) + 36;
-            _mainLayout.RowStyles[2].Height = Math.Max(68, actionsHeight);
+            int actionsHeight = Math.Max(84, _actionsLayout.GetPreferredSize(new Size(contentWidth, 0)).Height + 18);
+            _mainLayout.RowStyles[2].Height = actionsHeight;
             _mainLayout.PerformLayout();
         }
 

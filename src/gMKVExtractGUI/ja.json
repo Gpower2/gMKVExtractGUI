@@ -3,7 +3,7 @@
     "Culture": "ja",
     "Translator": "GitHub Copilot",
     "CreationDate": "2026-04-13T20:07:27Z",
-    "LastEditDate": "2026-04-18T12:22:57.1329571Z"
+    "LastEditDate": "2026-04-18T14:05:25.8433308Z"
   },
   "Entries": {
     "UI.MainForm.Title": {
@@ -1631,6 +1631,36 @@
       "Translation": "ロケール {0} には未保存の変更があります。破棄しますか？",
       "IsTranslated": true,
       "Notes": "Confirmation shown when switching locales or closing the editor with unsaved changes"
+    },
+    "UI.TranslationEditor.Actions.NewLocale": {
+      "Source": "New Locale...",
+      "Translation": "新しいロケール...",
+      "IsTranslated": true,
+      "Notes": "Button to open the create-new-locale flow"
+    },
+    "UI.TranslationEditor.Status.Loading": {
+      "Source": "Loading locale...",
+      "Translation": "ロケールを読み込み中...",
+      "IsTranslated": true,
+      "Notes": "Status text shown while a locale is loading in the editor"
+    },
+    "UI.TranslationEditor.Dialogs.NewLocaleTitle": {
+      "Source": "Create New Locale",
+      "Translation": "新しいロケールを作成",
+      "IsTranslated": true,
+      "Notes": "Dialog title for the create-new-locale flow"
+    },
+    "UI.TranslationEditor.Tooltips.Sync": {
+      "Source": "Sync the selected locale with the English master file. New keys are added, changed English source text resets those translations, and removed keys are deleted.",
+      "Translation": "選択したロケールを英語のマスターファイルと同期します。新しいキーが追加され、英語の原文が変更された項目は翻訳がリセットされ、削除されたキーは取り除かれます。",
+      "IsTranslated": true,
+      "Notes": "Tooltip for the sync button"
+    },
+    "UI.TranslationEditor.Tooltips.NewLocale": {
+      "Source": "Create a new locale from the English master file.",
+      "Translation": "英語のマスターファイルから新しいロケールを作成します。",
+      "IsTranslated": true,
+      "Notes": "Tooltip for the new-locale button"
     }
   }
 }

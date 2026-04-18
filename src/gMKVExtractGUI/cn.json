@@ -3,7 +3,7 @@
     "Culture": "cn",
     "Translator": "GitHub Copilot",
     "CreationDate": "2026-04-13T20:07:27Z",
-    "LastEditDate": "2026-04-18T12:22:57.0795791Z"
+    "LastEditDate": "2026-04-18T14:05:25.8255376Z"
   },
   "Entries": {
     "UI.MainForm.Title": {
@@ -1631,6 +1631,36 @@
       "Translation": "您對地區設定 {0} 有尚未儲存的變更。要捨棄嗎？",
       "IsTranslated": true,
       "Notes": "Confirmation shown when switching locales or closing the editor with unsaved changes"
+    },
+    "UI.TranslationEditor.Actions.NewLocale": {
+      "Source": "New Locale...",
+      "Translation": "新增地區設定...",
+      "IsTranslated": true,
+      "Notes": "Button to open the create-new-locale flow"
+    },
+    "UI.TranslationEditor.Status.Loading": {
+      "Source": "Loading locale...",
+      "Translation": "正在載入地區設定...",
+      "IsTranslated": true,
+      "Notes": "Status text shown while a locale is loading in the editor"
+    },
+    "UI.TranslationEditor.Dialogs.NewLocaleTitle": {
+      "Source": "Create New Locale",
+      "Translation": "建立新地區設定",
+      "IsTranslated": true,
+      "Notes": "Dialog title for the create-new-locale flow"
+    },
+    "UI.TranslationEditor.Tooltips.Sync": {
+      "Source": "Sync the selected locale with the English master file. New keys are added, changed English source text resets those translations, and removed keys are deleted.",
+      "Translation": "將所選地區設定與英文主檔同步。會新增新鍵值、英文原文變更會重設那些翻譯，已移除的鍵值也會刪除。",
+      "IsTranslated": true,
+      "Notes": "Tooltip for the sync button"
+    },
+    "UI.TranslationEditor.Tooltips.NewLocale": {
+      "Source": "Create a new locale from the English master file.",
+      "Translation": "從英文主檔建立新的地區設定。",
+      "IsTranslated": true,
+      "Notes": "Tooltip for the new-locale button"
     }
   }
 }

@@ -3,7 +3,7 @@
     "Culture": "de",
     "Translator": "GitHub Copilot",
     "CreationDate": "2026-04-13T20:07:27Z",
-    "LastEditDate": "2026-04-18T12:22:57.1004537Z"
+    "LastEditDate": "2026-04-18T14:05:25.8339195Z"
   },
   "Entries": {
     "UI.MainForm.Title": {
@@ -1631,6 +1631,36 @@
       "Translation": "Sie haben ungespeicherte Änderungen für das Gebietsschema {0}. Möchten Sie sie verwerfen?",
       "IsTranslated": true,
       "Notes": "Confirmation shown when switching locales or closing the editor with unsaved changes"
+    },
+    "UI.TranslationEditor.Actions.NewLocale": {
+      "Source": "New Locale...",
+      "Translation": "Neues Gebietsschema...",
+      "IsTranslated": true,
+      "Notes": "Button to open the create-new-locale flow"
+    },
+    "UI.TranslationEditor.Status.Loading": {
+      "Source": "Loading locale...",
+      "Translation": "Lade Gebietsschema...",
+      "IsTranslated": true,
+      "Notes": "Status text shown while a locale is loading in the editor"
+    },
+    "UI.TranslationEditor.Dialogs.NewLocaleTitle": {
+      "Source": "Create New Locale",
+      "Translation": "Neues Gebietsschema erstellen",
+      "IsTranslated": true,
+      "Notes": "Dialog title for the create-new-locale flow"
+    },
+    "UI.TranslationEditor.Tooltips.Sync": {
+      "Source": "Sync the selected locale with the English master file. New keys are added, changed English source text resets those translations, and removed keys are deleted.",
+      "Translation": "Synchronisiert das ausgewählte Gebietsschema mit der englischen Masterdatei. Neue Schlüssel werden hinzugefügt, geänderter englischer Quelltext setzt diese Übersetzungen zurück und entfernte Schlüssel werden gelöscht.",
+      "IsTranslated": true,
+      "Notes": "Tooltip for the sync button"
+    },
+    "UI.TranslationEditor.Tooltips.NewLocale": {
+      "Source": "Create a new locale from the English master file.",
+      "Translation": "Erstellt ein neues Gebietsschema aus der englischen Masterdatei.",
+      "IsTranslated": true,
+      "Notes": "Tooltip for the new-locale button"
     }
   }
 }

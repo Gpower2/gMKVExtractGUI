@@ -251,6 +251,7 @@ namespace gMKVToolNix.Localization
             { "UI.TranslationEditor.Actions.Close", "Close" },
             { "UI.TranslationEditor.Actions.Create", "Create" },
             { "UI.TranslationEditor.Actions.Group", "Actions" },
+            { "UI.TranslationEditor.Actions.NewLocale", "New Locale..." },
             { "UI.TranslationEditor.Actions.Save", "Save" },
             { "UI.TranslationEditor.Actions.Sync", "Sync" },
             { "UI.TranslationEditor.Columns.IsTranslated", "Done" },
@@ -259,6 +260,7 @@ namespace gMKVToolNix.Localization
             { "UI.TranslationEditor.Columns.Source", "Source" },
             { "UI.TranslationEditor.Columns.Translation", "Translation" },
             { "UI.TranslationEditor.Dialogs.DiscardChanges", "You have unsaved changes for locale {0}. Discard them?" },
+            { "UI.TranslationEditor.Dialogs.NewLocaleTitle", "Create New Locale" },
             { "UI.TranslationEditor.Errors.CannotSyncEnglish", "The English master locale cannot be synced!" },
             { "UI.TranslationEditor.Errors.CultureCodeRequired", "You must enter a locale code!" },
             { "UI.TranslationEditor.Errors.LocaleExists", "The locale {0} already exists!" },
@@ -273,10 +275,13 @@ namespace gMKVToolNix.Localization
             { "UI.TranslationEditor.Settings.Group", "Translation Settings" },
             { "UI.TranslationEditor.Status.Clean", "All changes saved" },
             { "UI.TranslationEditor.Status.Dirty", "Unsaved changes" },
+            { "UI.TranslationEditor.Status.Loading", "Loading locale..." },
             { "UI.TranslationEditor.Success.LocaleCreated", "The locale {0} was created successfully!" },
             { "UI.TranslationEditor.Success.LocaleSaved", "The locale {0} was saved successfully!" },
             { "UI.TranslationEditor.Success.LocaleSynced", "The locale {0} was synced successfully! Added: {1}, Updated: {2}, Removed: {3}" },
             { "UI.TranslationEditor.Title", "Translation Editor" },
+            { "UI.TranslationEditor.Tooltips.NewLocale", "Create a new locale from the English master file." },
+            { "UI.TranslationEditor.Tooltips.Sync", "Sync the selected locale with the English master file. New keys are added, changed English source text resets those translations, and removed keys are deleted." },
         };
     }
 }

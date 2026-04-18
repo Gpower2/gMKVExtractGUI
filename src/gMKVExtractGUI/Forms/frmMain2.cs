@@ -55,10 +55,13 @@ namespace gMKVToolNix.Forms
         private int _TotalJobs = 0;
 
         private List<string> _CmdArguments = new List<string>();
+        private readonly Dictionary<Button, Size> _responsiveButtonBaseSizes = new Dictionary<Button, Size>();
         private bool _contextMenuItemsDirty = true;
         private bool _isApplyingResponsiveLayout = false;
         private int _chapterTypeComboBaseWidth;
         private int _extractionModeComboBaseWidth;
+        private int _fileOptionsPanelBaseHeight;
+        private float _fileOptionsRowBaseHeight;
 
         public frmMain2()
         {
@@ -1827,6 +1830,11 @@ namespace gMKVToolNix.Forms
                     gMKVLogger.Log("Changing WindowSizeWidth, WindowSizeHeight, WindowState");
                     _Settings.Save();
                 }
+
+                if (this.WindowState != FormWindowState.Minimized)
+                {
+                    ApplyResponsiveLayout();
+                }
             }
             catch (Exception ex)
             {
@@ -1845,8 +1853,6 @@ namespace gMKVToolNix.Forms
                     gMKVLogger.Log("Changing WindowState");
                     _Settings.Save();
                 }
-
-                ApplyResponsiveLayout();
             }
             catch (Exception ex)
             {
@@ -3062,6 +3068,18 @@ namespace gMKVToolNix.Forms
 
         private void CaptureResponsiveLayoutBaselines()
         {
+            CaptureResponsiveButtonBaseSize(btnBrowseMKVToolnixPath);
+            CaptureResponsiveButtonBaseSize(btnAutoDetectMkvToolnix);
+            CaptureResponsiveButtonBaseSize(btnBrowseOutputDirectory);
+            CaptureResponsiveButtonBaseSize(btnSelect);
+            CaptureResponsiveButtonBaseSize(btnShowLog);
+            CaptureResponsiveButtonBaseSize(btnShowJobs);
+            CaptureResponsiveButtonBaseSize(btnAddJobs);
+            CaptureResponsiveButtonBaseSize(btnExtract);
+            CaptureResponsiveButtonBaseSize(btnOptions);
+            CaptureResponsiveButtonBaseSize(btnAbortAll);
+            CaptureResponsiveButtonBaseSize(btnAbort);
+
             if (cmbChapterType != null && cmbChapterType.Width > 0)
             {
                 _chapterTypeComboBaseWidth = cmbChapterType.Width;
@@ -3070,6 +3088,62 @@ namespace gMKVToolNix.Forms
             if (cmbExtractionMode != null && cmbExtractionMode.Width > 0)
             {
                 _extractionModeComboBaseWidth = cmbExtractionMode.Width;
+            }
+
+            if (pnlFileOptions != null && pnlFileOptions.Height > 0)
+            {
+                _fileOptionsPanelBaseHeight = Math.Max(_fileOptionsPanelBaseHeight, pnlFileOptions.Height);
+            }
+
+            if (tlpInput.RowStyles.Count > 1 && tlpInput.RowStyles[1].Height > 0F)
+            {
+                _fileOptionsRowBaseHeight = Math.Max(_fileOptionsRowBaseHeight, tlpInput.RowStyles[1].Height);
+            }
+        }
+
+        private void CaptureResponsiveButtonBaseSize(Button button)
+        {
+            if (button == null)
+            {
+                return;
+            }
+
+            Size currentSize = button.Size;
+            if (!_responsiveButtonBaseSizes.TryGetValue(button, out Size baseSize)
+                || currentSize.Width > baseSize.Width
+                || currentSize.Height > baseSize.Height)
+            {
+                _responsiveButtonBaseSizes[button] = currentSize;
+            }
+        }
+
+        private Size GetResponsiveButtonBaseSize(Button button, int fallbackWidth, int fallbackHeight = 30)
+        {
+            return _responsiveButtonBaseSizes.TryGetValue(button, out Size baseSize)
+                ? baseSize
+                : new Size(fallbackWidth, fallbackHeight);
+        }
+
+        private void ResetResponsiveLayoutBaselines()
+        {
+            if (pnlFileOptions != null && _fileOptionsPanelBaseHeight > 0)
+            {
+                pnlFileOptions.Height = _fileOptionsPanelBaseHeight;
+            }
+
+            if (tlpInput.RowStyles.Count > 1 && _fileOptionsRowBaseHeight > 0F)
+            {
+                tlpInput.RowStyles[1].Height = _fileOptionsRowBaseHeight;
+            }
+
+            if (_chapterTypeComboBaseWidth > 0)
+            {
+                cmbChapterType.Width = _chapterTypeComboBaseWidth;
+            }
+
+            if (_extractionModeComboBaseWidth > 0)
+            {
+                cmbExtractionMode.Width = _extractionModeComboBaseWidth;
             }
         }
 
@@ -3090,6 +3164,7 @@ namespace gMKVToolNix.Forms
                 grpOutputDirectory.SuspendLayout();
                 grpActions.SuspendLayout();
                 pnlFileOptions.SuspendLayout();
+                ResetResponsiveLayoutBaselines();
 
                 LayoutConfigGroup();
                 LayoutOutputDirectoryGroup();
@@ -3115,8 +3190,8 @@ namespace gMKVToolNix.Forms
 
         private void LayoutConfigGroup()
         {
-            btnBrowseMKVToolnixPath.ApplyLocalizedButtonSize(70);
-            btnAutoDetectMkvToolnix.ApplyLocalizedButtonSize(80);
+            btnBrowseMKVToolnixPath.ApplyLocalizedButtonSize(GetResponsiveButtonBaseSize(btnBrowseMKVToolnixPath, 70));
+            btnAutoDetectMkvToolnix.ApplyLocalizedButtonSize(GetResponsiveButtonBaseSize(btnAutoDetectMkvToolnix, 80));
 
             const int buttonTop = 18;
             int right = grpConfig.ClientSize.Width - 7;
@@ -3128,7 +3203,7 @@ namespace gMKVToolNix.Forms
 
         private void LayoutOutputDirectoryGroup()
         {
-            btnBrowseOutputDirectory.ApplyLocalizedButtonSize(80);
+            btnBrowseOutputDirectory.ApplyLocalizedButtonSize(GetResponsiveButtonBaseSize(btnBrowseOutputDirectory, 80));
 
             int right = grpOutputDirectory.ClientSize.Width - 7;
             btnBrowseOutputDirectory.Location = new Point(right - btnBrowseOutputDirectory.Width, 18);
@@ -3138,7 +3213,7 @@ namespace gMKVToolNix.Forms
 
         private void LayoutFileOptionsPanel()
         {
-            btnSelect.ApplyLocalizedButtonSize(80);
+            btnSelect.ApplyLocalizedButtonSize(GetResponsiveButtonBaseSize(btnSelect, 80));
             btnSelect.Location = new Point(pnlFileOptions.ClientSize.Width - btnSelect.Width - 3, 1);
 
             int maxRight = btnSelect.Left - 12;
@@ -3156,10 +3231,10 @@ namespace gMKVToolNix.Forms
 
         private void LayoutActionsGroup()
         {
-            btnShowLog.ApplyLocalizedButtonSize(60);
-            btnShowJobs.ApplyLocalizedButtonSize(60);
-            btnAddJobs.ApplyLocalizedButtonSize(70);
-            btnExtract.ApplyLocalizedButtonSize(80);
+            btnShowLog.ApplyLocalizedButtonSize(GetResponsiveButtonBaseSize(btnShowLog, 60));
+            btnShowJobs.ApplyLocalizedButtonSize(GetResponsiveButtonBaseSize(btnShowJobs, 60));
+            btnAddJobs.ApplyLocalizedButtonSize(GetResponsiveButtonBaseSize(btnAddJobs, 70));
+            btnExtract.ApplyLocalizedButtonSize(GetResponsiveButtonBaseSize(btnExtract, 80));
 
             cmbChapterType.Width = _chapterTypeComboBaseWidth > 0 ? _chapterTypeComboBaseWidth : 80;
             cmbExtractionMode.Width = _extractionModeComboBaseWidth > 0 ? _extractionModeComboBaseWidth : 120;
@@ -3194,9 +3269,9 @@ namespace gMKVToolNix.Forms
 
         private void LayoutFooterControls()
         {
-            btnOptions.ApplyLocalizedButtonSize(80);
-            btnAbortAll.ApplyLocalizedButtonSize(70);
-            btnAbort.ApplyLocalizedButtonSize(72);
+            btnOptions.ApplyLocalizedButtonSize(GetResponsiveButtonBaseSize(btnOptions, 80));
+            btnAbortAll.ApplyLocalizedButtonSize(GetResponsiveButtonBaseSize(btnAbortAll, 70));
+            btnAbort.ApplyLocalizedButtonSize(GetResponsiveButtonBaseSize(btnAbort, 72));
 
             int top = statusStrip.Top + 3;
             int right = ClientSize.Width - 8;
