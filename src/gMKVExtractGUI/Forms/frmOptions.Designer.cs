@@ -65,6 +65,7 @@
             this.chkRawMode = new System.Windows.Forms.CheckBox();
             this.cmbCulture = new gMKVToolNix.Controls.gComboBox();
             this.lblCulture = new System.Windows.Forms.Label();
+            this.btnTranslationEditor = new System.Windows.Forms.Button();
             this.chkFullRawMode = new System.Windows.Forms.CheckBox();
             this.chkTextFilesWithoutBom = new System.Windows.Forms.CheckBox();
             this.tlpMain.SuspendLayout();
@@ -460,6 +461,7 @@
             // 
             // grpAdvanced
             // 
+            this.grpAdvanced.Controls.Add(this.btnTranslationEditor);
             this.grpAdvanced.Controls.Add(this.chkRawMode);
             this.grpAdvanced.Controls.Add(this.cmbCulture);
             this.grpAdvanced.Controls.Add(this.lblCulture);
@@ -503,7 +505,18 @@
             this.lblCulture.Size = new System.Drawing.Size(49, 15);
             this.lblCulture.TabIndex = 3;
             this.lblCulture.Text = "Culture:";
-            // 
+            //
+            // btnTranslationEditor
+            //
+            this.btnTranslationEditor.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnTranslationEditor.Location = new System.Drawing.Point(456, 18);
+            this.btnTranslationEditor.Name = "btnTranslationEditor";
+            this.btnTranslationEditor.Size = new System.Drawing.Size(95, 30);
+            this.btnTranslationEditor.TabIndex = 8;
+            this.btnTranslationEditor.Text = "Translations...";
+            this.btnTranslationEditor.UseVisualStyleBackColor = true;
+            this.btnTranslationEditor.Click += new System.EventHandler(this.btnTranslationEditor_Click);
+            //
             // chkFullRawMode
             // 
             this.chkFullRawMode.AutoSize = true;
@@ -595,5 +608,6 @@
         private System.Windows.Forms.CheckBox chkFullRawMode;
         private System.Windows.Forms.Label lblCulture;
         private gMKVToolNix.Controls.gComboBox cmbCulture;
+        private System.Windows.Forms.Button btnTranslationEditor;
     }
 }

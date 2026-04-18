@@ -14,7 +14,7 @@ using gRoot = gMKVToolNix;
 
 namespace gMKVToolNix.Forms
 {
-    public class frmTranslationEditor : gForm
+    public partial class frmTranslationEditor : gForm
     {
         private sealed class TranslationEditorRow
         {
@@ -41,8 +41,7 @@ namespace gMKVToolNix.Forms
         private readonly string _translationsDirectory;
         private readonly string _initialCulture;
         private readonly gSettings _settings;
-        private readonly BindingSource _bindingSource = new BindingSource();
-        private readonly ToolTip _toolTip = new ToolTip();
+        private readonly bool _skipRuntimeInitialization;
 
         private TranslationFile _masterFile;
         private TranslationFile _currentFile;
@@ -53,50 +52,41 @@ namespace gMKVToolNix.Forms
         private string _selectedCulture;
         private string _busyStatusKey;
 
-        private readonly gRoot.gTableLayoutPanel _mainLayout = new gRoot.gTableLayoutPanel();
-        private readonly gRoot.gGroupBox _settingsGroup = new gRoot.gGroupBox();
-        private readonly gRoot.gGroupBox _translationsGroup = new gRoot.gGroupBox();
-        private readonly gRoot.gGroupBox _actionsGroup = new gRoot.gGroupBox();
-        private readonly gRoot.gTableLayoutPanel _settingsLayout = new gRoot.gTableLayoutPanel();
-        private readonly gRoot.gTableLayoutPanel _actionsLayout = new gRoot.gTableLayoutPanel();
-        private readonly FlowLayoutPanel _settingsRow1 = new FlowLayoutPanel();
-        private readonly FlowLayoutPanel _settingsRow2 = new FlowLayoutPanel();
-        private readonly FlowLayoutPanel _actionsPanel = new FlowLayoutPanel();
-        private readonly Label _lblTargetCulture = new Label();
-        private readonly gComboBox _cmbTargetCulture = new gComboBox();
-        private readonly Label _lblNewCulture = new Label();
-        private readonly gRoot.gTextBox _txtNewCulture = new gRoot.gTextBox();
-        private readonly Label _lblTranslator = new Label();
-        private readonly gRoot.gTextBox _txtTranslator = new gRoot.gTextBox();
-        private readonly Label _lblSearch = new Label();
-        private readonly gRoot.gTextBox _txtSearch = new gRoot.gTextBox();
-        private readonly CheckBox _chkShowOnlyUntranslated = new CheckBox();
-        private readonly Label _lblSummary = new Label();
-        private readonly Label _lblSaveState = new Label();
-        private readonly gDataGridView _translationsGrid = new gDataGridView();
-        private readonly Button _btnCreate = new Button();
-        private readonly Button _btnSync = new Button();
-        private readonly Button _btnSave = new Button();
-        private readonly Button _btnClose = new Button();
-
         public bool HasSavedChanges { get; private set; }
 
+        public frmTranslationEditor()
+            : this(GetDefaultTranslationsDirectory(), "en", true)
+        {
+        }
+
         public frmTranslationEditor(string translationsDirectory, string initialCulture)
+            : this(translationsDirectory, initialCulture, false)
+        {
+        }
+
+        private frmTranslationEditor(string translationsDirectory, string initialCulture, bool skipRuntimeInitialization)
         {
             try
             {
-                if (string.IsNullOrWhiteSpace(translationsDirectory))
-                {
-                    throw new ArgumentException("A translations directory is required.", nameof(translationsDirectory));
-                }
-
-                _translationsDirectory = translationsDirectory;
+                _skipRuntimeInitialization = skipRuntimeInitialization;
+                _translationsDirectory = string.IsNullOrWhiteSpace(translationsDirectory)
+                    ? GetDefaultTranslationsDirectory()
+                    : translationsDirectory;
                 _initialCulture = string.IsNullOrWhiteSpace(initialCulture) ? "en" : initialCulture;
 
-                _settings = new gSettings(GetCurrentDirectory());
-                _settings.Reload();
+                _settings = _skipRuntimeInitialization ? null : new gSettings(GetCurrentDirectory());
+                if (_settings != null)
+                {
+                    _settings.Reload();
+                }
 
                 InitializeComponent();
+
+                if (_skipRuntimeInitialization)
+                {
+                    return;
+                }
+
                 _toolTip.AutoPopDelay = 15000;
                 _toolTip.InitialDelay = 300;
                 _toolTip.ReshowDelay = 100;
@@ -129,218 +119,16 @@ namespace gMKVToolNix.Forms
             catch (Exception ex)
             {
                 gMKVLogger.Log(ex.ToString());
-                ShowErrorMessage(ex.Message);
+                if (!_skipRuntimeInitialization)
+                {
+                    ShowErrorMessage(ex.Message);
+                }
             }
         }
 
-        private void InitializeComponent()
+        private static string GetDefaultTranslationsDirectory()
         {
-            SuspendLayout();
-
-            Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, 161);
-            ClientSize = new Size(1100, 700);
-            MinimumSize = new Size(900, 500);
-            StartPosition = FormStartPosition.CenterParent;
-            Name = "frmTranslationEditor";
-
-            _mainLayout.ColumnCount = 1;
-            _mainLayout.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
-            _mainLayout.RowCount = 3;
-            _mainLayout.RowStyles.Add(new RowStyle(SizeType.Absolute, 104F));
-            _mainLayout.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
-            _mainLayout.RowStyles.Add(new RowStyle(SizeType.Absolute, 68F));
-            _mainLayout.Dock = DockStyle.Fill;
-            _mainLayout.Padding = new Padding(6);
-
-            _settingsGroup.Dock = DockStyle.Fill;
-            _settingsGroup.Controls.Add(_settingsLayout);
-
-            _settingsLayout.ColumnCount = 1;
-            _settingsLayout.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
-            _settingsLayout.RowCount = 2;
-            _settingsLayout.RowStyles.Add(new RowStyle(SizeType.AutoSize));
-            _settingsLayout.RowStyles.Add(new RowStyle(SizeType.AutoSize));
-            _settingsLayout.Dock = DockStyle.Fill;
-            _settingsLayout.Padding = new Padding(6, 0, 6, 6);
-
-            ConfigureSettingsRow(_settingsRow1);
-            ConfigureSettingsRow(_settingsRow2);
-
-            _lblTargetCulture.AutoSize = true;
-            _lblTargetCulture.Margin = new Padding(6, 8, 0, 0);
-            _cmbTargetCulture.DropDownStyle = ComboBoxStyle.DropDownList;
-            _cmbTargetCulture.Width = 120;
-            _cmbTargetCulture.Margin = new Padding(6, 3, 0, 0);
-            _cmbTargetCulture.SelectedIndexChanged += cmbTargetCulture_SelectedIndexChanged;
-
-            _lblNewCulture.AutoSize = true;
-            _lblNewCulture.Margin = new Padding(12, 8, 0, 0);
-            _txtNewCulture.Width = 110;
-            _txtNewCulture.Margin = new Padding(6, 3, 0, 0);
-
-            _lblTranslator.AutoSize = true;
-            _lblTranslator.Margin = new Padding(12, 8, 0, 0);
-            _txtTranslator.Width = 220;
-            _txtTranslator.Margin = new Padding(6, 3, 0, 0);
-            _txtTranslator.TextChanged += txtTranslator_TextChanged;
-
-            _lblSearch.AutoSize = true;
-            _lblSearch.Margin = new Padding(6, 8, 0, 0);
-            _txtSearch.Width = 260;
-            _txtSearch.Margin = new Padding(6, 3, 0, 0);
-            _txtSearch.TextChanged += FilterControl_Changed;
-
-            _chkShowOnlyUntranslated.AutoSize = true;
-            _chkShowOnlyUntranslated.Margin = new Padding(12, 7, 0, 0);
-            _chkShowOnlyUntranslated.CheckedChanged += FilterControl_Changed;
-
-            _lblSummary.AutoSize = true;
-            _lblSummary.Margin = new Padding(12, 8, 0, 0);
-
-            _settingsRow1.Controls.Add(_lblTargetCulture);
-            _settingsRow1.Controls.Add(_cmbTargetCulture);
-            _settingsRow1.Controls.Add(_lblTranslator);
-            _settingsRow1.Controls.Add(_txtTranslator);
-
-            _settingsRow2.Controls.Add(_lblSearch);
-            _settingsRow2.Controls.Add(_txtSearch);
-            _settingsRow2.Controls.Add(_chkShowOnlyUntranslated);
-            _settingsRow2.Controls.Add(_lblSummary);
-
-            _settingsLayout.Controls.Add(_settingsRow1, 0, 0);
-            _settingsLayout.Controls.Add(_settingsRow2, 0, 1);
-
-            _translationsGroup.Dock = DockStyle.Fill;
-            _translationsGroup.Controls.Add(_translationsGrid);
-
-            ConfigureTranslationsGrid();
-
-            _actionsGroup.Dock = DockStyle.Fill;
-            _actionsGroup.Controls.Add(_actionsLayout);
-
-            _actionsLayout.ColumnCount = 2;
-            _actionsLayout.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
-            _actionsLayout.ColumnStyles.Add(new ColumnStyle(SizeType.AutoSize));
-            _actionsLayout.RowCount = 1;
-            _actionsLayout.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
-            _actionsLayout.Dock = DockStyle.Fill;
-            _actionsLayout.Padding = new Padding(6, 10, 6, 6);
-
-            _lblSaveState.AutoSize = true;
-            _lblSaveState.Anchor = AnchorStyles.Left;
-            _lblSaveState.Margin = new Padding(0, 6, 12, 0);
-
-            _actionsPanel.AutoSize = true;
-            _actionsPanel.AutoSizeMode = AutoSizeMode.GrowAndShrink;
-            _actionsPanel.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            _actionsPanel.FlowDirection = FlowDirection.RightToLeft;
-            _actionsPanel.WrapContents = false;
-            _actionsPanel.Padding = new Padding(0);
-            _actionsPanel.Margin = new Padding(0);
-
-            ConfigureActionButton(_btnClose, btnClose_Click);
-            ConfigureActionButton(_btnSave, btnSave_Click);
-            ConfigureActionButton(_btnSync, btnSync_Click);
-            ConfigureActionButton(_btnCreate, btnCreate_Click);
-
-            _actionsPanel.Controls.Add(_btnClose);
-            _actionsPanel.Controls.Add(_btnSave);
-            _actionsPanel.Controls.Add(_btnSync);
-            _actionsPanel.Controls.Add(_btnCreate);
-
-            _actionsLayout.Controls.Add(_lblSaveState, 0, 0);
-            _actionsLayout.Controls.Add(_actionsPanel, 1, 0);
-
-            _mainLayout.Controls.Add(_settingsGroup, 0, 0);
-            _mainLayout.Controls.Add(_translationsGroup, 0, 1);
-            _mainLayout.Controls.Add(_actionsGroup, 0, 2);
-
-            Controls.Add(_mainLayout);
-
-            ResumeLayout(false);
-        }
-
-        private void ConfigureSettingsRow(FlowLayoutPanel panel)
-        {
-            panel.Dock = DockStyle.Fill;
-            panel.FlowDirection = FlowDirection.LeftToRight;
-            panel.WrapContents = true;
-            panel.AutoSize = true;
-            panel.AutoSizeMode = AutoSizeMode.GrowAndShrink;
-            panel.Padding = new Padding(0);
-            panel.Margin = new Padding(0, 0, 0, 6);
-        }
-
-        private void ConfigureTranslationsGrid()
-        {
-            _translationsGrid.Dock = DockStyle.Fill;
-            _translationsGrid.AutoGenerateColumns = false;
-            _translationsGrid.EditMode = DataGridViewEditMode.EditOnEnter;
-            _translationsGrid.SelectionMode = DataGridViewSelectionMode.CellSelect;
-            _translationsGrid.MultiSelect = false;
-            _translationsGrid.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-            _translationsGrid.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.DisplayedCellsExceptHeaders;
-            _translationsGrid.RowHeadersVisible = false;
-            _translationsGrid.DataSource = _bindingSource;
-            _translationsGrid.CurrentCellDirtyStateChanged += grdTranslations_CurrentCellDirtyStateChanged;
-            _translationsGrid.CellValueChanged += grdTranslations_CellValueChanged;
-
-            var keyColumn = new DataGridViewTextBoxColumn
-            {
-                Name = "colKey",
-                DataPropertyName = "Key",
-                ReadOnly = true,
-                FillWeight = 24F,
-                MinimumWidth = 120
-            };
-
-            var sourceColumn = new DataGridViewTextBoxColumn
-            {
-                Name = "colSource",
-                DataPropertyName = "Source",
-                ReadOnly = true,
-                FillWeight = 28F,
-                MinimumWidth = 180,
-                DefaultCellStyle = { WrapMode = DataGridViewTriState.True }
-            };
-
-            var translationColumn = new DataGridViewTextBoxColumn
-            {
-                Name = "colTranslation",
-                DataPropertyName = "Translation",
-                ReadOnly = false,
-                FillWeight = 28F,
-                MinimumWidth = 180,
-                DefaultCellStyle = { WrapMode = DataGridViewTriState.True }
-            };
-
-            var translatedColumn = new DataGridViewCheckBoxColumn
-            {
-                Name = "colIsTranslated",
-                DataPropertyName = "IsTranslated",
-                FillWeight = 10F,
-                MinimumWidth = 80
-            };
-
-            var notesColumn = new DataGridViewTextBoxColumn
-            {
-                Name = "colNotes",
-                DataPropertyName = "Notes",
-                ReadOnly = true,
-                FillWeight = 20F,
-                MinimumWidth = 140,
-                DefaultCellStyle = { WrapMode = DataGridViewTriState.True }
-            };
-
-            _translationsGrid.Columns.AddRange(keyColumn, sourceColumn, translationColumn, translatedColumn, notesColumn);
-        }
-
-        private void ConfigureActionButton(Button button, EventHandler clickHandler)
-        {
-            button.Margin = new Padding(6, 0, 0, 0);
-            button.Size = new Size(95, 30);
-            button.UseVisualStyleBackColor = true;
-            button.Click += clickHandler;
+            return AppDomain.CurrentDomain.BaseDirectory;
         }
 
         private void LoadMasterFile()
@@ -784,7 +572,6 @@ namespace gMKVToolNix.Forms
             _actionsGroup.Text = LocalizationManager.GetString("UI.TranslationEditor.Actions.Group");
 
             _lblTargetCulture.Text = LocalizationManager.GetString("UI.TranslationEditor.Fields.TargetCulture");
-            _lblNewCulture.Text = LocalizationManager.GetString("UI.TranslationEditor.Fields.NewCulture");
             _lblTranslator.Text = LocalizationManager.GetString("UI.TranslationEditor.Fields.Translator");
             _lblSearch.Text = LocalizationManager.GetString("UI.TranslationEditor.Fields.Search");
             _chkShowOnlyUntranslated.Text = LocalizationManager.GetString("UI.TranslationEditor.Fields.ShowOnlyUntranslated");
@@ -1021,6 +808,10 @@ namespace gMKVToolNix.Forms
             _settingsRow1.MaximumSize = new Size(contentWidth, 0);
             _settingsRow2.MaximumSize = new Size(contentWidth, 0);
             _settingsLayout.MaximumSize = new Size(contentWidth, 0);
+            _settingsRow1.PerformLayout();
+            _settingsRow2.PerformLayout();
+            _settingsLayout.PerformLayout();
+            _settingsGroup.PerformLayout();
 
             int summaryWidth = Math.Max(180, contentWidth - (_lblSearch.Width + _txtSearch.Width + 72));
             _lblSummary.MaximumSize = new Size(summaryWidth, 0);
@@ -1028,6 +819,9 @@ namespace gMKVToolNix.Forms
             int settingsHeight = Math.Max(104, _settingsLayout.GetPreferredSize(new Size(contentWidth, 0)).Height + 28);
             _mainLayout.RowStyles[0].Height = Math.Max(104, settingsHeight);
 
+            _actionsPanel.PerformLayout();
+            _actionsLayout.PerformLayout();
+            _actionsGroup.PerformLayout();
             int buttonsWidth = _actionsPanel.GetPreferredSize(Size.Empty).Width;
             int saveStateWidth = Math.Max(180, contentWidth - buttonsWidth - 24);
             _lblSaveState.MaximumSize = new Size(saveStateWidth, 0);
@@ -1035,6 +829,7 @@ namespace gMKVToolNix.Forms
             int actionsHeight = Math.Max(84, _actionsLayout.GetPreferredSize(new Size(contentWidth, 0)).Height + 18);
             _mainLayout.RowStyles[2].Height = actionsHeight;
             _mainLayout.PerformLayout();
+            PerformLayout();
         }
 
         protected override void OnResize(EventArgs e)

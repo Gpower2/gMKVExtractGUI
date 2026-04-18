@@ -131,6 +131,9 @@
     <Compile Include="Forms\frmTranslationEditor.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Forms\frmTranslationEditor.Designer.cs">
+      <DependentUpon>frmTranslationEditor.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\frmOptions.Designer.cs">
       <DependentUpon>frmOptions.cs</DependentUpon>
     </Compile>

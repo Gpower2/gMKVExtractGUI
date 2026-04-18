@@ -19,7 +19,6 @@ namespace gMKVToolNix.Forms
         private const int PatternButtonMinWidth = 83;
         private const int ActionButtonMinWidth = 80;
         private const int LayoutSpacing = 6;
-        private readonly Button _btnTranslationEditor = new Button();
         private gSettings _Settings = null;
         private ContextMenuStrip _VideoTrackContextMenu = null;
         private ContextMenuStrip _AudioTrackContextMenu = null;
@@ -41,8 +40,6 @@ namespace gMKVToolNix.Forms
 
                 // Initialize the DPI aware scaling
                 InitDPI();
-
-                InitializeTranslationEditorButton();
 
                 // Initialize the context menus
                 InitPlaceholderContextMenus();
@@ -97,15 +94,6 @@ namespace gMKVToolNix.Forms
             chkTextFilesWithoutBom.Checked = _Settings.DisableBomForTextFiles;
             chkRawMode.Checked = _Settings.UseRawExtractionMode;
             chkFullRawMode.Checked = _Settings.UseFullRawExtractionMode;
-        }
-
-        private void InitializeTranslationEditorButton()
-        {
-            _btnTranslationEditor.Name = "btnTranslationEditor";
-            _btnTranslationEditor.Size = new Size(95, 30);
-            _btnTranslationEditor.UseVisualStyleBackColor = true;
-            _btnTranslationEditor.Click += btnTranslationEditor_Click;
-            grpAdvanced.Controls.Add(_btnTranslationEditor);
         }
 
         private void UpdateSettings()
@@ -686,7 +674,7 @@ namespace gMKVToolNix.Forms
             btnDefaultTagsPlaceholder.Text = LocalizationManager.GetString("UI.OptionsForm.Tags.Default");
             grpAdvanced.Text = LocalizationManager.GetString("UI.OptionsForm.Advanced.Group");
             lblCulture.Text = LocalizationManager.GetString("UI.OptionsForm.Advanced.Culture");
-            _btnTranslationEditor.Text = LocalizationManager.GetString("UI.OptionsForm.Advanced.Translations");
+            btnTranslationEditor.Text = LocalizationManager.GetString("UI.OptionsForm.Advanced.Translations");
             grpActions.Text = LocalizationManager.GetString("UI.OptionsForm.Actions.Group");
             btnDefaults.Text = LocalizationManager.GetString("UI.OptionsForm.Defaults");
             btnOK.Text = LocalizationManager.GetString("UI.OptionsForm.Actions.OK");
@@ -754,30 +742,30 @@ namespace gMKVToolNix.Forms
             int cultureRowTop = 46;
             int advancedRowHeight = 86;
             int comboWidth = Math.Max(80, cmbCulture.Width);
-            _btnTranslationEditor.ApplyLocalizedButtonSize(95);
+            btnTranslationEditor.ApplyLocalizedButtonSize(95);
             int right = grpAdvanced.ClientSize.Width - 6;
 
             cmbCulture.Width = comboWidth;
             cmbCulture.Location = new Point(right - cmbCulture.Width, cultureRowTop - 3);
             lblCulture.Location = new Point(cmbCulture.Left - LayoutSpacing - lblCulture.Width, cultureRowTop);
-            _btnTranslationEditor.Location = new Point(lblCulture.Left - 12 - _btnTranslationEditor.Width, cultureRowTop - 3);
+            btnTranslationEditor.Location = new Point(lblCulture.Left - 12 - btnTranslationEditor.Width, cultureRowTop - 3);
 
-            if (chkFullRawMode.Right + 12 > _btnTranslationEditor.Left)
+            if (chkFullRawMode.Right + 12 > btnTranslationEditor.Left)
             {
                 cultureRowTop = 70;
                 advancedRowHeight = 110;
                 cmbCulture.Location = new Point(right - cmbCulture.Width, cultureRowTop - 3);
                 lblCulture.Location = new Point(cmbCulture.Left - LayoutSpacing - lblCulture.Width, cultureRowTop);
-                _btnTranslationEditor.Location = new Point(lblCulture.Left - 12 - _btnTranslationEditor.Width, cultureRowTop - 3);
+                btnTranslationEditor.Location = new Point(lblCulture.Left - 12 - btnTranslationEditor.Width, cultureRowTop - 3);
             }
 
-            if (chkFullRawMode.Right + 12 > _btnTranslationEditor.Left)
+            if (chkFullRawMode.Right + 12 > btnTranslationEditor.Left)
             {
                 cultureRowTop = 94;
                 advancedRowHeight = 134;
                 cmbCulture.Location = new Point(right - cmbCulture.Width, cultureRowTop - 3);
                 lblCulture.Location = new Point(cmbCulture.Left - LayoutSpacing - lblCulture.Width, cultureRowTop);
-                _btnTranslationEditor.Location = new Point(lblCulture.Left - 12 - _btnTranslationEditor.Width, cultureRowTop - 3);
+                btnTranslationEditor.Location = new Point(lblCulture.Left - 12 - btnTranslationEditor.Width, cultureRowTop - 3);
             }
 
             if (tlpMain.RowStyles.Count > 7)
