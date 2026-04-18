@@ -57,6 +57,8 @@ namespace gMKVToolNix.Forms
         private List<string> _CmdArguments = new List<string>();
         private bool _contextMenuItemsDirty = true;
         private bool _isApplyingResponsiveLayout = false;
+        private int _chapterTypeComboBaseWidth;
+        private int _extractionModeComboBaseWidth;
 
         public frmMain2()
         {
@@ -65,6 +67,7 @@ namespace gMKVToolNix.Forms
                 _FromConstructor = true;
 
                 InitializeComponent();
+                CaptureResponsiveLayoutBaselines();
 
                 // Get the command line arguments
                 GetCommandLineArguments();
@@ -137,6 +140,7 @@ namespace gMKVToolNix.Forms
 
                 // Initialize the DPI aware scaling
                 InitDPI();
+                CaptureResponsiveLayoutBaselines();
 
                 // Apply localization
                 ApplyLocalization();
@@ -3056,6 +3060,19 @@ namespace gMKVToolNix.Forms
             ApplyResponsiveLayout();
         }
 
+        private void CaptureResponsiveLayoutBaselines()
+        {
+            if (cmbChapterType != null && cmbChapterType.Width > 0)
+            {
+                _chapterTypeComboBaseWidth = cmbChapterType.Width;
+            }
+
+            if (cmbExtractionMode != null && cmbExtractionMode.Width > 0)
+            {
+                _extractionModeComboBaseWidth = cmbExtractionMode.Width;
+            }
+        }
+
         private void ApplyResponsiveLayout()
         {
             if (_isApplyingResponsiveLayout)
@@ -3144,8 +3161,8 @@ namespace gMKVToolNix.Forms
             btnAddJobs.ApplyLocalizedButtonSize(70);
             btnExtract.ApplyLocalizedButtonSize(80);
 
-            cmbChapterType.Width = Math.Max(80, cmbChapterType.Width);
-            cmbExtractionMode.Width = Math.Max(120, cmbExtractionMode.Width);
+            cmbChapterType.Width = _chapterTypeComboBaseWidth > 0 ? _chapterTypeComboBaseWidth : 80;
+            cmbExtractionMode.Width = _extractionModeComboBaseWidth > 0 ? _extractionModeComboBaseWidth : 120;
 
             if (tlpMain.RowStyles.Count > 4)
             {
@@ -3202,7 +3219,7 @@ namespace gMKVToolNix.Forms
 
             foreach (Control control in controls)
             {
-                int controlWidth = control.GetPreferredWidth(control.Width);
+                int controlWidth = control.GetPreferredWidth();
                 int controlHeight = control.Height;
 
                 if (x > startX && x + controlWidth > maxRight)

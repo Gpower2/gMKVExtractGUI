@@ -86,7 +86,8 @@ namespace gMKVToolNix.Controls
             }
 
             button.AutoSize = false;
-            button.Size = new Size(button.GetPreferredWidth(minimumWidth, extraPadding), Math.Max(minimumHeight, button.Height));
+            int preferredHeight = button.GetPreferredSize(Size.Empty).Height;
+            button.Size = new Size(button.GetPreferredWidth(minimumWidth, extraPadding), Math.Max(minimumHeight, preferredHeight));
         }
     }
 }
