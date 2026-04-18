@@ -762,6 +762,12 @@
       "IsTranslated": true,
       "Notes": "Button to close the translation editor"
     },
+    "UI.TranslationEditor.Dialogs.DiscardChanges": {
+      "Source": "You have unsaved changes for locale {0}. Discard them?",
+      "Translation": "You have unsaved changes for locale {0}. Discard them?",
+      "IsTranslated": true,
+      "Notes": "Confirmation shown when switching locales or closing the editor with unsaved changes"
+    },
     "UI.TranslationEditor.Errors.SelectCulture": {
       "Source": "You must select a locale first!",
       "Translation": "You must select a locale first!",
@@ -803,6 +809,18 @@
       "Translation": "The locale {0} was synced successfully! Added: {1}, Updated: {2}, Removed: {3}",
       "IsTranslated": true,
       "Notes": "Success message after syncing a locale file with the English master"
+    },
+    "UI.TranslationEditor.Status.Clean": {
+      "Source": "All changes saved",
+      "Translation": "All changes saved",
+      "IsTranslated": true,
+      "Notes": "Status text shown when the current locale has no pending edits"
+    },
+    "UI.TranslationEditor.Status.Dirty": {
+      "Source": "Unsaved changes",
+      "Translation": "Unsaved changes",
+      "IsTranslated": true,
+      "Notes": "Status text shown when the current locale has pending edits"
     },
     "UI.MainForm2.InputFiles.GroupWithCount": {
       "Source": "Input Files (you can drag and drop files or directories) ({0} files)",

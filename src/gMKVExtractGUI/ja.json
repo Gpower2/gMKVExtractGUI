@@ -3,7 +3,7 @@
     "Culture": "ja",
     "Translator": "GitHub Copilot",
     "CreationDate": "2026-04-13T20:07:27Z",
-    "LastEditDate": "2026-04-18T11:53:31.6065902Z"
+    "LastEditDate": "2026-04-18T12:22:57.1329571Z"
   },
   "Entries": {
     "UI.MainForm.Title": {
@@ -1613,6 +1613,24 @@
       "Translation": "添付ファイルサイズ（バイト）",
       "IsTranslated": true,
       "Notes": "Placeholder description for the attachment size in bytes"
+    },
+    "UI.TranslationEditor.Status.Dirty": {
+      "Source": "Unsaved changes",
+      "Translation": "未保存の変更",
+      "IsTranslated": true,
+      "Notes": "Status text shown when the current locale has pending edits"
+    },
+    "UI.TranslationEditor.Status.Clean": {
+      "Source": "All changes saved",
+      "Translation": "すべての変更が保存されました",
+      "IsTranslated": true,
+      "Notes": "Status text shown when the current locale has no pending edits"
+    },
+    "UI.TranslationEditor.Dialogs.DiscardChanges": {
+      "Source": "You have unsaved changes for locale {0}. Discard them?",
+      "Translation": "ロケール {0} には未保存の変更があります。破棄しますか？",
+      "IsTranslated": true,
+      "Notes": "Confirmation shown when switching locales or closing the editor with unsaved changes"
     }
   }
 }

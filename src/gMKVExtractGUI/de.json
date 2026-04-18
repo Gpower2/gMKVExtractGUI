@@ -3,7 +3,7 @@
     "Culture": "de",
     "Translator": "GitHub Copilot",
     "CreationDate": "2026-04-13T20:07:27Z",
-    "LastEditDate": "2026-04-18T11:53:30.4938122Z"
+    "LastEditDate": "2026-04-18T12:22:57.1004537Z"
   },
   "Entries": {
     "UI.MainForm.Title": {
@@ -1613,6 +1613,24 @@
       "Translation": "Dateigröße des Anhangs (Bytes)",
       "IsTranslated": true,
       "Notes": "Placeholder description for the attachment size in bytes"
+    },
+    "UI.TranslationEditor.Status.Dirty": {
+      "Source": "Unsaved changes",
+      "Translation": "Ungespeicherte Änderungen",
+      "IsTranslated": true,
+      "Notes": "Status text shown when the current locale has pending edits"
+    },
+    "UI.TranslationEditor.Status.Clean": {
+      "Source": "All changes saved",
+      "Translation": "Alle Änderungen gespeichert",
+      "IsTranslated": true,
+      "Notes": "Status text shown when the current locale has no pending edits"
+    },
+    "UI.TranslationEditor.Dialogs.DiscardChanges": {
+      "Source": "You have unsaved changes for locale {0}. Discard them?",
+      "Translation": "Sie haben ungespeicherte Änderungen für das Gebietsschema {0}. Möchten Sie sie verwerfen?",
+      "IsTranslated": true,
+      "Notes": "Confirmation shown when switching locales or closing the editor with unsaved changes"
     }
   }
 }
