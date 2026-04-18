@@ -1,597 +1,188 @@
 # gMKVExtractGUI - Localization Implementation Report
 
-**Date:** March 17, 2025  
-**Last Updated:** March 17, 2025 (Culture Selector UI Implementation)  
-**Status:** 🔄 In Progress - Culture Selector UI Complete, Code Refactoring Ongoing  
-**Total UI Strings Identified:** 111 strings across 5 WinForms
+**Last Updated:** April 18, 2026
+**Status:** Complete and validated
+**Locale Files in Tree:** 9 (`en`, `es`, `de`, `pt`, `pt-br`, `fr`, `el`, `cn`, `ja`)
+**Current Key Count:** 241 keys in every locale file
+**Validation Snapshot:** Solution builds successfully and the current unit suite is at 10 passing tests
 
 ---
 
 ## Executive Summary
 
-The localization infrastructure is **well underway** with significant progress on both infrastructure and UI implementation.
+The localization work on this branch is no longer in a "partial rollout" phase. The application now uses a cached JSON-based localization runtime, starts with the saved culture, reloads translations when the culture changes in `frmOptions`, and ships aligned locale files for the requested languages.
 
-### What Has Been Completed:
+In addition to the original UI labels, this branch also localized the remaining runtime surfaces that mattered in practice:
 
-1. ✅ **Translator Tool Verification** - The custom `gMKVToolNix.Translator.Console` is fully implemented and ready to use
-2. ✅ **UI String Scan** - All hardcoded strings in WinForms designer files have been identified
-3. ✅ **Master Translation File** - `en.json` created with all UI strings and proper metadata
-4. ✅ **String Mapping** - Comprehensive key hierarchies established for all UI elements
-5. ✅ **Text Accuracy Fixes** - frmLog and frmOptions hardcoded text converted to use localization keys
-6. ✅ **Culture Selector UI** - Added dropdown selector in frmOptions Advanced Options section
-7. ✅ **Localization Architecture** - ApplyLocalization() methods made public across all forms
+- shared popup titles and bodies
+- exception dialogs
+- file dialog titles and filters
+- tooltips
+- main-form and Job Manager context menus
+- `frmOptions` placeholder insertion menus
 
-### Current Phase:
-
-**Culture Selector Implementation** - User-selectable culture dropdown now allows runtime language switching. All changes from programmatic to Designer-based UI placement for proper layout management.
-
-### Next Steps:
-
-Compile and test the updated frmOptions form to verify culture selector functionality. Remaining forms need their code refactoring to use localized strings throughout.
+The dark-mode context-menu work also settled on the previous built-in WinForms styling path rather than a custom renderer. The final implementation keeps the older `ManagerRenderMode` / `Professional` look while avoiding popup-window retheming on `ToolStripDropDown` handles during menu opening.
 
 ---
 
-## 1. Translator Tool Status: ✅ READY
+## Current Runtime Architecture
 
-### Implementation Status:
-- **Project:** `gMKVToolNix.Translator.Console` (v1.0)
-- **Framework:** .NET Framework 4.0
-- **Status:** Fully implemented and compiled
-- **Location:** `/mnt/e/Development/gMKVExtractGUI/code/src/gMKVToolNix.Translator.Console/`
+### LocalizationManager
 
-### Available Commands:
+`LocalizationManager` is the entry point used by the WinForms UI:
 
-| Command | Purpose | Status |
-|---------|---------|--------|
-| `scan` | Find hardcoded strings in source code | ✅ Ready |
-| `master` | Create/update master en.json file | ✅ Ready |
-| `template` | Generate new language translation files | ✅ Ready |
-| `sync` | Synchronize existing translation files | ✅ Ready |
+- `Initialize(culture)` creates the runtime service the first time the app starts.
+- `Reload(culture)` rebuilds the runtime localization service from the translation directory and switches the active culture.
+- `GetString(key)` returns the current-culture value.
+- `GetString(key, params object[] args)` formats the current-culture value.
+- `GetStringForCulture(key, culture)` and `GetStringForCulture(key, culture, args)` are the explicit culture-specific helpers.
 
-### Localization Service:
-- **Class:** `JsonLocalizationService`
-- **Location:** `/mnt/e/Development/gMKVExtractGUI/code/src/gMKVExtractGUI/Localization/JsonLocalizationService.cs`
-- **Methods:**
-  - `GetString(key, cultureName)` - Get translated string
-  - `GetString(key, cultureName, formatArgs)` - Get formatted translated string
-- **Fallback Chain:**
-  1. Try requested culture (e.g., "de-DE")
-  2. Try neutral culture (e.g., "de")
-  3. Fall back to English ("en")
-  4. Return error placeholder if not found
+The public culture-specific helper was renamed to `GetStringForCulture(...)` on this branch to avoid the overload ambiguity that previously caused `!BadFormat:...!` failures when the first format argument was a string.
 
----
+### JsonLocalizationService
 
-## 2. UI Strings Identified: 111 Total
+`JsonLocalizationService` loads translation files from the executable directory and flattens them into an in-memory runtime cache:
 
-### Breakdown by Form:
+- source files: `*.json`
+- runtime structure: `Dictionary<string, Dictionary<string, string>>`
+- load timing: once during initialization, and again only when `LocalizationManager.Reload(...)` is called
+- per-lookup file I/O: none
+- built-in fallback: `JsonLocalizationService.Defaults.cs` embeds the full English key set so `en` is always available, even if locale files are deleted from disk
 
-| Form | Module | String Count | Status |
-|------|--------|--------------|--------|
-| **frmMain** | Main Extraction Interface | 30 strings | Identified |
-| **frmJobManager** | Job Queue Manager | 22 strings | Identified |
-| **frmLog** | Log Viewer | 11 strings | Identified |
-| **frmMain2** | Alternate Main Interface | 25 strings | Identified |
-| **frmOptions** | Options/Configuration | 23 strings | Identified |
+Lookup fallback order:
 
-### Key String Categories:
+1. requested culture (for example `pt-br`)
+2. neutral culture when applicable (for example `pt`)
+3. English fallback (`en`)
+4. placeholder output (`!Key!`) if all lookups fail
 
-1. **Window Titles** (5 strings)
-   - "gMKVExtractGUI"
-   - "Job Manager"
-   - "Log"
+Formatted lookup failures are logged and returned as `!BadFormat:Key!` so broken format strings are visible rather than silently swallowed.
 
-2. **GroupBox Labels** (20 strings)
-   - Input file, Output Directory, Actions, Config, etc.
+### Culture Selection Flow
 
-3. **Button Labels** (25 strings)
-   - "Browse...", "Extract", "Save...", "Load Jobs...", etc.
+`frmOptions` owns runtime culture switching:
 
-4. **Checkbox Labels** (8 strings)
-   - "Popup", "Job Mode", "Lock", "Use Source", etc.
+1. it queries `LocalizationManager.GetAvailableCultures()`
+2. it populates the culture dropdown from the discovered JSON files
+3. it saves the selected culture to `gSettings.Culture`
+4. it calls `LocalizationManager.Reload(selectedCulture)`
+5. it reapplies localization across the open forms
 
-5. **Status Messages** (6 strings)
-   - "track", "status" (status bar labels)
-
-6. **Context Menu Items** (10 strings)
-   - "Select All Tracks", "Select All Video Tracks", etc.
-
-7. **Labels & Other** (37 strings)
-   - Label texts, combo box labels, tooltips, etc.
+This means the active culture is loaded from settings at startup and can be changed without restarting the application.
+If the saved culture is blank or points to a locale file that is no longer available, the runtime now normalizes back to English instead of keeping an invalid culture name and surfacing `!Key!` placeholders.
 
 ---
 
-## 3. Master Translation File: ✅ CREATED
+## Locale Files Currently Shipped
 
-### File Location:
-`/mnt/e/Development/gMKVExtractGUI/code/src/en.json`
+| File | Culture | Entries |
+|---|---|---:|
+| `src\gMKVExtractGUI\en.json` | `en` | 241 |
+| `src\gMKVExtractGUI\es.json` | `es` | 241 |
+| `src\gMKVExtractGUI\de.json` | `de` | 241 |
+| `src\gMKVExtractGUI\pt.json` | `pt` | 241 |
+| `src\gMKVExtractGUI\pt-br.json` | `pt-br` | 241 |
+| `src\gMKVExtractGUI\fr.json` | `fr` | 241 |
+| `src\gMKVExtractGUI\el.json` | `el` | 241 |
+| `src\gMKVExtractGUI\cn.json` | `cn` | 241 |
+| `src\gMKVExtractGUI\ja.json` | `ja` | 241 |
 
-### File Format:
-**JSON Structure** with metadata and entries:
-
-```json
-{
-  "Metadata": {
-    "Culture": "en",
-    "Translator": null,
-    "CreationDate": "2025-03-17T00:00:00Z",
-    "LastEditDate": "2025-03-17T00:00:00Z"
-  },
-  "Entries": {
-    "UI.MainForm.Title": {
-      "Source": "gMKVExtractGUI",
-      "Translation": "gMKVExtractGUI",
-      "IsTranslated": true,
-      "Notes": "Application window title"
-    },
-    ...
-  }
-}
-```
-
-### Entry Structure:
-Each string entry contains:
-- **Source:** Original English text
-- **Translation:** Translated text (or same as Source for English)
-- **IsTranslated:** Boolean flag (true for complete translations)
-- **Notes:** Context/usage information for translators
-
-### Key Naming Convention:
-Hierarchical dot-notation format for easy organization:
-```
-UI.[FormName].[ComponentType].[ComponentName]
-```
-
-Examples:
-- `UI.MainForm.InputFile.Group`
-- `UI.MainForm.Actions.Extract`
-- `UI.ContextMenu.SelectAllTracks`
-- `UI.JobManager.Actions.SaveJobs`
+All locale files are included in `src\gMKVExtractGUI\gMKVExtractGUI.csproj` so they are copied to the output directory and are visible both to the runtime loader and to the culture picker in `frmOptions`.
+Those files now sit on top of the embedded English defaults rather than being the only source of fallback text.
 
 ---
 
-## 4. Required Code Refactoring
+## Branch Changes Captured in the Current Implementation
 
-### Completed ✅
+### 1. Startup and Reload Behavior
 
-**frmLog.cs:**
-- ✅ Made ApplyLocalization() method public
-- ✅ Added title localization in ApplyLocalization()
+- the application no longer forces English at startup
+- the saved culture now drives the initial localization state
+- runtime language changes rebuild the localization service correctly
+- locale discovery works with non-two-letter file names such as `pt-br`
 
-**frmOptions.cs:**
-- ✅ Made ApplyLocalization() method public
-- ✅ Converted 4 hardcoded strings to use localization keys
-- ✅ Added GetAvailableCultures() method - auto-detects cultures from *.json files
-- ✅ Added CboCulture_SelectedIndexChanged() event handler for culture switching
-- ✅ Added ApplyLocalizationToAllForms() to propagate culture changes across all open forms
-- ✅ Updated InitializeCultureSelector() to populate dropdown from detected cultures
-- ✅ Moved culture selector controls from code-behind to Designer for proper layout
-- ✅ Updated code-behind references to use Designer-managed controls (cboCulture, lblCulture)
+### 2. Runtime Localization Coverage
 
-**frmMain.cs, frmMain2.cs, frmJobManager.cs:**
-- ✅ Made ApplyLocalization() methods public
-- ✅ Added using statements for required namespaces
+This branch extended localization beyond static labels:
 
-### Current State (Hardcoded):
-```csharp
-this.btnExtract.Text = "Extract";
-this.grpInputFile.Text = "Input file (you can drag and drop the file)";
-this.selectAllTracksToolStripMenuItem.Text = "Select All Tracks";
-```
+- popup helpers in `gForm`
+- exception dialogs in `ExceptionExtensions`
+- tree-view-specific error text in `gTreeView`
+- file dialog titles and filters
+- main-form tooltips
+- main-form and Job Manager context menus
+- `frmOptions` placeholder menus
 
-### Target State (Localized):
-```csharp
-// Assuming a culture context is available
-string culture = Thread.CurrentThread.CurrentUICulture.Name; // e.g., "en-US"
+### 3. Formatting Regression Fix
 
-this.btnExtract.Text = _localizationService.GetString("UI.MainForm.Actions.Extract", culture);
-this.grpInputFile.Text = _localizationService.GetString("UI.MainForm.InputFile.Group", culture);
-this.selectAllTracksToolStripMenuItem.Text = _localizationService.GetString("UI.ContextMenu.SelectAllTracks", culture);
-```
+The previous public overload pair:
 
-### Implementation Pattern:
+- `GetString(string key, string culture)`
+- `GetString(string key, params object[] args)`
 
-**Step 1:** Declare localization service in form:
-```csharp
-private JsonLocalizationService _localizationService;
-private string _culture;
-```
+allowed some formatted string calls to be bound as culture lookups instead of format calls. The fix was to rename the explicit culture overloads to `GetStringForCulture(...)` while keeping the current-culture `GetString(...)` API intact.
 
-**Step 2:** Initialize in constructor or form load:
-```csharp
-public frmMain()
-{
-    InitializeComponent();
-    _culture = Thread.CurrentThread.CurrentUICulture.Name;
-    _localizationService = new JsonLocalizationService("path/to/translations/folder");
-    ApplyLocalization();
-}
-```
+### 4. Context Menu Stability and Theming
 
-**Step 3:** Apply localization in a dedicated method:
-```csharp
-private void ApplyLocalization()
-{
-    this.Text = _localizationService.GetString("UI.MainForm.Title", _culture);
-    this.btnExtract.Text = _localizationService.GetString("UI.MainForm.Actions.Extract", _culture);
-    this.grpInputFile.Text = _localizationService.GetString("UI.MainForm.InputFile.Group", _culture);
-    // ... and so on for all UI strings
-}
-```
+The final context-menu solution on this branch is:
+
+- keep the previous built-in WinForms context-menu styling path
+- apply menu colors and render mode through `ThemeManager.ApplyContextMenuTheme(...)`
+- skip native `SetWindowThemeManaged(...)` / `TrySetImmersiveDarkMode(...)` calls for `ToolStripDropDown` popup windows
+
+That last guard matters because retheming popup menu HWNDs during `Opening` was the risky path that led to the earlier heap-corruption crash reports. The app now preserves the original dark-mode look without using a custom context-menu renderer.
 
 ---
 
-## 5. Complete String Mapping Reference
+## Validation Notes
 
-### frmMain (30 strings)
+The current state has been validated with:
 
-**Menu Items (7):**
-- UI.ContextMenu.SelectAllTracks → "Select All Tracks"
-- UI.ContextMenu.SelectAllVideoTracks → "Select All Video Tracks"
-- UI.ContextMenu.SelectAllAudioTracks → "Select All Audio Tracks"
-- UI.ContextMenu.SelectAllSubtitleTracks → "Select All Subtitle Tracks"
-- UI.ContextMenu.SelectAllChapterTracks → "Select All Chapter Tracks"
-- UI.ContextMenu.SelectAllAttachmentTracks → "Select All Attachments Tracks"
-- UI.ContextMenu.UnselectAllTracks → "Unselect All tracks"
+- locale-file parity checks (`241` entries in every shipped locale file)
+- solution build success
+- the repository MSTest suite
+- regression tests for localization formatting behavior
+- regression tests for nested context-menu theming behavior
 
-**Controls (23):**
-- UI.MainForm.Title → "gMKVExtractGUI"
-- UI.MainForm.InputFile.Group → "Input file (you can drag and drop the file)"
-- UI.MainForm.InputFile.Browse → "Browse..."
-- UI.MainForm.OutputDirectory.Group → "Output Directory"
-- UI.MainForm.OutputDirectory.Lock → "Lock"
-- UI.MainForm.OutputDirectory.Browse → "Browse..."
-- UI.MainForm.Actions.Group → "Actions"
-- UI.MainForm.Actions.Popup → "Popup"
-- UI.MainForm.Actions.JobMode → "Job Mode"
-- UI.MainForm.Actions.Extract → "Extract"
-- UI.MainForm.Actions.ExtractionMode → "Extract:"
-- UI.MainForm.Actions.Log → "Log..."
-- UI.MainForm.Actions.ChapterType → "Chapter"
-- UI.MainForm.Actions.Abort → "Abort"
-- UI.MainForm.Actions.AbortAll → "Abort All"
-- UI.MainForm.Config.Group → "MKVToolnix Directory (you can drag and drop the directory)"
-- UI.MainForm.Config.Browse → "Browse..."
-- UI.MainForm.InputFileInfo.Group → "Input File Information"
-- UI.MainForm.Status.Track → "track"
-- UI.MainForm.Status.Status → "status"
-- UI.MainForm.Log.Group → "Log"
-
-### frmJobManager (22 strings)
-
-- UI.JobManager.Title → "Job Manager"
-- UI.JobManager.Progress.Group → "Progress"
-- UI.JobManager.Progress.CurrentTrack → "Current Track"
-- UI.JobManager.Progress.TotalProgress → "Total Progress"
-- UI.JobManager.Progress.CurrentProgress → "Current Progress"
-- UI.JobManager.Jobs.Group → "Jobs"
-- UI.JobManager.Jobs.ChangeToReadyStatus → "Change to Ready Status"
-- UI.JobManager.Jobs.SelectAll → "Select All"
-- UI.JobManager.Jobs.DeselectAll → "Deselect All"
-- UI.JobManager.Actions.Group → "Actions"
-- UI.JobManager.Actions.Popup → "Popup"
-- UI.JobManager.Actions.SaveJobs → "Save Jobs..."
-- UI.JobManager.Actions.LoadJobs → "Load Jobs..."
-- UI.JobManager.Actions.AbortAll → "Abort All"
-- UI.JobManager.Actions.Abort → "Abort"
-- UI.JobManager.Actions.RunJobs → "Run Jobs"
-- UI.JobManager.Actions.Remove → "Remove"
-
-### frmLog (11 strings)
-
-- UI.LogForm.Title → "Log"
-- UI.LogForm.Log.Group → "Log"
-- UI.LogForm.Actions.Group → "Actions"
-- UI.LogForm.Actions.Save → "Save..."
-- UI.LogForm.Actions.ClearLog → "Clear Log"
-- UI.LogForm.Actions.Refresh → "Refresh"
-- UI.LogForm.Actions.CopySelection → "Copy Selection"
-- UI.LogForm.Actions.Close → "Close"
-
-### frmMain2 (25 strings)
-
-- UI.MainForm2.Title → "gMKVExtractGUI"
-- UI.MainForm2.Status.Status → "status"
-- UI.MainForm2.Status.TotalStatus → "status"
-- UI.MainForm2.Actions.Group → "Actions"
-- UI.MainForm2.Actions.AddJobs → "Add Jobs"
-- UI.MainForm2.Actions.ShowJobs → "Jobs..."
-- UI.MainForm2.Actions.Popup → "Popup"
-- UI.MainForm2.Actions.Extract → "Extract"
-- UI.MainForm2.Actions.ExtractionMode → "Extract"
-- UI.MainForm2.Actions.Log → "Log..."
-- UI.MainForm2.Actions.ChapterType → "Chapter"
-- UI.MainForm2.OutputDirectory.Group → "Output Directory for Selected File (you can drag and drop the directory)"
-- UI.MainForm2.OutputDirectory.UseSource → "Use Source"
-- UI.MainForm2.OutputDirectory.Browse → "Browse..."
-- UI.MainForm2.OutputDirectory.SetAsDefault → "Set As Default Directory"
-- UI.MainForm2.OutputDirectory.UseDefault → "Use Currently Set Default Directory:"
-- UI.MainForm2.Config.Group → "MKVToolnix Directory (you can drag and drop the directory)"
-- UI.MainForm2.Config.AutoDetect → "Auto Detect"
-- UI.MainForm2.Config.Browse → "Browse..."
-- UI.MainForm2.InputFiles.Group → "Input Files (you can drag and drop files or directories)"
-
-### frmOptions (27 strings - 23 original + 4 new for Advanced Options)
-
-**Original 23 strings:**
-- UI.OptionsForm.Tags.Group → "Attachments"
-- UI.OptionsForm.Tags.Default → "Default"
-- UI.OptionsForm.Tags.Add → "Add..."
-- UI.OptionsForm.Chapters.Group → "Chapters"
-- UI.OptionsForm.Chapters.Default → "Default"
-- UI.OptionsForm.Chapters.Add → "Add..."
-- UI.OptionsForm.VideoTracks.Group → "Video Tracks"
-- UI.OptionsForm.VideoTracks.Default → "Default"
-- UI.OptionsForm.VideoTracks.Add → "Add..."
-- UI.OptionsForm.AudioTracks.Group → "Audio Tracks"
-- UI.OptionsForm.AudioTracks.Default → "Default"
-- UI.OptionsForm.AudioTracks.Add → "Add..."
-- UI.OptionsForm.SubtitleTracks.Group → "Subtitle Tracks"
-- UI.OptionsForm.SubtitleTracks.Default → "Default"
-- UI.OptionsForm.SubtitleTracks.Add → "Add..."
-- UI.OptionsForm.Attachments.Group → "Attachments"
-- UI.OptionsForm.Attachments.Default → "Default"
-- UI.OptionsForm.Attachments.Add → "Add..."
-- UI.OptionsForm.Info.Group → "Information"
-
-**New 4 strings (for Culture Selector):**
-- UI.OptionsForm.Defaults → "Defaults"
-- UI.OptionsForm.RawMode → "Use `raw` extraction"
-- UI.OptionsForm.FullRawMode → "Use `full raw` extraction"
-- UI.OptionsForm.TextFilesWithoutBom → "Disable BOM to text files (v96.0+)"
+At the time of this update, the suite total is **10 passing tests**.
 
 ---
 
-## 6. Implementation Roadmap
+## Maintenance Guidance
 
-### Phase 1: ✅ COMPLETED - Culture Selector UI Implementation
-1. **frmOptions Designer** - Added lblCulture and cboCulture controls to Advanced Options groupbox
-2. **frmOptions Code-Behind** - 
-   - Cleaned up programmatic control creation (moved to Designer)
-   - Updated InitializeCultureSelector() to use Designer controls
-   - Updated CboCulture_SelectedIndexChanged() to reference Designer control
-   - Removed private fields _lblCulture and _cboCulture
-3. **Culture Detection** - GetAvailableCultures() scans app directory for *.json files
-4. **Multi-Form Synchronization** - ApplyLocalizationToAllForms() propagates culture changes
-5. **Settings Persistence** - gSettings.Culture stores user's selected culture
+### When Adding New Strings
 
-**Status Update:**
-- Culture selector now uses Designer for UI placement (proper layout management)
-- All code-behind references updated to use Designer controls
-- Ready for compilation and testing in Visual Studio
+1. add the runtime call site with `LocalizationManager.GetString(...)`
+2. if you truly need an explicit culture, use `LocalizationManager.GetStringForCulture(...)`
+3. update the master file with `gMKVToolNix.Translator.Console master`
+4. sync the non-English locale files with `template` / `sync` or equivalent workflow
+5. keep `JsonLocalizationService.Defaults.cs` aligned with `en.json`
+6. keep the locale files aligned and copied in the GUI project file
 
-### Phase 2: ⏳ IN PROGRESS - Code Refactoring for All Forms
-### Phase 2: ⏳ IN PROGRESS - Code Refactoring for All Forms
-1. **frmMain.cs** - Apply localization to all 30 UI strings
-2. **frmJobManager.cs** - Apply localization to all 22 UI strings  
-3. **frmLog.cs** - Apply localization to all 11 UI strings
-4. **frmMain2.cs** - Apply localization to all 25 UI strings
-5. **frmOptions.cs** - Complete localization of remaining 27 strings
+### When Adding New Culture Files
 
-### Phase 3: Testing & Validation
-1. Compile in Visual Studio
-2. Verify culture dropdown functionality in frmOptions
-3. Test runtime culture switching
-4. Verify all open forms refresh with new localization
-5. Test culture persistence across app restart
+- keep the JSON schema consistent with `en.json`
+- set the correct `Metadata.Culture`
+- include the new file in `gMKVExtractGUI.csproj`
+- verify the file appears in `frmOptions` culture selection
 
-### Phase 4: Additional Language Files
-Once the refactoring is complete, use the translator tool to generate new language files:
+### When Touching Context Menus
 
-```bash
-# Create German translation template
-gMKVToolNix.Translator.Console.exe template -m "en.json" -c "de-DE"
-
-# Create French translation template
-gMKVToolNix.Translator.Console.exe template -m "en.json" -c "fr-FR"
-
-# Create Spanish translation template
-gMKVToolNix.Translator.Console.exe template -m "en.json" -c "es-ES"
-```
-
-### Phase 4: Distribution & Maintenance
-1. Store translation files in a `Translations/` folder within the application directory
-2. During application startup, load the appropriate translation file based on system culture
-3. When new UI strings are added, update master file and sync all language files
+- theme popup menus through `ThemeManager.ApplyContextMenuTheme(...)`
+- do not call `NativeMethods.SetWindowThemeManaged(...)` on `ToolStripDropDown` popup handles
+- keep main-form and Job Manager context-menu behavior aligned
 
 ---
 
-## 7. Translation Files Directory Structure
+## Authoritative Sources
 
-**Recommended Structure:**
-```
-/path/to/application/
-├── gMKVExtractGUI.exe
-├── Translations/
-│   ├── en.json          (Master file - 111 strings)
-│   ├── de-DE.json       (German)
-│   ├── fr-FR.json       (French)
-│   ├── es-ES.json       (Spanish)
-│   └── ... (other languages)
-└── ... (other application files)
-```
+For the current implementation, these files are the most important references:
 
----
+- `src\gMKVExtractGUI\Localization\LocalizationManager.cs`
+- `src\gMKVExtractGUI\Localization\JsonLocalizationService.cs`
+- `src\gMKVExtractGUI\Localization\JsonLocalizationService.Defaults.cs`
+- `src\gMKVExtractGUI\Forms\frmOptions.cs`
+- `src\gMKVExtractGUI\Theming\ThemeManager.cs`
+- `src\gMKVExtractGUI\en.json`
 
-## 8. Workflow Summary
-
-```
-Step 1: Code Refactoring
-├─ Update all 5 forms to use GetString() calls
-├─ Initialize localization service per form
-└─ Store keys in en.json (already done ✅)
-
-Step 2: Validation
-├─ Ensure all strings use correct key names
-├─ Verify fallback chain works properly
-└─ Test with en.json to ensure no missing keys
-
-Step 3: Create Language Templates
-├─ Run "template" command for each target language
-├─ Distribute to translators
-└─ Collect completed translations
-
-Step 4: Integration
-├─ Place translated .json files in Translations/ folder
-├─ Update application to detect system culture at startup
-└─ Load correct translation file based on culture
-
-Step 5: Maintenance
-├─ When adding new UI strings, update en.json first
-├─ Run "master" command to verify no GetString() calls are missed
-├─ Run "sync" command to update all language files
-└─ Distribute updated translations to translators
-```
-
----
-
-## 9. Technical Notes
-
-### JsonLocalizationService Features:
-
-1. **Hierarchical Fallback:**
-   - First tries exact culture match (e.g., "de-DE")
-   - Falls back to neutral culture (e.g., "de")
-   - Finally tries English ("en")
-   - Returns error placeholder if key not found
-
-2. **Format String Support:**
-   - Method supports string.Format() with parameters
-   - Example: `GetString("Msg.FileCount", culture, 5)` → "5 files found"
-
-3. **Runtime Caching:**
-   - Translation files are loaded once at startup
-   - Entries are flattened into simple dictionaries for fast lookup
-   - Fallback to Source text if Translation is empty
-
-4. **JSON Structure:**
-   - Each entry tracks:
-     - `Source`: Original English text
-     - `Translation`: Translated text
-     - `IsTranslated`: Completion flag
-     - `Notes`: Translator guidelines
-
----
-
-## 10. File Artifacts
-
-### Created Files:
-- ✅ `/mnt/e/Development/gMKVExtractGUI/code/src/en.json` - Master translation file (111 strings)
-- ✅ `/mnt/e/Development/gMKVExtractGUI/code/LOCALIZATION_IMPLEMENTATION_REPORT.md` - This file
-
-### Verified Existing Files:
-- ✅ `gMKVToolNix.Translator.Console.exe` - Tool executable
-- ✅ `JsonLocalizationService.cs` - Localization engine
-- ✅ `TranslationFile.cs`, `TranslationEntry.cs`, `Metadata.cs` - Data structures
-
----
-
-## 11. Culture Selector Implementation Details
-
-### UI Placement (frmOptions.Designer.cs)
-- **Control:** ComboBox named `cboCulture`
-- **Label:** Label named `lblCulture` with text "Culture:"
-- **Location:** Advanced Options GroupBox
-- **Position:** Label at (9, 45), ComboBox at (70, 42)
-- **Size:** ComboBox 121x21 pixels
-- **Style:** DropDownList (read-only)
-- **Event Handler:** `cboCulture.SelectedIndexChanged += CboCulture_SelectedIndexChanged`
-
-### Code-Behind Logic (frmOptions.cs)
-
-**InitializeCultureSelector() Method:**
-```csharp
-private void InitializeCultureSelector()
-{
-    try
-    {
-        var cultures = GetAvailableCultures();
-        cboCulture.Items.Clear();
-        foreach (var culture in cultures)
-        {
-            cboCulture.Items.Add(culture);
-        }
-
-        var currentCulture = _Settings.Culture;
-        if (cboCulture.Items.Contains(currentCulture))
-        {
-            cboCulture.SelectedItem = currentCulture;
-        }
-        else if (cboCulture.Items.Count > 0)
-        {
-            cboCulture.SelectedIndex = 0;
-        }
-    }
-    catch (Exception ex)
-    {
-        Debug.WriteLine(ex);
-        gMKVLogger.Log(ex.ToString());
-    }
-}
-```
-
-**GetAvailableCultures() Method:**
-- Scans application directory for *.json files
-- Extracts 2-letter culture codes from filenames (e.g., "en", "de", "fr")
-- Validates format (exactly 2 lowercase letters)
-- Returns sorted list of available cultures
-
-**CboCulture_SelectedIndexChanged() Event Handler:**
-- Triggered when user selects a different culture from dropdown
-- Updates gSettings.Culture property
-- Saves settings to INI file
-- Sets LocalizationManager.CurrentCulture
-- Calls ApplyLocalizationToAllForms() to refresh all open forms
-
-**ApplyLocalizationToAllForms() Method:**
-- Iterates through all owned forms (frmMain, frmMain2, frmJobManager, frmLog)
-- Calls ApplyLocalization() on each visible form
-- Re-applies theme after localization change
-- Ensures UI consistency across all windows
-
-### Architecture Constraints (User Requirements)
-- ✅ "Load translations once during app startup" → LocalizationManager loads en.json once, caches result
-- ✅ "User should be able to select localization, not derived from thread culture" → gSettings.Culture used instead of Thread.CurrentThread.CurrentUICulture
-- ✅ "Dropdown contains all detected cultures based on .json files" → GetAvailableCultures() auto-detects from filesystem
-- ✅ "Proper UI placement in frmOptions" → Designer-managed controls with proper layout
-
-- [x] All UI strings identified and catalogued
-- [x] Master en.json file created with correct structure
-- [x] Key naming convention documented and consistent
-- [x] Translator tool verified as ready
-- [x] Fallback chain implemented in JsonLocalizationService
-- [x] Culture selector UI implemented in frmOptions
-- [x] ApplyLocalization() methods made public in all forms
-- [x] Text accuracy fixes applied (frmLog, frmOptions)
-- [x] Culture auto-detection from *.json files implemented
-- [x] Multi-form synchronization for culture changes implemented
-- [ ] Code compilation in Visual Studio (**Next Step**)
-- [ ] Culture selector runtime testing
-- [ ] All forms tested with localization applied
-- [ ] Additional language templates created
-- [ ] Translations completed by native speakers
-- [ ] Full localization testing in multiple languages
-
----
-
-## 13. Conclusion
-
-**Current Status:** 🔄 **In Progress - UI Implementation Complete**
-
-The localization infrastructure is fully implemented with:
-- ✅ Master en.json file with 111+ UI strings
-- ✅ Culture selector UI in frmOptions Advanced Options
-- ✅ Automatic culture detection from *.json files
-- ✅ Multi-form synchronization for runtime culture switching
-- ✅ Settings persistence via gSettings.Culture
-- ✅ Text accuracy fixes in frmLog and frmOptions
-- ✅ Public ApplyLocalization() methods in all forms
-
-**Next Phase:** Compilation and runtime testing of the culture selector functionality, followed by full code refactoring to use localized strings throughout all 5 forms.
-
-**Status:** 🔄 Infrastructure & UI → ✅ Implementation Complete → ⏳ Awaiting Compilation & Testing
-
----
-
-**Report Generated:** March 17, 2025  
-**Prepared For:** Localization Implementation Task
+The string inventory itself is maintained in `LOCALIZATION_STRINGS_MANIFEST.md`, while `en.json` remains the authoritative per-key source of truth.

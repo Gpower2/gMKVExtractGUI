@@ -27,5 +27,14 @@ namespace gMKVToolNix.Unit.Tests
 
             Assert.AreEqual("Check Video Tracks... (1/2)", actual);
         }
+
+        [TestMethod]
+        public void Reload_WithUnavailableCulture_ShouldNormalizeToEnglish()
+        {
+            LocalizationManager.Reload("missing-culture");
+
+            Assert.AreEqual("en", LocalizationManager.CurrentCulture);
+            Assert.AreEqual("Are you sure?", LocalizationManager.GetString("UI.Common.Dialog.AreYouSureTitle"));
+        }
     }
 }

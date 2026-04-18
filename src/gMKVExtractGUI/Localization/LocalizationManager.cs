@@ -15,8 +15,8 @@ namespace gMKVToolNix.Localization
         public static string CurrentCulture
         {
             get { return _currentCulture; }
-            set 
-            { 
+            set
+            {
                 _currentCulture = value;
                 gMKVLogger.Log(string.Format("Culture changed to: {0}", _currentCulture));
             }
@@ -57,7 +57,16 @@ namespace gMKVToolNix.Localization
                     : culture;
 
                 _service = new JsonLocalizationService(GetTranslationDirectory());
-                _currentCulture = targetCulture;
+                string resolvedCulture = _service.ResolveCultureName(targetCulture);
+                if (!string.Equals(resolvedCulture, targetCulture, StringComparison.OrdinalIgnoreCase))
+                {
+                    gMKVLogger.Log(string.Format(
+                        "Requested culture '{0}' is not available. Falling back to '{1}'.",
+                        targetCulture,
+                        resolvedCulture));
+                }
+
+                _currentCulture = resolvedCulture;
                 _initialized = true;
 
                 gMKVLogger.Log(string.Format("LocalizationManager reloaded successfully with culture: {0}", _currentCulture));

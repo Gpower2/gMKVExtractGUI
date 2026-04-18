@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -20,14 +20,25 @@ namespace gMKVToolNix.Localization
         public JsonLocalizationService(string translationFolder)
         {
             _runtimeCache = new Dictionary<string, Dictionary<string, string>>(System.StringComparer.OrdinalIgnoreCase);
+            SeedEnglishDefaults();
             LoadAllTranslations(translationFolder);
+        }
+
+        private void SeedEnglishDefaults()
+        {
+            _runtimeCache[FallbackCulture] = CreateEnglishDefaultsDictionary();
+        }
+
+        private static Dictionary<string, string> CreateEnglishDefaultsDictionary()
+        {
+            return new Dictionary<string, string>(_englishDefaults, System.StringComparer.OrdinalIgnoreCase);
         }
 
         private void LoadAllTranslations(string translationFolder)
         {
             if (!Directory.Exists(translationFolder))
             {
-                // Log: "Translation folder not found."
+                gMKVLogger.Log(string.Format("Translation folder not found: {0}. Using embedded English defaults only.", translationFolder));
                 return;
             }
 
@@ -54,9 +65,16 @@ namespace gMKVToolNix.Localization
 
                     // --- This is the key change ---
                     // Flatten the complex object into a simple runtime dictionary
-                    var flatDictionary = new Dictionary<string, string>();
+                    var flatDictionary = string.Equals(culture, FallbackCulture, System.StringComparison.OrdinalIgnoreCase)
+                        ? CreateEnglishDefaultsDictionary()
+                        : new Dictionary<string, string>(System.StringComparer.OrdinalIgnoreCase);
                     foreach (var entry in translationFile.Entries)
                     {
+                        if (entry.Value == null)
+                        {
+                            continue;
+                        }
+
                         // Use the translated value. If it's null/empty,
                         // fall back to the source text for that entry.
                         flatDictionary[entry.Key] =
@@ -82,8 +100,33 @@ namespace gMKVToolNix.Localization
                 .ToList();
         }
 
+        public string ResolveCultureName(string cultureName)
+        {
+            string targetCulture = string.IsNullOrWhiteSpace(cultureName)
+                ? FallbackCulture
+                : cultureName.Trim();
+
+            if (TryResolveCultureName(targetCulture, out string resolvedCulture))
+            {
+                return resolvedCulture;
+            }
+
+            if (targetCulture.Contains("-"))
+            {
+                string neutralCulture = targetCulture.Split('-')[0];
+                if (TryResolveCultureName(neutralCulture, out resolvedCulture))
+                {
+                    return resolvedCulture;
+                }
+            }
+
+            return FallbackCulture;
+        }
+
         public string GetStringForCulture(string key, string cultureName)
         {
+            cultureName = ResolveCultureName(cultureName);
+
             // 1. Try to find in the requested culture (e.g., "de-DE")
             if (_runtimeCache.TryGetValue(cultureName, out var cultureDict))
             {
@@ -151,6 +194,14 @@ namespace gMKVToolNix.Localization
         string ILocalizationService.GetString(string key, string cultureName, params object[] formatArgs)
         {
             return GetStringForCulture(key, cultureName, formatArgs);
+        }
+
+        private bool TryResolveCultureName(string cultureName, out string resolvedCulture)
+        {
+            resolvedCulture = _runtimeCache.Keys.FirstOrDefault(
+                availableCulture => string.Equals(availableCulture, cultureName, System.StringComparison.OrdinalIgnoreCase));
+
+            return resolvedCulture != null;
         }
     }
 }

@@ -14,9 +14,9 @@ This manual describes the user interface and functionality of gMKVExtractGUI, or
 
 ### Input Section
 - **Input Files:**
-  - **Track List:** Shows all tracks (video, audio, subtitles, chapters, attachments) in the file. 
+  - **Track List:** Shows all tracks (video, audio, subtitles, chapters, attachments) in the file.
     - You can drag and drop files into this area in order to add them to the list.
-    - You can check/uncheck tracks to select which to extract.    
+    - You can check/uncheck tracks to select which to extract.
   - **Context Menu (right-click on track list):**
     - Select/unselect all tracks or by type (video, audio, subtitle, chapter, attachment).
     - Remove selected or all input files.
@@ -27,6 +27,8 @@ This manual describes the user interface and functionality of gMKVExtractGUI, or
     - Checkbox to append files to the list when dragging and dropping.
   - **Overwrite Existing Files:**
     - Checkbox to allow overwriting files in the output directory.
+  - **Disable Tooltips:**
+    - Checkbox to turn UI tooltips on or off.
   - **Select...:**
     - Button to display the Context Menu.
 - **Selected File Information:**
@@ -84,9 +86,17 @@ This manual describes the user interface and functionality of gMKVExtractGUI, or
     - **Default** button: Resets the pattern to its default value.
 
 - **Advanced Options:**
+  - **Language / Culture:**
+    - Dropdown to select the application language at runtime.
+    - Available cultures are loaded from the `*.json` translation files that ship with the app.
+    - Changing the culture immediately refreshes the open windows.
+    - If the locale files are missing, the application falls back to its built-in English strings.
   - **Disable BOM to text files (v96.0+):** Checkbox to disable writing Byte Order Mark in output text files (eg. subtitles).
   - **Use \`raw\` extraction:** Checkbox to enable raw extraction mode (--raw option). Applicable only for tracks extraction mode.
   - **Use \`full raw\` extraction:** Checkbox to enable full raw extraction mode (--fullraw option, takes precedence over \`raw\` mode). Applicable only for tracks extraction mode.
+
+- **Current Language Files:**
+  - The packaged locale set currently includes `en`, `es`, `de`, `pt`, `pt-br`, `fr`, `el`, `cn`, and `ja`.
 
 - **Actions:**
   - **Defaults:** Button to reset all patterns to their defaults.

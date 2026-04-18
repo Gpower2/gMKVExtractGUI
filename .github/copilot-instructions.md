@@ -32,8 +32,8 @@ vstest.console.exe tests\gMKVToolnix.Unit.Tests\bin\Debug\gMKVToolNix.Unit.Tests
 
 - Three services cut across most UI work:
   - `gSettings` persists `gMKVExtractGUI.ini` in the application directory when writable, otherwise under `Application.UserAppDataPath`.
-  - `LocalizationManager` loads `*.json` translations from the executable directory and serves `LocalizationManager.GetString(...)` lookups at runtime.
-  - `ThemeManager` plus `WinAPI\NativeMethods` apply light/dark styling to stock controls and the custom `g*` controls.
+  - `LocalizationManager` loads and caches `*.json` translations from the executable directory, serves `LocalizationManager.GetString(...)` lookups for the active culture, and rebuilds the cache on `LocalizationManager.Reload(...)`.
+  - `ThemeManager` plus `WinAPI\NativeMethods` apply light/dark styling to stock controls and the custom `g*` controls. Context menus should go through `ThemeManager.ApplyContextMenuTheme(...)` rather than direct popup-window retheming.
 
 - MKVToolNix path discovery is part of startup behavior. `frmMain2` accepts `--mkvtoolnix=...`, otherwise falls back to the saved setting, the current directory, the Windows registry, or `/usr/bin` on Linux/Mono.
 
@@ -45,7 +45,11 @@ vstest.console.exe tests\gMKVToolnix.Unit.Tests\bin\Debug\gMKVToolNix.Unit.Tests
 
 - Filename pattern work spans three places: placeholder constants in `gMKVExtractFilenamePatterns`, persisted defaults in `gSettings`, and the add-placeholder/default UI in `frmOptions`. Changing only one of those will leave the app inconsistent.
 
-- Localization work is JSON-first. Runtime strings come from `src\gMKVExtractGUI\en.json` and `LocalizationManager.GetString(...)`; bulk maintenance belongs in `src\gMKVToolNix.Translator.Console` rather than hand-rolling the translation file schema. If you add a new culture file, include it in `src\gMKVExtractGUI\gMKVExtractGUI.csproj` with `CopyToOutputDirectory` so the runtime loader and culture picker can see it.
+- Localization work is JSON-first. Runtime strings come from `src\gMKVExtractGUI\en.json` and `LocalizationManager.GetString(...)`, but `src\gMKVExtractGUI\Localization\JsonLocalizationService.Defaults.cs` also carries the embedded English fallback set. Bulk maintenance belongs in `src\gMKVToolNix.Translator.Console` rather than hand-rolling the translation file schema. If you add a new culture file, include it in `src\gMKVExtractGUI\gMKVExtractGUI.csproj` with `CopyToOutputDirectory` so the runtime loader and culture picker can see it.
+
+- Use `LocalizationManager.GetString(...)` for current-culture lookups and `LocalizationManager.GetStringForCulture(...)` only when a caller truly needs an explicit culture. The old public `GetString(key, culture)` shape was removed because it conflicted with formatted `GetString(key, params object[])` calls.
+
+- For popup menus, keep the built-in WinForms menu styling path and avoid calling `NativeMethods.SetWindowThemeManaged(...)` on `ToolStripDropDown` popup handles during `Opening`; that retheming path was the source of the earlier menu race/heap-corruption issue.
 
 - Job definitions are serialized to XML. If you add job fields or new segment subtypes, keep `gMKVJob` serialization attributes (`[Serializable]`, `XmlInclude`) aligned with `frmJobManager` save/load behavior for `List<gMKVJobInfo>`.
 

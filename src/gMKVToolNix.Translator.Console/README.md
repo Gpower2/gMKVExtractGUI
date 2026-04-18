@@ -1,16 +1,20 @@
 # **gMKVToolnix.Translator.Console**
 
-gMKVToolnix.Translator.Console is a command-line utility designed to manage the localization workflow for the gMKVToolnix application. It provides tools to find hardcoded strings, create new language templates, and synchronize existing translation files with a master file.
+gMKVToolnix.Translator.Console is a command-line utility designed to manage the localization workflow for the gMKVExtractGUI application. It provides tools to find hardcoded strings, create new language templates, and synchronize existing translation files with a master file.
 
-This tool works with a specific JSON structure that includes metadata and detailed translation entries, making it easy to integrate with other tools, such as a translation GUI.
+The tool works with the JSON translation files used by the GUI runtime:
+
+- a `Metadata` section (`Culture`, `Translator`, `CreationDate`, `LastEditDate`)
+- an `Entries` section keyed by localization key
+- per-entry fields for `Source`, `Translation`, `IsTranslated`, and `Notes`
 
 ## **Commands**
 
-The utility is split into three main commands (or "verbs"):
+The utility is split into four main commands (or "verbs"):
 
-1. `scan`: (Initial Step) Scans the source code to find hardcoded strings to help with initial refactoring.  
-2. `master`: (Maintenance) Scans the refactored code for `GetString()` calls and updates the master `en.json` file.  
-3. `template`: (New Language) Creates a new, untranslated file (e.g., `de.json`) from the master `en.json`.  
+1. `scan`: (Initial Step) Scans the source code to find hardcoded strings to help with initial refactoring.
+2. `master`: (Maintenance) Scans the refactored code for `GetString()` calls and updates the master `en.json` file.
+3. `template`: (New Language) Creates a new, untranslated file (e.g., `de.json`) from the master `en.json`.
 4. `sync`: (Maintenance) Updates an existing translation file (e.g., `de.json`) with new changes from the `en.json` master.
 
 ### **1\. scan**
@@ -27,16 +31,18 @@ This command scans a source code directory for hardcoded C\# strings. Its purpos
 #### **Example Usage**
 
 ```
-# Scan the entire solution source tree  
-gMKVToolnix.Translator.Console.exe scan --source "C:\Projects\gMKVToolnix"
+# Scan the entire solution source tree
+gMKVToolnix.Translator.Console.exe scan --source "C:\Projects\gMKVExtractGUI\src"
 
-# Scan a specific project and output the report to a custom file  
-gMKVToolnix.Translator.Console.exe scan -s "C:\Projects\gMKVToolnix\gMKVToolnix.GUI" -o "C:\Temp\gui_strings.json"
+# Scan a specific project and output the report to a custom file
+gMKVToolnix.Translator.Console.exe scan -s "C:\Projects\gMKVExtractGUI\src\gMKVExtractGUI" -o "C:\Temp\gui_strings.json"
 ```
 
 ### **2\. master**
 
-This command scans the source code for all `GetString("key")` calls. It uses this list of keys to create or update the master `en.json` file. It preserves all existing source text and notes while adding placeholders for any new keys it finds.
+This command scans the source code for literal `GetString("key")` calls. It uses this list of keys to create or update the master `en.json` file. It preserves all existing source text and notes while adding placeholders for any new keys it finds.
+
+> **Note:** The current scanner targets `GetString(...)` call sites. If you add new literal-key helper shapes in the runtime (for example a future scanner for `GetStringForCulture(...)` calls), update `MasterCommand` accordingly so new keys remain discoverable.
 
 #### **Options**
 
@@ -48,8 +54,8 @@ This command scans the source code for all `GetString("key")` calls. It uses thi
 #### **Example Usage**
 
 ```
-# Scan the code and update the en.json master file  
-gMKVToolnix.Translator.Console.exe master -s "C:\Projects\\gMKVToolnix" -m "C:\App\Translations\en.json"
+# Scan the code and update the en.json master file
+gMKVToolnix.Translator.Console.exe master -s "C:\Projects\gMKVExtractGUI\src" -m "C:\App\Translations\en.json"
 ```
 
 ### **3\. template**
@@ -67,10 +73,10 @@ This command creates a new, blank translation file for a new culture. It uses th
 #### **Example Usage**
 
 ```
-# Create a new German (Germany) translation file  
+# Create a new German (Germany) translation file
 gMKVToolnix.Translator.Console.exe template --master "C:\App\Translations\en.json" --culture "de-DE"
 
-# Create a new French file in a specific output location  
+# Create a new French file in a specific output location
 gMKVToolnix.Translator.Console.exe template -m "C:\App\Translations\en.json" -c "fr-FR" -o "C:\Temp\new_french_file.json"
 ```
 
@@ -80,8 +86,8 @@ This is the most important command for ongoing maintenance. It synchronizes an e
 
 It performs the following actions:
 
-* **Adds** any new strings from the master to the target.  
-* **Removes** any strings from the target that no longer exist in the master.  
+* **Adds** any new strings from the master to the target.
+* **Removes** any strings from the target that no longer exist in the master.
 * **Updates** any entries where the `source` text in the master has changed. This will reset the translation and mark it as `isTranslated: false` to force a re-translation.
 
 #### **Options**
@@ -94,10 +100,10 @@ It performs the following actions:
 #### **Example Usage**
 
 ```
-# Sync the German translation file with the latest master file  
+# Sync the German translation file with the latest master file
 gMKVToolnix.Translator.Console.exe sync --master "C:\App\Translations\en.json" --target "C:\App\Translations\de-DE.json"
 
-# Sync the French file  
+# Sync the French file
 gMKVToolnix.Translator.Console.exe sync -m "C:\App\Translations\en.json" -t "C:\App\Translations\fr-FR.json"
 ```
 
@@ -105,40 +111,53 @@ gMKVToolnix.Translator.Console.exe sync -m "C:\App\Translations\en.json" -t "C:\
 
 Here is the end-to-end process for localizing the application:
 
-1. **Initial Scan:** The developer runs scan to find all hardcoded strings.  
+1. **Initial Scan:** The developer runs scan to find all hardcoded strings.
 ```
-gMKVToolnix.Translator.Console.exe scan -s "C:\Projects\gMKVToolnix"
-```
-
-2. **Refactor Code:** The developer uses `scan_report.json` to refactor all code (e.g., changing `"Open"` to `_loc.GetString("Gui.MainMenu.Open", culture)`).  
-
-3. **Generate Master:** The developer runs master to auto-generate the `en.json` file from the refactored code.  
-```
-gMKVToolnix.Translator.Console.exe master -s "C:\Projects\gMKVToolnix" -m "C:\App\Translations\en.json"
+gMKVToolnix.Translator.Console.exe scan -s "C:\Projects\gMKVExtractGUI\src"
 ```
 
-4. **Edit Master:** The developer opens `en.json` and fills in the source text and notes for all entries that show \!NEW\!.  
+2. **Refactor Code:** The developer uses `scan_report.json` to refactor all code (e.g., changing `"Open"` to `_loc.GetString("Gui.MainMenu.Open", culture)`).
 
-5. **Create New Template:** The developer wants to add German. They run template.  
+3. **Generate Master:** The developer runs master to auto-generate the `en.json` file from the refactored code.
+```
+gMKVToolnix.Translator.Console.exe master -s "C:\Projects\gMKVExtractGUI\src" -m "C:\App\Translations\en.json"
+```
+
+4. **Edit Master:** The developer opens `en.json` and fills in the source text and notes for all entries that show \!NEW\!.
+
+5. **Create New Template:** The developer wants to add German. They run template.
 ```
 gMKVToolnix.Translator.Console.exe template -m "C:\App\Translations\en.json" -c "de-DE"
 ```
 
-6. **Translation:** A translator opens `de-DE.json`, changes the translation values, and sets `isTranslated` to `true`.  
+6. **Translation:** A translator opens `de-DE.json`, changes the translation values, and sets `isTranslated` to `true`.
 
-7. **New Features:** Weeks later, the developer adds new features, refactors code, and adds new `_loc.GetString(...)` calls.  
+7. **New Features:** Weeks later, the developer adds new features, refactors code, and adds new `_loc.GetString(...)` calls.
 
-8. **Update Master:** The developer re-runs master. The tool finds the new keys and adds them as placeholders to `en.json`, preserving all old work.  
+8. **Update Master:** The developer re-runs master. The tool finds the new keys and adds them as placeholders to `en.json`, preserving all old work.
 ```
-gMKVToolnix.Translator.Console.exe master -s "C:\Projects\gMKVToolnix" -m "C:\App\Translations\en.json"
+gMKVToolnix.Translator.Console.exe master -s "C:\Projects\gMKVExtractGUI\src" -m "C:\App\Translations\en.json"
 ```
 
-9. **Edit Master:** The developer opens `en.json` and fills in the source and notes for the new keys.  
+9. **Edit Master:** The developer opens `en.json` and fills in the source and notes for the new keys.
 
-10. **Synchronize:** The developer runs sync to update `de-DE.json`.  
-```    
+10. **Synchronize:** The developer runs sync to update `de-DE.json`.
+```
 gMKVToolnix.Translator.Console.exe sync -m "C:\App\Translations\en.json" -t "C:\App\Translations\de-DE.json"
 ```
-The console reports that the new strings were added to `de-DE.json`.  
+The console reports that the new strings were added to `de-DE.json`.
 
 11. **Final Translation:** The translator opens `de-DE.json` and can now easily find and translate the new items that are marked as `isTranslated: false`.
+
+## **Runtime Behavior**
+
+The GUI runtime uses these files directly:
+
+1. `JsonLocalizationService` scans the executable directory for `*.json` translation files.
+2. Each file is parsed and flattened into an in-memory runtime cache keyed by culture and localization key.
+3. Lookups do **not** reread translation files on every call.
+4. The GUI also embeds a built-in English fallback map, so missing locale files still resolve to English instead of `!Key!` placeholders.
+5. `LocalizationManager.Reload(culture)` rebuilds the cache when the user changes language from `frmOptions`.
+6. Invalid or unavailable saved cultures are normalized back to a real available culture, typically `en`.
+7. Lookup fallback order is: requested culture -> neutral culture -> `en` -> `!Key!`.
+8. Formatted lookup failures are logged and surfaced as `!BadFormat:Key!` rather than being silently ignored.
