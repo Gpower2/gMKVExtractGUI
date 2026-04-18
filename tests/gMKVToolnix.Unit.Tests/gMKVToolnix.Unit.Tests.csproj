@@ -51,6 +51,7 @@
     <Compile Include="LocalizationManager.Tests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ThemeManager.Tests.cs" />
+    <Compile Include="TranslationMaintenanceService.Tests.cs" />
     <Compile Include="gMkvParser.Tests.cs" />
   </ItemGroup>
   <ItemGroup>

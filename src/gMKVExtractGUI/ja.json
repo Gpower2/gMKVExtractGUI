@@ -3,7 +3,7 @@
     "Culture": "ja",
     "Translator": "GitHub Copilot",
     "CreationDate": "2026-04-13T20:07:27Z",
-    "LastEditDate": "2026-04-13T21:25:48Z"
+    "LastEditDate": "2026-04-18T11:53:31.6065902Z"
   },
   "Entries": {
     "UI.MainForm.Title": {
@@ -636,11 +636,173 @@
       "IsTranslated": true,
       "Notes": "Label for culture selector"
     },
+    "UI.OptionsForm.Advanced.Translations": {
+      "Source": "Translations...",
+      "Translation": "Translations...",
+      "IsTranslated": false,
+      "Notes": "Button to open the translation editor"
+    },
     "UI.OptionsForm.Info.Text": {
       "Source": "Here you can specify the output filename format for each kind of track.\nPressing the \"Add...\" button you will see the list with the available placeholders and select them.\nPressing the \"Default\" button you will reset the output filename format to its default value.",
       "Translation": "ここでは、各トラック種別の出力ファイル名形式を指定できます。\n「追加...」ボタンを押すと、利用可能なプレースホルダーの一覧が表示され、選択できます。\n「既定」ボタンを押すと、出力ファイル名形式が既定値に戻ります。",
       "IsTranslated": true,
       "Notes": "Help text describing filename placeholders"
+    },
+    "UI.TranslationEditor.Title": {
+      "Source": "Translation Editor",
+      "Translation": "Translation Editor",
+      "IsTranslated": false,
+      "Notes": "Window title for the translation editor"
+    },
+    "UI.TranslationEditor.Settings.Group": {
+      "Source": "Translation Settings",
+      "Translation": "Translation Settings",
+      "IsTranslated": false,
+      "Notes": "GroupBox label for translation editor settings"
+    },
+    "UI.TranslationEditor.Grid.Group": {
+      "Source": "Translations",
+      "Translation": "Translations",
+      "IsTranslated": false,
+      "Notes": "GroupBox label for translation editor entries"
+    },
+    "UI.TranslationEditor.Actions.Group": {
+      "Source": "Actions",
+      "Translation": "Actions",
+      "IsTranslated": false,
+      "Notes": "GroupBox label for translation editor actions"
+    },
+    "UI.TranslationEditor.Fields.TargetCulture": {
+      "Source": "Locale:",
+      "Translation": "Locale:",
+      "IsTranslated": false,
+      "Notes": "Label for the current translation locale selector"
+    },
+    "UI.TranslationEditor.Fields.NewCulture": {
+      "Source": "New Locale:",
+      "Translation": "New Locale:",
+      "IsTranslated": false,
+      "Notes": "Label for the new locale code text box"
+    },
+    "UI.TranslationEditor.Fields.Translator": {
+      "Source": "Translator:",
+      "Translation": "Translator:",
+      "IsTranslated": false,
+      "Notes": "Label for the translator metadata text box"
+    },
+    "UI.TranslationEditor.Fields.Search": {
+      "Source": "Search:",
+      "Translation": "Search:",
+      "IsTranslated": false,
+      "Notes": "Label for the translation search box"
+    },
+    "UI.TranslationEditor.Fields.ShowOnlyUntranslated": {
+      "Source": "Show only untranslated",
+      "Translation": "Show only untranslated",
+      "IsTranslated": false,
+      "Notes": "Checkbox to filter the translation grid to untranslated rows"
+    },
+    "UI.TranslationEditor.Fields.Summary": {
+      "Source": "Translated: {0}/{1}",
+      "Translation": "Translated: {0}/{1}",
+      "IsTranslated": false,
+      "Notes": "Summary label showing translated entries versus total entries"
+    },
+    "UI.TranslationEditor.Columns.Key": {
+      "Source": "Key",
+      "Translation": "Key",
+      "IsTranslated": false,
+      "Notes": "Column header for the localization key"
+    },
+    "UI.TranslationEditor.Columns.Source": {
+      "Source": "Source",
+      "Translation": "Source",
+      "IsTranslated": false,
+      "Notes": "Column header for the English source string"
+    },
+    "UI.TranslationEditor.Columns.Translation": {
+      "Source": "Translation",
+      "Translation": "Translation",
+      "IsTranslated": false,
+      "Notes": "Column header for the translated string"
+    },
+    "UI.TranslationEditor.Columns.IsTranslated": {
+      "Source": "Done",
+      "Translation": "Done",
+      "IsTranslated": false,
+      "Notes": "Column header for the translated status checkbox"
+    },
+    "UI.TranslationEditor.Columns.Notes": {
+      "Source": "Notes",
+      "Translation": "Notes",
+      "IsTranslated": false,
+      "Notes": "Column header for translator notes"
+    },
+    "UI.TranslationEditor.Actions.Create": {
+      "Source": "Create",
+      "Translation": "Create",
+      "IsTranslated": false,
+      "Notes": "Button to create a new locale from the English master"
+    },
+    "UI.TranslationEditor.Actions.Sync": {
+      "Source": "Sync",
+      "Translation": "Sync",
+      "IsTranslated": false,
+      "Notes": "Button to sync the selected locale with the English master"
+    },
+    "UI.TranslationEditor.Actions.Save": {
+      "Source": "Save",
+      "Translation": "Save",
+      "IsTranslated": false,
+      "Notes": "Button to save the selected locale"
+    },
+    "UI.TranslationEditor.Actions.Close": {
+      "Source": "Close",
+      "Translation": "Close",
+      "IsTranslated": false,
+      "Notes": "Button to close the translation editor"
+    },
+    "UI.TranslationEditor.Errors.SelectCulture": {
+      "Source": "You must select a locale first!",
+      "Translation": "You must select a locale first!",
+      "IsTranslated": false,
+      "Notes": "Error shown when translation editor actions require a selected locale"
+    },
+    "UI.TranslationEditor.Errors.CultureCodeRequired": {
+      "Source": "You must enter a locale code!",
+      "Translation": "You must enter a locale code!",
+      "IsTranslated": false,
+      "Notes": "Error shown when creating a locale without entering a culture code"
+    },
+    "UI.TranslationEditor.Errors.LocaleExists": {
+      "Source": "The locale {0} already exists!",
+      "Translation": "The locale {0} already exists!",
+      "IsTranslated": false,
+      "Notes": "Error shown when trying to create a locale file that already exists"
+    },
+    "UI.TranslationEditor.Errors.CannotSyncEnglish": {
+      "Source": "The English master locale cannot be synced!",
+      "Translation": "The English master locale cannot be synced!",
+      "IsTranslated": false,
+      "Notes": "Error shown when trying to sync the English master locale"
+    },
+    "UI.TranslationEditor.Success.LocaleCreated": {
+      "Source": "The locale {0} was created successfully!",
+      "Translation": "The locale {0} was created successfully!",
+      "IsTranslated": false,
+      "Notes": "Success message after creating a new locale file"
+    },
+    "UI.TranslationEditor.Success.LocaleSaved": {
+      "Source": "The locale {0} was saved successfully!",
+      "Translation": "The locale {0} was saved successfully!",
+      "IsTranslated": false,
+      "Notes": "Success message after saving a locale file"
+    },
+    "UI.TranslationEditor.Success.LocaleSynced": {
+      "Source": "The locale {0} was synced successfully! Added: {1}, Updated: {2}, Removed: {3}",
+      "Translation": "The locale {0} was synced successfully! Added: {1}, Updated: {2}, Removed: {3}",
+      "IsTranslated": false,
+      "Notes": "Success message after syncing a locale file with the English master"
     },
     "UI.MainForm2.InputFiles.GroupWithCount": {
       "Source": "Input Files (you can drag and drop files or directories) ({0} files)",

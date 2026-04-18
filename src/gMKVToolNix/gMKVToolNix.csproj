@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -66,8 +66,11 @@
     <Compile Include="gMKVVersionParser.cs" />
     <Compile Include="Localization\ILocalizationService.cs" />
     <Compile Include="Localization\Metadata.cs" />
+    <Compile Include="Localization\TranslationFileService.cs" />
+    <Compile Include="Localization\TranslationMaintenanceService.cs" />
     <Compile Include="Localization\TranslationEntry.cs" />
     <Compile Include="Localization\TranslationFile.cs" />
+    <Compile Include="Localization\TranslationSyncResult.cs" />
     <Compile Include="MkvExtract\ChapterExtensions.cs" />
     <Compile Include="MkvExtract\CuesExtractionMode.cs" />
     <Compile Include="MkvExtract\gMKVExtractExtensions.cs" />
@@ -108,7 +111,7 @@
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
   </Target>
