@@ -3,14 +3,16 @@
 **Last Updated:** April 18, 2026
 **Status:** Complete and validated
 **Locale Files in Tree:** 9 (`en`, `es`, `de`, `pt`, `pt-br`, `fr`, `el`, `cn`, `ja`)
-**Current Key Count:** 241 keys in every locale file
-**Validation Snapshot:** Solution builds successfully and the current unit suite is at 10 passing tests
+**Current Key Count:** 268 keys in every locale file
+**Validation Snapshot:** Solution builds successfully and the current unit suite is at 19 passing tests
 
 ---
 
 ## Executive Summary
 
 The localization work on this branch is no longer in a "partial rollout" phase. The application now uses a cached JSON-based localization runtime, starts with the saved culture, reloads translations when the culture changes in `frmOptions`, and ships aligned locale files for the requested languages.
+
+This branch also now includes an in-app translation editor launched from `frmOptions`, shared translation-maintenance services used by both the GUI and the CLI, and responsive layout fixes on the localized forms that previously had fixed-size overflow issues.
 
 In addition to the original UI labels, this branch also localized the remaining runtime surfaces that mattered in practice:
 
@@ -67,6 +69,7 @@ Formatted lookup failures are logged and returned as `!BadFormat:Key!` so broken
 3. it saves the selected culture to `gSettings.Culture`
 4. it calls `LocalizationManager.Reload(selectedCulture)`
 5. it reapplies localization across the open forms
+6. it can launch the in-app translation editor for locale maintenance
 
 This means the active culture is loaded from settings at startup and can be changed without restarting the application.
 If the saved culture is blank or points to a locale file that is no longer available, the runtime now normalizes back to English instead of keeping an invalid culture name and surfacing `!Key!` placeholders.
@@ -77,15 +80,15 @@ If the saved culture is blank or points to a locale file that is no longer avail
 
 | File | Culture | Entries |
 |---|---|---:|
-| `src\gMKVExtractGUI\en.json` | `en` | 241 |
-| `src\gMKVExtractGUI\es.json` | `es` | 241 |
-| `src\gMKVExtractGUI\de.json` | `de` | 241 |
-| `src\gMKVExtractGUI\pt.json` | `pt` | 241 |
-| `src\gMKVExtractGUI\pt-br.json` | `pt-br` | 241 |
-| `src\gMKVExtractGUI\fr.json` | `fr` | 241 |
-| `src\gMKVExtractGUI\el.json` | `el` | 241 |
-| `src\gMKVExtractGUI\cn.json` | `cn` | 241 |
-| `src\gMKVExtractGUI\ja.json` | `ja` | 241 |
+| `src\gMKVExtractGUI\en.json` | `en` | 268 |
+| `src\gMKVExtractGUI\es.json` | `es` | 268 |
+| `src\gMKVExtractGUI\de.json` | `de` | 268 |
+| `src\gMKVExtractGUI\pt.json` | `pt` | 268 |
+| `src\gMKVExtractGUI\pt-br.json` | `pt-br` | 268 |
+| `src\gMKVExtractGUI\fr.json` | `fr` | 268 |
+| `src\gMKVExtractGUI\el.json` | `el` | 268 |
+| `src\gMKVExtractGUI\cn.json` | `cn` | 268 |
+| `src\gMKVExtractGUI\ja.json` | `ja` | 268 |
 
 All locale files are included in `src\gMKVExtractGUI\gMKVExtractGUI.csproj` so they are copied to the output directory and are visible both to the runtime loader and to the culture picker in `frmOptions`.
 Those files now sit on top of the embedded English defaults rather than being the only source of fallback text.
@@ -132,19 +135,33 @@ The final context-menu solution on this branch is:
 
 That last guard matters because retheming popup menu HWNDs during `Opening` was the risky path that led to the earlier heap-corruption crash reports. The app now preserves the original dark-mode look without using a custom context-menu renderer.
 
+### 5. Translator Workflow
+
+The branch now exposes translation maintenance in two aligned ways:
+
+- `frmOptions` launches `frmTranslationEditor` for translator-friendly editing, create, sync, filter, and save operations
+- `src\gMKVToolNix.Translator.Console` uses the same shared translation services for `template` and `sync`
+
+This keeps the JSON schema and maintenance behavior consistent across manual GUI work and scripted CLI workflows.
+
+### 6. Localized Layout Hardening
+
+The main localized forms (`frmMain2`, `frmOptions`, `frmJobManager`, `frmLog`) now resize key buttons, labels, and rows at runtime after localization is applied. This avoids language-specific designer forks while reducing clipped text in wider locales.
+
 ---
 
 ## Validation Notes
 
 The current state has been validated with:
 
-- locale-file parity checks (`241` entries in every shipped locale file)
+- locale-file parity checks (`268` entries in every shipped locale file)
 - solution build success
 - the repository MSTest suite
 - regression tests for localization formatting behavior
 - regression tests for nested context-menu theming behavior
+- regression tests for the shared translation-maintenance services
 
-At the time of this update, the suite total is **10 passing tests**.
+At the time of this update, the suite total is **19 passing tests**.
 
 ---
 
@@ -155,7 +172,7 @@ At the time of this update, the suite total is **10 passing tests**.
 1. add the runtime call site with `LocalizationManager.GetString(...)`
 2. if you truly need an explicit culture, use `LocalizationManager.GetStringForCulture(...)`
 3. update the master file with `gMKVToolNix.Translator.Console master`
-4. sync the non-English locale files with `template` / `sync` or equivalent workflow
+4. sync the non-English locale files with the in-app **Translations...** editor or the console `template` / `sync` workflow
 5. keep `JsonLocalizationService.Defaults.cs` aligned with `en.json`
 6. keep the locale files aligned and copied in the GUI project file
 
@@ -182,7 +199,10 @@ For the current implementation, these files are the most important references:
 - `src\gMKVExtractGUI\Localization\JsonLocalizationService.cs`
 - `src\gMKVExtractGUI\Localization\JsonLocalizationService.Defaults.cs`
 - `src\gMKVExtractGUI\Forms\frmOptions.cs`
+- `src\gMKVExtractGUI\Forms\frmTranslationEditor.cs`
 - `src\gMKVExtractGUI\Theming\ThemeManager.cs`
 - `src\gMKVExtractGUI\en.json`
+- `src\gMKVToolNix\Localization\TranslationFileService.cs`
+- `src\gMKVToolNix\Localization\TranslationMaintenanceService.cs`
 
 The string inventory itself is maintained in `LOCALIZATION_STRINGS_MANIFEST.md`, while `en.json` remains the authoritative per-key source of truth.

@@ -3,9 +3,9 @@
 
 **Last Updated:** April 18, 2026
 **Authoritative Source:** `src\gMKVExtractGUI\en.json`
-**Total Keys:** 241
+**Total Keys:** 268
 **Locale Files Shipped:** 9
-**Locale Parity:** all shipped locale files currently contain 241 entries
+**Locale Parity:** all shipped locale files currently contain 268 entries
 
 ---
 
@@ -13,15 +13,15 @@
 
 | File | Culture | Entries |
 |---|---|---:|
-| `en.json` | `en` | 241 |
-| `es.json` | `es` | 241 |
-| `de.json` | `de` | 241 |
-| `pt.json` | `pt` | 241 |
-| `pt-br.json` | `pt-br` | 241 |
-| `fr.json` | `fr` | 241 |
-| `el.json` | `el` | 241 |
-| `cn.json` | `cn` | 241 |
-| `ja.json` | `ja` | 241 |
+| `en.json` | `en` | 268 |
+| `es.json` | `es` | 268 |
+| `de.json` | `de` | 268 |
+| `pt.json` | `pt` | 268 |
+| `pt-br.json` | `pt-br` | 268 |
+| `fr.json` | `fr` | 268 |
+| `el.json` | `el` | 268 |
+| `cn.json` | `cn` | 268 |
+| `ja.json` | `ja` | 268 |
 
 ---
 
@@ -32,7 +32,8 @@ The table below summarizes the current key distribution by the second path segme
 | Key Family | Count | Notes |
 |---|---:|---|
 | `UI.MainForm2` | 97 | Active main window, tooltips, output directory menu, and large context-menu surface |
-| `UI.OptionsForm` | 63 | Filename patterns, placeholder menus, advanced options, and culture selector |
+| `UI.OptionsForm` | 64 | Filename patterns, placeholder menus, advanced options, culture selector, and translation-editor launcher |
+| `UI.TranslationEditor` | 26 | In-app translation editor labels, actions, filters, and status text |
 | `UI.JobManager` | 25 | Job queue actions, progress labels, dialogs, and context menu |
 | `UI.MainForm` | 22 | Legacy main form strings kept in sync |
 | `UI.Common` | 13 | Shared popup titles, generic dialog text, and common status strings |
@@ -41,7 +42,7 @@ The table below summarizes the current key distribution by the second path segme
 | `UI.Log` | 3 | Shared log-related strings |
 | `UI.Controls` | 3 | Control-specific shared strings |
 
-**Total:** 241
+**Total:** 268
 
 ---
 
@@ -55,6 +56,7 @@ The manifest is not limited to static form labels anymore. The current inventory
 - localized tooltips
 - main-form and Job Manager context menus
 - `frmOptions` placeholder insertion menus
+- the in-app translation editor workflow
 
 The main form's progress-value labels are intentionally blank at startup and are updated at runtime, so the live percentage text is not represented as a fixed UI label in the JSON files.
 
@@ -95,7 +97,7 @@ This structure keeps related strings grouped and makes translator context easier
 
 1. `en.json` is the authoritative per-key inventory.
 2. Use `gMKVToolNix.Translator.Console master` to refresh the master file from code.
-3. Use `template` and `sync` to create or align non-English locale files.
+3. Use the in-app **Translations...** editor or the console `template` and `sync` commands to create or align non-English locale files.
 4. Regenerate or update `JsonLocalizationService.Defaults.cs` whenever `en.json` gains or changes keys.
 5. If you add a new culture file, also add it to `src\gMKVExtractGUI\gMKVExtractGUI.csproj` so it is copied to the output directory.
 6. Keep new popup, tooltip, and context-menu strings aligned with the existing key hierarchy rather than introducing ad-hoc schemas.
@@ -110,4 +112,5 @@ For day-to-day work, use these files together:
 - `src\gMKVExtractGUI\Localization\JsonLocalizationService.cs` - runtime loading and fallback behavior
 - `src\gMKVExtractGUI\Localization\JsonLocalizationService.Defaults.cs` - embedded English fallback map
 - `src\gMKVExtractGUI\Forms\frmOptions.cs` - culture discovery and reload flow
+- `src\gMKVExtractGUI\Forms\frmTranslationEditor.cs` - in-app translation workflow
 - `src\gMKVToolNix.Translator.Console\README.md` - maintenance workflow

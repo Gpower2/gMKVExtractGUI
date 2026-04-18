@@ -2,6 +2,8 @@
 
 gMKVToolnix.Translator.Console is a command-line utility designed to manage the localization workflow for the gMKVExtractGUI application. It provides tools to find hardcoded strings, create new language templates, and synchronize existing translation files with a master file.
 
+For day-to-day translation work, translators can now use the in-app editor from **Options -> Translations...** inside the GUI. The console remains the developer and automation path for scanning code, rebuilding `en.json`, and batch-maintaining locale files.
+
 The tool works with the JSON translation files used by the GUI runtime:
 
 - a `Metadata` section (`Culture`, `Translator`, `CreationDate`, `LastEditDate`)
@@ -62,6 +64,8 @@ gMKVToolnix.Translator.Console.exe master -s "C:\Projects\gMKVExtractGUI\src" -m
 
 This command creates a new, blank translation file for a new culture. It uses the master file (e.g., `en.json`) as a source, copying all keys, source text, and context notes. It marks all new entries as `isTranslated: false`.
 
+> **Note:** This command uses the same shared translation-maintenance logic as the GUI editor's **Create** action.
+
 #### **Options**
 
 | Option | Short | Required | Description |
@@ -89,6 +93,8 @@ It performs the following actions:
 * **Adds** any new strings from the master to the target.
 * **Removes** any strings from the target that no longer exist in the master.
 * **Updates** any entries where the `source` text in the master has changed. This will reset the translation and mark it as `isTranslated: false` to force a re-translation.
+
+> **Note:** This command uses the same shared translation-maintenance logic as the GUI editor's **Sync** action.
 
 #### **Options**
 
@@ -130,7 +136,7 @@ gMKVToolnix.Translator.Console.exe master -s "C:\Projects\gMKVExtractGUI\src" -m
 gMKVToolnix.Translator.Console.exe template -m "C:\App\Translations\en.json" -c "de-DE"
 ```
 
-6. **Translation:** A translator opens `de-DE.json`, changes the translation values, and sets `isTranslated` to `true`.
+6. **Translation:** A translator usually opens **Options -> Translations...** in the GUI, loads `de-DE`, changes the translation values, and sets `isTranslated` to `true`. Direct JSON editing still works, but the editor is the preferred workflow.
 
 7. **New Features:** Weeks later, the developer adds new features, refactors code, and adds new `_loc.GetString(...)` calls.
 
@@ -147,7 +153,7 @@ gMKVToolnix.Translator.Console.exe sync -m "C:\App\Translations\en.json" -t "C:\
 ```
 The console reports that the new strings were added to `de-DE.json`.
 
-11. **Final Translation:** The translator opens `de-DE.json` and can now easily find and translate the new items that are marked as `isTranslated: false`.
+11. **Final Translation:** The translator reopens `de-DE` in the GUI editor and can quickly find the new items that are marked as `isTranslated: false`.
 
 ## **Runtime Behavior**
 
