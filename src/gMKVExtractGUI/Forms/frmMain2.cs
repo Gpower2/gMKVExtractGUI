@@ -38,6 +38,14 @@ namespace gMKVToolNix.Forms
     public partial class frmMain2 : gForm, IFormMain
     {
         private const int MainActionRowHeight = 90;
+        private const int MainActionLeftMargin = 6;
+        private const int MainActionRightMargin = 7;
+        private const int MainActionBottomPadding = 6;
+        private const int MainActionSingleRowSpacing = 8;
+        private const int MainActionTopRowButtonTop = 18;
+        private const int MainActionBottomRowButtonTop = 48;
+        private const int MainActionComboTopOffset = 3;
+        private const int MainActionLabelTopOffset = 8;
         private const int MainButtonSpacing = 6;
         private frmLog _LogForm = null;
         private frmJobManager _JobManagerForm = null;
@@ -60,6 +68,7 @@ namespace gMKVToolNix.Forms
         private bool _isApplyingResponsiveLayout = false;
         private int _chapterTypeComboBaseWidth;
         private int _extractionModeComboBaseWidth;
+        private float _actionsRowBaseHeight;
         private int _fileOptionsPanelBaseHeight;
         private float _fileOptionsRowBaseHeight;
 
@@ -1853,6 +1862,27 @@ namespace gMKVToolNix.Forms
                     gMKVLogger.Log("Changing WindowState");
                     _Settings.Save();
                 }
+
+                if (!_FromConstructor
+                    && !_isApplyingResponsiveLayout
+                    && this.WindowState != FormWindowState.Minimized
+                    && grpActions != null
+                    && grpActions.IsHandleCreated)
+                {
+                    tlpMain.SuspendLayout();
+                    grpActions.SuspendLayout();
+
+                    try
+                    {
+                        LayoutActionsGroup();
+                    }
+                    finally
+                    {
+                        grpActions.ResumeLayout(false);
+                        grpActions.PerformLayout();
+                        tlpMain.ResumeLayout(true);
+                    }
+                }
             }
             catch (Exception ex)
             {
@@ -3080,6 +3110,11 @@ namespace gMKVToolNix.Forms
             CaptureResponsiveButtonBaseSize(btnAbortAll);
             CaptureResponsiveButtonBaseSize(btnAbort);
 
+            if (tlpMain.RowStyles.Count > 4 && tlpMain.RowStyles[4].Height > 0F)
+            {
+                _actionsRowBaseHeight = Math.Max(_actionsRowBaseHeight, tlpMain.RowStyles[4].Height);
+            }
+
             if (cmbChapterType != null && cmbChapterType.Width > 0)
             {
                 _chapterTypeComboBaseWidth = cmbChapterType.Width;
@@ -3144,6 +3179,11 @@ namespace gMKVToolNix.Forms
             if (_extractionModeComboBaseWidth > 0)
             {
                 cmbExtractionMode.Width = _extractionModeComboBaseWidth;
+            }
+
+            if (tlpMain.RowStyles.Count > 4 && _actionsRowBaseHeight > 0F)
+            {
+                tlpMain.RowStyles[4].Height = _actionsRowBaseHeight;
             }
         }
 
@@ -3231,6 +3271,11 @@ namespace gMKVToolNix.Forms
 
         private void LayoutActionsGroup()
         {
+            if (grpActions == null || grpActions.ClientSize.Width <= 0)
+            {
+                return;
+            }
+
             btnShowLog.ApplyLocalizedButtonSize(GetResponsiveButtonBaseSize(btnShowLog, 60));
             btnShowJobs.ApplyLocalizedButtonSize(GetResponsiveButtonBaseSize(btnShowJobs, 60));
             btnAddJobs.ApplyLocalizedButtonSize(GetResponsiveButtonBaseSize(btnAddJobs, 70));
@@ -3239,32 +3284,82 @@ namespace gMKVToolNix.Forms
             cmbChapterType.Width = _chapterTypeComboBaseWidth > 0 ? _chapterTypeComboBaseWidth : 80;
             cmbExtractionMode.Width = _extractionModeComboBaseWidth > 0 ? _extractionModeComboBaseWidth : 120;
 
-            if (tlpMain.RowStyles.Count > 4)
+            Size showPopupSize = chkShowPopup.GetPreferredSize(Size.Empty);
+            chkShowPopup.Size = showPopupSize;
+
+            int leftSectionBottom = PositionActionsLeftSection(MainActionTopRowButtonTop, showPopupSize);
+            int singleRowRightSectionBottom = PositionActionsRightSection(MainActionTopRowButtonTop, out int singleRowRightSectionLeft);
+
+            bool fitsSingleRow = chkShowPopup.Right + MainActionSingleRowSpacing <= singleRowRightSectionLeft;
+            int requiredContentBottom;
+
+            if (fitsSingleRow)
             {
-                tlpMain.RowStyles[4].Height = MainActionRowHeight;
+                requiredContentBottom = Math.Max(leftSectionBottom, singleRowRightSectionBottom);
+            }
+            else
+            {
+                int twoRowRightSectionBottom = PositionActionsRightSection(MainActionBottomRowButtonTop, out _);
+                requiredContentBottom = Math.Max(leftSectionBottom, twoRowRightSectionBottom);
             }
 
-            const int topRowButtonTop = 18;
-            const int bottomRowButtonTop = 48;
-            const int comboTopOffset = 3;
-            const int labelTopOffset = 8;
+            if (tlpMain.RowStyles.Count > 4)
+            {
+                float minimumHeight = fitsSingleRow
+                    ? (_actionsRowBaseHeight > 0F ? _actionsRowBaseHeight : 60F)
+                    : Math.Max((float)MainActionRowHeight, _actionsRowBaseHeight > 0F ? _actionsRowBaseHeight : 60F);
+                tlpMain.RowStyles[4].Height = GetRequiredActionsRowHeight(requiredContentBottom, minimumHeight);
+            }
+        }
 
-            btnShowLog.Location = new Point(6, topRowButtonTop);
-            btnShowJobs.Location = new Point(btnShowLog.Right + MainButtonSpacing, topRowButtonTop);
-            chkShowPopup.Location = new Point(btnShowJobs.Right + 8, topRowButtonTop + 4);
+        private int PositionActionsLeftSection(int buttonTop, Size showPopupSize)
+        {
+            btnShowLog.Location = new Point(MainActionLeftMargin, buttonTop);
+            btnShowJobs.Location = new Point(btnShowLog.Right + MainButtonSpacing, buttonTop);
+            chkShowPopup.Location = new Point(btnShowJobs.Right + MainActionSingleRowSpacing, buttonTop + 4);
+            chkShowPopup.Size = showPopupSize;
 
-            int right = grpActions.ClientSize.Width - 7;
-            btnExtract.Location = new Point(right - btnExtract.Width, bottomRowButtonTop);
+            return new[] { btnShowLog.Bottom, btnShowJobs.Bottom, chkShowPopup.Bottom }.Max();
+        }
+
+        private int PositionActionsRightSection(int buttonTop, out int leftmostControlLeft)
+        {
+            int right = grpActions.ClientSize.Width - MainActionRightMargin;
+
+            btnExtract.Location = new Point(right - btnExtract.Width, buttonTop);
             right = btnExtract.Left - MainButtonSpacing;
-            btnAddJobs.Location = new Point(right - btnAddJobs.Width, bottomRowButtonTop);
+
+            btnAddJobs.Location = new Point(right - btnAddJobs.Width, buttonTop);
             right = btnAddJobs.Left - 12;
-            cmbExtractionMode.Location = new Point(right - cmbExtractionMode.Width, bottomRowButtonTop + comboTopOffset);
+
+            cmbExtractionMode.Location = new Point(right - cmbExtractionMode.Width, buttonTop + MainActionComboTopOffset);
             right = cmbExtractionMode.Left - MainButtonSpacing;
-            lblExtractionMode.Location = new Point(right - lblExtractionMode.Width, bottomRowButtonTop + labelTopOffset);
+
+            lblExtractionMode.Location = new Point(right - lblExtractionMode.Width, buttonTop + MainActionLabelTopOffset);
             right = lblExtractionMode.Left - 16;
-            cmbChapterType.Location = new Point(right - cmbChapterType.Width, bottomRowButtonTop + comboTopOffset);
+
+            cmbChapterType.Location = new Point(right - cmbChapterType.Width, buttonTop + MainActionComboTopOffset);
             right = cmbChapterType.Left - MainButtonSpacing;
-            lblChapterType.Location = new Point(right - lblChapterType.Width, bottomRowButtonTop + labelTopOffset);
+
+            lblChapterType.Location = new Point(right - lblChapterType.Width, buttonTop + MainActionLabelTopOffset);
+            leftmostControlLeft = lblChapterType.Left;
+
+            return new[]
+            {
+                btnExtract.Bottom,
+                btnAddJobs.Bottom,
+                cmbExtractionMode.Bottom,
+                lblExtractionMode.Bottom,
+                cmbChapterType.Bottom,
+                lblChapterType.Bottom
+            }.Max();
+        }
+
+        private float GetRequiredActionsRowHeight(int requiredContentBottom, float minimumHeight)
+        {
+            int marginVertical = grpActions != null ? grpActions.Margin.Vertical : 0;
+            int requiredHeight = requiredContentBottom + MainActionBottomPadding + marginVertical;
+            return Math.Max(minimumHeight, requiredHeight);
         }
 
         private void LayoutFooterControls()

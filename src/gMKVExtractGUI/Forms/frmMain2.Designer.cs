@@ -146,7 +146,6 @@ namespace gMKVToolNix.Forms
             this.lblStatus.AutoSize = false;
             this.lblStatus.Name = "lblStatus";
             this.lblStatus.Size = new System.Drawing.Size(50, 31);
-            this.lblStatus.Text = "";
             // 
             // prgBrTotalStatus
             // 
@@ -158,7 +157,6 @@ namespace gMKVToolNix.Forms
             this.lblTotalStatus.AutoSize = false;
             this.lblTotalStatus.Name = "lblTotalStatus";
             this.lblTotalStatus.Size = new System.Drawing.Size(50, 31);
-            this.lblTotalStatus.Text = "";
             // 
             // tlpMain
             // 
