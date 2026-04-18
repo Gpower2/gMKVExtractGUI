@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -9,6 +9,7 @@ using System.Media;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using gMKVToolNix.Controls;
 using gMKVToolNix.Jobs;
 using gMKVToolNix.Localization;
 using gMKVToolNix.Log;
@@ -36,6 +37,8 @@ namespace gMKVToolNix.Forms
 
     public partial class frmMain2 : gForm, IFormMain
     {
+        private const int MainActionRowHeight = 90;
+        private const int MainButtonSpacing = 6;
         private frmLog _LogForm = null;
         private frmJobManager _JobManagerForm = null;
         private ToolTip _ToolTip = null;
@@ -53,6 +56,7 @@ namespace gMKVToolNix.Forms
 
         private List<string> _CmdArguments = new List<string>();
         private bool _contextMenuItemsDirty = true;
+        private bool _isApplyingResponsiveLayout = false;
 
         public frmMain2()
         {
@@ -68,7 +72,7 @@ namespace gMKVToolNix.Forms
                 // Set form icon from the executing assembly
                 Icon = Icon.ExtractAssociatedIcon(this.GetExecutingAssemblyLocation());
 
-                // Set form title 
+                // Set form title
                 Text = string.Format("gMKVExtractGUI v{0} -- By Gpower2", this.GetCurrentVersion());
 
                 btnAbort.Enabled = false;
@@ -223,7 +227,7 @@ namespace gMKVToolNix.Forms
                     {
                         Debug.WriteLine(ex);
                         gMKVLogger.Log(ex.ToString());
-                        
+
                         // MKVToolnix could not be found anywhere
                         // Select exception message according to running OS
                         string exceptionMessage = "";
@@ -692,9 +696,9 @@ namespace gMKVToolNix.Forms
                             .Exists(f))
                             .ToList()
                             .ForEach(t => fileList.AddRange(Directory.GetFiles(
-                                t, 
-                                "*", 
-                                result == DialogResult.Yes 
+                                t,
+                                "*",
+                                result == DialogResult.Yes
                                     ? SearchOption.AllDirectories
                                     : SearchOption.TopDirectoryOnly)
                             .ToList()));
@@ -1092,7 +1096,7 @@ namespace gMKVToolNix.Forms
             prgBrTotalStatus.Value = (_CurrentJob - 1) * 100 + Convert.ToInt32(val);
             lblStatus.Text = string.Format("{0}%", Convert.ToInt32(val));
             lblTotalStatus.Text = string.Format("{0}%", prgBrTotalStatus.Value / _TotalJobs);
-            
+
             // Update the task bar progress bar based on the total progress and not on the individual job
             gTaskbarProgress.SetValue(this, Convert.ToUInt64(prgBrTotalStatus.Value), (ulong)prgBrTotalStatus.Maximum);
             //gTaskbarProgress.SetValue(this, Convert.ToUInt64(val), (UInt64)100);
@@ -1130,7 +1134,7 @@ namespace gMKVToolNix.Forms
             if (checkSelectedTracks)
             {
                 FormMkvExtractionMode selectedExtractionMode = (FormMkvExtractionMode)Enum.Parse(
-                    typeof(FormMkvExtractionMode), 
+                    typeof(FormMkvExtractionMode),
                     (string)cmbExtractionMode.SelectedItem);
 
                 // Check if the checked nodes contain tracks
@@ -1237,10 +1241,10 @@ namespace gMKVToolNix.Forms
                 _gMkvExtract.MkvExtractTrackUpdated += g_MkvExtractTrackUpdated;
 
                 FormMkvExtractionMode extractionMode = (FormMkvExtractionMode)Enum.Parse(
-                    typeof(FormMkvExtractionMode), 
+                    typeof(FormMkvExtractionMode),
                     (string)cmbExtractionMode.SelectedItem);
 
-                // Check for necessary input fields 
+                // Check for necessary input fields
                 switch (extractionMode)
                 {
                     case FormMkvExtractionMode.Tracks:
@@ -1291,7 +1295,7 @@ namespace gMKVToolNix.Forms
                     gMKVSegmentInfo infoSegment = parentNode.Tag as gMKVSegmentInfo;
                     segments = checkedNodes.Where(n => n.Parent == parentNode).Select(t => t.Tag as gMKVSegment).ToList();
                     string outputDirectory = txtOutputDirectory.Text;
-                    
+
                     // Check if the output dir is the same as the source
                     if (chkUseSourceDirectory.Checked)
                     {
@@ -1789,7 +1793,7 @@ namespace gMKVToolNix.Forms
         {
             try
             {
-                if (!_FromConstructor && 
+                if (!_FromConstructor &&
                     !(this.WindowState == FormWindowState.Minimized
                     || this.WindowState == FormWindowState.Maximized))
                 {
@@ -1837,6 +1841,8 @@ namespace gMKVToolNix.Forms
                     gMKVLogger.Log("Changing WindowState");
                     _Settings.Save();
                 }
+
+                ApplyResponsiveLayout();
             }
             catch (Exception ex)
             {
@@ -2519,9 +2525,9 @@ namespace gMKVToolNix.Forms
             {
                 case TrackSelectionMode.video:
                     nodes = trvInputFiles.AllNodes.Where(n =>
-                        n != null 
+                        n != null
                         && n.Tag != null
-                        && n.Tag is gMKVTrack track 
+                        && n.Tag is gMKVTrack track
                         && track.TrackType == MkvTrackType.video).ToList();
                     if (argFilter != null)
                     {
@@ -2552,9 +2558,9 @@ namespace gMKVToolNix.Forms
                     break;
                 case TrackSelectionMode.audio:
                     nodes = trvInputFiles.AllNodes.Where(n =>
-                        n != null 
+                        n != null
                         && n.Tag != null
-                        && n.Tag is gMKVTrack track 
+                        && n.Tag is gMKVTrack track
                         && track.TrackType == MkvTrackType.audio).ToList();
                     if (argFilter != null)
                     {
@@ -2585,9 +2591,9 @@ namespace gMKVToolNix.Forms
                     break;
                 case TrackSelectionMode.subtitle:
                     nodes = trvInputFiles.AllNodes.Where(n =>
-                        n != null 
+                        n != null
                         && n.Tag != null
-                        && n.Tag is gMKVTrack track 
+                        && n.Tag is gMKVTrack track
                         && track.TrackType == MkvTrackType.subtitles).ToList();
                     if (argFilter != null)
                     {
@@ -2618,20 +2624,20 @@ namespace gMKVToolNix.Forms
                     break;
                 case TrackSelectionMode.chapter:
                     nodes = trvInputFiles.AllNodes.Where(n =>
-                        n != null 
-                        && n.Tag != null 
+                        n != null
+                        && n.Tag != null
                         && n.Tag is gMKVChapter).ToList();
                     break;
                 case TrackSelectionMode.attachment:
                     nodes = trvInputFiles.AllNodes.Where(n =>
-                        n != null 
-                        && n.Tag != null 
+                        n != null
+                        && n.Tag != null
                         && n.Tag is gMKVAttachment).ToList();
                     break;
                 case TrackSelectionMode.all:
                     nodes = trvInputFiles.AllNodes.Where(n =>
-                        n != null 
-                        && n.Tag != null 
+                        n != null
+                        && n.Tag != null
                         && !(n.Tag is gMKVSegmentInfo)).ToList();
                     break;
                 default:
@@ -3047,6 +3053,172 @@ namespace gMKVToolNix.Forms
             ThemeManager.ApplyContextMenuTheme(contextMenuStrip, _Settings.DarkMode);
             RefreshLocalizedTooltipsAsync();
             MarkContextMenuDirty();
+            ApplyResponsiveLayout();
+        }
+
+        private void ApplyResponsiveLayout()
+        {
+            if (_isApplyingResponsiveLayout)
+            {
+                return;
+            }
+
+            _isApplyingResponsiveLayout = true;
+
+            try
+            {
+                SuspendLayout();
+                tlpMain.SuspendLayout();
+                grpConfig.SuspendLayout();
+                grpOutputDirectory.SuspendLayout();
+                grpActions.SuspendLayout();
+                pnlFileOptions.SuspendLayout();
+
+                LayoutConfigGroup();
+                LayoutOutputDirectoryGroup();
+                LayoutFileOptionsPanel();
+                LayoutActionsGroup();
+                LayoutFooterControls();
+            }
+            finally
+            {
+                pnlFileOptions.ResumeLayout(false);
+                pnlFileOptions.PerformLayout();
+                grpActions.ResumeLayout(false);
+                grpActions.PerformLayout();
+                grpOutputDirectory.ResumeLayout(false);
+                grpOutputDirectory.PerformLayout();
+                grpConfig.ResumeLayout(false);
+                grpConfig.PerformLayout();
+                tlpMain.ResumeLayout(true);
+                ResumeLayout(true);
+                _isApplyingResponsiveLayout = false;
+            }
+        }
+
+        private void LayoutConfigGroup()
+        {
+            btnBrowseMKVToolnixPath.ApplyLocalizedButtonSize(70);
+            btnAutoDetectMkvToolnix.ApplyLocalizedButtonSize(80);
+
+            const int buttonTop = 18;
+            int right = grpConfig.ClientSize.Width - 7;
+
+            btnAutoDetectMkvToolnix.Location = new Point(right - btnAutoDetectMkvToolnix.Width, buttonTop);
+            btnBrowseMKVToolnixPath.Location = new Point(btnAutoDetectMkvToolnix.Left - MainButtonSpacing - btnBrowseMKVToolnixPath.Width, buttonTop);
+            txtMKVToolnixPath.Width = Math.Max(150, btnBrowseMKVToolnixPath.Left - 12 - txtMKVToolnixPath.Left);
+        }
+
+        private void LayoutOutputDirectoryGroup()
+        {
+            btnBrowseOutputDirectory.ApplyLocalizedButtonSize(80);
+
+            int right = grpOutputDirectory.ClientSize.Width - 7;
+            btnBrowseOutputDirectory.Location = new Point(right - btnBrowseOutputDirectory.Width, 18);
+            chkUseSourceDirectory.Location = new Point(btnBrowseOutputDirectory.Left - 12 - chkUseSourceDirectory.Width, 24);
+            txtOutputDirectory.Width = Math.Max(120, chkUseSourceDirectory.Left - 12 - txtOutputDirectory.Left);
+        }
+
+        private void LayoutFileOptionsPanel()
+        {
+            btnSelect.ApplyLocalizedButtonSize(80);
+            btnSelect.Location = new Point(pnlFileOptions.ClientSize.Width - btnSelect.Width - 3, 1);
+
+            int maxRight = btnSelect.Left - 12;
+            int bottom = LayoutWrappingControls(3, 6, maxRight, 6, 4, chkAppendOnDragAndDrop, chkOverwriteExistingFiles, chkDisableTooltips);
+            int requiredHeight = Math.Max(btnSelect.Height + 2, bottom + 6);
+
+            pnlFileOptions.Height = requiredHeight;
+            btnSelect.Top = Math.Max(0, (requiredHeight - btnSelect.Height) / 2);
+
+            if (tlpInput.RowStyles.Count > 1)
+            {
+                tlpInput.RowStyles[1].Height = requiredHeight;
+            }
+        }
+
+        private void LayoutActionsGroup()
+        {
+            btnShowLog.ApplyLocalizedButtonSize(60);
+            btnShowJobs.ApplyLocalizedButtonSize(60);
+            btnAddJobs.ApplyLocalizedButtonSize(70);
+            btnExtract.ApplyLocalizedButtonSize(80);
+
+            cmbChapterType.Width = Math.Max(80, cmbChapterType.Width);
+            cmbExtractionMode.Width = Math.Max(120, cmbExtractionMode.Width);
+
+            if (tlpMain.RowStyles.Count > 4)
+            {
+                tlpMain.RowStyles[4].Height = MainActionRowHeight;
+            }
+
+            const int topRowButtonTop = 18;
+            const int bottomRowButtonTop = 48;
+            const int comboTopOffset = 3;
+            const int labelTopOffset = 8;
+
+            btnShowLog.Location = new Point(6, topRowButtonTop);
+            btnShowJobs.Location = new Point(btnShowLog.Right + MainButtonSpacing, topRowButtonTop);
+            chkShowPopup.Location = new Point(btnShowJobs.Right + 8, topRowButtonTop + 4);
+
+            int right = grpActions.ClientSize.Width - 7;
+            btnExtract.Location = new Point(right - btnExtract.Width, bottomRowButtonTop);
+            right = btnExtract.Left - MainButtonSpacing;
+            btnAddJobs.Location = new Point(right - btnAddJobs.Width, bottomRowButtonTop);
+            right = btnAddJobs.Left - 12;
+            cmbExtractionMode.Location = new Point(right - cmbExtractionMode.Width, bottomRowButtonTop + comboTopOffset);
+            right = cmbExtractionMode.Left - MainButtonSpacing;
+            lblExtractionMode.Location = new Point(right - lblExtractionMode.Width, bottomRowButtonTop + labelTopOffset);
+            right = lblExtractionMode.Left - 16;
+            cmbChapterType.Location = new Point(right - cmbChapterType.Width, bottomRowButtonTop + comboTopOffset);
+            right = cmbChapterType.Left - MainButtonSpacing;
+            lblChapterType.Location = new Point(right - lblChapterType.Width, bottomRowButtonTop + labelTopOffset);
+        }
+
+        private void LayoutFooterControls()
+        {
+            btnOptions.ApplyLocalizedButtonSize(80);
+            btnAbortAll.ApplyLocalizedButtonSize(70);
+            btnAbort.ApplyLocalizedButtonSize(72);
+
+            int top = statusStrip.Top + 3;
+            int right = ClientSize.Width - 8;
+
+            btnAbort.Location = new Point(right - btnAbort.Width, top);
+            right = btnAbort.Left - MainButtonSpacing;
+            btnAbortAll.Location = new Point(right - btnAbortAll.Width, top);
+            right = btnAbortAll.Left - MainButtonSpacing;
+            btnOptions.Location = new Point(right - btnOptions.Width, top);
+            right = btnOptions.Left - 10;
+            chkDarkMode.Location = new Point(right - chkDarkMode.Width, top + 6);
+        }
+
+        private int LayoutWrappingControls(int startX, int startY, int maxRight, int horizontalSpacing, int verticalSpacing, params Control[] controls)
+        {
+            int x = startX;
+            int y = startY;
+            int rowHeight = 0;
+            int bottom = startY;
+
+            foreach (Control control in controls)
+            {
+                int controlWidth = control.GetPreferredWidth(control.Width);
+                int controlHeight = control.Height;
+
+                if (x > startX && x + controlWidth > maxRight)
+                {
+                    x = startX;
+                    y += rowHeight + verticalSpacing;
+                    rowHeight = 0;
+                }
+
+                control.Location = new Point(x, y);
+                x += controlWidth + horizontalSpacing;
+                rowHeight = Math.Max(rowHeight, controlHeight);
+                bottom = Math.Max(bottom, y + controlHeight);
+            }
+
+            return bottom;
         }
     }
 }

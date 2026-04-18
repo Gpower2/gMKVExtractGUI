@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -9,6 +9,7 @@ using System.Media;
 using System.Text;
 using System.Threading;
 using System.Windows.Forms;
+using gMKVToolNix.Controls;
 using gMKVToolNix.Forms;
 using gMKVToolNix.Jobs;
 using gMKVToolNix.Localization;
@@ -21,6 +22,9 @@ namespace gMKVToolNix
 {
     public partial class frmJobManager : gForm
     {
+        private const int ActionButtonMinWidth = 90;
+        private const int ActionPanelMinWidth = 120;
+        private const int ProgressValueLabelWidth = 52;
         private readonly StringBuilder _ExceptionBuilder = new StringBuilder();
         private readonly IFormMain _MainForm = null;
         private int _CurrentJob = 0;
@@ -65,10 +69,10 @@ namespace gMKVToolNix
                 }
                 else
                 {
-                    this.Shown += (s, ev) => 
+                    this.Shown += (s, ev) =>
                     {
                         NativeMethods.SetWindowThemeManaged(this.Handle, _isCurrentlyDarkMode);
-                        NativeMethods.TrySetImmersiveDarkMode(this.Handle, _isCurrentlyDarkMode); 
+                        NativeMethods.TrySetImmersiveDarkMode(this.Handle, _isCurrentlyDarkMode);
                     };
                 }
 
@@ -645,6 +649,7 @@ namespace gMKVToolNix
                 btnAbort.Text = LocalizationManager.GetString("UI.JobManager.Actions.Abort");
                 btnRunAll.Text = LocalizationManager.GetString("UI.JobManager.Actions.RunJobs");
                 btnRemove.Text = LocalizationManager.GetString("UI.JobManager.Actions.Remove");
+                ApplyResponsiveLayout();
                 ApplyContextMenuTheme();
             }
             catch (Exception ex)
@@ -652,6 +657,78 @@ namespace gMKVToolNix
                 Debug.WriteLine($"Error applying localization: {ex.Message}");
                 gMKVLogger.Log($"Error applying localization: {ex.Message}");
             }
+        }
+
+        private void ApplyResponsiveLayout()
+        {
+            ApplyActionPanelLayout();
+            ApplyProgressLayout();
+        }
+
+        private void ApplyActionPanelLayout()
+        {
+            btnRemove.ApplyLocalizedButtonSize(ActionButtonMinWidth);
+            btnRunAll.ApplyLocalizedButtonSize(ActionButtonMinWidth);
+            btnLoadJobs.ApplyLocalizedButtonSize(ActionButtonMinWidth);
+            btnSaveJobs.ApplyLocalizedButtonSize(ActionButtonMinWidth);
+            btnAbort.ApplyLocalizedButtonSize(ActionButtonMinWidth);
+            btnAbortAll.ApplyLocalizedButtonSize(ActionButtonMinWidth);
+
+            int requiredButtonWidth = new[]
+            {
+                btnRemove.Width,
+                btnRunAll.Width,
+                btnLoadJobs.Width,
+                btnSaveJobs.Width,
+                btnAbort.Width,
+                btnAbortAll.Width
+            }.Max();
+
+            int requiredPanelWidth = Math.Max(
+                ActionPanelMinWidth,
+                Math.Max(requiredButtonWidth + 14, chkShowPopup.GetPreferredWidth(0, 6) + 14));
+
+            if (tlpJobs.ColumnStyles.Count > 1)
+            {
+                tlpJobs.ColumnStyles[1].Width = requiredPanelWidth;
+                tlpJobs.PerformLayout();
+            }
+
+            int buttonLeft = Math.Max(7, (grpActions.ClientSize.Width - requiredButtonWidth) / 2);
+
+            btnRemove.Left = buttonLeft;
+            btnRunAll.Left = buttonLeft;
+            btnLoadJobs.Left = buttonLeft;
+            btnSaveJobs.Left = buttonLeft;
+            btnAbort.Left = buttonLeft;
+            btnAbortAll.Left = buttonLeft;
+
+            chkShowPopup.Left = Math.Max(7, (grpActions.ClientSize.Width - chkShowPopup.GetPreferredWidth()) / 2);
+        }
+
+        private void ApplyProgressLayout()
+        {
+            int labelColumnWidth = new[]
+            {
+                lblCurrentTrack.GetPreferredWidth(),
+                lblCurrentProgress.GetPreferredWidth(),
+                lblTotalProgress.GetPreferredWidth()
+            }.Max();
+
+            int contentLeft = 8 + labelColumnWidth + 14;
+            int valueLabelLeft = Math.Max(contentLeft + 120, grpProgress.ClientSize.Width - ProgressValueLabelWidth + 4);
+            int progressWidth = Math.Max(120, valueLabelLeft - contentLeft - 6);
+
+            txtCurrentTrack.Left = contentLeft;
+            txtCurrentTrack.Width = Math.Max(120, grpProgress.ClientSize.Width - contentLeft - 12);
+
+            prgBrCurrent.Left = contentLeft;
+            prgBrCurrent.Width = progressWidth;
+            lblCurrentProgressValue.Left = prgBrCurrent.Right + 6;
+
+            prgBrTotal.Left = contentLeft;
+            prgBrTotal.Width = progressWidth;
+            lblTotalProgressValue.Left = prgBrTotal.Right + 6;
         }
     }
 }

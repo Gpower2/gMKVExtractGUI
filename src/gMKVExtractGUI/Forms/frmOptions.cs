@@ -1,10 +1,11 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
+using gMKVToolNix.Controls;
 using gMKVToolNix.Localization;
 using gMKVToolNix.Log;
 using gMKVToolNix.MkvExtract;
@@ -15,6 +16,9 @@ namespace gMKVToolNix.Forms
 {
     public partial class frmOptions : gMKVToolNix.gForm
     {
+        private const int PatternButtonMinWidth = 83;
+        private const int ActionButtonMinWidth = 80;
+        private const int LayoutSpacing = 6;
         private gSettings _Settings = null;
         private ContextMenuStrip _VideoTrackContextMenu = null;
         private ContextMenuStrip _AudioTrackContextMenu = null;
@@ -681,6 +685,79 @@ namespace gMKVToolNix.Forms
             if (_Settings != null)
             {
                 ApplyThemeToContextMenus(_Settings.DarkMode);
+            }
+            ApplyResponsiveLayout();
+        }
+
+        private void ApplyResponsiveLayout()
+        {
+            LayoutPatternGroup(grpVideoTracks, txtVideoTracksFilename, btnAddVideoTrackPlaceholder, btnDefaultVideoTrackPlaceholder);
+            LayoutPatternGroup(grpAudioTracks, txtAudioTracksFilename, btnAddAudioTrackPlaceholder, btnDefaultAudioTrackPlaceholder);
+            LayoutPatternGroup(grpSubtitleTracks, txtSubtitleTracksFilename, btnAddSubtitleTrackPlaceholder, btnDefaultSubtitleTrackPlaceholder);
+            LayoutPatternGroup(grpChapters, txtChaptersFilename, btnAddChapterPlaceholder, btnDefaultChapterPlaceholder);
+            LayoutPatternGroup(grpAttachments, txtAttachmentsFilename, btnAddAttachmentPlaceholder, btnDefaultAttachmentPlaceholder);
+            LayoutPatternGroup(grpTags, txtTagsFilename, btnAddTagsPlaceholder, btnDefaultTagsPlaceholder);
+            LayoutAdvancedGroup();
+            LayoutActionsGroup();
+        }
+
+        private void LayoutPatternGroup(GroupBox groupBox, TextBox textBox, Button addButton, Button defaultButton)
+        {
+            addButton.ApplyLocalizedButtonSize(PatternButtonMinWidth);
+            defaultButton.ApplyLocalizedButtonSize(PatternButtonMinWidth);
+
+            int top = Math.Max(16, textBox.Top - 4);
+            int right = groupBox.ClientSize.Width - 6;
+
+            defaultButton.Location = new Point(right - defaultButton.Width, top);
+            addButton.Location = new Point(defaultButton.Left - LayoutSpacing - addButton.Width, top);
+
+            int textRight = addButton.Left - LayoutSpacing;
+            textBox.Width = Math.Max(180, textRight - textBox.Left);
+        }
+
+        private void LayoutActionsGroup()
+        {
+            btnDefaults.ApplyLocalizedButtonSize(90);
+            btnOK.ApplyLocalizedButtonSize(ActionButtonMinWidth);
+            btnCancel.ApplyLocalizedButtonSize(ActionButtonMinWidth);
+
+            const int buttonTop = 17;
+
+            btnDefaults.Location = new Point(9, buttonTop);
+
+            int right = grpActions.ClientSize.Width - 6;
+            btnCancel.Location = new Point(right - btnCancel.Width, buttonTop);
+            btnOK.Location = new Point(btnCancel.Left - LayoutSpacing - btnOK.Width, buttonTop);
+        }
+
+        private void LayoutAdvancedGroup()
+        {
+            chkTextFilesWithoutBom.Location = new Point(9, 20);
+
+            chkRawMode.Location = new Point(9, 46);
+            chkFullRawMode.Location = new Point(chkRawMode.Right + 12, 46);
+
+            int cultureRowTop = 46;
+            int advancedRowHeight = 86;
+            int comboWidth = Math.Max(80, cmbCulture.Width);
+            int right = grpAdvanced.ClientSize.Width - 6;
+
+            cmbCulture.Width = comboWidth;
+            cmbCulture.Location = new Point(right - cmbCulture.Width, cultureRowTop - 3);
+            lblCulture.Location = new Point(cmbCulture.Left - LayoutSpacing - lblCulture.Width, cultureRowTop);
+
+            if (chkFullRawMode.Right + 12 > lblCulture.Left)
+            {
+                cultureRowTop = 70;
+                advancedRowHeight = 110;
+                cmbCulture.Location = new Point(right - cmbCulture.Width, cultureRowTop - 3);
+                lblCulture.Location = new Point(cmbCulture.Left - LayoutSpacing - lblCulture.Width, cultureRowTop);
+            }
+
+            if (tlpMain.RowStyles.Count > 7)
+            {
+                tlpMain.RowStyles[7].Height = advancedRowHeight;
             }
         }
     }

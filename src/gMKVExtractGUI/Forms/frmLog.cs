@@ -1,10 +1,11 @@
-﻿using System;
+using System;
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Reflection;
 using System.Text;
 using System.Windows.Forms;
+using gMKVToolNix.Controls;
 using gMKVToolNix.Localization;
 using gMKVToolNix.Log;
 using gMKVToolNix.Theming;
@@ -15,6 +16,8 @@ namespace gMKVToolNix
     public partial class frmLog : gForm
     {
         private readonly gSettings _Settings = null;
+        private const int ActionButtonMinWidth = 95;
+        private const int ActionButtonSpacing = 4;
 
         public frmLog()
         {
@@ -171,6 +174,7 @@ namespace gMKVToolNix
             btnRefresh.Text = LocalizationManager.GetString("UI.LogForm.Actions.Refresh");
             btnCopy.Text = LocalizationManager.GetString("UI.LogForm.Actions.CopySelection");
             btnClose.Text = LocalizationManager.GetString("UI.LogForm.Actions.Close");
+            ApplyResponsiveLayout();
         }
 
         public void UpdateTheme(bool darkMode)
@@ -190,6 +194,33 @@ namespace gMKVToolNix
                     NativeMethods.TrySetImmersiveDarkMode(this.Handle, darkMode);
                 };
             }
+        }
+
+        private void ApplyResponsiveLayout()
+        {
+            btnClear.ApplyLocalizedButtonSize(ActionButtonMinWidth);
+            btnSave.ApplyLocalizedButtonSize(ActionButtonMinWidth);
+            btnRefresh.ApplyLocalizedButtonSize(ActionButtonMinWidth);
+            btnCopy.ApplyLocalizedButtonSize(ActionButtonMinWidth);
+            btnClose.ApplyLocalizedButtonSize(ActionButtonMinWidth);
+
+            const int buttonTop = 17;
+
+            btnClear.Anchor = AnchorStyles.Top | AnchorStyles.Left;
+            btnSave.Anchor = AnchorStyles.Top | AnchorStyles.Left;
+            btnRefresh.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            btnCopy.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            btnClose.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+
+            btnClear.Location = new Point(6, buttonTop);
+            btnSave.Location = new Point(btnClear.Right + ActionButtonSpacing, buttonTop);
+
+            int right = grpActions.ClientSize.Width - 5;
+            btnClose.Location = new Point(right - btnClose.Width, buttonTop);
+            right = btnClose.Left - ActionButtonSpacing;
+            btnCopy.Location = new Point(right - btnCopy.Width, buttonTop);
+            right = btnCopy.Left - ActionButtonSpacing;
+            btnRefresh.Location = new Point(right - btnRefresh.Width, buttonTop);
         }
     }
 }
