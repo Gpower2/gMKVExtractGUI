@@ -35,7 +35,7 @@ namespace gMKVToolNix.Forms
                 Icon = Icon.ExtractAssociatedIcon(GetExecutingAssemblyLocation());
                 Text = string.Format("gMKVExtractGUI v{0} -- Options", GetCurrentVersion());
 
-                txtInfo.Text = LocalizationManager.GetString("UI.OptionsForm.Info.Text");
+                SetInfoText(LocalizationManager.GetString("UI.OptionsForm.Info.Text"));
 
                 // Initialize the DPI aware scaling
                 InitDPI();
@@ -93,6 +93,12 @@ namespace gMKVToolNix.Forms
             chkTextFilesWithoutBom.Checked = _Settings.DisableBomForTextFiles;
             chkRawMode.Checked = _Settings.UseRawExtractionMode;
             chkFullRawMode.Checked = _Settings.UseFullRawExtractionMode;
+        }
+
+        private void SetInfoText(string localizedInfoText)
+        {
+            txtInfo.Clear();
+            txtInfo.Text = localizedInfoText ?? string.Empty;
         }
 
         private void UpdateSettings()
@@ -652,7 +658,7 @@ namespace gMKVToolNix.Forms
         {
             Text = string.Format("gMKVExtractGUI v{0} -- {1}", GetCurrentVersion(), LocalizationManager.GetString("UI.OptionsForm.Title"));
             grpInfo.Text = LocalizationManager.GetString("UI.OptionsForm.Info.Group");
-            txtInfo.Text = LocalizationManager.GetString("UI.OptionsForm.Info.Text");
+            SetInfoText(LocalizationManager.GetString("UI.OptionsForm.Info.Text"));
             grpVideoTracks.Text = LocalizationManager.GetString("UI.OptionsForm.VideoTracks.Group");
             btnAddVideoTrackPlaceholder.Text = LocalizationManager.GetString("UI.OptionsForm.VideoTracks.Add");
             btnDefaultVideoTrackPlaceholder.Text = LocalizationManager.GetString("UI.OptionsForm.VideoTracks.Default");
