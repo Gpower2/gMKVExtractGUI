@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -52,11 +52,12 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ThemeManager.Tests.cs" />
     <Compile Include="TranslationMaintenanceService.Tests.cs" />
+    <Compile Include="TranslationPathService.Tests.cs" />
     <Compile Include="gMkvParser.Tests.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="..\..\src\gMKVExtractGUI\en.json">
-      <Link>en.json</Link>
+    <Content Include="..\..\src\gMKVExtractGUI\gmkvextract-en.json">
+      <Link>gmkvextract-en.json</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

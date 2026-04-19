@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using gMKVToolNix.Localization;
@@ -49,7 +49,7 @@ namespace gMKVToolNix.Unit.Tests
         [TestMethod]
         public void GetStringForCulture_WhenEnglishFileIsMissing_UsesBuiltInEnglishFallback()
         {
-            WriteTranslationFile("de.json", "de", new Dictionary<string, string>
+            WriteTranslationFile(TranslationPathService.GetTranslationFileName("de"), "de", new Dictionary<string, string>
             {
                 { "UI.Common.Dialog.AreYouSureTitle", "Sind Sie sicher?" }
             });
@@ -64,7 +64,7 @@ namespace gMKVToolNix.Unit.Tests
         [TestMethod]
         public void ResolveCultureName_WhenSpecificCultureMissingButNeutralExists_ReturnsNeutralCulture()
         {
-            WriteTranslationFile("de.json", "de", new Dictionary<string, string>
+            WriteTranslationFile(TranslationPathService.GetTranslationFileName("de"), "de", new Dictionary<string, string>
             {
                 { "UI.Common.Dialog.AreYouSureTitle", "Sind Sie sicher?" }
             });
@@ -79,7 +79,7 @@ namespace gMKVToolNix.Unit.Tests
         {
             var service = new JsonLocalizationService(_testFolder);
 
-            string englishJsonPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "en.json");
+            string englishJsonPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, TranslationPathService.GetTranslationFileName("en"));
             var translationFile = JsonConvert.DeserializeObject<TranslationFile>(File.ReadAllText(englishJsonPath));
 
             foreach (var entry in translationFile.Entries)

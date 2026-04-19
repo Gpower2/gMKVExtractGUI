@@ -11,7 +11,7 @@ The GUI editor and the console now use the same shared translation services, so 
 
 ## Before You Start
 
-1. Keep `en.json` in the same translation directory as the locale files you want to edit.
+1. Keep `gmkvextract-en.json` in the same translation directory as the locale files you want to edit.
 2. Start the application from a folder that already contains the translation JSON files.
 3. Use short, UI-friendly translations when possible; some controls can grow at runtime now, but concise strings still produce the best fit.
 4. Do not rename localization keys or change the English source text in non-English files.
@@ -25,7 +25,7 @@ The GUI editor and the console now use the same shared translation services, so 
 4. Choose the locale you want to edit from the culture list.
 5. Use the search box to find a key, or enable the untranslated filter to focus on incomplete entries.
 6. Edit the **Translation** value for each row.
-7. Use the read-only **Notes** column as translator context from `en.json`; it is not edited in the grid.
+7. Use the read-only **Notes** column as translator context from `gmkvextract-en.json`; it is not edited in the grid.
 8. The **Translated** checkbox is set automatically when the **Translation** cell becomes non-empty, but you can still toggle it manually if needed.
 9. Watch the save-state label and the `*` in the window title to know when there are pending changes.
 10. Click **Save**.
@@ -36,11 +36,11 @@ The GUI editor and the console now use the same shared translation services, so 
 1. Open **Options -> Translations...**.
 2. Click **New Locale...**.
 3. In the dialog, enter the new culture code and optionally fill in the translator name.
-4. Click **Create** to generate a new locale from `en.json`.
+4. Click **Create** to generate a new locale from `gmkvextract-en.json`.
 5. The editor will load the new file, copy the translator metadata into the top row, and start every entry as untranslated.
 6. Translate the entries you are ready to complete.
 7. Leave unfinished rows marked as not translated so they are easy to find later.
-8. Click **Save** to write the new `<culture>.json` file.
+8. Click **Save** to write the new `gmkvextract-<culture>.json` file.
 9. Close the editor, return to **Options**, and confirm that the new culture now appears in the language dropdown.
 
 ## Sync an Existing Locale After English Changes
@@ -48,7 +48,7 @@ The GUI editor and the console now use the same shared translation services, so 
 1. Open **Options -> Translations...**.
 2. Select the locale you want to refresh.
 3. Click **Sync**. This action is available only for non-English locales.
-4. The editor saves any current changes first, then synchronizes the selected locale with `en.json`.
+4. The editor saves any current changes first, then synchronizes the selected locale with `gmkvextract-en.json`.
 5. Review the summary so you know how many keys were added, removed, or reset.
 6. Translate any rows that were added or marked as untranslated because the English source changed; those reset rows will have their translation set back to the English source.
 7. Click **Save** if you make additional edits after the sync completes.
@@ -56,10 +56,10 @@ The GUI editor and the console now use the same shared translation services, so 
 
 ## What the Editor Fields Mean
 
-- **Source:** the authoritative English text from `en.json`
+- **Source:** the authoritative English text from `gmkvextract-en.json`
 - **Translation:** the current text for the selected locale
 - **Translated:** whether the row is considered complete; the editor auto-checks it when the translation cell becomes non-empty
-- **Notes:** read-only translator guidance or context copied from `en.json`
+- **Notes:** read-only translator guidance or context copied from `gmkvextract-en.json`
 
 If a locale is missing a file or a specific entry, the application falls back to embedded English defaults instead of showing localization placeholders. That fallback is a safety net, not a substitute for completing the translation.
 
@@ -84,7 +84,7 @@ After saving a locale:
 Use `src\gMKVToolNix.Translator.Console` when you need to:
 
 - scan source code for hardcoded strings
-- rebuild or refresh the master `en.json`
+- rebuild or refresh the master `gmkvextract-en.json`
 - create or sync locale files in automation or CI-style workflows
 - batch-maintain locale files without launching the GUI
 

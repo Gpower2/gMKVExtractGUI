@@ -2,7 +2,7 @@
 
 gMKVToolnix.Translator.Console is a command-line utility designed to manage the localization workflow for the gMKVExtractGUI application. It provides tools to find hardcoded strings, create new language templates, and synchronize existing translation files with a master file.
 
-For day-to-day translation work, translators can now use the in-app editor from **Options -> Translations...** inside the GUI. The console remains the developer and automation path for scanning code, rebuilding `en.json`, and batch-maintaining locale files.
+For day-to-day translation work, translators can now use the in-app editor from **Options -> Translations...** inside the GUI. The console remains the developer and automation path for scanning code, rebuilding `gmkvextract-en.json`, and batch-maintaining locale files.
 
 The tool works with the JSON translation files used by the GUI runtime:
 
@@ -15,9 +15,9 @@ The tool works with the JSON translation files used by the GUI runtime:
 The utility is split into four main commands (or "verbs"):
 
 1. `scan`: (Initial Step) Scans the source code to find hardcoded strings to help with initial refactoring.
-2. `master`: (Maintenance) Scans the refactored code for `GetString()` calls and updates the master `en.json` file.
-3. `template`: (New Language) Creates a new, untranslated file (e.g., `de.json`) from the master `en.json`.
-4. `sync`: (Maintenance) Updates an existing translation file (e.g., `de.json`) with new changes from the `en.json` master.
+2. `master`: (Maintenance) Scans the refactored code for `GetString()` calls and updates the master `gmkvextract-en.json` file.
+3. `template`: (New Language) Creates a new, untranslated file (e.g., `gmkvextract-de.json`) from the master `gmkvextract-en.json`.
+4. `sync`: (Maintenance) Updates an existing translation file (e.g., `gmkvextract-de.json`) with new changes from the `gmkvextract-en.json` master.
 
 ### **1\. scan**
 
@@ -42,7 +42,7 @@ gMKVToolnix.Translator.Console.exe scan -s "C:\Projects\gMKVExtractGUI\src\gMKVE
 
 ### **2\. master**
 
-This command scans the source code for literal `GetString("key")` calls. It uses this list of keys to create or update the master `en.json` file. It preserves all existing source text and notes while adding placeholders for any new keys it finds.
+This command scans the source code for literal `GetString("key")` calls. It uses this list of keys to create or update the master `gmkvextract-en.json` file. It preserves all existing source text and notes while adding placeholders for any new keys it finds.
 
 > **Note:** The current scanner targets `GetString(...)` call sites. If you add new literal-key helper shapes in the runtime (for example a future scanner for `GetStringForCulture(...)` calls), update `MasterCommand` accordingly so new keys remain discoverable.
 
@@ -51,18 +51,18 @@ This command scans the source code for literal `GetString("key")` calls. It uses
 | Option | Short | Required | Description |
 | :---- | :---- | :---- | :---- |
 | \--source | \-s | **Yes** | The root source code directory to scan recursively. |
-| \--master | \-m | **Yes** | The path to the master (e.g., `en.json`) file to create or update. |
+| \--master | \-m | **Yes** | The path to the master (e.g., `gmkvextract-en.json`) file to create or update. |
 
 #### **Example Usage**
 
 ```
-# Scan the code and update the en.json master file
-gMKVToolnix.Translator.Console.exe master -s "C:\Projects\gMKVExtractGUI\src" -m "C:\App\Translations\en.json"
+# Scan the code and update the gmkvextract-en.json master file
+gMKVToolnix.Translator.Console.exe master -s "C:\Projects\gMKVExtractGUI\src" -m "C:\App\Translations\gmkvextract-en.json"
 ```
 
 ### **3\. template**
 
-This command creates a new, blank translation file for a new culture. It uses the master file (e.g., `en.json`) as a source, copying all keys, source text, and context notes. It marks all new entries as `isTranslated: false`.
+This command creates a new, blank translation file for a new culture. It uses the master file (e.g., `gmkvextract-en.json`) as a source, copying all keys, source text, and context notes. It marks all new entries as `isTranslated: false`.
 
 > **Note:** This command uses the same shared translation-maintenance logic as the GUI editor's **Create** action.
 
@@ -70,18 +70,18 @@ This command creates a new, blank translation file for a new culture. It uses th
 
 | Option | Short | Required | Description |
 | :---- | :---- | :---- | :---- |
-| \--master | \-m | **Yes** | The path to the master translation file (e.g., `en.json`). |
+| \--master | \-m | **Yes** | The path to the master translation file (e.g., `gmkvextract-en.json`). |
 | \--culture | \-c | **Yes** | The culture code for the new file (e.g., `de-DE` or `fr`). |
-| \--output | \-o | No | The output file path. **Default:** Creates a file named after the culture (e.g., `de-DE.json`) in the same directory as the master file. |
+| \--output | \-o | No | The output file path. **Default:** Creates a file named after the culture (e.g., `gmkvextract-de-DE.json`) in the same directory as the master file. |
 
 #### **Example Usage**
 
 ```
 # Create a new German (Germany) translation file
-gMKVToolnix.Translator.Console.exe template --master "C:\App\Translations\en.json" --culture "de-DE"
+gMKVToolnix.Translator.Console.exe template --master "C:\App\Translations\gmkvextract-en.json" --culture "de-DE"
 
 # Create a new French file in a specific output location
-gMKVToolnix.Translator.Console.exe template -m "C:\App\Translations\en.json" -c "fr-FR" -o "C:\Temp\new_french_file.json"
+gMKVToolnix.Translator.Console.exe template -m "C:\App\Translations\gmkvextract-en.json" -c "fr-FR" -o "C:\Temp\gmkvextract-fr-FR.json"
 ```
 
 ### **4\. sync**
@@ -100,17 +100,17 @@ It performs the following actions:
 
 | Option | Short | Required | Description |
 | :---- | :---- | :---- | :---- |
-| \--master | \-m | **Yes** | The path to the master translation file (e.g., `en.json`). |
-| \--target | \-t | **Yes** | The path to the existing translation file to update (e.g., `de-DE.json`). |
+| \--master | \-m | **Yes** | The path to the master translation file (e.g., `gmkvextract-en.json`). |
+| \--target | \-t | **Yes** | The path to the existing translation file to update (e.g., `gmkvextract-de-DE.json`). |
 
 #### **Example Usage**
 
 ```
 # Sync the German translation file with the latest master file
-gMKVToolnix.Translator.Console.exe sync --master "C:\App\Translations\en.json" --target "C:\App\Translations\de-DE.json"
+gMKVToolnix.Translator.Console.exe sync --master "C:\App\Translations\gmkvextract-en.json" --target "C:\App\Translations\gmkvextract-de-DE.json"
 
 # Sync the French file
-gMKVToolnix.Translator.Console.exe sync -m "C:\App\Translations\en.json" -t "C:\App\Translations\fr-FR.json"
+gMKVToolnix.Translator.Console.exe sync -m "C:\App\Translations\gmkvextract-en.json" -t "C:\App\Translations\gmkvextract-fr-FR.json"
 ```
 
 ## **Typical Workflow**
@@ -124,34 +124,34 @@ gMKVToolnix.Translator.Console.exe scan -s "C:\Projects\gMKVExtractGUI\src"
 
 2. **Refactor Code:** The developer uses `scan_report.json` to refactor all code (e.g., changing `"Open"` to `LocalizationManager.GetString("Gui.MainMenu.Open")`, or to `LocalizationManager.GetStringForCulture("Gui.MainMenu.Open", culture)` only when an explicit culture is truly required).
 
-3. **Generate Master:** The developer runs master to auto-generate the `en.json` file from the refactored code.
+3. **Generate Master:** The developer runs master to auto-generate the `gmkvextract-en.json` file from the refactored code.
 ```
-gMKVToolnix.Translator.Console.exe master -s "C:\Projects\gMKVExtractGUI\src" -m "C:\App\Translations\en.json"
+gMKVToolnix.Translator.Console.exe master -s "C:\Projects\gMKVExtractGUI\src" -m "C:\App\Translations\gmkvextract-en.json"
 ```
 
-4. **Edit Master:** The developer opens `en.json` and fills in the source text and notes for all entries that show \!NEW\!.
+4. **Edit Master:** The developer opens `gmkvextract-en.json` and fills in the source text and notes for all entries that show \!NEW\!.
 
 5. **Create New Template:** The developer wants to add German. They run template.
 ```
-gMKVToolnix.Translator.Console.exe template -m "C:\App\Translations\en.json" -c "de-DE"
+gMKVToolnix.Translator.Console.exe template -m "C:\App\Translations\gmkvextract-en.json" -c "de-DE"
 ```
 
 6. **Translation:** A translator usually opens **Options -> Translations...** in the GUI, loads `de-DE`, changes the translation values, and sets `isTranslated` to `true`. Direct JSON editing still works, but the editor is the preferred workflow.
 
 7. **New Features:** Weeks later, the developer adds new features, refactors code, and adds new `_loc.GetString(...)` calls.
 
-8. **Update Master:** The developer re-runs master. The tool finds the new keys and adds them as placeholders to `en.json`, preserving all old work.
+8. **Update Master:** The developer re-runs master. The tool finds the new keys and adds them as placeholders to `gmkvextract-en.json`, preserving all old work.
 ```
-gMKVToolnix.Translator.Console.exe master -s "C:\Projects\gMKVExtractGUI\src" -m "C:\App\Translations\en.json"
+gMKVToolnix.Translator.Console.exe master -s "C:\Projects\gMKVExtractGUI\src" -m "C:\App\Translations\gmkvextract-en.json"
 ```
 
-9. **Edit Master:** The developer opens `en.json` and fills in the source and notes for the new keys.
+9. **Edit Master:** The developer opens `gmkvextract-en.json` and fills in the source and notes for the new keys.
 
-10. **Synchronize:** The developer runs sync to update `de-DE.json`.
+10. **Synchronize:** The developer runs sync to update `gmkvextract-de-DE.json`.
 ```
-gMKVToolnix.Translator.Console.exe sync -m "C:\App\Translations\en.json" -t "C:\App\Translations\de-DE.json"
+gMKVToolnix.Translator.Console.exe sync -m "C:\App\Translations\gmkvextract-en.json" -t "C:\App\Translations\gmkvextract-de-DE.json"
 ```
-The console reports that the new strings were added to `de-DE.json`.
+The console reports that the new strings were added to `gmkvextract-de-DE.json`.
 
 11. **Final Translation:** The translator reopens `de-DE` in the GUI editor and can quickly find the new items that are marked as `isTranslated: false`.
 
@@ -159,7 +159,7 @@ The console reports that the new strings were added to `de-DE.json`.
 
 The GUI runtime uses these files directly:
 
-1. `JsonLocalizationService` scans the executable directory for `*.json` translation files.
+1. `JsonLocalizationService` scans the executable directory for `gmkvextract-*.json` translation files and falls back to legacy bare `<culture>.json` names only when no prefixed files exist yet.
 2. Each file is parsed and flattened into an in-memory runtime cache keyed by culture and localization key.
 3. Lookups do **not** reread translation files on every call.
 4. The GUI also embeds a built-in English fallback map, so missing locale files still resolve to English instead of `!Key!` placeholders.

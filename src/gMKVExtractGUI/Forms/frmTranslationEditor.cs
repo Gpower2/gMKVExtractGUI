@@ -125,7 +125,7 @@ namespace gMKVToolNix.Forms
 
         private void LoadMasterFile()
         {
-            string masterFile = Path.Combine(_translationsDirectory, "en.json");
+            string masterFile = TranslationPathService.GetMasterFilePath(_translationsDirectory);
             _masterFile = TranslationFileService.LoadFile(masterFile);
         }
 
@@ -135,9 +135,15 @@ namespace gMKVToolNix.Forms
             try
             {
                 string selectedCulture = _cmbTargetCulture.SelectedItem as string;
-                var cultures = Directory
-                    .EnumerateFiles(_translationsDirectory, "*.json", SearchOption.TopDirectoryOnly)
-                    .Select(Path.GetFileNameWithoutExtension)
+                var cultures = TranslationPathService
+                    .EnumerateTranslationFiles(_translationsDirectory)
+                    .Select(path =>
+                    {
+                        string culture;
+                        return TranslationPathService.TryGetCultureFromPath(path, out culture)
+                            ? culture
+                            : null;
+                    })
                     .Where(culture => !string.IsNullOrWhiteSpace(culture))
                     .Distinct(StringComparer.OrdinalIgnoreCase)
                     .OrderBy(culture => culture)
@@ -216,7 +222,7 @@ namespace gMKVToolNix.Forms
 
         private TranslationCultureLoadResult LoadCultureData(string culture)
         {
-            string path = Path.Combine(_translationsDirectory, culture + ".json");
+            string path = TranslationPathService.GetExistingTranslationFilePath(_translationsDirectory, culture);
             TranslationFile translationFile = TranslationFileService.LoadFile(path);
 
             return new TranslationCultureLoadResult
@@ -369,7 +375,7 @@ namespace gMKVToolNix.Forms
                 };
             }
 
-            string path = Path.Combine(_translationsDirectory, _currentFile.Metadata.Culture + ".json");
+            string path = TranslationPathService.GetTranslationFilePath(_translationsDirectory, _currentFile.Metadata.Culture);
             TranslationFileService.SaveFile(_currentFile, path);
             HasSavedChanges = true;
             SetPendingChanges(false);
@@ -489,7 +495,7 @@ namespace gMKVToolNix.Forms
                 throw CreateLocalizedException("UI.TranslationEditor.Errors.CultureCodeRequired");
             }
 
-            string path = Path.Combine(_translationsDirectory, culture + ".json");
+            string path = TranslationPathService.GetTranslationFilePath(_translationsDirectory, culture);
             if (File.Exists(path))
             {
                 throw CreateLocalizedException("UI.TranslationEditor.Errors.LocaleExists", culture);
@@ -527,10 +533,13 @@ namespace gMKVToolNix.Forms
             SaveCurrentFile();
             LoadMasterFile();
 
-            var target = TranslationFileService.LoadFile(Path.Combine(_translationsDirectory, _currentFile.Metadata.Culture + ".json"));
+            var target = TranslationFileService.LoadFile(
+                TranslationPathService.GetExistingTranslationFilePath(_translationsDirectory, _currentFile.Metadata.Culture));
             var result = TranslationMaintenanceService.Synchronize(_masterFile, target);
 
-            TranslationFileService.SaveFile(result.TranslationFile, Path.Combine(_translationsDirectory, result.TranslationFile.Metadata.Culture + ".json"));
+            TranslationFileService.SaveFile(
+                result.TranslationFile,
+                TranslationPathService.GetTranslationFilePath(_translationsDirectory, result.TranslationFile.Metadata.Culture));
             HasSavedChanges = true;
 
             ShowLocalizedSuccessMessage(

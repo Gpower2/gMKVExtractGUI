@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.IO;
 using gMKVToolNix.Localization;
 
@@ -16,7 +16,9 @@ namespace gMKVToolNix.Translator.Console.Commands
                 string outputPath = opts.OutputFile;
                 if (string.IsNullOrWhiteSpace(outputPath))
                 {
-                    outputPath = Path.Combine(Path.GetDirectoryName(opts.MasterFile), $"{opts.Culture}.json");
+                    outputPath = Path.Combine(
+                        Path.GetDirectoryName(opts.MasterFile),
+                        TranslationPathService.GetTranslationFileName(opts.Culture));
                 }
 
                 TranslationFileService.SaveFile(newFile, outputPath);

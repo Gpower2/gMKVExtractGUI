@@ -186,55 +186,55 @@
     </Compile>
     <EmbeddedResource Include="app.manifest" />
     <None Include="app.config" />
-    <None Include="en.json">
+    <None Include="gmkvextract-en.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="es.json">
+    <None Include="gmkvextract-es.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="de.json">
+    <None Include="gmkvextract-de.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="pt.json">
+    <None Include="gmkvextract-pt.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="pt-br.json">
+    <None Include="gmkvextract-pt-br.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="fr.json">
+    <None Include="gmkvextract-fr.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="el.json">
+    <None Include="gmkvextract-el.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="cn.json">
+    <None Include="gmkvextract-cn.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="ja.json">
+    <None Include="gmkvextract-ja.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="ru.json">
+    <None Include="gmkvextract-ru.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="it.json">
+    <None Include="gmkvextract-it.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="nl.json">
+    <None Include="gmkvextract-nl.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="pl.json">
+    <None Include="gmkvextract-pl.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="tr.json">
+    <None Include="gmkvextract-tr.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="ro.json">
+    <None Include="gmkvextract-ro.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="hi.json">
+    <None Include="gmkvextract-hi.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="ko.json">
+    <None Include="gmkvextract-ko.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="packages.config" />

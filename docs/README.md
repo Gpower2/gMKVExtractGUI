@@ -90,14 +90,14 @@ If you are editing or creating locale files, see the dedicated [Translator Guide
 - **Advanced Options:**
   - **Language / Culture:**
     - Dropdown to select the application language at runtime.
-    - Available cultures are loaded from the `*.json` translation files that ship with the app.
+    - Available cultures are loaded from the `gmkvextract-*.json` translation files that ship with the app.
     - Changing the culture immediately refreshes the open windows.
     - If the locale files are missing, the application falls back to its built-in English strings.
   - **Translations...:**
     - Opens the in-app translation editor.
     - Lets translators load an existing locale, search/filter entries, edit translations, update translator metadata, and save the JSON file back to disk.
-    - The Notes column is read-only context from `en.json`.
-    - Can also open a **New Locale...** dialog to create a locale from `en.json`, or sync an existing locale with the current English master.
+    - The Notes column is read-only context from `gmkvextract-en.json`.
+    - Can also open a **New Locale...** dialog to create a locale from `gmkvextract-en.json`, or sync an existing locale with the current English master.
   - **Disable BOM to text files (v96.0+):** Checkbox to disable writing Byte Order Mark in output text files (eg. subtitles).
   - **Use \`raw\` extraction:** Checkbox to enable raw extraction mode (--raw option). Applicable only for tracks extraction mode.
   - **Use \`full raw\` extraction:** Checkbox to enable full raw extraction mode (--fullraw option, takes precedence over \`raw\` mode). Applicable only for tracks extraction mode.

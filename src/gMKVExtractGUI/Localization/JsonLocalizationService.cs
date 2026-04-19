@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -42,7 +42,7 @@ namespace gMKVToolNix.Localization
                 return;
             }
 
-            string[] files = Directory.GetFiles(translationFolder, "*.json");
+            IEnumerable<string> files = TranslationPathService.EnumerateTranslationFiles(translationFolder);
 
             foreach (string file in files)
             {

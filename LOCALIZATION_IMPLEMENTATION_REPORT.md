@@ -45,7 +45,7 @@ The public culture-specific helper was renamed to `GetStringForCulture(...)` on 
 
 `JsonLocalizationService` loads translation files from the executable directory and flattens them into an in-memory runtime cache:
 
-- source files: `*.json`
+- source files: primarily `gmkvextract-*.json`, with temporary fallback to legacy bare `<culture>.json` names only when no prefixed files exist
 - runtime structure: `Dictionary<string, Dictionary<string, string>>`
 - load timing: once during initialization, and again only when `LocalizationManager.Reload(...)` is called
 - per-lookup file I/O: none
@@ -80,23 +80,23 @@ If the saved culture is blank or points to a locale file that is no longer avail
 
 | File | Culture | Entries |
 |---|---|---:|
-| `src\gMKVExtractGUI\en.json` | `en` | 289 |
-| `src\gMKVExtractGUI\es.json` | `es` | 289 |
-| `src\gMKVExtractGUI\de.json` | `de` | 289 |
-| `src\gMKVExtractGUI\pt.json` | `pt` | 289 |
-| `src\gMKVExtractGUI\pt-br.json` | `pt-br` | 289 |
-| `src\gMKVExtractGUI\fr.json` | `fr` | 289 |
-| `src\gMKVExtractGUI\el.json` | `el` | 289 |
-| `src\gMKVExtractGUI\cn.json` | `cn` | 289 |
-| `src\gMKVExtractGUI\ja.json` | `ja` | 289 |
-| `src\gMKVExtractGUI\ru.json` | `ru` | 289 |
-| `src\gMKVExtractGUI\it.json` | `it` | 289 |
-| `src\gMKVExtractGUI\nl.json` | `nl` | 289 |
-| `src\gMKVExtractGUI\pl.json` | `pl` | 289 |
-| `src\gMKVExtractGUI\tr.json` | `tr` | 289 |
-| `src\gMKVExtractGUI\ro.json` | `ro` | 289 |
-| `src\gMKVExtractGUI\hi.json` | `hi` | 289 |
-| `src\gMKVExtractGUI\ko.json` | `ko` | 289 |
+| `src\gMKVExtractGUI\gmkvextract-en.json` | `en` | 289 |
+| `src\gMKVExtractGUI\gmkvextract-es.json` | `es` | 289 |
+| `src\gMKVExtractGUI\gmkvextract-de.json` | `de` | 289 |
+| `src\gMKVExtractGUI\gmkvextract-pt.json` | `pt` | 289 |
+| `src\gMKVExtractGUI\gmkvextract-pt-br.json` | `pt-br` | 289 |
+| `src\gMKVExtractGUI\gmkvextract-fr.json` | `fr` | 289 |
+| `src\gMKVExtractGUI\gmkvextract-el.json` | `el` | 289 |
+| `src\gMKVExtractGUI\gmkvextract-cn.json` | `cn` | 289 |
+| `src\gMKVExtractGUI\gmkvextract-ja.json` | `ja` | 289 |
+| `src\gMKVExtractGUI\gmkvextract-ru.json` | `ru` | 289 |
+| `src\gMKVExtractGUI\gmkvextract-it.json` | `it` | 289 |
+| `src\gMKVExtractGUI\gmkvextract-nl.json` | `nl` | 289 |
+| `src\gMKVExtractGUI\gmkvextract-pl.json` | `pl` | 289 |
+| `src\gMKVExtractGUI\gmkvextract-tr.json` | `tr` | 289 |
+| `src\gMKVExtractGUI\gmkvextract-ro.json` | `ro` | 289 |
+| `src\gMKVExtractGUI\gmkvextract-hi.json` | `hi` | 289 |
+| `src\gMKVExtractGUI\gmkvextract-ko.json` | `ko` | 289 |
 
 All locale files are included in `src\gMKVExtractGUI\gMKVExtractGUI.csproj` so they are copied to the output directory and are visible both to the runtime loader and to the culture picker in `frmOptions`.
 Those files now sit on top of the embedded English defaults rather than being the only source of fallback text.
@@ -187,12 +187,12 @@ At the time of this update, the suite total is **19 passing tests**.
 2. if you truly need an explicit culture, use `LocalizationManager.GetStringForCulture(...)`
 3. update the master file with `gMKVToolNix.Translator.Console master`
 4. sync the non-English locale files with the in-app **Translations...** editor or the console `template` / `sync` workflow
-5. keep `JsonLocalizationService.Defaults.cs` aligned with `en.json`
+5. keep `JsonLocalizationService.Defaults.cs` aligned with `gmkvextract-en.json`
 6. keep the locale files aligned and copied in the GUI project file
 
 ### When Adding New Culture Files
 
-- keep the JSON schema consistent with `en.json`
+- keep the JSON schema consistent with `gmkvextract-en.json`
 - set the correct `Metadata.Culture`
 - include the new file in `gMKVExtractGUI.csproj`
 - verify the file appears in `frmOptions` culture selection
@@ -216,8 +216,8 @@ For the current implementation, these files are the most important references:
 - `src\gMKVExtractGUI\Forms\frmOptions.cs`
 - `src\gMKVExtractGUI\Forms\frmTranslationEditor.cs`
 - `src\gMKVExtractGUI\Theming\ThemeManager.cs`
-- `src\gMKVExtractGUI\en.json`
+- `src\gMKVExtractGUI\gmkvextract-en.json`
 - `src\gMKVToolNix\Localization\TranslationFileService.cs`
 - `src\gMKVToolNix\Localization\TranslationMaintenanceService.cs`
 
-The string inventory itself is maintained in `LOCALIZATION_STRINGS_MANIFEST.md`, while `en.json` remains the authoritative per-key source of truth.
+The string inventory itself is maintained in `LOCALIZATION_STRINGS_MANIFEST.md`, while `gmkvextract-en.json` remains the authoritative per-key source of truth.

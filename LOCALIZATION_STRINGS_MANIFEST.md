@@ -2,7 +2,7 @@
 ## Current Inventory Summary
 
 **Last Updated:** April 19, 2026
-**Authoritative Source:** `src\gMKVExtractGUI\en.json`
+**Authoritative Source:** `src\gMKVExtractGUI\gmkvextract-en.json`
 **Total Keys:** 289
 **Locale Files Shipped:** 17
 **Locale Parity:** all shipped locale files currently contain 289 entries
@@ -13,29 +13,29 @@
 
 | File | Culture | Entries |
 |---|---|---:|
-| `en.json` | `en` | 289 |
-| `es.json` | `es` | 289 |
-| `de.json` | `de` | 289 |
-| `pt.json` | `pt` | 289 |
-| `pt-br.json` | `pt-br` | 289 |
-| `fr.json` | `fr` | 289 |
-| `el.json` | `el` | 289 |
-| `cn.json` | `cn` | 289 |
-| `ja.json` | `ja` | 289 |
-| `ru.json` | `ru` | 289 |
-| `it.json` | `it` | 289 |
-| `nl.json` | `nl` | 289 |
-| `pl.json` | `pl` | 289 |
-| `tr.json` | `tr` | 289 |
-| `ro.json` | `ro` | 289 |
-| `hi.json` | `hi` | 289 |
-| `ko.json` | `ko` | 289 |
+| `gmkvextract-en.json` | `en` | 289 |
+| `gmkvextract-es.json` | `es` | 289 |
+| `gmkvextract-de.json` | `de` | 289 |
+| `gmkvextract-pt.json` | `pt` | 289 |
+| `gmkvextract-pt-br.json` | `pt-br` | 289 |
+| `gmkvextract-fr.json` | `fr` | 289 |
+| `gmkvextract-el.json` | `el` | 289 |
+| `gmkvextract-cn.json` | `cn` | 289 |
+| `gmkvextract-ja.json` | `ja` | 289 |
+| `gmkvextract-ru.json` | `ru` | 289 |
+| `gmkvextract-it.json` | `it` | 289 |
+| `gmkvextract-nl.json` | `nl` | 289 |
+| `gmkvextract-pl.json` | `pl` | 289 |
+| `gmkvextract-tr.json` | `tr` | 289 |
+| `gmkvextract-ro.json` | `ro` | 289 |
+| `gmkvextract-hi.json` | `hi` | 289 |
+| `gmkvextract-ko.json` | `ko` | 289 |
 
 ---
 
 ## Top-Level Key Families
 
-The table below summarizes the current key distribution by the second path segment in `en.json`.
+The table below summarizes the current key distribution by the second path segment in `gmkvextract-en.json`.
 
 | Key Family | Count | Notes |
 |---|---:|---|
@@ -95,6 +95,7 @@ This structure keeps related strings grouped and makes translator context easier
 - `LocalizationManager.GetString(...)` is the current-culture lookup API.
 - `LocalizationManager.GetStringForCulture(...)` is the explicit culture-specific API.
 - `JsonLocalizationService` loads all translation files into an in-memory runtime cache and does not reread JSON files on every lookup.
+- `JsonLocalizationService` now prefers `gmkvextract-*.json` files and falls back to legacy bare `<culture>.json` names only when no prefixed files exist.
 - `JsonLocalizationService.Defaults.cs` embeds the full English key set, so `en` remains available even when locale files are missing.
 - `LocalizedFontResolver` lets `frmOptions` prefer script-capable fonts for locales such as `hi`, `ja`, `cn`, and `ko` without relying on Windows-only font-enumeration behavior.
 - Lookup fallback order is: requested culture -> neutral culture -> English (`en`) -> `!Key!`.
@@ -104,10 +105,10 @@ This structure keeps related strings grouped and makes translator context easier
 
 ## Maintenance Notes
 
-1. `en.json` is the authoritative per-key inventory.
+1. `gmkvextract-en.json` is the authoritative per-key inventory.
 2. Use `gMKVToolNix.Translator.Console master` to refresh the master file from code.
 3. Use the in-app **Translations...** editor or the console `template` and `sync` commands to create or align non-English locale files.
-4. Regenerate or update `JsonLocalizationService.Defaults.cs` whenever `en.json` gains or changes keys.
+4. Regenerate or update `JsonLocalizationService.Defaults.cs` whenever `gmkvextract-en.json` gains or changes keys.
 5. If you add a new culture file, also add it to `src\gMKVExtractGUI\gMKVExtractGUI.csproj` so it is copied to the output directory.
 6. Keep new popup, tooltip, and context-menu strings aligned with the existing key hierarchy rather than introducing ad-hoc schemas.
 
@@ -117,7 +118,7 @@ This structure keeps related strings grouped and makes translator context easier
 
 For day-to-day work, use these files together:
 
-- `src\gMKVExtractGUI\en.json` - authoritative key list
+- `src\gMKVExtractGUI\gmkvextract-en.json` - authoritative key list
 - `src\gMKVExtractGUI\Localization\JsonLocalizationService.cs` - runtime loading and fallback behavior
 - `src\gMKVExtractGUI\Localization\JsonLocalizationService.Defaults.cs` - embedded English fallback map
 - `src\gMKVExtractGUI\Localization\LocalizedFontResolver.cs` - script-aware UI font fallback for localized rich text
