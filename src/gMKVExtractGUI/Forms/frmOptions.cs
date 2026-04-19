@@ -35,6 +35,7 @@ namespace gMKVToolNix.Forms
                 Icon = Icon.ExtractAssociatedIcon(GetExecutingAssemblyLocation());
                 Text = string.Format("gMKVExtractGUI v{0} -- Options", GetCurrentVersion());
 
+                ApplyInfoTextFont();
                 SetInfoText(LocalizationManager.GetString("UI.OptionsForm.Info.Text"));
 
                 // Initialize the DPI aware scaling
@@ -99,6 +100,24 @@ namespace gMKVToolNix.Forms
         {
             txtInfo.Clear();
             txtInfo.Text = localizedInfoText ?? string.Empty;
+        }
+
+        private void ApplyInfoTextFont()
+        {
+            Font resolvedFont = LocalizedFontResolver.ResolveFont(this.Font, LocalizationManager.CurrentCulture);
+            bool requiresUpdate = txtInfo.Font == null
+                || !string.Equals(txtInfo.Font.FontFamily.Name, resolvedFont.FontFamily.Name, StringComparison.OrdinalIgnoreCase)
+                || Math.Abs(txtInfo.Font.SizeInPoints - resolvedFont.SizeInPoints) > 0.01f
+                || txtInfo.Font.Style != resolvedFont.Style;
+
+            if (requiresUpdate)
+            {
+                txtInfo.Font = resolvedFont;
+            }
+            else if (!ReferenceEquals(resolvedFont, this.Font))
+            {
+                resolvedFont.Dispose();
+            }
         }
 
         private void UpdateSettings()
@@ -658,6 +677,7 @@ namespace gMKVToolNix.Forms
         {
             Text = string.Format("gMKVExtractGUI v{0} -- {1}", GetCurrentVersion(), LocalizationManager.GetString("UI.OptionsForm.Title"));
             grpInfo.Text = LocalizationManager.GetString("UI.OptionsForm.Info.Group");
+            ApplyInfoTextFont();
             SetInfoText(LocalizationManager.GetString("UI.OptionsForm.Info.Text"));
             grpVideoTracks.Text = LocalizationManager.GetString("UI.OptionsForm.VideoTracks.Group");
             btnAddVideoTrackPlaceholder.Text = LocalizationManager.GetString("UI.OptionsForm.VideoTracks.Add");

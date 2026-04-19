@@ -148,6 +148,7 @@
     <Compile Include="Jobs\JobState.cs" />
     <Compile Include="Localization\JsonLocalizationService.cs" />
     <Compile Include="Localization\JsonLocalizationService.Defaults.cs" />
+    <Compile Include="Localization\LocalizedFontResolver.cs" />
     <Compile Include="Localization\LocalizationManager.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
