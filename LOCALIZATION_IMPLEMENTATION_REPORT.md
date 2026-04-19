@@ -1,9 +1,9 @@
 # gMKVExtractGUI - Localization Implementation Report
 
-**Last Updated:** April 18, 2026
+**Last Updated:** April 19, 2026
 **Status:** Complete and validated
-**Locale Files in Tree:** 9 (`en`, `es`, `de`, `pt`, `pt-br`, `fr`, `el`, `cn`, `ja`)
-**Current Key Count:** 268 keys in every locale file
+**Locale Files in Tree:** 17 (`en`, `es`, `de`, `pt`, `pt-br`, `fr`, `el`, `cn`, `ja`, `ru`, `it`, `nl`, `pl`, `tr`, `ro`, `hi`, `ko`)
+**Current Key Count:** 289 keys in every locale file
 **Validation Snapshot:** Solution builds successfully and the current unit suite is at 19 passing tests
 
 ---
@@ -12,7 +12,7 @@
 
 The localization work on this branch is no longer in a "partial rollout" phase. The application now uses a cached JSON-based localization runtime, starts with the saved culture, reloads translations when the culture changes in `frmOptions`, and ships aligned locale files for the requested languages.
 
-This branch also now includes an in-app translation editor launched from `frmOptions`, shared translation-maintenance services used by both the GUI and the CLI, and responsive layout fixes on the localized forms that previously had fixed-size overflow issues.
+This branch also now includes an in-app translation editor launched from `frmOptions`, shared translation-maintenance services used by both the GUI and the CLI, responsive layout fixes on the localized forms that previously had fixed-size overflow issues, and script-aware font fallback for localized rich text in `frmOptions`.
 
 In addition to the original UI labels, this branch also localized the remaining runtime surfaces that mattered in practice:
 
@@ -80,15 +80,23 @@ If the saved culture is blank or points to a locale file that is no longer avail
 
 | File | Culture | Entries |
 |---|---|---:|
-| `src\gMKVExtractGUI\en.json` | `en` | 268 |
-| `src\gMKVExtractGUI\es.json` | `es` | 268 |
-| `src\gMKVExtractGUI\de.json` | `de` | 268 |
-| `src\gMKVExtractGUI\pt.json` | `pt` | 268 |
-| `src\gMKVExtractGUI\pt-br.json` | `pt-br` | 268 |
-| `src\gMKVExtractGUI\fr.json` | `fr` | 268 |
-| `src\gMKVExtractGUI\el.json` | `el` | 268 |
-| `src\gMKVExtractGUI\cn.json` | `cn` | 268 |
-| `src\gMKVExtractGUI\ja.json` | `ja` | 268 |
+| `src\gMKVExtractGUI\en.json` | `en` | 289 |
+| `src\gMKVExtractGUI\es.json` | `es` | 289 |
+| `src\gMKVExtractGUI\de.json` | `de` | 289 |
+| `src\gMKVExtractGUI\pt.json` | `pt` | 289 |
+| `src\gMKVExtractGUI\pt-br.json` | `pt-br` | 289 |
+| `src\gMKVExtractGUI\fr.json` | `fr` | 289 |
+| `src\gMKVExtractGUI\el.json` | `el` | 289 |
+| `src\gMKVExtractGUI\cn.json` | `cn` | 289 |
+| `src\gMKVExtractGUI\ja.json` | `ja` | 289 |
+| `src\gMKVExtractGUI\ru.json` | `ru` | 289 |
+| `src\gMKVExtractGUI\it.json` | `it` | 289 |
+| `src\gMKVExtractGUI\nl.json` | `nl` | 289 |
+| `src\gMKVExtractGUI\pl.json` | `pl` | 289 |
+| `src\gMKVExtractGUI\tr.json` | `tr` | 289 |
+| `src\gMKVExtractGUI\ro.json` | `ro` | 289 |
+| `src\gMKVExtractGUI\hi.json` | `hi` | 289 |
+| `src\gMKVExtractGUI\ko.json` | `ko` | 289 |
 
 All locale files are included in `src\gMKVExtractGUI\gMKVExtractGUI.csproj` so they are copied to the output directory and are visible both to the runtime loader and to the culture picker in `frmOptions`.
 Those files now sit on top of the embedded English defaults rather than being the only source of fallback text.
@@ -148,13 +156,19 @@ This keeps the JSON schema and maintenance behavior consistent across manual GUI
 
 The main localized forms (`frmMain2`, `frmOptions`, `frmJobManager`, `frmLog`) now resize key buttons, labels, and rows at runtime after localization is applied. This avoids language-specific designer forks while reducing clipped text in wider locales.
 
+### 7. Script-Aware Font Fallback
+
+`frmOptions` now routes its informational `RichTextBox` text through `LocalizedFontResolver` so script-heavy locales such as Hindi can prefer an installed script-capable UI font instead of relying on inconsistent control-level glyph fallback.
+
+The resolver probes candidate font families directly and includes common Windows, Linux, and macOS font families for `hi`, `ja`, `cn`, and `ko`. This keeps the current Windows fix in place while making the same path materially safer for Mono on Linux and macOS, subject to those fonts actually being installed on the host system.
+
 ---
 
 ## Validation Notes
 
 The current state has been validated with:
 
-- locale-file parity checks (`268` entries in every shipped locale file)
+- locale-file parity checks (`289` entries in every shipped locale file)
 - solution build success
 - the repository MSTest suite
 - regression tests for localization formatting behavior
@@ -198,6 +212,7 @@ For the current implementation, these files are the most important references:
 - `src\gMKVExtractGUI\Localization\LocalizationManager.cs`
 - `src\gMKVExtractGUI\Localization\JsonLocalizationService.cs`
 - `src\gMKVExtractGUI\Localization\JsonLocalizationService.Defaults.cs`
+- `src\gMKVExtractGUI\Localization\LocalizedFontResolver.cs`
 - `src\gMKVExtractGUI\Forms\frmOptions.cs`
 - `src\gMKVExtractGUI\Forms\frmTranslationEditor.cs`
 - `src\gMKVExtractGUI\Theming\ThemeManager.cs`

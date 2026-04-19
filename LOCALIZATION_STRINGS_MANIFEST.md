@@ -1,11 +1,11 @@
 # Localization Strings Manifest
 ## Current Inventory Summary
 
-**Last Updated:** April 18, 2026
+**Last Updated:** April 19, 2026
 **Authoritative Source:** `src\gMKVExtractGUI\en.json`
-**Total Keys:** 268
-**Locale Files Shipped:** 9
-**Locale Parity:** all shipped locale files currently contain 268 entries
+**Total Keys:** 289
+**Locale Files Shipped:** 17
+**Locale Parity:** all shipped locale files currently contain 289 entries
 
 ---
 
@@ -13,15 +13,23 @@
 
 | File | Culture | Entries |
 |---|---|---:|
-| `en.json` | `en` | 268 |
-| `es.json` | `es` | 268 |
-| `de.json` | `de` | 268 |
-| `pt.json` | `pt` | 268 |
-| `pt-br.json` | `pt-br` | 268 |
-| `fr.json` | `fr` | 268 |
-| `el.json` | `el` | 268 |
-| `cn.json` | `cn` | 268 |
-| `ja.json` | `ja` | 268 |
+| `en.json` | `en` | 289 |
+| `es.json` | `es` | 289 |
+| `de.json` | `de` | 289 |
+| `pt.json` | `pt` | 289 |
+| `pt-br.json` | `pt-br` | 289 |
+| `fr.json` | `fr` | 289 |
+| `el.json` | `el` | 289 |
+| `cn.json` | `cn` | 289 |
+| `ja.json` | `ja` | 289 |
+| `ru.json` | `ru` | 289 |
+| `it.json` | `it` | 289 |
+| `nl.json` | `nl` | 289 |
+| `pl.json` | `pl` | 289 |
+| `tr.json` | `tr` | 289 |
+| `ro.json` | `ro` | 289 |
+| `hi.json` | `hi` | 289 |
+| `ko.json` | `ko` | 289 |
 
 ---
 
@@ -31,18 +39,18 @@ The table below summarizes the current key distribution by the second path segme
 
 | Key Family | Count | Notes |
 |---|---:|---|
-| `UI.MainForm2` | 97 | Active main window, tooltips, output directory menu, and large context-menu surface |
+| `UI.MainForm2` | 100 | Active main window, tooltips, status text, output directory menu, and large context-menu surface |
 | `UI.OptionsForm` | 64 | Filename patterns, placeholder menus, advanced options, culture selector, and translation-editor launcher |
-| `UI.TranslationEditor` | 26 | In-app translation editor labels, actions, filters, and status text |
-| `UI.JobManager` | 25 | Job queue actions, progress labels, dialogs, and context menu |
+| `UI.TranslationEditor` | 34 | In-app translation editor labels, create/sync workflow, filters, tooltips, and status text |
+| `UI.JobManager` | 31 | Job queue actions, grid headers, progress labels, dialogs, and context menu |
 | `UI.MainForm` | 22 | Legacy main form strings kept in sync |
-| `UI.Common` | 13 | Shared popup titles, generic dialog text, and common status strings |
-| `UI.LogForm` | 8 | Log viewer window strings |
+| `UI.Common` | 16 | Shared popup titles, generic dialog text, and common status strings |
+| `UI.LogForm` | 9 | Log viewer window strings |
 | `UI.ContextMenu` | 7 | Shared legacy track-selection menu items |
 | `UI.Log` | 3 | Shared log-related strings |
 | `UI.Controls` | 3 | Control-specific shared strings |
 
-**Total:** 268
+**Total:** 289
 
 ---
 
@@ -88,6 +96,7 @@ This structure keeps related strings grouped and makes translator context easier
 - `LocalizationManager.GetStringForCulture(...)` is the explicit culture-specific API.
 - `JsonLocalizationService` loads all translation files into an in-memory runtime cache and does not reread JSON files on every lookup.
 - `JsonLocalizationService.Defaults.cs` embeds the full English key set, so `en` remains available even when locale files are missing.
+- `LocalizedFontResolver` lets `frmOptions` prefer script-capable fonts for locales such as `hi`, `ja`, `cn`, and `ko` without relying on Windows-only font-enumeration behavior.
 - Lookup fallback order is: requested culture -> neutral culture -> English (`en`) -> `!Key!`.
 - Formatting failures surface as `!BadFormat:Key!` and are logged.
 
@@ -111,6 +120,7 @@ For day-to-day work, use these files together:
 - `src\gMKVExtractGUI\en.json` - authoritative key list
 - `src\gMKVExtractGUI\Localization\JsonLocalizationService.cs` - runtime loading and fallback behavior
 - `src\gMKVExtractGUI\Localization\JsonLocalizationService.Defaults.cs` - embedded English fallback map
+- `src\gMKVExtractGUI\Localization\LocalizedFontResolver.cs` - script-aware UI font fallback for localized rich text
 - `src\gMKVExtractGUI\Forms\frmOptions.cs` - culture discovery and reload flow
 - `src\gMKVExtractGUI\Forms\frmTranslationEditor.cs` - in-app translation workflow
 - `src\gMKVToolNix.Translator.Console\README.md` - maintenance workflow

@@ -122,7 +122,7 @@ Here is the end-to-end process for localizing the application:
 gMKVToolnix.Translator.Console.exe scan -s "C:\Projects\gMKVExtractGUI\src"
 ```
 
-2. **Refactor Code:** The developer uses `scan_report.json` to refactor all code (e.g., changing `"Open"` to `_loc.GetString("Gui.MainMenu.Open", culture)`).
+2. **Refactor Code:** The developer uses `scan_report.json` to refactor all code (e.g., changing `"Open"` to `LocalizationManager.GetString("Gui.MainMenu.Open")`, or to `LocalizationManager.GetStringForCulture("Gui.MainMenu.Open", culture)` only when an explicit culture is truly required).
 
 3. **Generate Master:** The developer runs master to auto-generate the `en.json` file from the refactored code.
 ```
