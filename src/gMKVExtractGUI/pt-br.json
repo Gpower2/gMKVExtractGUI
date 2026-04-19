@@ -210,6 +210,43 @@
       "IsTranslated": true,
       "Notes": "GroupBox label for job list"
     },
+    "UI.JobManager.Jobs.GroupWithCount": {
+      "Source": "Jobs ({0})",
+      "Translation": "Tarefas ({0})",
+      "IsTranslated": true,
+      "Notes": "GroupBox label for the job list including the job count"
+    },
+    "UI.JobManager.Columns.Job": {
+      "Source": "Job",
+      "Translation": "Tarefa",
+      "IsTranslated": true,
+      "Notes": "Grid column header for the job description"
+    },
+    "UI.JobManager.Columns.StartTime": {
+      "Source": "Start Time",
+      "Translation": "Hora de início",
+      "IsTranslated": true,
+      "Notes": "Grid column header for the job start time"
+    },
+    "UI.JobManager.Columns.EndTime": {
+      "Source": "End Time",
+      "Translation": "Hora de término",
+      "IsTranslated": true,
+      "Notes": "Grid column header for the job end time"
+    },
+    "UI.JobManager.Columns.State": {
+      "Source": "State",
+      "Translation": "Estado",
+      "IsTranslated": true,
+      "Notes": "Grid column header for the job state"
+    },
+    "UI.JobManager.Columns.Duration": {
+      "Source": "Duration",
+      "Translation": "Duração",
+      "IsTranslated": true,
+      "Notes": "Grid column header for the job duration"
+    },
+
     "UI.JobManager.Jobs.ChangeToReadyStatus": {
       "Source": "Change to Ready Status",
       "Translation": "Alterar para status Pronto",
@@ -835,6 +872,13 @@
       "IsTranslated": true,
       "Notes": "GroupBox label for selected file information with filename"
     },
+    "UI.MainForm2.SelectedFileInfo.Details": {
+      "Source": "Writing Application: {0}{4}Muxing Application: {1}{4}Duration: {2}{4}Date: {3}",
+      "Translation": "Aplicativo de gravação: {0}{4}Aplicativo de multiplexação: {1}{4}Duração: {2}{4}Data: {3}",
+      "IsTranslated": true,
+      "Notes": "Selected file info summary; {0} writing application, {1} muxing application, {2} duration, {3} date, {4} newline"
+    },
+
     "UI.MainForm2.FileOptions.Select": {
       "Source": "Select...",
       "Translation": "Selecionar...",
@@ -1123,6 +1167,25 @@
       "IsTranslated": true,
       "Notes": "Status text shown when extraction finishes"
     },
+    "UI.Common.Status.GettingFiles": {
+      "Source": "Getting files...",
+      "Translation": "Obtendo arquivos...",
+      "IsTranslated": true,
+      "Notes": "Status text shown while collecting input files before analysis"
+    },
+    "UI.Common.Status.AnalyzingFile": {
+      "Source": "Analyzing {0}...",
+      "Translation": "Analisando {0}...",
+      "IsTranslated": true,
+      "Notes": "Status text shown while analyzing a file; {0} is the filename"
+    },
+    "UI.Common.Status.ExtractingTrack": {
+      "Source": "Extracting {0} from {1}...",
+      "Translation": "Extraindo {0} de {1}...",
+      "IsTranslated": true,
+      "Notes": "Status text shown while extracting a selected track; {0} is the track label and {1} is the filename"
+    },
+
     "UI.Common.Errors.ExtractionRunningBeforeClose": {
       "Source": "There is an extraction process running! Please abort before closing!",
       "Translation": "Há um processo de extração em execução! Interrompa-o antes de fechar!",

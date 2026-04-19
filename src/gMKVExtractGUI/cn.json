@@ -210,6 +210,43 @@
       "IsTranslated": true,
       "Notes": "GroupBox label for job list"
     },
+    "UI.JobManager.Jobs.GroupWithCount": {
+      "Source": "Jobs ({0})",
+      "Translation": "工作 ({0})",
+      "IsTranslated": true,
+      "Notes": "GroupBox label for the job list including the job count"
+    },
+    "UI.JobManager.Columns.Job": {
+      "Source": "Job",
+      "Translation": "工作",
+      "IsTranslated": true,
+      "Notes": "Grid column header for the job description"
+    },
+    "UI.JobManager.Columns.StartTime": {
+      "Source": "Start Time",
+      "Translation": "開始時間",
+      "IsTranslated": true,
+      "Notes": "Grid column header for the job start time"
+    },
+    "UI.JobManager.Columns.EndTime": {
+      "Source": "End Time",
+      "Translation": "結束時間",
+      "IsTranslated": true,
+      "Notes": "Grid column header for the job end time"
+    },
+    "UI.JobManager.Columns.State": {
+      "Source": "State",
+      "Translation": "狀態",
+      "IsTranslated": true,
+      "Notes": "Grid column header for the job state"
+    },
+    "UI.JobManager.Columns.Duration": {
+      "Source": "Duration",
+      "Translation": "持續時間",
+      "IsTranslated": true,
+      "Notes": "Grid column header for the job duration"
+    },
+
     "UI.JobManager.Jobs.ChangeToReadyStatus": {
       "Source": "Change to Ready Status",
       "Translation": "變更為就緒狀態",
@@ -835,6 +872,13 @@
       "IsTranslated": true,
       "Notes": "GroupBox label for selected file information with filename"
     },
+    "UI.MainForm2.SelectedFileInfo.Details": {
+      "Source": "Writing Application: {0}{4}Muxing Application: {1}{4}Duration: {2}{4}Date: {3}",
+      "Translation": "寫入程式: {0}{4}混流程式: {1}{4}時長: {2}{4}日期: {3}",
+      "IsTranslated": true,
+      "Notes": "Selected file info summary; {0} writing application, {1} muxing application, {2} duration, {3} date, {4} newline"
+    },
+
     "UI.MainForm2.FileOptions.Select": {
       "Source": "Select...",
       "Translation": "選擇...",
@@ -1123,6 +1167,25 @@
       "IsTranslated": true,
       "Notes": "Status text shown when extraction finishes"
     },
+    "UI.Common.Status.GettingFiles": {
+      "Source": "Getting files...",
+      "Translation": "正在取得檔案...",
+      "IsTranslated": true,
+      "Notes": "Status text shown while collecting input files before analysis"
+    },
+    "UI.Common.Status.AnalyzingFile": {
+      "Source": "Analyzing {0}...",
+      "Translation": "正在分析 {0}...",
+      "IsTranslated": true,
+      "Notes": "Status text shown while analyzing a file; {0} is the filename"
+    },
+    "UI.Common.Status.ExtractingTrack": {
+      "Source": "Extracting {0} from {1}...",
+      "Translation": "正在從 {1} 擷取 {0}...",
+      "IsTranslated": true,
+      "Notes": "Status text shown while extracting a selected track; {0} is the track label and {1} is the filename"
+    },
+
     "UI.Common.Errors.ExtractionRunningBeforeClose": {
       "Source": "There is an extraction process running! Please abort before closing!",
       "Translation": "目前有擷取程序正在執行！請先中止後再關閉！",

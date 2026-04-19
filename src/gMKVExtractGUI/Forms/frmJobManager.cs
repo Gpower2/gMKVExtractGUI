@@ -594,7 +594,8 @@ namespace gMKVToolNix
         {
             try
             {
-                grpJobs.Text = string.Format("Jobs ({0})", grdJobs.Rows.Count);
+                UpdateJobsGroupTitle();
+                ApplyJobsGridLocalization();
             }
             catch (Exception ex)
             {
@@ -602,6 +603,25 @@ namespace gMKVToolNix
                 gMKVLogger.Log(ex.ToString());
                 ShowErrorMessage(ex.Message);
             }
+        }
+
+        private void UpdateJobsGroupTitle()
+        {
+            grpJobs.Text = LocalizationManager.GetString("UI.JobManager.Jobs.GroupWithCount", grdJobs.Rows.Count);
+        }
+
+        private void ApplyJobsGridLocalization()
+        {
+            if (grdJobs.Columns.Contains("Job"))
+                grdJobs.Columns["Job"].HeaderText = LocalizationManager.GetString("UI.JobManager.Columns.Job");
+            if (grdJobs.Columns.Contains("StartTime"))
+                grdJobs.Columns["StartTime"].HeaderText = LocalizationManager.GetString("UI.JobManager.Columns.StartTime");
+            if (grdJobs.Columns.Contains("EndTime"))
+                grdJobs.Columns["EndTime"].HeaderText = LocalizationManager.GetString("UI.JobManager.Columns.EndTime");
+            if (grdJobs.Columns.Contains("State"))
+                grdJobs.Columns["State"].HeaderText = LocalizationManager.GetString("UI.JobManager.Columns.State");
+            if (grdJobs.Columns.Contains("Duration"))
+                grdJobs.Columns["Duration"].HeaderText = LocalizationManager.GetString("UI.JobManager.Columns.Duration");
         }
 
         public void UpdateTheme(bool darkMode)
@@ -650,7 +670,7 @@ namespace gMKVToolNix
                 lblCurrentTrack.Text = LocalizationManager.GetString("UI.JobManager.Progress.CurrentTrack");
                 lblTotalProgress.Text = LocalizationManager.GetString("UI.JobManager.Progress.TotalProgress");
                 lblCurrentProgress.Text = LocalizationManager.GetString("UI.JobManager.Progress.CurrentProgress");
-                grpJobs.Text = LocalizationManager.GetString("UI.JobManager.Jobs.Group");
+                UpdateJobsGroupTitle();
                 changeToReadyStatusToolStripMenuItem.Text = LocalizationManager.GetString("UI.JobManager.Jobs.ChangeToReadyStatus");
                 selectAllToolStripMenuItem.Text = LocalizationManager.GetString("UI.JobManager.Jobs.SelectAll");
                 deselectAllToolStripMenuItem.Text = LocalizationManager.GetString("UI.JobManager.Jobs.DeselectAll");
@@ -662,6 +682,7 @@ namespace gMKVToolNix
                 btnAbort.Text = LocalizationManager.GetString("UI.JobManager.Actions.Abort");
                 btnRunAll.Text = LocalizationManager.GetString("UI.JobManager.Actions.RunJobs");
                 btnRemove.Text = LocalizationManager.GetString("UI.JobManager.Actions.Remove");
+                ApplyJobsGridLocalization();
                 ApplyResponsiveLayout();
                 ApplyContextMenuTheme();
             }

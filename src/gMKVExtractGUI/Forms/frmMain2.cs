@@ -534,7 +534,7 @@ namespace gMKVToolNix.Forms
                 {
                     tlpMain.Enabled = false;
                     Cursor = Cursors.WaitCursor;
-                    txtSegmentInfo.Text = "Getting files...";
+                    txtSegmentInfo.Text = LocalizationManager.GetString("UI.Common.Status.GettingFiles");
 
                     // Get the file list
                     List<string> fileList = GetFilesFromInputFileDrop(_CmdArguments.Where(c => !c.StartsWith("--")).ToArray());
@@ -779,7 +779,7 @@ namespace gMKVToolNix.Forms
                     {
                         tlpMain.Enabled = false;
                         Cursor = Cursors.WaitCursor;
-                        txtSegmentInfo.Text = "Getting files...";
+                        txtSegmentInfo.Text = LocalizationManager.GetString("UI.Common.Status.GettingFiles");
 
                         // Get the file list
                         List<string> fileList = GetFilesFromInputFileDrop(s);
@@ -956,7 +956,7 @@ namespace gMKVToolNix.Forms
                 counter++;
                 txtSegmentInfo.Invoke((MethodInvoker)delegate
                 {
-                    txtSegmentInfo.Text = string.Format("Analyzing {0}...", Path.GetFileName(sf));
+                    txtSegmentInfo.Text = LocalizationManager.GetString("UI.Common.Status.AnalyzingFile", Path.GetFileName(sf));
                 });
 
                 statusStrip.Invoke((MethodInvoker)delegate
@@ -1065,12 +1065,13 @@ namespace gMKVToolNix.Forms
                     }
 
                     gMKVSegmentInfo seg = selNode.Tag as gMKVSegmentInfo;
-                    txtSegmentInfo.Text = string.Format("Writing Application: {1}{0}Muxing Application: {2}{0}Duration: {3}{0}Date: {4}",
-                        Environment.NewLine,
+                    txtSegmentInfo.Text = LocalizationManager.GetString(
+                        "UI.MainForm2.SelectedFileInfo.Details",
                         seg.WritingApplication,
                         seg.MuxingApplication,
                         seg.Duration,
-                        seg.Date);
+                        seg.Date,
+                        Environment.NewLine);
 
                     // check if output directory is the same as the source
                     if (chkUseSourceDirectory.Checked)
@@ -1122,7 +1123,7 @@ namespace gMKVToolNix.Forms
 
         public void UpdateTrackLabel(object filename, object val)
         {
-            txtSegmentInfo.Text = string.Format("Extracting {0} from {1}...", val, Path.GetFileName((string)filename));
+            txtSegmentInfo.Text = LocalizationManager.GetString("UI.Common.Status.ExtractingTrack", val, Path.GetFileName((string)filename));
             Application.DoEvents();
         }
 
