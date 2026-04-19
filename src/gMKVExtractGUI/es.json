@@ -325,6 +325,12 @@
       "IsTranslated": true,
       "Notes": "GroupBox label for log content"
     },
+    "UI.LogForm.Log.GroupWithCount": {
+      "Source": "Log ({0})",
+      "Translation": "Registro ({0})",
+      "IsTranslated": true,
+      "Notes": "GroupBox label for log content including line count"
+    },
     "UI.LogForm.Actions.Group": {
       "Source": "Actions",
       "Translation": "Acciones",

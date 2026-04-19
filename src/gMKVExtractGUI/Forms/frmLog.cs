@@ -55,14 +55,14 @@ namespace gMKVToolNix
 
         private void frmLog_Activated(object sender, EventArgs e)
         {
-            txtLog.Text = gMKVLogger.LogText;
+            SetLogText(gMKVLogger.LogText);
         }
 
         private void txtLog_TextChanged(object sender, EventArgs e)
         {
             txtLog.Select(txtLog.TextLength, 0);
             txtLog.ScrollToCaret();
-            grpLog.Text = string.Format("Log ({0})", txtLog.Lines.LongLength);
+            UpdateLogGroupTitle();
         }
 
         private void btnClose_Click(object sender, EventArgs e)
@@ -100,7 +100,7 @@ namespace gMKVToolNix
         {
             try
             {
-                txtLog.Text = gMKVLogger.LogText;
+                SetLogText(gMKVLogger.LogText);
             }
             catch (Exception ex)
             {
@@ -167,13 +167,13 @@ namespace gMKVToolNix
         public void ApplyLocalization()
         {
             this.Text = string.Format("gMKVExtractGUI v{0} -- {1}", GetCurrentVersion(), LocalizationManager.GetString("UI.LogForm.Title"));
-            grpLog.Text = LocalizationManager.GetString("UI.LogForm.Log.Group");
             grpActions.Text = LocalizationManager.GetString("UI.LogForm.Actions.Group");
             btnSave.Text = LocalizationManager.GetString("UI.LogForm.Actions.Save");
             btnClear.Text = LocalizationManager.GetString("UI.LogForm.Actions.ClearLog");
             btnRefresh.Text = LocalizationManager.GetString("UI.LogForm.Actions.Refresh");
             btnCopy.Text = LocalizationManager.GetString("UI.LogForm.Actions.CopySelection");
             btnClose.Text = LocalizationManager.GetString("UI.LogForm.Actions.Close");
+            SetLogText(gMKVLogger.LogText);
             ApplyResponsiveLayout();
         }
 
@@ -221,6 +221,17 @@ namespace gMKVToolNix
             btnCopy.Location = new Point(right - btnCopy.Width, buttonTop);
             right = btnCopy.Left - ActionButtonSpacing;
             btnRefresh.Location = new Point(right - btnRefresh.Width, buttonTop);
+        }
+
+        private void SetLogText(string logText)
+        {
+            txtLog.Clear();
+            txtLog.Text = logText ?? string.Empty;
+        }
+
+        private void UpdateLogGroupTitle()
+        {
+            grpLog.Text = LocalizationManager.GetString("UI.LogForm.Log.GroupWithCount", txtLog.Lines.LongLength);
         }
     }
 }

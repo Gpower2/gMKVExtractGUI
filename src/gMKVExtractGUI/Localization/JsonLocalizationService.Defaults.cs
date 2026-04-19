@@ -73,6 +73,7 @@ namespace gMKVToolNix.Localization
             { "UI.LogForm.Actions.Refresh", "Refresh" },
             { "UI.LogForm.Actions.Save", "Save..." },
             { "UI.LogForm.Log.Group", "Log" },
+            { "UI.LogForm.Log.GroupWithCount", "Log ({0})" },
             { "UI.LogForm.Title", "Log" },
             { "UI.MainForm.Actions.Abort", "Abort" },
             { "UI.MainForm.Actions.AbortAll", "Abort All" },
