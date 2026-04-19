@@ -88,6 +88,8 @@ namespace gMKVToolNix.Localization
             { "UI.MainForm.Status.Track", "track" },
             { "UI.MainForm.Title", "gMKVExtractGUI" },
             { "UI.MainForm2.Actions.AddJobs", "Add Jobs" },
+            { "UI.MainForm2.Actions.Abort", "Abort" },
+            { "UI.MainForm2.Actions.AbortAll", "Abort All" },
             { "UI.MainForm2.Actions.ChapterType", "Chapter" },
             { "UI.MainForm2.Actions.Extract", "Extract" },
             { "UI.MainForm2.Actions.ExtractionMode", "Extract" },

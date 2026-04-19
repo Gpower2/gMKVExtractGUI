@@ -354,6 +354,19 @@
       "IsTranslated": true,
       "Notes": "Button to add new jobs"
     },
+    "UI.MainForm2.Actions.Abort": {
+      "Source": "Abort",
+      "Translation": "Annuler",
+      "IsTranslated": true,
+      "Notes": "Button to abort current extraction in main form 2"
+    },
+    "UI.MainForm2.Actions.AbortAll": {
+      "Source": "Abort All",
+      "Translation": "Tout annuler",
+      "IsTranslated": true,
+      "Notes": "Button to abort all extractions in main form 2"
+    },
+
     "UI.MainForm2.Actions.ShowJobs": {
       "Source": "Jobs...",
       "Translation": "Tâches...",

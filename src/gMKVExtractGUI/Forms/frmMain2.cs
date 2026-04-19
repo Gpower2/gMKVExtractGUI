@@ -3124,6 +3124,8 @@ namespace gMKVToolNix.Forms
             btnExtract.Text = LocalizationManager.GetString("UI.MainForm2.Actions.Extract");
             btnShowJobs.Text = LocalizationManager.GetString("UI.MainForm2.Actions.ShowJobs");
             btnShowLog.Text = LocalizationManager.GetString("UI.MainForm2.Actions.Log");
+            btnAbort.Text = LocalizationManager.GetString("UI.MainForm2.Actions.Abort");
+            btnAbortAll.Text = LocalizationManager.GetString("UI.MainForm2.Actions.AbortAll");
             chkShowPopup.Text = LocalizationManager.GetString("UI.MainForm2.Actions.Popup");
             lblExtractionMode.Text = LocalizationManager.GetString("UI.MainForm2.Actions.ExtractionMode");
             lblChapterType.Text = LocalizationManager.GetString("UI.MainForm2.Actions.ChapterType");
