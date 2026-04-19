@@ -1,7 +1,11 @@
-﻿using System;
+using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
+using System.Linq;
 using System.Windows.Forms;
+using gMKVToolNix.Controls;
+using gMKVToolNix.Localization;
 using gMKVToolNix.Log;
 using gMKVToolNix.MkvExtract;
 using gMKVToolNix.Theming;
@@ -11,6 +15,9 @@ namespace gMKVToolNix.Forms
 {
     public partial class frmOptions : gMKVToolNix.gForm
     {
+        private const int PatternButtonMinWidth = 83;
+        private const int ActionButtonMinWidth = 80;
+        private const int LayoutSpacing = 6;
         private gSettings _Settings = null;
         private ContextMenuStrip _VideoTrackContextMenu = null;
         private ContextMenuStrip _AudioTrackContextMenu = null;
@@ -18,11 +25,6 @@ namespace gMKVToolNix.Forms
         private ContextMenuStrip _ChapterContextMenu = null;
         private ContextMenuStrip _AttachmentContextMenu = null;
         private ContextMenuStrip _TagsContextMenu = null;
-
-        private readonly static string INFO_TEXT = 
-@"Here you can specify the output filename format for each kind of track.
-Pressing the ""Add..."" button you will see the list with the available placeholders and select them.
-Pressing the ""Default"" button you will reset the output filename format to its default value.";
 
         public frmOptions()
         {
@@ -33,8 +35,8 @@ Pressing the ""Default"" button you will reset the output filename format to its
                 Icon = Icon.ExtractAssociatedIcon(GetExecutingAssemblyLocation());
                 Text = string.Format("gMKVExtractGUI v{0} -- Options", GetCurrentVersion());
 
-                // Set the info text
-                txtInfo.Text = INFO_TEXT;
+                ApplyInfoTextFont();
+                SetInfoText(LocalizationManager.GetString("UI.OptionsForm.Info.Text"));
 
                 // Initialize the DPI aware scaling
                 InitDPI();
@@ -59,6 +61,9 @@ Pressing the ""Default"" button you will reset the output filename format to its
             // Fill from settings
             FillFromSettings();
 
+            // Initialize culture selector
+            InitializeCultureSelector();
+
             // Apply Theme
             ThemeManager.ApplyTheme(this, _Settings.DarkMode);
             // Explicitly set ForeColor for txtInfo after theming
@@ -68,13 +73,10 @@ Pressing the ""Default"" button you will reset the output filename format to its
             NativeMethods.SetWindowThemeManaged(this.Handle, _Settings.DarkMode);
             NativeMethods.TrySetImmersiveDarkMode(this.Handle, _Settings.DarkMode);
 
-            // Apply theme to context menus
-            if (_VideoTrackContextMenu != null) ThemeManager.ApplyTheme(_VideoTrackContextMenu, _Settings.DarkMode);
-            if (_AudioTrackContextMenu != null) ThemeManager.ApplyTheme(_AudioTrackContextMenu, _Settings.DarkMode);
-            if (_SubtitleTrackContextMenu != null) ThemeManager.ApplyTheme(_SubtitleTrackContextMenu, _Settings.DarkMode);
-            if (_ChapterContextMenu != null) ThemeManager.ApplyTheme(_ChapterContextMenu, _Settings.DarkMode);
-            if (_AttachmentContextMenu != null) ThemeManager.ApplyTheme(_AttachmentContextMenu, _Settings.DarkMode);
-            if (_TagsContextMenu != null) ThemeManager.ApplyTheme(_TagsContextMenu, _Settings.DarkMode);
+            ApplyThemeToContextMenus(_Settings.DarkMode);
+
+            // Apply localization
+            ApplyLocalization();
 
             // Select the information text box
             txtInfo.Select();
@@ -94,6 +96,30 @@ Pressing the ""Default"" button you will reset the output filename format to its
             chkFullRawMode.Checked = _Settings.UseFullRawExtractionMode;
         }
 
+        private void SetInfoText(string localizedInfoText)
+        {
+            txtInfo.Clear();
+            txtInfo.Text = localizedInfoText ?? string.Empty;
+        }
+
+        private void ApplyInfoTextFont()
+        {
+            Font resolvedFont = LocalizedFontResolver.ResolveFont(this.Font, LocalizationManager.CurrentCulture);
+            bool requiresUpdate = txtInfo.Font == null
+                || !string.Equals(txtInfo.Font.FontFamily.Name, resolvedFont.FontFamily.Name, StringComparison.OrdinalIgnoreCase)
+                || Math.Abs(txtInfo.Font.SizeInPoints - resolvedFont.SizeInPoints) > 0.01f
+                || txtInfo.Font.Style != resolvedFont.Style;
+
+            if (requiresUpdate)
+            {
+                txtInfo.Font = resolvedFont;
+            }
+            else if (!ReferenceEquals(resolvedFont, this.Font))
+            {
+                resolvedFont.Dispose();
+            }
+        }
+
         private void UpdateSettings()
         {
             _Settings.VideoTrackFilenamePattern = txtVideoTracksFilename.Text;
@@ -107,12 +133,126 @@ Pressing the ""Default"" button you will reset the output filename format to its
             _Settings.UseFullRawExtractionMode = chkFullRawMode.Checked;
         }
 
+        private void InitializeCultureSelector()
+        {
+            try
+            {
+                var cultures = GetAvailableCultures();
+                cmbCulture.Items.Clear();
+                foreach (var culture in cultures)
+                {
+                    cmbCulture.Items.Add(culture);
+                }
+
+                var currentCulture = _Settings.Culture;
+                if (cmbCulture.Items.Contains(currentCulture))
+                {
+                    cmbCulture.SelectedItem = currentCulture;
+                }
+                else if (cmbCulture.Items.Count > 0)
+                {
+                    cmbCulture.SelectedIndex = 0;
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex);
+                gMKVLogger.Log(ex.ToString());
+            }
+        }
+
+        private List<string> GetAvailableCultures()
+        {
+            try
+            {
+                if (LocalizationManager.IsInitialized)
+                {
+                    return LocalizationManager.GetAvailableCultures().ToList();
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex);
+                gMKVLogger.Log(ex.ToString());
+            }
+
+            return new List<string> { "en" };
+        }
+
+        private void CmbCulture_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                var selectedCulture = cmbCulture.SelectedItem?.ToString();
+                if (!string.IsNullOrEmpty(selectedCulture) && selectedCulture != _Settings.Culture)
+                {
+                    _Settings.Culture = selectedCulture;
+                    _Settings.Save();
+                    LocalizationManager.Reload(selectedCulture);
+                    ApplyLocalizationToAllForms();
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex);
+                gMKVLogger.Log(ex.ToString());
+                ShowErrorMessage(ex.Message);
+            }
+        }
+
+        private void ApplyLocalizationToAllForms()
+        {
+            try
+            {
+                foreach (Form form in Application.OpenForms.Cast<Form>().ToList())
+                {
+                    if (form is frmMain mainForm)
+                        mainForm.ApplyLocalization();
+                    else if (form is frmMain2 mainForm2)
+                        mainForm2.ApplyLocalization();
+                    else if (form is frmJobManager jobManager)
+                        jobManager.ApplyLocalization();
+                    else if (form is frmLog logForm)
+                        logForm.ApplyLocalization();
+                    else if (form is frmOptions optionsForm)
+                        optionsForm.ApplyLocalization();
+                }
+
+                ThemeManager.ApplyTheme(this, _Settings.DarkMode);
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex);
+                gMKVLogger.Log(ex.ToString());
+            }
+        }
+
         private ToolStripMenuItem GetToolstripMenuItem(string description, string placeholder, TextBox txtBox)
         {
             return new ToolStripMenuItem(description, null, (object s, EventArgs ea) =>
             {
                 txtBox.Text = txtBox.Text.Insert(txtBox.SelectionStart, placeholder);
             });
+        }
+
+        private ToolStripMenuItem GetLocalizedToolstripMenuItem(string key, string placeholder, TextBox txtBox)
+        {
+            return GetToolstripMenuItem(LocalizationManager.GetString(key), placeholder, txtBox);
+        }
+
+        private ToolStripMenuItem GetLocalizedPlaceholderGroup(string key)
+        {
+            return new ToolStripMenuItem(LocalizationManager.GetString(key), null);
+        }
+
+        private void ApplyThemeToContextMenus(bool darkMode)
+        {
+            if (_VideoTrackContextMenu != null) ThemeManager.ApplyTheme(_VideoTrackContextMenu, darkMode);
+            if (_AudioTrackContextMenu != null) ThemeManager.ApplyTheme(_AudioTrackContextMenu, darkMode);
+            if (_SubtitleTrackContextMenu != null) ThemeManager.ApplyTheme(_SubtitleTrackContextMenu, darkMode);
+            if (_ChapterContextMenu != null) ThemeManager.ApplyTheme(_ChapterContextMenu, darkMode);
+            if (_AttachmentContextMenu != null) ThemeManager.ApplyTheme(_AttachmentContextMenu, darkMode);
+            if (_TagsContextMenu != null) ThemeManager.ApplyTheme(_TagsContextMenu, darkMode);
         }
 
         private void InitPlaceholderContextMenus()
@@ -126,153 +266,153 @@ Pressing the ""Default"" button you will reset the output filename format to its
 
             // Common placeholders
             // ============================================================================================================================
-            _VideoTrackContextMenu.Items.Add(GetToolstripMenuItem("Input Filename (without extension)", gMKVExtractFilenamePatterns.FilenameNoExt, txtVideoTracksFilename));
-            _VideoTrackContextMenu.Items.Add(GetToolstripMenuItem("Input Filename (with extension)", gMKVExtractFilenamePatterns.Filename, txtVideoTracksFilename));
+            _VideoTrackContextMenu.Items.Add(GetLocalizedToolstripMenuItem("UI.OptionsForm.Placeholders.InputFilenameWithoutExtension", gMKVExtractFilenamePatterns.FilenameNoExt, txtVideoTracksFilename));
+            _VideoTrackContextMenu.Items.Add(GetLocalizedToolstripMenuItem("UI.OptionsForm.Placeholders.InputFilenameWithExtension", gMKVExtractFilenamePatterns.Filename, txtVideoTracksFilename));
             _VideoTrackContextMenu.Items.Add("-");
-            _VideoTrackContextMenu.Items.Add(GetToolstripMenuItem("Directory Separator", gMKVExtractFilenamePatterns.DirectorySeparator, txtVideoTracksFilename));
+            _VideoTrackContextMenu.Items.Add(GetLocalizedToolstripMenuItem("UI.OptionsForm.Placeholders.DirectorySeparator", gMKVExtractFilenamePatterns.DirectorySeparator, txtVideoTracksFilename));
             _VideoTrackContextMenu.Items.Add("-");
 
-            _AudioTrackContextMenu.Items.Add(GetToolstripMenuItem("Input Filename (without extension)", gMKVExtractFilenamePatterns.FilenameNoExt, txtAudioTracksFilename));
-            _AudioTrackContextMenu.Items.Add(GetToolstripMenuItem("Input Filename (with extension)", gMKVExtractFilenamePatterns.Filename, txtAudioTracksFilename));
+            _AudioTrackContextMenu.Items.Add(GetLocalizedToolstripMenuItem("UI.OptionsForm.Placeholders.InputFilenameWithoutExtension", gMKVExtractFilenamePatterns.FilenameNoExt, txtAudioTracksFilename));
+            _AudioTrackContextMenu.Items.Add(GetLocalizedToolstripMenuItem("UI.OptionsForm.Placeholders.InputFilenameWithExtension", gMKVExtractFilenamePatterns.Filename, txtAudioTracksFilename));
             _AudioTrackContextMenu.Items.Add("-");
-            _AudioTrackContextMenu.Items.Add(GetToolstripMenuItem("Directory Separator", gMKVExtractFilenamePatterns.DirectorySeparator, txtAudioTracksFilename));
+            _AudioTrackContextMenu.Items.Add(GetLocalizedToolstripMenuItem("UI.OptionsForm.Placeholders.DirectorySeparator", gMKVExtractFilenamePatterns.DirectorySeparator, txtAudioTracksFilename));
             _AudioTrackContextMenu.Items.Add("-");
 
-            _SubtitleTrackContextMenu.Items.Add(GetToolstripMenuItem("Input Filename (without extension)", gMKVExtractFilenamePatterns.FilenameNoExt, txtSubtitleTracksFilename));
-            _SubtitleTrackContextMenu.Items.Add(GetToolstripMenuItem("Input Filename (with extension)", gMKVExtractFilenamePatterns.Filename, txtSubtitleTracksFilename));
+            _SubtitleTrackContextMenu.Items.Add(GetLocalizedToolstripMenuItem("UI.OptionsForm.Placeholders.InputFilenameWithoutExtension", gMKVExtractFilenamePatterns.FilenameNoExt, txtSubtitleTracksFilename));
+            _SubtitleTrackContextMenu.Items.Add(GetLocalizedToolstripMenuItem("UI.OptionsForm.Placeholders.InputFilenameWithExtension", gMKVExtractFilenamePatterns.Filename, txtSubtitleTracksFilename));
             _SubtitleTrackContextMenu.Items.Add("-");
-            _SubtitleTrackContextMenu.Items.Add(GetToolstripMenuItem("Directory Separator", gMKVExtractFilenamePatterns.DirectorySeparator, txtSubtitleTracksFilename));
+            _SubtitleTrackContextMenu.Items.Add(GetLocalizedToolstripMenuItem("UI.OptionsForm.Placeholders.DirectorySeparator", gMKVExtractFilenamePatterns.DirectorySeparator, txtSubtitleTracksFilename));
             _SubtitleTrackContextMenu.Items.Add("-");
 
-            _ChapterContextMenu.Items.Add(GetToolstripMenuItem("Input Filename (without extension)", gMKVExtractFilenamePatterns.FilenameNoExt, txtChaptersFilename));
-            _ChapterContextMenu.Items.Add(GetToolstripMenuItem("Input Filename (with extension)", gMKVExtractFilenamePatterns.Filename, txtChaptersFilename));
+            _ChapterContextMenu.Items.Add(GetLocalizedToolstripMenuItem("UI.OptionsForm.Placeholders.InputFilenameWithoutExtension", gMKVExtractFilenamePatterns.FilenameNoExt, txtChaptersFilename));
+            _ChapterContextMenu.Items.Add(GetLocalizedToolstripMenuItem("UI.OptionsForm.Placeholders.InputFilenameWithExtension", gMKVExtractFilenamePatterns.Filename, txtChaptersFilename));
             _ChapterContextMenu.Items.Add("-");
-            _ChapterContextMenu.Items.Add(GetToolstripMenuItem("Directory Separator", gMKVExtractFilenamePatterns.DirectorySeparator, txtChaptersFilename));
+            _ChapterContextMenu.Items.Add(GetLocalizedToolstripMenuItem("UI.OptionsForm.Placeholders.DirectorySeparator", gMKVExtractFilenamePatterns.DirectorySeparator, txtChaptersFilename));
 
-            _AttachmentContextMenu.Items.Add(GetToolstripMenuItem("Input Filename (without extension)", gMKVExtractFilenamePatterns.FilenameNoExt, txtAttachmentsFilename));
-            _AttachmentContextMenu.Items.Add(GetToolstripMenuItem("Input Filename (with extension)", gMKVExtractFilenamePatterns.Filename, txtAttachmentsFilename));
+            _AttachmentContextMenu.Items.Add(GetLocalizedToolstripMenuItem("UI.OptionsForm.Placeholders.InputFilenameWithoutExtension", gMKVExtractFilenamePatterns.FilenameNoExt, txtAttachmentsFilename));
+            _AttachmentContextMenu.Items.Add(GetLocalizedToolstripMenuItem("UI.OptionsForm.Placeholders.InputFilenameWithExtension", gMKVExtractFilenamePatterns.Filename, txtAttachmentsFilename));
             _AttachmentContextMenu.Items.Add("-");
-            _AttachmentContextMenu.Items.Add(GetToolstripMenuItem("Directory Separator", gMKVExtractFilenamePatterns.DirectorySeparator, txtAttachmentsFilename));
+            _AttachmentContextMenu.Items.Add(GetLocalizedToolstripMenuItem("UI.OptionsForm.Placeholders.DirectorySeparator", gMKVExtractFilenamePatterns.DirectorySeparator, txtAttachmentsFilename));
             _AttachmentContextMenu.Items.Add("-");
 
-            _TagsContextMenu.Items.Add(GetToolstripMenuItem("Input Filename (without extension)", gMKVExtractFilenamePatterns.FilenameNoExt, txtTagsFilename));
-            _TagsContextMenu.Items.Add(GetToolstripMenuItem("Input Filename (with extension)", gMKVExtractFilenamePatterns.Filename, txtTagsFilename));
+            _TagsContextMenu.Items.Add(GetLocalizedToolstripMenuItem("UI.OptionsForm.Placeholders.InputFilenameWithoutExtension", gMKVExtractFilenamePatterns.FilenameNoExt, txtTagsFilename));
+            _TagsContextMenu.Items.Add(GetLocalizedToolstripMenuItem("UI.OptionsForm.Placeholders.InputFilenameWithExtension", gMKVExtractFilenamePatterns.Filename, txtTagsFilename));
             _TagsContextMenu.Items.Add("-");
-            _TagsContextMenu.Items.Add(GetToolstripMenuItem("Directory Separator", gMKVExtractFilenamePatterns.DirectorySeparator, txtTagsFilename));
+            _TagsContextMenu.Items.Add(GetLocalizedToolstripMenuItem("UI.OptionsForm.Placeholders.DirectorySeparator", gMKVExtractFilenamePatterns.DirectorySeparator, txtTagsFilename));
             // ============================================================================================================================
 
             // Common Track placeholders
             // ============================================================================================================================
-            var vidTrackNumber = new ToolStripMenuItem("Track Number...", null);
-            vidTrackNumber.DropDownItems.Add(GetToolstripMenuItem("Track Number (No format)", gMKVExtractFilenamePatterns.TrackNumber, txtVideoTracksFilename));
-            vidTrackNumber.DropDownItems.Add(GetToolstripMenuItem("Track Number (1 digit)", gMKVExtractFilenamePatterns.TrackNumber_0, txtVideoTracksFilename));
-            vidTrackNumber.DropDownItems.Add(GetToolstripMenuItem("Track Number (2 digits)", gMKVExtractFilenamePatterns.TrackNumber_00, txtVideoTracksFilename));
-            vidTrackNumber.DropDownItems.Add(GetToolstripMenuItem("Track Number (3 digits)", gMKVExtractFilenamePatterns.TrackNumber_000, txtVideoTracksFilename));
+            var vidTrackNumber = GetLocalizedPlaceholderGroup("UI.OptionsForm.Placeholders.TrackNumber.Group");
+            vidTrackNumber.DropDownItems.Add(GetLocalizedToolstripMenuItem("UI.OptionsForm.Placeholders.TrackNumber.NoFormat", gMKVExtractFilenamePatterns.TrackNumber, txtVideoTracksFilename));
+            vidTrackNumber.DropDownItems.Add(GetLocalizedToolstripMenuItem("UI.OptionsForm.Placeholders.TrackNumber.OneDigit", gMKVExtractFilenamePatterns.TrackNumber_0, txtVideoTracksFilename));
+            vidTrackNumber.DropDownItems.Add(GetLocalizedToolstripMenuItem("UI.OptionsForm.Placeholders.TrackNumber.TwoDigits", gMKVExtractFilenamePatterns.TrackNumber_00, txtVideoTracksFilename));
+            vidTrackNumber.DropDownItems.Add(GetLocalizedToolstripMenuItem("UI.OptionsForm.Placeholders.TrackNumber.ThreeDigits", gMKVExtractFilenamePatterns.TrackNumber_000, txtVideoTracksFilename));
 
             _VideoTrackContextMenu.Items.Add(vidTrackNumber);
             //_VideoTrackContextMenu.Items.Add(GetToolstripMenuItem("Track Number", gMKVExtractFilenamePatterns.TrackNumber, txtVideoTracksFilename));
 
-            var vidTrackID = new ToolStripMenuItem("Track ID...", null);
-            vidTrackID.DropDownItems.Add(GetToolstripMenuItem("Track ID (No format)", gMKVExtractFilenamePatterns.TrackID, txtVideoTracksFilename));
-            vidTrackID.DropDownItems.Add(GetToolstripMenuItem("Track ID (1 digit)", gMKVExtractFilenamePatterns.TrackID_0, txtVideoTracksFilename));
-            vidTrackID.DropDownItems.Add(GetToolstripMenuItem("Track ID (2 digits)", gMKVExtractFilenamePatterns.TrackID_00, txtVideoTracksFilename));
-            vidTrackID.DropDownItems.Add(GetToolstripMenuItem("Track ID (3 digits)", gMKVExtractFilenamePatterns.TrackID_000, txtVideoTracksFilename));
+            var vidTrackID = GetLocalizedPlaceholderGroup("UI.OptionsForm.Placeholders.TrackId.Group");
+            vidTrackID.DropDownItems.Add(GetLocalizedToolstripMenuItem("UI.OptionsForm.Placeholders.TrackId.NoFormat", gMKVExtractFilenamePatterns.TrackID, txtVideoTracksFilename));
+            vidTrackID.DropDownItems.Add(GetLocalizedToolstripMenuItem("UI.OptionsForm.Placeholders.TrackId.OneDigit", gMKVExtractFilenamePatterns.TrackID_0, txtVideoTracksFilename));
+            vidTrackID.DropDownItems.Add(GetLocalizedToolstripMenuItem("UI.OptionsForm.Placeholders.TrackId.TwoDigits", gMKVExtractFilenamePatterns.TrackID_00, txtVideoTracksFilename));
+            vidTrackID.DropDownItems.Add(GetLocalizedToolstripMenuItem("UI.OptionsForm.Placeholders.TrackId.ThreeDigits", gMKVExtractFilenamePatterns.TrackID_000, txtVideoTracksFilename));
 
             _VideoTrackContextMenu.Items.Add(vidTrackID);
             //_VideoTrackContextMenu.Items.Add(GetToolstripMenuItem("Track ID", gMKVExtractFilenamePatterns.TrackID, txtVideoTracksFilename));
 
-            _VideoTrackContextMenu.Items.Add(GetToolstripMenuItem("Track Name", gMKVExtractFilenamePatterns.TrackName, txtVideoTracksFilename));
-            _VideoTrackContextMenu.Items.Add(GetToolstripMenuItem("Track Language", gMKVExtractFilenamePatterns.TrackLanguage, txtVideoTracksFilename));
-            _VideoTrackContextMenu.Items.Add(GetToolstripMenuItem("Track Language IETF", gMKVExtractFilenamePatterns.TrackLanguageIetf, txtVideoTracksFilename));
-            _VideoTrackContextMenu.Items.Add(GetToolstripMenuItem("Track Codec ID", gMKVExtractFilenamePatterns.TrackCodecID, txtVideoTracksFilename));
-            _VideoTrackContextMenu.Items.Add(GetToolstripMenuItem("Track Codec Private", gMKVExtractFilenamePatterns.TrackCodecPrivate, txtVideoTracksFilename));
-            _VideoTrackContextMenu.Items.Add(GetToolstripMenuItem("Track Delay", gMKVExtractFilenamePatterns.TrackDelay, txtVideoTracksFilename));
-            _VideoTrackContextMenu.Items.Add(GetToolstripMenuItem("Track Effective Delay", gMKVExtractFilenamePatterns.TrackEffectiveDelay, txtVideoTracksFilename));
-            _VideoTrackContextMenu.Items.Add(GetToolstripMenuItem("Track Forced", gMKVExtractFilenamePatterns.TrackForced, txtVideoTracksFilename));
+            _VideoTrackContextMenu.Items.Add(GetLocalizedToolstripMenuItem("UI.OptionsForm.Placeholders.TrackName", gMKVExtractFilenamePatterns.TrackName, txtVideoTracksFilename));
+            _VideoTrackContextMenu.Items.Add(GetLocalizedToolstripMenuItem("UI.OptionsForm.Placeholders.TrackLanguage", gMKVExtractFilenamePatterns.TrackLanguage, txtVideoTracksFilename));
+            _VideoTrackContextMenu.Items.Add(GetLocalizedToolstripMenuItem("UI.OptionsForm.Placeholders.TrackLanguageIetf", gMKVExtractFilenamePatterns.TrackLanguageIetf, txtVideoTracksFilename));
+            _VideoTrackContextMenu.Items.Add(GetLocalizedToolstripMenuItem("UI.OptionsForm.Placeholders.TrackCodecId", gMKVExtractFilenamePatterns.TrackCodecID, txtVideoTracksFilename));
+            _VideoTrackContextMenu.Items.Add(GetLocalizedToolstripMenuItem("UI.OptionsForm.Placeholders.TrackCodecPrivate", gMKVExtractFilenamePatterns.TrackCodecPrivate, txtVideoTracksFilename));
+            _VideoTrackContextMenu.Items.Add(GetLocalizedToolstripMenuItem("UI.OptionsForm.Placeholders.TrackDelay", gMKVExtractFilenamePatterns.TrackDelay, txtVideoTracksFilename));
+            _VideoTrackContextMenu.Items.Add(GetLocalizedToolstripMenuItem("UI.OptionsForm.Placeholders.TrackEffectiveDelay", gMKVExtractFilenamePatterns.TrackEffectiveDelay, txtVideoTracksFilename));
+            _VideoTrackContextMenu.Items.Add(GetLocalizedToolstripMenuItem("UI.OptionsForm.Placeholders.TrackForced", gMKVExtractFilenamePatterns.TrackForced, txtVideoTracksFilename));
             _VideoTrackContextMenu.Items.Add("-");
 
-            var audTrackNumber = new ToolStripMenuItem("Track Number...", null);
-            audTrackNumber.DropDownItems.Add(GetToolstripMenuItem("Track Number (No format)", gMKVExtractFilenamePatterns.TrackNumber, txtAudioTracksFilename));
-            audTrackNumber.DropDownItems.Add(GetToolstripMenuItem("Track Number (1 digit)", gMKVExtractFilenamePatterns.TrackNumber_0, txtAudioTracksFilename));
-            audTrackNumber.DropDownItems.Add(GetToolstripMenuItem("Track Number (2 digits)", gMKVExtractFilenamePatterns.TrackNumber_00, txtAudioTracksFilename));
-            audTrackNumber.DropDownItems.Add(GetToolstripMenuItem("Track Number (3 digits)", gMKVExtractFilenamePatterns.TrackNumber_000, txtAudioTracksFilename));
+            var audTrackNumber = GetLocalizedPlaceholderGroup("UI.OptionsForm.Placeholders.TrackNumber.Group");
+            audTrackNumber.DropDownItems.Add(GetLocalizedToolstripMenuItem("UI.OptionsForm.Placeholders.TrackNumber.NoFormat", gMKVExtractFilenamePatterns.TrackNumber, txtAudioTracksFilename));
+            audTrackNumber.DropDownItems.Add(GetLocalizedToolstripMenuItem("UI.OptionsForm.Placeholders.TrackNumber.OneDigit", gMKVExtractFilenamePatterns.TrackNumber_0, txtAudioTracksFilename));
+            audTrackNumber.DropDownItems.Add(GetLocalizedToolstripMenuItem("UI.OptionsForm.Placeholders.TrackNumber.TwoDigits", gMKVExtractFilenamePatterns.TrackNumber_00, txtAudioTracksFilename));
+            audTrackNumber.DropDownItems.Add(GetLocalizedToolstripMenuItem("UI.OptionsForm.Placeholders.TrackNumber.ThreeDigits", gMKVExtractFilenamePatterns.TrackNumber_000, txtAudioTracksFilename));
 
             _AudioTrackContextMenu.Items.Add(audTrackNumber);
             //_AudioTrackContextMenu.Items.Add(GetToolstripMenuItem("Track Number", gMKVExtractFilenamePatterns.TrackNumber, txtAudioTracksFilename));
 
-            var audTrackID = new ToolStripMenuItem("Track ID...", null);
-            audTrackID.DropDownItems.Add(GetToolstripMenuItem("Track ID (No format)", gMKVExtractFilenamePatterns.TrackID, txtAudioTracksFilename));
-            audTrackID.DropDownItems.Add(GetToolstripMenuItem("Track ID (1 digit)", gMKVExtractFilenamePatterns.TrackID_0, txtAudioTracksFilename));
-            audTrackID.DropDownItems.Add(GetToolstripMenuItem("Track ID (2 digits)", gMKVExtractFilenamePatterns.TrackID_00, txtAudioTracksFilename));
-            audTrackID.DropDownItems.Add(GetToolstripMenuItem("Track ID (3 digits)", gMKVExtractFilenamePatterns.TrackID_000, txtAudioTracksFilename));
+            var audTrackID = GetLocalizedPlaceholderGroup("UI.OptionsForm.Placeholders.TrackId.Group");
+            audTrackID.DropDownItems.Add(GetLocalizedToolstripMenuItem("UI.OptionsForm.Placeholders.TrackId.NoFormat", gMKVExtractFilenamePatterns.TrackID, txtAudioTracksFilename));
+            audTrackID.DropDownItems.Add(GetLocalizedToolstripMenuItem("UI.OptionsForm.Placeholders.TrackId.OneDigit", gMKVExtractFilenamePatterns.TrackID_0, txtAudioTracksFilename));
+            audTrackID.DropDownItems.Add(GetLocalizedToolstripMenuItem("UI.OptionsForm.Placeholders.TrackId.TwoDigits", gMKVExtractFilenamePatterns.TrackID_00, txtAudioTracksFilename));
+            audTrackID.DropDownItems.Add(GetLocalizedToolstripMenuItem("UI.OptionsForm.Placeholders.TrackId.ThreeDigits", gMKVExtractFilenamePatterns.TrackID_000, txtAudioTracksFilename));
 
             _AudioTrackContextMenu.Items.Add(audTrackID);
             //_AudioTrackContextMenu.Items.Add(GetToolstripMenuItem("Track ID", gMKVExtractFilenamePatterns.TrackID, txtAudioTracksFilename));
 
-            _AudioTrackContextMenu.Items.Add(GetToolstripMenuItem("Track Name", gMKVExtractFilenamePatterns.TrackName, txtAudioTracksFilename));
-            _AudioTrackContextMenu.Items.Add(GetToolstripMenuItem("Track Language", gMKVExtractFilenamePatterns.TrackLanguage, txtAudioTracksFilename));
-            _AudioTrackContextMenu.Items.Add(GetToolstripMenuItem("Track Language IETF", gMKVExtractFilenamePatterns.TrackLanguageIetf, txtAudioTracksFilename));
-            _AudioTrackContextMenu.Items.Add(GetToolstripMenuItem("Track Codec ID", gMKVExtractFilenamePatterns.TrackCodecID, txtAudioTracksFilename));
-            _AudioTrackContextMenu.Items.Add(GetToolstripMenuItem("Track Codec Private", gMKVExtractFilenamePatterns.TrackCodecPrivate, txtAudioTracksFilename));
-            _AudioTrackContextMenu.Items.Add(GetToolstripMenuItem("Track Delay", gMKVExtractFilenamePatterns.TrackDelay, txtAudioTracksFilename));
-            _AudioTrackContextMenu.Items.Add(GetToolstripMenuItem("Track Effective Delay", gMKVExtractFilenamePatterns.TrackEffectiveDelay, txtAudioTracksFilename));
-            _AudioTrackContextMenu.Items.Add(GetToolstripMenuItem("Track Forced", gMKVExtractFilenamePatterns.TrackForced, txtAudioTracksFilename));
+            _AudioTrackContextMenu.Items.Add(GetLocalizedToolstripMenuItem("UI.OptionsForm.Placeholders.TrackName", gMKVExtractFilenamePatterns.TrackName, txtAudioTracksFilename));
+            _AudioTrackContextMenu.Items.Add(GetLocalizedToolstripMenuItem("UI.OptionsForm.Placeholders.TrackLanguage", gMKVExtractFilenamePatterns.TrackLanguage, txtAudioTracksFilename));
+            _AudioTrackContextMenu.Items.Add(GetLocalizedToolstripMenuItem("UI.OptionsForm.Placeholders.TrackLanguageIetf", gMKVExtractFilenamePatterns.TrackLanguageIetf, txtAudioTracksFilename));
+            _AudioTrackContextMenu.Items.Add(GetLocalizedToolstripMenuItem("UI.OptionsForm.Placeholders.TrackCodecId", gMKVExtractFilenamePatterns.TrackCodecID, txtAudioTracksFilename));
+            _AudioTrackContextMenu.Items.Add(GetLocalizedToolstripMenuItem("UI.OptionsForm.Placeholders.TrackCodecPrivate", gMKVExtractFilenamePatterns.TrackCodecPrivate, txtAudioTracksFilename));
+            _AudioTrackContextMenu.Items.Add(GetLocalizedToolstripMenuItem("UI.OptionsForm.Placeholders.TrackDelay", gMKVExtractFilenamePatterns.TrackDelay, txtAudioTracksFilename));
+            _AudioTrackContextMenu.Items.Add(GetLocalizedToolstripMenuItem("UI.OptionsForm.Placeholders.TrackEffectiveDelay", gMKVExtractFilenamePatterns.TrackEffectiveDelay, txtAudioTracksFilename));
+            _AudioTrackContextMenu.Items.Add(GetLocalizedToolstripMenuItem("UI.OptionsForm.Placeholders.TrackForced", gMKVExtractFilenamePatterns.TrackForced, txtAudioTracksFilename));
             _AudioTrackContextMenu.Items.Add("-");
 
-            var subTrackNumber = new ToolStripMenuItem("Track Number...", null);
-            subTrackNumber.DropDownItems.Add(GetToolstripMenuItem("Track Number (No format)", gMKVExtractFilenamePatterns.TrackNumber, txtSubtitleTracksFilename));
-            subTrackNumber.DropDownItems.Add(GetToolstripMenuItem("Track Number (1 digit)", gMKVExtractFilenamePatterns.TrackNumber_0, txtSubtitleTracksFilename));
-            subTrackNumber.DropDownItems.Add(GetToolstripMenuItem("Track Number (2 digits)", gMKVExtractFilenamePatterns.TrackNumber_00, txtSubtitleTracksFilename));
-            subTrackNumber.DropDownItems.Add(GetToolstripMenuItem("Track Number (3 digits)", gMKVExtractFilenamePatterns.TrackNumber_000, txtSubtitleTracksFilename));
+            var subTrackNumber = GetLocalizedPlaceholderGroup("UI.OptionsForm.Placeholders.TrackNumber.Group");
+            subTrackNumber.DropDownItems.Add(GetLocalizedToolstripMenuItem("UI.OptionsForm.Placeholders.TrackNumber.NoFormat", gMKVExtractFilenamePatterns.TrackNumber, txtSubtitleTracksFilename));
+            subTrackNumber.DropDownItems.Add(GetLocalizedToolstripMenuItem("UI.OptionsForm.Placeholders.TrackNumber.OneDigit", gMKVExtractFilenamePatterns.TrackNumber_0, txtSubtitleTracksFilename));
+            subTrackNumber.DropDownItems.Add(GetLocalizedToolstripMenuItem("UI.OptionsForm.Placeholders.TrackNumber.TwoDigits", gMKVExtractFilenamePatterns.TrackNumber_00, txtSubtitleTracksFilename));
+            subTrackNumber.DropDownItems.Add(GetLocalizedToolstripMenuItem("UI.OptionsForm.Placeholders.TrackNumber.ThreeDigits", gMKVExtractFilenamePatterns.TrackNumber_000, txtSubtitleTracksFilename));
 
             _SubtitleTrackContextMenu.Items.Add(subTrackNumber);
             //_SubtitleTrackContextMenu.Items.Add(GetToolstripMenuItem("Track Number", gMKVExtractFilenamePatterns.TrackNumber, txtSubtitleTracksFilename));
 
-            var subTrackID = new ToolStripMenuItem("Track ID...", null);
-            subTrackID.DropDownItems.Add(GetToolstripMenuItem("Track ID (No format)", gMKVExtractFilenamePatterns.TrackID, txtSubtitleTracksFilename));
-            subTrackID.DropDownItems.Add(GetToolstripMenuItem("Track ID (1 digit)", gMKVExtractFilenamePatterns.TrackID_0, txtSubtitleTracksFilename));
-            subTrackID.DropDownItems.Add(GetToolstripMenuItem("Track ID (2 digits)", gMKVExtractFilenamePatterns.TrackID_00, txtSubtitleTracksFilename));
-            subTrackID.DropDownItems.Add(GetToolstripMenuItem("Track ID (3 digits)", gMKVExtractFilenamePatterns.TrackID_000, txtSubtitleTracksFilename));
+            var subTrackID = GetLocalizedPlaceholderGroup("UI.OptionsForm.Placeholders.TrackId.Group");
+            subTrackID.DropDownItems.Add(GetLocalizedToolstripMenuItem("UI.OptionsForm.Placeholders.TrackId.NoFormat", gMKVExtractFilenamePatterns.TrackID, txtSubtitleTracksFilename));
+            subTrackID.DropDownItems.Add(GetLocalizedToolstripMenuItem("UI.OptionsForm.Placeholders.TrackId.OneDigit", gMKVExtractFilenamePatterns.TrackID_0, txtSubtitleTracksFilename));
+            subTrackID.DropDownItems.Add(GetLocalizedToolstripMenuItem("UI.OptionsForm.Placeholders.TrackId.TwoDigits", gMKVExtractFilenamePatterns.TrackID_00, txtSubtitleTracksFilename));
+            subTrackID.DropDownItems.Add(GetLocalizedToolstripMenuItem("UI.OptionsForm.Placeholders.TrackId.ThreeDigits", gMKVExtractFilenamePatterns.TrackID_000, txtSubtitleTracksFilename));
 
             _SubtitleTrackContextMenu.Items.Add(subTrackID);
             //_SubtitleTrackContextMenu.Items.Add(GetToolstripMenuItem("Track ID", gMKVExtractFilenamePatterns.TrackID, txtSubtitleTracksFilename));
 
-            _SubtitleTrackContextMenu.Items.Add(GetToolstripMenuItem("Track Name", gMKVExtractFilenamePatterns.TrackName, txtSubtitleTracksFilename));
-            _SubtitleTrackContextMenu.Items.Add(GetToolstripMenuItem("Track Language", gMKVExtractFilenamePatterns.TrackLanguage, txtSubtitleTracksFilename));
-            _SubtitleTrackContextMenu.Items.Add(GetToolstripMenuItem("Track Language IETF", gMKVExtractFilenamePatterns.TrackLanguageIetf, txtSubtitleTracksFilename));
-            _SubtitleTrackContextMenu.Items.Add(GetToolstripMenuItem("Track Codec ID", gMKVExtractFilenamePatterns.TrackCodecID, txtSubtitleTracksFilename));
-            _SubtitleTrackContextMenu.Items.Add(GetToolstripMenuItem("Track Codec Private", gMKVExtractFilenamePatterns.TrackCodecPrivate, txtSubtitleTracksFilename));
-            _SubtitleTrackContextMenu.Items.Add(GetToolstripMenuItem("Track Delay", gMKVExtractFilenamePatterns.TrackDelay, txtSubtitleTracksFilename));
-            _SubtitleTrackContextMenu.Items.Add(GetToolstripMenuItem("Track Effective Delay", gMKVExtractFilenamePatterns.TrackEffectiveDelay, txtSubtitleTracksFilename));
-            _SubtitleTrackContextMenu.Items.Add(GetToolstripMenuItem("Track Forced", gMKVExtractFilenamePatterns.TrackForced, txtSubtitleTracksFilename));
+            _SubtitleTrackContextMenu.Items.Add(GetLocalizedToolstripMenuItem("UI.OptionsForm.Placeholders.TrackName", gMKVExtractFilenamePatterns.TrackName, txtSubtitleTracksFilename));
+            _SubtitleTrackContextMenu.Items.Add(GetLocalizedToolstripMenuItem("UI.OptionsForm.Placeholders.TrackLanguage", gMKVExtractFilenamePatterns.TrackLanguage, txtSubtitleTracksFilename));
+            _SubtitleTrackContextMenu.Items.Add(GetLocalizedToolstripMenuItem("UI.OptionsForm.Placeholders.TrackLanguageIetf", gMKVExtractFilenamePatterns.TrackLanguageIetf, txtSubtitleTracksFilename));
+            _SubtitleTrackContextMenu.Items.Add(GetLocalizedToolstripMenuItem("UI.OptionsForm.Placeholders.TrackCodecId", gMKVExtractFilenamePatterns.TrackCodecID, txtSubtitleTracksFilename));
+            _SubtitleTrackContextMenu.Items.Add(GetLocalizedToolstripMenuItem("UI.OptionsForm.Placeholders.TrackCodecPrivate", gMKVExtractFilenamePatterns.TrackCodecPrivate, txtSubtitleTracksFilename));
+            _SubtitleTrackContextMenu.Items.Add(GetLocalizedToolstripMenuItem("UI.OptionsForm.Placeholders.TrackDelay", gMKVExtractFilenamePatterns.TrackDelay, txtSubtitleTracksFilename));
+            _SubtitleTrackContextMenu.Items.Add(GetLocalizedToolstripMenuItem("UI.OptionsForm.Placeholders.TrackEffectiveDelay", gMKVExtractFilenamePatterns.TrackEffectiveDelay, txtSubtitleTracksFilename));
+            _SubtitleTrackContextMenu.Items.Add(GetLocalizedToolstripMenuItem("UI.OptionsForm.Placeholders.TrackForced", gMKVExtractFilenamePatterns.TrackForced, txtSubtitleTracksFilename));
             // ============================================================================================================================
 
             // Video Track placeholders
             // ============================================================================================================================
-            _VideoTrackContextMenu.Items.Add(GetToolstripMenuItem("Video Pixel Width", gMKVExtractFilenamePatterns.VideoPixelWidth, txtVideoTracksFilename));
-            _VideoTrackContextMenu.Items.Add(GetToolstripMenuItem("Video Pixel Height", gMKVExtractFilenamePatterns.VideoPixelHeight, txtVideoTracksFilename));
+            _VideoTrackContextMenu.Items.Add(GetLocalizedToolstripMenuItem("UI.OptionsForm.Placeholders.VideoPixelWidth", gMKVExtractFilenamePatterns.VideoPixelWidth, txtVideoTracksFilename));
+            _VideoTrackContextMenu.Items.Add(GetLocalizedToolstripMenuItem("UI.OptionsForm.Placeholders.VideoPixelHeight", gMKVExtractFilenamePatterns.VideoPixelHeight, txtVideoTracksFilename));
             // ============================================================================================================================
 
             // Audio Track placeholders
             // ============================================================================================================================
-            _AudioTrackContextMenu.Items.Add(GetToolstripMenuItem("Audio Sampling Frequency", gMKVExtractFilenamePatterns.AudioSamplingFrequency, txtAudioTracksFilename));
-            _AudioTrackContextMenu.Items.Add(GetToolstripMenuItem("Audio Channels", gMKVExtractFilenamePatterns.AudioChannels, txtAudioTracksFilename));
+            _AudioTrackContextMenu.Items.Add(GetLocalizedToolstripMenuItem("UI.OptionsForm.Placeholders.AudioSamplingFrequency", gMKVExtractFilenamePatterns.AudioSamplingFrequency, txtAudioTracksFilename));
+            _AudioTrackContextMenu.Items.Add(GetLocalizedToolstripMenuItem("UI.OptionsForm.Placeholders.AudioChannels", gMKVExtractFilenamePatterns.AudioChannels, txtAudioTracksFilename));
             // ============================================================================================================================
 
             // Attachment placeholders
             // ============================================================================================================================
-            var attachmentID = new ToolStripMenuItem("Attachment ID...", null);
-            attachmentID.DropDownItems.Add(GetToolstripMenuItem("Attachment ID (No format)", gMKVExtractFilenamePatterns.AttachmentID, txtAttachmentsFilename));
-            attachmentID.DropDownItems.Add(GetToolstripMenuItem("Attachment ID (1 digit)", gMKVExtractFilenamePatterns.AttachmentID_0, txtAttachmentsFilename));
-            attachmentID.DropDownItems.Add(GetToolstripMenuItem("Attachment ID (2 digits)", gMKVExtractFilenamePatterns.AttachmentID_00, txtAttachmentsFilename));
-            attachmentID.DropDownItems.Add(GetToolstripMenuItem("Attachment ID (3 digits)", gMKVExtractFilenamePatterns.AttachmentID_000, txtAttachmentsFilename));
+            var attachmentID = GetLocalizedPlaceholderGroup("UI.OptionsForm.Placeholders.AttachmentId.Group");
+            attachmentID.DropDownItems.Add(GetLocalizedToolstripMenuItem("UI.OptionsForm.Placeholders.AttachmentId.NoFormat", gMKVExtractFilenamePatterns.AttachmentID, txtAttachmentsFilename));
+            attachmentID.DropDownItems.Add(GetLocalizedToolstripMenuItem("UI.OptionsForm.Placeholders.AttachmentId.OneDigit", gMKVExtractFilenamePatterns.AttachmentID_0, txtAttachmentsFilename));
+            attachmentID.DropDownItems.Add(GetLocalizedToolstripMenuItem("UI.OptionsForm.Placeholders.AttachmentId.TwoDigits", gMKVExtractFilenamePatterns.AttachmentID_00, txtAttachmentsFilename));
+            attachmentID.DropDownItems.Add(GetLocalizedToolstripMenuItem("UI.OptionsForm.Placeholders.AttachmentId.ThreeDigits", gMKVExtractFilenamePatterns.AttachmentID_000, txtAttachmentsFilename));
 
             _AttachmentContextMenu.Items.Add(attachmentID);
             //_AttachmentContextMenu.Items.Add(GetToolstripMenuItem("Attachment ID", gMKVExtractFilenamePatterns.AttachmentID, txtAttachmentsFilename));
 
-            _AttachmentContextMenu.Items.Add(GetToolstripMenuItem("Attachment Filename", gMKVExtractFilenamePatterns.AttachmentFilename, txtAttachmentsFilename));
-            _AttachmentContextMenu.Items.Add(GetToolstripMenuItem("Attachment MIME Type", gMKVExtractFilenamePatterns.AttachmentMimeType, txtAttachmentsFilename));
-            _AttachmentContextMenu.Items.Add(GetToolstripMenuItem("Attachment File Size (bytes)", gMKVExtractFilenamePatterns.AttachmentFileSize, txtAttachmentsFilename));
+            _AttachmentContextMenu.Items.Add(GetLocalizedToolstripMenuItem("UI.OptionsForm.Placeholders.AttachmentFilename", gMKVExtractFilenamePatterns.AttachmentFilename, txtAttachmentsFilename));
+            _AttachmentContextMenu.Items.Add(GetLocalizedToolstripMenuItem("UI.OptionsForm.Placeholders.AttachmentMimeType", gMKVExtractFilenamePatterns.AttachmentMimeType, txtAttachmentsFilename));
+            _AttachmentContextMenu.Items.Add(GetLocalizedToolstripMenuItem("UI.OptionsForm.Placeholders.AttachmentFileSizeBytes", gMKVExtractFilenamePatterns.AttachmentFileSize, txtAttachmentsFilename));
             // ============================================================================================================================
         }
 
@@ -524,6 +664,157 @@ Pressing the ""Default"" button you will reset the output filename format to its
                 chkFullRawMode.Checked = false;
 
                 FillFromSettings();
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex);
+                gMKVLogger.Log(ex.ToString());
+                ShowErrorMessage(ex.Message);
+            }
+        }
+
+        public void ApplyLocalization()
+        {
+            Text = string.Format("gMKVExtractGUI v{0} -- {1}", GetCurrentVersion(), LocalizationManager.GetString("UI.OptionsForm.Title"));
+            grpInfo.Text = LocalizationManager.GetString("UI.OptionsForm.Info.Group");
+            ApplyInfoTextFont();
+            SetInfoText(LocalizationManager.GetString("UI.OptionsForm.Info.Text"));
+            grpVideoTracks.Text = LocalizationManager.GetString("UI.OptionsForm.VideoTracks.Group");
+            btnAddVideoTrackPlaceholder.Text = LocalizationManager.GetString("UI.OptionsForm.VideoTracks.Add");
+            btnDefaultVideoTrackPlaceholder.Text = LocalizationManager.GetString("UI.OptionsForm.VideoTracks.Default");
+            grpAudioTracks.Text = LocalizationManager.GetString("UI.OptionsForm.AudioTracks.Group");
+            btnAddAudioTrackPlaceholder.Text = LocalizationManager.GetString("UI.OptionsForm.AudioTracks.Add");
+            btnDefaultAudioTrackPlaceholder.Text = LocalizationManager.GetString("UI.OptionsForm.AudioTracks.Default");
+            grpSubtitleTracks.Text = LocalizationManager.GetString("UI.OptionsForm.SubtitleTracks.Group");
+            btnAddSubtitleTrackPlaceholder.Text = LocalizationManager.GetString("UI.OptionsForm.SubtitleTracks.Add");
+            btnDefaultSubtitleTrackPlaceholder.Text = LocalizationManager.GetString("UI.OptionsForm.SubtitleTracks.Default");
+            grpChapters.Text = LocalizationManager.GetString("UI.OptionsForm.Chapters.Group");
+            btnAddChapterPlaceholder.Text = LocalizationManager.GetString("UI.OptionsForm.Chapters.Add");
+            btnDefaultChapterPlaceholder.Text = LocalizationManager.GetString("UI.OptionsForm.Chapters.Default");
+            grpAttachments.Text = LocalizationManager.GetString("UI.OptionsForm.Attachments.Group");
+            btnAddAttachmentPlaceholder.Text = LocalizationManager.GetString("UI.OptionsForm.Attachments.Add");
+            btnDefaultAttachmentPlaceholder.Text = LocalizationManager.GetString("UI.OptionsForm.Attachments.Default");
+            grpTags.Text = LocalizationManager.GetString("UI.OptionsForm.Tags.Group");
+            btnAddTagsPlaceholder.Text = LocalizationManager.GetString("UI.OptionsForm.Tags.Add");
+            btnDefaultTagsPlaceholder.Text = LocalizationManager.GetString("UI.OptionsForm.Tags.Default");
+            grpAdvanced.Text = LocalizationManager.GetString("UI.OptionsForm.Advanced.Group");
+            lblCulture.Text = LocalizationManager.GetString("UI.OptionsForm.Advanced.Culture");
+            btnTranslationEditor.Text = LocalizationManager.GetString("UI.OptionsForm.Advanced.Translations");
+            grpActions.Text = LocalizationManager.GetString("UI.OptionsForm.Actions.Group");
+            btnDefaults.Text = LocalizationManager.GetString("UI.OptionsForm.Defaults");
+            btnOK.Text = LocalizationManager.GetString("UI.OptionsForm.Actions.OK");
+            btnCancel.Text = LocalizationManager.GetString("UI.OptionsForm.Actions.Cancel");
+            chkTextFilesWithoutBom.Text = LocalizationManager.GetString("UI.OptionsForm.TextFilesWithoutBom");
+            chkRawMode.Text = LocalizationManager.GetString("UI.OptionsForm.RawMode");
+            chkFullRawMode.Text = LocalizationManager.GetString("UI.OptionsForm.FullRawMode");
+            InitPlaceholderContextMenus();
+            if (_Settings != null)
+            {
+                ApplyThemeToContextMenus(_Settings.DarkMode);
+            }
+            ApplyResponsiveLayout();
+        }
+
+        private void ApplyResponsiveLayout()
+        {
+            LayoutPatternGroup(grpVideoTracks, txtVideoTracksFilename, btnAddVideoTrackPlaceholder, btnDefaultVideoTrackPlaceholder);
+            LayoutPatternGroup(grpAudioTracks, txtAudioTracksFilename, btnAddAudioTrackPlaceholder, btnDefaultAudioTrackPlaceholder);
+            LayoutPatternGroup(grpSubtitleTracks, txtSubtitleTracksFilename, btnAddSubtitleTrackPlaceholder, btnDefaultSubtitleTrackPlaceholder);
+            LayoutPatternGroup(grpChapters, txtChaptersFilename, btnAddChapterPlaceholder, btnDefaultChapterPlaceholder);
+            LayoutPatternGroup(grpAttachments, txtAttachmentsFilename, btnAddAttachmentPlaceholder, btnDefaultAttachmentPlaceholder);
+            LayoutPatternGroup(grpTags, txtTagsFilename, btnAddTagsPlaceholder, btnDefaultTagsPlaceholder);
+            LayoutAdvancedGroup();
+            LayoutActionsGroup();
+        }
+
+        private void LayoutPatternGroup(GroupBox groupBox, TextBox textBox, Button addButton, Button defaultButton)
+        {
+            addButton.ApplyLocalizedButtonSize(PatternButtonMinWidth);
+            defaultButton.ApplyLocalizedButtonSize(PatternButtonMinWidth);
+
+            int top = Math.Max(16, textBox.Top - 4);
+            int right = groupBox.ClientSize.Width - 6;
+
+            defaultButton.Location = new Point(right - defaultButton.Width, top);
+            addButton.Location = new Point(defaultButton.Left - LayoutSpacing - addButton.Width, top);
+
+            int textRight = addButton.Left - LayoutSpacing;
+            textBox.Width = Math.Max(180, textRight - textBox.Left);
+        }
+
+        private void LayoutActionsGroup()
+        {
+            btnDefaults.ApplyLocalizedButtonSize(90);
+            btnOK.ApplyLocalizedButtonSize(ActionButtonMinWidth);
+            btnCancel.ApplyLocalizedButtonSize(ActionButtonMinWidth);
+
+            const int buttonTop = 17;
+
+            btnDefaults.Location = new Point(9, buttonTop);
+
+            int right = grpActions.ClientSize.Width - 6;
+            btnCancel.Location = new Point(right - btnCancel.Width, buttonTop);
+            btnOK.Location = new Point(btnCancel.Left - LayoutSpacing - btnOK.Width, buttonTop);
+        }
+
+        private void LayoutAdvancedGroup()
+        {
+            chkTextFilesWithoutBom.Location = new Point(9, 20);
+
+            chkRawMode.Location = new Point(9, 46);
+            chkFullRawMode.Location = new Point(chkRawMode.Right + 12, 46);
+
+            int cultureRowTop = 46;
+            int advancedRowHeight = 86;
+            int comboWidth = Math.Max(80, cmbCulture.Width);
+            btnTranslationEditor.ApplyLocalizedButtonSize(95);
+            int right = grpAdvanced.ClientSize.Width - 6;
+
+            cmbCulture.Width = comboWidth;
+
+            if (chkFullRawMode.Right + 12 > btnTranslationEditor.Left)
+            {
+                cultureRowTop = 70;
+                advancedRowHeight = 110;
+            }
+            cmbCulture.Location = new Point(
+                right - cmbCulture.Width, 
+                cultureRowTop - 3);
+            lblCulture.Location = new Point(
+                cmbCulture.Left - LayoutSpacing - lblCulture.Width, 
+                cultureRowTop);
+            btnTranslationEditor.Location = new Point(
+                lblCulture.Left - 12 - btnTranslationEditor.Width, 
+                cultureRowTop - 3 - (int)Math.Ceiling((btnTranslationEditor.Height - cmbCulture.Height) / 2.0));
+
+            if (tlpMain.RowStyles.Count > 7)
+            {
+                tlpMain.RowStyles[7].Height = advancedRowHeight;
+            }
+        }
+
+        private void btnTranslationEditor_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                string culture = cmbCulture.SelectedItem == null
+                    ? (_Settings == null ? "en" : _Settings.Culture)
+                    : cmbCulture.SelectedItem.ToString();
+
+                using (var editor = new frmTranslationEditor(culture))
+                {
+                    editor.ShowDialog(this);
+
+                    if (editor.HasSavedChanges)
+                    {
+                        InitializeCultureSelector();
+                        if (_Settings != null)
+                        {
+                            LocalizationManager.Reload(_Settings.Culture);
+                            ApplyLocalizationToAllForms();
+                        }
+                    }
+                }
             }
             catch (Exception ex)
             {

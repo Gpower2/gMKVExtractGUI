@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -9,8 +9,10 @@ using System.Media;
 using System.Text;
 using System.Threading;
 using System.Windows.Forms;
+using gMKVToolNix.Controls;
 using gMKVToolNix.Forms;
 using gMKVToolNix.Jobs;
+using gMKVToolNix.Localization;
 using gMKVToolNix.Log;
 using gMKVToolNix.MkvExtract;
 using gMKVToolNix.Theming;
@@ -20,6 +22,9 @@ namespace gMKVToolNix
 {
     public partial class frmJobManager : gForm
     {
+        private const int ActionButtonMinWidth = 90;
+        private const int ActionPanelMinWidth = 120;
+        private const int ProgressValueLabelWidth = 52;
         private readonly StringBuilder _ExceptionBuilder = new StringBuilder();
         private readonly IFormMain _MainForm = null;
         private int _CurrentJob = 0;
@@ -28,17 +33,29 @@ namespace gMKVToolNix
         private bool _ExtractRunning = false;
         private readonly gSettings _Settings = null;
         private readonly bool _FromConstructor = false;
-        private bool _isCurrentlyDarkMode = false; // Added field
+        private bool _isCurrentlyDarkMode = false;
+        private readonly Dictionary<Button, Size> _responsiveButtonBaseSizes = new Dictionary<Button, Size>();
+        private float _actionPanelBaseWidth;
+        private int _actionButtonBaseLeft;
+        private int _actionButtonBaseRightMargin;
+        private int _showPopupBaseLeft;
+        private int _abortButtonsBaseSpacing;
+        private int _abortAllBaseBottomMargin;
+        private int _progressLabelBaseLeft;
+        private int _progressContentBaseLeft;
+        private int _currentTrackRightMarginBase;
+        private int _progressBarRightMarginBase;
 
         private BindingList<gMKVJobInfo> _JobList = new BindingList<gMKVJobInfo>();
 
-        private bool _AbortAll = false;
+         private bool _AbortAll = false;
 
-        public frmJobManager(IFormMain argMainForm)
+         public frmJobManager(IFormMain argMainForm)
         {
             try
             {
                 InitializeComponent();
+                CaptureResponsiveLayoutBaselines();
 
                 _MainForm = argMainForm;
 
@@ -64,17 +81,17 @@ namespace gMKVToolNix
                 }
                 else
                 {
-                    this.Shown += (s, ev) => 
+                    this.Shown += (s, ev) =>
                     {
                         NativeMethods.SetWindowThemeManaged(this.Handle, _isCurrentlyDarkMode);
-                        NativeMethods.TrySetImmersiveDarkMode(this.Handle, _isCurrentlyDarkMode); 
+                        NativeMethods.TrySetImmersiveDarkMode(this.Handle, _isCurrentlyDarkMode);
                     };
                 }
 
                 // Apply theme to context menu
                 if (contextMenuStrip != null)
                 {
-                    ThemeManager.ApplyTheme(contextMenuStrip, _isCurrentlyDarkMode); // Theme menu initially
+                    ApplyContextMenuTheme();
                 }
 
                 grdJobs.DataSource = _JobList;
@@ -85,6 +102,11 @@ namespace gMKVToolNix
 
                 // Initialize the DPI aware scaling
                 InitDPI();
+                CaptureResponsiveLayoutBaselines();
+
+                // Initialize localization
+                //InitializeLocalization();
+                ApplyLocalization();
             }
             catch (Exception ex)
             {
@@ -160,7 +182,7 @@ namespace gMKVToolNix
             e.Cancel = true;
             if (_ExtractRunning)
             {
-                ShowErrorMessage("There is an extraction process running! Please abort before closing!");
+                ShowLocalizedErrorMessage("UI.Common.Errors.ExtractionRunningBeforeClose");
             }
             else
             {
@@ -240,7 +262,7 @@ namespace gMKVToolNix
                 }
                 catch (Exception ex)
                 {
-                    _ExceptionBuilder.AppendFormat("Exception for job {0}: {1}{2}", jobInfo.ToString(), ex.Message, Environment.NewLine);
+                    _ExceptionBuilder.AppendFormat(LocalizationManager.GetString("UI.JobManager.Errors.ExceptionForJob"), jobInfo.ToString(), ex.Message, Environment.NewLine);
                 }
                 finally
                 {
@@ -276,7 +298,7 @@ namespace gMKVToolNix
             {
                 if (GetNumberOfJobs(JobState.Ready) == 0)
                 {
-                    throw new Exception("There are no available jobs to run!");
+                    throw CreateLocalizedException("UI.JobManager.Errors.NoJobsAvailable");
                 }
                 List<gMKVJobInfo> jobList = new List<gMKVJobInfo>();
                 foreach (DataGridViewRow item in grdJobs.Rows)
@@ -330,7 +352,7 @@ namespace gMKVToolNix
                 SetAbortStatus(false);
                 if (chkShowPopup.Checked)
                 {
-                    ShowSuccessMessage("The jobs completed successfully!", true);
+                    ShowLocalizedSuccessMessage("UI.JobManager.Success.JobsCompleted", true);
                 }
                 else
                 {
@@ -356,7 +378,7 @@ namespace gMKVToolNix
                 {
                     lblCurrentProgressValue.Text = "";
                     lblTotalProgressValue.Text = "";
-                    txtCurrentTrack.Text = "Extraction completed!";
+                    txtCurrentTrack.Text = LocalizationManager.GetString("UI.Common.Status.ExtractionCompleted");
                 }
                 gTaskbarProgress.SetState(this, gTaskbarProgress.TaskbarStates.NoProgress);
                 gTaskbarProgress.SetOverlayIcon(this, null, null);
@@ -447,7 +469,7 @@ namespace gMKVToolNix
                 // ask for path
                 SaveFileDialog sfd = new SaveFileDialog
                 {
-                    Title = "Select job file...",
+                    Title = LocalizationManager.GetString("UI.JobManager.Dialogs.SelectJobFileTitle"),
                     InitialDirectory = GetCurrentDirectory(),
                     Filter = "*.xml|*.xml"
                 };
@@ -465,7 +487,7 @@ namespace gMKVToolNix
 
                         x.Serialize(sw, jobList);
                     }
-                    ShowSuccessMessage("The jobs were save successfully!");
+                    ShowLocalizedSuccessMessage("UI.JobManager.Success.JobsSaved");
                 }
             }
             catch (Exception ex)
@@ -484,7 +506,7 @@ namespace gMKVToolNix
                 OpenFileDialog ofd = new OpenFileDialog
                 {
                     InitialDirectory = GetCurrentDirectory(),
-                    Title = "Select jobs file...",
+                    Title = LocalizationManager.GetString("UI.JobManager.Dialogs.SelectJobsFileTitle"),
                     Filter = "*.xml|*.xml"
                 };
                 if (ofd.ShowDialog() == DialogResult.OK)
@@ -497,7 +519,7 @@ namespace gMKVToolNix
                         jobList = (List<gMKVJobInfo>)x.Deserialize(sr);
                     }
                     SetJobsList(new BindingList<gMKVJobInfo>(jobList));
-                    ShowSuccessMessage("The jobs were loaded successfully!");
+                    ShowLocalizedSuccessMessage("UI.JobManager.Success.JobsLoaded");
                 }
             }
             catch (Exception ex)
@@ -511,6 +533,7 @@ namespace gMKVToolNix
         private void contextMenuStrip_Opening(object sender, CancelEventArgs e)
         {
             SetContextMenuText();
+            ApplyContextMenuTheme();
         }
 
         private void SetContextMenuText()
@@ -571,7 +594,8 @@ namespace gMKVToolNix
         {
             try
             {
-                grpJobs.Text = string.Format("Jobs ({0})", grdJobs.Rows.Count);
+                UpdateJobsGroupTitle();
+                ApplyJobsGridLocalization();
             }
             catch (Exception ex)
             {
@@ -579,6 +603,25 @@ namespace gMKVToolNix
                 gMKVLogger.Log(ex.ToString());
                 ShowErrorMessage(ex.Message);
             }
+        }
+
+        private void UpdateJobsGroupTitle()
+        {
+            grpJobs.Text = LocalizationManager.GetString("UI.JobManager.Jobs.GroupWithCount", grdJobs.Rows.Count);
+        }
+
+        private void ApplyJobsGridLocalization()
+        {
+            if (grdJobs.Columns.Contains("Job"))
+                grdJobs.Columns["Job"].HeaderText = LocalizationManager.GetString("UI.JobManager.Columns.Job");
+            if (grdJobs.Columns.Contains("StartTime"))
+                grdJobs.Columns["StartTime"].HeaderText = LocalizationManager.GetString("UI.JobManager.Columns.StartTime");
+            if (grdJobs.Columns.Contains("EndTime"))
+                grdJobs.Columns["EndTime"].HeaderText = LocalizationManager.GetString("UI.JobManager.Columns.EndTime");
+            if (grdJobs.Columns.Contains("State"))
+                grdJobs.Columns["State"].HeaderText = LocalizationManager.GetString("UI.JobManager.Columns.State");
+            if (grdJobs.Columns.Contains("Duration"))
+                grdJobs.Columns["Duration"].HeaderText = LocalizationManager.GetString("UI.JobManager.Columns.Duration");
         }
 
         public void UpdateTheme(bool darkMode)
@@ -600,30 +643,250 @@ namespace gMKVToolNix
 
             if (contextMenuStrip != null)
             {
-                // Theme the ContextMenuStrip object itself (BackColor, ForeColor, RenderMode)
-                contextMenuStrip.BackColor = _isCurrentlyDarkMode ? ThemeManager.DarkModeMenuBackColor : SystemColors.ControlLightLight; // Using ControlLightLight from recent plan
-                contextMenuStrip.ForeColor = _isCurrentlyDarkMode ? ThemeManager.DarkModeMenuForeColor : SystemColors.ControlText;
-                contextMenuStrip.RenderMode = _isCurrentlyDarkMode ? ToolStripRenderMode.ManagerRenderMode : ToolStripRenderMode.Professional;
-
-                // Iterate and theme existing items
-                foreach (ToolStripItem item in this.contextMenuStrip.Items)
-                {
-                    if (!(item is ToolStripSeparator))
-                    {
-                        ThemeManager.ApplyToolStripItemTheme(item, _isCurrentlyDarkMode);
-                    }
-                }
-
-                // Force re-assignment to the DataGridView
-                if (grdJobs.ContextMenuStrip == this.contextMenuStrip)
-                {
-                    grdJobs.ContextMenuStrip = null;
-                    grdJobs.ContextMenuStrip = this.contextMenuStrip;
-                }
-
-                this.contextMenuStrip.Invalidate();
-                grdJobs.Invalidate();
+                ApplyContextMenuTheme();
             }
+        }
+
+        private void ApplyContextMenuTheme()
+        {
+            ThemeManager.ApplyContextMenuTheme(contextMenuStrip, _isCurrentlyDarkMode);
+
+            if (grdJobs.ContextMenuStrip == this.contextMenuStrip)
+            {
+                grdJobs.ContextMenuStrip = null;
+                grdJobs.ContextMenuStrip = this.contextMenuStrip;
+            }
+
+            this.contextMenuStrip.Invalidate();
+            grdJobs.Invalidate();
+        }
+
+        public void ApplyLocalization()
+        {
+            try
+            {
+                this.Text = string.Format("gMKVExtractGUI v{0} -- {1}", GetCurrentVersion(), LocalizationManager.GetString("UI.JobManager.Title"));
+                grpProgress.Text = LocalizationManager.GetString("UI.JobManager.Progress.Group");
+                lblCurrentTrack.Text = LocalizationManager.GetString("UI.JobManager.Progress.CurrentTrack");
+                lblTotalProgress.Text = LocalizationManager.GetString("UI.JobManager.Progress.TotalProgress");
+                lblCurrentProgress.Text = LocalizationManager.GetString("UI.JobManager.Progress.CurrentProgress");
+                UpdateJobsGroupTitle();
+                changeToReadyStatusToolStripMenuItem.Text = LocalizationManager.GetString("UI.JobManager.Jobs.ChangeToReadyStatus");
+                selectAllToolStripMenuItem.Text = LocalizationManager.GetString("UI.JobManager.Jobs.SelectAll");
+                deselectAllToolStripMenuItem.Text = LocalizationManager.GetString("UI.JobManager.Jobs.DeselectAll");
+                grpActions.Text = LocalizationManager.GetString("UI.JobManager.Actions.Group");
+                chkShowPopup.Text = LocalizationManager.GetString("UI.JobManager.Actions.Popup");
+                btnSaveJobs.Text = LocalizationManager.GetString("UI.JobManager.Actions.SaveJobs");
+                btnLoadJobs.Text = LocalizationManager.GetString("UI.JobManager.Actions.LoadJobs");
+                btnAbortAll.Text = LocalizationManager.GetString("UI.JobManager.Actions.AbortAll");
+                btnAbort.Text = LocalizationManager.GetString("UI.JobManager.Actions.Abort");
+                btnRunAll.Text = LocalizationManager.GetString("UI.JobManager.Actions.RunJobs");
+                btnRemove.Text = LocalizationManager.GetString("UI.JobManager.Actions.Remove");
+                ApplyJobsGridLocalization();
+                ApplyResponsiveLayout();
+                ApplyContextMenuTheme();
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"Error applying localization: {ex.Message}");
+                gMKVLogger.Log($"Error applying localization: {ex.Message}");
+            }
+        }
+
+        private void ApplyResponsiveLayout()
+        {
+            ResetResponsiveLayoutBaselines();
+            ApplyActionPanelLayout();
+            ApplyProgressLayout();
+        }
+
+        private void CaptureResponsiveLayoutBaselines()
+        {
+            foreach (Button actionButton in GetActionButtons())
+            {
+                CaptureResponsiveButtonBaseSize(actionButton);
+            }
+
+            if (tlpJobs.ColumnStyles.Count > 1 && tlpJobs.ColumnStyles[1].Width > 0F)
+            {
+                _actionPanelBaseWidth = Math.Max(_actionPanelBaseWidth, tlpJobs.ColumnStyles[1].Width);
+            }
+
+            if (btnRemove != null)
+            {
+                if (btnRemove.Left > 0)
+                {
+                    _actionButtonBaseLeft = Math.Max(_actionButtonBaseLeft, btnRemove.Left);
+                }
+
+                if (grpActions != null && grpActions.ClientSize.Width > 0)
+                {
+                    _actionButtonBaseRightMargin = Math.Max(
+                        _actionButtonBaseRightMargin,
+                        grpActions.ClientSize.Width - btnRemove.Right);
+                }
+            }
+
+            if (chkShowPopup != null)
+            {
+                _showPopupBaseLeft = Math.Max(_showPopupBaseLeft, chkShowPopup.Left);
+            }
+
+            if (btnAbort != null && btnAbortAll != null)
+            {
+                _abortButtonsBaseSpacing = Math.Max(_abortButtonsBaseSpacing, btnAbortAll.Top - btnAbort.Bottom);
+            }
+
+            if (btnAbortAll != null && grpActions != null && grpActions.ClientSize.Height > 0)
+            {
+                _abortAllBaseBottomMargin = Math.Max(_abortAllBaseBottomMargin, grpActions.ClientSize.Height - btnAbortAll.Bottom);
+            }
+
+            if (lblCurrentTrack != null)
+            {
+                _progressLabelBaseLeft = Math.Max(_progressLabelBaseLeft, lblCurrentTrack.Left);
+            }
+
+            if (txtCurrentTrack != null)
+            {
+                _progressContentBaseLeft = Math.Max(_progressContentBaseLeft, txtCurrentTrack.Left);
+                if (grpProgress != null && grpProgress.ClientSize.Width > 0)
+                {
+                    _currentTrackRightMarginBase = Math.Max(_currentTrackRightMarginBase, grpProgress.ClientSize.Width - txtCurrentTrack.Right);
+                }
+            }
+
+            if (prgBrCurrent != null && grpProgress != null && grpProgress.ClientSize.Width > 0)
+            {
+                _progressBarRightMarginBase = Math.Max(_progressBarRightMarginBase, grpProgress.ClientSize.Width - prgBrCurrent.Right);
+            }
+        }
+
+        private void CaptureResponsiveButtonBaseSize(Button button)
+        {
+            if (button == null)
+            {
+                return;
+            }
+
+            Size currentSize = button.Size;
+            if (!_responsiveButtonBaseSizes.TryGetValue(button, out Size baseSize)
+                || currentSize.Width > baseSize.Width
+                || currentSize.Height > baseSize.Height)
+            {
+                _responsiveButtonBaseSizes[button] = currentSize;
+            }
+        }
+
+        private Size GetResponsiveButtonBaseSize(Button button, int fallbackWidth, int fallbackHeight = 30)
+        {
+            return _responsiveButtonBaseSizes.TryGetValue(button, out Size baseSize)
+                ? baseSize
+                : new Size(fallbackWidth, fallbackHeight);
+        }
+
+        private Button[] GetActionButtons()
+        {
+            return new[]
+            {
+                btnRemove,
+                btnRunAll,
+                btnLoadJobs,
+                btnSaveJobs,
+                btnAbort,
+                btnAbortAll
+            }.Where(button => button != null).ToArray();
+        }
+
+        private void ResetResponsiveLayoutBaselines()
+        {
+            if (tlpJobs.ColumnStyles.Count > 1)
+            {
+                tlpJobs.ColumnStyles[1].SizeType = SizeType.Absolute;
+                tlpJobs.ColumnStyles[1].Width = _actionPanelBaseWidth > 0F
+                    ? _actionPanelBaseWidth
+                    : ActionPanelMinWidth;
+            }
+        }
+
+        private void ApplyActionPanelLayout()
+        {
+            Button[] actionButtons = GetActionButtons();
+            if (actionButtons.Length == 0)
+            {
+                return;
+            }
+
+            foreach (Button actionButton in actionButtons)
+            {
+                actionButton.ApplyLocalizedButtonSize(GetResponsiveButtonBaseSize(actionButton, ActionButtonMinWidth));
+            }
+
+            Size uniformButtonSize = new Size(
+                actionButtons.Max(button => button.Width),
+                actionButtons.Max(button => button.Height));
+            int requiredButtonWidth = uniformButtonSize.Width;
+
+            int actionButtonBaseLeft = _actionButtonBaseLeft > 0 ? _actionButtonBaseLeft : 7;
+            int contentRightPadding = _actionButtonBaseRightMargin > 0 ? _actionButtonBaseRightMargin : actionButtonBaseLeft;
+            int showPopupBaseLeft = _showPopupBaseLeft > 0 ? _showPopupBaseLeft : actionButtonBaseLeft;
+            Size showPopupPreferredSize = chkShowPopup.GetPreferredSize(Size.Empty);
+            int actionPanelHorizontalMargin = grpActions != null ? grpActions.Margin.Horizontal : 0;
+            int requiredGroupWidth = Math.Max(
+                requiredButtonWidth + actionButtonBaseLeft + contentRightPadding,
+                showPopupPreferredSize.Width + showPopupBaseLeft + contentRightPadding);
+            int requiredPanelWidth = (int)Math.Ceiling(Math.Max(
+                _actionPanelBaseWidth > 0F ? _actionPanelBaseWidth : ActionPanelMinWidth,
+                requiredGroupWidth + actionPanelHorizontalMargin));
+
+            if (tlpJobs.ColumnStyles.Count > 1)
+            {
+                tlpJobs.ColumnStyles[1].SizeType = SizeType.Absolute;
+                tlpJobs.ColumnStyles[1].Width = requiredPanelWidth;
+                tlpJobs.PerformLayout();
+            }
+
+            foreach (Button actionButton in actionButtons)
+            {
+                actionButton.Size = uniformButtonSize;
+                actionButton.Left = actionButtonBaseLeft;
+            }
+
+            chkShowPopup.Left = showPopupBaseLeft;
+
+            int abortButtonsBaseSpacing = _abortButtonsBaseSpacing > 0 ? _abortButtonsBaseSpacing : 6;
+            int abortAllBaseBottomMargin = _abortAllBaseBottomMargin > 0 ? _abortAllBaseBottomMargin : 3;
+            int desiredBottomPadding = Math.Max(contentRightPadding, abortAllBaseBottomMargin);
+
+            btnAbortAll.Top = grpActions.ClientSize.Height - desiredBottomPadding - btnAbortAll.Height;
+            btnAbort.Top = btnAbortAll.Top - abortButtonsBaseSpacing - btnAbort.Height;
+        }
+
+        private void ApplyProgressLayout()
+        {
+            int labelColumnWidth = new[]
+            {
+                lblCurrentTrack.GetPreferredWidth(),
+                lblCurrentProgress.GetPreferredWidth(),
+                lblTotalProgress.GetPreferredWidth()
+            }.Max();
+
+            int progressLabelBaseLeft = _progressLabelBaseLeft > 0 ? _progressLabelBaseLeft : 8;
+            int contentBaseLeft = _progressContentBaseLeft > 0 ? _progressContentBaseLeft : 107;
+            int currentTrackRightMargin = _currentTrackRightMarginBase > 0 ? _currentTrackRightMarginBase : 51;
+            int progressBarRightMargin = _progressBarRightMarginBase > 0 ? _progressBarRightMarginBase : 51;
+            int contentLeft = Math.Max(contentBaseLeft, progressLabelBaseLeft + labelColumnWidth + 14);
+            int trackWidth = Math.Max(120, grpProgress.ClientSize.Width - contentLeft - currentTrackRightMargin);
+            int progressWidth = Math.Max(120, grpProgress.ClientSize.Width - contentLeft - progressBarRightMargin);
+
+            txtCurrentTrack.Left = contentLeft;
+            txtCurrentTrack.Width = trackWidth;
+
+            prgBrCurrent.Left = contentLeft;
+            prgBrCurrent.Width = progressWidth;
+
+            prgBrTotal.Left = contentLeft;
+            prgBrTotal.Width = progressWidth;
         }
     }
 }

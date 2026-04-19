@@ -3,6 +3,7 @@ using System.IO;
 using System.Reflection;
 using System.Windows.Forms;
 using gMKVToolNix.Forms;
+using gMKVToolNix.Localization;
 
 namespace gMKVToolNix
 {
@@ -30,7 +31,9 @@ namespace gMKVToolNix
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
-            if (!File.Exists(Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "gMKVToolNix.dll")))
+            string appDirectory = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+
+            if (!File.Exists(Path.Combine(appDirectory, "gMKVToolNix.dll")))
             {
                 MessageBox.Show(
                     "The gMKVToolNix.dll was not found! Please download and reinstall gMKVExtractGUI!", 
@@ -41,7 +44,7 @@ namespace gMKVToolNix
                 Environment.Exit(1);
             }
 
-            if (!File.Exists(Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "Newtonsoft.Json.dll")))
+            if (!File.Exists(Path.Combine(appDirectory, "Newtonsoft.Json.dll")))
             {
                 MessageBox.Show(
                     "The Newtonsoft.Json.dll was not found! Please download and reinstall gMKVExtractGUI!",
@@ -52,16 +55,26 @@ namespace gMKVToolNix
                 Environment.Exit(1);
             }
 
-            // If on Linux, set the enironmnet variables for locale to C (default locale)
-            // Actually set to en_US.UTF-8 locale in order to support UTF-8 filenames in Linux
-            //// After clearing things with Mosu, this is not necessary anymore, since --ui-language is more than enough!
-            //if (IsOnLinux)
-            //{
-            //    Environment.SetEnvironmentVariable("LC_ALL", "en_US.UTF-8", EnvironmentVariableTarget.Process);
-            //    Environment.SetEnvironmentVariable("LANG", "en_US.UTF-8", EnvironmentVariableTarget.Process);
-            //    Environment.SetEnvironmentVariable("LC_MESSAGES", "en_US.UTF-8", EnvironmentVariableTarget.Process);
-            //}
-            //Application.Run(new frmMain());
+            try
+            {
+                gSettings settings = new gSettings(appDirectory);
+                settings.Reload();
+
+                string culture = string.IsNullOrWhiteSpace(settings.Culture)
+                    ? "en"
+                    : settings.Culture;
+
+                LocalizationManager.Initialize(culture);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(
+                    string.Format("Failed to initialize localization: {0}", ex.Message),
+                    "Localization Error",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
+                Environment.Exit(1);
+            }
 
             Application.Run(new frmMain2());
         }

@@ -4,13 +4,12 @@ using System.Drawing;
 using System.IO;
 using System.Reflection;
 using System.Windows.Forms;
+using gMKVToolNix.Localization;
 
 namespace gMKVToolNix
 {
     public class gForm : Form
     {
-        private static readonly string _errorMessagePrefix = $"An error has occured!{Environment.NewLine}{Environment.NewLine}";
-
         public static short LOWORD(int number)
         {
             return (short)number;
@@ -49,6 +48,36 @@ namespace gMKVToolNix
             this.AutoScaleMode = AutoScaleMode.Dpi;
             this.DoubleBuffered = true;
             SetStyle(ControlStyles.OptimizedDoubleBuffer, true);
+        }
+
+        protected string GetLocalizedString(string key, params object[] args)
+        {
+            if (args != null && args.Length > 0)
+            {
+                return LocalizationManager.GetString(key, args);
+            }
+
+            return LocalizationManager.GetString(key);
+        }
+
+        protected Exception CreateLocalizedException(string key, params object[] args)
+        {
+            return new Exception(GetLocalizedString(key, args));
+        }
+
+        protected void ShowLocalizedSuccessMessage(string messageKey, bool dialogOnTop = false, params object[] args)
+        {
+            ShowSuccessMessage(GetLocalizedString(messageKey, args), dialogOnTop);
+        }
+
+        protected void ShowLocalizedErrorMessage(string messageKey, bool dialogOnTop = false, params object[] args)
+        {
+            ShowErrorMessage(GetLocalizedString(messageKey, args), dialogOnTop);
+        }
+
+        protected DialogResult ShowLocalizedQuestion(string messageKey, string titleKey, bool showCancel = true, params object[] args)
+        {
+            return ShowQuestion(GetLocalizedString(messageKey, args), GetLocalizedString(titleKey), showCancel);
         }
 
         protected void InitDPI()
@@ -218,6 +247,9 @@ namespace gMKVToolNix
 
         protected void ShowErrorMessage(string argMessage, bool dialogOnTop = false)
         {
+            string dialogMessage = LocalizationManager.GetString("UI.Common.Dialog.ErrorMessage", Environment.NewLine, argMessage);
+            string dialogTitle = LocalizationManager.GetString("UI.Common.Dialog.ErrorTitle");
+
             if (dialogOnTop)
             {
                 // Create a dummy form that is on top of all other windows in desktop
@@ -225,8 +257,8 @@ namespace gMKVToolNix
                 {
                     MessageBox.Show(
                         form,
-                        _errorMessagePrefix + argMessage,
-                        "Error!",
+                        dialogMessage,
+                        dialogTitle,
                         MessageBoxButtons.OK,
                         MessageBoxIcon.Error);
                 }
@@ -235,8 +267,8 @@ namespace gMKVToolNix
             {
                 MessageBox.Show(
                     this,
-                    _errorMessagePrefix + argMessage,
-                    "Error!",
+                    dialogMessage,
+                    dialogTitle,
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Error);
             }
@@ -249,6 +281,8 @@ namespace gMKVToolNix
 
         protected void ShowSuccessMessage(string argMessage, bool dialogOnTop = false)
         {
+            string dialogTitle = LocalizationManager.GetString("UI.Common.Dialog.SuccessTitle");
+
             if (dialogOnTop)
             {
                 // Create a dummy form that is on top of all other windows in desktop
@@ -257,7 +291,7 @@ namespace gMKVToolNix
                     MessageBox.Show(
                         form,
                         argMessage,
-                        "Success!",
+                        dialogTitle,
                         MessageBoxButtons.OK,
                         MessageBoxIcon.Information
                     );
@@ -268,7 +302,7 @@ namespace gMKVToolNix
                 MessageBox.Show(
                     this,
                     argMessage,
-                    "Success!",
+                    dialogTitle,
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Information
                 );

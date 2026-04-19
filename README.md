@@ -36,6 +36,8 @@ This tool is perfect for anyone looking to easily extract tracks, timecodes, att
     * **Windows:** Supports all versions from Windows XP and above.
     * **Linux:** Compatible via Mono (from v1.6.4 and above).
 * **High DPI Support:** Designed to work seamlessly in high-DPI environments (available from v2.2.0 and above).
+* **Localization & Live Language Switching:** UI labels, tooltips, popups, and context menus are loaded from JSON translation files and can be switched at runtime from the Options dialog. The same dialog now exposes an in-app translation editor for maintaining locale files. If locale files are missing, the app falls back to its embedded English defaults instead of showing localization placeholders.
+* **Dark Mode:** Includes an optional dark theme with context menus themed consistently across the main windows.
 
 ---
 
@@ -52,6 +54,7 @@ For more information, discussions, and support, please visit the project's origi
 1.  **Download the Latest Release:** Head over to the [Releases](https://github.com/Gpower2/gMKVExtractGUI/releases) section and download the latest executable.
 2.  **Prerequisites:** Ensure you have [MKVToolNix](https://mkvtoolnix.download/) installed on your system.
 3.  **Documentation:** For detailed usage instructions, refer to the [User Manual](docs/README.md).
+4.  **Optional Setup:** Open **Options** to choose the UI theme, switch the application language, or launch the in-app **Translations...** editor. The current build ships with `en`, `es`, `de`, `pt`, `pt-br`, `fr`, `el`, `cn`, `ja`, `ru`, `it`, `nl`, `pl`, `tr`, `ro`, `hi`, and `ko` locale files.
 
 ---
 

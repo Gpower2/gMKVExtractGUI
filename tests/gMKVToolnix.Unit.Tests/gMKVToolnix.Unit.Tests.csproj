@@ -34,21 +34,41 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\..\packages\Newtonsoft.Json.13.0.3\lib\net40\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
     <Reference Include="System" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="FileExtensions.Tests.cs" />
+    <Compile Include="JsonLocalizationService.Fallback.Tests.cs" />
+    <Compile Include="LocalizationManager.Tests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ThemeManager.Tests.cs" />
+    <Compile Include="TranslationMaintenanceService.Tests.cs" />
+    <Compile Include="TranslationPathService.Tests.cs" />
     <Compile Include="gMkvParser.Tests.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="..\..\src\gMKVExtractGUI\gmkvextract-en.json">
+      <Link>gmkvextract-en.json</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\src\gMKVToolNix\gMKVToolNix.csproj">
       <Project>{82fc8fa8-50c0-44fa-8801-80050c0ed89f}</Project>
       <Name>gMKVToolNix</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\src\gMKVExtractGUI\gMKVExtractGUI.csproj">
+      <Project>{20EBEFF3-C838-4239-A236-EC055BF51398}</Project>
+      <Name>gMKVExtractGUI</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

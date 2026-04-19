@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Drawing;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
@@ -42,7 +43,7 @@ namespace gMKVToolNix.Controls
         private static readonly BindingFlags _designModeBindFlags = BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Static;
 
         private static bool GetDesignMode(this Control control)
-        {            
+        {
             PropertyInfo prop = control.GetType().GetProperty("DesignMode", _designModeBindFlags);
             return (bool)prop.GetValue(control, null);
         }
@@ -64,6 +65,47 @@ namespace gMKVToolNix.Controls
                 parent = parent.Parent;
             }
             return control.GetDesignMode();
+        }
+
+        public static int GetPreferredWidth(this Control control, int minimumWidth = 0, int extraPadding = 0)
+        {
+            if (control == null)
+            {
+                throw new ArgumentNullException(nameof(control));
+            }
+
+            int preferredWidth = control.GetPreferredSize(Size.Empty).Width + extraPadding;
+            return Math.Max(minimumWidth, preferredWidth);
+        }
+
+        public static void ApplyLocalizedButtonSize(this Button button, int minimumWidth, int minimumHeight = 30, int extraPadding = 12)
+        {
+            if (button == null)
+            {
+                throw new ArgumentNullException(nameof(button));
+            }
+
+            button.AutoSize = false;
+            string buttonText = string.IsNullOrWhiteSpace(button.Text) ? " " : button.Text;
+            Size textSize = TextRenderer.MeasureText(
+                buttonText,
+                button.Font,
+                Size.Empty,
+                TextFormatFlags.SingleLine | TextFormatFlags.LeftAndRightPadding);
+
+            int preferredWidth = textSize.Width + button.Padding.Horizontal + extraPadding;
+            int preferredHeight = textSize.Height + button.Padding.Vertical + 8;
+            button.Size = new Size(Math.Max(minimumWidth, preferredWidth), Math.Max(minimumHeight, preferredHeight));
+        }
+
+        public static void ApplyLocalizedButtonSize(this Button button, Size minimumSize, int extraPadding = 12)
+        {
+            if (button == null)
+            {
+                throw new ArgumentNullException(nameof(button));
+            }
+
+            ApplyLocalizedButtonSize(button, minimumSize.Width, minimumSize.Height, extraPadding);
         }
     }
 }

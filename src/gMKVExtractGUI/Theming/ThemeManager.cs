@@ -55,8 +55,12 @@ namespace gMKVToolNix.Theming
             Color menuBackColor = darkMode ? DarkModeMenuBackColor : LightModeMenuBackColor;
             Color menuForeColor = darkMode ? DarkModeMenuForeColor : LightModeMenuForeColor;
 
-            NativeMethods.SetWindowThemeManaged(control.Handle, darkMode);
-            NativeMethods.TrySetImmersiveDarkMode(control.Handle, darkMode);
+            if (!(control is ToolStripDropDown))
+            {
+                // Retheming popup menu HWNDs during Opening can corrupt native menu state.
+                NativeMethods.SetWindowThemeManaged(control.Handle, darkMode);
+                NativeMethods.TrySetImmersiveDarkMode(control.Handle, darkMode);
+            }
 
             if (control is Form || control is gForm)
             {
@@ -299,23 +303,7 @@ namespace gMKVToolNix.Theming
             }
             else if (control is ContextMenuStrip cms)
             {
-                if (darkMode)
-                {
-                    cms.RenderMode = ToolStripRenderMode.ManagerRenderMode; // Keep for potential custom dark renderer later
-                    cms.BackColor = DarkModeMenuBackColor;
-                    cms.ForeColor = DarkModeMenuForeColor;
-                }
-                else // Light Mode
-                {
-                    cms.RenderMode = ToolStripRenderMode.Professional;
-                    cms.BackColor = SystemColors.ControlLightLight;
-                    cms.ForeColor = SystemColors.ControlText;
-                }
-                // Apply to items regardless of mode, ApplyToolStripItemTheme will handle specifics
-                foreach (ToolStripItem item in cms.Items)
-                {
-                    ApplyToolStripItemTheme(item, darkMode);
-                }
+                ApplyContextMenuTheme(cms, darkMode);
             }
             else if (control is StatusStrip ss)
             {
@@ -398,25 +386,47 @@ namespace gMKVToolNix.Theming
             // Handle dropdowns for ToolStripMenuItems (dropdowns are usually on ContextMenus, not StatusStrips)
             if (item is ToolStripMenuItem menuItem && menuItem.HasDropDownItems)
             {
-                if (darkMode)
-                {
-                    menuItem.DropDown.BackColor = DarkModeMenuBackColor;
-                }
-                else // Light Mode for dropdowns of ToolStripMenuItems
-                {
-                    // Dropdowns of context menu items should also match the ControlLightLight theme
-                    menuItem.DropDown.BackColor = SystemColors.ControlLightLight;
-                }
-                foreach (ToolStripItem dropDownItem in menuItem.DropDownItems)
-                {
-                    ApplyToolStripItemTheme(dropDownItem, darkMode); // Recursive call
-                }
+                ApplyContextMenuTheme(menuItem.DropDown, darkMode);
             }
             // No specific DropDown handling needed for ToolStripStatusLabel as it doesn't have dropdowns.
             // ToolStripDropDownItem is for general dropdowns in ToolStrips, less common in StatusStrip.
             // If general ToolStripDropDownButtons or ToolStripSplitButtons are on the StatusStrip,
             // their dropdowns might need explicit theming if they don't inherit correctly.
             // For now, this focuses on ToolStripStatusLabel and ToolStripMenuItem.
+        }
+
+        public static void ApplyContextMenuTheme(ToolStripDropDown menu, bool darkMode)
+        {
+            if (menu == null || menu.IsDisposed)
+            {
+                return;
+            }
+
+            if (menu is ToolStripDropDownMenu dropDownMenu)
+            {
+                dropDownMenu.ShowCheckMargin = false;
+                dropDownMenu.ShowImageMargin = true;
+            }
+
+            if (darkMode)
+            {
+                menu.RenderMode = ToolStripRenderMode.ManagerRenderMode;
+                menu.BackColor = DarkModeMenuBackColor;
+                menu.ForeColor = DarkModeMenuForeColor;
+            }
+            else
+            {
+                menu.RenderMode = ToolStripRenderMode.Professional;
+                menu.BackColor = SystemColors.ControlLightLight;
+                menu.ForeColor = SystemColors.ControlText;
+            }
+
+            foreach (ToolStripItem item in menu.Items)
+            {
+                ApplyToolStripItemTheme(item, darkMode);
+            }
+
+            menu.Invalidate();
         }
 
         // New helper method within ThemeManager class
@@ -470,5 +480,6 @@ namespace gMKVToolNix.Theming
                 }
             }
         }
+
     }
 }

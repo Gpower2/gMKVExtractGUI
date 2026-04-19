@@ -1,10 +1,12 @@
-﻿using System;
+using System;
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Reflection;
 using System.Text;
 using System.Windows.Forms;
+using gMKVToolNix.Controls;
+using gMKVToolNix.Localization;
 using gMKVToolNix.Log;
 using gMKVToolNix.Theming;
 using gMKVToolNix.WinAPI;
@@ -14,6 +16,8 @@ namespace gMKVToolNix
     public partial class frmLog : gForm
     {
         private readonly gSettings _Settings = null;
+        private const int ActionButtonMinWidth = 95;
+        private const int ActionButtonSpacing = 4;
 
         public frmLog()
         {
@@ -25,19 +29,20 @@ namespace gMKVToolNix
 
             ThemeManager.ApplyTheme(this, _Settings.DarkMode);
 
-            if (this.Handle != IntPtr.Zero) // Ensure handle is created
+            if (this.Handle != IntPtr.Zero)
             {
                 NativeMethods.SetWindowThemeManaged(this.Handle, _Settings.DarkMode);
                 NativeMethods.TrySetImmersiveDarkMode(this.Handle, _Settings.DarkMode);
             }
             else
             {
-                // If handle not created yet, do it in Load or Shown event
                 this.Shown += (s, ev) => {
                     NativeMethods.SetWindowThemeManaged(this.Handle, _Settings.DarkMode);
                     NativeMethods.TrySetImmersiveDarkMode(this.Handle, _Settings.DarkMode);
                 };
             }
+
+            ApplyLocalization();
 
             InitDPI();
         }
@@ -50,14 +55,14 @@ namespace gMKVToolNix
 
         private void frmLog_Activated(object sender, EventArgs e)
         {
-            txtLog.Text = gMKVLogger.LogText;
+            SetLogText(gMKVLogger.LogText);
         }
 
         private void txtLog_TextChanged(object sender, EventArgs e)
         {
             txtLog.Select(txtLog.TextLength, 0);
             txtLog.ScrollToCaret();
-            grpLog.Text = string.Format("Log ({0})", txtLog.Lines.LongLength);
+            UpdateLogGroupTitle();
         }
 
         private void btnClose_Click(object sender, EventArgs e)
@@ -95,7 +100,7 @@ namespace gMKVToolNix
         {
             try
             {
-                txtLog.Text = gMKVLogger.LogText;
+                SetLogText(gMKVLogger.LogText);
             }
             catch (Exception ex)
             {
@@ -116,7 +121,7 @@ namespace gMKVToolNix
         {
             try
             {
-                if (ShowQuestion("Are you sure you want to clear the log?", "Are you sure?") == DialogResult.Yes)
+                if (ShowLocalizedQuestion("UI.Log.Dialogs.ClearLogQuestion", "UI.Common.Dialog.AreYouSureTitle") == DialogResult.Yes)
                 {
                     gMKVLogger.Clear();
                 }
@@ -134,7 +139,7 @@ namespace gMKVToolNix
             try
             {
                 SaveFileDialog sfd = new SaveFileDialog();
-                sfd.Title = "Select filename for log...";
+                sfd.Title = LocalizationManager.GetString("UI.Log.Dialogs.SelectFilenameTitle");
                 sfd.CheckFileExists = false; // Changed to false to allow creating new files
                 sfd.DefaultExt = "txt";
                 sfd.Filter = "*.txt|*.txt";
@@ -148,7 +153,7 @@ namespace gMKVToolNix
                     {
                         sw.Write(gMKVLogger.LogText);
                     }
-                    ShowSuccessMessage(string.Format("The log was saved to {0}!", sfd.FileName));
+                    ShowLocalizedSuccessMessage("UI.Log.Success.LogSaved", false, sfd.FileName);
                 }
             }
             catch (Exception ex)
@@ -157,6 +162,19 @@ namespace gMKVToolNix
                 gMKVLogger.Log(ex.ToString());
                 ShowErrorMessage(ex.Message);
             }
+        }
+
+        public void ApplyLocalization()
+        {
+            this.Text = string.Format("gMKVExtractGUI v{0} -- {1}", GetCurrentVersion(), LocalizationManager.GetString("UI.LogForm.Title"));
+            grpActions.Text = LocalizationManager.GetString("UI.LogForm.Actions.Group");
+            btnSave.Text = LocalizationManager.GetString("UI.LogForm.Actions.Save");
+            btnClear.Text = LocalizationManager.GetString("UI.LogForm.Actions.ClearLog");
+            btnRefresh.Text = LocalizationManager.GetString("UI.LogForm.Actions.Refresh");
+            btnCopy.Text = LocalizationManager.GetString("UI.LogForm.Actions.CopySelection");
+            btnClose.Text = LocalizationManager.GetString("UI.LogForm.Actions.Close");
+            SetLogText(gMKVLogger.LogText);
+            ApplyResponsiveLayout();
         }
 
         public void UpdateTheme(bool darkMode)
@@ -176,6 +194,44 @@ namespace gMKVToolNix
                     NativeMethods.TrySetImmersiveDarkMode(this.Handle, darkMode);
                 };
             }
+        }
+
+        private void ApplyResponsiveLayout()
+        {
+            btnClear.ApplyLocalizedButtonSize(ActionButtonMinWidth);
+            btnSave.ApplyLocalizedButtonSize(ActionButtonMinWidth);
+            btnRefresh.ApplyLocalizedButtonSize(ActionButtonMinWidth);
+            btnCopy.ApplyLocalizedButtonSize(ActionButtonMinWidth);
+            btnClose.ApplyLocalizedButtonSize(ActionButtonMinWidth);
+
+            const int buttonTop = 17;
+
+            btnClear.Anchor = AnchorStyles.Top | AnchorStyles.Left;
+            btnSave.Anchor = AnchorStyles.Top | AnchorStyles.Left;
+            btnRefresh.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            btnCopy.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            btnClose.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+
+            btnClear.Location = new Point(6, buttonTop);
+            btnSave.Location = new Point(btnClear.Right + ActionButtonSpacing, buttonTop);
+
+            int right = grpActions.ClientSize.Width - 5;
+            btnClose.Location = new Point(right - btnClose.Width, buttonTop);
+            right = btnClose.Left - ActionButtonSpacing;
+            btnCopy.Location = new Point(right - btnCopy.Width, buttonTop);
+            right = btnCopy.Left - ActionButtonSpacing;
+            btnRefresh.Location = new Point(right - btnRefresh.Width, buttonTop);
+        }
+
+        private void SetLogText(string logText)
+        {
+            txtLog.Clear();
+            txtLog.Text = logText ?? string.Empty;
+        }
+
+        private void UpdateLogGroupTitle()
+        {
+            grpLog.Text = LocalizationManager.GetString("UI.LogForm.Log.GroupWithCount", txtLog.Lines.LongLength);
         }
     }
 }

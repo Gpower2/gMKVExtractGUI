@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -9,7 +9,9 @@ using System.Media;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using gMKVToolNix.Controls;
 using gMKVToolNix.Jobs;
+using gMKVToolNix.Localization;
 using gMKVToolNix.Log;
 using gMKVToolNix.MkvExtract;
 using gMKVToolNix.MkvInfo;
@@ -35,9 +37,19 @@ namespace gMKVToolNix.Forms
 
     public partial class frmMain2 : gForm, IFormMain
     {
+        private const int MainActionRowHeight = 90;
+        private const int MainActionLeftMargin = 6;
+        private const int MainActionRightMargin = 7;
+        private const int MainActionBottomPadding = 6;
+        private const int MainActionSingleRowSpacing = 8;
+        private const int MainActionTopRowButtonTop = 18;
+        private const int MainActionBottomRowButtonTop = 48;
+        private const int MainActionComboTopOffset = 3;
+        private const int MainActionLabelTopOffset = 8;
+        private const int MainButtonSpacing = 6;
         private frmLog _LogForm = null;
         private frmJobManager _JobManagerForm = null;
-        private readonly ToolTip _ToolTip = new ToolTip();
+        private ToolTip _ToolTip = null;
 
         private gMKVExtract _gMkvExtract = null;
 
@@ -51,6 +63,14 @@ namespace gMKVToolNix.Forms
         private int _TotalJobs = 0;
 
         private List<string> _CmdArguments = new List<string>();
+        private readonly Dictionary<Button, Size> _responsiveButtonBaseSizes = new Dictionary<Button, Size>();
+        private bool _contextMenuItemsDirty = true;
+        private bool _isApplyingResponsiveLayout = false;
+        private int _chapterTypeComboBaseWidth;
+        private int _extractionModeComboBaseWidth;
+        private float _actionsRowBaseHeight;
+        private int _fileOptionsPanelBaseHeight;
+        private float _fileOptionsRowBaseHeight;
 
         public frmMain2()
         {
@@ -59,6 +79,7 @@ namespace gMKVToolNix.Forms
                 _FromConstructor = true;
 
                 InitializeComponent();
+                CaptureResponsiveLayoutBaselines();
 
                 // Get the command line arguments
                 GetCommandLineArguments();
@@ -66,7 +87,7 @@ namespace gMKVToolNix.Forms
                 // Set form icon from the executing assembly
                 Icon = Icon.ExtractAssociatedIcon(this.GetExecutingAssemblyLocation());
 
-                // Set form title 
+                // Set form title
                 Text = string.Format("gMKVExtractGUI v{0} -- By Gpower2", this.GetCurrentVersion());
 
                 btnAbort.Enabled = false;
@@ -131,6 +152,10 @@ namespace gMKVToolNix.Forms
 
                 // Initialize the DPI aware scaling
                 InitDPI();
+                CaptureResponsiveLayoutBaselines();
+
+                // Apply localization
+                ApplyLocalization();
 
                 // Set the tooltips for the controls
                 SetTooltips(!chkDisableTooltips.Checked);
@@ -218,20 +243,20 @@ namespace gMKVToolNix.Forms
                     {
                         Debug.WriteLine(ex);
                         gMKVLogger.Log(ex.ToString());
-                        
+
                         // MKVToolnix could not be found anywhere
                         // Select exception message according to running OS
                         string exceptionMessage = "";
                         if (PlatformExtensions.IsOnLinux)
                         {
-                            exceptionMessage = "Could not find MKVToolNix in /usr/bin, or in the current directory, or in the ini file!";
+                            exceptionMessage = LocalizationManager.GetString("UI.MainForm2.Errors.AutoDetectLinuxNotFound");
                         }
                         else
                         {
-                            exceptionMessage = "Could not find MKVToolNix in registry, or in the current directory, or in the ini file!";
+                            exceptionMessage = LocalizationManager.GetString("UI.MainForm2.Errors.AutoDetectWindowsNotFound");
                         }
                         gMKVLogger.Log(exceptionMessage);
-                        throw new Exception(exceptionMessage + Environment.NewLine + "Please download and reinstall or provide a manual path!");
+                        throw CreateLocalizedException("UI.MainForm2.Errors.AutoDetectManualPathHint", exceptionMessage, Environment.NewLine);
                     }
                 }
             }
@@ -241,6 +266,107 @@ namespace gMKVToolNix.Forms
                 gMKVLogger.Log(ex.ToString());
                 _FromConstructor = false;
                 ShowErrorMessage(ex.Message);
+            }
+        }
+
+        private void UpdateInputFilesGroupTitle()
+        {
+            int fileCount = trvInputFiles.AllNodes.Count(n => n != null && n.Tag != null && n.Tag is gMKVSegmentInfo);
+            grpInputFiles.Text = fileCount > 0
+                ? LocalizationManager.GetString("UI.MainForm2.InputFiles.GroupWithCount", fileCount)
+                : LocalizationManager.GetString("UI.MainForm2.InputFiles.Group");
+        }
+
+        private string GetSelectedFileInfoTitle(string filename = null)
+        {
+            return string.IsNullOrWhiteSpace(filename)
+                ? LocalizationManager.GetString("UI.MainForm2.SelectedFileInfo.Group")
+                : LocalizationManager.GetString("UI.MainForm2.SelectedFileInfo.GroupWithFile", filename);
+        }
+
+        private void UpdateSelectedFileInfoTitle(TreeNode selectedNode = null)
+        {
+            TreeNode node = selectedNode ?? trvInputFiles.SelectedNode;
+            if (node != null && node.Tag != null && !(node.Tag is gMKVSegmentInfo))
+            {
+                node = node.Parent;
+            }
+
+            if (node != null && node.Tag is gMKVSegmentInfo segInfo)
+            {
+                grpSelectedFileInfo.Text = GetSelectedFileInfoTitle(segInfo.Filename);
+            }
+            else
+            {
+                grpSelectedFileInfo.Text = GetSelectedFileInfoTitle();
+            }
+        }
+
+        private string GetContextMenuTrackGroupLabel(TrackSelectionMode selectionMode)
+        {
+            switch (selectionMode)
+            {
+                case TrackSelectionMode.video:
+                    return LocalizationManager.GetString("UI.MainForm2.ContextMenu.TrackGroup.Video");
+                case TrackSelectionMode.audio:
+                    return LocalizationManager.GetString("UI.MainForm2.ContextMenu.TrackGroup.Audio");
+                case TrackSelectionMode.subtitle:
+                    return LocalizationManager.GetString("UI.MainForm2.ContextMenu.TrackGroup.Subtitle");
+                case TrackSelectionMode.chapter:
+                    return LocalizationManager.GetString("UI.MainForm2.ContextMenu.TrackGroup.Chapter");
+                case TrackSelectionMode.attachment:
+                    return LocalizationManager.GetString("UI.MainForm2.ContextMenu.TrackGroup.Attachment");
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(selectionMode), selectionMode, null);
+            }
+        }
+
+        private string GetContextMenuFilterLabel(NodeSelectionFilter filter, TrackSelectionMode selectionMode)
+        {
+            switch (filter)
+            {
+                case NodeSelectionFilter.Language:
+                    return LocalizationManager.GetString("UI.MainForm2.ContextMenu.Filter.Language");
+                case NodeSelectionFilter.LanguageIetf:
+                    return LocalizationManager.GetString("UI.MainForm2.ContextMenu.Filter.LanguageIetf");
+                case NodeSelectionFilter.ExtraInfo:
+                    return selectionMode == TrackSelectionMode.video
+                        ? LocalizationManager.GetString("UI.MainForm2.ContextMenu.Filter.Resolution")
+                        : LocalizationManager.GetString("UI.MainForm2.ContextMenu.Filter.Channels");
+                case NodeSelectionFilter.CodecId:
+                    return LocalizationManager.GetString("UI.MainForm2.ContextMenu.Filter.Codec");
+                case NodeSelectionFilter.Name:
+                    return LocalizationManager.GetString("UI.MainForm2.ContextMenu.Filter.TrackName");
+                case NodeSelectionFilter.Forced:
+                    return LocalizationManager.GetString("UI.MainForm2.ContextMenu.Filter.Forced");
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(filter), filter, null);
+            }
+        }
+
+        private string GetLocalizedBoolean(bool value)
+        {
+            return LocalizationManager.GetString(value ? "UI.Common.True" : "UI.Common.False");
+        }
+
+        private void MarkContextMenuDirty()
+        {
+            _contextMenuItemsDirty = true;
+        }
+
+        private void ResetDynamicContextMenuItems(ToolStripMenuItem parentItem, ToolStripItem staticItem)
+        {
+            for (int i = parentItem.DropDownItems.Count - 1; i >= 0; i--)
+            {
+                if (parentItem.DropDownItems[i] != staticItem)
+                {
+                    parentItem.DropDownItems.RemoveAt(i);
+                }
+            }
+
+            if (!parentItem.DropDownItems.Contains(staticItem))
+            {
+                parentItem.DropDownItems.Insert(0, staticItem);
             }
         }
 
@@ -283,7 +409,7 @@ namespace gMKVToolNix.Forms
                     }
                     else
                     {
-                        throw new Exception($"mkvmerge was not found in path {linuxDefaultPath}!");
+                        throw CreateLocalizedException("UI.MainForm2.Errors.MkvmergeNotFoundInPath", linuxDefaultPath);
                     }
                 }
             }
@@ -293,6 +419,7 @@ namespace gMKVToolNix.Forms
         {
             if (argEnabled)
             {
+                ResetTooltipComponent();
                 AddTooltips();
             }
             else
@@ -301,49 +428,86 @@ namespace gMKVToolNix.Forms
             }
         }
 
+        private ToolTip CreateToolTip()
+        {
+            return new ToolTip
+            {
+                AutoPopDelay = 10000,
+                InitialDelay = 1000,
+                ReshowDelay = 100,
+                IsBalloon = false
+            };
+        }
+
+        private void ResetTooltipComponent()
+        {
+            if (_ToolTip != null)
+            {
+                _ToolTip.Active = false;
+                _ToolTip.RemoveAll();
+                _ToolTip.Dispose();
+                _ToolTip = null;
+            }
+
+            _ToolTip = CreateToolTip();
+        }
+
+        private void RefreshLocalizedTooltipsAsync()
+        {
+            if (IsDisposed || Disposing || !IsHandleCreated)
+            {
+                return;
+            }
+
+            BeginInvoke((MethodInvoker)delegate
+            {
+                if (IsDisposed || Disposing)
+                {
+                    return;
+                }
+
+                SetTooltips(!chkDisableTooltips.Checked);
+            });
+        }
+
         private void AddTooltips()
         {
-            // General ToolTip properties
-            _ToolTip.AutoPopDelay = 10000;
-            _ToolTip.InitialDelay = 1000;
-            _ToolTip.ReshowDelay = 100;
-            _ToolTip.IsBalloon = false;
+            if (_ToolTip == null)
+            {
+                _ToolTip = CreateToolTip();
+            }
 
-            _ToolTip.SetToolTip(btnAutoDetectMkvToolnix, 
-                "Press to try and auto-detect the MKVToolnix installation");
-            
-            const string inputTooltip =
-@"Contains the list of opened files with their tracks.
-You can check the individual tracks in order to select them for extracting.
+            _ToolTip.SetToolTip(btnAutoDetectMkvToolnix,
+                LocalizationManager.GetString("UI.MainForm2.Tooltips.AutoDetect"));
 
-Note: There is a context menu (right-click on the list) that contains many options for batch selecting tracks.";
+            string inputTooltip = LocalizationManager.GetString("UI.MainForm2.Tooltips.InputFiles");
 
             _ToolTip.SetToolTip(grpInputFiles, inputTooltip);
 
             _ToolTip.SetToolTip(trvInputFiles, inputTooltip);
 
             _ToolTip.SetToolTip(chkAppendOnDragAndDrop,
-@"Check if you want to append files in the input list on drag and drop.
-Uncheck if you want to reset the input list every time you drag and drop a new file.");
+                LocalizationManager.GetString("UI.MainForm2.Tooltips.AppendOnDragAndDrop"));
 
             _ToolTip.SetToolTip(chkOverwriteExistingFiles,
-@"Check if you want the output files to always overwrite existing files with the same filename.
-Uncheck if you want the output files to automatically be renamed with a different filename to avoid overwriting existing files.");
+                LocalizationManager.GetString("UI.MainForm2.Tooltips.OverwriteExistingFiles"));
 
             _ToolTip.SetToolTip(chkUseSourceDirectory,
-@"Check if you want the output files to be saved in the same directory as the source files.
-Uncheck if you want to manually select an output directory for ALL extracted files.");
+                LocalizationManager.GetString("UI.MainForm2.Tooltips.UseSourceDirectory"));
 
-            _ToolTip.SetToolTip(chkShowPopup, 
-                "Check if you want to show a popup message when the extraction is finished.");
+            _ToolTip.SetToolTip(chkShowPopup,
+                LocalizationManager.GetString("UI.MainForm2.Tooltips.ShowPopup"));
 
             _ToolTip.SetToolTip(btnSelect,
-                "Press to display the menu that contains many options for batch selecting tracks.");
+                LocalizationManager.GetString("UI.MainForm2.Tooltips.Select"));
         }
 
         private void ClearTooltips()
         {
-            _ToolTip.RemoveAll();
+            if (_ToolTip != null)
+            {
+                _ToolTip.RemoveAll();
+            }
         }
 
         private void btnAutoDetectMkvToolnix_Click(object sender, EventArgs e)
@@ -370,7 +534,7 @@ Uncheck if you want to manually select an output directory for ALL extracted fil
                 {
                     tlpMain.Enabled = false;
                     Cursor = Cursors.WaitCursor;
-                    txtSegmentInfo.Text = "Getting files...";
+                    txtSegmentInfo.Text = LocalizationManager.GetString("UI.Common.Status.GettingFiles");
 
                     // Get the file list
                     List<string> fileList = GetFilesFromInputFileDrop(_CmdArguments.Where(c => !c.StartsWith("--")).ToArray());
@@ -378,7 +542,7 @@ Uncheck if you want to manually select an output directory for ALL extracted fil
                     // Check if any valid matroska files were provided
                     if (!fileList.Any())
                     {
-                        throw new Exception("No valid matroska files were provided!");
+                        throw CreateLocalizedException("UI.MainForm2.Errors.NoValidMatroskaFiles");
                     }
 
                     // Add files to the TreeView
@@ -427,7 +591,7 @@ Uncheck if you want to manually select an output directory for ALL extracted fil
                         // check if MKVToolnix Path is already set
                         if (!string.IsNullOrWhiteSpace(txtMKVToolnixPath.Text))
                         {
-                            if (ShowQuestion("Do you really want to change MKVToolnix path?", "Are you sure?", false) != DialogResult.Yes)
+                            if (ShowLocalizedQuestion("UI.MainForm2.Dialogs.ChangeMkvToolnixPathQuestion", "UI.Common.Dialog.AreYouSureTitle", false) != DialogResult.Yes)
                             {
                                 return;
                             }
@@ -532,7 +696,7 @@ Uncheck if you want to manually select an output directory for ALL extracted fil
                 if (subDirList.Any())
                 {
                     Cursor = Cursors.Default;
-                    var result = ShowQuestion("Do you want to include files in sub directories?", "Sub directories found!");
+                    var result = ShowLocalizedQuestion("UI.MainForm2.Dialogs.IncludeSubDirectoriesQuestion", "UI.MainForm2.Dialogs.SubDirectoriesFoundTitle");
                     Cursor = Cursors.WaitCursor;
 
                     if (result == DialogResult.Cancel)
@@ -548,9 +712,9 @@ Uncheck if you want to manually select an output directory for ALL extracted fil
                             .Exists(f))
                             .ToList()
                             .ForEach(t => fileList.AddRange(Directory.GetFiles(
-                                t, 
-                                "*", 
-                                result == DialogResult.Yes 
+                                t,
+                                "*",
+                                result == DialogResult.Yes
                                     ? SearchOption.AllDirectories
                                     : SearchOption.TopDirectoryOnly)
                             .ToList()));
@@ -615,7 +779,7 @@ Uncheck if you want to manually select an output directory for ALL extracted fil
                     {
                         tlpMain.Enabled = false;
                         Cursor = Cursors.WaitCursor;
-                        txtSegmentInfo.Text = "Getting files...";
+                        txtSegmentInfo.Text = LocalizationManager.GetString("UI.Common.Status.GettingFiles");
 
                         // Get the file list
                         List<string> fileList = GetFilesFromInputFileDrop(s);
@@ -623,7 +787,7 @@ Uncheck if you want to manually select an output directory for ALL extracted fil
                         // Check if any valid matroska files were provided
                         if (!fileList.Any())
                         {
-                            throw new Exception("No valid matroska files were provided!");
+                            throw CreateLocalizedException("UI.MainForm2.Errors.NoValidMatroskaFiles");
                         }
 
                         // Add files to the TreeView
@@ -712,7 +876,7 @@ Uncheck if you want to manually select an output directory for ALL extracted fil
                     // Check if there are any new files to add
                     if (!argFiles.Any())
                     {
-                        throw new Exception("No new files to add!");
+                        throw CreateLocalizedException("UI.MainForm2.Errors.NoNewFiles");
                     }
                 }
 
@@ -736,15 +900,23 @@ Uncheck if you want to manually select an output directory for ALL extracted fil
                     throw ta.Exception;
                 }
 
-                // Add the nodes to the TreeView
-                trvInputFiles.Nodes.AddRange(results.Nodes.ToArray());
+                trvInputFiles.BeginUpdate();
+                try
+                {
+                    // Add the nodes to the TreeView
+                    trvInputFiles.Nodes.AddRange(results.Nodes.ToArray());
+                    MarkContextMenuDirty();
+                    trvInputFiles.ExpandAll();
+                }
+                finally
+                {
+                    trvInputFiles.EndUpdate();
+                }
 
                 // Remove the check box from the nodes that contain the gMKVSegmentInfo
                 trvInputFiles.AllNodes.Where(n => n != null && n.Tag != null && n.Tag is gMKVSegmentInfo)
                     .ToList()
                     .ForEach(n => trvInputFiles.SetIsCheckBoxVisible(n, false));
-
-                trvInputFiles.ExpandAll();
 
                 // Check for error messages
                 if (results.ErrorMessages != null && results.ErrorMessages.Any())
@@ -757,8 +929,7 @@ Uncheck if you want to manually select an output directory for ALL extracted fil
                 prgBrStatus.Value = 0;
                 lblStatus.Text = "";
 
-                grpInputFiles.Text = string.Format("Input Files (you can drag and drop files or directories) ({0} files)",
-                    trvInputFiles.AllNodes.Count(n => n != null && n.Tag != null && n.Tag is gMKVSegmentInfo));
+                UpdateInputFilesGroupTitle();
 
                 tlpMain.Enabled = true;
                 gTaskbarProgress.SetState(this, gTaskbarProgress.TaskbarStates.NoProgress);
@@ -785,7 +956,7 @@ Uncheck if you want to manually select an output directory for ALL extracted fil
                 counter++;
                 txtSegmentInfo.Invoke((MethodInvoker)delegate
                 {
-                    txtSegmentInfo.Text = string.Format("Analyzing {0}...", Path.GetFileName(sf));
+                    txtSegmentInfo.Text = LocalizationManager.GetString("UI.Common.Status.AnalyzingFile", Path.GetFileName(sf));
                 });
 
                 statusStrip.Invoke((MethodInvoker)delegate
@@ -801,7 +972,7 @@ Uncheck if you want to manually select an output directory for ALL extracted fil
                 }
                 catch (Exception ex)
                 {
-                    results.ErrorMessages.Add(string.Format("file: {0} error: {1}", Path.GetFileName(sf), ex.Message));
+                    results.ErrorMessages.Add(LocalizationManager.GetString("UI.MainForm2.Errors.FileProcessing", Path.GetFileName(sf), ex.Message));
                 }
             }
 
@@ -819,13 +990,13 @@ Uncheck if you want to manually select an output directory for ALL extracted fil
             // Check if filename was provided
             if (string.IsNullOrWhiteSpace(argFilename))
             {
-                throw new Exception("No filename was provided!");
+                throw CreateLocalizedException("UI.MainForm2.Errors.NoFilenameProvided");
             }
 
             // Check if file exists
             if (!File.Exists(argFilename))
             {
-                throw new Exception(string.Format("The file {0} does not exist!", argFilename));
+                throw CreateLocalizedException("UI.MainForm2.Errors.FileDoesNotExist", argFilename);
             }
 
             // Check if the extension is a valid matroska file
@@ -836,7 +1007,7 @@ Uncheck if you want to manually select an output directory for ALL extracted fil
                 && inputExtension != ".mk3d"
                 && inputExtension != ".webm")
             {
-                throw new Exception($"The input file {argFilename}{Environment.NewLine}{Environment.NewLine}is not a valid matroska file!");
+                throw CreateLocalizedException("UI.MainForm2.Errors.InvalidMatroskaInputFile", argFilename, Environment.NewLine);
             }
 
             // get the file information
@@ -870,7 +1041,7 @@ Uncheck if you want to manually select an output directory for ALL extracted fil
                     TreeNode selNode = trvInputFiles.SelectedNode;
                     if (selNode.Tag == null)
                     {
-                        throw new Exception("Selected node has null tag!");
+                        throw CreateLocalizedException("UI.MainForm2.Errors.SelectedNodeNullTag");
                     }
 
                     if (!(selNode.Tag is gMKVSegmentInfo))
@@ -879,27 +1050,28 @@ Uncheck if you want to manually select an output directory for ALL extracted fil
                         selNode = selNode.Parent;
                         if (selNode == null)
                         {
-                            throw new Exception("Selected node has no parent node!");
+                            throw CreateLocalizedException("UI.MainForm2.Errors.SelectedNodeNoParent");
                         }
 
                         if (selNode.Tag == null)
                         {
-                            throw new Exception("Selected node has null tag!");
+                            throw CreateLocalizedException("UI.MainForm2.Errors.SelectedNodeNullTag");
                         }
 
                         if (!(selNode.Tag is gMKVSegmentInfo))
                         {
-                            throw new Exception("Selected node has no info!");
+                            throw CreateLocalizedException("UI.MainForm2.Errors.SelectedNodeNoInfo");
                         }
                     }
 
                     gMKVSegmentInfo seg = selNode.Tag as gMKVSegmentInfo;
-                    txtSegmentInfo.Text = string.Format("Writing Application: {1}{0}Muxing Application: {2}{0}Duration: {3}{0}Date: {4}",
-                        Environment.NewLine,
+                    txtSegmentInfo.Text = LocalizationManager.GetString(
+                        "UI.MainForm2.SelectedFileInfo.Details",
                         seg.WritingApplication,
                         seg.MuxingApplication,
                         seg.Duration,
-                        seg.Date);
+                        seg.Date,
+                        Environment.NewLine);
 
                     // check if output directory is the same as the source
                     if (chkUseSourceDirectory.Checked)
@@ -909,12 +1081,12 @@ Uncheck if you want to manually select an output directory for ALL extracted fil
                     }
 
                     // Set the GroupBox title
-                    grpSelectedFileInfo.Text = $"Selected File Information ({seg.Filename})";
+                    UpdateSelectedFileInfoTitle(selNode);
                 }
                 else
                 {
                     txtSegmentInfo.Clear();
-                    grpSelectedFileInfo.Text = "Selected File Information";
+                    UpdateSelectedFileInfoTitle();
                 }
             }
             catch (Exception ex)
@@ -941,7 +1113,7 @@ Uncheck if you want to manually select an output directory for ALL extracted fil
             prgBrTotalStatus.Value = (_CurrentJob - 1) * 100 + Convert.ToInt32(val);
             lblStatus.Text = string.Format("{0}%", Convert.ToInt32(val));
             lblTotalStatus.Text = string.Format("{0}%", prgBrTotalStatus.Value / _TotalJobs);
-            
+
             // Update the task bar progress bar based on the total progress and not on the individual job
             gTaskbarProgress.SetValue(this, Convert.ToUInt64(prgBrTotalStatus.Value), (ulong)prgBrTotalStatus.Maximum);
             //gTaskbarProgress.SetValue(this, Convert.ToUInt64(val), (UInt64)100);
@@ -951,7 +1123,7 @@ Uncheck if you want to manually select an output directory for ALL extracted fil
 
         public void UpdateTrackLabel(object filename, object val)
         {
-            txtSegmentInfo.Text = string.Format("Extracting {0} from {1}...", val, Path.GetFileName((string)filename));
+            txtSegmentInfo.Text = LocalizationManager.GetString("UI.Common.Status.ExtractingTrack", val, Path.GetFileName((string)filename));
             Application.DoEvents();
         }
 
@@ -959,18 +1131,18 @@ Uncheck if you want to manually select an output directory for ALL extracted fil
         {
             if (string.IsNullOrWhiteSpace(txtMKVToolnixPath.Text))
             {
-                throw new Exception("You must provide with MKVToolnix path!");
+                throw CreateLocalizedException("UI.MainForm2.Errors.MkvToolnixPathRequired");
             }
 
             if (!File.Exists(Path.Combine(txtMKVToolnixPath.Text.Trim(), gMKVHelper.MKV_MERGE_GUI_FILENAME))
                 && !File.Exists(Path.Combine(txtMKVToolnixPath.Text.Trim(), gMKVHelper.MKV_MERGE_NEW_GUI_FILENAME)))
             {
-                throw new Exception("The MKVToolnix path provided does not contain MKVToolnix files!");
+                throw CreateLocalizedException("UI.MainForm2.Errors.MkvToolnixFilesMissing");
             }
 
             if (!chkUseSourceDirectory.Checked && string.IsNullOrWhiteSpace(txtOutputDirectory.Text))
             {
-                throw new Exception("You haven't specified an output directory!");
+                throw CreateLocalizedException("UI.MainForm2.Errors.OutputDirectoryRequired");
             }
 
             // Get the checked nodes
@@ -979,7 +1151,7 @@ Uncheck if you want to manually select an output directory for ALL extracted fil
             if (checkSelectedTracks)
             {
                 FormMkvExtractionMode selectedExtractionMode = (FormMkvExtractionMode)Enum.Parse(
-                    typeof(FormMkvExtractionMode), 
+                    typeof(FormMkvExtractionMode),
                     (string)cmbExtractionMode.SelectedItem);
 
                 // Check if the checked nodes contain tracks
@@ -987,11 +1159,11 @@ Uncheck if you want to manually select an output directory for ALL extracted fil
                 {
                     if (selectedExtractionMode == FormMkvExtractionMode.Cue_Sheet || selectedExtractionMode == FormMkvExtractionMode.Tags)
                     {
-                        throw new Exception($"You must select a file's track in order to extract {cmbExtractionMode.SelectedItem}!");
+                        throw CreateLocalizedException("UI.MainForm2.Errors.TrackRequiredForMode", cmbExtractionMode.SelectedItem);
                     }
                     else
                     {
-                        throw new Exception("You must select a track to extract!");
+                        throw CreateLocalizedException("UI.MainForm2.Errors.TrackRequired");
                     }
                 }
 
@@ -1002,7 +1174,7 @@ Uncheck if you want to manually select an output directory for ALL extracted fil
                     // Check if the ckecked nodes contain video, audio or subtitle track
                     if (!checkedNodes.Any(t => t.Tag != null && (t.Tag is gMKVTrack)))
                     {
-                        throw new Exception("You must select a video, audio or subtitles track to extract timecodes!");
+                        throw CreateLocalizedException("UI.MainForm2.Errors.TimecodesTrackRequired");
                     }
                 }
 
@@ -1013,7 +1185,7 @@ Uncheck if you want to manually select an output directory for ALL extracted fil
                     // Check if the ckecked nodes contain video, audio or subtitle track
                     if (!checkedNodes.Any(t => t.Tag != null && (t.Tag is gMKVTrack)))
                     {
-                        throw new Exception("You must select a video, audio or subtitles track to extract cues!");
+                        throw CreateLocalizedException("UI.MainForm2.Errors.CuesTrackRequired");
                     }
                 }
             }
@@ -1024,7 +1196,7 @@ Uncheck if you want to manually select an output directory for ALL extracted fil
                 {
                     if (cmbChapterType.SelectedIndex == -1)
                     {
-                        throw new Exception("You must select a chapter type!");
+                        throw CreateLocalizedException("UI.MainForm2.Errors.ChapterTypeRequired");
                     }
                 }
             }
@@ -1032,9 +1204,9 @@ Uncheck if you want to manually select an output directory for ALL extracted fil
             if (!chkUseSourceDirectory.Checked && !Directory.Exists(txtOutputDirectory.Text.Trim()))
             {
                 // Ask the user to create the non existing output directory
-                if (ShowQuestion(string.Format("The output directory \"{0}\" does not exist!{1}{1}Do you want to create it?", txtOutputDirectory.Text.Trim(), Environment.NewLine), "Output directory does not exist!", false) != DialogResult.Yes)
+                if (ShowLocalizedQuestion("UI.MainForm2.Dialogs.OutputDirectoryMissingQuestion", "UI.MainForm2.Dialogs.OutputDirectoryMissingTitle", false, txtOutputDirectory.Text.Trim(), Environment.NewLine) != DialogResult.Yes)
                 {
-                    throw new Exception(string.Format("The output directory \"{0}\" does not exist!{1}{1}Extraction was cancelled!", txtOutputDirectory.Text.Trim(), Environment.NewLine));
+                    throw CreateLocalizedException("UI.MainForm2.Errors.OutputDirectoryMissingCancelled", txtOutputDirectory.Text.Trim(), Environment.NewLine);
                 }
                 else
                 {
@@ -1086,10 +1258,10 @@ Uncheck if you want to manually select an output directory for ALL extracted fil
                 _gMkvExtract.MkvExtractTrackUpdated += g_MkvExtractTrackUpdated;
 
                 FormMkvExtractionMode extractionMode = (FormMkvExtractionMode)Enum.Parse(
-                    typeof(FormMkvExtractionMode), 
+                    typeof(FormMkvExtractionMode),
                     (string)cmbExtractionMode.SelectedItem);
 
-                // Check for necessary input fields 
+                // Check for necessary input fields
                 switch (extractionMode)
                 {
                     case FormMkvExtractionMode.Tracks:
@@ -1140,7 +1312,7 @@ Uncheck if you want to manually select an output directory for ALL extracted fil
                     gMKVSegmentInfo infoSegment = parentNode.Tag as gMKVSegmentInfo;
                     segments = checkedNodes.Where(n => n.Parent == parentNode).Select(t => t.Tag as gMKVSegment).ToList();
                     string outputDirectory = txtOutputDirectory.Text;
-                    
+
                     // Check if the output dir is the same as the source
                     if (chkUseSourceDirectory.Checked)
                     {
@@ -1277,7 +1449,7 @@ Uncheck if you want to manually select an output directory for ALL extracted fil
                         btnAbortAll.Enabled = true;
                         btnOptions.Enabled = false;
                         gTaskbarProgress.SetState(this, gTaskbarProgress.TaskbarStates.Normal);
-                        gTaskbarProgress.SetOverlayIcon(this, SystemIcons.Shield, "Extracting...");
+                        gTaskbarProgress.SetOverlayIcon(this, SystemIcons.Shield, LocalizationManager.GetString("UI.Common.Status.Extracting"));
                         Application.DoEvents();
                         while (myThread.ThreadState != System.Threading.ThreadState.Stopped)
                         {
@@ -1298,7 +1470,7 @@ Uncheck if you want to manually select an output directory for ALL extracted fil
 
                     if (chkShowPopup.Checked)
                     {
-                        ShowSuccessMessage("The extraction was completed successfully!", true);
+                        ShowLocalizedSuccessMessage("UI.MainForm2.Success.ExtractionCompleted", true);
                     }
                     else
                     {
@@ -1312,7 +1484,7 @@ Uncheck if you want to manually select an output directory for ALL extracted fil
                 gMKVLogger.Log(ex.ToString());
 
                 gTaskbarProgress.SetState(this, gTaskbarProgress.TaskbarStates.Error);
-                gTaskbarProgress.SetOverlayIcon(this, SystemIcons.Error, "Error!");
+                gTaskbarProgress.SetOverlayIcon(this, SystemIcons.Error, LocalizationManager.GetString("UI.Common.Dialog.ErrorTitle"));
                 exceptionOccured = true;
                 ShowErrorMessage(ex.Message);
             }
@@ -1326,7 +1498,7 @@ Uncheck if you want to manually select an output directory for ALL extracted fil
 
                 trvInputFiles.SelectedNode = null;
                 txtSegmentInfo.Clear();
-                grpSelectedFileInfo.Text = "Selected File Information";
+                UpdateSelectedFileInfoTitle();
 
                 if (chkShowPopup.Checked || exceptionOccured)
                 {
@@ -1336,7 +1508,7 @@ Uncheck if you want to manually select an output directory for ALL extracted fil
                 {
                     if (sender == btnExtract)
                     {
-                        txtSegmentInfo.Text = "Extraction completed!";
+                        txtSegmentInfo.Text = LocalizationManager.GetString("UI.Common.Status.ExtractionCompleted");
                     }
                 }
 
@@ -1360,8 +1532,8 @@ Uncheck if you want to manually select an output directory for ALL extracted fil
                 txtOutputDirectory.Clear();
             }
 
-            grpInputFiles.Text = "Input Files (you can drag and drop files or directories)";
-            grpSelectedFileInfo.Text = "Selected File Information";
+            UpdateInputFilesGroupTitle();
+            UpdateSelectedFileInfoTitle();
 
             txtSegmentInfo.Clear();
             ClearStatus();
@@ -1390,7 +1562,7 @@ Uncheck if you want to manually select an output directory for ALL extracted fil
                         _FromConstructor = true;
                         txtMKVToolnixPath.Text = "";
                         _FromConstructor = false;
-                        throw new Exception($"The folder does not contain MKVToolnix! {trimmedPath}");
+                        throw CreateLocalizedException("UI.MainForm2.Errors.FolderDoesNotContainMkvToolnix", trimmedPath);
                     }
 
                     // Write the value to the ini file
@@ -1495,8 +1667,8 @@ Uncheck if you want to manually select an output directory for ALL extracted fil
                         CheckFileExists = false,
                         CheckPathExists = false,
                         OverwritePrompt = false,
-                        FileName = "Select directory",
-                        Title = "Select output directory..."
+                        FileName = LocalizationManager.GetString("UI.Common.Dialog.SelectDirectoryPlaceholder"),
+                        Title = LocalizationManager.GetString("UI.MainForm2.Dialogs.SelectOutputDirectoryTitle")
                     };
                     if (sfd.ShowDialog() == DialogResult.OK)
                     {
@@ -1519,7 +1691,7 @@ Uncheck if you want to manually select an output directory for ALL extracted fil
                 // check if MKVToolnix Path is already set
                 if (!string.IsNullOrWhiteSpace(txtMKVToolnixPath.Text))
                 {
-                    if (ShowQuestion("Do you really want to change MKVToolnix path?", "Are you sure?", false) != DialogResult.Yes)
+                    if (ShowLocalizedQuestion("UI.MainForm2.Dialogs.ChangeMkvToolnixPathQuestion", "UI.Common.Dialog.AreYouSureTitle", false) != DialogResult.Yes)
                     {
                         return;
                     }
@@ -1530,8 +1702,8 @@ Uncheck if you want to manually select an output directory for ALL extracted fil
                     RestoreDirectory = true,
                     CheckFileExists = false,
                     CheckPathExists = false,
-                    FileName = "Select directory",
-                    Title = "Select MKVToolnix directory..."
+                    FileName = LocalizationManager.GetString("UI.Common.Dialog.SelectDirectoryPlaceholder"),
+                    Title = LocalizationManager.GetString("UI.MainForm2.Dialogs.SelectMkvToolnixDirectoryTitle")
                 };
 
                 if (!string.IsNullOrWhiteSpace(txtMKVToolnixPath.Text))
@@ -1638,7 +1810,7 @@ Uncheck if you want to manually select an output directory for ALL extracted fil
         {
             try
             {
-                if (!_FromConstructor && 
+                if (!_FromConstructor &&
                     !(this.WindowState == FormWindowState.Minimized
                     || this.WindowState == FormWindowState.Maximized))
                 {
@@ -1668,6 +1840,11 @@ Uncheck if you want to manually select an output directory for ALL extracted fil
                     gMKVLogger.Log("Changing WindowSizeWidth, WindowSizeHeight, WindowState");
                     _Settings.Save();
                 }
+
+                if (this.WindowState != FormWindowState.Minimized)
+                {
+                    ApplyResponsiveLayout();
+                }
             }
             catch (Exception ex)
             {
@@ -1686,11 +1863,85 @@ Uncheck if you want to manually select an output directory for ALL extracted fil
                     gMKVLogger.Log("Changing WindowState");
                     _Settings.Save();
                 }
+
+                if (!_FromConstructor
+                    && !_isApplyingResponsiveLayout
+                    && this.WindowState != FormWindowState.Minimized)
+                {
+                    ApplyResizeResponsiveLayout();
+                }
             }
             catch (Exception ex)
             {
                 Debug.WriteLine(ex);
                 gMKVLogger.Log(ex.ToString());
+            }
+        }
+
+        private void ApplyResizeResponsiveLayout()
+        {
+            bool hasFileOptionsLayout = pnlFileOptions != null
+                && pnlFileOptions.IsHandleCreated
+                && tlpInput != null
+                && tlpInput.RowStyles.Count > 1;
+            bool hasActionsLayout = grpActions != null && grpActions.IsHandleCreated;
+
+            if (!hasFileOptionsLayout && !hasActionsLayout)
+            {
+                return;
+            }
+
+            tlpMain.SuspendLayout();
+
+            if (hasFileOptionsLayout)
+            {
+                tlpInput.SuspendLayout();
+                pnlFileOptions.SuspendLayout();
+            }
+
+            if (hasActionsLayout)
+            {
+                grpActions.SuspendLayout();
+            }
+
+            try
+            {
+                if (hasFileOptionsLayout)
+                {
+                    if (_fileOptionsPanelBaseHeight > 0)
+                    {
+                        pnlFileOptions.Height = _fileOptionsPanelBaseHeight;
+                    }
+
+                    if (_fileOptionsRowBaseHeight > 0F)
+                    {
+                        tlpInput.RowStyles[1].Height = _fileOptionsRowBaseHeight;
+                    }
+
+                    LayoutFileOptionsPanel();
+                }
+
+                if (hasActionsLayout)
+                {
+                    LayoutActionsGroup();
+                }
+            }
+            finally
+            {
+                if (hasActionsLayout)
+                {
+                    grpActions.ResumeLayout(false);
+                    grpActions.PerformLayout();
+                }
+
+                if (hasFileOptionsLayout)
+                {
+                    pnlFileOptions.ResumeLayout(false);
+                    pnlFileOptions.PerformLayout();
+                    tlpInput.ResumeLayout(true);
+                }
+
+                tlpMain.ResumeLayout(true);
             }
         }
 
@@ -1701,7 +1952,7 @@ Uncheck if you want to manually select an output directory for ALL extracted fil
                 if (_ExtractRunning)
                 {
                     e.Cancel = true;
-                    ShowErrorMessage("There is an extraction process running! Please abort before closing!");
+                    ShowLocalizedErrorMessage("UI.Common.Errors.ExtractionRunningBeforeClose");
                 }
             }
             catch (Exception ex)
@@ -1778,6 +2029,11 @@ Uncheck if you want to manually select an output directory for ALL extracted fil
             int checkedAttachmentTracksCount = checkedNodes.Count(n => n.Tag is gMKVAttachment);
 
             int allInputFilesCount = allNodes.Count(n => n.Tag is gMKVSegmentInfo);
+            string videoTracksLabel = GetContextMenuTrackGroupLabel(TrackSelectionMode.video);
+            string audioTracksLabel = GetContextMenuTrackGroupLabel(TrackSelectionMode.audio);
+            string subtitleTracksLabel = GetContextMenuTrackGroupLabel(TrackSelectionMode.subtitle);
+            string chapterTracksLabel = GetContextMenuTrackGroupLabel(TrackSelectionMode.chapter);
+            string attachmentTracksLabel = GetContextMenuTrackGroupLabel(TrackSelectionMode.attachment);
 
             checkTracksToolStripMenuItem.Enabled = (allTracksCount - checkedAllTracksCount > 0);
             checkVideoTracksToolStripMenuItem.Enabled = (videoTracksCount - checkedVideoTracksCount > 0);
@@ -1798,93 +2054,89 @@ Uncheck if you want to manually select an output directory for ALL extracted fil
             openSelectedFileFolderToolStripMenuItem.Enabled = (trvInputFiles.SelectedNode != null && trvInputFiles.SelectedNode.Tag != null);
             openSelectedFileToolStripMenuItem.Enabled = (trvInputFiles.SelectedNode != null && trvInputFiles.SelectedNode.Tag != null);
 
-            checkTracksToolStripMenuItem.Text = string.Format("Check All Tracks ({0}/{1})", checkedAllTracksCount, allTracksCount);
+            checkTracksToolStripMenuItem.Text = LocalizationManager.GetString("UI.MainForm2.ContextMenu.CheckAllTracks", checkedAllTracksCount, allTracksCount);
 
-            checkVideoTracksToolStripMenuItem.Text = string.Format("Check Video Tracks... ({0}/{1})", checkedVideoTracksCount, videoTracksCount);
-            checkAudioTracksToolStripMenuItem.Text = string.Format("Check Audio Tracks... ({0}/{1})", checkedAudioTracksCount, audioTracksCount);
-            checkSubtitleTracksToolStripMenuItem.Text = string.Format("Check Subtitle Tracks... ({0}/{1})", checkedSubtitleTracksCount, subtitleTracksCount);
-            checkChapterTracksToolStripMenuItem.Text = string.Format("Check Chapter Tracks... ({0}/{1})", checkedChapterTracksCount, chapterTracksCount);
-            checkAttachmentTracksToolStripMenuItem.Text = string.Format("Check Attachment Tracks... ({0}/{1})", checkedAttachmentTracksCount, attachmentTracksCount);
+            checkVideoTracksToolStripMenuItem.Text = LocalizationManager.GetString("UI.MainForm2.ContextMenu.CheckTrackGroup", videoTracksLabel, checkedVideoTracksCount, videoTracksCount);
+            checkAudioTracksToolStripMenuItem.Text = LocalizationManager.GetString("UI.MainForm2.ContextMenu.CheckTrackGroup", audioTracksLabel, checkedAudioTracksCount, audioTracksCount);
+            checkSubtitleTracksToolStripMenuItem.Text = LocalizationManager.GetString("UI.MainForm2.ContextMenu.CheckTrackGroup", subtitleTracksLabel, checkedSubtitleTracksCount, subtitleTracksCount);
+            checkChapterTracksToolStripMenuItem.Text = LocalizationManager.GetString("UI.MainForm2.ContextMenu.CheckTrackGroup", chapterTracksLabel, checkedChapterTracksCount, chapterTracksCount);
+            checkAttachmentTracksToolStripMenuItem.Text = LocalizationManager.GetString("UI.MainForm2.ContextMenu.CheckTrackGroup", attachmentTracksLabel, checkedAttachmentTracksCount, attachmentTracksCount);
 
-            allVideoTracksToolStripMenuItem.Text = string.Format("All Video Tracks ({0}/{1})", checkedVideoTracksCount, videoTracksCount);
-            allAudioTracksToolStripMenuItem.Text = string.Format("All Audio Tracks ({0}/{1})", checkedAudioTracksCount, audioTracksCount);
-            allSubtitleTracksToolStripMenuItem.Text = string.Format("All Subtitle Tracks ({0}/{1})", checkedSubtitleTracksCount, subtitleTracksCount);
-            allChapterTracksToolStripMenuItem.Text = string.Format("All Chapter Tracks ({0}/{1})", checkedChapterTracksCount, chapterTracksCount);
-            allAttachmentTracksToolStripMenuItem.Text = string.Format("All Attachment Tracks ({0}/{1})", checkedAttachmentTracksCount, attachmentTracksCount);
+            allVideoTracksToolStripMenuItem.Text = LocalizationManager.GetString("UI.MainForm2.ContextMenu.AllTrackGroup", videoTracksLabel, checkedVideoTracksCount, videoTracksCount);
+            allAudioTracksToolStripMenuItem.Text = LocalizationManager.GetString("UI.MainForm2.ContextMenu.AllTrackGroup", audioTracksLabel, checkedAudioTracksCount, audioTracksCount);
+            allSubtitleTracksToolStripMenuItem.Text = LocalizationManager.GetString("UI.MainForm2.ContextMenu.AllTrackGroup", subtitleTracksLabel, checkedSubtitleTracksCount, subtitleTracksCount);
+            allChapterTracksToolStripMenuItem.Text = LocalizationManager.GetString("UI.MainForm2.ContextMenu.AllTrackGroup", chapterTracksLabel, checkedChapterTracksCount, chapterTracksCount);
+            allAttachmentTracksToolStripMenuItem.Text = LocalizationManager.GetString("UI.MainForm2.ContextMenu.AllTrackGroup", attachmentTracksLabel, checkedAttachmentTracksCount, attachmentTracksCount);
 
-            uncheckTracksToolStripMenuItem.Text = string.Format("Uncheck All Tracks ({0}/{1})", (allTracksCount - checkedAllTracksCount), allTracksCount);
+            uncheckTracksToolStripMenuItem.Text = LocalizationManager.GetString("UI.MainForm2.ContextMenu.UncheckAllTracks", allTracksCount - checkedAllTracksCount, allTracksCount);
 
-            uncheckVideoTracksToolStripMenuItem.Text = string.Format("Uncheck Video Tracks... ({0}/{1})", videoTracksCount - checkedVideoTracksCount, videoTracksCount);
-            uncheckAudioTracksToolStripMenuItem.Text = string.Format("Uncheck Audio Tracks... ({0}/{1})", audioTracksCount - checkedAudioTracksCount, audioTracksCount);
-            uncheckSubtitleTracksToolStripMenuItem.Text = string.Format("Uncheck Subtitle Tracks... ({0}/{1})", subtitleTracksCount - checkedSubtitleTracksCount, subtitleTracksCount);
-            uncheckChapterTracksToolStripMenuItem.Text = string.Format("Uncheck Chapter Tracks... ({0}/{1})", chapterTracksCount - checkedChapterTracksCount, chapterTracksCount);
-            uncheckAttachmentTracksToolStripMenuItem.Text = string.Format("Uncheck Attachment Tracks... ({0}/{1})", attachmentTracksCount - checkedAttachmentTracksCount, attachmentTracksCount);
+            uncheckVideoTracksToolStripMenuItem.Text = LocalizationManager.GetString("UI.MainForm2.ContextMenu.UncheckTrackGroup", videoTracksLabel, videoTracksCount - checkedVideoTracksCount, videoTracksCount);
+            uncheckAudioTracksToolStripMenuItem.Text = LocalizationManager.GetString("UI.MainForm2.ContextMenu.UncheckTrackGroup", audioTracksLabel, audioTracksCount - checkedAudioTracksCount, audioTracksCount);
+            uncheckSubtitleTracksToolStripMenuItem.Text = LocalizationManager.GetString("UI.MainForm2.ContextMenu.UncheckTrackGroup", subtitleTracksLabel, subtitleTracksCount - checkedSubtitleTracksCount, subtitleTracksCount);
+            uncheckChapterTracksToolStripMenuItem.Text = LocalizationManager.GetString("UI.MainForm2.ContextMenu.UncheckTrackGroup", chapterTracksLabel, chapterTracksCount - checkedChapterTracksCount, chapterTracksCount);
+            uncheckAttachmentTracksToolStripMenuItem.Text = LocalizationManager.GetString("UI.MainForm2.ContextMenu.UncheckTrackGroup", attachmentTracksLabel, attachmentTracksCount - checkedAttachmentTracksCount, attachmentTracksCount);
 
-            allVideoTracksToolStripMenuItem1.Text = string.Format("All Video Tracks ({0}/{1})", videoTracksCount - checkedVideoTracksCount, videoTracksCount);
-            allAudioTracksToolStripMenuItem1.Text = string.Format("All Audio Tracks ({0}/{1})", audioTracksCount - checkedAudioTracksCount, audioTracksCount);
-            allSubtitleTracksToolStripMenuItem1.Text = string.Format("All Subtitle Tracks ({0}/{1})", subtitleTracksCount - checkedSubtitleTracksCount, subtitleTracksCount);
-            allChapterTracksToolStripMenuItem1.Text = string.Format("All Chapter Tracks ({0}/{1})", chapterTracksCount - checkedChapterTracksCount, chapterTracksCount);
-            allAttachmentTracksToolStripMenuItem1.Text = string.Format("All Attachment Tracks ({0}/{1})", attachmentTracksCount - checkedAttachmentTracksCount, attachmentTracksCount);
+            allVideoTracksToolStripMenuItem1.Text = LocalizationManager.GetString("UI.MainForm2.ContextMenu.AllTrackGroup", videoTracksLabel, videoTracksCount - checkedVideoTracksCount, videoTracksCount);
+            allAudioTracksToolStripMenuItem1.Text = LocalizationManager.GetString("UI.MainForm2.ContextMenu.AllTrackGroup", audioTracksLabel, audioTracksCount - checkedAudioTracksCount, audioTracksCount);
+            allSubtitleTracksToolStripMenuItem1.Text = LocalizationManager.GetString("UI.MainForm2.ContextMenu.AllTrackGroup", subtitleTracksLabel, subtitleTracksCount - checkedSubtitleTracksCount, subtitleTracksCount);
+            allChapterTracksToolStripMenuItem1.Text = LocalizationManager.GetString("UI.MainForm2.ContextMenu.AllTrackGroup", chapterTracksLabel, chapterTracksCount - checkedChapterTracksCount, chapterTracksCount);
+            allAttachmentTracksToolStripMenuItem1.Text = LocalizationManager.GetString("UI.MainForm2.ContextMenu.AllTrackGroup", attachmentTracksLabel, attachmentTracksCount - checkedAttachmentTracksCount, attachmentTracksCount);
 
-            removeAllInputFilesToolStripMenuItem.Text = string.Format("Remove All Input Files ({0})", allInputFilesCount);
+            removeAllInputFilesToolStripMenuItem.Text = LocalizationManager.GetString("UI.MainForm2.ContextMenu.RemoveAllInputFiles", allInputFilesCount);
 
-            removeSelectedInputFileToolStripMenuItem.Text = "Remove Selected Input File";
+            removeSelectedInputFileToolStripMenuItem.Text = LocalizationManager.GetString("UI.MainForm2.ContextMenu.RemoveSelectedInputFile");
 
-            checkVideoTracksToolStripMenuItem.DropDownItems.Clear();
-            checkVideoTracksToolStripMenuItem.DropDownItems.Add(allVideoTracksToolStripMenuItem);
-            uncheckVideoTracksToolStripMenuItem.DropDownItems.Clear();
-            uncheckVideoTracksToolStripMenuItem.DropDownItems.Add(allVideoTracksToolStripMenuItem1);
-
-            checkAudioTracksToolStripMenuItem.DropDownItems.Clear();
-            checkAudioTracksToolStripMenuItem.DropDownItems.Add(allAudioTracksToolStripMenuItem);
-            uncheckAudioTracksToolStripMenuItem.DropDownItems.Clear();
-            uncheckAudioTracksToolStripMenuItem.DropDownItems.Add(allAudioTracksToolStripMenuItem1);
-
-            checkSubtitleTracksToolStripMenuItem.DropDownItems.Clear();
-            checkSubtitleTracksToolStripMenuItem.DropDownItems.Add(allSubtitleTracksToolStripMenuItem);
-            uncheckSubtitleTracksToolStripMenuItem.DropDownItems.Clear();
-            uncheckSubtitleTracksToolStripMenuItem.DropDownItems.Add(allSubtitleTracksToolStripMenuItem1);
-
-            List<ToolStripItem> checkItems = null;
-            List<ToolStripItem> uncheckItems = null;
-
-            List<TreeNode> allVideoNodes = allNodes.Where(n => n.Tag is gMKVTrack && (n.Tag as gMKVTrack).TrackType == MkvTrackType.video).ToList();
-            List<TreeNode> checkedVideoNodes = checkedNodes.Where(n => n.Tag is gMKVTrack && (n.Tag as gMKVTrack).TrackType == MkvTrackType.video).ToList();
-
-            // Get all video track languages
+            if (_contextMenuItemsDirty)
             {
-                List<string> videoLanguages = allVideoNodes.Select(n => (n.Tag as gMKVTrack).Language).Distinct().ToList();
-                ToolStripMenuItem tsCheckVideoTracksByLanguage = new ToolStripMenuItem(string.Format("Video Tracks by Language ({0})...", videoLanguages.Count));
-                checkVideoTracksToolStripMenuItem.DropDownItems.Add(tsCheckVideoTracksByLanguage);
-                ToolStripMenuItem tsUncheckVideoTracksByLanguage = new ToolStripMenuItem(string.Format("Video Tracks by Language ({0})...", videoLanguages.Count));
-                uncheckVideoTracksToolStripMenuItem.DropDownItems.Add(tsUncheckVideoTracksByLanguage);
-                checkItems = new List<ToolStripItem>();
-                uncheckItems = new List<ToolStripItem>();
-                foreach (string lang in videoLanguages)
+                ResetDynamicContextMenuItems(checkVideoTracksToolStripMenuItem, allVideoTracksToolStripMenuItem);
+                ResetDynamicContextMenuItems(uncheckVideoTracksToolStripMenuItem, allVideoTracksToolStripMenuItem1);
+
+                ResetDynamicContextMenuItems(checkAudioTracksToolStripMenuItem, allAudioTracksToolStripMenuItem);
+                ResetDynamicContextMenuItems(uncheckAudioTracksToolStripMenuItem, allAudioTracksToolStripMenuItem1);
+
+                ResetDynamicContextMenuItems(checkSubtitleTracksToolStripMenuItem, allSubtitleTracksToolStripMenuItem);
+                ResetDynamicContextMenuItems(uncheckSubtitleTracksToolStripMenuItem, allSubtitleTracksToolStripMenuItem1);
+
+                List<ToolStripItem> checkItems = null;
+                List<ToolStripItem> uncheckItems = null;
+
+                List<TreeNode> allVideoNodes = allNodes.Where(n => n.Tag is gMKVTrack && (n.Tag as gMKVTrack).TrackType == MkvTrackType.video).ToList();
+                List<TreeNode> checkedVideoNodes = checkedNodes.Where(n => n.Tag is gMKVTrack && (n.Tag as gMKVTrack).TrackType == MkvTrackType.video).ToList();
+
+                // Get all video track languages
                 {
-                    int totalLanguages = allVideoNodes.Where(n => (n.Tag as gMKVTrack).Language == lang).Count();
-                    int checkedLanguages = checkedVideoNodes.Where(n => (n.Tag as gMKVTrack).Language == lang).Count();
-                    var checkItem = new ToolStripMenuItem(string.Format("Language: [{0}] ({1}/{2})", lang, checkedLanguages, totalLanguages), null,
-                            delegate { SetCheckedTracks(TrackSelectionMode.video, true, nodeSelectionFilter: NodeSelectionFilter.Language, argFilter: lang); }
-                        );
-                    ThemeManager.ApplyToolStripItemTheme(checkItem, _Settings.DarkMode); // Apply theme
-                    checkItems.Add(checkItem);
-                    var uncheckItem = new ToolStripMenuItem(string.Format("Language: [{0}] ({1}/{2})", lang, totalLanguages - checkedLanguages, totalLanguages), null,
-                            delegate { SetCheckedTracks(TrackSelectionMode.video, false, nodeSelectionFilter: NodeSelectionFilter.Language, argFilter: lang); }
-                        );
-                    ThemeManager.ApplyToolStripItemTheme(uncheckItem, _Settings.DarkMode);
-                    uncheckItems.Add(uncheckItem);
+                    List<string> videoLanguages = allVideoNodes.Select(n => (n.Tag as gMKVTrack).Language).Distinct().ToList();
+                    ToolStripMenuItem tsCheckVideoTracksByLanguage = new ToolStripMenuItem(LocalizationManager.GetString("UI.MainForm2.ContextMenu.TrackGroupByFilter", videoTracksLabel, GetContextMenuFilterLabel(NodeSelectionFilter.Language, TrackSelectionMode.video), videoLanguages.Count));
+                    checkVideoTracksToolStripMenuItem.DropDownItems.Add(tsCheckVideoTracksByLanguage);
+                    ToolStripMenuItem tsUncheckVideoTracksByLanguage = new ToolStripMenuItem(LocalizationManager.GetString("UI.MainForm2.ContextMenu.TrackGroupByFilter", videoTracksLabel, GetContextMenuFilterLabel(NodeSelectionFilter.Language, TrackSelectionMode.video), videoLanguages.Count));
+                    uncheckVideoTracksToolStripMenuItem.DropDownItems.Add(tsUncheckVideoTracksByLanguage);
+                    checkItems = new List<ToolStripItem>();
+                    uncheckItems = new List<ToolStripItem>();
+                    foreach (string lang in videoLanguages)
+                    {
+                        int totalLanguages = allVideoNodes.Where(n => (n.Tag as gMKVTrack).Language == lang).Count();
+                        int checkedLanguages = checkedVideoNodes.Where(n => (n.Tag as gMKVTrack).Language == lang).Count();
+                        var checkItem = new ToolStripMenuItem(LocalizationManager.GetString("UI.MainForm2.ContextMenu.FilterValueCount", GetContextMenuFilterLabel(NodeSelectionFilter.Language, TrackSelectionMode.video), lang, checkedLanguages, totalLanguages), null,
+                                delegate { SetCheckedTracks(TrackSelectionMode.video, true, nodeSelectionFilter: NodeSelectionFilter.Language, argFilter: lang); }
+                            );
+                        ThemeManager.ApplyToolStripItemTheme(checkItem, _Settings.DarkMode); // Apply theme
+                        checkItems.Add(checkItem);
+                        var uncheckItem = new ToolStripMenuItem(LocalizationManager.GetString("UI.MainForm2.ContextMenu.FilterValueCount", GetContextMenuFilterLabel(NodeSelectionFilter.Language, TrackSelectionMode.video), lang, totalLanguages - checkedLanguages, totalLanguages), null,
+                                delegate { SetCheckedTracks(TrackSelectionMode.video, false, nodeSelectionFilter: NodeSelectionFilter.Language, argFilter: lang); }
+                            );
+                        ThemeManager.ApplyToolStripItemTheme(uncheckItem, _Settings.DarkMode);
+                        uncheckItems.Add(uncheckItem);
+                    }
+                    tsCheckVideoTracksByLanguage.DropDownItems.AddRange(checkItems.ToArray());
+                    tsUncheckVideoTracksByLanguage.DropDownItems.AddRange(uncheckItems.ToArray());
                 }
-                tsCheckVideoTracksByLanguage.DropDownItems.AddRange(checkItems.ToArray());
-                tsUncheckVideoTracksByLanguage.DropDownItems.AddRange(uncheckItems.ToArray());
-            }
 
             // Get all video track languages ietf
             {
                 List<string> videoLanguagesIetf = allVideoNodes.Select(n => (n.Tag as gMKVTrack).LanguageIetf).Distinct().ToList();
-                ToolStripMenuItem tsCheckVideoTracksByLanguageIetf = new ToolStripMenuItem(string.Format("Video Tracks by Language IETF ({0})...", videoLanguagesIetf.Count));
+                ToolStripMenuItem tsCheckVideoTracksByLanguageIetf = new ToolStripMenuItem(LocalizationManager.GetString("UI.MainForm2.ContextMenu.TrackGroupByFilter", videoTracksLabel, GetContextMenuFilterLabel(NodeSelectionFilter.LanguageIetf, TrackSelectionMode.video), videoLanguagesIetf.Count));
                 checkVideoTracksToolStripMenuItem.DropDownItems.Add(tsCheckVideoTracksByLanguageIetf);
-                ToolStripMenuItem tsUncheckVideoTracksByLanguageIetf = new ToolStripMenuItem(string.Format("Video Tracks by Language IETF ({0})...", videoLanguagesIetf.Count));
+                ToolStripMenuItem tsUncheckVideoTracksByLanguageIetf = new ToolStripMenuItem(LocalizationManager.GetString("UI.MainForm2.ContextMenu.TrackGroupByFilter", videoTracksLabel, GetContextMenuFilterLabel(NodeSelectionFilter.LanguageIetf, TrackSelectionMode.video), videoLanguagesIetf.Count));
                 uncheckVideoTracksToolStripMenuItem.DropDownItems.Add(tsUncheckVideoTracksByLanguageIetf);
                 checkItems = new List<ToolStripItem>();
                 uncheckItems = new List<ToolStripItem>();
@@ -1892,12 +2144,12 @@ Uncheck if you want to manually select an output directory for ALL extracted fil
                 {
                     int totalLanguagesIetf = allVideoNodes.Where(n => (n.Tag as gMKVTrack).LanguageIetf == langIetf).Count();
                     int checkedLanguagesIetf = checkedVideoNodes.Where(n => (n.Tag as gMKVTrack).LanguageIetf == langIetf).Count();
-                    var checkItem = new ToolStripMenuItem(string.Format("Language IETF: [{0}] ({1}/{2})", langIetf, checkedLanguagesIetf, totalLanguagesIetf), null,
+                    var checkItem = new ToolStripMenuItem(LocalizationManager.GetString("UI.MainForm2.ContextMenu.FilterValueCount", GetContextMenuFilterLabel(NodeSelectionFilter.LanguageIetf, TrackSelectionMode.video), langIetf, checkedLanguagesIetf, totalLanguagesIetf), null,
                             delegate { SetCheckedTracks(TrackSelectionMode.video, true, nodeSelectionFilter: NodeSelectionFilter.LanguageIetf, argFilter: langIetf); }
                         );
                     ThemeManager.ApplyToolStripItemTheme(checkItem, _Settings.DarkMode); // Apply theme
                     checkItems.Add(checkItem);
-                    var uncheckItem = new ToolStripMenuItem(string.Format("Language IETF: [{0}] ({1}/{2})", langIetf, totalLanguagesIetf - checkedLanguagesIetf, totalLanguagesIetf), null,
+                    var uncheckItem = new ToolStripMenuItem(LocalizationManager.GetString("UI.MainForm2.ContextMenu.FilterValueCount", GetContextMenuFilterLabel(NodeSelectionFilter.LanguageIetf, TrackSelectionMode.video), langIetf, totalLanguagesIetf - checkedLanguagesIetf, totalLanguagesIetf), null,
                             delegate { SetCheckedTracks(TrackSelectionMode.video, false, nodeSelectionFilter: NodeSelectionFilter.LanguageIetf, argFilter: langIetf); }
                         );
                     ThemeManager.ApplyToolStripItemTheme(uncheckItem, _Settings.DarkMode);
@@ -1910,9 +2162,9 @@ Uncheck if you want to manually select an output directory for ALL extracted fil
             // Get all video track Codec_id
             {
                 List<string> videoCodecs = allVideoNodes.Select(n => (n.Tag as gMKVTrack).CodecID).Distinct().ToList();
-                ToolStripMenuItem tsCheckVideoTracksByCodec = new ToolStripMenuItem(string.Format("Video Tracks by Codec ({0})...", videoCodecs.Count));
+                ToolStripMenuItem tsCheckVideoTracksByCodec = new ToolStripMenuItem(LocalizationManager.GetString("UI.MainForm2.ContextMenu.TrackGroupByFilter", videoTracksLabel, GetContextMenuFilterLabel(NodeSelectionFilter.CodecId, TrackSelectionMode.video), videoCodecs.Count));
                 checkVideoTracksToolStripMenuItem.DropDownItems.Add(tsCheckVideoTracksByCodec);
-                ToolStripMenuItem tsUncheckVideoTracksByCodec = new ToolStripMenuItem(string.Format("Video Tracks by Codec ({0})...", videoCodecs.Count));
+                ToolStripMenuItem tsUncheckVideoTracksByCodec = new ToolStripMenuItem(LocalizationManager.GetString("UI.MainForm2.ContextMenu.TrackGroupByFilter", videoTracksLabel, GetContextMenuFilterLabel(NodeSelectionFilter.CodecId, TrackSelectionMode.video), videoCodecs.Count));
                 uncheckVideoTracksToolStripMenuItem.DropDownItems.Add(tsUncheckVideoTracksByCodec);
                 checkItems = new List<ToolStripItem>();
                 uncheckItems = new List<ToolStripItem>();
@@ -1920,12 +2172,12 @@ Uncheck if you want to manually select an output directory for ALL extracted fil
                 {
                     int totalLanguages = allVideoNodes.Where(n => (n.Tag as gMKVTrack).CodecID == codec).Count();
                     int checkedLanguages = checkedVideoNodes.Where(n => (n.Tag as gMKVTrack).CodecID == codec).Count();
-                    var checkItem = new ToolStripMenuItem(string.Format("Codec: [{0}] ({1}/{2})", codec, checkedLanguages, totalLanguages), null,
+                    var checkItem = new ToolStripMenuItem(LocalizationManager.GetString("UI.MainForm2.ContextMenu.FilterValueCount", GetContextMenuFilterLabel(NodeSelectionFilter.CodecId, TrackSelectionMode.video), codec, checkedLanguages, totalLanguages), null,
                             delegate { SetCheckedTracks(TrackSelectionMode.video, true, nodeSelectionFilter: NodeSelectionFilter.CodecId, argFilter: codec); }
                         );
                     ThemeManager.ApplyToolStripItemTheme(checkItem, _Settings.DarkMode); // Apply theme
                     checkItems.Add(checkItem);
-                    var uncheckItem = new ToolStripMenuItem(string.Format("Codec: [{0}] ({1}/{2})", codec, totalLanguages - checkedLanguages, totalLanguages), null,
+                    var uncheckItem = new ToolStripMenuItem(LocalizationManager.GetString("UI.MainForm2.ContextMenu.FilterValueCount", GetContextMenuFilterLabel(NodeSelectionFilter.CodecId, TrackSelectionMode.video), codec, totalLanguages - checkedLanguages, totalLanguages), null,
                             delegate { SetCheckedTracks(TrackSelectionMode.video, false, nodeSelectionFilter: NodeSelectionFilter.CodecId, argFilter: codec); }
                         );
                     ThemeManager.ApplyToolStripItemTheme(uncheckItem, _Settings.DarkMode);
@@ -1938,9 +2190,9 @@ Uncheck if you want to manually select an output directory for ALL extracted fil
             // Get all video track extra info
             {
                 List<string> videoExtra = allVideoNodes.Select(n => (n.Tag as gMKVTrack).ExtraInfo).Distinct().ToList();
-                ToolStripMenuItem tsCheckVideoTracksByResolution = new ToolStripMenuItem(string.Format("Video Tracks by Resolution ({0})...", videoExtra.Count));
+                ToolStripMenuItem tsCheckVideoTracksByResolution = new ToolStripMenuItem(LocalizationManager.GetString("UI.MainForm2.ContextMenu.TrackGroupByFilter", videoTracksLabel, GetContextMenuFilterLabel(NodeSelectionFilter.ExtraInfo, TrackSelectionMode.video), videoExtra.Count));
                 checkVideoTracksToolStripMenuItem.DropDownItems.Add(tsCheckVideoTracksByResolution);
-                ToolStripMenuItem tsUncheckVideoTracksByResolution = new ToolStripMenuItem(string.Format("Video Tracks by Resolution ({0})...", videoExtra.Count));
+                ToolStripMenuItem tsUncheckVideoTracksByResolution = new ToolStripMenuItem(LocalizationManager.GetString("UI.MainForm2.ContextMenu.TrackGroupByFilter", videoTracksLabel, GetContextMenuFilterLabel(NodeSelectionFilter.ExtraInfo, TrackSelectionMode.video), videoExtra.Count));
                 uncheckVideoTracksToolStripMenuItem.DropDownItems.Add(tsUncheckVideoTracksByResolution);
                 checkItems = new List<ToolStripItem>();
                 uncheckItems = new List<ToolStripItem>();
@@ -1948,12 +2200,12 @@ Uncheck if you want to manually select an output directory for ALL extracted fil
                 {
                     int totalLanguages = allVideoNodes.Where(n => (n.Tag as gMKVTrack).ExtraInfo == extra).Count();
                     int checkedLanguages = checkedVideoNodes.Where(n => (n.Tag as gMKVTrack).ExtraInfo == extra).Count();
-                    var checkItem = new ToolStripMenuItem(string.Format("Resolution: [{0}] ({1}/{2})", extra, checkedLanguages, totalLanguages), null,
+                    var checkItem = new ToolStripMenuItem(LocalizationManager.GetString("UI.MainForm2.ContextMenu.FilterValueCount", GetContextMenuFilterLabel(NodeSelectionFilter.ExtraInfo, TrackSelectionMode.video), extra, checkedLanguages, totalLanguages), null,
                             delegate { SetCheckedTracks(TrackSelectionMode.video, true, nodeSelectionFilter: NodeSelectionFilter.ExtraInfo, argFilter: extra); }
                         );
                     ThemeManager.ApplyToolStripItemTheme(checkItem, _Settings.DarkMode); // Apply theme
                     checkItems.Add(checkItem);
-                    var uncheckItem = new ToolStripMenuItem(string.Format("Resolution: [{0}] ({1}/{2})", extra, totalLanguages - checkedLanguages, totalLanguages), null,
+                    var uncheckItem = new ToolStripMenuItem(LocalizationManager.GetString("UI.MainForm2.ContextMenu.FilterValueCount", GetContextMenuFilterLabel(NodeSelectionFilter.ExtraInfo, TrackSelectionMode.video), extra, totalLanguages - checkedLanguages, totalLanguages), null,
                             delegate { SetCheckedTracks(TrackSelectionMode.video, false, nodeSelectionFilter: NodeSelectionFilter.ExtraInfo, argFilter: extra); }
                         );
                     ThemeManager.ApplyToolStripItemTheme(uncheckItem, _Settings.DarkMode);
@@ -1969,9 +2221,9 @@ Uncheck if you want to manually select an output directory for ALL extracted fil
                 // Only show menu items if the names are less than 50
                 if (videoNames.Any() && videoNames.Count < 50)
                 {
-                    ToolStripMenuItem tsCheckVideoTracksByName = new ToolStripMenuItem(string.Format("Video Tracks by Track Name ({0})...", videoNames.Count));
+                    ToolStripMenuItem tsCheckVideoTracksByName = new ToolStripMenuItem(LocalizationManager.GetString("UI.MainForm2.ContextMenu.TrackGroupByFilter", videoTracksLabel, GetContextMenuFilterLabel(NodeSelectionFilter.Name, TrackSelectionMode.video), videoNames.Count));
                     checkVideoTracksToolStripMenuItem.DropDownItems.Add(tsCheckVideoTracksByName);
-                    ToolStripMenuItem tsUncheckVideoTracksByName = new ToolStripMenuItem(string.Format("Video Tracks by Track Name ({0})...", videoNames.Count));
+                    ToolStripMenuItem tsUncheckVideoTracksByName = new ToolStripMenuItem(LocalizationManager.GetString("UI.MainForm2.ContextMenu.TrackGroupByFilter", videoTracksLabel, GetContextMenuFilterLabel(NodeSelectionFilter.Name, TrackSelectionMode.video), videoNames.Count));
                     uncheckVideoTracksToolStripMenuItem.DropDownItems.Add(tsUncheckVideoTracksByName);
                     checkItems = new List<ToolStripItem>();
                     uncheckItems = new List<ToolStripItem>();
@@ -1979,12 +2231,12 @@ Uncheck if you want to manually select an output directory for ALL extracted fil
                     {
                         int totalLanguages = allVideoNodes.Where(n => (n.Tag as gMKVTrack).TrackName == name).Count();
                         int checkedLanguages = checkedVideoNodes.Where(n => (n.Tag as gMKVTrack).TrackName == name).Count();
-                        var checkItem = new ToolStripMenuItem(string.Format("Track Name: [{0}] ({1}/{2})", name, checkedLanguages, totalLanguages), null,
+                        var checkItem = new ToolStripMenuItem(LocalizationManager.GetString("UI.MainForm2.ContextMenu.FilterValueCount", GetContextMenuFilterLabel(NodeSelectionFilter.Name, TrackSelectionMode.video), name, checkedLanguages, totalLanguages), null,
                                 delegate { SetCheckedTracks(TrackSelectionMode.video, true, nodeSelectionFilter: NodeSelectionFilter.Name, argFilter: name); }
                             );
                         ThemeManager.ApplyToolStripItemTheme(checkItem, _Settings.DarkMode); // Apply theme
                         checkItems.Add(checkItem);
-                        var uncheckItem = new ToolStripMenuItem(string.Format("Track Name: [{0}] ({1}/{2})", name, totalLanguages - checkedLanguages, totalLanguages), null,
+                        var uncheckItem = new ToolStripMenuItem(LocalizationManager.GetString("UI.MainForm2.ContextMenu.FilterValueCount", GetContextMenuFilterLabel(NodeSelectionFilter.Name, TrackSelectionMode.video), name, totalLanguages - checkedLanguages, totalLanguages), null,
                                 delegate { SetCheckedTracks(TrackSelectionMode.video, false, nodeSelectionFilter: NodeSelectionFilter.Name, argFilter: name); }
                             );
                         ThemeManager.ApplyToolStripItemTheme(uncheckItem, _Settings.DarkMode);
@@ -1998,9 +2250,9 @@ Uncheck if you want to manually select an output directory for ALL extracted fil
             // Get all video track Forced
             {
                 List<bool> videoForced = allVideoNodes.Select(n => (n.Tag as gMKVTrack).Forced).Distinct().ToList();
-                ToolStripMenuItem tsCheckVideoTracksByForced = new ToolStripMenuItem(string.Format("Video Tracks by Forced ({0})...", videoForced.Count));
+                ToolStripMenuItem tsCheckVideoTracksByForced = new ToolStripMenuItem(LocalizationManager.GetString("UI.MainForm2.ContextMenu.TrackGroupByFilter", videoTracksLabel, GetContextMenuFilterLabel(NodeSelectionFilter.Forced, TrackSelectionMode.video), videoForced.Count));
                 checkVideoTracksToolStripMenuItem.DropDownItems.Add(tsCheckVideoTracksByForced);
-                ToolStripMenuItem tsUncheckVideoTracksByForced = new ToolStripMenuItem(string.Format("Video Tracks by Forced ({0})...", videoForced.Count));
+                ToolStripMenuItem tsUncheckVideoTracksByForced = new ToolStripMenuItem(LocalizationManager.GetString("UI.MainForm2.ContextMenu.TrackGroupByFilter", videoTracksLabel, GetContextMenuFilterLabel(NodeSelectionFilter.Forced, TrackSelectionMode.video), videoForced.Count));
                 uncheckVideoTracksToolStripMenuItem.DropDownItems.Add(tsUncheckVideoTracksByForced);
                 checkItems = new List<ToolStripItem>();
                 uncheckItems = new List<ToolStripItem>();
@@ -2008,12 +2260,12 @@ Uncheck if you want to manually select an output directory for ALL extracted fil
                 {
                     int totalForced = allVideoNodes.Where(n => (n.Tag as gMKVTrack).Forced == forced).Count();
                     int checkedForced = checkedVideoNodes.Where(n => (n.Tag as gMKVTrack).Forced == forced).Count();
-                    var checkItem = new ToolStripMenuItem(string.Format("Forced: [{0}] ({1}/{2})", forced, checkedForced, totalForced), null,
+                    var checkItem = new ToolStripMenuItem(LocalizationManager.GetString("UI.MainForm2.ContextMenu.FilterValueCount", GetContextMenuFilterLabel(NodeSelectionFilter.Forced, TrackSelectionMode.video), GetLocalizedBoolean(forced), checkedForced, totalForced), null,
                             delegate { SetCheckedTracks(TrackSelectionMode.video, true, nodeSelectionFilter: NodeSelectionFilter.Forced, argFilter: forced.ToString()); }
                         );
                     ThemeManager.ApplyToolStripItemTheme(checkItem, _Settings.DarkMode); // Apply theme
                     checkItems.Add(checkItem);
-                    var uncheckItem = new ToolStripMenuItem(string.Format("Forced: [{0}] ({1}/{2})", forced, totalForced - checkedForced, totalForced), null,
+                    var uncheckItem = new ToolStripMenuItem(LocalizationManager.GetString("UI.MainForm2.ContextMenu.FilterValueCount", GetContextMenuFilterLabel(NodeSelectionFilter.Forced, TrackSelectionMode.video), GetLocalizedBoolean(forced), totalForced - checkedForced, totalForced), null,
                             delegate { SetCheckedTracks(TrackSelectionMode.video, false, nodeSelectionFilter: NodeSelectionFilter.Forced, argFilter: forced.ToString()); }
                         );
                     ThemeManager.ApplyToolStripItemTheme(uncheckItem, _Settings.DarkMode);
@@ -2029,9 +2281,9 @@ Uncheck if you want to manually select an output directory for ALL extracted fil
             // Get all audio track languages
             {
                 List<string> audioLanguages = allAudioNodes.Select(n => (n.Tag as gMKVTrack).Language).Distinct().ToList();
-                ToolStripMenuItem tsCheckAudioTracksByLanguage = new ToolStripMenuItem(string.Format("Audio Tracks by Language ({0})...", audioLanguages.Count));
+                ToolStripMenuItem tsCheckAudioTracksByLanguage = new ToolStripMenuItem(LocalizationManager.GetString("UI.MainForm2.ContextMenu.TrackGroupByFilter", audioTracksLabel, GetContextMenuFilterLabel(NodeSelectionFilter.Language, TrackSelectionMode.audio), audioLanguages.Count));
                 checkAudioTracksToolStripMenuItem.DropDownItems.Add(tsCheckAudioTracksByLanguage);
-                ToolStripMenuItem tsUncheckAudioTracksByLanguage = new ToolStripMenuItem(string.Format("Audio Tracks by Language ({0})...", audioLanguages.Count));
+                ToolStripMenuItem tsUncheckAudioTracksByLanguage = new ToolStripMenuItem(LocalizationManager.GetString("UI.MainForm2.ContextMenu.TrackGroupByFilter", audioTracksLabel, GetContextMenuFilterLabel(NodeSelectionFilter.Language, TrackSelectionMode.audio), audioLanguages.Count));
                 uncheckAudioTracksToolStripMenuItem.DropDownItems.Add(tsUncheckAudioTracksByLanguage);
                 checkItems = new List<ToolStripItem>();
                 uncheckItems = new List<ToolStripItem>();
@@ -2039,12 +2291,12 @@ Uncheck if you want to manually select an output directory for ALL extracted fil
                 {
                     int totalLanguages = allAudioNodes.Where(n => (n.Tag as gMKVTrack).Language == lang).Count();
                     int checkedLanguages = checkedAudioNodes.Where(n => (n.Tag as gMKVTrack).Language == lang).Count();
-                    var checkItem = new ToolStripMenuItem(string.Format("Language: [{0}] ({1}/{2})", lang, checkedLanguages, totalLanguages), null,
+                    var checkItem = new ToolStripMenuItem(LocalizationManager.GetString("UI.MainForm2.ContextMenu.FilterValueCount", GetContextMenuFilterLabel(NodeSelectionFilter.Language, TrackSelectionMode.audio), lang, checkedLanguages, totalLanguages), null,
                             delegate { SetCheckedTracks(TrackSelectionMode.audio, true, nodeSelectionFilter: NodeSelectionFilter.Language, argFilter: lang); }
                         );
                     ThemeManager.ApplyToolStripItemTheme(checkItem, _Settings.DarkMode); // Apply theme
                     checkItems.Add(checkItem);
-                    var uncheckItem = new ToolStripMenuItem(string.Format("Language: [{0}] ({1}/{2})", lang, totalLanguages - checkedLanguages, totalLanguages), null,
+                    var uncheckItem = new ToolStripMenuItem(LocalizationManager.GetString("UI.MainForm2.ContextMenu.FilterValueCount", GetContextMenuFilterLabel(NodeSelectionFilter.Language, TrackSelectionMode.audio), lang, totalLanguages - checkedLanguages, totalLanguages), null,
                             delegate { SetCheckedTracks(TrackSelectionMode.audio, false, nodeSelectionFilter: NodeSelectionFilter.Language, argFilter: lang); }
                         );
                     ThemeManager.ApplyToolStripItemTheme(uncheckItem, _Settings.DarkMode);
@@ -2057,9 +2309,9 @@ Uncheck if you want to manually select an output directory for ALL extracted fil
             // Get all audio track languages ietf
             {
                 List<string> audioLanguagesIetf = allAudioNodes.Select(n => (n.Tag as gMKVTrack).LanguageIetf).Distinct().ToList();
-                ToolStripMenuItem tsCheckAudioTracksByLanguageIetf = new ToolStripMenuItem(string.Format("Audio Tracks by Language IETF ({0})...", audioLanguagesIetf.Count));
+                ToolStripMenuItem tsCheckAudioTracksByLanguageIetf = new ToolStripMenuItem(LocalizationManager.GetString("UI.MainForm2.ContextMenu.TrackGroupByFilter", audioTracksLabel, GetContextMenuFilterLabel(NodeSelectionFilter.LanguageIetf, TrackSelectionMode.audio), audioLanguagesIetf.Count));
                 checkAudioTracksToolStripMenuItem.DropDownItems.Add(tsCheckAudioTracksByLanguageIetf);
-                ToolStripMenuItem tsUncheckAudioTracksByLanguageIetf = new ToolStripMenuItem(string.Format("Audio Tracks by Language IETF  ({0})...", audioLanguagesIetf.Count));
+                ToolStripMenuItem tsUncheckAudioTracksByLanguageIetf = new ToolStripMenuItem(LocalizationManager.GetString("UI.MainForm2.ContextMenu.TrackGroupByFilter", audioTracksLabel, GetContextMenuFilterLabel(NodeSelectionFilter.LanguageIetf, TrackSelectionMode.audio), audioLanguagesIetf.Count));
                 uncheckAudioTracksToolStripMenuItem.DropDownItems.Add(tsUncheckAudioTracksByLanguageIetf);
                 checkItems = new List<ToolStripItem>();
                 uncheckItems = new List<ToolStripItem>();
@@ -2067,12 +2319,12 @@ Uncheck if you want to manually select an output directory for ALL extracted fil
                 {
                     int totalLanguagesIetf = allAudioNodes.Where(n => (n.Tag as gMKVTrack).LanguageIetf == langIetf).Count();
                     int checkedLanguagesIetf = checkedAudioNodes.Where(n => (n.Tag as gMKVTrack).LanguageIetf == langIetf).Count();
-                    var checkItem = new ToolStripMenuItem(string.Format("Language IETF: [{0}] ({1}/{2})", langIetf, checkedLanguagesIetf, totalLanguagesIetf), null,
+                    var checkItem = new ToolStripMenuItem(LocalizationManager.GetString("UI.MainForm2.ContextMenu.FilterValueCount", GetContextMenuFilterLabel(NodeSelectionFilter.LanguageIetf, TrackSelectionMode.audio), langIetf, checkedLanguagesIetf, totalLanguagesIetf), null,
                             delegate { SetCheckedTracks(TrackSelectionMode.audio, true, nodeSelectionFilter: NodeSelectionFilter.LanguageIetf, argFilter: langIetf); }
                         );
                     ThemeManager.ApplyToolStripItemTheme(checkItem, _Settings.DarkMode); // Apply theme
                     checkItems.Add(checkItem);
-                    var uncheckItem = new ToolStripMenuItem(string.Format("Language IETF: [{0}] ({1}/{2})", langIetf, totalLanguagesIetf - checkedLanguagesIetf, totalLanguagesIetf), null,
+                    var uncheckItem = new ToolStripMenuItem(LocalizationManager.GetString("UI.MainForm2.ContextMenu.FilterValueCount", GetContextMenuFilterLabel(NodeSelectionFilter.LanguageIetf, TrackSelectionMode.audio), langIetf, totalLanguagesIetf - checkedLanguagesIetf, totalLanguagesIetf), null,
                             delegate { SetCheckedTracks(TrackSelectionMode.audio, false, nodeSelectionFilter: NodeSelectionFilter.LanguageIetf, argFilter: langIetf); }
                         );
                     ThemeManager.ApplyToolStripItemTheme(uncheckItem, _Settings.DarkMode);
@@ -2085,9 +2337,9 @@ Uncheck if you want to manually select an output directory for ALL extracted fil
             // Get all audio track Codec_id
             {
                 List<string> audioCodecs = allAudioNodes.Select(n => (n.Tag as gMKVTrack).CodecID).Distinct().ToList();
-                ToolStripMenuItem tsCheckAudioTracksByCodec = new ToolStripMenuItem(string.Format("Audio Tracks by Codec ({0})...", audioCodecs.Count));
+                ToolStripMenuItem tsCheckAudioTracksByCodec = new ToolStripMenuItem(LocalizationManager.GetString("UI.MainForm2.ContextMenu.TrackGroupByFilter", audioTracksLabel, GetContextMenuFilterLabel(NodeSelectionFilter.CodecId, TrackSelectionMode.audio), audioCodecs.Count));
                 checkAudioTracksToolStripMenuItem.DropDownItems.Add(tsCheckAudioTracksByCodec);
-                ToolStripMenuItem tsUncheckAudioTracksByCodec = new ToolStripMenuItem(string.Format("Audio Tracks by Codec ({0})...", audioCodecs.Count));
+                ToolStripMenuItem tsUncheckAudioTracksByCodec = new ToolStripMenuItem(LocalizationManager.GetString("UI.MainForm2.ContextMenu.TrackGroupByFilter", audioTracksLabel, GetContextMenuFilterLabel(NodeSelectionFilter.CodecId, TrackSelectionMode.audio), audioCodecs.Count));
                 uncheckAudioTracksToolStripMenuItem.DropDownItems.Add(tsUncheckAudioTracksByCodec);
                 checkItems = new List<ToolStripItem>();
                 uncheckItems = new List<ToolStripItem>();
@@ -2095,12 +2347,12 @@ Uncheck if you want to manually select an output directory for ALL extracted fil
                 {
                     int totalLanguages = allAudioNodes.Where(n => (n.Tag as gMKVTrack).CodecID == codec).Count();
                     int checkedLanguages = checkedAudioNodes.Where(n => (n.Tag as gMKVTrack).CodecID == codec).Count();
-                    var checkItem = new ToolStripMenuItem(string.Format("Codec: [{0}] ({1}/{2})", codec, checkedLanguages, totalLanguages), null,
+                    var checkItem = new ToolStripMenuItem(LocalizationManager.GetString("UI.MainForm2.ContextMenu.FilterValueCount", GetContextMenuFilterLabel(NodeSelectionFilter.CodecId, TrackSelectionMode.audio), codec, checkedLanguages, totalLanguages), null,
                             delegate { SetCheckedTracks(TrackSelectionMode.audio, true, nodeSelectionFilter: NodeSelectionFilter.CodecId, argFilter: codec); }
                         );
                     ThemeManager.ApplyToolStripItemTheme(checkItem, _Settings.DarkMode); // Apply theme
                     checkItems.Add(checkItem);
-                    var uncheckItem = new ToolStripMenuItem(string.Format("Codec: [{0}] ({1}/{2})", codec, totalLanguages - checkedLanguages, totalLanguages), null,
+                    var uncheckItem = new ToolStripMenuItem(LocalizationManager.GetString("UI.MainForm2.ContextMenu.FilterValueCount", GetContextMenuFilterLabel(NodeSelectionFilter.CodecId, TrackSelectionMode.audio), codec, totalLanguages - checkedLanguages, totalLanguages), null,
                             delegate { SetCheckedTracks(TrackSelectionMode.audio, false, nodeSelectionFilter: NodeSelectionFilter.CodecId, argFilter: codec); }
                         );
                     ThemeManager.ApplyToolStripItemTheme(uncheckItem, _Settings.DarkMode);
@@ -2113,9 +2365,9 @@ Uncheck if you want to manually select an output directory for ALL extracted fil
             // Get all audio track extra info
             {
                 List<string> audioExtraInfo = allAudioNodes.Select(n => (n.Tag as gMKVTrack).ExtraInfo).Distinct().ToList();
-                ToolStripMenuItem tsCheckAudioTracksByChannels = new ToolStripMenuItem(string.Format("Audio Tracks by Channels ({0})...", audioExtraInfo.Count));
+                ToolStripMenuItem tsCheckAudioTracksByChannels = new ToolStripMenuItem(LocalizationManager.GetString("UI.MainForm2.ContextMenu.TrackGroupByFilter", audioTracksLabel, GetContextMenuFilterLabel(NodeSelectionFilter.ExtraInfo, TrackSelectionMode.audio), audioExtraInfo.Count));
                 checkAudioTracksToolStripMenuItem.DropDownItems.Add(tsCheckAudioTracksByChannels);
-                ToolStripMenuItem tsUncheckAudioTracksByChannels = new ToolStripMenuItem(string.Format("Audio Tracks by Channels ({0})...", audioExtraInfo.Count));
+                ToolStripMenuItem tsUncheckAudioTracksByChannels = new ToolStripMenuItem(LocalizationManager.GetString("UI.MainForm2.ContextMenu.TrackGroupByFilter", audioTracksLabel, GetContextMenuFilterLabel(NodeSelectionFilter.ExtraInfo, TrackSelectionMode.audio), audioExtraInfo.Count));
                 uncheckAudioTracksToolStripMenuItem.DropDownItems.Add(tsUncheckAudioTracksByChannels);
                 checkItems = new List<ToolStripItem>();
                 uncheckItems = new List<ToolStripItem>();
@@ -2123,12 +2375,12 @@ Uncheck if you want to manually select an output directory for ALL extracted fil
                 {
                     int totalLanguages = allAudioNodes.Where(n => (n.Tag as gMKVTrack).ExtraInfo == extra).Count();
                     int checkedLanguages = checkedAudioNodes.Where(n => (n.Tag as gMKVTrack).ExtraInfo == extra).Count();
-                    var checkItem = new ToolStripMenuItem(string.Format("Channels: [{0}] ({1}/{2})", extra, checkedLanguages, totalLanguages), null,
+                    var checkItem = new ToolStripMenuItem(LocalizationManager.GetString("UI.MainForm2.ContextMenu.FilterValueCount", GetContextMenuFilterLabel(NodeSelectionFilter.ExtraInfo, TrackSelectionMode.audio), extra, checkedLanguages, totalLanguages), null,
                             delegate { SetCheckedTracks(TrackSelectionMode.audio, true, nodeSelectionFilter: NodeSelectionFilter.ExtraInfo, argFilter: extra); }
                         );
                     ThemeManager.ApplyToolStripItemTheme(checkItem, _Settings.DarkMode); // Apply theme
                     checkItems.Add(checkItem);
-                    var uncheckItem = new ToolStripMenuItem(string.Format("Channels: [{0}] ({1}/{2})", extra, totalLanguages - checkedLanguages, totalLanguages), null,
+                    var uncheckItem = new ToolStripMenuItem(LocalizationManager.GetString("UI.MainForm2.ContextMenu.FilterValueCount", GetContextMenuFilterLabel(NodeSelectionFilter.ExtraInfo, TrackSelectionMode.audio), extra, totalLanguages - checkedLanguages, totalLanguages), null,
                             delegate { SetCheckedTracks(TrackSelectionMode.audio, false, nodeSelectionFilter: NodeSelectionFilter.ExtraInfo, argFilter: extra); }
                         );
                     ThemeManager.ApplyToolStripItemTheme(uncheckItem, _Settings.DarkMode);
@@ -2144,9 +2396,9 @@ Uncheck if you want to manually select an output directory for ALL extracted fil
                 // Only show menu items if the names are less than 50
                 if (audioNames.Any() && audioNames.Count < 50)
                 {
-                    ToolStripMenuItem tsCheckAudioTracksByName = new ToolStripMenuItem(string.Format("Audio Tracks by Track Name ({0})...", audioNames.Count));
+                    ToolStripMenuItem tsCheckAudioTracksByName = new ToolStripMenuItem(LocalizationManager.GetString("UI.MainForm2.ContextMenu.TrackGroupByFilter", audioTracksLabel, GetContextMenuFilterLabel(NodeSelectionFilter.Name, TrackSelectionMode.audio), audioNames.Count));
                     checkAudioTracksToolStripMenuItem.DropDownItems.Add(tsCheckAudioTracksByName);
-                    ToolStripMenuItem tsUncheckAudioTracksByName = new ToolStripMenuItem(string.Format("Audio Tracks by Track Name ({0})...", audioNames.Count));
+                    ToolStripMenuItem tsUncheckAudioTracksByName = new ToolStripMenuItem(LocalizationManager.GetString("UI.MainForm2.ContextMenu.TrackGroupByFilter", audioTracksLabel, GetContextMenuFilterLabel(NodeSelectionFilter.Name, TrackSelectionMode.audio), audioNames.Count));
                     uncheckAudioTracksToolStripMenuItem.DropDownItems.Add(tsUncheckAudioTracksByName);
                     checkItems = new List<ToolStripItem>();
                     uncheckItems = new List<ToolStripItem>();
@@ -2154,12 +2406,12 @@ Uncheck if you want to manually select an output directory for ALL extracted fil
                     {
                         int totalLanguages = allAudioNodes.Where(n => (n.Tag as gMKVTrack).TrackName == name).Count();
                         int checkedLanguages = checkedAudioNodes.Where(n => (n.Tag as gMKVTrack).TrackName == name).Count();
-                        var checkItem = new ToolStripMenuItem(string.Format("Track Name: [{0}] ({1}/{2})", name, checkedLanguages, totalLanguages), null,
+                        var checkItem = new ToolStripMenuItem(LocalizationManager.GetString("UI.MainForm2.ContextMenu.FilterValueCount", GetContextMenuFilterLabel(NodeSelectionFilter.Name, TrackSelectionMode.audio), name, checkedLanguages, totalLanguages), null,
                                 delegate { SetCheckedTracks(TrackSelectionMode.audio, true, nodeSelectionFilter: NodeSelectionFilter.Name, argFilter: name); }
                             );
                         ThemeManager.ApplyToolStripItemTheme(checkItem, _Settings.DarkMode); // Apply theme
                         checkItems.Add(checkItem);
-                        var uncheckItem = new ToolStripMenuItem(string.Format("Track Name: [{0}] ({1}/{2})", name, totalLanguages - checkedLanguages, totalLanguages), null,
+                        var uncheckItem = new ToolStripMenuItem(LocalizationManager.GetString("UI.MainForm2.ContextMenu.FilterValueCount", GetContextMenuFilterLabel(NodeSelectionFilter.Name, TrackSelectionMode.audio), name, totalLanguages - checkedLanguages, totalLanguages), null,
                                 delegate { SetCheckedTracks(TrackSelectionMode.audio, false, nodeSelectionFilter: NodeSelectionFilter.Name, argFilter: name); }
                             );
                         ThemeManager.ApplyToolStripItemTheme(uncheckItem, _Settings.DarkMode);
@@ -2173,9 +2425,9 @@ Uncheck if you want to manually select an output directory for ALL extracted fil
             // Get all audio track Forced
             {
                 List<bool> audioForced = allAudioNodes.Select(n => (n.Tag as gMKVTrack).Forced).Distinct().ToList();
-                ToolStripMenuItem tsCheckAudioTracksByForced = new ToolStripMenuItem(string.Format("Audio Tracks by Forced ({0})...", audioForced.Count));
+                ToolStripMenuItem tsCheckAudioTracksByForced = new ToolStripMenuItem(LocalizationManager.GetString("UI.MainForm2.ContextMenu.TrackGroupByFilter", audioTracksLabel, GetContextMenuFilterLabel(NodeSelectionFilter.Forced, TrackSelectionMode.audio), audioForced.Count));
                 checkAudioTracksToolStripMenuItem.DropDownItems.Add(tsCheckAudioTracksByForced);
-                ToolStripMenuItem tsUncheckAudioTracksByForced = new ToolStripMenuItem(string.Format("Audio Tracks by Forced ({0})...", audioForced.Count));
+                ToolStripMenuItem tsUncheckAudioTracksByForced = new ToolStripMenuItem(LocalizationManager.GetString("UI.MainForm2.ContextMenu.TrackGroupByFilter", audioTracksLabel, GetContextMenuFilterLabel(NodeSelectionFilter.Forced, TrackSelectionMode.audio), audioForced.Count));
                 uncheckAudioTracksToolStripMenuItem.DropDownItems.Add(tsUncheckAudioTracksByForced);
                 checkItems = new List<ToolStripItem>();
                 uncheckItems = new List<ToolStripItem>();
@@ -2183,12 +2435,12 @@ Uncheck if you want to manually select an output directory for ALL extracted fil
                 {
                     int totalForced = allAudioNodes.Where(n => (n.Tag as gMKVTrack).Forced == forced).Count();
                     int checkedForced = checkedAudioNodes.Where(n => (n.Tag as gMKVTrack).Forced == forced).Count();
-                    var checkItem = new ToolStripMenuItem(string.Format("Forced: [{0}] ({1}/{2})", forced, checkedForced, totalForced), null,
+                    var checkItem = new ToolStripMenuItem(LocalizationManager.GetString("UI.MainForm2.ContextMenu.FilterValueCount", GetContextMenuFilterLabel(NodeSelectionFilter.Forced, TrackSelectionMode.audio), GetLocalizedBoolean(forced), checkedForced, totalForced), null,
                             delegate { SetCheckedTracks(TrackSelectionMode.audio, true, nodeSelectionFilter: NodeSelectionFilter.Forced, argFilter: forced.ToString()); }
                         );
                     ThemeManager.ApplyToolStripItemTheme(checkItem, _Settings.DarkMode); // Apply theme
                     checkItems.Add(checkItem);
-                    var uncheckItem = new ToolStripMenuItem(string.Format("Forced: [{0}] ({1}/{2})", forced, totalForced - checkedForced, totalForced), null,
+                    var uncheckItem = new ToolStripMenuItem(LocalizationManager.GetString("UI.MainForm2.ContextMenu.FilterValueCount", GetContextMenuFilterLabel(NodeSelectionFilter.Forced, TrackSelectionMode.audio), GetLocalizedBoolean(forced), totalForced - checkedForced, totalForced), null,
                             delegate { SetCheckedTracks(TrackSelectionMode.audio, false, nodeSelectionFilter: NodeSelectionFilter.Forced, argFilter: forced.ToString()); }
                         );
                     ThemeManager.ApplyToolStripItemTheme(uncheckItem, _Settings.DarkMode);
@@ -2204,9 +2456,9 @@ Uncheck if you want to manually select an output directory for ALL extracted fil
             // Get all subtitle track languages
             {
                 List<string> subLanguages = allSubtitleNodes.Select(n => (n.Tag as gMKVTrack).Language).Distinct().ToList();
-                ToolStripMenuItem tsCheckSubtitleTracksByLanguage = new ToolStripMenuItem(string.Format("Subtitle Tracks by Language ({0})...", subLanguages.Count));
+                ToolStripMenuItem tsCheckSubtitleTracksByLanguage = new ToolStripMenuItem(LocalizationManager.GetString("UI.MainForm2.ContextMenu.TrackGroupByFilter", subtitleTracksLabel, GetContextMenuFilterLabel(NodeSelectionFilter.Language, TrackSelectionMode.subtitle), subLanguages.Count));
                 checkSubtitleTracksToolStripMenuItem.DropDownItems.Add(tsCheckSubtitleTracksByLanguage);
-                ToolStripMenuItem tsUncheckSubtitleTracksByLanguage = new ToolStripMenuItem(string.Format("Subtitle Tracks by Language ({0})...", subLanguages.Count));
+                ToolStripMenuItem tsUncheckSubtitleTracksByLanguage = new ToolStripMenuItem(LocalizationManager.GetString("UI.MainForm2.ContextMenu.TrackGroupByFilter", subtitleTracksLabel, GetContextMenuFilterLabel(NodeSelectionFilter.Language, TrackSelectionMode.subtitle), subLanguages.Count));
                 uncheckSubtitleTracksToolStripMenuItem.DropDownItems.Add(tsUncheckSubtitleTracksByLanguage);
                 checkItems = new List<ToolStripItem>();
                 uncheckItems = new List<ToolStripItem>();
@@ -2214,12 +2466,12 @@ Uncheck if you want to manually select an output directory for ALL extracted fil
                 {
                     int totalLanguages = allSubtitleNodes.Where(n => (n.Tag as gMKVTrack).Language == lang).Count();
                     int checkedLanguages = checkedSubtitleNodes.Where(n => (n.Tag as gMKVTrack).Language == lang).Count();
-                    var checkItem = new ToolStripMenuItem(string.Format("Language: [{0}] ({1}/{2})", lang, checkedLanguages, totalLanguages), null,
+                    var checkItem = new ToolStripMenuItem(LocalizationManager.GetString("UI.MainForm2.ContextMenu.FilterValueCount", GetContextMenuFilterLabel(NodeSelectionFilter.Language, TrackSelectionMode.subtitle), lang, checkedLanguages, totalLanguages), null,
                             delegate { SetCheckedTracks(TrackSelectionMode.subtitle, true, nodeSelectionFilter: NodeSelectionFilter.Language, argFilter: lang); }
                         );
                     ThemeManager.ApplyToolStripItemTheme(checkItem, _Settings.DarkMode); // Apply theme
                     checkItems.Add(checkItem);
-                    var uncheckItem = new ToolStripMenuItem(string.Format("Language: [{0}] ({1}/{2})", lang, totalLanguages - checkedLanguages, totalLanguages), null,
+                    var uncheckItem = new ToolStripMenuItem(LocalizationManager.GetString("UI.MainForm2.ContextMenu.FilterValueCount", GetContextMenuFilterLabel(NodeSelectionFilter.Language, TrackSelectionMode.subtitle), lang, totalLanguages - checkedLanguages, totalLanguages), null,
                             delegate { SetCheckedTracks(TrackSelectionMode.subtitle, false, nodeSelectionFilter: NodeSelectionFilter.Language, argFilter: lang); }
                         );
                     ThemeManager.ApplyToolStripItemTheme(uncheckItem, _Settings.DarkMode);
@@ -2232,9 +2484,9 @@ Uncheck if you want to manually select an output directory for ALL extracted fil
             // Get all subtitle track languages IETF
             {
                 List<string> subLanguagesIetf = allSubtitleNodes.Select(n => (n.Tag as gMKVTrack).LanguageIetf).Distinct().ToList();
-                ToolStripMenuItem tsCheckSubtitleTracksByLanguageIetf = new ToolStripMenuItem(string.Format("Subtitle Tracks by Language IETF ({0})...", subLanguagesIetf.Count));
+                ToolStripMenuItem tsCheckSubtitleTracksByLanguageIetf = new ToolStripMenuItem(LocalizationManager.GetString("UI.MainForm2.ContextMenu.TrackGroupByFilter", subtitleTracksLabel, GetContextMenuFilterLabel(NodeSelectionFilter.LanguageIetf, TrackSelectionMode.subtitle), subLanguagesIetf.Count));
                 checkSubtitleTracksToolStripMenuItem.DropDownItems.Add(tsCheckSubtitleTracksByLanguageIetf);
-                ToolStripMenuItem tsUncheckSubtitleTracksByLanguageIetf = new ToolStripMenuItem(string.Format("Subtitle Tracks by Language IETF ({0})...", subLanguagesIetf.Count));
+                ToolStripMenuItem tsUncheckSubtitleTracksByLanguageIetf = new ToolStripMenuItem(LocalizationManager.GetString("UI.MainForm2.ContextMenu.TrackGroupByFilter", subtitleTracksLabel, GetContextMenuFilterLabel(NodeSelectionFilter.LanguageIetf, TrackSelectionMode.subtitle), subLanguagesIetf.Count));
                 uncheckSubtitleTracksToolStripMenuItem.DropDownItems.Add(tsUncheckSubtitleTracksByLanguageIetf);
                 checkItems = new List<ToolStripItem>();
                 uncheckItems = new List<ToolStripItem>();
@@ -2242,12 +2494,12 @@ Uncheck if you want to manually select an output directory for ALL extracted fil
                 {
                     int totalLanguagesIetf = allSubtitleNodes.Where(n => (n.Tag as gMKVTrack).LanguageIetf == langIetf).Count();
                     int checkedLanguagesIetf = checkedSubtitleNodes.Where(n => (n.Tag as gMKVTrack).LanguageIetf == langIetf).Count();
-                    var checkItem = new ToolStripMenuItem(string.Format("Language IETF: [{0}] ({1}/{2})", langIetf, checkedLanguagesIetf, totalLanguagesIetf), null,
+                    var checkItem = new ToolStripMenuItem(LocalizationManager.GetString("UI.MainForm2.ContextMenu.FilterValueCount", GetContextMenuFilterLabel(NodeSelectionFilter.LanguageIetf, TrackSelectionMode.subtitle), langIetf, checkedLanguagesIetf, totalLanguagesIetf), null,
                             delegate { SetCheckedTracks(TrackSelectionMode.subtitle, true, nodeSelectionFilter: NodeSelectionFilter.LanguageIetf, argFilter: langIetf); }
                         );
                     ThemeManager.ApplyToolStripItemTheme(checkItem, _Settings.DarkMode); // Apply theme
                     checkItems.Add(checkItem);
-                    var uncheckItem = new ToolStripMenuItem(string.Format("Language IETF: [{0}] ({1}/{2})", langIetf, totalLanguagesIetf - checkedLanguagesIetf, totalLanguagesIetf), null,
+                    var uncheckItem = new ToolStripMenuItem(LocalizationManager.GetString("UI.MainForm2.ContextMenu.FilterValueCount", GetContextMenuFilterLabel(NodeSelectionFilter.LanguageIetf, TrackSelectionMode.subtitle), langIetf, totalLanguagesIetf - checkedLanguagesIetf, totalLanguagesIetf), null,
                             delegate { SetCheckedTracks(TrackSelectionMode.subtitle, false, nodeSelectionFilter: NodeSelectionFilter.LanguageIetf, argFilter: langIetf); }
                         );
                     ThemeManager.ApplyToolStripItemTheme(uncheckItem, _Settings.DarkMode);
@@ -2260,9 +2512,9 @@ Uncheck if you want to manually select an output directory for ALL extracted fil
             // Get all subtitle track codec_id
             {
                 List<string> subCodecs = allSubtitleNodes.Select(n => (n.Tag as gMKVTrack).CodecID).Distinct().ToList();
-                ToolStripMenuItem tsCheckSubtitleTracksByCodec = new ToolStripMenuItem(string.Format("Subtitle Tracks by Codec ({0})...", subCodecs.Count));
+                ToolStripMenuItem tsCheckSubtitleTracksByCodec = new ToolStripMenuItem(LocalizationManager.GetString("UI.MainForm2.ContextMenu.TrackGroupByFilter", subtitleTracksLabel, GetContextMenuFilterLabel(NodeSelectionFilter.CodecId, TrackSelectionMode.subtitle), subCodecs.Count));
                 checkSubtitleTracksToolStripMenuItem.DropDownItems.Add(tsCheckSubtitleTracksByCodec);
-                ToolStripMenuItem tsUncheckSubtitleTracksByCodec = new ToolStripMenuItem(string.Format("Subtitle Tracks by Codec ({0})...", subCodecs.Count));
+                ToolStripMenuItem tsUncheckSubtitleTracksByCodec = new ToolStripMenuItem(LocalizationManager.GetString("UI.MainForm2.ContextMenu.TrackGroupByFilter", subtitleTracksLabel, GetContextMenuFilterLabel(NodeSelectionFilter.CodecId, TrackSelectionMode.subtitle), subCodecs.Count));
                 uncheckSubtitleTracksToolStripMenuItem.DropDownItems.Add(tsUncheckSubtitleTracksByCodec);
                 checkItems = new List<ToolStripItem>();
                 uncheckItems = new List<ToolStripItem>();
@@ -2270,12 +2522,12 @@ Uncheck if you want to manually select an output directory for ALL extracted fil
                 {
                     int totalLanguages = allSubtitleNodes.Where(n => (n.Tag as gMKVTrack).CodecID == codec).Count();
                     int checkedLanguages = checkedSubtitleNodes.Where(n => (n.Tag as gMKVTrack).CodecID == codec).Count();
-                    var checkItem = new ToolStripMenuItem(string.Format("Codec: [{0}] ({1}/{2})", codec, checkedLanguages, totalLanguages), null,
+                    var checkItem = new ToolStripMenuItem(LocalizationManager.GetString("UI.MainForm2.ContextMenu.FilterValueCount", GetContextMenuFilterLabel(NodeSelectionFilter.CodecId, TrackSelectionMode.subtitle), codec, checkedLanguages, totalLanguages), null,
                             delegate { SetCheckedTracks(TrackSelectionMode.subtitle, true, nodeSelectionFilter: NodeSelectionFilter.CodecId, argFilter: codec); }
                         );
                     ThemeManager.ApplyToolStripItemTheme(checkItem, _Settings.DarkMode); // Apply theme
                     checkItems.Add(checkItem);
-                    var uncheckItem = new ToolStripMenuItem(string.Format("Codec: [{0}] ({1}/{2})", codec, totalLanguages - checkedLanguages, totalLanguages), null,
+                    var uncheckItem = new ToolStripMenuItem(LocalizationManager.GetString("UI.MainForm2.ContextMenu.FilterValueCount", GetContextMenuFilterLabel(NodeSelectionFilter.CodecId, TrackSelectionMode.subtitle), codec, totalLanguages - checkedLanguages, totalLanguages), null,
                             delegate { SetCheckedTracks(TrackSelectionMode.subtitle, false, nodeSelectionFilter: NodeSelectionFilter.CodecId, argFilter: codec); }
                         );
                     ThemeManager.ApplyToolStripItemTheme(uncheckItem, _Settings.DarkMode);
@@ -2291,9 +2543,9 @@ Uncheck if you want to manually select an output directory for ALL extracted fil
                 // Only show menu items if the names are less than 50
                 if (subNames.Any() && subNames.Count < 50)
                 {
-                    ToolStripMenuItem tsCheckSubtitleTracksByName = new ToolStripMenuItem(string.Format("Subtitle Tracks by Track Name ({0})...", subNames.Count));
+                    ToolStripMenuItem tsCheckSubtitleTracksByName = new ToolStripMenuItem(LocalizationManager.GetString("UI.MainForm2.ContextMenu.TrackGroupByFilter", subtitleTracksLabel, GetContextMenuFilterLabel(NodeSelectionFilter.Name, TrackSelectionMode.subtitle), subNames.Count));
                     checkSubtitleTracksToolStripMenuItem.DropDownItems.Add(tsCheckSubtitleTracksByName);
-                    ToolStripMenuItem tsUncheckSubtitleTracksByName = new ToolStripMenuItem(string.Format("Subtitle Tracks by Track Name ({0})...", subNames.Count));
+                    ToolStripMenuItem tsUncheckSubtitleTracksByName = new ToolStripMenuItem(LocalizationManager.GetString("UI.MainForm2.ContextMenu.TrackGroupByFilter", subtitleTracksLabel, GetContextMenuFilterLabel(NodeSelectionFilter.Name, TrackSelectionMode.subtitle), subNames.Count));
                     uncheckSubtitleTracksToolStripMenuItem.DropDownItems.Add(tsUncheckSubtitleTracksByName);
                     checkItems = new List<ToolStripItem>();
                     uncheckItems = new List<ToolStripItem>();
@@ -2301,12 +2553,12 @@ Uncheck if you want to manually select an output directory for ALL extracted fil
                     {
                         int totalLanguages = allSubtitleNodes.Where(n => (n.Tag as gMKVTrack).TrackName == name).Count();
                         int checkedLanguages = checkedSubtitleNodes.Where(n => (n.Tag as gMKVTrack).TrackName == name).Count();
-                        var checkItem = new ToolStripMenuItem(string.Format("Track Name: [{0}] ({1}/{2})", name, checkedLanguages, totalLanguages), null,
+                        var checkItem = new ToolStripMenuItem(LocalizationManager.GetString("UI.MainForm2.ContextMenu.FilterValueCount", GetContextMenuFilterLabel(NodeSelectionFilter.Name, TrackSelectionMode.subtitle), name, checkedLanguages, totalLanguages), null,
                                 delegate { SetCheckedTracks(TrackSelectionMode.subtitle, true, nodeSelectionFilter: NodeSelectionFilter.Name, argFilter: name); }
                             );
                         ThemeManager.ApplyToolStripItemTheme(checkItem, _Settings.DarkMode); // Apply theme
                         checkItems.Add(checkItem);
-                        var uncheckItem = new ToolStripMenuItem(string.Format("Track Name: [{0}] ({1}/{2})", name, totalLanguages - checkedLanguages, totalLanguages), null,
+                        var uncheckItem = new ToolStripMenuItem(LocalizationManager.GetString("UI.MainForm2.ContextMenu.FilterValueCount", GetContextMenuFilterLabel(NodeSelectionFilter.Name, TrackSelectionMode.subtitle), name, totalLanguages - checkedLanguages, totalLanguages), null,
                                 delegate { SetCheckedTracks(TrackSelectionMode.subtitle, false, nodeSelectionFilter: NodeSelectionFilter.Name, argFilter: name); }
                             );
                         ThemeManager.ApplyToolStripItemTheme(uncheckItem, _Settings.DarkMode);
@@ -2320,9 +2572,9 @@ Uncheck if you want to manually select an output directory for ALL extracted fil
             // Get all subtitle track Forced
             {
                 List<bool> subtitleForced = allSubtitleNodes.Select(n => (n.Tag as gMKVTrack).Forced).Distinct().ToList();
-                ToolStripMenuItem tsCheckSubtitlesTracksByForced = new ToolStripMenuItem(string.Format("Subtitle Tracks by Forced ({0})...", subtitleForced.Count));
+                ToolStripMenuItem tsCheckSubtitlesTracksByForced = new ToolStripMenuItem(LocalizationManager.GetString("UI.MainForm2.ContextMenu.TrackGroupByFilter", subtitleTracksLabel, GetContextMenuFilterLabel(NodeSelectionFilter.Forced, TrackSelectionMode.subtitle), subtitleForced.Count));
                 checkSubtitleTracksToolStripMenuItem.DropDownItems.Add(tsCheckSubtitlesTracksByForced);
-                ToolStripMenuItem tsUncheckSubtitlesTracksByForced = new ToolStripMenuItem(string.Format("Subtitle Tracks by Forced ({0})...", subtitleForced.Count));
+                ToolStripMenuItem tsUncheckSubtitlesTracksByForced = new ToolStripMenuItem(LocalizationManager.GetString("UI.MainForm2.ContextMenu.TrackGroupByFilter", subtitleTracksLabel, GetContextMenuFilterLabel(NodeSelectionFilter.Forced, TrackSelectionMode.subtitle), subtitleForced.Count));
                 uncheckSubtitleTracksToolStripMenuItem.DropDownItems.Add(tsUncheckSubtitlesTracksByForced);
                 checkItems = new List<ToolStripItem>();
                 uncheckItems = new List<ToolStripItem>();
@@ -2330,12 +2582,12 @@ Uncheck if you want to manually select an output directory for ALL extracted fil
                 {
                     int totalForced = allSubtitleNodes.Where(n => (n.Tag as gMKVTrack).Forced == forced).Count();
                     int checkedForced = checkedSubtitleNodes.Where(n => (n.Tag as gMKVTrack).Forced == forced).Count();
-                    var checkItem = new ToolStripMenuItem(string.Format("Forced: [{0}] ({1}/{2})", forced, checkedForced, totalForced), null,
+                    var checkItem = new ToolStripMenuItem(LocalizationManager.GetString("UI.MainForm2.ContextMenu.FilterValueCount", GetContextMenuFilterLabel(NodeSelectionFilter.Forced, TrackSelectionMode.subtitle), GetLocalizedBoolean(forced), checkedForced, totalForced), null,
                             delegate { SetCheckedTracks(TrackSelectionMode.subtitle, true, nodeSelectionFilter: NodeSelectionFilter.Forced, argFilter: forced.ToString()); }
                         );
                     ThemeManager.ApplyToolStripItemTheme(checkItem, _Settings.DarkMode); // Apply theme
                     checkItems.Add(checkItem);
-                    var uncheckItem = new ToolStripMenuItem(string.Format("Forced: [{0}] ({1}/{2})", forced, totalForced - checkedForced, totalForced), null,
+                    var uncheckItem = new ToolStripMenuItem(LocalizationManager.GetString("UI.MainForm2.ContextMenu.FilterValueCount", GetContextMenuFilterLabel(NodeSelectionFilter.Forced, TrackSelectionMode.subtitle), GetLocalizedBoolean(forced), totalForced - checkedForced, totalForced), null,
                             delegate { SetCheckedTracks(TrackSelectionMode.subtitle, false, nodeSelectionFilter: NodeSelectionFilter.Forced, argFilter: forced.ToString()); }
                         );
                     ThemeManager.ApplyToolStripItemTheme(uncheckItem, _Settings.DarkMode);
@@ -2343,6 +2595,9 @@ Uncheck if you want to manually select an output directory for ALL extracted fil
                 }
                 tsCheckSubtitlesTracksByForced.DropDownItems.AddRange(checkItems.ToArray());
                 tsUncheckSubtitlesTracksByForced.DropDownItems.AddRange(uncheckItems.ToArray());
+            }
+
+                _contextMenuItemsDirty = false;
             }
         }
 
@@ -2364,9 +2619,9 @@ Uncheck if you want to manually select an output directory for ALL extracted fil
             {
                 case TrackSelectionMode.video:
                     nodes = trvInputFiles.AllNodes.Where(n =>
-                        n != null 
+                        n != null
                         && n.Tag != null
-                        && n.Tag is gMKVTrack track 
+                        && n.Tag is gMKVTrack track
                         && track.TrackType == MkvTrackType.video).ToList();
                     if (argFilter != null)
                     {
@@ -2397,9 +2652,9 @@ Uncheck if you want to manually select an output directory for ALL extracted fil
                     break;
                 case TrackSelectionMode.audio:
                     nodes = trvInputFiles.AllNodes.Where(n =>
-                        n != null 
+                        n != null
                         && n.Tag != null
-                        && n.Tag is gMKVTrack track 
+                        && n.Tag is gMKVTrack track
                         && track.TrackType == MkvTrackType.audio).ToList();
                     if (argFilter != null)
                     {
@@ -2430,9 +2685,9 @@ Uncheck if you want to manually select an output directory for ALL extracted fil
                     break;
                 case TrackSelectionMode.subtitle:
                     nodes = trvInputFiles.AllNodes.Where(n =>
-                        n != null 
+                        n != null
                         && n.Tag != null
-                        && n.Tag is gMKVTrack track 
+                        && n.Tag is gMKVTrack track
                         && track.TrackType == MkvTrackType.subtitles).ToList();
                     if (argFilter != null)
                     {
@@ -2463,20 +2718,20 @@ Uncheck if you want to manually select an output directory for ALL extracted fil
                     break;
                 case TrackSelectionMode.chapter:
                     nodes = trvInputFiles.AllNodes.Where(n =>
-                        n != null 
-                        && n.Tag != null 
+                        n != null
+                        && n.Tag != null
                         && n.Tag is gMKVChapter).ToList();
                     break;
                 case TrackSelectionMode.attachment:
                     nodes = trvInputFiles.AllNodes.Where(n =>
-                        n != null 
-                        && n.Tag != null 
+                        n != null
+                        && n.Tag != null
                         && n.Tag is gMKVAttachment).ToList();
                     break;
                 case TrackSelectionMode.all:
                     nodes = trvInputFiles.AllNodes.Where(n =>
-                        n != null 
-                        && n.Tag != null 
+                        n != null
+                        && n.Tag != null
                         && !(n.Tag is gMKVSegmentInfo)).ToList();
                     break;
                 default:
@@ -2485,17 +2740,13 @@ Uncheck if you want to manually select an output directory for ALL extracted fil
             }
 
             nodes.ForEach(n => n.Checked = argCheck);
+            MarkContextMenuDirty();
         }
 
         private void contextMenuStrip_Opening(object sender, CancelEventArgs e)
         {
             SetContextMenuText();
-
-            // Apply theme to context menu and its items
-            if (contextMenuStrip != null)
-            {
-                ThemeManager.ApplyTheme(contextMenuStrip, _Settings.DarkMode);
-            }
+            ThemeManager.ApplyContextMenuTheme(contextMenuStrip, _Settings.DarkMode);
         }
 
         private void checkTracksToolStripMenuItem_Click(object sender, EventArgs e)
@@ -2561,6 +2812,7 @@ Uncheck if you want to manually select an output directory for ALL extracted fil
         private void removeAllInputFilesToolStripMenuItem_Click(object sender, EventArgs e)
         {
             trvInputFiles.Nodes.Clear();
+            MarkContextMenuDirty();
             ClearControls();
         }
 
@@ -2578,11 +2830,10 @@ Uncheck if you want to manually select an output directory for ALL extracted fil
             }
 
             trvInputFiles.Nodes.Remove(node);
+            MarkContextMenuDirty();
             if (trvInputFiles.Nodes.Count > 0)
             {
-                grpInputFiles.Text = string.Format(
-                    "Input Files (you can drag and drop files or directories) ({0} files)",
-                    trvInputFiles.AllNodes.Count(n => n != null && n.Tag != null && n.Tag is gMKVSegmentInfo));
+                UpdateInputFilesGroupTitle();
             }
             else
             {
@@ -2661,8 +2912,8 @@ Uncheck if you want to manually select an output directory for ALL extracted fil
             {
                 OpenFileDialog ofd = new OpenFileDialog
                 {
-                    Title = "Select an input matroska file...",
-                    Filter = "Matroska files (*.mkv;*.mka;*.mks;*.mk3d;*.webm)|*.mkv;*.mka;*.mks;*.mk3d;*.webm|Matroska video files (*.mkv)|*.mkv|Matroska audio files (*.mka)|*.mka|Matroska subtitle files (*.mks)|*.mks|Matroska 3D files (*.mk3d)|*.mk3d|Webm files (*.webm)|*.webm",
+                    Title = LocalizationManager.GetString("UI.MainForm2.Dialogs.SelectInputMatroskaFileTitle"),
+                    Filter = LocalizationManager.GetString("UI.MainForm2.Dialogs.SelectInputMatroskaFileFilter"),
                     Multiselect = true,
                     AutoUpgradeEnabled = true
                 };
@@ -2696,6 +2947,8 @@ Uncheck if you want to manually select an output directory for ALL extracted fil
         {
             try
             {
+                setAsDefaultDirectoryToolStripMenuItem.Text = LocalizationManager.GetString("UI.MainForm2.OutputDirectory.SetAsDefault");
+
                 // First check if we have a valid directory in the text box
                 if ((!string.IsNullOrWhiteSpace(txtOutputDirectory.Text) && Directory.Exists(txtOutputDirectory.Text))
                     && (!string.IsNullOrWhiteSpace(_Settings.DefaultOutputDirectory) && Directory.Exists(_Settings.DefaultOutputDirectory))
@@ -2714,12 +2967,12 @@ Uncheck if you want to manually select an output directory for ALL extracted fil
                     // Check if we can use the default directory
                     useCurrentlySetDefaultDirectoryToolStripMenuItem.Enabled = !chkUseSourceDirectory.Checked;
                     // Set the text
-                    useCurrentlySetDefaultDirectoryToolStripMenuItem.Text = string.Format("Use Currently Set Default Directory: ({0})", _Settings.DefaultOutputDirectory);
+                    useCurrentlySetDefaultDirectoryToolStripMenuItem.Text = LocalizationManager.GetString("UI.MainForm2.OutputDirectory.UseDefaultWithValue", _Settings.DefaultOutputDirectory);
                 }
                 else
                 {
                     useCurrentlySetDefaultDirectoryToolStripMenuItem.Enabled = false;
-                    useCurrentlySetDefaultDirectoryToolStripMenuItem.Text = "Use Currently Set Default Directory: (Not Set!)";
+                    useCurrentlySetDefaultDirectoryToolStripMenuItem.Text = LocalizationManager.GetString("UI.MainForm2.OutputDirectory.UseDefaultWithValue", LocalizationManager.GetString("UI.Common.NotSet"));
                 }
             }
             catch (Exception ex)
@@ -2740,8 +2993,8 @@ Uncheck if you want to manually select an output directory for ALL extracted fil
                     // Check if we already have a default output directory
                     if (!string.IsNullOrWhiteSpace(_Settings.DefaultOutputDirectory) && Directory.Exists(_Settings.DefaultOutputDirectory))
                     {
-                        if (ShowQuestion(string.Format("Are you sure you want to change the currently set ({0}) default output directory?",
-                            _Settings.DefaultOutputDirectory), "Are you sure?", false) == DialogResult.No)
+                        if (ShowLocalizedQuestion("UI.MainForm2.Dialogs.ChangeDefaultOutputDirectoryQuestion", "UI.Common.Dialog.AreYouSureTitle", false,
+                            _Settings.DefaultOutputDirectory) == DialogResult.No)
                         {
                             return;
                         }
@@ -2785,11 +3038,12 @@ Uncheck if you want to manually select an output directory for ALL extracted fil
         {
             try
             {
-                frmOptions optionsForm = new frmOptions();
-
-                if (optionsForm.ShowDialog() == DialogResult.OK)
+                using (frmOptions optionsForm = new frmOptions())
                 {
-                    _Settings.Reload();
+                    if (optionsForm.ShowDialog(this) == DialogResult.OK)
+                    {
+                        _Settings.Reload();
+                    }
                 }
             }
             catch (Exception ex)
@@ -2820,7 +3074,7 @@ Uncheck if you want to manually select an output directory for ALL extracted fil
                 // Apply theme to context menu
                 if (contextMenuStrip != null)
                 {
-                    ThemeManager.ApplyTheme(contextMenuStrip, _Settings.DarkMode);
+                    ThemeManager.ApplyContextMenuTheme(contextMenuStrip, _Settings.DarkMode);
                 }
 
                 // New code to add: Iterate through open forms and update theme
@@ -2843,14 +3097,6 @@ Uncheck if you want to manually select an output directory for ALL extracted fil
         {
             try
             {
-                SetContextMenuText();
-
-                // Apply theme to context menu and its items
-                if (contextMenuStrip != null)
-                {
-                    ThemeManager.ApplyTheme(contextMenuStrip, _Settings.DarkMode);
-                }
-
                 contextMenuStrip.Show(btnSelect, new Point(0, btnSelect.Height));
             }
             catch (Exception ex)
@@ -2859,6 +3105,363 @@ Uncheck if you want to manually select an output directory for ALL extracted fil
                 gMKVLogger.Log(ex.ToString());
                 ShowErrorMessage(ex.Message);
             }
+        }
+
+        private void trvInputFiles_AfterCheck(object sender, TreeViewEventArgs e)
+        {
+            MarkContextMenuDirty();
+        }
+
+        public void ApplyLocalization()
+        {
+            Text = string.Format("{0} v{1} -- By Gpower2", LocalizationManager.GetString("UI.MainForm2.Title"), GetCurrentVersion());
+            UpdateInputFilesGroupTitle();
+            UpdateSelectedFileInfoTitle();
+            grpOutputDirectory.Text = LocalizationManager.GetString("UI.MainForm2.OutputDirectory.Group");
+            chkUseSourceDirectory.Text = LocalizationManager.GetString("UI.MainForm2.OutputDirectory.UseSource");
+            btnBrowseOutputDirectory.Text = LocalizationManager.GetString("UI.MainForm2.OutputDirectory.Browse");
+            grpActions.Text = LocalizationManager.GetString("UI.MainForm2.Actions.Group");
+            btnAddJobs.Text = LocalizationManager.GetString("UI.MainForm2.Actions.AddJobs");
+            btnExtract.Text = LocalizationManager.GetString("UI.MainForm2.Actions.Extract");
+            btnShowJobs.Text = LocalizationManager.GetString("UI.MainForm2.Actions.ShowJobs");
+            btnShowLog.Text = LocalizationManager.GetString("UI.MainForm2.Actions.Log");
+            btnAbort.Text = LocalizationManager.GetString("UI.MainForm2.Actions.Abort");
+            btnAbortAll.Text = LocalizationManager.GetString("UI.MainForm2.Actions.AbortAll");
+            chkShowPopup.Text = LocalizationManager.GetString("UI.MainForm2.Actions.Popup");
+            lblExtractionMode.Text = LocalizationManager.GetString("UI.MainForm2.Actions.ExtractionMode");
+            lblChapterType.Text = LocalizationManager.GetString("UI.MainForm2.Actions.ChapterType");
+            grpConfig.Text = LocalizationManager.GetString("UI.MainForm2.Config.Group");
+            btnAutoDetectMkvToolnix.Text = LocalizationManager.GetString("UI.MainForm2.Config.AutoDetect");
+            btnBrowseMKVToolnixPath.Text = LocalizationManager.GetString("UI.MainForm2.Config.Browse");
+            chkAppendOnDragAndDrop.Text = LocalizationManager.GetString("UI.MainForm2.FileOptions.AppendOnDragAndDrop");
+            chkOverwriteExistingFiles.Text = LocalizationManager.GetString("UI.MainForm2.FileOptions.OverwriteExistingFiles");
+            chkDisableTooltips.Text = LocalizationManager.GetString("UI.MainForm2.FileOptions.DisableTooltips");
+            btnSelect.Text = LocalizationManager.GetString("UI.MainForm2.FileOptions.Select");
+            chkDarkMode.Text = LocalizationManager.GetString("UI.MainForm2.Appearance.Dark");
+            btnOptions.Text = LocalizationManager.GetString("UI.MainForm2.Appearance.Options");
+            addInputFileToolStripMenuItem.Text = LocalizationManager.GetString("UI.MainForm2.ContextMenu.AddInputFiles");
+            openSelectedFileToolStripMenuItem.Text = LocalizationManager.GetString("UI.MainForm2.ContextMenu.OpenSelectedFile");
+            openSelectedFileFolderToolStripMenuItem.Text = LocalizationManager.GetString("UI.MainForm2.ContextMenu.OpenSelectedFileFolder");
+            expandAllToolStripMenuItem.Text = LocalizationManager.GetString("UI.MainForm2.ContextMenu.ExpandAll");
+            collapseAllToolStripMenuItem.Text = LocalizationManager.GetString("UI.MainForm2.ContextMenu.CollapseAll");
+            setAsDefaultDirectoryToolStripMenuItem.Text = LocalizationManager.GetString("UI.MainForm2.OutputDirectory.SetAsDefault");
+            useCurrentlySetDefaultDirectoryToolStripMenuItem.Text = LocalizationManager.GetString("UI.MainForm2.OutputDirectory.UseDefaultWithValue", LocalizationManager.GetString("UI.Common.NotSet"));
+            ThemeManager.ApplyContextMenuTheme(contextMenuStrip, _Settings.DarkMode);
+            RefreshLocalizedTooltipsAsync();
+            MarkContextMenuDirty();
+            ApplyResponsiveLayout();
+        }
+
+        private void CaptureResponsiveLayoutBaselines()
+        {
+            CaptureResponsiveButtonBaseSize(btnBrowseMKVToolnixPath);
+            CaptureResponsiveButtonBaseSize(btnAutoDetectMkvToolnix);
+            CaptureResponsiveButtonBaseSize(btnBrowseOutputDirectory);
+            CaptureResponsiveButtonBaseSize(btnSelect);
+            CaptureResponsiveButtonBaseSize(btnShowLog);
+            CaptureResponsiveButtonBaseSize(btnShowJobs);
+            CaptureResponsiveButtonBaseSize(btnAddJobs);
+            CaptureResponsiveButtonBaseSize(btnExtract);
+            CaptureResponsiveButtonBaseSize(btnOptions);
+            CaptureResponsiveButtonBaseSize(btnAbortAll);
+            CaptureResponsiveButtonBaseSize(btnAbort);
+
+            if (tlpMain.RowStyles.Count > 4 && tlpMain.RowStyles[4].Height > 0F)
+            {
+                _actionsRowBaseHeight = Math.Max(_actionsRowBaseHeight, tlpMain.RowStyles[4].Height);
+            }
+
+            if (cmbChapterType != null && cmbChapterType.Width > 0)
+            {
+                _chapterTypeComboBaseWidth = cmbChapterType.Width;
+            }
+
+            if (cmbExtractionMode != null && cmbExtractionMode.Width > 0)
+            {
+                _extractionModeComboBaseWidth = cmbExtractionMode.Width;
+            }
+
+            if (pnlFileOptions != null && pnlFileOptions.Height > 0)
+            {
+                _fileOptionsPanelBaseHeight = Math.Max(_fileOptionsPanelBaseHeight, pnlFileOptions.Height);
+            }
+
+            if (tlpInput.RowStyles.Count > 1 && tlpInput.RowStyles[1].Height > 0F)
+            {
+                _fileOptionsRowBaseHeight = Math.Max(_fileOptionsRowBaseHeight, tlpInput.RowStyles[1].Height);
+            }
+        }
+
+        private void CaptureResponsiveButtonBaseSize(Button button)
+        {
+            if (button == null)
+            {
+                return;
+            }
+
+            Size currentSize = button.Size;
+            if (!_responsiveButtonBaseSizes.TryGetValue(button, out Size baseSize)
+                || currentSize.Width > baseSize.Width
+                || currentSize.Height > baseSize.Height)
+            {
+                _responsiveButtonBaseSizes[button] = currentSize;
+            }
+        }
+
+        private Size GetResponsiveButtonBaseSize(Button button, int fallbackWidth, int fallbackHeight = 30)
+        {
+            return _responsiveButtonBaseSizes.TryGetValue(button, out Size baseSize)
+                ? baseSize
+                : new Size(fallbackWidth, fallbackHeight);
+        }
+
+        private void ResetResponsiveLayoutBaselines()
+        {
+            if (pnlFileOptions != null && _fileOptionsPanelBaseHeight > 0)
+            {
+                pnlFileOptions.Height = _fileOptionsPanelBaseHeight;
+            }
+
+            if (tlpInput.RowStyles.Count > 1 && _fileOptionsRowBaseHeight > 0F)
+            {
+                tlpInput.RowStyles[1].Height = _fileOptionsRowBaseHeight;
+            }
+
+            if (_chapterTypeComboBaseWidth > 0)
+            {
+                cmbChapterType.Width = _chapterTypeComboBaseWidth;
+            }
+
+            if (_extractionModeComboBaseWidth > 0)
+            {
+                cmbExtractionMode.Width = _extractionModeComboBaseWidth;
+            }
+
+            if (tlpMain.RowStyles.Count > 4 && _actionsRowBaseHeight > 0F)
+            {
+                tlpMain.RowStyles[4].Height = _actionsRowBaseHeight;
+            }
+        }
+
+        private void ApplyResponsiveLayout()
+        {
+            if (_isApplyingResponsiveLayout)
+            {
+                return;
+            }
+
+            _isApplyingResponsiveLayout = true;
+
+            try
+            {
+                SuspendLayout();
+                tlpMain.SuspendLayout();
+                grpConfig.SuspendLayout();
+                grpOutputDirectory.SuspendLayout();
+                grpActions.SuspendLayout();
+                pnlFileOptions.SuspendLayout();
+                ResetResponsiveLayoutBaselines();
+
+                LayoutConfigGroup();
+                LayoutOutputDirectoryGroup();
+                LayoutFileOptionsPanel();
+                LayoutActionsGroup();
+                LayoutFooterControls();
+            }
+            finally
+            {
+                pnlFileOptions.ResumeLayout(false);
+                pnlFileOptions.PerformLayout();
+                grpActions.ResumeLayout(false);
+                grpActions.PerformLayout();
+                grpOutputDirectory.ResumeLayout(false);
+                grpOutputDirectory.PerformLayout();
+                grpConfig.ResumeLayout(false);
+                grpConfig.PerformLayout();
+                tlpMain.ResumeLayout(true);
+                ResumeLayout(true);
+                _isApplyingResponsiveLayout = false;
+            }
+        }
+
+        private void LayoutConfigGroup()
+        {
+            btnBrowseMKVToolnixPath.ApplyLocalizedButtonSize(GetResponsiveButtonBaseSize(btnBrowseMKVToolnixPath, 70));
+            btnAutoDetectMkvToolnix.ApplyLocalizedButtonSize(GetResponsiveButtonBaseSize(btnAutoDetectMkvToolnix, 80));
+
+            const int buttonTop = 18;
+            int right = grpConfig.ClientSize.Width - 7;
+
+            btnAutoDetectMkvToolnix.Location = new Point(right - btnAutoDetectMkvToolnix.Width, buttonTop);
+            btnBrowseMKVToolnixPath.Location = new Point(btnAutoDetectMkvToolnix.Left - MainButtonSpacing - btnBrowseMKVToolnixPath.Width, buttonTop);
+            txtMKVToolnixPath.Width = Math.Max(150, btnBrowseMKVToolnixPath.Left - 12 - txtMKVToolnixPath.Left);
+        }
+
+        private void LayoutOutputDirectoryGroup()
+        {
+            btnBrowseOutputDirectory.ApplyLocalizedButtonSize(GetResponsiveButtonBaseSize(btnBrowseOutputDirectory, 80));
+
+            int right = grpOutputDirectory.ClientSize.Width - 7;
+            btnBrowseOutputDirectory.Location = new Point(right - btnBrowseOutputDirectory.Width, 18);
+            chkUseSourceDirectory.Location = new Point(btnBrowseOutputDirectory.Left - 12 - chkUseSourceDirectory.Width, 24);
+            txtOutputDirectory.Width = Math.Max(120, chkUseSourceDirectory.Left - 12 - txtOutputDirectory.Left);
+        }
+
+        private void LayoutFileOptionsPanel()
+        {
+            btnSelect.ApplyLocalizedButtonSize(GetResponsiveButtonBaseSize(btnSelect, 80));
+            btnSelect.Location = new Point(pnlFileOptions.ClientSize.Width - btnSelect.Width - 3, 1);
+
+            int maxRight = btnSelect.Left - 12;
+            int bottom = LayoutWrappingControls(3, 6, maxRight, 6, 4, chkAppendOnDragAndDrop, chkOverwriteExistingFiles, chkDisableTooltips);
+            int requiredHeight = Math.Max(btnSelect.Height + 2, bottom + 6);
+
+            pnlFileOptions.Height = requiredHeight;
+            btnSelect.Top = Math.Max(0, (requiredHeight - btnSelect.Height) / 2);
+
+            if (tlpInput.RowStyles.Count > 1)
+            {
+                tlpInput.RowStyles[1].Height = requiredHeight;
+            }
+        }
+
+        private void LayoutActionsGroup()
+        {
+            if (grpActions == null || grpActions.ClientSize.Width <= 0)
+            {
+                return;
+            }
+
+            btnShowLog.ApplyLocalizedButtonSize(GetResponsiveButtonBaseSize(btnShowLog, 60));
+            btnShowJobs.ApplyLocalizedButtonSize(GetResponsiveButtonBaseSize(btnShowJobs, 60));
+            btnAddJobs.ApplyLocalizedButtonSize(GetResponsiveButtonBaseSize(btnAddJobs, 70));
+            btnExtract.ApplyLocalizedButtonSize(GetResponsiveButtonBaseSize(btnExtract, 80));
+
+            cmbChapterType.Width = _chapterTypeComboBaseWidth > 0 ? _chapterTypeComboBaseWidth : 80;
+            cmbExtractionMode.Width = _extractionModeComboBaseWidth > 0 ? _extractionModeComboBaseWidth : 120;
+
+            Size showPopupSize = chkShowPopup.GetPreferredSize(Size.Empty);
+            chkShowPopup.Size = showPopupSize;
+
+            int leftSectionBottom = PositionActionsLeftSection(MainActionTopRowButtonTop, showPopupSize);
+            int singleRowRightSectionBottom = PositionActionsRightSection(MainActionTopRowButtonTop, out int singleRowRightSectionLeft);
+
+            bool fitsSingleRow = chkShowPopup.Right + MainActionSingleRowSpacing <= singleRowRightSectionLeft;
+            int requiredContentBottom;
+
+            if (fitsSingleRow)
+            {
+                requiredContentBottom = Math.Max(leftSectionBottom, singleRowRightSectionBottom);
+            }
+            else
+            {
+                int twoRowRightSectionBottom = PositionActionsRightSection(MainActionBottomRowButtonTop, out _);
+                requiredContentBottom = Math.Max(leftSectionBottom, twoRowRightSectionBottom);
+            }
+
+            if (tlpMain.RowStyles.Count > 4)
+            {
+                float minimumHeight = fitsSingleRow
+                    ? (_actionsRowBaseHeight > 0F ? _actionsRowBaseHeight : 60F)
+                    : Math.Max((float)MainActionRowHeight, _actionsRowBaseHeight > 0F ? _actionsRowBaseHeight : 60F);
+                tlpMain.RowStyles[4].Height = GetRequiredActionsRowHeight(requiredContentBottom, minimumHeight);
+            }
+        }
+
+        private int PositionActionsLeftSection(int buttonTop, Size showPopupSize)
+        {
+            btnShowLog.Location = new Point(MainActionLeftMargin, buttonTop);
+            btnShowJobs.Location = new Point(btnShowLog.Right + MainButtonSpacing, buttonTop);
+            chkShowPopup.Location = new Point(btnShowJobs.Right + MainActionSingleRowSpacing, buttonTop + 6);
+            chkShowPopup.Size = showPopupSize;
+
+            return new[] { btnShowLog.Bottom, btnShowJobs.Bottom, chkShowPopup.Bottom }.Max();
+        }
+
+        private int PositionActionsRightSection(int buttonTop, out int leftmostControlLeft)
+        {
+            int right = grpActions.ClientSize.Width - MainActionRightMargin;
+
+            btnExtract.Location = new Point(right - btnExtract.Width, buttonTop);
+            right = btnExtract.Left - MainButtonSpacing;
+
+            btnAddJobs.Location = new Point(right - btnAddJobs.Width, buttonTop);
+            right = btnAddJobs.Left - 12;
+
+            cmbExtractionMode.Location = new Point(right - cmbExtractionMode.Width, buttonTop + MainActionComboTopOffset);
+            right = cmbExtractionMode.Left - MainButtonSpacing;
+
+            lblExtractionMode.Location = new Point(right - lblExtractionMode.Width, buttonTop + MainActionLabelTopOffset);
+            right = lblExtractionMode.Left - 16;
+
+            cmbChapterType.Location = new Point(right - cmbChapterType.Width, buttonTop + MainActionComboTopOffset);
+            right = cmbChapterType.Left - MainButtonSpacing;
+
+            lblChapterType.Location = new Point(right - lblChapterType.Width, buttonTop + MainActionLabelTopOffset);
+            leftmostControlLeft = lblChapterType.Left;
+
+            return new[]
+            {
+                btnExtract.Bottom,
+                btnAddJobs.Bottom,
+                cmbExtractionMode.Bottom,
+                lblExtractionMode.Bottom,
+                cmbChapterType.Bottom,
+                lblChapterType.Bottom
+            }.Max();
+        }
+
+        private float GetRequiredActionsRowHeight(int requiredContentBottom, float minimumHeight)
+        {
+            int marginVertical = grpActions != null ? grpActions.Margin.Vertical : 0;
+            int requiredHeight = requiredContentBottom + MainActionBottomPadding + marginVertical;
+            return Math.Max(minimumHeight, requiredHeight);
+        }
+
+        private void LayoutFooterControls()
+        {
+            btnOptions.ApplyLocalizedButtonSize(GetResponsiveButtonBaseSize(btnOptions, 80));
+            btnAbortAll.ApplyLocalizedButtonSize(GetResponsiveButtonBaseSize(btnAbortAll, 70));
+            btnAbort.ApplyLocalizedButtonSize(GetResponsiveButtonBaseSize(btnAbort, 72));
+
+            int top = statusStrip.Top + 3;
+            int right = ClientSize.Width - 8;
+
+            btnAbort.Location = new Point(right - btnAbort.Width, top);
+            right = btnAbort.Left - MainButtonSpacing;
+            btnAbortAll.Location = new Point(right - btnAbortAll.Width, top);
+            right = btnAbortAll.Left - MainButtonSpacing;
+            btnOptions.Location = new Point(right - btnOptions.Width, top);
+            right = btnOptions.Left - 10;
+            chkDarkMode.Location = new Point(right - chkDarkMode.Width, top + 6);
+        }
+
+        private int LayoutWrappingControls(int startX, int startY, int maxRight, int horizontalSpacing, int verticalSpacing, params Control[] controls)
+        {
+            int x = startX;
+            int y = startY;
+            int rowHeight = 0;
+            int bottom = startY;
+
+            foreach (Control control in controls)
+            {
+                int controlWidth = control.GetPreferredWidth();
+                int controlHeight = control.Height;
+
+                if (x > startX && x + controlWidth > maxRight)
+                {
+                    x = startX;
+                    y += rowHeight + verticalSpacing;
+                    rowHeight = 0;
+                }
+
+                control.Location = new Point(x, y);
+                x += controlWidth + horizontalSpacing;
+                rowHeight = Math.Max(rowHeight, controlHeight);
+                bottom = Math.Max(bottom, y + controlHeight);
+            }
+
+            return bottom;
         }
     }
 }

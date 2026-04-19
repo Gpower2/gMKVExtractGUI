@@ -151,6 +151,13 @@ namespace gMKVToolNix
             get { return _UseFullRawExtractionMode; }
             set { _UseFullRawExtractionMode = value; }
         }
+
+        private string _Culture = "en";
+        public string Culture
+        {
+            get { return _Culture; }
+            set { _Culture = value; }
+        }
         
         private string _VideoTrackFilenamePattern = "{FilenameNoExt}_track{TrackNumber}_[{Language}]";
         [DefaultValue("{FilenameNoExt}_track{TrackNumber}_[{Language}]")]
@@ -624,7 +631,20 @@ namespace gMKVToolNix
                             {
                                 Debug.WriteLine(ex);
                                 gMKVLogger.Log(string.Format("Error reading UseFullRawExtractionMode! {0}", ex.Message));
-                                _UseFullRawExtractionMode = false; // Default to false on error
+                                _UseFullRawExtractionMode = false;
+                            }
+                        }
+                        else if (line.StartsWith("Culture:"))
+                        {
+                            try
+                            {
+                                _Culture = line.Substring(line.IndexOf(":") + 1).Trim();
+                            }
+                            catch (Exception ex)
+                            {
+                                Debug.WriteLine(ex);
+                                gMKVLogger.Log(string.Format("Error reading Culture! {0}", ex.Message));
+                                _Culture = "en";
                             }
                         }
                     }
@@ -658,6 +678,7 @@ namespace gMKVToolNix
                 sw.WriteLine(string.Format("DisableBomForTextFiles:{0}", _DisableBomForTextFiles));
                 sw.WriteLine(string.Format("UseRawExtractionMode:{0}", _UseRawExtractionMode));
                 sw.WriteLine(string.Format("UseFullRawExtractionMode:{0}", _UseFullRawExtractionMode));
+                sw.WriteLine(string.Format("Culture:{0}", _Culture));
 
                 sw.WriteLine(string.Format("VideoTrackFilenamePattern:{0}", _VideoTrackFilenamePattern));
                 sw.WriteLine(string.Format("AudioTrackFilenamePattern:{0}", _AudioTrackFilenamePattern));
