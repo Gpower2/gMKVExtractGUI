@@ -3369,7 +3369,7 @@ namespace gMKVToolNix.Forms
         {
             btnShowLog.Location = new Point(MainActionLeftMargin, buttonTop);
             btnShowJobs.Location = new Point(btnShowLog.Right + MainButtonSpacing, buttonTop);
-            chkShowPopup.Location = new Point(btnShowJobs.Right + MainActionSingleRowSpacing, buttonTop + 4);
+            chkShowPopup.Location = new Point(btnShowJobs.Right + MainActionSingleRowSpacing, buttonTop + 6);
             chkShowPopup.Size = showPopupSize;
 
             return new[] { btnShowLog.Bottom, btnShowJobs.Bottom, chkShowPopup.Bottom }.Max();

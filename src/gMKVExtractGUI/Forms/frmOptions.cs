@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
-using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 using gMKVToolNix.Controls;
@@ -746,27 +745,21 @@ namespace gMKVToolNix.Forms
             int right = grpAdvanced.ClientSize.Width - 6;
 
             cmbCulture.Width = comboWidth;
-            cmbCulture.Location = new Point(right - cmbCulture.Width, cultureRowTop - 3);
-            lblCulture.Location = new Point(cmbCulture.Left - LayoutSpacing - lblCulture.Width, cultureRowTop);
-            btnTranslationEditor.Location = new Point(lblCulture.Left - 12 - btnTranslationEditor.Width, cultureRowTop - 3);
 
             if (chkFullRawMode.Right + 12 > btnTranslationEditor.Left)
             {
                 cultureRowTop = 70;
                 advancedRowHeight = 110;
-                cmbCulture.Location = new Point(right - cmbCulture.Width, cultureRowTop - 3);
-                lblCulture.Location = new Point(cmbCulture.Left - LayoutSpacing - lblCulture.Width, cultureRowTop);
-                btnTranslationEditor.Location = new Point(lblCulture.Left - 12 - btnTranslationEditor.Width, cultureRowTop - 3);
             }
-
-            if (chkFullRawMode.Right + 12 > btnTranslationEditor.Left)
-            {
-                cultureRowTop = 94;
-                advancedRowHeight = 134;
-                cmbCulture.Location = new Point(right - cmbCulture.Width, cultureRowTop - 3);
-                lblCulture.Location = new Point(cmbCulture.Left - LayoutSpacing - lblCulture.Width, cultureRowTop);
-                btnTranslationEditor.Location = new Point(lblCulture.Left - 12 - btnTranslationEditor.Width, cultureRowTop - 3);
-            }
+            cmbCulture.Location = new Point(
+                right - cmbCulture.Width, 
+                cultureRowTop - 3);
+            lblCulture.Location = new Point(
+                cmbCulture.Left - LayoutSpacing - lblCulture.Width, 
+                cultureRowTop);
+            btnTranslationEditor.Location = new Point(
+                lblCulture.Left - 12 - btnTranslationEditor.Width, 
+                cultureRowTop - 3 - (int)Math.Ceiling((btnTranslationEditor.Height - cmbCulture.Height) / 2.0));
 
             if (tlpMain.RowStyles.Count > 7)
             {
@@ -782,7 +775,7 @@ namespace gMKVToolNix.Forms
                     ? (_Settings == null ? "en" : _Settings.Culture)
                     : cmbCulture.SelectedItem.ToString();
 
-                using (var editor = new frmTranslationEditor(GetCurrentDirectory(), culture))
+                using (var editor = new frmTranslationEditor(culture))
                 {
                     editor.ShowDialog(this);
 

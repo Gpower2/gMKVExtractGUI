@@ -10,7 +10,6 @@ using gMKVToolNix.Localization;
 using gMKVToolNix.Log;
 using gMKVToolNix.Theming;
 using gMKVToolNix.WinAPI;
-using gRoot = gMKVToolNix;
 
 namespace gMKVToolNix.Forms
 {
@@ -55,23 +54,21 @@ namespace gMKVToolNix.Forms
         public bool HasSavedChanges { get; private set; }
 
         public frmTranslationEditor()
-            : this(GetDefaultTranslationsDirectory(), "en", true)
+            : this("en", true)
         {
         }
 
-        public frmTranslationEditor(string translationsDirectory, string initialCulture)
-            : this(translationsDirectory, initialCulture, false)
+        public frmTranslationEditor(string initialCulture)
+            : this(initialCulture, false)
         {
         }
 
-        private frmTranslationEditor(string translationsDirectory, string initialCulture, bool skipRuntimeInitialization)
+        private frmTranslationEditor(string initialCulture, bool skipRuntimeInitialization)
         {
             try
             {
                 _skipRuntimeInitialization = skipRuntimeInitialization;
-                _translationsDirectory = string.IsNullOrWhiteSpace(translationsDirectory)
-                    ? GetDefaultTranslationsDirectory()
-                    : translationsDirectory;
+                _translationsDirectory = this.GetCurrentDirectory();
                 _initialCulture = string.IsNullOrWhiteSpace(initialCulture) ? "en" : initialCulture;
 
                 _settings = _skipRuntimeInitialization ? null : new gSettings(GetCurrentDirectory());
@@ -126,11 +123,6 @@ namespace gMKVToolNix.Forms
             }
         }
 
-        private static string GetDefaultTranslationsDirectory()
-        {
-            return AppDomain.CurrentDomain.BaseDirectory;
-        }
-
         private void LoadMasterFile()
         {
             string masterFile = Path.Combine(_translationsDirectory, "en.json");
@@ -172,18 +164,6 @@ namespace gMKVToolNix.Forms
             {
                 _isLoadingCulture = false;
             }
-        }
-
-        private void SelectCulture(string culture)
-        {
-            if (_cmbTargetCulture.Items.Count == 0)
-            {
-                return;
-            }
-
-            string selectedCulture = FindCultureItem(culture) ?? (_cmbTargetCulture.Items[0] as string);
-            SetSelectedCultureItem(selectedCulture);
-            LoadSelectedCulture(selectedCulture);
         }
 
         private void LoadSelectedCulture(string culture)
@@ -397,13 +377,13 @@ namespace gMKVToolNix.Forms
 
         private NewLocaleRequest ShowNewLocaleDialog()
         {
-            using (var dialog = new gRoot.gForm())
+            using (var dialog = new gForm())
             {
-                var layout = new gRoot.gTableLayoutPanel();
+                var layout = new gTableLayoutPanel();
                 var lblCulture = new Label();
-                var txtCulture = new gRoot.gTextBox();
+                var txtCulture = new gTextBox();
                 var lblTranslator = new Label();
-                var txtTranslator = new gRoot.gTextBox();
+                var txtTranslator = new gTextBox();
                 var actionsPanel = new FlowLayoutPanel();
                 var btnCreate = new Button();
                 var btnCancel = new Button();
