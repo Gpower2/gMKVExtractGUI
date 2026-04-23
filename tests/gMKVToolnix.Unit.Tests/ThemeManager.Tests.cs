@@ -1,4 +1,5 @@
 using System.Drawing;
+using System.Reflection;
 using System.Windows.Forms;
 using gMKVToolNix.Theming;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -78,6 +79,37 @@ namespace gMKVToolNix.Unit.Tests
                 Assert.AreEqual(ThemeManager.DarkModeMenuBackColor, menu.BackColor);
                 Assert.AreEqual(ThemeManager.DarkModeMenuForeColor, menu.ForeColor);
                 Assert.AreEqual(ThemeManager.DarkModeMenuForeColor, item.ForeColor);
+            }
+        }
+
+        [TestMethod]
+        public void ApplyTheme_DarkMode_StatusStrip_UsesCustomRendererOnLinux()
+        {
+            FieldInfo isOnLinuxField = typeof(PlatformExtensions).GetField("_isOnLinux", BindingFlags.NonPublic | BindingFlags.Static);
+            bool? originalValue = (bool?)isOnLinuxField.GetValue(null);
+
+            try
+            {
+                isOnLinuxField.SetValue(null, true);
+
+                using (var statusStrip = new StatusStrip())
+                {
+                    var item = new ToolStripStatusLabel("Ready");
+                    statusStrip.Items.Add(item);
+
+                    ThemeManager.ApplyTheme(statusStrip, true);
+
+                    Assert.AreEqual(ThemeManager.DarkModeMenuBackColor, statusStrip.BackColor);
+                    Assert.AreEqual(ThemeManager.DarkModeMenuForeColor, statusStrip.ForeColor);
+                    Assert.AreEqual(ToolStripRenderMode.Custom, statusStrip.RenderMode);
+                    Assert.IsInstanceOfType(statusStrip.Renderer, typeof(ToolStripProfessionalRenderer));
+                    Assert.AreEqual(ThemeManager.DarkModeMenuBackColor, item.BackColor);
+                    Assert.AreEqual(ThemeManager.DarkModeMenuForeColor, item.ForeColor);
+                }
+            }
+            finally
+            {
+                isOnLinuxField.SetValue(null, originalValue);
             }
         }
     }

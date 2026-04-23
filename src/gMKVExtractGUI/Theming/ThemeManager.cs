@@ -9,6 +9,8 @@ namespace gMKVToolNix.Theming
 {
     public static class ThemeManager
     {
+        private static readonly ToolStripRenderer LinuxDarkStatusStripRenderer = new LinuxDarkStatusStripProfessionalRenderer();
+
         // Define Light and Dark Colors
         // Basic Colors
         public static Color LightModeFormBackColor { get; set; } = SystemColors.Control;
@@ -312,8 +314,17 @@ namespace gMKVToolNix.Theming
                 // menuForeColor is DarkModeMenuForeColor or LightModeMenuForeColor (e.g. SystemColors.ControlText or MenuText)
                 ss.BackColor = menuBackColor;
                 ss.ForeColor = menuForeColor;
-                // For StatusStrip, System RenderMode is often best for light mode OS integration
-                ss.RenderMode = darkMode ? ToolStripRenderMode.ManagerRenderMode : ToolStripRenderMode.System;
+                // Mono does not provide the same built-in dark strip rendering as Windows, so use
+                // an explicit renderer there instead of relying on the runtime defaults.
+                if (darkMode && PlatformExtensions.IsOnLinux)
+                {
+                    ss.Renderer = LinuxDarkStatusStripRenderer;
+                }
+                else
+                {
+                    // For StatusStrip, System RenderMode is often best for light mode OS integration.
+                    ss.RenderMode = darkMode ? ToolStripRenderMode.ManagerRenderMode : ToolStripRenderMode.System;
+                }
 
                 foreach (ToolStripItem item in ss.Items)
                 {
@@ -478,6 +489,76 @@ namespace gMKVToolNix.Theming
                             -1),
                         StringFormat.GenericTypographic);
                 }
+            }
+        }
+
+        private sealed class LinuxDarkStatusStripProfessionalRenderer : ToolStripProfessionalRenderer
+        {
+            public LinuxDarkStatusStripProfessionalRenderer()
+                : base(new LinuxDarkStatusStripColorTable())
+            {
+            }
+
+            protected override void OnRenderToolStripBackground(ToolStripRenderEventArgs e)
+            {
+                Rectangle bounds = e.ToolStrip.ClientRectangle;
+                using (Brush brush = new SolidBrush(e.ToolStrip.BackColor))
+                {
+                    e.Graphics.FillRectangle(brush, bounds);
+                }
+            }
+
+            protected override void OnRenderToolStripBorder(ToolStripRenderEventArgs e)
+            {
+                int width = e.ToolStrip.Width;
+                if (width <= 0)
+                {
+                    return;
+                }
+
+                using (Pen pen = new Pen(DarkModeFormBackColor))
+                {
+                    e.Graphics.DrawLine(pen, 0, 0, width - 1, 0);
+                }
+            }
+
+            protected override void OnRenderItemText(ToolStripItemTextRenderEventArgs e)
+            {
+                e.TextColor = e.Item.ForeColor;
+                base.OnRenderItemText(e);
+            }
+        }
+
+        private sealed class LinuxDarkStatusStripColorTable : ProfessionalColorTable
+        {
+            public override Color StatusStripGradientBegin
+            {
+                get { return DarkModeMenuBackColor; }
+            }
+
+            public override Color StatusStripGradientEnd
+            {
+                get { return DarkModeMenuBackColor; }
+            }
+
+            public override Color ToolStripGradientBegin
+            {
+                get { return DarkModeMenuBackColor; }
+            }
+
+            public override Color ToolStripGradientMiddle
+            {
+                get { return DarkModeMenuBackColor; }
+            }
+
+            public override Color ToolStripGradientEnd
+            {
+                get { return DarkModeMenuBackColor; }
+            }
+
+            public override Color ToolStripBorder
+            {
+                get { return DarkModeFormBackColor; }
             }
         }
 
