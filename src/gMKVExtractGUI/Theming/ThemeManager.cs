@@ -153,12 +153,15 @@ namespace gMKVToolNix.Theming
                 else
                 {
                     btn.FlatStyle = FlatStyle.Standard;
-                    btn.UseVisualStyleBackColor = true;
+                    btn.BackColor = LightModeButtonBackColor;
                     btn.ForeColor = LightModeButtonForeColor;
+                    btn.UseVisualStyleBackColor = true;
                     // Explicitly clear any custom border color for light mode standard buttons
                     // or set to a system default if absolutely necessary, but usually not needed for standard.
                     btn.FlatAppearance.BorderColor = SystemColors.ControlDark; // Or remove this line
                 }
+
+                btn.Invalidate();
             }
             else if (control is CheckBox chk)
             {
