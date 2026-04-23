@@ -112,5 +112,25 @@ namespace gMKVToolNix.Unit.Tests
                 isOnLinuxField.SetValue(null, originalValue);
             }
         }
+
+        [TestMethod]
+        public void ApplyTheme_Button_LightMode_ResetsDarkButtonBackground()
+        {
+            using (var button = new Button())
+            {
+                ThemeManager.ApplyTheme(button, true);
+
+                Assert.AreEqual(FlatStyle.Flat, button.FlatStyle);
+                Assert.AreEqual(ThemeManager.DarkModeButtonBackColor, button.BackColor);
+                Assert.AreEqual(ThemeManager.DarkModeButtonForeColor, button.ForeColor);
+
+                ThemeManager.ApplyTheme(button, false);
+
+                Assert.AreEqual(FlatStyle.Standard, button.FlatStyle);
+                Assert.AreEqual(ThemeManager.LightModeButtonBackColor, button.BackColor);
+                Assert.AreEqual(ThemeManager.LightModeButtonForeColor, button.ForeColor);
+                Assert.IsTrue(button.UseVisualStyleBackColor);
+            }
+        }
     }
 }
