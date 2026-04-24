@@ -11,7 +11,8 @@ namespace gMKVToolNix.Localization
             { "hi", new[] { "Nirmala UI", "Mangal", "Aparajita", "Arial Unicode MS", "Noto Sans Devanagari", "Lohit Devanagari", "Kohinoor Devanagari", "Devanagari MT", "Devanagari Sangam MN", "FreeSerif" } },
             { "ko", new[] { "Malgun Gothic", "Gulim", "Dotum", "Noto Sans CJK KR", "Noto Sans KR", "Apple SD Gothic Neo", "NanumGothic" } },
             { "ja", new[] { "Yu Gothic UI", "Meiryo", "MS UI Gothic", "Noto Sans CJK JP", "Noto Sans JP", "Hiragino Sans", "Hiragino Kaku Gothic ProN" } },
-            { "cn", new[] { "Microsoft JhengHei UI", "Microsoft JhengHei", "PMingLiU", "Noto Sans CJK TC", "PingFang TC", "Heiti TC", "WenQuanYi Zen Hei" } }
+            { "zh-cn", new[] { "Microsoft YaHei UI", "Microsoft YaHei", "SimHei", "SimSun", "Noto Sans CJK SC", "PingFang SC", "Heiti SC", "WenQuanYi Zen Hei" } },
+            { "zh-tw", new[] { "Microsoft JhengHei UI", "Microsoft JhengHei", "PMingLiU", "Noto Sans CJK TC", "PingFang TC", "Heiti TC", "WenQuanYi Zen Hei" } }
         };
 
         public static Font ResolveFont(Font baseFont, string cultureName)
@@ -21,14 +22,8 @@ namespace gMKVToolNix.Localization
                 throw new ArgumentNullException("baseFont");
             }
 
-            string normalizedCulture = NormalizeCultureName(cultureName);
-            if (string.IsNullOrWhiteSpace(normalizedCulture))
-            {
-                return baseFont;
-            }
-
             string[] candidateFamilies;
-            if (!CultureFontFamilies.TryGetValue(normalizedCulture, out candidateFamilies))
+            if (!TryGetCandidateFamilies(cultureName, out candidateFamilies))
             {
                 return baseFont;
             }
@@ -57,18 +52,18 @@ namespace gMKVToolNix.Localization
             return baseFont;
         }
 
-        private static string NormalizeCultureName(string cultureName)
+        private static bool TryGetCandidateFamilies(string cultureName, out string[] candidateFamilies)
         {
-            if (string.IsNullOrWhiteSpace(cultureName))
+            foreach (string candidateCulture in TranslationPathService.GetCultureLookupChain(cultureName))
             {
-                return string.Empty;
+                if (CultureFontFamilies.TryGetValue(candidateCulture, out candidateFamilies))
+                {
+                    return true;
+                }
             }
 
-            string trimmedCulture = cultureName.Trim();
-            int separatorIndex = trimmedCulture.IndexOf('-');
-            return separatorIndex >= 0
-                ? trimmedCulture.Substring(0, separatorIndex)
-                : trimmedCulture;
+            candidateFamilies = null;
+            return false;
         }
 
         private static FontStyle ResolveStyle(string familyName, FontStyle preferredStyle)

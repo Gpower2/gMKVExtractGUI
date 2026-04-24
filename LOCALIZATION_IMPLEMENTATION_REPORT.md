@@ -1,10 +1,10 @@
 # gMKVExtractGUI - Localization Implementation Report
 
-**Last Updated:** April 19, 2026
+**Last Updated:** April 24, 2026
 **Status:** Complete and validated
-**Locale Files in Tree:** 17 (`en`, `es`, `de`, `pt`, `pt-br`, `fr`, `el`, `cn`, `ja`, `ru`, `it`, `nl`, `pl`, `tr`, `ro`, `hi`, `ko`)
+**Locale Files in Tree:** 18 (`en`, `es`, `de`, `pt`, `pt-br`, `fr`, `el`, `zh-cn`, `zh-tw`, `ja`, `ru`, `it`, `nl`, `pl`, `tr`, `ro`, `hi`, `ko`)
 **Current Key Count:** 289 keys in every locale file
-**Validation Snapshot:** Solution builds successfully and the current unit suite is at 19 passing tests
+**Validation Snapshot:** Solution builds successfully and the current unit suite is at 32 passing tests
 
 ---
 
@@ -87,7 +87,8 @@ If the saved culture is blank or points to a locale file that is no longer avail
 | `src\gMKVExtractGUI\gmkvextract-pt-br.json` | `pt-br` | 289 |
 | `src\gMKVExtractGUI\gmkvextract-fr.json` | `fr` | 289 |
 | `src\gMKVExtractGUI\gmkvextract-el.json` | `el` | 289 |
-| `src\gMKVExtractGUI\gmkvextract-cn.json` | `cn` | 289 |
+| `src\gMKVExtractGUI\gmkvextract-zh-cn.json` | `zh-cn` | 289 |
+| `src\gMKVExtractGUI\gmkvextract-zh-tw.json` | `zh-tw` | 289 |
 | `src\gMKVExtractGUI\gmkvextract-ja.json` | `ja` | 289 |
 | `src\gMKVExtractGUI\gmkvextract-ru.json` | `ru` | 289 |
 | `src\gMKVExtractGUI\gmkvextract-it.json` | `it` | 289 |
@@ -110,7 +111,7 @@ Those files now sit on top of the embedded English defaults rather than being th
 - the application no longer forces English at startup
 - the saved culture now drives the initial localization state
 - runtime language changes rebuild the localization service correctly
-- locale discovery works with non-two-letter file names such as `pt-br`
+- locale discovery works with non-two-letter file names such as `pt-br`, `zh-cn`, and `zh-tw`
 
 ### 2. Runtime Localization Coverage
 
@@ -158,9 +159,9 @@ The main localized forms (`frmMain2`, `frmOptions`, `frmJobManager`, `frmLog`) n
 
 ### 7. Script-Aware Font Fallback
 
-`frmOptions` now routes its informational `RichTextBox` text through `LocalizedFontResolver` so script-heavy locales such as Hindi can prefer an installed script-capable UI font instead of relying on inconsistent control-level glyph fallback.
+`frmOptions` now routes its informational `RichTextBox` text through `LocalizedFontResolver` so script-heavy locales such as Hindi and Chinese can prefer an installed script-capable UI font instead of relying on inconsistent control-level glyph fallback.
 
-The resolver probes candidate font families directly and includes common Windows, Linux, and macOS font families for `hi`, `ja`, `cn`, and `ko`. This keeps the current Windows fix in place while making the same path materially safer for Mono on Linux and macOS, subject to those fonts actually being installed on the host system.
+The resolver probes candidate font families directly and includes common Windows, Linux, and macOS font families for `hi`, `ja`, `zh-cn`, `zh-tw`, and `ko`. This keeps the current Windows fix in place while making the same path materially safer for Mono on Linux and macOS, subject to those fonts actually being installed on the host system.
 
 ---
 
@@ -175,7 +176,7 @@ The current state has been validated with:
 - regression tests for nested context-menu theming behavior
 - regression tests for the shared translation-maintenance services
 
-At the time of this update, the suite total is **19 passing tests**.
+At the time of this update, the suite total is **32 passing tests**.
 
 ---
 
@@ -196,6 +197,7 @@ At the time of this update, the suite total is **19 passing tests**.
 - set the correct `Metadata.Culture`
 - include the new file in `gMKVExtractGUI.csproj`
 - verify the file appears in `frmOptions` culture selection
+- use `zh-cn` and `zh-tw` as the canonical Simplified/Traditional Chinese locale codes; legacy `cn` remains a runtime compatibility alias for `zh-tw`
 
 ### When Touching Context Menus
 

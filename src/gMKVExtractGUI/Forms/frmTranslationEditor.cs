@@ -141,7 +141,7 @@ namespace gMKVToolNix.Forms
                     {
                         string culture;
                         return TranslationPathService.TryGetCultureFromPath(path, out culture)
-                            ? culture
+                            ? TranslationPathService.GetCanonicalCultureCode(culture)
                             : null;
                     })
                     .Where(culture => !string.IsNullOrWhiteSpace(culture))
@@ -224,6 +224,7 @@ namespace gMKVToolNix.Forms
         {
             string path = TranslationPathService.GetExistingTranslationFilePath(_translationsDirectory, culture);
             TranslationFile translationFile = TranslationFileService.LoadFile(path);
+            translationFile.Metadata.Culture = TranslationPathService.GetCanonicalCultureCode(translationFile.Metadata.Culture);
 
             return new TranslationCultureLoadResult
             {
@@ -469,7 +470,7 @@ namespace gMKVToolNix.Forms
                 return dialog.ShowDialog(this) == DialogResult.OK
                     ? new NewLocaleRequest
                     {
-                        Culture = (txtCulture.Text ?? string.Empty).Trim().ToLowerInvariant(),
+                        Culture = TranslationPathService.GetCanonicalCultureCode(txtCulture.Text),
                         Translator = string.IsNullOrWhiteSpace(txtTranslator.Text) ? null : txtTranslator.Text.Trim()
                     }
                     : null;
@@ -779,10 +780,11 @@ namespace gMKVToolNix.Forms
 
         private string FindCultureItem(string culture)
         {
-            return _cmbTargetCulture.Items
-                .Cast<object>()
-                .Select(item => item as string)
-                .FirstOrDefault(item => string.Equals(item, culture, StringComparison.OrdinalIgnoreCase));
+            return TranslationPathService.ResolveAvailableCulture(
+                _cmbTargetCulture.Items
+                    .Cast<object>()
+                    .Select(item => item as string),
+                culture);
         }
 
         private void ApplyResponsiveLayout()
