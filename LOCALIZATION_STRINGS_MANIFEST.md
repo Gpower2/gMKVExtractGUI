@@ -1,10 +1,10 @@
 # Localization Strings Manifest
 ## Current Inventory Summary
 
-**Last Updated:** April 19, 2026
+**Last Updated:** April 24, 2026
 **Authoritative Source:** `src\gMKVExtractGUI\gmkvextract-en.json`
 **Total Keys:** 289
-**Locale Files Shipped:** 17
+**Locale Files Shipped:** 18
 **Locale Parity:** all shipped locale files currently contain 289 entries
 
 ---
@@ -20,7 +20,8 @@
 | `gmkvextract-pt-br.json` | `pt-br` | 289 |
 | `gmkvextract-fr.json` | `fr` | 289 |
 | `gmkvextract-el.json` | `el` | 289 |
-| `gmkvextract-cn.json` | `cn` | 289 |
+| `gmkvextract-zh-cn.json` | `zh-cn` | 289 |
+| `gmkvextract-zh-tw.json` | `zh-tw` | 289 |
 | `gmkvextract-ja.json` | `ja` | 289 |
 | `gmkvextract-ru.json` | `ru` | 289 |
 | `gmkvextract-it.json` | `it` | 289 |
@@ -96,8 +97,9 @@ This structure keeps related strings grouped and makes translator context easier
 - `LocalizationManager.GetStringForCulture(...)` is the explicit culture-specific API.
 - `JsonLocalizationService` loads all translation files into an in-memory runtime cache and does not reread JSON files on every lookup.
 - `JsonLocalizationService` now prefers `gmkvextract-*.json` files and falls back to legacy bare `<culture>.json` names only when no prefixed files exist.
+- Chinese locales are canonicalized to `zh-cn` (Simplified) and `zh-tw` (Traditional); the legacy `cn` identifier still resolves to `zh-tw` for backward compatibility.
 - `JsonLocalizationService.Defaults.cs` embeds the full English key set, so `en` remains available even when locale files are missing.
-- `LocalizedFontResolver` lets `frmOptions` prefer script-capable fonts for locales such as `hi`, `ja`, `cn`, and `ko` without relying on Windows-only font-enumeration behavior.
+- `LocalizedFontResolver` lets `frmOptions` prefer script-capable fonts for locales such as `hi`, `ja`, `zh-cn`, `zh-tw`, and `ko` without relying on Windows-only font-enumeration behavior.
 - Lookup fallback order is: requested culture -> neutral culture -> English (`en`) -> `!Key!`.
 - Formatting failures surface as `!BadFormat:Key!` and are logged.
 

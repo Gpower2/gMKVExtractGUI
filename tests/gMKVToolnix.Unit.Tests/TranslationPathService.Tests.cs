@@ -17,6 +17,25 @@ namespace gMKVToolNix.Unit.Tests
         }
 
         [TestMethod]
+        public void GetCanonicalCultureCode_ShouldNormalizeChineseAliases()
+        {
+            Assert.AreEqual("zh-tw", TranslationPathService.GetCanonicalCultureCode("cn"));
+            Assert.AreEqual("zh-cn", TranslationPathService.GetCanonicalCultureCode("zh"));
+            Assert.AreEqual("zh-cn", TranslationPathService.GetCanonicalCultureCode("ZH_HANS"));
+            Assert.AreEqual("zh-tw", TranslationPathService.GetCanonicalCultureCode("zh-Hant"));
+        }
+
+        [TestMethod]
+        public void ResolveAvailableCulture_ShouldMapChineseAliasesToCanonicalItems()
+        {
+            string[] cultures = { "en", "zh-cn", "zh-tw" };
+
+            Assert.AreEqual("zh-tw", TranslationPathService.ResolveAvailableCulture(cultures, "cn"));
+            Assert.AreEqual("zh-cn", TranslationPathService.ResolveAvailableCulture(cultures, "zh-Hans"));
+            Assert.AreEqual("zh-tw", TranslationPathService.ResolveAvailableCulture(cultures, "zh-Hant"));
+        }
+
+        [TestMethod]
         public void TryGetCultureFromPath_ShouldStripPrefixWhenPresent()
         {
             string culture;
@@ -71,6 +90,46 @@ namespace gMKVToolNix.Unit.Tests
                 CollectionAssert.AreEqual(
                     new[] { "de.json", "en.json" },
                     files);
+            }
+            finally
+            {
+                DeleteTempFolder(folder);
+            }
+        }
+
+        [TestMethod]
+        public void GetExistingTranslationFilePath_WhenNeutralCultureExists_ShouldReturnNeutralCulturePath()
+        {
+            string folder = CreateTempFolder();
+
+            try
+            {
+                string expectedPath = Path.Combine(folder, "gmkvextract-de.json");
+                File.WriteAllText(expectedPath, "{}");
+
+                string actualPath = TranslationPathService.GetExistingTranslationFilePath(folder, "de-DE");
+
+                Assert.AreEqual(expectedPath, actualPath);
+            }
+            finally
+            {
+                DeleteTempFolder(folder);
+            }
+        }
+
+        [TestMethod]
+        public void GetExistingTranslationFilePath_WhenLegacyChineseFileExists_ShouldResolveTraditionalAlias()
+        {
+            string folder = CreateTempFolder();
+
+            try
+            {
+                string expectedPath = Path.Combine(folder, "gmkvextract-cn.json");
+                File.WriteAllText(expectedPath, "{}");
+
+                string actualPath = TranslationPathService.GetExistingTranslationFilePath(folder, "zh-TW");
+
+                Assert.AreEqual(expectedPath, actualPath);
             }
             finally
             {

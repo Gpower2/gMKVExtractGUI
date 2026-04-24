@@ -75,6 +75,48 @@ namespace gMKVToolNix.Unit.Tests
         }
 
         [TestMethod]
+        public void ResolveCultureName_WhenChineseAliasesAreRequested_ReturnsCanonicalChineseLocales()
+        {
+            WriteTranslationFile(TranslationPathService.GetTranslationFileName("zh-cn"), "zh-cn", new Dictionary<string, string>
+            {
+                { "UI.Common.Dialog.AreYouSureTitle", "你确定吗？" }
+            });
+
+            WriteTranslationFile(TranslationPathService.GetTranslationFileName("zh-tw"), "zh-tw", new Dictionary<string, string>
+            {
+                { "UI.Common.Dialog.AreYouSureTitle", "您確定嗎？" }
+            });
+
+            var service = new JsonLocalizationService(_testFolder);
+
+            Assert.AreEqual("zh-tw", service.ResolveCultureName("cn"));
+            Assert.AreEqual("zh-cn", service.ResolveCultureName("zh"));
+            Assert.AreEqual("zh-cn", service.ResolveCultureName("zh-Hans"));
+            Assert.AreEqual("zh-tw", service.ResolveCultureName("zh-Hant"));
+        }
+
+        [TestMethod]
+        public void GetAvailableCultures_WhenLegacyChineseFileExists_UsesCanonicalCultureOnly()
+        {
+            WriteTranslationFile(TranslationPathService.GetTranslationFileName("cn"), "cn", new Dictionary<string, string>
+            {
+                { "UI.Common.Dialog.AreYouSureTitle", "您確定嗎？" }
+            });
+
+            WriteTranslationFile(TranslationPathService.GetTranslationFileName("zh-tw"), "zh-tw", new Dictionary<string, string>
+            {
+                { "UI.Common.Dialog.AreYouSureTitle", "您確定嗎？" }
+            });
+
+            var service = new JsonLocalizationService(_testFolder);
+            var cultures = service.GetAvailableCultures();
+
+            CollectionAssert.Contains(cultures, "en");
+            CollectionAssert.Contains(cultures, "zh-tw");
+            CollectionAssert.DoesNotContain(cultures, "cn");
+        }
+
+        [TestMethod]
         public void BuiltInEnglishDefaults_ShouldMatchEnglishJsonEntries()
         {
             var service = new JsonLocalizationService(_testFolder);

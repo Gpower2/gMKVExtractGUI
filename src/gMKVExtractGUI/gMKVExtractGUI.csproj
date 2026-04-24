@@ -207,7 +207,10 @@
     <None Include="gmkvextract-el.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="gmkvextract-cn.json">
+    <None Include="gmkvextract-zh-cn.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="gmkvextract-zh-tw.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="gmkvextract-ja.json">

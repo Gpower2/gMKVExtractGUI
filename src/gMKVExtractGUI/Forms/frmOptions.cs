@@ -144,8 +144,8 @@ namespace gMKVToolNix.Forms
                     cmbCulture.Items.Add(culture);
                 }
 
-                var currentCulture = _Settings.Culture;
-                if (cmbCulture.Items.Contains(currentCulture))
+                var currentCulture = TranslationPathService.ResolveAvailableCulture(cultures, _Settings.Culture);
+                if (!string.IsNullOrWhiteSpace(currentCulture))
                 {
                     cmbCulture.SelectedItem = currentCulture;
                 }

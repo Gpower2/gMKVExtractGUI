@@ -103,7 +103,7 @@ If you are editing or creating locale files, see the dedicated [Translator Guide
   - **Use \`full raw\` extraction:** Checkbox to enable full raw extraction mode (--fullraw option, takes precedence over \`raw\` mode). Applicable only for tracks extraction mode.
 
 - **Current Language Files:**
-  - The packaged locale set currently includes `en`, `es`, `de`, `pt`, `pt-br`, `fr`, `el`, `cn`, `ja`, `ru`, `it`, `nl`, `pl`, `tr`, `ro`, `hi`, and `ko`.
+  - The packaged locale set currently includes `en`, `es`, `de`, `pt`, `pt-br`, `fr`, `el`, `zh-cn`, `zh-tw`, `ja`, `ru`, `it`, `nl`, `pl`, `tr`, `ro`, `hi`, and `ko`.
 
 - **Actions:**
   - **Defaults:** Button to reset all patterns to their defaults.

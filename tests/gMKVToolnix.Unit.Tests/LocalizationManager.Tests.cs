@@ -36,5 +36,15 @@ namespace gMKVToolNix.Unit.Tests
             Assert.AreEqual("en", LocalizationManager.CurrentCulture);
             Assert.AreEqual("Are you sure?", LocalizationManager.GetString("UI.Common.Dialog.AreYouSureTitle"));
         }
+
+        [TestMethod]
+        public void Reload_WithChineseAliases_ShouldNormalizeToCanonicalChineseCultures()
+        {
+            LocalizationManager.Reload("cn");
+            Assert.AreEqual("zh-tw", LocalizationManager.CurrentCulture);
+
+            LocalizationManager.Reload("zh");
+            Assert.AreEqual("zh-cn", LocalizationManager.CurrentCulture);
+        }
     }
 }

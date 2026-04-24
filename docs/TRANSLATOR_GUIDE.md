@@ -15,7 +15,7 @@ The GUI editor and the console now use the same shared translation services, so 
 2. Start the application from a folder that already contains the translation JSON files.
 3. Use short, UI-friendly translations when possible; some controls can grow at runtime now, but concise strings still produce the best fit.
 4. Do not rename localization keys or change the English source text in non-English files.
-5. On Windows, Linux, or macOS, make sure the host system has script-capable fonts installed for languages such as Hindi, Japanese, Traditional Chinese, and Korean. The GUI now tries to pick common fonts automatically for those locales, but glyph coverage still depends on the local font set.
+5. On Windows, Linux, or macOS, make sure the host system has script-capable fonts installed for languages such as Hindi, Japanese, Simplified Chinese, Traditional Chinese, and Korean. The GUI now tries to pick common fonts automatically for those locales, but glyph coverage still depends on the local font set.
 
 ## Edit an Existing Locale
 
@@ -35,7 +35,7 @@ The GUI editor and the console now use the same shared translation services, so 
 
 1. Open **Options -> Translations...**.
 2. Click **New Locale...**.
-3. In the dialog, enter the new culture code and optionally fill in the translator name.
+3. In the dialog, enter the new culture code and optionally fill in the translator name. For Chinese, use `zh-cn` for Simplified Chinese and `zh-tw` for Traditional Chinese; `cn` is kept only as a backward-compatibility alias for existing installs.
 4. Click **Create** to generate a new locale from `gmkvextract-en.json`.
 5. The editor will load the new file, copy the translator metadata into the top row, and start every entry as untranslated.
 6. Translate the entries you are ready to complete.
@@ -76,7 +76,7 @@ After saving a locale:
 1. Switch the application to that culture from **Options**.
 2. Open the main window, Options window, Job Manager, and Log window.
 3. Check context menus, tooltips, and popups in addition to static labels.
-4. For script-heavy locales such as Hindi, Japanese, Traditional Chinese, and Korean, also verify that the text renders with readable glyphs on the target OS.
+4. For script-heavy locales such as Hindi, Japanese, Simplified Chinese, Traditional Chinese, and Korean, also verify that the text renders with readable glyphs on the target OS.
 5. If a translation is technically correct but visually too long, shorten it and save again.
 
 ## When to Use the Console Instead

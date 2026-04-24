@@ -71,7 +71,7 @@ This command creates a new, blank translation file for a new culture. It uses th
 | Option | Short | Required | Description |
 | :---- | :---- | :---- | :---- |
 | \--master | \-m | **Yes** | The path to the master translation file (e.g., `gmkvextract-en.json`). |
-| \--culture | \-c | **Yes** | The culture code for the new file (e.g., `de-DE` or `fr`). |
+| \--culture | \-c | **Yes** | The culture code for the new file (e.g., `de-DE`, `fr`, `zh-cn`, or `zh-tw`). |
 | \--output | \-o | No | The output file path. **Default:** Creates a file named after the culture (e.g., `gmkvextract-de-DE.json`) in the same directory as the master file. |
 
 #### **Example Usage**
@@ -80,8 +80,8 @@ This command creates a new, blank translation file for a new culture. It uses th
 # Create a new German (Germany) translation file
 gMKVToolnix.Translator.Console.exe template --master "C:\App\Translations\gmkvextract-en.json" --culture "de-DE"
 
-# Create a new French file in a specific output location
-gMKVToolnix.Translator.Console.exe template -m "C:\App\Translations\gmkvextract-en.json" -c "fr-FR" -o "C:\Temp\gmkvextract-fr-FR.json"
+# Create a new Simplified Chinese file in a specific output location
+gMKVToolnix.Translator.Console.exe template -m "C:\App\Translations\gmkvextract-en.json" -c "zh-cn" -o "C:\Temp\gmkvextract-zh-cn.json"
 ```
 
 ### **4\. sync**
@@ -165,5 +165,6 @@ The GUI runtime uses these files directly:
 4. The GUI also embeds a built-in English fallback map, so missing locale files still resolve to English instead of `!Key!` placeholders.
 5. `LocalizationManager.Reload(culture)` rebuilds the cache when the user changes language from `frmOptions`.
 6. Invalid or unavailable saved cultures are normalized back to a real available culture, typically `en`.
-7. Lookup fallback order is: requested culture -> neutral culture -> `en` -> `!Key!`.
-8. Formatted lookup failures are logged and surfaced as `!BadFormat:Key!` rather than being silently ignored.
+7. Chinese locale aliases normalize to canonical files: `zh-cn` for Simplified Chinese, `zh-tw` for Traditional Chinese, and legacy `cn` resolves to `zh-tw`.
+8. Lookup fallback order is: requested culture -> neutral culture -> `en` -> `!Key!`.
+9. Formatted lookup failures are logged and surfaced as `!BadFormat:Key!` rather than being silently ignored.

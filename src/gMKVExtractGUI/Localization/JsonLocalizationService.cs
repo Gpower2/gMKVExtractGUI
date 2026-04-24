@@ -56,7 +56,7 @@ namespace gMKVToolNix.Localization
                         continue;
                     }
 
-                    string culture = translationFile.Metadata.Culture;
+                    string culture = TranslationPathService.GetCanonicalCultureCode(translationFile.Metadata.Culture);
                     if (string.IsNullOrWhiteSpace(culture))
                     {
                         // Log: "File {file} has no culture in metadata."
@@ -104,17 +104,11 @@ namespace gMKVToolNix.Localization
         {
             string targetCulture = string.IsNullOrWhiteSpace(cultureName)
                 ? FallbackCulture
-                : cultureName.Trim();
+                : cultureName;
 
-            if (TryResolveCultureName(targetCulture, out string resolvedCulture))
+            foreach (string candidateCulture in TranslationPathService.GetCultureLookupChain(targetCulture))
             {
-                return resolvedCulture;
-            }
-
-            if (targetCulture.Contains("-"))
-            {
-                string neutralCulture = targetCulture.Split('-')[0];
-                if (TryResolveCultureName(neutralCulture, out resolvedCulture))
+                if (TryResolveCultureName(candidateCulture, out string resolvedCulture))
                 {
                     return resolvedCulture;
                 }
