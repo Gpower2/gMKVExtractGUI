@@ -2,6 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
 using gMKVToolNix.Forms;
 using gMKVToolNix.Localization;
 using gMKVToolNix.MkvExtract;
@@ -55,6 +57,18 @@ namespace gMKVToolNix.Jobs
                 default:
                     throw new Exception(LocalizationManager.GetString("UI.JobManager.Errors.UnsupportedExtractionMode"));
             }
+        }
+
+        public Task StartAsync(gMKVExtract argGmkvExtract)
+        {
+            gMkvExtractMethod extractMethod = ExtractMethod(argGmkvExtract);
+
+            return Task.Factory.StartNew(
+                state => extractMethod(state),
+                ParametersList,
+                CancellationToken.None,
+                TaskCreationOptions.LongRunning,
+                TaskScheduler.Default);
         }
 
         // For serialization only!!!

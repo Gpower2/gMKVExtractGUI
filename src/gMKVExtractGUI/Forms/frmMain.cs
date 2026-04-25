@@ -7,6 +7,7 @@ using System.IO;
 using System.Media;
 using System.Reflection;
 using System.Threading;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 using gMKVToolNix.Forms;
 using gMKVToolNix.Jobs;
@@ -668,16 +669,8 @@ namespace gMKVToolNix
 
         private void btnExtract_Click(object sender, EventArgs e)
         {
-            bool exceptionOccured = false;
             try
             {
-                tlpMain.Enabled = false;
-                _ExtractRunning = true;
-                Application.DoEvents();
-                _gMkvExtract.MkvExtractProgressUpdated += g_MkvExtractProgressUpdated;
-                _gMkvExtract.MkvExtractTrackUpdated += g_MkvExtractTrackUpdated;
-
-                Thread myThread = null;
                 gMKVExtractSegmentsParameters parameterList = new gMKVExtractSegmentsParameters();
                 List<gMKVSegment> segmentList = new List<gMKVSegment>();
                 gMKVJob job = null;
@@ -823,33 +816,7 @@ namespace gMKVToolNix
                 }
                 else
                 {
-                    // start the thread
-                    myThread = new Thread(new ParameterizedThreadStart(job.ExtractMethod(_gMkvExtract)));
-                    myThread.Start(job.ParametersList);
-
-                    btnAbort.Enabled = true;
-                    btnAbortAll.Enabled = true;
-                    gTaskbarProgress.SetState(this, gTaskbarProgress.TaskbarStates.Normal);
-                    gTaskbarProgress.SetOverlayIcon(this, SystemIcons.Shield, LocalizationManager.GetString("UI.Common.Status.Extracting"));
-                    Application.DoEvents();
-                    while (myThread.ThreadState != System.Threading.ThreadState.Stopped)
-                    {
-                        Application.DoEvents();
-                    }
-                    // check for exceptions
-                    if (_gMkvExtract.ThreadedException != null)
-                    {
-                        throw _gMkvExtract.ThreadedException;
-                    }
-                    UpdateProgress(100);
-                    if (chkShowPopup.Checked)
-                    {
-                        ShowLocalizedSuccessMessage("UI.MainForm2.Success.ExtractionCompleted");
-                    }
-                    else
-                    {
-                        SystemSounds.Asterisk.Play();
-                    }
+                    StartExtractionJob(job);
                 }
             }
             catch (Exception ex)
@@ -859,37 +826,101 @@ namespace gMKVToolNix
 
                 gTaskbarProgress.SetState(this, gTaskbarProgress.TaskbarStates.Error);
                 gTaskbarProgress.SetOverlayIcon(this, SystemIcons.Error, LocalizationManager.GetString("UI.Common.Dialog.ErrorTitle"));
-                exceptionOccured = true;
                 ShowErrorMessage(ex.Message);
-            }
-            finally
-            {
-                if (_gMkvExtract != null)
+
+                if (_ExtractRunning)
                 {
-                    _gMkvExtract.MkvExtractProgressUpdated -= g_MkvExtractProgressUpdated;
-                    _gMkvExtract.MkvExtractTrackUpdated -= g_MkvExtractTrackUpdated;
-                }
-                if (chkShowPopup.Checked || exceptionOccured)
-                {
-                    ClearStatus();
+                    FinishExtractionJob(true);
                 }
                 else
                 {
-                    lblTrack.Text = "";
-                    if (!_JobMode)
-                    {
-                        lblStatus.Text = LocalizationManager.GetString("UI.Common.Status.ExtractionCompleted");
-                    }
+                    gTaskbarProgress.SetState(this, gTaskbarProgress.TaskbarStates.NoProgress);
+                    gTaskbarProgress.SetOverlayIcon(this, null, null);
                 }
-                _ExtractRunning = false;
-                tlpMain.Enabled = true;
-                btnAbort.Enabled = false;
-                btnAbortAll.Enabled = false;
-                gTaskbarProgress.SetState(this, gTaskbarProgress.TaskbarStates.NoProgress);
-                gTaskbarProgress.SetOverlayIcon(this, null, null);
-                this.Refresh(); 
-                Application.DoEvents();
             }
+        }
+
+        private void StartExtractionJob(gMKVJob job)
+        {
+            tlpMain.Enabled = false;
+            _ExtractRunning = true;
+            _gMkvExtract.MkvExtractProgressUpdated += g_MkvExtractProgressUpdated;
+            _gMkvExtract.MkvExtractTrackUpdated += g_MkvExtractTrackUpdated;
+
+            btnAbort.Enabled = true;
+            btnAbortAll.Enabled = true;
+            gTaskbarProgress.SetState(this, gTaskbarProgress.TaskbarStates.Normal);
+            gTaskbarProgress.SetOverlayIcon(this, SystemIcons.Shield, LocalizationManager.GetString("UI.Common.Status.Extracting"));
+
+            job.StartAsync(_gMkvExtract)
+                .ContinueWith(HandleExtractionJobCompleted, TaskScheduler.FromCurrentSynchronizationContext());
+        }
+
+        private void HandleExtractionJobCompleted(Task task)
+        {
+            Exception extractException = GetExtractionJobException(task);
+            if (extractException != null)
+            {
+                Debug.WriteLine(extractException);
+                gMKVLogger.Log(extractException.ToString());
+                gTaskbarProgress.SetState(this, gTaskbarProgress.TaskbarStates.Error);
+                gTaskbarProgress.SetOverlayIcon(this, SystemIcons.Error, LocalizationManager.GetString("UI.Common.Dialog.ErrorTitle"));
+                ShowErrorMessage(extractException.Message);
+                FinishExtractionJob(true);
+                return;
+            }
+
+            UpdateProgress(100);
+            if (chkShowPopup.Checked)
+            {
+                ShowLocalizedSuccessMessage("UI.MainForm2.Success.ExtractionCompleted");
+            }
+            else
+            {
+                SystemSounds.Asterisk.Play();
+            }
+
+            FinishExtractionJob(false);
+        }
+
+        private Exception GetExtractionJobException(Task task)
+        {
+            if (_gMkvExtract != null && _gMkvExtract.ThreadedException != null)
+            {
+                return _gMkvExtract.ThreadedException;
+            }
+
+            return task.Exception == null ? null : task.Exception.Flatten().InnerException;
+        }
+
+        private void FinishExtractionJob(bool exceptionOccured)
+        {
+            if (_gMkvExtract != null)
+            {
+                _gMkvExtract.MkvExtractProgressUpdated -= g_MkvExtractProgressUpdated;
+                _gMkvExtract.MkvExtractTrackUpdated -= g_MkvExtractTrackUpdated;
+            }
+
+            if (chkShowPopup.Checked || exceptionOccured)
+            {
+                ClearStatus();
+            }
+            else
+            {
+                lblTrack.Text = "";
+                if (!_JobMode)
+                {
+                    lblStatus.Text = LocalizationManager.GetString("UI.Common.Status.ExtractionCompleted");
+                }
+            }
+
+            _ExtractRunning = false;
+            tlpMain.Enabled = true;
+            btnAbort.Enabled = false;
+            btnAbortAll.Enabled = false;
+            gTaskbarProgress.SetState(this, gTaskbarProgress.TaskbarStates.NoProgress);
+            gTaskbarProgress.SetOverlayIcon(this, null, null);
+            Refresh();
         }
 
         void g_MkvExtractTrackUpdated(string filename, string trackName)

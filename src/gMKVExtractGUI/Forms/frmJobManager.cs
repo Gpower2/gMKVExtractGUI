@@ -8,6 +8,7 @@ using System.Linq;
 using System.Media;
 using System.Text;
 using System.Threading;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 using gMKVToolNix.Controls;
 using gMKVToolNix.Forms;
@@ -226,71 +227,6 @@ namespace gMKVToolNix
             }
         }
 
-        private void RunJobs(List<gMKVJobInfo> argJobInfoList)
-        {
-            _ExceptionBuilder.Length = 0;
-            foreach (gMKVJobInfo jobInfo in argJobInfoList)
-            {
-                try
-                {
-                    // check for abort
-                    if (_AbortAll)
-                    {
-                        break;
-                    }
-                    // get job from jobInfo
-                    gMKVJob job = jobInfo.Job;
-                    // create the new gMKVExtract object
-                    _gMkvExtract = new gMKVExtract(job.MKVToolnixPath);
-                    _gMkvExtract.MkvExtractProgressUpdated += gMkvExtract_MkvExtractProgressUpdated;
-                    _gMkvExtract.MkvExtractTrackUpdated += gMkvExtract_MkvExtractTrackUpdated;
-                    // increate the current job index
-                    _CurrentJob++;
-                    // start the thread
-                    Thread myThread = new Thread(new ParameterizedThreadStart(job.ExtractMethod(_gMkvExtract)));
-                    jobInfo.StartTime = DateTime.Now;
-                    jobInfo.State = JobState.Running;
-                    grdJobs.Refresh();
-                    myThread.Start(job.ParametersList);
-
-                    btnAbort.Enabled = true;
-                    btnAbortAll.Enabled = true;
-                    gTaskbarProgress.SetState(this, gTaskbarProgress.TaskbarStates.Normal);
-                    Application.DoEvents();
-                    while (myThread.ThreadState != System.Threading.ThreadState.Stopped)
-                    {
-                        Application.DoEvents();
-                    }
-                    jobInfo.EndTime = DateTime.Now;
-                    // check for exceptions
-                    if (_gMkvExtract.ThreadedException != null)
-                    {
-                        jobInfo.State = JobState.Failed;
-                        grdJobs.Refresh();
-                        throw _gMkvExtract.ThreadedException;
-                    }
-                    else
-                    {
-                        jobInfo.State = JobState.Completed;
-                        grdJobs.Refresh();
-                        Application.DoEvents();
-                    }
-                }
-                catch (Exception ex)
-                {
-                    _ExceptionBuilder.AppendFormat(LocalizationManager.GetString("UI.JobManager.Errors.ExceptionForJob"), jobInfo.ToString(), ex.Message, Environment.NewLine);
-                }
-                finally
-                {
-                    if (_gMkvExtract != null)
-                    {
-                        _gMkvExtract.MkvExtractProgressUpdated -= gMkvExtract_MkvExtractProgressUpdated;
-                        _gMkvExtract.MkvExtractTrackUpdated -= gMkvExtract_MkvExtractTrackUpdated;
-                    }
-                }
-            }
-        }
-
         public void UpdateCurrentProgress(object val)
         {
             int progressValue = Convert.ToInt32(val);
@@ -338,7 +274,6 @@ namespace gMKVToolNix
 
         private void PrepareForRunJobs(List<gMKVJobInfo> argJobInfoList)
         {
-            bool exceptionOccured = false;
             try
             {
                 SetActionStatus(false);
@@ -348,62 +283,174 @@ namespace gMKVToolNix
                 _TotalJobs = argJobInfoList.Count;
                 _CurrentJob = 0;
                 prgBrTotal.Maximum = _TotalJobs * 100;
-                RunJobs(new List<gMKVJobInfo>(argJobInfoList));
-                // Check exception builder for exceptions
-                if (_ExceptionBuilder.Length > 0)
-                {
-                    // reset the status from pending to ready
-                    foreach (DataGridViewRow item in grdJobs.Rows)
-                    {
-                        gMKVJobInfo jobInfo = (gMKVJobInfo)item.DataBoundItem;
-                        if (jobInfo.State == JobState.Pending)
-                        {
-                            jobInfo.State = JobState.Ready;
-                        }
-                    }
-                    throw new Exception(_ExceptionBuilder.ToString());
-                }
-                UpdateCurrentProgress(100);
-                SetAbortStatus(false);
-                if (chkShowPopup.Checked)
-                {
-                    ShowLocalizedSuccessMessage("UI.JobManager.Success.JobsCompleted", true);
-                }
-                else
-                {
-                    SystemSounds.Asterisk.Play();
-                }
+                _ExceptionBuilder.Length = 0;
+                RunNextJob(argJobInfoList, 0);
             }
             catch (Exception ex)
             {
                 Debug.WriteLine(ex);
                 gMKVLogger.Log(ex.ToString());
                 ShowErrorMessage(ex.Message);
+                FinishJobRunUi(true);
             }
-            finally
+        }
+
+        private void RunNextJob(List<gMKVJobInfo> argJobInfoList, int jobIndex)
+        {
+            if (jobIndex >= argJobInfoList.Count || _AbortAll)
             {
-                if (chkShowPopup.Checked || exceptionOccured)
+                CompleteJobRun(argJobInfoList);
+                return;
+            }
+
+            gMKVJobInfo jobInfo = argJobInfoList[jobIndex];
+
+            try
+            {
+                gMKVJob job = jobInfo.Job;
+                _gMkvExtract = new gMKVExtract(job.MKVToolnixPath);
+                _gMkvExtract.MkvExtractProgressUpdated += gMkvExtract_MkvExtractProgressUpdated;
+                _gMkvExtract.MkvExtractTrackUpdated += gMkvExtract_MkvExtractTrackUpdated;
+                _CurrentJob++;
+                jobInfo.StartTime = DateTime.Now;
+                jobInfo.State = JobState.Running;
+                grdJobs.Refresh();
+
+                btnAbort.Enabled = true;
+                btnAbortAll.Enabled = true;
+                gTaskbarProgress.SetState(this, gTaskbarProgress.TaskbarStates.Normal);
+
+                job.StartAsync(_gMkvExtract)
+                    .ContinueWith(
+                        task => HandleJobCompleted(argJobInfoList, jobIndex, jobInfo, task),
+                        TaskScheduler.FromCurrentSynchronizationContext());
+            }
+            catch (Exception ex)
+            {
+                if (_gMkvExtract != null)
                 {
-                    UpdateCurrentProgress(0);
-                    prgBrTotal.Value = 0;
-                    lblCurrentProgressValue.Text = "";
-                    lblTotalProgressValue.Text = "";
+                    _gMkvExtract.MkvExtractProgressUpdated -= gMkvExtract_MkvExtractProgressUpdated;
+                    _gMkvExtract.MkvExtractTrackUpdated -= gMkvExtract_MkvExtractTrackUpdated;
+                }
+
+                _ExceptionBuilder.AppendFormat(LocalizationManager.GetString("UI.JobManager.Errors.ExceptionForJob"), jobInfo.ToString(), ex.Message, Environment.NewLine);
+                RunNextJob(argJobInfoList, jobIndex + 1);
+            }
+        }
+
+        private void HandleJobCompleted(List<gMKVJobInfo> argJobInfoList, int jobIndex, gMKVJobInfo jobInfo, Task task)
+        {
+            try
+            {
+                jobInfo.EndTime = DateTime.Now;
+
+                Exception extractException = GetJobException(task);
+                if (extractException != null)
+                {
+                    jobInfo.State = JobState.Failed;
+                    grdJobs.Refresh();
+                    _ExceptionBuilder.AppendFormat(LocalizationManager.GetString("UI.JobManager.Errors.ExceptionForJob"), jobInfo.ToString(), extractException.Message, Environment.NewLine);
                 }
                 else
                 {
-                    lblCurrentProgressValue.Text = "";
-                    lblTotalProgressValue.Text = "";
-                    txtCurrentTrack.Text = LocalizationManager.GetString("UI.Common.Status.ExtractionCompleted");
+                    jobInfo.State = JobState.Completed;
+                    UpdateCurrentProgress(100);
+                    grdJobs.Refresh();
                 }
-                gTaskbarProgress.SetState(this, gTaskbarProgress.TaskbarStates.NoProgress);
-                gTaskbarProgress.SetOverlayIcon(this, null, null);
-                _ExtractRunning = false;
-                _AbortAll = false;
-                grdJobs.Refresh();
-                SetActionStatus(true);
-                SetAbortStatus(false);
-                _MainForm.SetTableLayoutMainStatus(true);
             }
+            finally
+            {
+                if (_gMkvExtract != null)
+                {
+                    _gMkvExtract.MkvExtractProgressUpdated -= gMkvExtract_MkvExtractProgressUpdated;
+                    _gMkvExtract.MkvExtractTrackUpdated -= gMkvExtract_MkvExtractTrackUpdated;
+                }
+            }
+
+            RunNextJob(argJobInfoList, jobIndex + 1);
+        }
+
+        private Exception GetJobException(Task task)
+        {
+            if (_gMkvExtract != null && _gMkvExtract.ThreadedException != null)
+            {
+                return _gMkvExtract.ThreadedException;
+            }
+
+            return task.Exception == null ? null : task.Exception.Flatten().InnerException;
+        }
+
+        private void CompleteJobRun(List<gMKVJobInfo> argJobInfoList)
+        {
+            if (_ExceptionBuilder.Length > 0)
+            {
+                foreach (gMKVJobInfo jobInfo in argJobInfoList)
+                {
+                    if (jobInfo.State == JobState.Pending)
+                    {
+                        jobInfo.State = JobState.Ready;
+                    }
+                }
+
+                Exception ex = new Exception(_ExceptionBuilder.ToString());
+                Debug.WriteLine(ex);
+                gMKVLogger.Log(ex.ToString());
+                ShowErrorMessage(ex.Message);
+                FinishJobRunUi(true);
+                return;
+            }
+
+            if (_TotalJobs > 0)
+            {
+                UpdateCurrentProgress(100);
+            }
+
+            SetAbortStatus(false);
+            if (chkShowPopup.Checked)
+            {
+                ShowLocalizedSuccessMessage("UI.JobManager.Success.JobsCompleted", true);
+            }
+            else
+            {
+                SystemSounds.Asterisk.Play();
+            }
+
+            FinishJobRunUi(false);
+        }
+
+        private void FinishJobRunUi(bool exceptionOccured)
+        {
+            if (chkShowPopup.Checked || exceptionOccured)
+            {
+                if (_TotalJobs > 0)
+                {
+                    UpdateCurrentProgress(0);
+                    prgBrTotal.Value = 0;
+                }
+                else
+                {
+                    prgBrCurrent.Value = 0;
+                    prgBrTotal.Value = 0;
+                }
+
+                lblCurrentProgressValue.Text = "";
+                lblTotalProgressValue.Text = "";
+            }
+            else
+            {
+                lblCurrentProgressValue.Text = "";
+                lblTotalProgressValue.Text = "";
+                txtCurrentTrack.Text = LocalizationManager.GetString("UI.Common.Status.ExtractionCompleted");
+            }
+
+            gTaskbarProgress.SetState(this, gTaskbarProgress.TaskbarStates.NoProgress);
+            gTaskbarProgress.SetOverlayIcon(this, null, null);
+            _ExtractRunning = false;
+            _AbortAll = false;
+            grdJobs.Refresh();
+            SetActionStatus(true);
+            SetAbortStatus(false);
+            _MainForm.SetTableLayoutMainStatus(true);
         }
 
         private void btnAbort_Click(object sender, EventArgs e)

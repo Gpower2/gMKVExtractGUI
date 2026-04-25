@@ -1257,15 +1257,8 @@ namespace gMKVToolNix.Forms
 
         private void btnExtract_btnAddJobs_Click(object sender, EventArgs e)
         {
-            bool exceptionOccured = false;
             try
             {
-                tlpMain.Enabled = false;
-                _ExtractRunning = true;
-                Application.DoEvents();
-                _gMkvExtract.MkvExtractProgressUpdated += g_MkvExtractProgressUpdated;
-                _gMkvExtract.MkvExtractTrackUpdated += g_MkvExtractTrackUpdated;
-
                 FormMkvExtractionMode extractionMode = (FormMkvExtractionMode)Enum.Parse(
                     typeof(FormMkvExtractionMode),
                     (string)cmbExtractionMode.SelectedItem);
@@ -1311,7 +1304,6 @@ namespace gMKVToolNix.Forms
                     .Distinct()
                     .ToList<TreeNode>();
 
-                Thread myThread = null;
                 List<gMKVJob> jobs = new List<gMKVJob>();
                 List<gMKVSegment> segments = null;
 
@@ -1438,53 +1430,7 @@ namespace gMKVToolNix.Forms
                 }
                 else
                 {
-                    _CurrentJob = 0;
-                    _TotalJobs = jobs.Count;
-
-                    prgBrStatus.Minimum = 0;
-                    prgBrStatus.Maximum = 100;
-                    prgBrTotalStatus.Maximum = _TotalJobs * 100;
-                    prgBrTotalStatus.Visible = true;
-
-                    foreach (var job in jobs)
-                    {
-                        // increate the current job index
-                        _CurrentJob++;
-                        // start the thread
-                        myThread = new Thread(new ParameterizedThreadStart(job.ExtractMethod(_gMkvExtract)));
-                        myThread.Start(job.ParametersList);
-
-                        btnAbort.Enabled = true;
-                        btnAbortAll.Enabled = true;
-                        btnOptions.Enabled = false;
-                        gTaskbarProgress.SetState(this, gTaskbarProgress.TaskbarStates.Normal);
-                        gTaskbarProgress.SetOverlayIcon(this, SystemIcons.Shield, LocalizationManager.GetString("UI.Common.Status.Extracting"));
-                        Application.DoEvents();
-                        while (myThread.ThreadState != System.Threading.ThreadState.Stopped)
-                        {
-                            Application.DoEvents();
-                        }
-                        // check for exceptions
-                        if (_gMkvExtract.ThreadedException != null)
-                        {
-                            throw _gMkvExtract.ThreadedException;
-                        }
-                        UpdateProgress(100);
-                    }
-
-                    btnAbort.Enabled = false;
-                    btnAbortAll.Enabled = false;
-                    this.Refresh();
-                    Application.DoEvents();
-
-                    if (chkShowPopup.Checked)
-                    {
-                        ShowLocalizedSuccessMessage("UI.MainForm2.Success.ExtractionCompleted", true);
-                    }
-                    else
-                    {
-                        SystemSounds.Asterisk.Play();
-                    }
+                    StartExtractionJobs(jobs, sender == btnExtract);
                 }
             }
             catch (Exception ex)
@@ -1494,43 +1440,148 @@ namespace gMKVToolNix.Forms
 
                 gTaskbarProgress.SetState(this, gTaskbarProgress.TaskbarStates.Error);
                 gTaskbarProgress.SetOverlayIcon(this, SystemIcons.Error, LocalizationManager.GetString("UI.Common.Dialog.ErrorTitle"));
-                exceptionOccured = true;
                 ShowErrorMessage(ex.Message);
-            }
-            finally
-            {
-                if (_gMkvExtract != null)
-                {
-                    _gMkvExtract.MkvExtractProgressUpdated -= g_MkvExtractProgressUpdated;
-                    _gMkvExtract.MkvExtractTrackUpdated -= g_MkvExtractTrackUpdated;
-                }
 
-                trvInputFiles.SelectedNode = null;
-                txtSegmentInfo.Clear();
-                UpdateSelectedFileInfoTitle();
-
-                if (chkShowPopup.Checked || exceptionOccured)
+                if (_ExtractRunning)
                 {
-                    ClearStatus();
+                    FinishExtractionJobs(true, sender == btnExtract);
                 }
                 else
                 {
-                    if (sender == btnExtract)
-                    {
-                        txtSegmentInfo.Text = LocalizationManager.GetString("UI.Common.Status.ExtractionCompleted");
-                    }
+                    gTaskbarProgress.SetState(this, gTaskbarProgress.TaskbarStates.NoProgress);
+                    gTaskbarProgress.SetOverlayIcon(this, null, null);
                 }
-
-                _ExtractRunning = false;
-                tlpMain.Enabled = true;
-                btnAbort.Enabled = false;
-                btnAbortAll.Enabled = false;
-                btnOptions.Enabled = true;
-                gTaskbarProgress.SetState(this, gTaskbarProgress.TaskbarStates.NoProgress);
-                gTaskbarProgress.SetOverlayIcon(this, null, null);
-                this.Refresh();
-                Application.DoEvents();
             }
+        }
+
+        private void StartExtractionJobs(List<gMKVJob> jobs, bool showExtractionCompletedText)
+        {
+            _CurrentJob = 0;
+            _TotalJobs = jobs.Count;
+
+            prgBrStatus.Minimum = 0;
+            prgBrStatus.Maximum = 100;
+            prgBrTotalStatus.Maximum = _TotalJobs * 100;
+            prgBrTotalStatus.Visible = true;
+
+            tlpMain.Enabled = false;
+            _ExtractRunning = true;
+            _gMkvExtract.MkvExtractProgressUpdated += g_MkvExtractProgressUpdated;
+            _gMkvExtract.MkvExtractTrackUpdated += g_MkvExtractTrackUpdated;
+
+            btnAbort.Enabled = true;
+            btnAbortAll.Enabled = true;
+            btnOptions.Enabled = false;
+            gTaskbarProgress.SetState(this, gTaskbarProgress.TaskbarStates.Normal);
+            gTaskbarProgress.SetOverlayIcon(this, SystemIcons.Shield, LocalizationManager.GetString("UI.Common.Status.Extracting"));
+
+            StartNextExtractionJob(jobs, 0, showExtractionCompletedText);
+        }
+
+        private void StartNextExtractionJob(List<gMKVJob> jobs, int jobIndex, bool showExtractionCompletedText)
+        {
+            if (jobIndex >= jobs.Count)
+            {
+                OnExtractionJobsCompleted(null, showExtractionCompletedText);
+                return;
+            }
+
+            gMKVJob job = jobs[jobIndex];
+            _CurrentJob = jobIndex + 1;
+
+            try
+            {
+                job.StartAsync(_gMkvExtract)
+                    .ContinueWith(
+                        task => HandleExtractionJobCompleted(jobs, jobIndex, showExtractionCompletedText, task),
+                        TaskScheduler.FromCurrentSynchronizationContext());
+            }
+            catch (Exception ex)
+            {
+                OnExtractionJobsCompleted(ex, showExtractionCompletedText);
+            }
+        }
+
+        private void HandleExtractionJobCompleted(List<gMKVJob> jobs, int jobIndex, bool showExtractionCompletedText, Task task)
+        {
+            Exception extractException = GetExtractionJobException(task);
+            if (extractException != null)
+            {
+                OnExtractionJobsCompleted(extractException, showExtractionCompletedText);
+                return;
+            }
+
+            UpdateProgress(100);
+            StartNextExtractionJob(jobs, jobIndex + 1, showExtractionCompletedText);
+        }
+
+        private Exception GetExtractionJobException(Task task)
+        {
+            if (_gMkvExtract != null && _gMkvExtract.ThreadedException != null)
+            {
+                return _gMkvExtract.ThreadedException;
+            }
+
+            return task.Exception == null ? null : task.Exception.Flatten().InnerException;
+        }
+
+        private void OnExtractionJobsCompleted(Exception extractException, bool showExtractionCompletedText)
+        {
+            if (extractException != null)
+            {
+                Debug.WriteLine(extractException);
+                gMKVLogger.Log(extractException.ToString());
+                gTaskbarProgress.SetState(this, gTaskbarProgress.TaskbarStates.Error);
+                gTaskbarProgress.SetOverlayIcon(this, SystemIcons.Error, LocalizationManager.GetString("UI.Common.Dialog.ErrorTitle"));
+                ShowErrorMessage(extractException.Message);
+                FinishExtractionJobs(true, showExtractionCompletedText);
+                return;
+            }
+
+            btnAbort.Enabled = false;
+            btnAbortAll.Enabled = false;
+
+            if (chkShowPopup.Checked)
+            {
+                ShowLocalizedSuccessMessage("UI.MainForm2.Success.ExtractionCompleted", true);
+            }
+            else
+            {
+                SystemSounds.Asterisk.Play();
+            }
+
+            FinishExtractionJobs(false, showExtractionCompletedText);
+        }
+
+        private void FinishExtractionJobs(bool exceptionOccured, bool showExtractionCompletedText)
+        {
+            if (_gMkvExtract != null)
+            {
+                _gMkvExtract.MkvExtractProgressUpdated -= g_MkvExtractProgressUpdated;
+                _gMkvExtract.MkvExtractTrackUpdated -= g_MkvExtractTrackUpdated;
+            }
+
+            trvInputFiles.SelectedNode = null;
+            txtSegmentInfo.Clear();
+            UpdateSelectedFileInfoTitle();
+
+            if (chkShowPopup.Checked || exceptionOccured)
+            {
+                ClearStatus();
+            }
+            else if (showExtractionCompletedText)
+            {
+                txtSegmentInfo.Text = LocalizationManager.GetString("UI.Common.Status.ExtractionCompleted");
+            }
+
+            _ExtractRunning = false;
+            tlpMain.Enabled = true;
+            btnAbort.Enabled = false;
+            btnAbortAll.Enabled = false;
+            btnOptions.Enabled = true;
+            gTaskbarProgress.SetState(this, gTaskbarProgress.TaskbarStates.NoProgress);
+            gTaskbarProgress.SetOverlayIcon(this, null, null);
+            Refresh();
         }
 
         private void ClearControls()
