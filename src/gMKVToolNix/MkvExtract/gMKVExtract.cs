@@ -86,7 +86,7 @@ namespace gMKVToolNix.MkvExtract
             }
         }
 
-        public void ExtractMKVSegments(
+        private void ExtractMKVSegments(
             string argMKVFile
             , List<gMKVSegment> argMKVSegmentsToExtract
             , string argOutputDirectory
@@ -324,7 +324,7 @@ namespace gMKVToolNix.MkvExtract
             }
         }
 
-        public void ExtractMkvCuesheet(
+        private void ExtractMkvCuesheet(
             string argMKVFile, 
             string argOutputDirectory, 
             gMKVExtractFilenamePatterns argFilenamePatterns,
@@ -413,7 +413,7 @@ namespace gMKVToolNix.MkvExtract
             }
         }
 
-        public void ExtractMkvTags(
+        private void ExtractMkvTags(
             string argMKVFile, 
             string argOutputDirectory, 
             gMKVExtractFilenamePatterns argFilenamePatterns,
@@ -491,7 +491,7 @@ namespace gMKVToolNix.MkvExtract
             MkvExtractTrackUpdated?.Invoke(filename, trackName);
         }
 
-        public static List<TrackParameter> GetTrackParameters(
+        private static List<TrackParameter> GetTrackParameters(
             gMKVSegment argSeg
             , string argMKVFile
             , string argOutputDirectory
@@ -976,7 +976,7 @@ namespace gMKVToolNix.MkvExtract
         /// <param name="outputAction">The action to perform with the received line of text.</param>
         /// <param name="errorAction">The action to perform with error lines.</param>
         /// <returns>A new Action<Process, string> that can be used as a handler.</returns>
-        public Action<Process, string> CreateProcessOutputHandlerFactory(Action<string> outputAction, Action<string> errorAction)
+        private Action<Process, string> CreateProcessOutputHandlerFactory(Action<string> outputAction, Action<string> errorAction)
         {
             // Return a new lambda expression that matches the Action<Process, string> signature.
             // This lambda "closes over" the outputAction parameter.

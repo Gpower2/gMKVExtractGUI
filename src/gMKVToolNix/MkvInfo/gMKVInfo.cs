@@ -782,7 +782,7 @@ namespace gMKVToolNix.MkvInfo
         /// </summary>
         /// <param name="outputAction">The action to perform with the received line of text.</param>
         /// <returns>A new Action<Process, string> that can be used as a handler.</returns>
-        public Action<Process, string> CreateProcessOutputHandlerFactory(Action<string> outputAction, Action<string> errorAction)
+        private Action<Process, string> CreateProcessOutputHandlerFactory(Action<string> outputAction, Action<string> errorAction)
         {
             // Return a new lambda expression that matches the Action<Process, string> signature.
             // This lambda "closes over" the outputAction parameter.
@@ -815,7 +815,7 @@ namespace gMKVToolNix.MkvInfo
         /// </summary>
         /// <param name="errorAction"></param>
         /// <returns>A new Action<Process, string> that can be used as a handler.</returns>
-        public Action<Process, string> CreateProcessOutputDelaysHandlerFactory(
+        private Action<Process, string> CreateProcessOutputDelaysHandlerFactory(
             Action<string> errorAction, 
             Action<int> setVideoDelayAction,
             Action increaseTrackDelaysFound,
