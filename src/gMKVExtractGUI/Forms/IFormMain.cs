@@ -1,4 +1,4 @@
-﻿namespace gMKVToolNix.Forms
+namespace gMKVToolNix.Forms
 {
     public interface IFormMain
     {

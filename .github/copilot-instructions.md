@@ -1,4 +1,4 @@
-﻿# Copilot instructions — gMKVExtractGUI
+# Copilot instructions — gMKVExtractGUI
 
 ## Build, test, and lint commands
 
@@ -38,6 +38,8 @@ vstest.console.exe tests\gMKVToolnix.Unit.Tests\bin\Debug\gMKVToolNix.Unit.Tests
 - MKVToolNix path discovery is part of startup behavior. `frmMain2` accepts `--mkvtoolnix=...`, otherwise falls back to the saved setting, the current directory, the Windows registry, or `/usr/bin` on Linux/Mono.
 
 ## Key conventions
+
+- All repository text files must use **UTF-8 without BOM** and **CRLF** line endings. When editing an existing text file or creating a new one, keep or write it in that format, and normalize touched files if they are not already compliant. The repository root `.editorconfig` and `.gitattributes` encode this convention.
 
 - The GUI project lives in `src\gMKVExtractGUI`, but most namespaces are still `gMKVToolNix`. Search by namespace as well as by folder name when tracing UI code.
 

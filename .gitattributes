@@ -1,0 +1,15 @@
+# Keep tracked text files on CRLF in the working tree. UTF-8 without BOM is
+# enforced separately through .editorconfig and repository instructions.
+* text=auto eol=crlf
+
+# Common binary artifacts.
+*.dll -text
+*.exe -text
+*.ico -text
+*.pdb -text
+*.7z -text
+
+# Build and package output.
+bin/** -text
+obj/** -text
+packages/** -text

@@ -1,4 +1,4 @@
-﻿namespace gMKVToolNix.CueSheet
+namespace gMKVToolNix.CueSheet
 {
     public class CueTrack
     {

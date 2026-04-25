@@ -1,4 +1,4 @@
-﻿namespace gMKVToolNix.MkvExtract
+namespace gMKVToolNix.MkvExtract
 {
     public class TrackParameter
     {

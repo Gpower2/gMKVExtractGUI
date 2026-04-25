@@ -1,4 +1,4 @@
-﻿namespace gMKVToolNix
+namespace gMKVToolNix
 {
     partial class frmLog
     {

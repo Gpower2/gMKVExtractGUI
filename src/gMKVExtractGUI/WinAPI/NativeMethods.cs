@@ -66,7 +66,8 @@ namespace gMKVToolNix.WinAPI // Or any appropriate namespace
         /// <param name="darkModeEnabled"></param>
         /// <param name="pszSubIdList"></param>
         /// <returns>true if successful, false otherwise.</returns>
-        public static bool SetWindowThemeManaged(IntPtr hWnd, bool darkModeEnabled, string pszSubIdList = null)        {
+        public static bool SetWindowThemeManaged(IntPtr hWnd, bool darkModeEnabled, string pszSubIdList = null)
+        {
             string mode = darkModeEnabled ? "DarkMode_Explorer" : "ClearMode_Explorer";
             return SetWindowThemeInternal(hWnd, mode, pszSubIdList);
         }
@@ -78,7 +79,8 @@ namespace gMKVToolNix.WinAPI // Or any appropriate namespace
         /// <param name="darkModeEnabled"></param>
         /// <param name="pszSubIdList"></param>
         /// <returns>true if successful, false otherwise.</returns>
-        public static bool SetWindowThemeForComboBoxManaged(IntPtr hWnd, bool darkModeEnabled, string pszSubIdList = null)        {
+        public static bool SetWindowThemeForComboBoxManaged(IntPtr hWnd, bool darkModeEnabled, string pszSubIdList = null)
+        {
             string mode = darkModeEnabled ? "DarkMode_CFD" : "ClearMode_CFD";
             return SetWindowThemeInternal(hWnd, mode, pszSubIdList);
         }

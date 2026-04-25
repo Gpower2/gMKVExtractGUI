@@ -1,4 +1,4 @@
-﻿using CommandLine;
+using CommandLine;
 using gMKVToolNix.Translator.Console.Commands;
 
 namespace gMKVToolNix.Translator.Console

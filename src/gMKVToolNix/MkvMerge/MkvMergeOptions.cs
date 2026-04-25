@@ -1,4 +1,4 @@
-﻿namespace gMKVToolNix.MkvMerge
+namespace gMKVToolNix.MkvMerge
 {
     public enum MkvMergeOptions
     {

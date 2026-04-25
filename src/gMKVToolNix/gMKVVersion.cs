@@ -1,4 +1,4 @@
-﻿namespace gMKVToolNix
+namespace gMKVToolNix
 {
     public class gMKVVersion
     {

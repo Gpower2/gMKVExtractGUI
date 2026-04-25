@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <xs:schema xmlns="http://tempuri.org/matroskachapters" elementFormDefault="qualified" targetNamespace="http://tempuri.org/matroskachapters" xmlns:xs="http://www.w3.org/2001/XMLSchema">
   <xs:element name="Chapters">
     <xs:complexType>

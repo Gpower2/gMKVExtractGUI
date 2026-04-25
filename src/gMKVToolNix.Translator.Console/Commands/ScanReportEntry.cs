@@ -1,4 +1,4 @@
-﻿namespace gMKVToolNix.Translator.Console.Commands
+namespace gMKVToolNix.Translator.Console.Commands
 {
     public class ScanReportEntry
     {

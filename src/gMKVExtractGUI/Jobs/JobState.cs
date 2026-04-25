@@ -1,4 +1,4 @@
-﻿namespace gMKVToolNix.Jobs
+namespace gMKVToolNix.Jobs
 {
     public enum JobState
     {

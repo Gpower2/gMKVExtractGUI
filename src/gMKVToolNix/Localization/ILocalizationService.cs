@@ -1,4 +1,4 @@
-﻿namespace gMKVToolNix.Localization
+namespace gMKVToolNix.Localization
 {
     public interface ILocalizationService
     {

@@ -1,4 +1,4 @@
-﻿using gMKVToolNix.Controls;
+using gMKVToolNix.Controls;
 
 namespace gMKVToolNix.Forms
 {
