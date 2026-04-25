@@ -61,12 +61,11 @@ namespace gMKVToolNix.MkvExtract
             }
         }
 
-        public void ExtractMKVSegmentsThreaded(object argParameters)
+        public void ExtractMKVSegmentsThreaded(gMKVExtractSegmentsParameters parameters)
         {
             _ThreadedException = null;
             try
             {
-                gMKVExtractSegmentsParameters parameters = (gMKVExtractSegmentsParameters)argParameters;
                 ExtractMKVSegments(
                     parameters.MKVFile,
                     parameters.MKVSegmentsToExtract,
@@ -254,12 +253,11 @@ namespace gMKVToolNix.MkvExtract
             }
         }
 
-        public void ExtractMKVTimecodesThreaded(object argParameters)
+        public void ExtractMKVTimecodesThreaded(gMKVExtractSegmentsParameters parameters)
         {
             _ThreadedException = null;
             try
             {
-                gMKVExtractSegmentsParameters parameters = (gMKVExtractSegmentsParameters)argParameters;
                 ExtractMKVSegments(
                     parameters.MKVFile,
                     parameters.MKVSegmentsToExtract,
@@ -280,12 +278,11 @@ namespace gMKVToolNix.MkvExtract
             }
         }
 
-        public void ExtractMKVCuesThreaded(object argParameters)
+        public void ExtractMKVCuesThreaded(gMKVExtractSegmentsParameters parameters)
         {
             _ThreadedException = null;
             try
             {
-                gMKVExtractSegmentsParameters parameters = (gMKVExtractSegmentsParameters)argParameters;
                 ExtractMKVSegments(
                     parameters.MKVFile,
                     parameters.MKVSegmentsToExtract,
@@ -306,12 +303,11 @@ namespace gMKVToolNix.MkvExtract
             }
         }
 
-        public void ExtractMkvCuesheetThreaded(object argParameters)
+        public void ExtractMkvCuesheetThreaded(gMKVExtractSegmentsParameters parameters)
         {
             _ThreadedException = null;
             try
             {
-                gMKVExtractSegmentsParameters parameters = (gMKVExtractSegmentsParameters)argParameters;
                 ExtractMkvCuesheet(
                     parameters.MKVFile,
                     parameters.OutputDirectory,
@@ -396,12 +392,11 @@ namespace gMKVToolNix.MkvExtract
             }
         }
 
-        public void ExtractMkvTagsThreaded(object argParameters)
+        public void ExtractMkvTagsThreaded(gMKVExtractSegmentsParameters parameters)
         {
             _ThreadedException = null;
             try
             {
-                gMKVExtractSegmentsParameters parameters = (gMKVExtractSegmentsParameters)argParameters;
                 ExtractMkvTags(
                     parameters.MKVFile,
                     parameters.OutputDirectory,

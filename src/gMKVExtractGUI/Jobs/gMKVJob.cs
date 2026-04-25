@@ -11,7 +11,7 @@ using gMKVToolNix.Segments;
 
 namespace gMKVToolNix.Jobs
 {
-    public delegate void gMkvExtractMethod(object parameterList);
+    public delegate void gMkvExtractMethod(gMKVExtractSegmentsParameters parameterList);
 
     [Serializable]
     [System.Xml.Serialization.XmlInclude(typeof(List<gMKVSegment>))]
@@ -64,8 +64,7 @@ namespace gMKVToolNix.Jobs
             gMkvExtractMethod extractMethod = ExtractMethod(argGmkvExtract);
 
             return Task.Factory.StartNew(
-                state => extractMethod(state),
-                ParametersList,
+                () => extractMethod(ParametersList),
                 CancellationToken.None,
                 TaskCreationOptions.LongRunning,
                 TaskScheduler.Default);
