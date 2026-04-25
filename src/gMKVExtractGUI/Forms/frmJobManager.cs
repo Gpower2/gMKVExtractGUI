@@ -167,13 +167,29 @@ namespace gMKVToolNix
 
         void gMkvExtract_MkvExtractTrackUpdated(string filename, string trackName)
         {
-            this.Invoke(new UpdateTrackLabelDelegate(UpdateTrackLabel), new object[] { filename, trackName });
+            if (IsDisposed || Disposing || !IsHandleCreated)
+            {
+                return;
+            }
+
+            BeginInvoke((MethodInvoker)delegate
+            {
+                UpdateTrackLabel(filename, trackName);
+            });
             Debug.WriteLine(trackName);
         }
 
         void gMkvExtract_MkvExtractProgressUpdated(int progress)
         {
-            this.Invoke(new UpdateProgressDelegate(UpdateCurrentProgress), new object[] { progress });
+            if (IsDisposed || Disposing || !IsHandleCreated)
+            {
+                return;
+            }
+
+            BeginInvoke((MethodInvoker)delegate
+            {
+                UpdateCurrentProgress(progress);
+            });
         }
 
         private void frmJobManager_FormClosing(object sender, FormClosingEventArgs e)
@@ -277,19 +293,18 @@ namespace gMKVToolNix
 
         public void UpdateCurrentProgress(object val)
         {
-            prgBrCurrent.Value = Convert.ToInt32(val);
-            prgBrTotal.Value = (_CurrentJob - 1) * 100 + Convert.ToInt32(val);
-            lblCurrentProgressValue.Text = string.Format("{0}%", Convert.ToInt32(val));
+            int progressValue = Convert.ToInt32(val);
+
+            prgBrCurrent.Value = progressValue;
+            prgBrTotal.Value = (_CurrentJob - 1) * 100 + progressValue;
+            lblCurrentProgressValue.Text = string.Format("{0}%", progressValue);
             lblTotalProgressValue.Text = string.Format("{0}%", prgBrTotal.Value / _TotalJobs);
-            gTaskbarProgress.SetValue(this, Convert.ToUInt64(val), (UInt64)100);
-            grdJobs.Refresh();
-            Application.DoEvents();
+            gTaskbarProgress.SetValue(this, Convert.ToUInt64(progressValue), (UInt64)100);
         }
 
         public void UpdateTrackLabel(object filename, object val)
         {
             txtCurrentTrack.Text = string.Format("{0} from {1}", val, Path.GetFileName((string)filename));
-            Application.DoEvents();
         }
 
         private void btnRunAll_Click(object sender, EventArgs e)

@@ -1099,32 +1099,41 @@ namespace gMKVToolNix.Forms
 
         void g_MkvExtractTrackUpdated(string filename, string trackName)
         {
-            this.Invoke(new UpdateTrackLabelDelegate(UpdateTrackLabel), new object[] { filename, trackName });
+            if (IsDisposed || Disposing || !IsHandleCreated)
+            {
+                return;
+            }
+
+            BeginInvoke(new UpdateTrackLabelDelegate(UpdateTrackLabel), filename, trackName);
         }
 
         void g_MkvExtractProgressUpdated(int progress)
         {
-            this.Invoke(new UpdateProgressDelegate(UpdateProgress), new object[] { progress });
+            if (IsDisposed || Disposing || !IsHandleCreated)
+            {
+                return;
+            }
+
+            BeginInvoke(new UpdateProgressDelegate(UpdateProgress), progress);
         }
 
         public void UpdateProgress(object val)
         {
-            prgBrStatus.Value = Convert.ToInt32(val);
-            prgBrTotalStatus.Value = (_CurrentJob - 1) * 100 + Convert.ToInt32(val);
-            lblStatus.Text = string.Format("{0}%", Convert.ToInt32(val));
+            int progressValue = Convert.ToInt32(val);
+
+            prgBrStatus.Value = progressValue;
+            prgBrTotalStatus.Value = (_CurrentJob - 1) * 100 + progressValue;
+            lblStatus.Text = string.Format("{0}%", progressValue);
             lblTotalStatus.Text = string.Format("{0}%", prgBrTotalStatus.Value / _TotalJobs);
 
             // Update the task bar progress bar based on the total progress and not on the individual job
             gTaskbarProgress.SetValue(this, Convert.ToUInt64(prgBrTotalStatus.Value), (ulong)prgBrTotalStatus.Maximum);
             //gTaskbarProgress.SetValue(this, Convert.ToUInt64(val), (UInt64)100);
-
-            Application.DoEvents();
         }
 
         public void UpdateTrackLabel(object filename, object val)
         {
             txtSegmentInfo.Text = LocalizationManager.GetString("UI.Common.Status.ExtractingTrack", val, Path.GetFileName((string)filename));
-            Application.DoEvents();
         }
 
         private void CheckNeccessaryInputFields(bool checkSelectedTracks, bool checkSelectedChapterType)

@@ -894,12 +894,22 @@ namespace gMKVToolNix
 
         void g_MkvExtractTrackUpdated(string filename, string trackName)
         {
-            this.Invoke(new UpdateTrackLabelDelegate(UpdateTrackLabel), new object[] { filename, trackName });
+            if (IsDisposed || Disposing || !IsHandleCreated)
+            {
+                return;
+            }
+
+            BeginInvoke(new UpdateTrackLabelDelegate(UpdateTrackLabel), filename, trackName);
         }
 
         void g_MkvExtractProgressUpdated(int progress)
         {
-            this.Invoke(new UpdateProgressDelegate(UpdateProgress), new object[] { progress });
+            if (IsDisposed || Disposing || !IsHandleCreated)
+            {
+                return;
+            }
+
+            BeginInvoke(new UpdateProgressDelegate(UpdateProgress), progress);
         }
 
         private void btnShowLog_Click(object sender, EventArgs e)
@@ -1046,16 +1056,16 @@ namespace gMKVToolNix
 
         public void UpdateProgress(Object val)
         {
-            prgBrStatus.Value = Convert.ToInt32(val);
-            lblStatus.Text = String.Format("{0}%", Convert.ToInt32(val));
-            gTaskbarProgress.SetValue(this, Convert.ToUInt64(val), (UInt64)100);
-            Application.DoEvents();
+            int progressValue = Convert.ToInt32(val);
+
+            prgBrStatus.Value = progressValue;
+            lblStatus.Text = String.Format("{0}%", progressValue);
+            gTaskbarProgress.SetValue(this, Convert.ToUInt64(progressValue), (UInt64)100);
         }
 
         public void UpdateTrackLabel(Object filename, Object val)
         {
             lblTrack.Text = (String)val;
-            Application.DoEvents();
         }
 
         #region "Context Menu"
