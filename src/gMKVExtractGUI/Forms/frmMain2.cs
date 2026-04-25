@@ -532,33 +532,12 @@ namespace gMKVToolNix.Forms
                 if (_CmdArguments.Any()
                     && _CmdArguments.Where(c => !c.StartsWith("--")).Any())
                 {
-                    tlpMain.Enabled = false;
-                    Cursor = Cursors.WaitCursor;
-                    txtSegmentInfo.Text = LocalizationManager.GetString("UI.Common.Status.GettingFiles");
-
-                    // Get the file list
-                    List<string> fileList = GetFilesFromInputFileDrop(_CmdArguments.Where(c => !c.StartsWith("--")).ToArray());
-
-                    // Check if any valid matroska files were provided
-                    if (!fileList.Any())
-                    {
-                        throw CreateLocalizedException("UI.MainForm2.Errors.NoValidMatroskaFiles");
-                    }
-
-                    // Add files to the TreeView
-                    AddFileNodes(txtMKVToolnixPath.Text, fileList);
-
-                    Cursor = Cursors.Default;
-                    tlpMain.Enabled = true;
+                    LoadFilesFromInputFileDrop(_CmdArguments.Where(c => !c.StartsWith("--")).ToArray());
                 }
             }
             catch (Exception ex)
             {
-                Debug.WriteLine(ex);
-                gMKVLogger.Log(ex.ToString());
-                Cursor = Cursors.Default;
-                ShowErrorMessage(ex.Message);
-                tlpMain.Enabled = true;
+                HandleInputFileDropFailure(ex);
             }
         }
 
@@ -662,95 +641,125 @@ namespace gMKVToolNix.Forms
             }
         }
 
-        private List<string> GetFilesFromInputFileDrop(string[] argFileDrop)
+        private sealed class InputFileDropAnalysis
+        {
+            public bool ContainsDirectories { get; set; }
+
+            public bool ContainsSubDirectories { get; set; }
+        }
+
+        private void LoadFilesFromInputFileDrop(string[] argFileDrop, bool argAppend = false)
+        {
+            try
+            {
+                tlpMain.Enabled = false;
+                Cursor = Cursors.WaitCursor;
+                txtSegmentInfo.Text = LocalizationManager.GetString("UI.Common.Status.GettingFiles");
+
+                Task.Factory.StartNew(
+                    () => AnalyzeInputFileDrop(argFileDrop),
+                    CancellationToken.None,
+                    TaskCreationOptions.None,
+                    TaskScheduler.Default)
+                    .ContinueWith(task =>
+                    {
+                        try
+                        {
+                            if (task.IsFaulted)
+                            {
+                                throw task.Exception == null
+                                    ? new Exception("Failed to analyze dropped files.")
+                                    : task.Exception.GetBaseException();
+                            }
+
+                            SearchOption directorySearchOption = SearchOption.TopDirectoryOnly;
+                            InputFileDropAnalysis analysis = task.Result;
+
+                            if (analysis.ContainsDirectories && analysis.ContainsSubDirectories)
+                            {
+                                Cursor = Cursors.Default;
+                                DialogResult result = ShowLocalizedQuestion(
+                                    "UI.MainForm2.Dialogs.IncludeSubDirectoriesQuestion",
+                                    "UI.MainForm2.Dialogs.SubDirectoriesFoundTitle");
+                                Cursor = Cursors.WaitCursor;
+
+                                if (result == DialogResult.Cancel)
+                                {
+                                    throw CreateLocalizedException("UI.MainForm2.Errors.NoValidMatroskaFiles");
+                                }
+
+                                directorySearchOption = result == DialogResult.Yes
+                                    ? SearchOption.AllDirectories
+                                    : SearchOption.TopDirectoryOnly;
+                            }
+
+                            Task.Factory.StartNew(
+                                () => BuildFileListFromInputFileDrop(argFileDrop, directorySearchOption),
+                                CancellationToken.None,
+                                TaskCreationOptions.None,
+                                TaskScheduler.Default)
+                                .ContinueWith(fileTask =>
+                                {
+                                    try
+                                    {
+                                        if (fileTask.IsFaulted)
+                                        {
+                                            throw fileTask.Exception == null
+                                                ? new Exception("Failed to gather dropped files.")
+                                                : fileTask.Exception.GetBaseException();
+                                        }
+
+                                        List<string> fileList = fileTask.Result;
+                                        if (!fileList.Any())
+                                        {
+                                            throw CreateLocalizedException("UI.MainForm2.Errors.NoValidMatroskaFiles");
+                                        }
+
+                                        AddFileNodes(
+                                            txtMKVToolnixPath.Text,
+                                            fileList,
+                                            argAppend,
+                                            delegate { Cursor = Cursors.Default; });
+                                    }
+                                    catch (Exception ex)
+                                    {
+                                        HandleInputFileDropFailure(ex);
+                                    }
+                                }, TaskScheduler.FromCurrentSynchronizationContext());
+                        }
+                        catch (Exception ex)
+                        {
+                            HandleInputFileDropFailure(ex);
+                        }
+                    }, TaskScheduler.FromCurrentSynchronizationContext());
+            }
+            catch (Exception ex)
+            {
+                HandleInputFileDropFailure(ex);
+            }
+        }
+
+        private InputFileDropAnalysis AnalyzeInputFileDrop(string[] argFileDrop)
+        {
+            List<string> directories = argFileDrop.Where(f => Directory.Exists(f)).ToList();
+
+            return new InputFileDropAnalysis
+            {
+                ContainsDirectories = directories.Any(),
+                ContainsSubDirectories = directories.Any(t =>
+                    Directory.GetDirectories(t, "*", SearchOption.TopDirectoryOnly).Any())
+            };
+        }
+
+        private List<string> BuildFileListFromInputFileDrop(string[] argFileDrop, SearchOption argDirectorySearchOption)
         {
             List<string> fileList = new List<string>();
 
-            // Check if directories were provided
-            bool directoryExists = false;
-            using (Task ta = Task.Factory.StartNew(() =>
-            {
-                directoryExists = argFileDrop.Any(f => Directory.Exists(f));
-            }))
-            {
-                while (!ta.IsCompleted) { Application.DoEvents(); }
-                if (ta.Exception != null) { throw ta.Exception; }
-            }
-
-            if (directoryExists)
-            {
-                // Check if they contain subdirectories
-                List<string> subDirList = new List<string>();
-
-                using (Task ta = Task.Factory.StartNew(() =>
-                {
-                    argFileDrop.Where(f => Directory.Exists(f))
-                    .ToList()
-                    .ForEach(t => subDirList.AddRange(Directory.GetDirectories(t, "*", SearchOption.TopDirectoryOnly).ToList()));
-                }))
-                {
-                    while (!ta.IsCompleted) { Application.DoEvents(); }
-                    if (ta.Exception != null) { throw ta.Exception; }
-                }
-
-                if (subDirList.Any())
-                {
-                    Cursor = Cursors.Default;
-                    var result = ShowLocalizedQuestion("UI.MainForm2.Dialogs.IncludeSubDirectoriesQuestion", "UI.MainForm2.Dialogs.SubDirectoriesFoundTitle");
-                    Cursor = Cursors.WaitCursor;
-
-                    if (result == DialogResult.Cancel)
-                    {
-                        Cursor = Cursors.Default;
-                        return new List<string>();
-                    }
-
-                    using (Task ta = Task.Factory.StartNew(() =>
-                    {
-                        // Add the subdirectory files
-                        argFileDrop.Where(f => Directory
-                            .Exists(f))
-                            .ToList()
-                            .ForEach(t => fileList.AddRange(Directory.GetFiles(
-                                t,
-                                "*",
-                                result == DialogResult.Yes
-                                    ? SearchOption.AllDirectories
-                                    : SearchOption.TopDirectoryOnly)
-                            .ToList()));
-                    }))
-                    {
-                        while (!ta.IsCompleted) { Application.DoEvents(); }
-                        if (ta.Exception != null) { throw ta.Exception; }
-                    }
-                }
-                else
-                {
-                    using (Task ta = Task.Factory.StartNew(() =>
-                    {
-                        // Since there are no subdirectories, add the files from the directory
-                        argFileDrop.Where(f => Directory.Exists(f))
-                        .ToList()
-                        .ForEach(t => fileList.AddRange(Directory.GetFiles(t, "*", SearchOption.TopDirectoryOnly).ToList()));
-                    }))
-                    {
-                        while (!ta.IsCompleted) { Application.DoEvents(); }
-                        if (ta.Exception != null) { throw ta.Exception; }
-                    }
-                }
-            }
-
-            using (Task ta = Task.Factory.StartNew(() =>
-            {
-                // Add the files provided
-                argFileDrop.Where(f => File.Exists(f))
+            argFileDrop.Where(f => Directory.Exists(f))
                 .ToList()
-                .ForEach(t => fileList.Add(t));
-            }))
-            {
-                while (!ta.IsCompleted) { Application.DoEvents(); }
-                if (ta.Exception != null) { throw ta.Exception; }
-            }
+                .ForEach(t => fileList.AddRange(Directory.GetFiles(t, "*", argDirectorySearchOption).ToList()));
+
+            fileList.AddRange(argFileDrop.Where(f => File.Exists(f)));
 
             // Remove all non valid matroska files
             fileList.RemoveAll(f =>
@@ -767,6 +776,15 @@ namespace gMKVToolNix.Forms
             return fileList;
         }
 
+        private void HandleInputFileDropFailure(Exception ex)
+        {
+            Debug.WriteLine(ex);
+            gMKVLogger.Log(ex.ToString());
+            Cursor = Cursors.Default;
+            ShowErrorMessage(ex.Message);
+            tlpMain.Enabled = true;
+        }
+
         private void trvInputFiles_DragDrop(object sender, DragEventArgs e)
         {
             try
@@ -777,34 +795,13 @@ namespace gMKVToolNix.Forms
                     string[] s = (string[])e.Data.GetData(DataFormats.FileDrop, false);
                     if (s != null && s.Length > 0)
                     {
-                        tlpMain.Enabled = false;
-                        Cursor = Cursors.WaitCursor;
-                        txtSegmentInfo.Text = LocalizationManager.GetString("UI.Common.Status.GettingFiles");
-
-                        // Get the file list
-                        List<string> fileList = GetFilesFromInputFileDrop(s);
-
-                        // Check if any valid matroska files were provided
-                        if (!fileList.Any())
-                        {
-                            throw CreateLocalizedException("UI.MainForm2.Errors.NoValidMatroskaFiles");
-                        }
-
-                        // Add files to the TreeView
-                        AddFileNodes(txtMKVToolnixPath.Text, fileList, chkAppendOnDragAndDrop.Checked);
-
-                        Cursor = Cursors.Default;
-                        tlpMain.Enabled = true;
+                        LoadFilesFromInputFileDrop(s, chkAppendOnDragAndDrop.Checked);
                     }
                 }
             }
             catch (Exception ex)
             {
-                Debug.WriteLine(ex);
-                gMKVLogger.Log(ex.ToString());
-                Cursor = Cursors.Default;
-                ShowErrorMessage(ex.Message);
-                tlpMain.Enabled = true;
+                HandleInputFileDropFailure(ex);
             }
         }
 
@@ -847,12 +844,11 @@ namespace gMKVToolNix.Forms
             }
         }
 
-        private void AddFileNodes(string argMKVToolNixPath, List<string> argFiles, bool argAppend = false)
+        private void AddFileNodes(string argMKVToolNixPath, List<string> argFiles, bool argAppend = false, Action argOnCompleted = null)
         {
             try
             {
                 tlpMain.Enabled = false;
-                Application.DoEvents();
 
                 // empty all the controls in any case
                 ClearControls();
@@ -882,58 +878,88 @@ namespace gMKVToolNix.Forms
 
                 gTaskbarProgress.SetState(this, gTaskbarProgress.TaskbarStates.Indeterminate);
 
-                NodeResults results = null;
+                Task.Factory.StartNew(
+                    () => GetFileInfoNodes(argMKVToolNixPath, argFiles),
+                    CancellationToken.None,
+                    TaskCreationOptions.None,
+                    TaskScheduler.Default)
+                    .ContinueWith(task =>
+                    {
+                        try
+                        {
+                            if (task.IsFaulted)
+                            {
+                                gTaskbarProgress.SetState(this, gTaskbarProgress.TaskbarStates.Error);
+                                throw task.Exception == null
+                                    ? new Exception("Failed to analyze input files.")
+                                    : task.Exception.GetBaseException();
+                            }
 
-                Task ta = Task.Factory.StartNew(() =>
-                {
-                    results = GetFileInfoNodes(argMKVToolNixPath, argFiles);
-                });
+                            NodeResults results = task.Result;
 
-                while (!ta.IsCompleted)
-                {
-                    Application.DoEvents();
-                }
+                            trvInputFiles.BeginUpdate();
+                            try
+                            {
+                                // Add the nodes to the TreeView
+                                trvInputFiles.Nodes.AddRange(results.Nodes.ToArray());
+                                MarkContextMenuDirty();
+                                trvInputFiles.ExpandAll();
+                            }
+                            finally
+                            {
+                                trvInputFiles.EndUpdate();
+                            }
 
-                if (ta.Exception != null)
-                {
-                    gTaskbarProgress.SetState(this, gTaskbarProgress.TaskbarStates.Error);
-                    throw ta.Exception;
-                }
+                            // Remove the check box from the nodes that contain the gMKVSegmentInfo
+                            trvInputFiles.AllNodes.Where(n => n != null && n.Tag != null && n.Tag is gMKVSegmentInfo)
+                                .ToList()
+                                .ForEach(n => trvInputFiles.SetIsCheckBoxVisible(n, false));
 
-                trvInputFiles.BeginUpdate();
-                try
-                {
-                    // Add the nodes to the TreeView
-                    trvInputFiles.Nodes.AddRange(results.Nodes.ToArray());
-                    MarkContextMenuDirty();
-                    trvInputFiles.ExpandAll();
-                }
-                finally
-                {
-                    trvInputFiles.EndUpdate();
-                }
+                            // Check for error messages
+                            if (results.ErrorMessages != null && results.ErrorMessages.Any())
+                            {
+                                ShowErrorMessage(string.Join(Environment.NewLine, results.ErrorMessages));
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            Debug.WriteLine(ex);
+                            gMKVLogger.Log(ex.ToString());
+                            ShowErrorMessage(ex.Message);
+                        }
+                        finally
+                        {
+                            prgBrStatus.Value = 0;
+                            lblStatus.Text = "";
 
-                // Remove the check box from the nodes that contain the gMKVSegmentInfo
-                trvInputFiles.AllNodes.Where(n => n != null && n.Tag != null && n.Tag is gMKVSegmentInfo)
-                    .ToList()
-                    .ForEach(n => trvInputFiles.SetIsCheckBoxVisible(n, false));
+                            UpdateInputFilesGroupTitle();
 
-                // Check for error messages
-                if (results.ErrorMessages != null && results.ErrorMessages.Any())
-                {
-                    ShowErrorMessage(string.Join(Environment.NewLine, results.ErrorMessages));
-                }
+                            tlpMain.Enabled = true;
+                            gTaskbarProgress.SetState(this, gTaskbarProgress.TaskbarStates.NoProgress);
+
+                            if (argOnCompleted != null)
+                            {
+                                argOnCompleted();
+                            }
+                        }
+                    }, TaskScheduler.FromCurrentSynchronizationContext());
             }
-            finally
+            catch (Exception ex)
             {
+                Debug.WriteLine(ex);
+                gMKVLogger.Log(ex.ToString());
+                ShowErrorMessage(ex.Message);
+
                 prgBrStatus.Value = 0;
                 lblStatus.Text = "";
-
                 UpdateInputFilesGroupTitle();
-
                 tlpMain.Enabled = true;
                 gTaskbarProgress.SetState(this, gTaskbarProgress.TaskbarStates.NoProgress);
-                Application.DoEvents();
+
+                if (argOnCompleted != null)
+                {
+                    argOnCompleted();
+                }
             }
         }
 
