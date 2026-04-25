@@ -1886,8 +1886,22 @@ namespace gMKVToolNix.Forms
 
         public void SetTableLayoutMainStatus(bool argStatus)
         {
+            if (IsDisposed || Disposing)
+            {
+                return;
+            }
+
+            if (IsHandleCreated && InvokeRequired)
+            {
+                BeginInvoke((MethodInvoker)delegate
+                {
+                    SetTableLayoutMainStatus(argStatus);
+                });
+                return;
+            }
+
             tlpMain.Enabled = argStatus;
-            Application.DoEvents();
+            tlpMain.Invalidate();
         }
 
         #region "Form Events"
