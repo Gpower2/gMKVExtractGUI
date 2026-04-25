@@ -10,6 +10,7 @@ namespace gMKVToolNix.Theming
     public static class ThemeManager
     {
         private static readonly ToolStripRenderer LinuxDarkStatusStripRenderer = new LinuxDarkStatusStripProfessionalRenderer();
+        private static Action<Control, bool> _applyNativeTheme = ApplyNativeThemeCore;
 
         // Define Light and Dark Colors
         // Basic Colors
@@ -57,12 +58,7 @@ namespace gMKVToolNix.Theming
             Color menuBackColor = darkMode ? DarkModeMenuBackColor : LightModeMenuBackColor;
             Color menuForeColor = darkMode ? DarkModeMenuForeColor : LightModeMenuForeColor;
 
-            if (!(control is ToolStripDropDown))
-            {
-                // Retheming popup menu HWNDs during Opening can corrupt native menu state.
-                NativeMethods.SetWindowThemeManaged(control.Handle, darkMode);
-                NativeMethods.TrySetImmersiveDarkMode(control.Handle, darkMode);
-            }
+            ApplyNativeTheme(control, darkMode);
 
             if (control is Form || control is gForm)
             {
@@ -87,12 +83,18 @@ namespace gMKVToolNix.Theming
             }
             else if (control is TextBox || control is RichTextBox || control is gTextBox || control is gRichTextBox)
             {
+                bool nativeThemeNeedsRefresh = false;
                 control.BackColor = textBackColor;
                 control.ForeColor = textForeColor;
 
                 if (control is TextBox textBox)
                 {
-                    textBox.BorderStyle = darkMode ? BorderStyle.FixedSingle : BorderStyle.Fixed3D;
+                    BorderStyle targetBorderStyle = darkMode ? BorderStyle.FixedSingle : BorderStyle.Fixed3D;
+                    if (textBox.BorderStyle != targetBorderStyle)
+                    {
+                        textBox.BorderStyle = targetBorderStyle;
+                        nativeThemeNeedsRefresh = true;
+                    }
                 }
 
                 if (control is gRichTextBox gRich)
@@ -108,7 +110,11 @@ namespace gMKVToolNix.Theming
                         if (darkMode)
                         {
                             rich.BackColor = rich.Parent.BackColor;
-                            rich.BorderStyle = BorderStyle.None;
+                            if (rich.BorderStyle != BorderStyle.None)
+                            {
+                                rich.BorderStyle = BorderStyle.None;
+                                nativeThemeNeedsRefresh = true;
+                            }
                             rich.SelectionBackColor = Color.FromArgb(80, 80, 80); // Dark selection background
 
                             if (!PlatformExtensions.IsOnLinux)
@@ -118,7 +124,11 @@ namespace gMKVToolNix.Theming
                         }
                         else
                         {
-                            rich.BorderStyle = BorderStyle.Fixed3D;
+                            if (rich.BorderStyle != BorderStyle.Fixed3D)
+                            {
+                                rich.BorderStyle = BorderStyle.Fixed3D;
+                                nativeThemeNeedsRefresh = true;
+                            }
                             rich.SelectionBackColor = SystemColors.Highlight; // Standard highlight color
                             if (!PlatformExtensions.IsOnLinux)
                             {
@@ -138,6 +148,11 @@ namespace gMKVToolNix.Theming
                         // Especially for Linux via Mono
                         Debug.WriteLine(ex);
                     }
+                }
+
+                if (nativeThemeNeedsRefresh)
+                {
+                    ApplyNativeTheme(control, darkMode);
                 }
             }
             else if (control is Button btn)
@@ -372,6 +387,23 @@ namespace gMKVToolNix.Theming
             {
                 ApplyTheme(childControl, darkMode);
             }
+        }
+
+        private static void ApplyNativeTheme(Control control, bool darkMode)
+        {
+            _applyNativeTheme(control, darkMode);
+        }
+
+        private static void ApplyNativeThemeCore(Control control, bool darkMode)
+        {
+            if (control is ToolStripDropDown)
+            {
+                return;
+            }
+
+            // Retheming popup menu HWNDs during Opening can corrupt native menu state.
+            NativeMethods.SetWindowThemeManaged(control.Handle, darkMode);
+            NativeMethods.TrySetImmersiveDarkMode(control.Handle, darkMode);
         }
 
         public static void ApplyToolStripItemTheme(ToolStripItem item, bool darkMode)

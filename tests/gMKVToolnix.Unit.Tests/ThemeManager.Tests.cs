@@ -1,3 +1,5 @@
+using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Reflection;
 using System.Windows.Forms;
@@ -130,6 +132,43 @@ namespace gMKVToolNix.Unit.Tests
                 Assert.AreEqual(ThemeManager.LightModeButtonBackColor, button.BackColor);
                 Assert.AreEqual(ThemeManager.LightModeButtonForeColor, button.ForeColor);
                 Assert.IsTrue(button.UseVisualStyleBackColor);
+            }
+        }
+
+        [TestMethod]
+        public void ApplyTheme_DarkMode_RichTextBox_ReappliesNativeThemeAfterHandleRecreation()
+        {
+            FieldInfo nativeThemeField = typeof(ThemeManager).GetField("_applyNativeTheme", BindingFlags.NonPublic | BindingFlags.Static);
+            Action<Control, bool> originalApplier = (Action<Control, bool>)nativeThemeField.GetValue(null);
+            var handles = new List<IntPtr>();
+
+            try
+            {
+                using (var host = new Panel())
+                using (var richTextBox = new RichTextBox())
+                {
+                    host.Controls.Add(richTextBox);
+                    richTextBox.BorderStyle = BorderStyle.Fixed3D;
+
+                    nativeThemeField.SetValue(null, new Action<Control, bool>((control, darkMode) =>
+                    {
+                        if (ReferenceEquals(control, richTextBox))
+                        {
+                            handles.Add(control.Handle);
+                        }
+                    }));
+
+                    ThemeManager.ApplyTheme(host, true);
+
+                    Assert.AreEqual(BorderStyle.None, richTextBox.BorderStyle);
+                    Assert.AreEqual(2, handles.Count);
+                    Assert.AreNotEqual(handles[0], handles[1]);
+                    Assert.AreEqual(richTextBox.Handle, handles[1]);
+                }
+            }
+            finally
+            {
+                nativeThemeField.SetValue(null, originalApplier);
             }
         }
     }
