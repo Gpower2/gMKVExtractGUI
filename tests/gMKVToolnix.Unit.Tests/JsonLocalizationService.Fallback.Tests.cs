@@ -47,6 +47,20 @@ namespace gMKVToolNix.Unit.Tests
         }
 
         [TestMethod]
+        public void CreateBuiltInEnglishTranslationFile_ShouldCreateUsableMasterFileWithoutLocaleFiles()
+        {
+            TranslationFile translationFile = JsonLocalizationService.CreateBuiltInEnglishTranslationFile();
+
+            Assert.IsNotNull(translationFile);
+            Assert.IsNotNull(translationFile.Metadata);
+            Assert.AreEqual("en", translationFile.Metadata.Culture);
+            Assert.IsTrue(translationFile.Entries.Count > 0);
+            Assert.AreEqual("Are you sure?", translationFile.Entries["UI.Common.Dialog.AreYouSureTitle"].Source);
+            Assert.AreEqual("Are you sure?", translationFile.Entries["UI.Common.Dialog.AreYouSureTitle"].Translation);
+            Assert.IsTrue(translationFile.Entries["UI.Common.Dialog.AreYouSureTitle"].IsTranslated);
+        }
+
+        [TestMethod]
         public void GetStringForCulture_WhenEnglishFileIsMissing_UsesBuiltInEnglishFallback()
         {
             WriteTranslationFile(TranslationPathService.GetTranslationFileName("de"), "de", new Dictionary<string, string>

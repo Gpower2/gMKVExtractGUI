@@ -34,6 +34,32 @@ namespace gMKVToolNix.Localization
             return new Dictionary<string, string>(_englishDefaults, System.StringComparer.OrdinalIgnoreCase);
         }
 
+        public static TranslationFile CreateBuiltInEnglishTranslationFile()
+        {
+            var translationFile = new TranslationFile
+            {
+                Metadata = new Metadata
+                {
+                    Culture = FallbackCulture,
+                    CreationDate = DateTime.UtcNow,
+                    LastEditDate = DateTime.UtcNow
+                }
+            };
+
+            foreach (var entry in _englishDefaults.OrderBy(item => item.Key, System.StringComparer.OrdinalIgnoreCase))
+            {
+                translationFile.Entries[entry.Key] = new TranslationEntry
+                {
+                    Source = entry.Value,
+                    Translation = entry.Value,
+                    IsTranslated = true,
+                    Notes = null
+                };
+            }
+
+            return translationFile;
+        }
+
         private void LoadAllTranslations(string translationFolder)
         {
             if (!Directory.Exists(translationFolder))

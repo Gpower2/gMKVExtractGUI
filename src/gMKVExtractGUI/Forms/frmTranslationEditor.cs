@@ -126,7 +126,31 @@ namespace gMKVToolNix.Forms
         private void LoadMasterFile()
         {
             string masterFile = TranslationPathService.GetMasterFilePath(_translationsDirectory);
-            _masterFile = TranslationFileService.LoadFile(masterFile);
+            if (File.Exists(masterFile))
+            {
+                _masterFile = TranslationFileService.LoadFile(masterFile);
+                _masterFile.Metadata.Culture = "en";
+                return;
+            }
+
+            _masterFile = JsonLocalizationService.CreateBuiltInEnglishTranslationFile();
+        }
+
+        private TranslationFile LoadTranslationFileOrFallback(string culture)
+        {
+            string path = TranslationPathService.GetExistingTranslationFilePath(_translationsDirectory, culture);
+            if (File.Exists(path))
+            {
+                return TranslationFileService.LoadFile(path);
+            }
+
+            string canonicalCulture = TranslationPathService.GetCanonicalCultureCode(culture);
+            if (string.Equals(canonicalCulture, "en", StringComparison.OrdinalIgnoreCase))
+            {
+                return _masterFile ?? JsonLocalizationService.CreateBuiltInEnglishTranslationFile();
+            }
+
+            throw new FileNotFoundException("Translation file not found.", path);
         }
 
         private void LoadAvailableCultures()
@@ -222,8 +246,7 @@ namespace gMKVToolNix.Forms
 
         private TranslationCultureLoadResult LoadCultureData(string culture)
         {
-            string path = TranslationPathService.GetExistingTranslationFilePath(_translationsDirectory, culture);
-            TranslationFile translationFile = TranslationFileService.LoadFile(path);
+            TranslationFile translationFile = LoadTranslationFileOrFallback(culture);
             translationFile.Metadata.Culture = TranslationPathService.GetCanonicalCultureCode(translationFile.Metadata.Culture);
 
             return new TranslationCultureLoadResult
