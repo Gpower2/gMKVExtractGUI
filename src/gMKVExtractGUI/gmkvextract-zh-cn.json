@@ -1226,7 +1226,7 @@
     },
     "UI.MainForm2.Errors.AutoDetectManualPathHint": {
       "Source": "{0}{1}Please download and reinstall or provide a manual path!",
-      "Translation": "{0}{1}请下载并重新安装或提供手动路径！",
+      "Translation": "{0}{1}请下载并重新安装或手动提供路径！",
       "IsTranslated": true,
       "Notes": "Auto-detection error followed by guidance to reinstall or choose a manual path"
     },
