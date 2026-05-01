@@ -50,25 +50,25 @@
     },
     "UI.MainForm.Actions.Popup": {
       "Source": "Popup",
-      "Translation": "弹出窗口",
+      "Translation": "弹出提示",
       "IsTranslated": true,
       "Notes": "Checkbox to show popup when extraction is complete"
     },
     "UI.MainForm.Actions.JobMode": {
       "Source": "Job Mode",
-      "Translation": "工作模式",
+      "Translation": "任务模式",
       "IsTranslated": true,
       "Notes": "Checkbox to enable job mode"
     },
     "UI.MainForm.Actions.Extract": {
       "Source": "Extract",
-      "Translation": "截取",
+      "Translation": "提取",
       "IsTranslated": true,
       "Notes": "Button to start extraction"
     },
     "UI.MainForm.Actions.ExtractionMode": {
       "Source": "Extract:",
-      "Translation": "截取:",
+      "Translation": "提取：",
       "IsTranslated": true,
       "Notes": "Label for extraction mode combo box"
     },
@@ -80,7 +80,7 @@
     },
     "UI.MainForm.Actions.ChapterType": {
       "Source": "Chapter",
-      "Translation": "章节",
+      "Translation": "章节格式",
       "IsTranslated": true,
       "Notes": "Label for chapter type combo box"
     },
@@ -134,43 +134,43 @@
     },
     "UI.ContextMenu.SelectAllTracks": {
       "Source": "Select All Tracks",
-      "Translation": "选取所有轨道",
+      "Translation": "选择所有轨道",
       "IsTranslated": true,
       "Notes": "Context menu item to select all tracks"
     },
     "UI.ContextMenu.SelectAllVideoTracks": {
       "Source": "Select All Video Tracks",
-      "Translation": "选取所有视频轨",
+      "Translation": "选择所有视频轨",
       "IsTranslated": true,
       "Notes": "Context menu item to select all video tracks"
     },
     "UI.ContextMenu.SelectAllAudioTracks": {
       "Source": "Select All Audio Tracks",
-      "Translation": "选取所有音轨",
+      "Translation": "选择所有音轨",
       "IsTranslated": true,
       "Notes": "Context menu item to select all audio tracks"
     },
     "UI.ContextMenu.SelectAllSubtitleTracks": {
       "Source": "Select All Subtitle Tracks",
-      "Translation": "选取所有字幕轨",
+      "Translation": "选择所有字幕轨",
       "IsTranslated": true,
       "Notes": "Context menu item to select all subtitle tracks"
     },
     "UI.ContextMenu.SelectAllChapterTracks": {
       "Source": "Select All Chapter Tracks",
-      "Translation": "选取所有章节轨道",
+      "Translation": "选择所有章节轨道",
       "IsTranslated": true,
       "Notes": "Context menu item to select all chapter tracks"
     },
     "UI.ContextMenu.SelectAllAttachmentTracks": {
       "Source": "Select All Attachments Tracks",
-      "Translation": "选取所有附件轨道",
+      "Translation": "选择所有附件轨道",
       "IsTranslated": true,
       "Notes": "Context menu item to select all attachment tracks"
     },
     "UI.ContextMenu.UnselectAllTracks": {
       "Source": "Unselect All tracks",
-      "Translation": "取消所有轨道选取",
+      "Translation": "取消所有轨道选择",
       "IsTranslated": true,
       "Notes": "Context menu item to unselect all tracks"
     },
@@ -206,19 +206,19 @@
     },
     "UI.JobManager.Jobs.Group": {
       "Source": "Jobs",
-      "Translation": "工作",
+      "Translation": "任务",
       "IsTranslated": true,
       "Notes": "GroupBox label for job list"
     },
     "UI.JobManager.Jobs.GroupWithCount": {
       "Source": "Jobs ({0})",
-      "Translation": "工作 ({0})",
+      "Translation": "任务 ({0})",
       "IsTranslated": true,
       "Notes": "GroupBox label for the job list including the job count"
     },
     "UI.JobManager.Columns.Job": {
       "Source": "Job",
-      "Translation": "工作",
+      "Translation": "任务",
       "IsTranslated": true,
       "Notes": "Grid column header for the job description"
     },
@@ -272,19 +272,19 @@
     },
     "UI.JobManager.Actions.Popup": {
       "Source": "Popup",
-      "Translation": "弹出窗口",
+      "Translation": "弹出提示",
       "IsTranslated": true,
       "Notes": "Checkbox to show popup on job completion"
     },
     "UI.JobManager.Actions.SaveJobs": {
       "Source": "Save Jobs...",
-      "Translation": "保存工作...",
+      "Translation": "保存任务...",
       "IsTranslated": true,
       "Notes": "Button to save job queue to file"
     },
     "UI.JobManager.Actions.LoadJobs": {
       "Source": "Load Jobs...",
-      "Translation": "加载工作...",
+      "Translation": "加载任务...",
       "IsTranslated": true,
       "Notes": "Button to load job queue from file"
     },
@@ -302,7 +302,7 @@
     },
     "UI.JobManager.Actions.RunJobs": {
       "Source": "Run Jobs",
-      "Translation": "运行工作",
+      "Translation": "运行任务",
       "IsTranslated": true,
       "Notes": "Button to start running queued jobs"
     },
@@ -356,7 +356,7 @@
     },
     "UI.LogForm.Actions.CopySelection": {
       "Source": "Copy Selection",
-      "Translation": "拷贝选取内容",
+      "Translation": "复制所选内容",
       "IsTranslated": true,
       "Notes": "Button to copy selected log text"
     },
@@ -392,7 +392,7 @@
     },
     "UI.MainForm2.Actions.AddJobs": {
       "Source": "Add Jobs",
-      "Translation": "添加工作",
+      "Translation": "添加任务",
       "IsTranslated": true,
       "Notes": "Button to add new jobs"
     },
@@ -410,25 +410,25 @@
     },
     "UI.MainForm2.Actions.ShowJobs": {
       "Source": "Jobs...",
-      "Translation": "工作...",
+      "Translation": "任务...",
       "IsTranslated": true,
       "Notes": "Button to show job manager"
     },
     "UI.MainForm2.Actions.Popup": {
       "Source": "Popup",
-      "Translation": "弹出窗口",
+      "Translation": "弹出提示",
       "IsTranslated": true,
       "Notes": "Checkbox to show popup when extraction is complete in main form 2"
     },
     "UI.MainForm2.Actions.Extract": {
       "Source": "Extract",
-      "Translation": "截取",
+      "Translation": "提取",
       "IsTranslated": true,
       "Notes": "Button to start extraction in main form 2"
     },
     "UI.MainForm2.Actions.ExtractionMode": {
       "Source": "Extract",
-      "Translation": "截取",
+      "Translation": "提取",
       "IsTranslated": true,
       "Notes": "Label for extraction mode combo box in main form 2"
     },
@@ -440,7 +440,7 @@
     },
     "UI.MainForm2.Actions.ChapterType": {
       "Source": "Chapter",
-      "Translation": "章节",
+      "Translation": "章节格式",
       "IsTranslated": true,
       "Notes": "Label for chapter type combo box in main form 2"
     },
@@ -452,7 +452,7 @@
     },
     "UI.MainForm2.OutputDirectory.UseSource": {
       "Source": "Use Source",
-      "Translation": "使用来源",
+      "Translation": "使用源目录",
       "IsTranslated": true,
       "Notes": "Checkbox to use source directory as output in main form 2"
     },
@@ -464,13 +464,13 @@
     },
     "UI.MainForm2.OutputDirectory.SetAsDefault": {
       "Source": "Set As Default Directory",
-      "Translation": "设为缺省目录",
+      "Translation": "设为默认目录",
       "IsTranslated": true,
       "Notes": "Context menu item to set default directory"
     },
     "UI.MainForm2.OutputDirectory.UseDefault": {
       "Source": "Use Currently Set Default Directory:",
-      "Translation": "使用目前设置的缺省目录：",
+      "Translation": "使用当前默认目录：",
       "IsTranslated": true,
       "Notes": "Context menu item to use default directory"
     },
@@ -482,7 +482,7 @@
     },
     "UI.MainForm2.Config.AutoDetect": {
       "Source": "Auto Detect",
-      "Translation": "自动侦测",
+      "Translation": "自动检测",
       "IsTranslated": true,
       "Notes": "Button to auto-detect MKVToolnix directory"
     },
@@ -506,7 +506,7 @@
     },
     "UI.OptionsForm.Tags.Default": {
       "Source": "Default",
-      "Translation": "缺省",
+      "Translation": "默认",
       "IsTranslated": true,
       "Notes": "Button to reset attachment tags to default"
     },
@@ -524,7 +524,7 @@
     },
     "UI.OptionsForm.Chapters.Default": {
       "Source": "Default",
-      "Translation": "缺省",
+      "Translation": "默认",
       "IsTranslated": true,
       "Notes": "Button to reset chapters to default"
     },
@@ -542,7 +542,7 @@
     },
     "UI.OptionsForm.VideoTracks.Default": {
       "Source": "Default",
-      "Translation": "缺省",
+      "Translation": "默认",
       "IsTranslated": true,
       "Notes": "Button to reset video tracks to default"
     },
@@ -560,7 +560,7 @@
     },
     "UI.OptionsForm.AudioTracks.Default": {
       "Source": "Default",
-      "Translation": "缺省",
+      "Translation": "默认",
       "IsTranslated": true,
       "Notes": "Button to reset audio tracks to default"
     },
@@ -578,7 +578,7 @@
     },
     "UI.OptionsForm.SubtitleTracks.Default": {
       "Source": "Default",
-      "Translation": "缺省",
+      "Translation": "默认",
       "IsTranslated": true,
       "Notes": "Button to reset subtitle tracks to default"
     },
@@ -596,7 +596,7 @@
     },
     "UI.OptionsForm.Attachments.Default": {
       "Source": "Default",
-      "Translation": "缺省",
+      "Translation": "默认",
       "IsTranslated": true,
       "Notes": "Button to reset attachments to default"
     },
@@ -620,19 +620,19 @@
     },
     "UI.OptionsForm.RawMode": {
       "Source": "Use `raw` extraction",
-      "Translation": "使用 `raw` 截取",
+      "Translation": "使用 `raw` 提取",
       "IsTranslated": true,
       "Notes": "Checkbox for raw extraction mode"
     },
     "UI.OptionsForm.FullRawMode": {
       "Source": "Use `full raw` extraction",
-      "Translation": "使用 `full raw` 截取",
+      "Translation": "使用 `full raw` 提取",
       "IsTranslated": true,
       "Notes": "Checkbox for full raw extraction mode"
     },
     "UI.OptionsForm.TextFilesWithoutBom": {
       "Source": "Disable BOM to text files (v96.0+)",
-      "Translation": "停用文本档的 BOM (v96.0+)",
+      "Translation": "禁用文本文件的 BOM (v96.0+)",
       "IsTranslated": true,
       "Notes": "Checkbox to disable BOM in text file output"
     },
@@ -680,7 +680,7 @@
     },
     "UI.OptionsForm.Advanced.Group": {
       "Source": "Advanced Options",
-      "Translation": "高端选项",
+      "Translation": "高级选项",
       "IsTranslated": true,
       "Notes": "GroupBox label for advanced options"
     },
@@ -692,170 +692,170 @@
     },
     "UI.OptionsForm.Advanced.Translations": {
       "Source": "Translations...",
-      "Translation": "Translations...",
-      "IsTranslated": false,
+      "Translation": "翻译...",
+      "IsTranslated": true,
       "Notes": "Button to open the translation editor"
     },
     "UI.OptionsForm.Info.Text": {
       "Source": "Here you can specify the output filename format for each kind of track.\nPressing the \"Add...\" button you will see the list with the available placeholders and select them.\nPressing the \"Default\" button you will reset the output filename format to its default value.",
-      "Translation": "您可以在此为每种轨道指定输出文件名格式。\n按一下「添加...」按钮后，您会看到可用的预留位置清单，并可加以选取。\n按一下「缺省」按钮后，输出文件名格式将重设为默认值。",
+      "Translation": "您可以在此为每种轨道指定输出文件名格式。\n单击「添加...」按钮后，会看到可用的占位符列表并进行选择。\n单击「默认」按钮后，输出文件名格式将重置为默认值。",
       "IsTranslated": true,
       "Notes": "Help text describing filename placeholders"
     },
     "UI.TranslationEditor.Title": {
       "Source": "Translation Editor",
-      "Translation": "Translation Editor",
-      "IsTranslated": false,
+      "Translation": "翻译编辑器",
+      "IsTranslated": true,
       "Notes": "Window title for the translation editor"
     },
     "UI.TranslationEditor.Settings.Group": {
       "Source": "Translation Settings",
-      "Translation": "Translation Settings",
-      "IsTranslated": false,
+      "Translation": "翻译设置",
+      "IsTranslated": true,
       "Notes": "GroupBox label for translation editor settings"
     },
     "UI.TranslationEditor.Grid.Group": {
       "Source": "Translations",
-      "Translation": "Translations",
-      "IsTranslated": false,
+      "Translation": "翻译",
+      "IsTranslated": true,
       "Notes": "GroupBox label for translation editor entries"
     },
     "UI.TranslationEditor.Actions.Group": {
       "Source": "Actions",
-      "Translation": "Actions",
-      "IsTranslated": false,
+      "Translation": "操作",
+      "IsTranslated": true,
       "Notes": "GroupBox label for translation editor actions"
     },
     "UI.TranslationEditor.Fields.TargetCulture": {
       "Source": "Locale:",
-      "Translation": "Locale:",
-      "IsTranslated": false,
+      "Translation": "语言：",
+      "IsTranslated": true,
       "Notes": "Label for the current translation locale selector"
     },
     "UI.TranslationEditor.Fields.NewCulture": {
       "Source": "New Locale:",
-      "Translation": "New Locale:",
-      "IsTranslated": false,
+      "Translation": "新语言：",
+      "IsTranslated": true,
       "Notes": "Label for the new locale code text box"
     },
     "UI.TranslationEditor.Fields.Translator": {
       "Source": "Translator:",
-      "Translation": "Translator:",
-      "IsTranslated": false,
+      "Translation": "翻译者：",
+      "IsTranslated": true,
       "Notes": "Label for the translator metadata text box"
     },
     "UI.TranslationEditor.Fields.Search": {
       "Source": "Search:",
-      "Translation": "Search:",
-      "IsTranslated": false,
+      "Translation": "搜索：",
+      "IsTranslated": true,
       "Notes": "Label for the translation search box"
     },
     "UI.TranslationEditor.Fields.ShowOnlyUntranslated": {
       "Source": "Show only untranslated",
-      "Translation": "Show only untranslated",
-      "IsTranslated": false,
+      "Translation": "仅显示未翻译项",
+      "IsTranslated": true,
       "Notes": "Checkbox to filter the translation grid to untranslated rows"
     },
     "UI.TranslationEditor.Fields.Summary": {
       "Source": "Translated: {0}/{1}",
-      "Translation": "Translated: {0}/{1}",
-      "IsTranslated": false,
+      "Translation": "已翻译：{0}/{1}",
+      "IsTranslated": true,
       "Notes": "Summary label showing translated entries versus total entries"
     },
     "UI.TranslationEditor.Columns.Key": {
       "Source": "Key",
-      "Translation": "Key",
-      "IsTranslated": false,
+      "Translation": "键",
+      "IsTranslated": true,
       "Notes": "Column header for the localization key"
     },
     "UI.TranslationEditor.Columns.Source": {
       "Source": "Source",
-      "Translation": "Source",
-      "IsTranslated": false,
+      "Translation": "原文",
+      "IsTranslated": true,
       "Notes": "Column header for the English source string"
     },
     "UI.TranslationEditor.Columns.Translation": {
       "Source": "Translation",
-      "Translation": "Translation",
-      "IsTranslated": false,
+      "Translation": "翻译",
+      "IsTranslated": true,
       "Notes": "Column header for the translated string"
     },
     "UI.TranslationEditor.Columns.IsTranslated": {
       "Source": "Done",
-      "Translation": "Done",
-      "IsTranslated": false,
+      "Translation": "已完成",
+      "IsTranslated": true,
       "Notes": "Column header for the translated status checkbox"
     },
     "UI.TranslationEditor.Columns.Notes": {
       "Source": "Notes",
-      "Translation": "Notes",
-      "IsTranslated": false,
+      "Translation": "注释",
+      "IsTranslated": true,
       "Notes": "Column header for translator notes"
     },
     "UI.TranslationEditor.Actions.Create": {
       "Source": "Create",
-      "Translation": "Create",
-      "IsTranslated": false,
+      "Translation": "创建",
+      "IsTranslated": true,
       "Notes": "Button to create a new locale from the English master"
     },
     "UI.TranslationEditor.Actions.Sync": {
       "Source": "Sync",
-      "Translation": "Sync",
-      "IsTranslated": false,
+      "Translation": "同步",
+      "IsTranslated": true,
       "Notes": "Button to sync the selected locale with the English master"
     },
     "UI.TranslationEditor.Actions.Save": {
       "Source": "Save",
-      "Translation": "Save",
-      "IsTranslated": false,
+      "Translation": "保存",
+      "IsTranslated": true,
       "Notes": "Button to save the selected locale"
     },
     "UI.TranslationEditor.Actions.Close": {
       "Source": "Close",
-      "Translation": "Close",
-      "IsTranslated": false,
+      "Translation": "关闭",
+      "IsTranslated": true,
       "Notes": "Button to close the translation editor"
     },
     "UI.TranslationEditor.Errors.SelectCulture": {
       "Source": "You must select a locale first!",
-      "Translation": "You must select a locale first!",
-      "IsTranslated": false,
+      "Translation": "请先选择语言！",
+      "IsTranslated": true,
       "Notes": "Error shown when translation editor actions require a selected locale"
     },
     "UI.TranslationEditor.Errors.CultureCodeRequired": {
       "Source": "You must enter a locale code!",
-      "Translation": "You must enter a locale code!",
-      "IsTranslated": false,
+      "Translation": "必须输入语言代码！",
+      "IsTranslated": true,
       "Notes": "Error shown when creating a locale without entering a culture code"
     },
     "UI.TranslationEditor.Errors.LocaleExists": {
       "Source": "The locale {0} already exists!",
-      "Translation": "The locale {0} already exists!",
-      "IsTranslated": false,
+      "Translation": "语言 {0} 已存在！",
+      "IsTranslated": true,
       "Notes": "Error shown when trying to create a locale file that already exists"
     },
     "UI.TranslationEditor.Errors.CannotSyncEnglish": {
       "Source": "The English master locale cannot be synced!",
-      "Translation": "The English master locale cannot be synced!",
-      "IsTranslated": false,
+      "Translation": "无法同步英语主语言！",
+      "IsTranslated": true,
       "Notes": "Error shown when trying to sync the English master locale"
     },
     "UI.TranslationEditor.Success.LocaleCreated": {
       "Source": "The locale {0} was created successfully!",
-      "Translation": "The locale {0} was created successfully!",
-      "IsTranslated": false,
+      "Translation": "语言 {0} 已创建！",
+      "IsTranslated": true,
       "Notes": "Success message after creating a new locale file"
     },
     "UI.TranslationEditor.Success.LocaleSaved": {
       "Source": "The locale {0} was saved successfully!",
-      "Translation": "The locale {0} was saved successfully!",
-      "IsTranslated": false,
+      "Translation": "语言 {0} 已保存！",
+      "IsTranslated": true,
       "Notes": "Success message after saving a locale file"
     },
     "UI.TranslationEditor.Success.LocaleSynced": {
       "Source": "The locale {0} was synced successfully! Added: {1}, Updated: {2}, Removed: {3}",
-      "Translation": "The locale {0} was synced successfully! Added: {1}, Updated: {2}, Removed: {3}",
-      "IsTranslated": false,
+      "Translation": "语言 {0} 已成功同步！已新增：{1}，已更新：{2}，已移除：{3}",
+      "IsTranslated": true,
       "Notes": "Success message after syncing a locale file with the English master"
     },
     "UI.MainForm2.InputFiles.GroupWithCount": {
@@ -890,67 +890,67 @@
     },
     "UI.MainForm2.Tooltips.AutoDetect": {
       "Source": "Press to try and auto-detect the MKVToolNix installation.",
-      "Translation": "按一下以尝试自动侦测 MKVToolNix 安装位置。",
+      "Translation": "单击以尝试自动检测 MKVToolNix 安装位置。",
       "IsTranslated": true,
       "Notes": "Tooltip for the auto-detect MKVToolNix button"
     },
     "UI.MainForm2.Tooltips.InputFiles": {
       "Source": "Contains the list of opened files with their tracks.\nYou can check the individual tracks in order to select them for extracting.\n\nNote: There is a context menu (right-click on the list) that contains many options for batch selecting tracks.",
-      "Translation": "包含已打开文件及其轨道的清单。\n您可以勾选个别轨道，以选取要截取的内容。\n\n注意：此清单有一个内容功能表（在清单上按鼠标右键），其中包含许多可批量选取轨道的选项。",
+      "Translation": "包含已打开文件及其轨道的列表。\n您可以勾选个别轨道，以选择要提取的内容。\n\n注意：此列表有一个右键菜单，其中包含许多批量选择轨道的选项。",
       "IsTranslated": true,
       "Notes": "Tooltip for the input files tree and group"
     },
     "UI.MainForm2.Tooltips.AppendOnDragAndDrop": {
       "Source": "Check if you want to append files in the input list on drag and drop.\nUncheck if you want to reset the input list every time you drag and drop a new file.",
-      "Translation": "如果您想在拖放时将文件附加到输入清单，请勾选此项。\n如果您想每次拖放新文件时都重设输入清单，请取消勾选。",
+      "Translation": "如果您想在拖放时将文件追加到输入列表，请勾选此项。\n如果您想每次拖放新文件时都重置输入列表，请取消勾选。",
       "IsTranslated": true,
       "Notes": "Tooltip for the append-on-drag-and-drop checkbox"
     },
     "UI.MainForm2.Tooltips.OverwriteExistingFiles": {
       "Source": "Check if you want the output files to always overwrite existing files with the same filename.\nUncheck if you want the output files to automatically be renamed with a different filename to avoid overwriting existing files.",
-      "Translation": "如果您想让输出文件一律覆写同名的现有文件，请勾选此项。\n如果您想让输出文件自动重命名为不同文件名以避免覆写现有文件，请取消勾选。",
+      "Translation": "如果您想让输出文件一律覆盖同名的现有文件，请勾选此项。\n如果您想让输出文件自动重命名以避免覆盖现有文件，请取消勾选。",
       "IsTranslated": true,
       "Notes": "Tooltip for the overwrite existing files checkbox"
     },
     "UI.MainForm2.Tooltips.UseSourceDirectory": {
       "Source": "Check if you want the output files to be saved in the same directory as the source files.\nUncheck if you want to manually select an output directory for ALL extracted files.",
-      "Translation": "如果您想让输出文件保存在与来源文件相同的目录中，请勾选此项。\n如果您想手动为所有截取出的文件选择输出目录，请取消勾选。",
+      "Translation": "如果您想让输出文件保存在与源文件相同的目录中，请勾选此项。\n如果您想手动为所有提取出的文件选择输出目录，请取消勾选。",
       "IsTranslated": true,
       "Notes": "Tooltip for the use source directory checkbox"
     },
     "UI.MainForm2.Tooltips.ShowPopup": {
       "Source": "Check if you want to show a popup message when the extraction is finished.",
-      "Translation": "如果您想在截取完成时显示快显消息，请勾选此项。",
+      "Translation": "如果您想在提取完成时显示弹出提示，请勾选此项。",
       "IsTranslated": true,
       "Notes": "Tooltip for the show popup checkbox"
     },
     "UI.MainForm2.Tooltips.Select": {
       "Source": "Press to display the menu that contains many options for batch selecting tracks.",
-      "Translation": "按一下以显示包含许多可批量选取轨道选项的功能表。",
+      "Translation": "单击以显示包含许多批量选择轨道选项的菜单。",
       "IsTranslated": true,
       "Notes": "Tooltip for the select button"
     },
     "UI.MainForm2.FileOptions.AppendOnDragAndDrop": {
       "Source": "Append input on drag and drop",
-      "Translation": "拖放时附加输入项目",
+      "Translation": "拖放时追加到输入列表",
       "IsTranslated": true,
       "Notes": "Checkbox to append dropped input files"
     },
     "UI.MainForm2.FileOptions.OverwriteExistingFiles": {
       "Source": "Overwrite existing files",
-      "Translation": "覆写现有文件",
+      "Translation": "覆盖现有文件",
       "IsTranslated": true,
       "Notes": "Checkbox to overwrite existing output files"
     },
     "UI.MainForm2.FileOptions.DisableTooltips": {
       "Source": "Disable tooltips",
-      "Translation": "停用工具提示",
+      "Translation": "禁用工具提示",
       "IsTranslated": true,
       "Notes": "Checkbox to disable tooltips"
     },
     "UI.MainForm2.Appearance.Dark": {
       "Source": "Dark",
-      "Translation": "深色",
+      "Translation": "深色模式",
       "IsTranslated": true,
       "Notes": "Checkbox to toggle dark appearance"
     },
@@ -1016,7 +1016,7 @@
     },
     "UI.MainForm2.ContextMenu.OpenSelectedFileFolder": {
       "Source": "Open Selected File Folder...",
-      "Translation": "打开所选文件文件夹...",
+      "Translation": "打开所选文件所在文件夹...",
       "IsTranslated": true,
       "Notes": "Context menu item to open the selected file folder"
     },
@@ -1118,7 +1118,7 @@
     },
     "UI.MainForm2.OutputDirectory.UseDefaultWithValue": {
       "Source": "Use Currently Set Default Directory: ({0})",
-      "Translation": "使用目前设置的缺省目录：({0})",
+      "Translation": "使用当前默认目录：({0})",
       "IsTranslated": true,
       "Notes": "Context menu item to use the currently set default directory"
     },
@@ -1160,19 +1160,19 @@
     },
     "UI.Common.Dialog.SelectDirectoryPlaceholder": {
       "Source": "Select directory",
-      "Translation": "选取目录",
+      "Translation": "选择目录",
       "IsTranslated": true,
       "Notes": "Placeholder file name used when browsing for a directory"
     },
     "UI.Common.Status.ExtractionCompleted": {
       "Source": "Extraction completed!",
-      "Translation": "截取完成！",
+      "Translation": "提取完成！",
       "IsTranslated": true,
       "Notes": "Status text shown when extraction finishes"
     },
     "UI.Common.Status.GettingFiles": {
       "Source": "Getting files...",
-      "Translation": "正在取得文件...",
+      "Translation": "正在获取文件...",
       "IsTranslated": true,
       "Notes": "Status text shown while collecting input files before analysis"
     },
@@ -1184,13 +1184,13 @@
     },
     "UI.Common.Status.ExtractingTrack": {
       "Source": "Extracting {0} from {1}...",
-      "Translation": "正在从 {1} 截取 {0}...",
+      "Translation": "正在从 {1} 提取 {0}...",
       "IsTranslated": true,
       "Notes": "Status text shown while extracting a selected track; {0} is the track label and {1} is the filename"
     },
     "UI.Common.Errors.ExtractionRunningBeforeClose": {
       "Source": "There is an extraction process running! Please abort before closing!",
-      "Translation": "目前有截取进程正在运行！请先中止后再关闭！",
+      "Translation": "当前有提取进程正在运行！请先中止后再关闭！",
       "IsTranslated": true,
       "Notes": "Error shown when trying to close while extraction is still running"
     },
@@ -1214,19 +1214,19 @@
     },
     "UI.MainForm2.Errors.AutoDetectLinuxNotFound": {
       "Source": "Could not find MKVToolNix in /usr/bin, or in the current directory, or in the ini file!",
-      "Translation": "无法在 /usr/bin、目前目录或 ini 档中找到 MKVToolNix！",
+      "Translation": "无法在 /usr/bin、当前目录或 ini 文件中找到 MKVToolNix！",
       "IsTranslated": true,
       "Notes": "Auto-detection error when MKVToolNix cannot be found on Linux"
     },
     "UI.MainForm2.Errors.AutoDetectWindowsNotFound": {
       "Source": "Could not find MKVToolNix in registry, or in the current directory, or in the ini file!",
-      "Translation": "无法在登录、目前目录或 ini 档中找到 MKVToolNix！",
+      "Translation": "无法在注册表、当前目录或 ini 文件中找到 MKVToolNix！",
       "IsTranslated": true,
       "Notes": "Auto-detection error when MKVToolNix cannot be found on Windows"
     },
     "UI.MainForm2.Errors.AutoDetectManualPathHint": {
       "Source": "{0}{1}Please download and reinstall or provide a manual path!",
-      "Translation": "{0}{1}请重新下载并安装应用程序，或提供手动路径。",
+      "Translation": "{0}{1}请下载并重新安装或手动提供路径！",
       "IsTranslated": true,
       "Notes": "Auto-detection error followed by guidance to reinstall or choose a manual path"
     },
@@ -1310,31 +1310,31 @@
     },
     "UI.MainForm2.Errors.TrackRequiredForMode": {
       "Source": "You must select a track from the file in order to extract {0}!",
-      "Translation": "截取前必须先从文件中选取一个轨道。",
+      "Translation": "必须从文件中选择一个轨道才能提取 {0}！",
       "IsTranslated": true,
       "Notes": "Error shown when a file track must be selected for a specific extraction mode"
     },
     "UI.MainForm2.Errors.TrackRequired": {
       "Source": "You must select a track to extract!",
-      "Translation": "必须选取要截取的轨道！",
+      "Translation": "必须选择要提取的轨道！",
       "IsTranslated": true,
       "Notes": "Error shown when no track is selected for extraction"
     },
     "UI.MainForm2.Errors.TimecodesTrackRequired": {
       "Source": "You must select a video, audio, or subtitle track to extract timecodes!",
-      "Translation": "必须选取视频、音频或字幕轨才能截取时间码！",
+      "Translation": "必须选择视频、音频或字幕轨才能提取时间码！",
       "IsTranslated": true,
       "Notes": "Error shown when timecodes extraction requires a selected media track"
     },
     "UI.MainForm2.Errors.CuesTrackRequired": {
       "Source": "You must select a video, audio, or subtitle track to extract cues!",
-      "Translation": "必须选取视频、音频或字幕轨才能截取 cues！",
+      "Translation": "必须选择视频、音频或字幕轨才能提取 cue（索引）！",
       "IsTranslated": true,
       "Notes": "Error shown when cues extraction requires a selected media track"
     },
     "UI.MainForm2.Errors.ChapterTypeRequired": {
       "Source": "You must select a chapter type!",
-      "Translation": "必须选取章节类型！",
+      "Translation": "必须选择章节类型！",
       "IsTranslated": true,
       "Notes": "Error shown when chapter extraction requires a chapter type"
     },
@@ -1352,13 +1352,13 @@
     },
     "UI.MainForm2.Errors.OutputDirectoryMissingCancelled": {
       "Source": "The output directory \"{0}\" does not exist!{1}{1}Extraction was cancelled!",
-      "Translation": "输出目录「{0}」不存在！{1}{1}已取消截取！",
+      "Translation": "输出目录「{0}」不存在！{1}{1}已取消提取！",
       "IsTranslated": true,
       "Notes": "Error shown when extraction is cancelled because the output directory is missing"
     },
     "UI.MainForm2.Success.ExtractionCompleted": {
       "Source": "The extraction was completed successfully!",
-      "Translation": "截取已成功完成！",
+      "Translation": "提取已成功完成！",
       "IsTranslated": true,
       "Notes": "Success dialog shown when extraction finishes"
     },
@@ -1388,19 +1388,19 @@
     },
     "UI.MainForm2.Dialogs.SelectOutputDirectoryTitle": {
       "Source": "Select output directory...",
-      "Translation": "选取输出目录...",
+      "Translation": "选择输出目录...",
       "IsTranslated": true,
       "Notes": "File dialog title used when browsing for the output directory"
     },
     "UI.MainForm2.Dialogs.SelectMkvToolnixDirectoryTitle": {
       "Source": "Select MKVToolNix directory...",
-      "Translation": "选取 MKVToolNix 目录...",
+      "Translation": "选择 MKVToolNix 目录...",
       "IsTranslated": true,
       "Notes": "File dialog title used when browsing for the MKVToolNix directory"
     },
     "UI.MainForm2.Dialogs.SelectInputMatroskaFileTitle": {
       "Source": "Select an input Matroska file...",
-      "Translation": "选取 Matroska 输入文件...",
+      "Translation": "选择 Matroska 输入文件...",
       "IsTranslated": true,
       "Notes": "File dialog title used when adding Matroska input files"
     },
@@ -1412,55 +1412,55 @@
     },
     "UI.MainForm2.Dialogs.ChangeDefaultOutputDirectoryQuestion": {
       "Source": "Are you sure you want to change the currently set ({0}) default output directory?",
-      "Translation": "您确定要变更目前设置的缺省输出目录 ({0}) 吗？",
+      "Translation": "您确定要更改当前默认输出目录 ({0}) 吗？",
       "IsTranslated": true,
       "Notes": "Confirmation dialog shown before changing the default output directory"
     },
     "UI.JobManager.Errors.NoJobsAvailable": {
       "Source": "There are no available jobs to run!",
-      "Translation": "没有可运行的工作！",
+      "Translation": "没有可运行的任务！",
       "IsTranslated": true,
       "Notes": "Error shown when no jobs are ready to run"
     },
     "UI.JobManager.Errors.ExceptionForJob": {
       "Source": "Exception for job {0}: {1}{2}",
-      "Translation": "工作 {0} 的例外状况：{1}{2}",
+      "Translation": "任务 {0} 的异常：{1}{2}",
       "IsTranslated": true,
       "Notes": "Per-job exception message appended while running jobs"
     },
     "UI.JobManager.Errors.UnsupportedExtractionMode": {
       "Source": "Unsupported Extraction Mode!",
-      "Translation": "不支持的截取模式！",
+      "Translation": "不支持的提取模式！",
       "IsTranslated": true,
       "Notes": "Error shown when a saved job contains an unsupported extraction mode"
     },
     "UI.JobManager.Success.JobsCompleted": {
       "Source": "The jobs completed successfully!",
-      "Translation": "工作已成功完成！",
+      "Translation": "任务已成功完成！",
       "IsTranslated": true,
       "Notes": "Success dialog shown when all jobs complete"
     },
     "UI.JobManager.Success.JobsSaved": {
       "Source": "The jobs were saved successfully!",
-      "Translation": "工作已成功保存！",
+      "Translation": "任务已成功保存！",
       "IsTranslated": true,
       "Notes": "Success dialog shown when jobs are saved to disk"
     },
     "UI.JobManager.Success.JobsLoaded": {
       "Source": "The jobs were loaded successfully!",
-      "Translation": "工作已成功加载！",
+      "Translation": "任务已成功加载！",
       "IsTranslated": true,
       "Notes": "Success dialog shown when jobs are loaded from disk"
     },
     "UI.JobManager.Dialogs.SelectJobFileTitle": {
       "Source": "Select job file...",
-      "Translation": "选取工作文件...",
+      "Translation": "选择任务文件...",
       "IsTranslated": true,
       "Notes": "File dialog title used when saving jobs"
     },
     "UI.JobManager.Dialogs.SelectJobsFileTitle": {
       "Source": "Select jobs file...",
-      "Translation": "选取工作文件...",
+      "Translation": "选择任务文件...",
       "IsTranslated": true,
       "Notes": "File dialog title used when loading jobs"
     },
@@ -1472,7 +1472,7 @@
     },
     "UI.Log.Dialogs.SelectFilenameTitle": {
       "Source": "Select filename for the log...",
-      "Translation": "选取日志文件名...",
+      "Translation": "选择日志文件名...",
       "IsTranslated": true,
       "Notes": "File dialog title used when saving the log"
     },
@@ -1484,7 +1484,7 @@
     },
     "UI.Common.Status.Extracting": {
       "Source": "Extracting...",
-      "Translation": "正在截取...",
+      "Translation": "正在提取...",
       "IsTranslated": true,
       "Notes": "Status text shown while extraction is running"
     },
@@ -1616,7 +1616,7 @@
     },
     "UI.OptionsForm.Placeholders.TrackForced": {
       "Source": "Track Forced",
-      "Translation": "强制轨道",
+      "Translation": "轨道强制标志",
       "IsTranslated": true,
       "Notes": "Placeholder description for the track forced flag"
     },
@@ -1706,37 +1706,37 @@
     },
     "UI.TranslationEditor.Dialogs.DiscardChanges": {
       "Source": "You have unsaved changes for locale {0}. Discard them?",
-      "Translation": "您对地区设置 {0} 有尚未保存的变更。要舍弃吗？",
+      "Translation": "您对语言 {0} 有尚未保存的变更。要舍弃吗？",
       "IsTranslated": true,
       "Notes": "Confirmation shown when switching locales or closing the editor with unsaved changes"
     },
     "UI.TranslationEditor.Actions.NewLocale": {
       "Source": "New Locale...",
-      "Translation": "添加地区设置...",
+      "Translation": "添加语言...",
       "IsTranslated": true,
       "Notes": "Button to open the create-new-locale flow"
     },
     "UI.TranslationEditor.Status.Loading": {
       "Source": "Loading locale...",
-      "Translation": "正在加载地区设置...",
+      "Translation": "正在加载语言...",
       "IsTranslated": true,
       "Notes": "Status text shown while a locale is loading in the editor"
     },
     "UI.TranslationEditor.Dialogs.NewLocaleTitle": {
       "Source": "Create New Locale",
-      "Translation": "创建新地区设置",
+      "Translation": "创建新语言",
       "IsTranslated": true,
       "Notes": "Dialog title for the create-new-locale flow"
     },
     "UI.TranslationEditor.Tooltips.Sync": {
       "Source": "Sync the selected locale with the English master file. New keys are added, changed English source text resets those translations, and removed keys are deleted.",
-      "Translation": "将所选地区设置与英文主档同步。会添加新键值、英文原文变更会重设那些翻译，已移除的键值也会删除。",
+      "Translation": "将所选语言与英文主语言文件同步。会添加新键值、英文原文变更会重设那些翻译，已移除的键值也会删除。",
       "IsTranslated": true,
       "Notes": "Tooltip for the sync button"
     },
     "UI.TranslationEditor.Tooltips.NewLocale": {
       "Source": "Create a new locale from the English master file.",
-      "Translation": "从英文主档创建新的地区设置。",
+      "Translation": "从英文主语言文件创建新的语言。",
       "IsTranslated": true,
       "Notes": "Tooltip for the new-locale button"
     }
