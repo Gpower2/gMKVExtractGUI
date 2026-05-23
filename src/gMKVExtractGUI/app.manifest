@@ -40,37 +40,11 @@
       <!--<supportedOS Id="{1f676c76-80e1-4239-95bb-83d0f6d0da78}" />-->
 
       <!-- Windows 10 -->
-      <!--<supportedOS Id="{8e0f7a12-bfb3-4fe8-b9a5-48fd50a15a9a}" />-->
+      <supportedOS Id="{8e0f7a12-bfb3-4fe8-b9a5-48fd50a15a9a}" />
 
     </application>
   </compatibility>
 
-  <!-- Indicates that the application is DPI-aware and will not be automatically scaled by Windows at higher
-       DPIs. Windows Presentation Foundation (WPF) applications are automatically DPI-aware and do not need 
-       to opt in. Windows Forms applications targeting .NET Framework 4.6 that opt into this setting, should 
-       also set the 'EnableWindowsFormsHighDpiAutoResizing' setting to 'true' in their app.config. -->
-  
-  <application xmlns="urn:schemas-microsoft-com:asm.v3">
-    <windowsSettings>
-      <dpiAware xmlns="http://schemas.microsoft.com/SMI/2005/WindowsSettings">true/PM</dpiAware>
-    </windowsSettings>
-  </application>
-
-  <!-- Specifies whether the current process is dots per inch (dpi) aware.
-       The minimum version of the operating system that supports the dpiAwareness element is Windows 10, version 1607.
-       For versions that support the dpiAwareness element, the dpiAwareness overrides the dpiAware element. You can
-       include both elements in a manifest if you want to specify a different behavior for Windows 10, version 1607
-       than for an earlier version of the operating system.
-       The dpiAwareness element can contain a single item or a list of comma-separated items. In the latter case, the 
-       first (leftmost) item in the list recognized by the operating system is used. In this way, you can specify 
-       different behaviors supported in future Windows operating system versions. -->
-  
-  <application xmlns="urn:schemas-microsoft-com:asm.v3">
-    <windowsSettings xmlns="http://schemas.microsoft.com/SMI/2016/WindowsSettings">
-      <dpiAwareness>PerMonitorV2, PerMonitor</dpiAwareness>
-    </windowsSettings>
-  </application>
-  
   <!-- Enable themes for Windows common controls and dialogs (Windows XP and later) -->
   <!--
   <dependency>

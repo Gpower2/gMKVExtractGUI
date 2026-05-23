@@ -1,19 +1,17 @@
-<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{20EBEFF3-C838-4239-A236-EC055BF51398}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <TargetFramework>net472</TargetFramework>
     <RootNamespace>gMKVToolNix</RootNamespace>
     <AssemblyName>gMKVExtractGUI</AssemblyName>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
-    <TargetFrameworkProfile />
+    <UseWindowsForms>true</UseWindowsForms>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <ApplicationIcon>Images\gMkvExtractGuiIcon.ico</ApplicationIcon>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+    <StartupObject>gMKVToolNix.Program</StartupObject>
+    <Platforms>AnyCPU;x86</Platforms>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">
     <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
@@ -23,7 +21,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|AnyCPU'">
     <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
@@ -31,15 +29,6 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
-  <PropertyGroup>
-    <ApplicationIcon>Images\gMkvExtractGuiIcon.ico</ApplicationIcon>
-  </PropertyGroup>
-  <PropertyGroup>
-    <StartupObject>gMKVToolNix.Program</StartupObject>
-  </PropertyGroup>
-  <PropertyGroup>
-    <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
     <DebugSymbols>true</DebugSymbols>
@@ -60,212 +49,29 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Newtonsoft.Json.13.0.3\lib\net40\Newtonsoft.Json.dll</HintPath>
-    </Reference>
-    <Reference Include="System" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Deployment" />
-    <Reference Include="System.Drawing" />
-    <Reference Include="System.Windows.Forms" />
-    <Reference Include="System.Xml" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Controls\ControlExtensions.cs" />
-    <Compile Include="Controls\ExceptionExtensions.cs" />
-    <Compile Include="Controls\gComboBox.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Controls\gDataGridView.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Controls\gGroupBox.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Controls\gListBox.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Controls\gTableLayoutPanel.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Controls\gTextBox.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Controls\gTreeView.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Forms\FormMkvExtractionMode.cs" />
-    <Compile Include="Forms\frmJobManager.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Forms\frmJobManager.Designer.cs">
-      <DependentUpon>frmJobManager.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Forms\frmLog.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Forms\frmLog.Designer.cs">
-      <DependentUpon>frmLog.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Forms\frmMain.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Forms\frmMain.Designer.cs">
-      <DependentUpon>frmMain.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Controls\gCheckedListBox.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Controls\gForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Forms\frmMain2.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Forms\frmMain2.Designer.cs">
-      <DependentUpon>frmMain2.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Forms\frmOptions.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Forms\frmTranslationEditor.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Forms\frmTranslationEditor.Designer.cs">
-      <DependentUpon>frmTranslationEditor.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Forms\frmOptions.Designer.cs">
-      <DependentUpon>frmOptions.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Forms\IFormMain.cs" />
-    <Compile Include="gSettings.cs" />
-    <Compile Include="Controls\gTaskbarProgress.cs" />
-    <Compile Include="Controls\gRichTextBox.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Jobs\gMKVJob.cs" />
-    <Compile Include="Jobs\gMKVJobInfo.cs" />
-    <Compile Include="Jobs\JobState.cs" />
-    <Compile Include="Localization\JsonLocalizationService.cs" />
-    <Compile Include="Localization\JsonLocalizationService.Defaults.cs" />
-    <Compile Include="Localization\LocalizedFontResolver.cs" />
-    <Compile Include="Localization\LocalizationManager.cs" />
-    <Compile Include="Program.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Theming\ThemeManager.cs" />
-    <Compile Include="WinAPI\NativeMethods.cs" />
-    <EmbeddedResource Include="Controls\gForm.resx">
-      <DependentUpon>gForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Forms\frmJobManager.resx">
-      <DependentUpon>frmJobManager.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Forms\frmLog.resx">
-      <DependentUpon>frmLog.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Forms\frmMain.resx">
-      <DependentUpon>frmMain.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Forms\frmMain2.resx">
-      <DependentUpon>frmMain2.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Forms\frmOptions.resx">
-      <DependentUpon>frmOptions.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Properties\Resources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <Compile Include="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Resources.resx</DependentUpon>
-      <DesignTime>True</DesignTime>
-    </Compile>
-    <EmbeddedResource Include="app.manifest" />
-    <None Include="app.config" />
-    <None Include="gmkvextract-en.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="gmkvextract-es.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="gmkvextract-de.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="gmkvextract-pt.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="gmkvextract-pt-br.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="gmkvextract-fr.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="gmkvextract-el.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="gmkvextract-zh-cn.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="gmkvextract-zh-tw.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="gmkvextract-ja.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="gmkvextract-ru.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="gmkvextract-it.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="gmkvextract-nl.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="gmkvextract-pl.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="gmkvextract-tr.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="gmkvextract-ro.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="gmkvextract-hi.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="gmkvextract-ko.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="packages.config" />
-    <None Include="Properties\Settings.settings">
-      <Generator>SettingsSingleFileGenerator</Generator>
-      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
-    </None>
-    <Compile Include="Properties\Settings.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Settings.settings</DependentUpon>
-      <DesignTimeSharedInput>True</DesignTimeSharedInput>
-    </Compile>
+    <ProjectReference Include="..\gMKVToolNix\gMKVToolNix.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\gMKVToolNix\gMKVToolNix.csproj">
-      <Project>{82fc8fa8-50c0-44fa-8801-80050c0ed89f}</Project>
-      <Name>gMKVToolNix</Name>
-    </ProjectReference>
+    <Content Include="gmkvextract-en.json"><CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="gmkvextract-es.json"><CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="gmkvextract-de.json"><CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="gmkvextract-pt.json"><CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="gmkvextract-pt-br.json"><CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="gmkvextract-fr.json"><CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="gmkvextract-el.json"><CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="gmkvextract-zh-cn.json"><CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="gmkvextract-zh-tw.json"><CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="gmkvextract-ja.json"><CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="gmkvextract-ru.json"><CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="gmkvextract-it.json"><CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="gmkvextract-nl.json"><CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="gmkvextract-pl.json"><CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="gmkvextract-tr.json"><CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="gmkvextract-ro.json"><CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="gmkvextract-hi.json"><CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="gmkvextract-ko.json"><CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
   </ItemGroup>
-  <ItemGroup>
-    <Content Include="Images\gMkvExtractGuiIcon.ico" />
-  </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
 </Project>
