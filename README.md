@@ -6,13 +6,13 @@
 
 ## Short Summary
 
-`gMKVExtractGUI` is a powerful and intuitive **Graphical User Interface (GUI)** built in C# .NET 4.0 for the essential **`mkvextract`** utility, which is part of the MKVToolNix suite. It aims to provide a user-friendly wrapper that incorporates most (if not all) of the functionality of both `mkvextract` and `mkvinfo`.
+`gMKVExtractGUI` is a powerful and intuitive **Graphical User Interface (GUI)** built in C# .NET 4.7.2 for the essential **`mkvextract`** utility, which is part of the MKVToolNix suite. It aims to provide a user-friendly wrapper that incorporates most (if not all) of the functionality of both `mkvextract` and `mkvinfo`.
 
 ---
 
 ## Full Description
 
-Navigating the command-line interface of `mkvextract` can be daunting for many users. `gMKVExtractGUI` simplifies this process by offering a robust and responsive desktop application. Written in **C# .NET 4.0**, it ensures high compatibility across a range of Windows operating systems (from Windows XP onward) and is also designed to run smoothly on Linux through Mono (v1.6.4 and newer). While not extensively tested, it may even function on macOS.
+Navigating the command-line interface of `mkvextract` can be daunting for many users. `gMKVExtractGUI` simplifies this process by offering a robust and responsive desktop application. Written in **C# .NET 4.7.2**, it ensures high compatibility across a range of Windows operating systems (from Windows 7 onward) and is also designed to run smoothly on Linux through Mono (v5.18.0 and newer). While not extensively tested, it may even function on macOS.
 
 This tool is perfect for anyone looking to easily extract tracks, timecodes, attachments, chapters, tags, or CUE sheets from Matroska (MKV) files without needing to remember complex command-line arguments. It also leverages `mkvinfo` and `mkvmerge` for rapid analysis of MKV elements.
 
