@@ -101,10 +101,6 @@ namespace gMKVToolNix
 
                 SetAbortStatus(false);
 
-                // Initialize the DPI aware scaling
-                InitDPI();
-                CaptureResponsiveLayoutBaselines();
-
                 // Initialize localization
                 //InitializeLocalization();
                 ApplyLocalization();
@@ -745,7 +741,6 @@ namespace gMKVToolNix
                 btnRunAll.Text = LocalizationManager.GetString("UI.JobManager.Actions.RunJobs");
                 btnRemove.Text = LocalizationManager.GetString("UI.JobManager.Actions.Remove");
                 ApplyJobsGridLocalization();
-                ApplyResponsiveLayout();
                 ApplyContextMenuTheme();
             }
             catch (Exception ex)

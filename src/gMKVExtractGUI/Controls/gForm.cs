@@ -1,6 +1,5 @@
 using System;
 using System.ComponentModel;
-using System.Drawing;
 using System.IO;
 using System.Reflection;
 using System.Windows.Forms;
@@ -15,14 +14,6 @@ namespace gMKVToolNix
             return (short)number;
         }
 
-        protected const int WM_DPICHANGED = 0x02E0;
-        protected const float DESIGN_TIME_DPI = 96F;
-
-        protected float oldDpi;
-        protected float currentDpi;
-
-        protected bool isMoving = false;
-        protected bool shouldScale = false;
 
         /// <summary>
         /// Gets the form's border width in pixels
@@ -42,10 +33,6 @@ namespace gMKVToolNix
 
         public gForm() :base()
         {
-            // Apply the design-time DPI baseline in the base form so every derived form
-            // gets Dpi autoscaling even if its designer file omits these properties.
-            this.AutoScaleDimensions = new SizeF(DESIGN_TIME_DPI, DESIGN_TIME_DPI);
-            this.AutoScaleMode = AutoScaleMode.Dpi;
             this.DoubleBuffered = true;
             SetStyle(ControlStyles.OptimizedDoubleBuffer, true);
         }
@@ -80,143 +67,6 @@ namespace gMKVToolNix
             return ShowQuestion(GetLocalizedString(messageKey, args), GetLocalizedString(titleKey), showCancel);
         }
 
-        protected void InitDPI()
-        {
-            // Preserve previous DPI value
-            oldDpi = currentDpi;
-            float dx;
-            using (Graphics g = this.CreateGraphics())
-            {
-                dx = g.DpiX;
-            }
-            currentDpi = dx;
-
-            // On some runtimes (notably Mono) WinForms AutoScaleMode.Dpi is not applied at startup.
-            // In that case we need to force the initial full scaling (sizes + fonts) by pretending
-            // the previous DPI was the design-time DPI so HandleDpiChanged runs the full scaling path.
-            if (oldDpi == 0F && PlatformExtensions.IsOnLinux)
-            {
-                oldDpi = DESIGN_TIME_DPI;
-            }
-
-            HandleDpiChanged();
-            OnDPIChanged();
-        }
-
-        protected override void OnResizeBegin(EventArgs e)
-        {
-            base.OnResizeBegin(e);
-
-            this.isMoving = true;
-        }
-
-        protected override void OnResizeEnd(EventArgs e)
-        {
-            base.OnResizeEnd(e);
-
-            this.isMoving = false;
-            if (shouldScale)
-            {
-                shouldScale = false;
-                HandleDpiChanged();
-            }
-        }
-
-        protected override void OnMove(EventArgs e)
-        {
-            base.OnMove(e);
-
-            if (this.shouldScale && CanPerformScaling())
-            {
-                this.shouldScale = false;
-                HandleDpiChanged();
-            }
-        }
-
-        protected bool CanPerformScaling()
-        {
-            return (Screen.FromControl(this).Bounds.Contains(this.Bounds));
-        }
-
-        protected override void WndProc(ref Message m)
-        {
-            switch (m.Msg)
-            {
-                // This message is sent when the form is dragged to a different monitor i.e. when
-                // the bigger part of its are is on the new monitor. Note that handling the message immediately
-                // might change the size of the form so that it no longer overlaps the new monitor in its bigger part
-                // which in turn will send again the WM_DPICHANGED message and this might cause misbehavior.
-                // Therefore we delay the scaling if the form is being moved and we use the CanPerformScaling method to 
-                // check if it is safe to perform the scaling.
-                case WM_DPICHANGED:
-                    oldDpi = currentDpi;
-                    currentDpi = LOWORD((int)m.WParam);
-
-                    if (oldDpi != currentDpi)
-                    {
-                        if (this.isMoving)
-                        {
-                            shouldScale = true;
-                        }
-                        else
-                        {
-                            HandleDpiChanged();
-                        }
-
-                        OnDPIChanged();
-                    }
-
-                    break;
-            }
-
-            base.WndProc(ref m);
-        }
-
-        protected void HandleDpiChanged()
-        {
-            if (oldDpi != 0F)
-            {
-                float scaleFactor = currentDpi / oldDpi;
-
-                // The default scaling method of the framework
-                this.Scale(new SizeF(scaleFactor, scaleFactor));
-
-                // Fonts are not scaled automatically so we need to handle this manually
-                this.ScaleFonts(scaleFactor);
-
-                // Perform any other scaling different than font or size (e.g. ItemHeight)
-                this.PerformSpecialScaling(scaleFactor);
-            }
-            else
-            {
-                // The special scaling also needs to be done initially
-                this.PerformSpecialScaling(currentDpi / DESIGN_TIME_DPI);
-            }
-        }
-
-        protected virtual void ScaleFonts(float scaleFactor)
-        {
-            // Go through all controls in the control tree and set their Font property
-            ScaleFontForControl(this, scaleFactor);
-        }
-
-        protected static void ScaleFontForControl(Control control, float scaleFactor)
-        {
-            control.Font = new Font(control.Font.FontFamily, control.Font.Size * scaleFactor, control.Font.Style);
-
-            foreach (Control child in control.Controls)
-            {
-                ScaleFontForControl(child, scaleFactor);
-            }
-        }
-
-        protected virtual void PerformSpecialScaling(float scaleFactor)
-        {
-        }
-
-        protected virtual void OnDPIChanged()
-        {
-        }
 
         /// <summary>
         /// Returns the full path and filename of the executing assembly

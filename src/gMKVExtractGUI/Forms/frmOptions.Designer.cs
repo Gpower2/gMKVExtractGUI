@@ -62,10 +62,10 @@ namespace gMKVToolNix.Forms
             this.btnOK = new System.Windows.Forms.Button();
             this.btnCancel = new System.Windows.Forms.Button();
             this.grpAdvanced = new gMKVToolNix.gGroupBox();
+            this.btnTranslationEditor = new System.Windows.Forms.Button();
             this.chkRawMode = new System.Windows.Forms.CheckBox();
             this.cmbCulture = new gMKVToolNix.Controls.gComboBox();
             this.lblCulture = new System.Windows.Forms.Label();
-            this.btnTranslationEditor = new System.Windows.Forms.Button();
             this.chkFullRawMode = new System.Windows.Forms.CheckBox();
             this.chkTextFilesWithoutBom = new System.Windows.Forms.CheckBox();
             this.tlpMain.SuspendLayout();
@@ -475,6 +475,17 @@ namespace gMKVToolNix.Forms
             this.grpAdvanced.TabStop = false;
             this.grpAdvanced.Text = "Advanced Options";
             // 
+            // btnTranslationEditor
+            // 
+            this.btnTranslationEditor.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnTranslationEditor.Location = new System.Drawing.Point(456, 18);
+            this.btnTranslationEditor.Name = "btnTranslationEditor";
+            this.btnTranslationEditor.Size = new System.Drawing.Size(95, 30);
+            this.btnTranslationEditor.TabIndex = 8;
+            this.btnTranslationEditor.Text = "Translations...";
+            this.btnTranslationEditor.UseVisualStyleBackColor = true;
+            this.btnTranslationEditor.Click += new System.EventHandler(this.btnTranslationEditor_Click);
+            // 
             // chkRawMode
             // 
             this.chkRawMode.AutoSize = true;
@@ -505,18 +516,7 @@ namespace gMKVToolNix.Forms
             this.lblCulture.Size = new System.Drawing.Size(49, 15);
             this.lblCulture.TabIndex = 3;
             this.lblCulture.Text = "Culture:";
-            //
-            // btnTranslationEditor
-            //
-            this.btnTranslationEditor.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnTranslationEditor.Location = new System.Drawing.Point(456, 18);
-            this.btnTranslationEditor.Name = "btnTranslationEditor";
-            this.btnTranslationEditor.Size = new System.Drawing.Size(95, 30);
-            this.btnTranslationEditor.TabIndex = 8;
-            this.btnTranslationEditor.Text = "Translations...";
-            this.btnTranslationEditor.UseVisualStyleBackColor = true;
-            this.btnTranslationEditor.Click += new System.EventHandler(this.btnTranslationEditor_Click);
-            //
+            // 
             // chkFullRawMode
             // 
             this.chkFullRawMode.AutoSize = true;
@@ -537,6 +537,8 @@ namespace gMKVToolNix.Forms
             // 
             // frmOptions
             // 
+            this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.CancelButton = this.btnCancel;
             this.ClientSize = new System.Drawing.Size(704, 621);
             this.Controls.Add(this.tlpMain);

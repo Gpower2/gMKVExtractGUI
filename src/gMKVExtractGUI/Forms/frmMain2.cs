@@ -37,16 +37,6 @@ namespace gMKVToolNix.Forms
 
     public partial class frmMain2 : gForm, IFormMain
     {
-        private const int MainActionRowHeight = 90;
-        private const int MainActionLeftMargin = 6;
-        private const int MainActionRightMargin = 7;
-        private const int MainActionBottomPadding = 6;
-        private const int MainActionSingleRowSpacing = 8;
-        private const int MainActionTopRowButtonTop = 18;
-        private const int MainActionBottomRowButtonTop = 48;
-        private const int MainActionComboTopOffset = 3;
-        private const int MainActionLabelTopOffset = 8;
-        private const int MainButtonSpacing = 6;
         private frmLog _LogForm = null;
         private frmJobManager _JobManagerForm = null;
         private ToolTip _ToolTip = null;
@@ -65,12 +55,6 @@ namespace gMKVToolNix.Forms
         private List<string> _CmdArguments = new List<string>();
         private readonly Dictionary<Button, Size> _responsiveButtonBaseSizes = new Dictionary<Button, Size>();
         private bool _contextMenuItemsDirty = true;
-        private bool _isApplyingResponsiveLayout = false;
-        private int _chapterTypeComboBaseWidth;
-        private int _extractionModeComboBaseWidth;
-        private float _actionsRowBaseHeight;
-        private int _fileOptionsPanelBaseHeight;
-        private float _fileOptionsRowBaseHeight;
 
         public frmMain2()
         {
@@ -79,7 +63,6 @@ namespace gMKVToolNix.Forms
                 _FromConstructor = true;
 
                 InitializeComponent();
-                CaptureResponsiveLayoutBaselines();
 
                 // Get the command line arguments
                 GetCommandLineArguments();
@@ -149,10 +132,6 @@ namespace gMKVToolNix.Forms
                         NativeMethods.TrySetImmersiveDarkMode(this.Handle, _Settings.DarkMode);
                     };
                 }
-
-                // Initialize the DPI aware scaling
-                InitDPI();
-                CaptureResponsiveLayoutBaselines();
 
                 // Apply localization
                 ApplyLocalization();
@@ -1941,10 +1920,6 @@ namespace gMKVToolNix.Forms
                     _Settings.Save();
                 }
 
-                if (this.WindowState != FormWindowState.Minimized)
-                {
-                    ApplyResponsiveLayout();
-                }
             }
             catch (Exception ex)
             {
@@ -1964,84 +1939,11 @@ namespace gMKVToolNix.Forms
                     _Settings.Save();
                 }
 
-                if (!_FromConstructor
-                    && !_isApplyingResponsiveLayout
-                    && this.WindowState != FormWindowState.Minimized)
-                {
-                    ApplyResizeResponsiveLayout();
-                }
             }
             catch (Exception ex)
             {
                 Debug.WriteLine(ex);
                 gMKVLogger.Log(ex.ToString());
-            }
-        }
-
-        private void ApplyResizeResponsiveLayout()
-        {
-            bool hasFileOptionsLayout = pnlFileOptions != null
-                && pnlFileOptions.IsHandleCreated
-                && tlpInput != null
-                && tlpInput.RowStyles.Count > 1;
-            bool hasActionsLayout = grpActions != null && grpActions.IsHandleCreated;
-
-            if (!hasFileOptionsLayout && !hasActionsLayout)
-            {
-                return;
-            }
-
-            tlpMain.SuspendLayout();
-
-            if (hasFileOptionsLayout)
-            {
-                tlpInput.SuspendLayout();
-                pnlFileOptions.SuspendLayout();
-            }
-
-            if (hasActionsLayout)
-            {
-                grpActions.SuspendLayout();
-            }
-
-            try
-            {
-                if (hasFileOptionsLayout)
-                {
-                    if (_fileOptionsPanelBaseHeight > 0)
-                    {
-                        pnlFileOptions.Height = _fileOptionsPanelBaseHeight;
-                    }
-
-                    if (_fileOptionsRowBaseHeight > 0F)
-                    {
-                        tlpInput.RowStyles[1].Height = _fileOptionsRowBaseHeight;
-                    }
-
-                    LayoutFileOptionsPanel();
-                }
-
-                if (hasActionsLayout)
-                {
-                    LayoutActionsGroup();
-                }
-            }
-            finally
-            {
-                if (hasActionsLayout)
-                {
-                    grpActions.ResumeLayout(false);
-                    grpActions.PerformLayout();
-                }
-
-                if (hasFileOptionsLayout)
-                {
-                    pnlFileOptions.ResumeLayout(false);
-                    pnlFileOptions.PerformLayout();
-                    tlpInput.ResumeLayout(true);
-                }
-
-                tlpMain.ResumeLayout(true);
             }
         }
 
@@ -3249,319 +3151,9 @@ namespace gMKVToolNix.Forms
             ThemeManager.ApplyContextMenuTheme(contextMenuStrip, _Settings.DarkMode);
             RefreshLocalizedTooltipsAsync();
             MarkContextMenuDirty();
-            ApplyResponsiveLayout();
         }
 
-        private void CaptureResponsiveLayoutBaselines()
-        {
-            CaptureResponsiveButtonBaseSize(btnBrowseMKVToolnixPath);
-            CaptureResponsiveButtonBaseSize(btnAutoDetectMkvToolnix);
-            CaptureResponsiveButtonBaseSize(btnBrowseOutputDirectory);
-            CaptureResponsiveButtonBaseSize(btnSelect);
-            CaptureResponsiveButtonBaseSize(btnShowLog);
-            CaptureResponsiveButtonBaseSize(btnShowJobs);
-            CaptureResponsiveButtonBaseSize(btnAddJobs);
-            CaptureResponsiveButtonBaseSize(btnExtract);
-            CaptureResponsiveButtonBaseSize(btnOptions);
-            CaptureResponsiveButtonBaseSize(btnAbortAll);
-            CaptureResponsiveButtonBaseSize(btnAbort);
+        
 
-            if (tlpMain.RowStyles.Count > 4 && tlpMain.RowStyles[4].Height > 0F)
-            {
-                _actionsRowBaseHeight = Math.Max(_actionsRowBaseHeight, tlpMain.RowStyles[4].Height);
-            }
-
-            if (cmbChapterType != null && cmbChapterType.Width > 0)
-            {
-                _chapterTypeComboBaseWidth = cmbChapterType.Width;
-            }
-
-            if (cmbExtractionMode != null && cmbExtractionMode.Width > 0)
-            {
-                _extractionModeComboBaseWidth = cmbExtractionMode.Width;
-            }
-
-            if (pnlFileOptions != null && pnlFileOptions.Height > 0)
-            {
-                _fileOptionsPanelBaseHeight = Math.Max(_fileOptionsPanelBaseHeight, pnlFileOptions.Height);
-            }
-
-            if (tlpInput.RowStyles.Count > 1 && tlpInput.RowStyles[1].Height > 0F)
-            {
-                _fileOptionsRowBaseHeight = Math.Max(_fileOptionsRowBaseHeight, tlpInput.RowStyles[1].Height);
-            }
-        }
-
-        private void CaptureResponsiveButtonBaseSize(Button button)
-        {
-            if (button == null)
-            {
-                return;
-            }
-
-            Size currentSize = button.Size;
-            if (!_responsiveButtonBaseSizes.TryGetValue(button, out Size baseSize)
-                || currentSize.Width > baseSize.Width
-                || currentSize.Height > baseSize.Height)
-            {
-                _responsiveButtonBaseSizes[button] = currentSize;
-            }
-        }
-
-        private Size GetResponsiveButtonBaseSize(Button button, int fallbackWidth, int fallbackHeight = 30)
-        {
-            return _responsiveButtonBaseSizes.TryGetValue(button, out Size baseSize)
-                ? baseSize
-                : new Size(fallbackWidth, fallbackHeight);
-        }
-
-        private void ResetResponsiveLayoutBaselines()
-        {
-            if (pnlFileOptions != null && _fileOptionsPanelBaseHeight > 0)
-            {
-                pnlFileOptions.Height = _fileOptionsPanelBaseHeight;
-            }
-
-            if (tlpInput.RowStyles.Count > 1 && _fileOptionsRowBaseHeight > 0F)
-            {
-                tlpInput.RowStyles[1].Height = _fileOptionsRowBaseHeight;
-            }
-
-            if (_chapterTypeComboBaseWidth > 0)
-            {
-                cmbChapterType.Width = _chapterTypeComboBaseWidth;
-            }
-
-            if (_extractionModeComboBaseWidth > 0)
-            {
-                cmbExtractionMode.Width = _extractionModeComboBaseWidth;
-            }
-
-            if (tlpMain.RowStyles.Count > 4 && _actionsRowBaseHeight > 0F)
-            {
-                tlpMain.RowStyles[4].Height = _actionsRowBaseHeight;
-            }
-        }
-
-        private void ApplyResponsiveLayout()
-        {
-            if (_isApplyingResponsiveLayout)
-            {
-                return;
-            }
-
-            _isApplyingResponsiveLayout = true;
-
-            try
-            {
-                SuspendLayout();
-                tlpMain.SuspendLayout();
-                grpConfig.SuspendLayout();
-                grpOutputDirectory.SuspendLayout();
-                grpActions.SuspendLayout();
-                pnlFileOptions.SuspendLayout();
-                ResetResponsiveLayoutBaselines();
-
-                LayoutConfigGroup();
-                LayoutOutputDirectoryGroup();
-                LayoutFileOptionsPanel();
-                LayoutActionsGroup();
-                LayoutFooterControls();
-            }
-            finally
-            {
-                pnlFileOptions.ResumeLayout(false);
-                pnlFileOptions.PerformLayout();
-                grpActions.ResumeLayout(false);
-                grpActions.PerformLayout();
-                grpOutputDirectory.ResumeLayout(false);
-                grpOutputDirectory.PerformLayout();
-                grpConfig.ResumeLayout(false);
-                grpConfig.PerformLayout();
-                tlpMain.ResumeLayout(true);
-                ResumeLayout(true);
-                _isApplyingResponsiveLayout = false;
-            }
-        }
-
-        private void LayoutConfigGroup()
-        {
-            btnBrowseMKVToolnixPath.ApplyLocalizedButtonSize(GetResponsiveButtonBaseSize(btnBrowseMKVToolnixPath, 70));
-            btnAutoDetectMkvToolnix.ApplyLocalizedButtonSize(GetResponsiveButtonBaseSize(btnAutoDetectMkvToolnix, 80));
-
-            const int buttonTop = 18;
-            int right = grpConfig.ClientSize.Width - 7;
-
-            btnAutoDetectMkvToolnix.Location = new Point(right - btnAutoDetectMkvToolnix.Width, buttonTop);
-            btnBrowseMKVToolnixPath.Location = new Point(btnAutoDetectMkvToolnix.Left - MainButtonSpacing - btnBrowseMKVToolnixPath.Width, buttonTop);
-            txtMKVToolnixPath.Width = Math.Max(150, btnBrowseMKVToolnixPath.Left - 12 - txtMKVToolnixPath.Left);
-        }
-
-        private void LayoutOutputDirectoryGroup()
-        {
-            btnBrowseOutputDirectory.ApplyLocalizedButtonSize(GetResponsiveButtonBaseSize(btnBrowseOutputDirectory, 80));
-
-            int right = grpOutputDirectory.ClientSize.Width - 7;
-            btnBrowseOutputDirectory.Location = new Point(right - btnBrowseOutputDirectory.Width, 18);
-            chkUseSourceDirectory.Location = new Point(btnBrowseOutputDirectory.Left - 12 - chkUseSourceDirectory.Width, 24);
-            txtOutputDirectory.Width = Math.Max(120, chkUseSourceDirectory.Left - 12 - txtOutputDirectory.Left);
-        }
-
-        private void LayoutFileOptionsPanel()
-        {
-            btnSelect.ApplyLocalizedButtonSize(GetResponsiveButtonBaseSize(btnSelect, 80));
-            btnSelect.Location = new Point(pnlFileOptions.ClientSize.Width - btnSelect.Width - 3, 1);
-
-            int maxRight = btnSelect.Left - 12;
-            int bottom = LayoutWrappingControls(3, 6, maxRight, 6, 4, chkAppendOnDragAndDrop, chkOverwriteExistingFiles, chkDisableTooltips);
-            int requiredHeight = Math.Max(btnSelect.Height + 2, bottom + 6);
-
-            pnlFileOptions.Height = requiredHeight;
-            btnSelect.Top = Math.Max(0, (requiredHeight - btnSelect.Height) / 2);
-
-            if (tlpInput.RowStyles.Count > 1)
-            {
-                tlpInput.RowStyles[1].Height = requiredHeight;
-            }
-        }
-
-        private void LayoutActionsGroup()
-        {
-            if (grpActions == null || grpActions.ClientSize.Width <= 0)
-            {
-                return;
-            }
-
-            btnShowLog.ApplyLocalizedButtonSize(GetResponsiveButtonBaseSize(btnShowLog, 60));
-            btnShowJobs.ApplyLocalizedButtonSize(GetResponsiveButtonBaseSize(btnShowJobs, 60));
-            btnAddJobs.ApplyLocalizedButtonSize(GetResponsiveButtonBaseSize(btnAddJobs, 70));
-            btnExtract.ApplyLocalizedButtonSize(GetResponsiveButtonBaseSize(btnExtract, 80));
-
-            cmbChapterType.Width = _chapterTypeComboBaseWidth > 0 ? _chapterTypeComboBaseWidth : 80;
-            cmbExtractionMode.Width = _extractionModeComboBaseWidth > 0 ? _extractionModeComboBaseWidth : 120;
-
-            Size showPopupSize = chkShowPopup.GetPreferredSize(Size.Empty);
-            chkShowPopup.Size = showPopupSize;
-
-            int leftSectionBottom = PositionActionsLeftSection(MainActionTopRowButtonTop, showPopupSize);
-            int singleRowRightSectionBottom = PositionActionsRightSection(MainActionTopRowButtonTop, out int singleRowRightSectionLeft);
-
-            bool fitsSingleRow = chkShowPopup.Right + MainActionSingleRowSpacing <= singleRowRightSectionLeft;
-            int requiredContentBottom;
-
-            if (fitsSingleRow)
-            {
-                requiredContentBottom = Math.Max(leftSectionBottom, singleRowRightSectionBottom);
-            }
-            else
-            {
-                int twoRowRightSectionBottom = PositionActionsRightSection(MainActionBottomRowButtonTop, out _);
-                requiredContentBottom = Math.Max(leftSectionBottom, twoRowRightSectionBottom);
-            }
-
-            if (tlpMain.RowStyles.Count > 4)
-            {
-                float minimumHeight = fitsSingleRow
-                    ? (_actionsRowBaseHeight > 0F ? _actionsRowBaseHeight : 60F)
-                    : Math.Max((float)MainActionRowHeight, _actionsRowBaseHeight > 0F ? _actionsRowBaseHeight : 60F);
-                tlpMain.RowStyles[4].Height = GetRequiredActionsRowHeight(requiredContentBottom, minimumHeight);
-            }
-        }
-
-        private int PositionActionsLeftSection(int buttonTop, Size showPopupSize)
-        {
-            btnShowLog.Location = new Point(MainActionLeftMargin, buttonTop);
-            btnShowJobs.Location = new Point(btnShowLog.Right + MainButtonSpacing, buttonTop);
-            chkShowPopup.Location = new Point(btnShowJobs.Right + MainActionSingleRowSpacing, buttonTop + 6);
-            chkShowPopup.Size = showPopupSize;
-
-            return new[] { btnShowLog.Bottom, btnShowJobs.Bottom, chkShowPopup.Bottom }.Max();
-        }
-
-        private int PositionActionsRightSection(int buttonTop, out int leftmostControlLeft)
-        {
-            int right = grpActions.ClientSize.Width - MainActionRightMargin;
-
-            btnExtract.Location = new Point(right - btnExtract.Width, buttonTop);
-            right = btnExtract.Left - MainButtonSpacing;
-
-            btnAddJobs.Location = new Point(right - btnAddJobs.Width, buttonTop);
-            right = btnAddJobs.Left - 12;
-
-            cmbExtractionMode.Location = new Point(right - cmbExtractionMode.Width, buttonTop + MainActionComboTopOffset);
-            right = cmbExtractionMode.Left - MainButtonSpacing;
-
-            lblExtractionMode.Location = new Point(right - lblExtractionMode.Width, buttonTop + MainActionLabelTopOffset);
-            right = lblExtractionMode.Left - 16;
-
-            cmbChapterType.Location = new Point(right - cmbChapterType.Width, buttonTop + MainActionComboTopOffset);
-            right = cmbChapterType.Left - MainButtonSpacing;
-
-            lblChapterType.Location = new Point(right - lblChapterType.Width, buttonTop + MainActionLabelTopOffset);
-            leftmostControlLeft = lblChapterType.Left;
-
-            return new[]
-            {
-                btnExtract.Bottom,
-                btnAddJobs.Bottom,
-                cmbExtractionMode.Bottom,
-                lblExtractionMode.Bottom,
-                cmbChapterType.Bottom,
-                lblChapterType.Bottom
-            }.Max();
-        }
-
-        private float GetRequiredActionsRowHeight(int requiredContentBottom, float minimumHeight)
-        {
-            int marginVertical = grpActions != null ? grpActions.Margin.Vertical : 0;
-            int requiredHeight = requiredContentBottom + MainActionBottomPadding + marginVertical;
-            return Math.Max(minimumHeight, requiredHeight);
-        }
-
-        private void LayoutFooterControls()
-        {
-            btnOptions.ApplyLocalizedButtonSize(GetResponsiveButtonBaseSize(btnOptions, 80));
-            btnAbortAll.ApplyLocalizedButtonSize(GetResponsiveButtonBaseSize(btnAbortAll, 70));
-            btnAbort.ApplyLocalizedButtonSize(GetResponsiveButtonBaseSize(btnAbort, 72));
-
-            int top = statusStrip.Top + 3;
-            int right = ClientSize.Width - 8;
-
-            btnAbort.Location = new Point(right - btnAbort.Width, top);
-            right = btnAbort.Left - MainButtonSpacing;
-            btnAbortAll.Location = new Point(right - btnAbortAll.Width, top);
-            right = btnAbortAll.Left - MainButtonSpacing;
-            btnOptions.Location = new Point(right - btnOptions.Width, top);
-            right = btnOptions.Left - 10;
-            chkDarkMode.Location = new Point(right - chkDarkMode.Width, top + 6);
-        }
-
-        private int LayoutWrappingControls(int startX, int startY, int maxRight, int horizontalSpacing, int verticalSpacing, params Control[] controls)
-        {
-            int x = startX;
-            int y = startY;
-            int rowHeight = 0;
-            int bottom = startY;
-
-            foreach (Control control in controls)
-            {
-                int controlWidth = control.GetPreferredWidth();
-                int controlHeight = control.Height;
-
-                if (x > startX && x + controlWidth > maxRight)
-                {
-                    x = startX;
-                    y += rowHeight + verticalSpacing;
-                    rowHeight = 0;
-                }
-
-                control.Location = new Point(x, y);
-                x += controlWidth + horizontalSpacing;
-                rowHeight = Math.Max(rowHeight, controlHeight);
-                bottom = Math.Max(bottom, y + controlHeight);
-            }
-
-            return bottom;
-        }
     }
 }

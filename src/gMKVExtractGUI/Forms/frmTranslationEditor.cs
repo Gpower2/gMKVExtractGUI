@@ -111,7 +111,6 @@ namespace gMKVToolNix.Forms
                 LoadMasterFile();
                 LoadAvailableCultures();
                 SetSelectedCultureItem(FindCultureItem(_initialCulture) ?? (_cmbTargetCulture.Items.Count > 0 ? _cmbTargetCulture.Items[0] as string : null));
-                InitDPI();
             }
             catch (Exception ex)
             {
