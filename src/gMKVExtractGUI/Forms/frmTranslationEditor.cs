@@ -281,7 +281,6 @@ namespace gMKVToolNix.Forms
             ApplyFilters();
             SetPendingChanges(false);
             UpdateActionStates();
-            ApplyResponsiveLayout();
         }
 
         private void ApplyFilters()
@@ -358,7 +357,6 @@ namespace gMKVToolNix.Forms
             Shown -= frmTranslationEditor_Shown;
             BeginInvoke((MethodInvoker)delegate
             {
-                ApplyResponsiveLayout();
 
                 string selectedCulture = _cmbTargetCulture.SelectedItem as string;
                 if (_currentFile == null && !string.IsNullOrWhiteSpace(selectedCulture))
@@ -607,7 +605,6 @@ namespace gMKVToolNix.Forms
             ApplyTooltips();
             UpdateSummary();
             UpdateActionStates();
-            ApplyResponsiveLayout();
         }
 
         private void FilterControl_Changed(object sender, EventArgs e)
@@ -748,7 +745,6 @@ namespace gMKVToolNix.Forms
 
             _hasPendingChanges = hasPendingChanges;
             UpdateActionStates();
-            ApplyResponsiveLayout();
         }
 
         private void UpdateWindowTitle()
@@ -807,64 +803,6 @@ namespace gMKVToolNix.Forms
                     .Cast<object>()
                     .Select(item => item as string),
                 culture);
-        }
-
-        private void ApplyResponsiveLayout()
-        {
-            if (_mainLayout == null
-                || _settingsRow1 == null
-                || _settingsRow2 == null
-                || _settingsLayout == null
-                || _settingsGroup == null
-                || _actionsPanel == null
-                || _actionsLayout == null
-                || _actionsGroup == null
-                || _lblSearch == null
-                || _txtSearch == null
-                || _lblSummary == null
-                || _lblSaveState == null)
-            {
-                return;
-            }
-
-            if (_mainLayout.RowStyles.Count < 3)
-            {
-                return;
-            }
-
-            int availableWidth = Math.Max(320, ClientSize.Width - _mainLayout.Padding.Horizontal - 24);
-            int contentWidth = Math.Max(280, availableWidth - 18);
-            _settingsRow1.MaximumSize = new Size(contentWidth, 0);
-            _settingsRow2.MaximumSize = new Size(contentWidth, 0);
-            _settingsLayout.MaximumSize = new Size(contentWidth, 0);
-            _settingsRow1.PerformLayout();
-            _settingsRow2.PerformLayout();
-            _settingsLayout.PerformLayout();
-            _settingsGroup.PerformLayout();
-
-            int summaryWidth = Math.Max(180, contentWidth - (_lblSearch.Width + _txtSearch.Width + 72));
-            _lblSummary.MaximumSize = new Size(summaryWidth, 0);
-
-            int settingsHeight = Math.Max(104, _settingsLayout.GetPreferredSize(new Size(contentWidth, 0)).Height + 28);
-            _mainLayout.RowStyles[0].Height = Math.Max(104, settingsHeight);
-
-            _actionsPanel.PerformLayout();
-            _actionsLayout.PerformLayout();
-            _actionsGroup.PerformLayout();
-            int buttonsWidth = _actionsPanel.GetPreferredSize(Size.Empty).Width;
-            int saveStateWidth = Math.Max(180, contentWidth - buttonsWidth - 24);
-            _lblSaveState.MaximumSize = new Size(saveStateWidth, 0);
-
-            int actionsHeight = Math.Max(84, _actionsLayout.GetPreferredSize(new Size(contentWidth, 0)).Height + 18);
-            _mainLayout.RowStyles[2].Height = actionsHeight;
-            _mainLayout.PerformLayout();
-            PerformLayout();
-        }
-
-        protected override void OnResize(EventArgs e)
-        {
-            base.OnResize(e);
-            ApplyResponsiveLayout();
         }
 
         protected override void OnFormClosing(FormClosingEventArgs e)
