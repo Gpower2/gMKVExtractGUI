@@ -17,7 +17,7 @@
     <ProjectReference Include="..\..\src\gMKVExtractGUI\gMKVExtractGUI.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <Content Update="..\..\src\gMKVExtractGUI\gmkvextract-en.json">
+    <Content Include="..\..\src\gMKVExtractGUI\gmkvextract-en.json">
       <Link>gmkvextract-en.json</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
