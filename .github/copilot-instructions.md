@@ -1,21 +1,5 @@
 # Copilot instructions — gMKVExtractGUI
 
-## Build, test, and lint commands
-
-- This is an older .NET Framework 4.0 solution with non-SDK-style projects. Prefer Visual Studio or `msbuild`; `dotnet build`/`dotnet test` is not the primary workflow here.
-- NuGet packages are checked into `packages\`, so there is usually no separate restore step.
-- The solution defines both `Any CPU` and `x86` configurations.
-
-```powershell
-msbuild gMKVExtractGUI.sln /p:Configuration=Debug /p:Platform="Any CPU"
-msbuild src\gMKVExtractGUI\gMKVExtractGUI.csproj /p:Configuration=Debug /p:Platform="Any CPU"
-msbuild src\gMKVToolNix.Translator.Console\gMKVToolNix.Translator.Console.csproj /p:Configuration=Debug /p:Platform="Any CPU"
-msbuild tests\gMKVToolnix.Unit.Tests\gMKVToolnix.Unit.Tests.csproj /p:Configuration=Debug /p:Platform="Any CPU"
-
-vstest.console.exe tests\gMKVToolnix.Unit.Tests\bin\Debug\gMKVToolNix.Unit.Tests.dll
-vstest.console.exe tests\gMKVToolnix.Unit.Tests\bin\Debug\gMKVToolNix.Unit.Tests.dll /Tests:gMKVToolnix.Unit.Tests.gMkvParser_Tests.VersionOutput_ShouldBe_Parsed_Successfully
-```
-
 - Lint: no repository lint command is configured.
 
 ## High-level architecture

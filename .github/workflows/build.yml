@@ -1,0 +1,34 @@
+name: Build
+
+on:
+  push:
+    branches: [ "master" ]
+  pull_request:
+    branches: [ "master" ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: 10.x
+
+      - name: Build solution
+        run: dotnet build gMKVExtractGUI.sln --configuration Release -p:Platform="Any CPU"
+
+      - name: Get Git SHA
+        run: echo "SHA=$('${{ github.sha }}'.Substring(0, 7))" >> $env:GITHUB_ENV
+
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v7
+        with:
+          name: gMKVExtractGUI-${{ env.SHA }}
+          path: .\src\gMKVExtractGUI\bin\Release\net472\**
+          if-no-files-found: error
