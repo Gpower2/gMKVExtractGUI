@@ -706,10 +706,17 @@ namespace gMKVToolNix.Forms
 
         private void grdTranslations_CurrentCellDirtyStateChanged(object sender, EventArgs e)
         {
-            if (_translationsGrid.IsCurrentCellDirty)
+            if (!_translationsGrid.IsCurrentCellDirty)
             {
-                _translationsGrid.CommitEdit(DataGridViewDataErrorContexts.Commit);
+                return;
             }
+
+            if (!(_translationsGrid.CurrentCell is DataGridViewCheckBoxCell))
+            {
+                return;
+            }
+
+            _translationsGrid.CommitEdit(DataGridViewDataErrorContexts.Commit);
         }
 
         private void grdTranslations_CellValueChanged(object sender, DataGridViewCellEventArgs e)
