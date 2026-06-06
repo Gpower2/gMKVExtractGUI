@@ -812,6 +812,25 @@ namespace gMKVToolNix.Forms
 
         private void ApplyResponsiveLayout()
         {
+            // gForm applies DPI autoscaling in its base constructor, which can trigger
+            // an early resize before InitializeComponent() has created the designer controls.
+            if (!IsHandleCreated
+                || _mainLayout == null
+                || _settingsLayout == null
+                || _settingsRow1 == null
+                || _settingsRow2 == null
+                || _settingsGroup == null
+                || _actionsPanel == null
+                || _actionsLayout == null
+                || _actionsGroup == null
+                || _lblSearch == null
+                || _txtSearch == null
+                || _lblSummary == null
+                || _lblSaveState == null)
+            {
+                return;
+            }
+
             if (_mainLayout.RowStyles.Count < 3)
             {
                 return;
