@@ -710,7 +710,13 @@ namespace gMKVToolNix.Forms
 
         private void grdTranslations_CurrentCellDirtyStateChanged(object sender, EventArgs e)
         {
-            if (_translationsGrid.IsCurrentCellDirty)
+            if (!_translationsGrid.IsCurrentCellDirty || _translationsGrid.CurrentCell == null)
+            {
+                return;
+            }
+
+            string columnName = _translationsGrid.Columns[_translationsGrid.CurrentCell.ColumnIndex].Name;
+            if (string.Equals(columnName, "colIsTranslated", StringComparison.OrdinalIgnoreCase))
             {
                 _translationsGrid.CommitEdit(DataGridViewDataErrorContexts.Commit);
             }
