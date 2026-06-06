@@ -4,6 +4,7 @@ using System.Reflection;
 using System.Windows.Forms;
 using gMKVToolNix.Forms;
 using gMKVToolNix.Localization;
+using gMKVToolNix.WinAPI;
 
 namespace gMKVToolNix
 {
@@ -28,6 +29,7 @@ namespace gMKVToolNix
         [STAThread]
         static void Main(string[] args)
         {
+            NativeMethods.TryEnableBestAvailableDpiAwareness();
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 

@@ -5,6 +5,33 @@ namespace gMKVToolNix.WinAPI // Or any appropriate namespace
 {
     public static class NativeMethods
     {
+        private enum ProcessDpiAwareness
+        {
+            ProcessDpiUnaware = 0,
+            ProcessSystemDpiAware = 1,
+            ProcessPerMonitorDpiAware = 2
+        }
+
+        [UnmanagedFunctionPointer(CallingConvention.Winapi)]
+        private delegate bool SetProcessDpiAwarenessContextDelegate(IntPtr dpiContext);
+
+        [UnmanagedFunctionPointer(CallingConvention.Winapi)]
+        private delegate int SetProcessDpiAwarenessDelegate(ProcessDpiAwareness awareness);
+
+        [UnmanagedFunctionPointer(CallingConvention.Winapi)]
+        private delegate bool SetProcessDpiAwareDelegate();
+
+        private static readonly IntPtr DpiAwarenessContextPerMonitorAwareV2 = new IntPtr(-4);
+
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, SetLastError = true)]
+        private static extern IntPtr GetModuleHandle(string lpModuleName);
+
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, SetLastError = true)]
+        private static extern IntPtr LoadLibrary(string lpFileName);
+
+        [DllImport("kernel32.dll", SetLastError = true)]
+        private static extern IntPtr GetProcAddress(IntPtr hModule, string lpProcName);
+
         [DllImport("dwmapi.dll")]
         public static extern int DwmSetWindowAttribute(IntPtr hwnd, DWMWINDOWATTRIBUTE dwAttribute, ref int pvAttribute, int cbAttribute);
 
@@ -12,6 +39,68 @@ namespace gMKVToolNix.WinAPI // Or any appropriate namespace
         {
             DWMWA_USE_IMMERSIVE_DARK_MODE = 20, // For Windows 10 18985+ and Windows 11
             DWMWA_USE_IMMERSIVE_DARK_MODE_PRE_20H1 = 19, // For Windows 10 17763 to 18985 (optional to support both)
+        }
+
+        public static void TryEnableBestAvailableDpiAwareness()
+        {
+            // This is only applicable for Windows OS
+            if (PlatformExtensions.IsOnLinux)
+            {
+                return;
+            }
+
+            // .NET 4.0 WinForms lacks the later framework-level High DPI bootstrapping,
+            // so ask Windows for the best DPI awareness mode available before any UI starts.
+            TryInvoke("user32.dll", "SetProcessDpiAwarenessContext", pointer =>
+            {
+                SetProcessDpiAwarenessContextDelegate setProcessDpiAwarenessContext =
+                    (SetProcessDpiAwarenessContextDelegate)Marshal.GetDelegateForFunctionPointer(
+                        pointer,
+                        typeof(SetProcessDpiAwarenessContextDelegate));
+                setProcessDpiAwarenessContext(DpiAwarenessContextPerMonitorAwareV2);
+            });
+
+            TryInvoke("shcore.dll", "SetProcessDpiAwareness", pointer =>
+            {
+                SetProcessDpiAwarenessDelegate setProcessDpiAwareness =
+                    (SetProcessDpiAwarenessDelegate)Marshal.GetDelegateForFunctionPointer(
+                        pointer,
+                        typeof(SetProcessDpiAwarenessDelegate));
+                setProcessDpiAwareness(ProcessDpiAwareness.ProcessPerMonitorDpiAware);
+            });
+
+            TryInvoke("user32.dll", "SetProcessDPIAware", pointer =>
+            {
+                SetProcessDpiAwareDelegate setProcessDpiAware =
+                    (SetProcessDpiAwareDelegate)Marshal.GetDelegateForFunctionPointer(
+                        pointer,
+                        typeof(SetProcessDpiAwareDelegate));
+                setProcessDpiAware();
+            });
+        }
+
+        private static void TryInvoke(string moduleName, string procName, Action<IntPtr> action)
+        {
+            IntPtr procedure = GetProcedureAddress(moduleName, procName);
+            if (procedure == IntPtr.Zero)
+            {
+                return;
+            }
+
+            action(procedure);
+        }
+
+        private static IntPtr GetProcedureAddress(string moduleName, string procName)
+        {
+            IntPtr moduleHandle = GetModuleHandle(moduleName);
+            if (moduleHandle == IntPtr.Zero)
+            {
+                moduleHandle = LoadLibrary(moduleName);
+            }
+
+            return moduleHandle == IntPtr.Zero
+                ? IntPtr.Zero
+                : GetProcAddress(moduleHandle, procName);
         }
 
         /// <summary>
