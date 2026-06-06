@@ -1,0 +1,1744 @@
+{
+  "Metadata": {
+    "Culture": "hu",
+    "Translator": "John Fowler",
+    "CreationDate": "2026-06-01T05:56:26.5864896Z",
+    "LastEditDate": "2026-06-06T13:04:55.6370748Z"
+  },
+  "Entries": {
+    "UI.Common.Dialog.AreYouSureTitle": {
+      "Source": "Are you sure?",
+      "Translation": "Biztos benne?",
+      "IsTranslated": true,
+      "Notes": null
+    },
+    "UI.Common.Dialog.ErrorMessage": {
+      "Source": "An error has occurred!{0}{0}{1}",
+      "Translation": "Hiba történt!{0}{0}{1}",
+      "IsTranslated": true,
+      "Notes": null
+    },
+    "UI.Common.Dialog.ErrorTitle": {
+      "Source": "Error!",
+      "Translation": "Hiba!",
+      "IsTranslated": true,
+      "Notes": null
+    },
+    "UI.Common.Dialog.ExceptionMessage": {
+      "Source": "An exception has occurred!{0}{0}{1}",
+      "Translation": "Kivétel történt!{0}{0}{1}",
+      "IsTranslated": true,
+      "Notes": null
+    },
+    "UI.Common.Dialog.ExceptionTitle": {
+      "Source": "An exception has occurred!",
+      "Translation": "Kivétel történt!",
+      "IsTranslated": true,
+      "Notes": null
+    },
+    "UI.Common.Dialog.SelectDirectoryPlaceholder": {
+      "Source": "Select directory",
+      "Translation": "Könyvtár kiválasztása",
+      "IsTranslated": true,
+      "Notes": null
+    },
+    "UI.Common.Dialog.SuccessTitle": {
+      "Source": "Success!",
+      "Translation": "Siker!",
+      "IsTranslated": true,
+      "Notes": null
+    },
+    "UI.Common.Errors.ExtractionRunningBeforeClose": {
+      "Source": "There is an extraction process running! Please abort before closing!",
+      "Translation": "Fut egy kivonási folyamat! Kérjük, szakítsa meg, mielőtt bezárja!",
+      "IsTranslated": true,
+      "Notes": null
+    },
+    "UI.Common.False": {
+      "Source": "False",
+      "Translation": "Hamis",
+      "IsTranslated": true,
+      "Notes": null
+    },
+    "UI.Common.NotSet": {
+      "Source": "Not Set!",
+      "Translation": "Nincs beállítva!",
+      "IsTranslated": true,
+      "Notes": null
+    },
+    "UI.Common.Status.AnalyzingFile": {
+      "Source": "Analyzing {0}...",
+      "Translation": "{0} elemzése...",
+      "IsTranslated": true,
+      "Notes": null
+    },
+    "UI.Common.Status.Extracting": {
+      "Source": "Extracting...",
+      "Translation": "Kibontás...",
+      "IsTranslated": true,
+      "Notes": null
+    },
+    "UI.Common.Status.ExtractingTrack": {
+      "Source": "Extracting {0} from {1}...",
+      "Translation": "{0} kibontása innen: {1}...",
+      "IsTranslated": true,
+      "Notes": null
+    },
+    "UI.Common.Status.ExtractionCompleted": {
+      "Source": "Extraction completed!",
+      "Translation": "Kibontás befejeződött!",
+      "IsTranslated": true,
+      "Notes": null
+    },
+    "UI.Common.Status.GettingFiles": {
+      "Source": "Getting files...",
+      "Translation": "Fájlok lekérése...",
+      "IsTranslated": true,
+      "Notes": null
+    },
+    "UI.Common.True": {
+      "Source": "True",
+      "Translation": "Igaz",
+      "IsTranslated": true,
+      "Notes": null
+    },
+    "UI.ContextMenu.SelectAllAttachmentTracks": {
+      "Source": "Select All Attachments Tracks",
+      "Translation": "Összes csatolmány sáv kiválasztása",
+      "IsTranslated": true,
+      "Notes": null
+    },
+    "UI.ContextMenu.SelectAllAudioTracks": {
+      "Source": "Select All Audio Tracks",
+      "Translation": "Az összes hangsáv kiválasztása",
+      "IsTranslated": true,
+      "Notes": null
+    },
+    "UI.ContextMenu.SelectAllChapterTracks": {
+      "Source": "Select All Chapter Tracks",
+      "Translation": "Összes fejezetsáv kiválasztása",
+      "IsTranslated": true,
+      "Notes": null
+    },
+    "UI.ContextMenu.SelectAllSubtitleTracks": {
+      "Source": "Select All Subtitle Tracks",
+      "Translation": "Az összes felirat sáv kiválasztása",
+      "IsTranslated": true,
+      "Notes": null
+    },
+    "UI.ContextMenu.SelectAllTracks": {
+      "Source": "Select All Tracks",
+      "Translation": "Összes sáv kiválasztása",
+      "IsTranslated": true,
+      "Notes": null
+    },
+    "UI.ContextMenu.SelectAllVideoTracks": {
+      "Source": "Select All Video Tracks",
+      "Translation": "Az összes videósáv kiválasztása",
+      "IsTranslated": true,
+      "Notes": null
+    },
+    "UI.ContextMenu.UnselectAllTracks": {
+      "Source": "Unselect All tracks",
+      "Translation": "Az összes sáv kijelölésének megszüntetése",
+      "IsTranslated": true,
+      "Notes": null
+    },
+    "UI.Controls.TreeView.Errors.GetStateFailed": {
+      "Source": "Error getting TreeNode state.",
+      "Translation": "Hiba a TreeNode állapotának lekérdezésekor.",
+      "IsTranslated": true,
+      "Notes": null
+    },
+    "UI.Controls.TreeView.Errors.NodeNotInTree": {
+      "Source": "The node does not belong to a tree.",
+      "Translation": "A csomópont nem tartozik egy fához.",
+      "IsTranslated": true,
+      "Notes": null
+    },
+    "UI.Controls.TreeView.Errors.SetStateFailed": {
+      "Source": "Error setting TreeNode state.",
+      "Translation": "Hiba a TreeNode állapotának beállításakor.",
+      "IsTranslated": true,
+      "Notes": null
+    },
+    "UI.JobManager.Actions.Abort": {
+      "Source": "Abort",
+      "Translation": "Megszakítás",
+      "IsTranslated": true,
+      "Notes": null
+    },
+    "UI.JobManager.Actions.AbortAll": {
+      "Source": "Abort All",
+      "Translation": "Mind megszakítása",
+      "IsTranslated": true,
+      "Notes": null
+    },
+    "UI.JobManager.Actions.Group": {
+      "Source": "Actions",
+      "Translation": "Műveletek",
+      "IsTranslated": true,
+      "Notes": null
+    },
+    "UI.JobManager.Actions.LoadJobs": {
+      "Source": "Load Jobs...",
+      "Translation": "Feladatok betöltése...",
+      "IsTranslated": true,
+      "Notes": null
+    },
+    "UI.JobManager.Actions.Popup": {
+      "Source": "Popup",
+      "Translation": "Felugró ablak",
+      "IsTranslated": true,
+      "Notes": null
+    },
+    "UI.JobManager.Actions.Remove": {
+      "Source": "Remove",
+      "Translation": "Eltávolítás",
+      "IsTranslated": true,
+      "Notes": null
+    },
+    "UI.JobManager.Actions.RunJobs": {
+      "Source": "Run Jobs",
+      "Translation": "Feladatok futtatása",
+      "IsTranslated": true,
+      "Notes": null
+    },
+    "UI.JobManager.Actions.SaveJobs": {
+      "Source": "Save Jobs...",
+      "Translation": "Feladatok mentése...",
+      "IsTranslated": true,
+      "Notes": null
+    },
+    "UI.JobManager.Columns.Duration": {
+      "Source": "Duration",
+      "Translation": "Időtartam",
+      "IsTranslated": true,
+      "Notes": null
+    },
+    "UI.JobManager.Columns.EndTime": {
+      "Source": "End Time",
+      "Translation": "Vége",
+      "IsTranslated": true,
+      "Notes": null
+    },
+    "UI.JobManager.Columns.Job": {
+      "Source": "Job",
+      "Translation": "Feladat",
+      "IsTranslated": true,
+      "Notes": null
+    },
+    "UI.JobManager.Columns.StartTime": {
+      "Source": "Start Time",
+      "Translation": "Kezdete",
+      "IsTranslated": true,
+      "Notes": null
+    },
+    "UI.JobManager.Columns.State": {
+      "Source": "State",
+      "Translation": "Állapot",
+      "IsTranslated": true,
+      "Notes": null
+    },
+    "UI.JobManager.Dialogs.SelectJobFileTitle": {
+      "Source": "Select job file...",
+      "Translation": "Feladatfájl kiválasztása...",
+      "IsTranslated": true,
+      "Notes": null
+    },
+    "UI.JobManager.Dialogs.SelectJobsFileTitle": {
+      "Source": "Select jobs file...",
+      "Translation": "Feladatfájlok kiválasztása...",
+      "IsTranslated": true,
+      "Notes": null
+    },
+    "UI.JobManager.Errors.ExceptionForJob": {
+      "Source": "Exception for job {0}: {1}{2}",
+      "Translation": "Kivétel a(z) {0} állásnál: {1}{2}",
+      "IsTranslated": true,
+      "Notes": null
+    },
+    "UI.JobManager.Errors.NoJobsAvailable": {
+      "Source": "There are no available jobs to run!",
+      "Translation": "Nincsenek futtatható feladatok!",
+      "IsTranslated": true,
+      "Notes": null
+    },
+    "UI.JobManager.Errors.UnsupportedExtractionMode": {
+      "Source": "Unsupported Extraction Mode!",
+      "Translation": "Nem támogatott kibontási mód!",
+      "IsTranslated": true,
+      "Notes": null
+    },
+    "UI.JobManager.Jobs.ChangeToReadyStatus": {
+      "Source": "Change to Ready Status",
+      "Translation": "Állapot váltása Kész-re",
+      "IsTranslated": true,
+      "Notes": null
+    },
+    "UI.JobManager.Jobs.DeselectAll": {
+      "Source": "Deselect All",
+      "Translation": "Minden kijelölés törlése",
+      "IsTranslated": true,
+      "Notes": null
+    },
+    "UI.JobManager.Jobs.Group": {
+      "Source": "Jobs",
+      "Translation": "Feladatok",
+      "IsTranslated": true,
+      "Notes": null
+    },
+    "UI.JobManager.Jobs.GroupWithCount": {
+      "Source": "Jobs ({0})",
+      "Translation": "Feladatok ({0})",
+      "IsTranslated": true,
+      "Notes": null
+    },
+    "UI.JobManager.Jobs.SelectAll": {
+      "Source": "Select All",
+      "Translation": "Minden kijelölése",
+      "IsTranslated": true,
+      "Notes": null
+    },
+    "UI.JobManager.Progress.CurrentProgress": {
+      "Source": "Current Progress",
+      "Translation": "Jelenlegi folyamat",
+      "IsTranslated": true,
+      "Notes": null
+    },
+    "UI.JobManager.Progress.CurrentTrack": {
+      "Source": "Current Track",
+      "Translation": "Aktuális sáv",
+      "IsTranslated": true,
+      "Notes": null
+    },
+    "UI.JobManager.Progress.Group": {
+      "Source": "Progress",
+      "Translation": "Folyamat",
+      "IsTranslated": true,
+      "Notes": null
+    },
+    "UI.JobManager.Progress.TotalProgress": {
+      "Source": "Total Progress",
+      "Translation": "Összes folyamat",
+      "IsTranslated": true,
+      "Notes": null
+    },
+    "UI.JobManager.Success.JobsCompleted": {
+      "Source": "The jobs completed successfully!",
+      "Translation": "A feladatok sikeresen befejeződtek!",
+      "IsTranslated": true,
+      "Notes": null
+    },
+    "UI.JobManager.Success.JobsLoaded": {
+      "Source": "The jobs were loaded successfully!",
+      "Translation": "A feladatok betöltése sikeresen megtörtént!",
+      "IsTranslated": true,
+      "Notes": null
+    },
+    "UI.JobManager.Success.JobsSaved": {
+      "Source": "The jobs were saved successfully!",
+      "Translation": "A feladatok sikeresen mentésre kerültek!",
+      "IsTranslated": true,
+      "Notes": null
+    },
+    "UI.JobManager.Title": {
+      "Source": "Job Manager",
+      "Translation": "Feladatkezelő",
+      "IsTranslated": true,
+      "Notes": null
+    },
+    "UI.Log.Dialogs.ClearLogQuestion": {
+      "Source": "Are you sure you want to clear the log?",
+      "Translation": "Biztosan törli a naplót?",
+      "IsTranslated": true,
+      "Notes": null
+    },
+    "UI.Log.Dialogs.SelectFilenameTitle": {
+      "Source": "Select filename for the log...",
+      "Translation": "Válasszon fájlnevet a naplóhoz...",
+      "IsTranslated": true,
+      "Notes": null
+    },
+    "UI.Log.Success.LogSaved": {
+      "Source": "The log was saved to {0}!",
+      "Translation": "A napló elmentve ide: {0}!",
+      "IsTranslated": true,
+      "Notes": null
+    },
+    "UI.LogForm.Actions.ClearLog": {
+      "Source": "Clear Log",
+      "Translation": "Napló törlése",
+      "IsTranslated": true,
+      "Notes": null
+    },
+    "UI.LogForm.Actions.Close": {
+      "Source": "Close",
+      "Translation": "Bezár",
+      "IsTranslated": true,
+      "Notes": null
+    },
+    "UI.LogForm.Actions.CopySelection": {
+      "Source": "Copy Selection",
+      "Translation": "Kijelölés másolása",
+      "IsTranslated": true,
+      "Notes": null
+    },
+    "UI.LogForm.Actions.Group": {
+      "Source": "Actions",
+      "Translation": "Műveletek",
+      "IsTranslated": true,
+      "Notes": null
+    },
+    "UI.LogForm.Actions.Refresh": {
+      "Source": "Refresh",
+      "Translation": "Frissítés",
+      "IsTranslated": true,
+      "Notes": null
+    },
+    "UI.LogForm.Actions.Save": {
+      "Source": "Save...",
+      "Translation": "Mentés...",
+      "IsTranslated": true,
+      "Notes": null
+    },
+    "UI.LogForm.Log.Group": {
+      "Source": "Log",
+      "Translation": "Napló",
+      "IsTranslated": true,
+      "Notes": null
+    },
+    "UI.LogForm.Log.GroupWithCount": {
+      "Source": "Log ({0})",
+      "Translation": "Napló ({0})",
+      "IsTranslated": true,
+      "Notes": null
+    },
+    "UI.LogForm.Title": {
+      "Source": "Log",
+      "Translation": "Napló",
+      "IsTranslated": true,
+      "Notes": null
+    },
+    "UI.MainForm.Actions.Abort": {
+      "Source": "Abort",
+      "Translation": "Megszakítás",
+      "IsTranslated": true,
+      "Notes": null
+    },
+    "UI.MainForm.Actions.AbortAll": {
+      "Source": "Abort All",
+      "Translation": "Mind megszakítása",
+      "IsTranslated": true,
+      "Notes": null
+    },
+    "UI.MainForm.Actions.ChapterType": {
+      "Source": "Chapter",
+      "Translation": "Fejezet",
+      "IsTranslated": true,
+      "Notes": null
+    },
+    "UI.MainForm.Actions.Extract": {
+      "Source": "Extract",
+      "Translation": "Kibontás",
+      "IsTranslated": true,
+      "Notes": null
+    },
+    "UI.MainForm.Actions.ExtractionMode": {
+      "Source": "Extract:",
+      "Translation": "Kibontás:",
+      "IsTranslated": true,
+      "Notes": null
+    },
+    "UI.MainForm.Actions.Group": {
+      "Source": "Actions",
+      "Translation": "Műveletek",
+      "IsTranslated": true,
+      "Notes": null
+    },
+    "UI.MainForm.Actions.JobMode": {
+      "Source": "Job Mode",
+      "Translation": "Feladat mód",
+      "IsTranslated": true,
+      "Notes": null
+    },
+    "UI.MainForm.Actions.Log": {
+      "Source": "Log...",
+      "Translation": "Napló...",
+      "IsTranslated": true,
+      "Notes": null
+    },
+    "UI.MainForm.Actions.Popup": {
+      "Source": "Popup",
+      "Translation": "Felugró ablak",
+      "IsTranslated": true,
+      "Notes": null
+    },
+    "UI.MainForm.Config.Browse": {
+      "Source": "Browse...",
+      "Translation": "Tallózás...",
+      "IsTranslated": true,
+      "Notes": null
+    },
+    "UI.MainForm.Config.Group": {
+      "Source": "MKVToolnix Directory (you can drag and drop the directory)",
+      "Translation": "MKVToolnix könyvtár (áthúzhatja a könyvtárat)",
+      "IsTranslated": true,
+      "Notes": null
+    },
+    "UI.MainForm.Errors.ValidMatroskaFileRequired": {
+      "Source": "You must provide a valid Matroska file!",
+      "Translation": "Érvényes Matroska fájlt kell megadnia!",
+      "IsTranslated": true,
+      "Notes": null
+    },
+    "UI.MainForm.InputFile.Browse": {
+      "Source": "Browse...",
+      "Translation": "Tallózás...",
+      "IsTranslated": true,
+      "Notes": null
+    },
+    "UI.MainForm.InputFile.Group": {
+      "Source": "Input file (you can drag and drop the file)",
+      "Translation": "Bemeneti fájl (át is húzhatja a fájlt)",
+      "IsTranslated": true,
+      "Notes": null
+    },
+    "UI.MainForm.InputFileInfo.Group": {
+      "Source": "Input File Information",
+      "Translation": "Bemeneti fájl információ",
+      "IsTranslated": true,
+      "Notes": null
+    },
+    "UI.MainForm.Log.Group": {
+      "Source": "Log",
+      "Translation": "Napló",
+      "IsTranslated": true,
+      "Notes": null
+    },
+    "UI.MainForm.OutputDirectory.Browse": {
+      "Source": "Browse...",
+      "Translation": "Tallózás...",
+      "IsTranslated": true,
+      "Notes": null
+    },
+    "UI.MainForm.OutputDirectory.Group": {
+      "Source": "Output Directory",
+      "Translation": "Kimeneti mappa",
+      "IsTranslated": true,
+      "Notes": null
+    },
+    "UI.MainForm.OutputDirectory.Lock": {
+      "Source": "Lock",
+      "Translation": "Zárolás",
+      "IsTranslated": true,
+      "Notes": null
+    },
+    "UI.MainForm.Status.Status": {
+      "Source": "status",
+      "Translation": "állapot",
+      "IsTranslated": true,
+      "Notes": null
+    },
+    "UI.MainForm.Status.Track": {
+      "Source": "track",
+      "Translation": "sáv",
+      "IsTranslated": true,
+      "Notes": null
+    },
+    "UI.MainForm.Title": {
+      "Source": "gMKVExtractGUI",
+      "Translation": "gMKVExtractGUI",
+      "IsTranslated": true,
+      "Notes": null
+    },
+    "UI.MainForm2.Actions.Abort": {
+      "Source": "Abort",
+      "Translation": "Megszakítás",
+      "IsTranslated": true,
+      "Notes": null
+    },
+    "UI.MainForm2.Actions.AbortAll": {
+      "Source": "Abort All",
+      "Translation": "Mind megszakítása",
+      "IsTranslated": true,
+      "Notes": null
+    },
+    "UI.MainForm2.Actions.AddJobs": {
+      "Source": "Add Jobs",
+      "Translation": "Feladatok hozzáadása",
+      "IsTranslated": true,
+      "Notes": null
+    },
+    "UI.MainForm2.Actions.ChapterType": {
+      "Source": "Chapter",
+      "Translation": "Fejezet",
+      "IsTranslated": true,
+      "Notes": null
+    },
+    "UI.MainForm2.Actions.Extract": {
+      "Source": "Extract",
+      "Translation": "Kibontás",
+      "IsTranslated": true,
+      "Notes": null
+    },
+    "UI.MainForm2.Actions.ExtractionMode": {
+      "Source": "Extract",
+      "Translation": "Kibontás",
+      "IsTranslated": true,
+      "Notes": null
+    },
+    "UI.MainForm2.Actions.Group": {
+      "Source": "Actions",
+      "Translation": "Műveletek",
+      "IsTranslated": true,
+      "Notes": null
+    },
+    "UI.MainForm2.Actions.Log": {
+      "Source": "Log...",
+      "Translation": "Napló...",
+      "IsTranslated": true,
+      "Notes": null
+    },
+    "UI.MainForm2.Actions.Popup": {
+      "Source": "Popup",
+      "Translation": "Felugró ablak",
+      "IsTranslated": true,
+      "Notes": null
+    },
+    "UI.MainForm2.Actions.ShowJobs": {
+      "Source": "Jobs...",
+      "Translation": "Feladatok...",
+      "IsTranslated": true,
+      "Notes": null
+    },
+    "UI.MainForm2.Appearance.Dark": {
+      "Source": "Dark",
+      "Translation": "Sötét",
+      "IsTranslated": true,
+      "Notes": null
+    },
+    "UI.MainForm2.Appearance.Options": {
+      "Source": "Options...",
+      "Translation": "Beállítások...",
+      "IsTranslated": true,
+      "Notes": null
+    },
+    "UI.MainForm2.Config.AutoDetect": {
+      "Source": "Auto Detect",
+      "Translation": "Automatikus felismerés",
+      "IsTranslated": true,
+      "Notes": null
+    },
+    "UI.MainForm2.Config.Browse": {
+      "Source": "Browse...",
+      "Translation": "Tallózás...",
+      "IsTranslated": true,
+      "Notes": null
+    },
+    "UI.MainForm2.Config.Group": {
+      "Source": "MKVToolnix Directory (you can drag and drop the directory)",
+      "Translation": "MKVToolnix könyvtár (áthúzhatja a könyvtárat)",
+      "IsTranslated": true,
+      "Notes": null
+    },
+    "UI.MainForm2.ContextMenu.AddInputFiles": {
+      "Source": "Add Input File(s)...",
+      "Translation": "Bemeneti fájl(ok) hozzáadása...",
+      "IsTranslated": true,
+      "Notes": null
+    },
+    "UI.MainForm2.ContextMenu.AllTrackGroup": {
+      "Source": "All {0} ({1}/{2})",
+      "Translation": "Minden {0} ({1}/{2})",
+      "IsTranslated": true,
+      "Notes": null
+    },
+    "UI.MainForm2.ContextMenu.CheckAllTracks": {
+      "Source": "Check All Tracks ({0}/{1})",
+      "Translation": "Az összes sáv ellenőrzése ({0}/{1})",
+      "IsTranslated": true,
+      "Notes": null
+    },
+    "UI.MainForm2.ContextMenu.CheckTrackGroup": {
+      "Source": "Check {0}... ({1}/{2})",
+      "Translation": "Bejelölés {0}... ({1}/{2})",
+      "IsTranslated": true,
+      "Notes": null
+    },
+    "UI.MainForm2.ContextMenu.CollapseAll": {
+      "Source": "Collapse All",
+      "Translation": "Mind összecsukása",
+      "IsTranslated": true,
+      "Notes": null
+    },
+    "UI.MainForm2.ContextMenu.ExpandAll": {
+      "Source": "Expand All",
+      "Translation": "Mind kibontása",
+      "IsTranslated": true,
+      "Notes": null
+    },
+    "UI.MainForm2.ContextMenu.Filter.Channels": {
+      "Source": "Channels",
+      "Translation": "Csatornák",
+      "IsTranslated": true,
+      "Notes": null
+    },
+    "UI.MainForm2.ContextMenu.Filter.Codec": {
+      "Source": "Codec",
+      "Translation": "Kodek",
+      "IsTranslated": true,
+      "Notes": null
+    },
+    "UI.MainForm2.ContextMenu.Filter.Forced": {
+      "Source": "Forced",
+      "Translation": "Kényszerített",
+      "IsTranslated": true,
+      "Notes": null
+    },
+    "UI.MainForm2.ContextMenu.Filter.Language": {
+      "Source": "Language",
+      "Translation": "Nyelv",
+      "IsTranslated": true,
+      "Notes": null
+    },
+    "UI.MainForm2.ContextMenu.Filter.LanguageIetf": {
+      "Source": "Language IETF",
+      "Translation": "Nyelv IETF",
+      "IsTranslated": true,
+      "Notes": null
+    },
+    "UI.MainForm2.ContextMenu.Filter.Resolution": {
+      "Source": "Resolution",
+      "Translation": "Felbontás",
+      "IsTranslated": true,
+      "Notes": null
+    },
+    "UI.MainForm2.ContextMenu.Filter.TrackName": {
+      "Source": "Track Name",
+      "Translation": "Sáv neve",
+      "IsTranslated": true,
+      "Notes": null
+    },
+    "UI.MainForm2.ContextMenu.FilterValueCount": {
+      "Source": "{0}: [{1}] ({2}/{3})",
+      "Translation": "{0}: [{1}] ({2}/{3})",
+      "IsTranslated": true,
+      "Notes": null
+    },
+    "UI.MainForm2.ContextMenu.OpenSelectedFile": {
+      "Source": "Open Selected File...",
+      "Translation": "Kiválasztott fájl megnyitása...",
+      "IsTranslated": true,
+      "Notes": null
+    },
+    "UI.MainForm2.ContextMenu.OpenSelectedFileFolder": {
+      "Source": "Open Selected File Folder...",
+      "Translation": "Kiválasztott fájl mappa megnyitása...",
+      "IsTranslated": true,
+      "Notes": null
+    },
+    "UI.MainForm2.ContextMenu.RemoveAllInputFiles": {
+      "Source": "Remove All Input Files ({0})",
+      "Translation": "Minden bemeneti fájl eltávolítása ({0})",
+      "IsTranslated": true,
+      "Notes": null
+    },
+    "UI.MainForm2.ContextMenu.RemoveSelectedInputFile": {
+      "Source": "Remove Selected Input File",
+      "Translation": "A kiválasztott bemeneti fájl eltávolítása",
+      "IsTranslated": true,
+      "Notes": null
+    },
+    "UI.MainForm2.ContextMenu.TrackGroup.Attachment": {
+      "Source": "Attachment Tracks",
+      "Translation": "Csatolmány sávok",
+      "IsTranslated": true,
+      "Notes": null
+    },
+    "UI.MainForm2.ContextMenu.TrackGroup.Audio": {
+      "Source": "Audio Tracks",
+      "Translation": "Hangsávok",
+      "IsTranslated": true,
+      "Notes": null
+    },
+    "UI.MainForm2.ContextMenu.TrackGroup.Chapter": {
+      "Source": "Chapter Tracks",
+      "Translation": "Fejezetsávok",
+      "IsTranslated": true,
+      "Notes": null
+    },
+    "UI.MainForm2.ContextMenu.TrackGroup.Subtitle": {
+      "Source": "Subtitle Tracks",
+      "Translation": "Feliratsávok",
+      "IsTranslated": true,
+      "Notes": null
+    },
+    "UI.MainForm2.ContextMenu.TrackGroup.Video": {
+      "Source": "Video Tracks",
+      "Translation": "Videósávok",
+      "IsTranslated": true,
+      "Notes": null
+    },
+    "UI.MainForm2.ContextMenu.TrackGroupByFilter": {
+      "Source": "{0} by {1} ({2})...",
+      "Translation": "{0} {1} szerint ({2})...",
+      "IsTranslated": true,
+      "Notes": null
+    },
+    "UI.MainForm2.ContextMenu.UncheckAllTracks": {
+      "Source": "Uncheck All Tracks ({0}/{1})",
+      "Translation": "Minden sáv jelölésének megszüntetése ({0}/{1})",
+      "IsTranslated": true,
+      "Notes": null
+    },
+    "UI.MainForm2.ContextMenu.UncheckTrackGroup": {
+      "Source": "Uncheck {0}... ({1}/{2})",
+      "Translation": "Jelölés törlése {0} elemről... ({1}/{2})",
+      "IsTranslated": true,
+      "Notes": null
+    },
+    "UI.MainForm2.Dialogs.ChangeDefaultOutputDirectoryQuestion": {
+      "Source": "Are you sure you want to change the currently set ({0}) default output directory?",
+      "Translation": "Biztosan módosítani szeretné a jelenleg beállított ({0}) alapértelmezett kimeneti könyvtárat?",
+      "IsTranslated": true,
+      "Notes": null
+    },
+    "UI.MainForm2.Dialogs.ChangeMkvToolnixPathQuestion": {
+      "Source": "Do you really want to change the MKVToolNix path?",
+      "Translation": "Valóban meg akarja változtatni az MKVToolNix elérési utat?",
+      "IsTranslated": true,
+      "Notes": null
+    },
+    "UI.MainForm2.Dialogs.IncludeSubDirectoriesQuestion": {
+      "Source": "Do you want to include files in subdirectories?",
+      "Translation": "Szeretne fájlokat felvenni az alkönyvtárakba?",
+      "IsTranslated": true,
+      "Notes": null
+    },
+    "UI.MainForm2.Dialogs.OutputDirectoryMissingQuestion": {
+      "Source": "The output directory \"{0}\" does not exist!{1}{1}Do you want to create it?",
+      "Translation": "\"{0}\" kimeneti könyvtár nem létezik! {1}{1} Létre szeretné hozni?",
+      "IsTranslated": true,
+      "Notes": null
+    },
+    "UI.MainForm2.Dialogs.OutputDirectoryMissingTitle": {
+      "Source": "Output directory does not exist!",
+      "Translation": "Kimeneti könyvtár nem létezik!",
+      "IsTranslated": true,
+      "Notes": null
+    },
+    "UI.MainForm2.Dialogs.SelectInputMatroskaFileFilter": {
+      "Source": "Matroska files (*.mkv;*.mka;*.mks;*.mk3d;*.webm)|*.mkv;*.mka;*.mks;*.mk3d;*.webm|Matroska video files (*.mkv)|*.mkv|Matroska audio files (*.mka)|*.mka|Matroska subtitle files (*.mks)|*.mks|Matroska 3D files (*.mk3d)|*.mk3d|WebM files (*.webm)|*.webm",
+      "Translation": "Matroska-fájlok (*.mkv;*.mka;*.mks;*.mk3d;*.webm)|*.mkv;*.mka;*.mks;*.mk3d;*.webm|Matroska videófájlok (*.mkv)|*.mkv|Matroska hangfájlok (*.mka)|*.mka|Matroska feliratfájlok (*.mks)|*.mks|Matroska 3D-fájlok (*.mk3d)|*.mk3d|WebM-fájlok (*.webm)|*.webm",
+      "IsTranslated": true,
+      "Notes": null
+    },
+    "UI.MainForm2.Dialogs.SelectInputMatroskaFileTitle": {
+      "Source": "Select an input Matroska file...",
+      "Translation": "Válasszon ki egy bemeneti Matroska fájlt...",
+      "IsTranslated": true,
+      "Notes": null
+    },
+    "UI.MainForm2.Dialogs.SelectMkvToolnixDirectoryTitle": {
+      "Source": "Select MKVToolNix directory...",
+      "Translation": "Válassza ki az MKVToolNix könyvtárat...",
+      "IsTranslated": true,
+      "Notes": null
+    },
+    "UI.MainForm2.Dialogs.SelectOutputDirectoryTitle": {
+      "Source": "Select output directory...",
+      "Translation": "Kimeneti könyvtár kiválasztása...",
+      "IsTranslated": true,
+      "Notes": null
+    },
+    "UI.MainForm2.Dialogs.SubDirectoriesFoundTitle": {
+      "Source": "Subdirectories found!",
+      "Translation": "Alkönyvtárak találhatók!",
+      "IsTranslated": true,
+      "Notes": null
+    },
+    "UI.MainForm2.Errors.AutoDetectLinuxNotFound": {
+      "Source": "Could not find MKVToolNix in /usr/bin, or in the current directory, or in the ini file!",
+      "Translation": "Nem található az MKVToolNix a /usr/bin, az aktuális könyvtárban vagy az ini fájlban!",
+      "IsTranslated": true,
+      "Notes": null
+    },
+    "UI.MainForm2.Errors.AutoDetectManualPathHint": {
+      "Source": "{0}{1}Please download and reinstall or provide a manual path!",
+      "Translation": "{0}{1} Kérjük, töltse le és telepítse újra a programot, vagy adja meg a fájl elérési útját!",
+      "IsTranslated": true,
+      "Notes": null
+    },
+    "UI.MainForm2.Errors.AutoDetectWindowsNotFound": {
+      "Source": "Could not find MKVToolNix in registry, or in the current directory, or in the ini file!",
+      "Translation": "Nem található az MKVToolNix a beállításjegyzékben, az aktuális könyvtárban vagy az ini fájlban!",
+      "IsTranslated": true,
+      "Notes": null
+    },
+    "UI.MainForm2.Errors.ChapterTypeRequired": {
+      "Source": "You must select a chapter type!",
+      "Translation": "Ki kell választania egy fejezet típust!",
+      "IsTranslated": true,
+      "Notes": null
+    },
+    "UI.MainForm2.Errors.CuesTrackRequired": {
+      "Source": "You must select a video, audio, or subtitle track to extract cues!",
+      "Translation": "Ki kell választania egy videó-, hang- vagy feliratsávot a jelek kinyeréséhez!",
+      "IsTranslated": true,
+      "Notes": null
+    },
+    "UI.MainForm2.Errors.FileDoesNotExist": {
+      "Source": "The file {0} does not exist!",
+      "Translation": "{0} fájl nem létezik!",
+      "IsTranslated": true,
+      "Notes": null
+    },
+    "UI.MainForm2.Errors.FileProcessing": {
+      "Source": "File: {0} Error: {1}",
+      "Translation": "Fájl: {0} Hiba: {1}",
+      "IsTranslated": true,
+      "Notes": null
+    },
+    "UI.MainForm2.Errors.FolderDoesNotContainMkvToolnix": {
+      "Source": "The folder does not contain MKVToolNix! {0}",
+      "Translation": "A mappa nem tartalmazza az MKVToolNix-et! {0}",
+      "IsTranslated": true,
+      "Notes": null
+    },
+    "UI.MainForm2.Errors.InvalidMatroskaInputFile": {
+      "Source": "The input file {0}{1}{1}is not a valid Matroska file!",
+      "Translation": "A bemeneti fájl ({0}{1}{1}) nem érvényes Matroska-fájl!",
+      "IsTranslated": true,
+      "Notes": null
+    },
+    "UI.MainForm2.Errors.MkvmergeNotFoundInPath": {
+      "Source": "mkvmerge was not found in path {0}!",
+      "Translation": "mkvmerge nem található ezen az útvonalon!: {0}",
+      "IsTranslated": true,
+      "Notes": null
+    },
+    "UI.MainForm2.Errors.MkvToolnixFilesMissing": {
+      "Source": "The MKVToolNix path provided does not contain MKVToolNix files!",
+      "Translation": "A megadott MKVToolNix elérési út nem tartalmaz MKVToolNix fájlokat!",
+      "IsTranslated": true,
+      "Notes": null
+    },
+    "UI.MainForm2.Errors.MkvToolnixPathRequired": {
+      "Source": "You must provide an MKVToolNix path!",
+      "Translation": "Meg kell adnia egy MKVToolNix elérési útvonalat!",
+      "IsTranslated": true,
+      "Notes": null
+    },
+    "UI.MainForm2.Errors.NoFilenameProvided": {
+      "Source": "No filename was provided!",
+      "Translation": "Nem lett megadva fájlnév!",
+      "IsTranslated": true,
+      "Notes": null
+    },
+    "UI.MainForm2.Errors.NoNewFiles": {
+      "Source": "No new files to add!",
+      "Translation": "Nincs új hozzáadható fájl!",
+      "IsTranslated": true,
+      "Notes": null
+    },
+    "UI.MainForm2.Errors.NoValidMatroskaFiles": {
+      "Source": "No valid Matroska files were provided!",
+      "Translation": "Nincsenek megadva érvényes Matroska-fájlok!",
+      "IsTranslated": true,
+      "Notes": null
+    },
+    "UI.MainForm2.Errors.OutputDirectoryMissingCancelled": {
+      "Source": "The output directory \"{0}\" does not exist!{1}{1}Extraction was cancelled!",
+      "Translation": "Kimeneti könyvtár \"{0}\" nem létezik! {1}{1} A kibontás megszakítva!",
+      "IsTranslated": true,
+      "Notes": null
+    },
+    "UI.MainForm2.Errors.OutputDirectoryRequired": {
+      "Source": "You haven't specified an output directory!",
+      "Translation": "Nem adott meg kimeneti könyvtárat!",
+      "IsTranslated": true,
+      "Notes": null
+    },
+    "UI.MainForm2.Errors.SelectedNodeNoInfo": {
+      "Source": "Selected node has no info!",
+      "Translation": "A kiválasztott elemnek nincs információja!",
+      "IsTranslated": true,
+      "Notes": null
+    },
+    "UI.MainForm2.Errors.SelectedNodeNoParent": {
+      "Source": "Selected node has no parent node!",
+      "Translation": "A kiválasztott elemnek nincs szülőeleme!",
+      "IsTranslated": true,
+      "Notes": null
+    },
+    "UI.MainForm2.Errors.SelectedNodeNullTag": {
+      "Source": "Selected node has a null tag!",
+      "Translation": "A kiválasztott elemnek null értékű címkéje van!",
+      "IsTranslated": true,
+      "Notes": null
+    },
+    "UI.MainForm2.Errors.TimecodesTrackRequired": {
+      "Source": "You must select a video, audio, or subtitle track to extract timecodes!",
+      "Translation": "Ki kell választania egy videó-, hang- vagy feliratsávot az időkódok kinyeréséhez!",
+      "IsTranslated": true,
+      "Notes": null
+    },
+    "UI.MainForm2.Errors.TrackRequired": {
+      "Source": "You must select a track to extract!",
+      "Translation": "Ki kell választania egy sávot a kibontáshoz!",
+      "IsTranslated": true,
+      "Notes": null
+    },
+    "UI.MainForm2.Errors.TrackRequiredForMode": {
+      "Source": "You must select a track from the file in order to extract {0}!",
+      "Translation": "A(z) {0} kibontásához ki kell választania egy sávot a fájlból!",
+      "IsTranslated": true,
+      "Notes": null
+    },
+    "UI.MainForm2.FileOptions.AppendOnDragAndDrop": {
+      "Source": "Append input on drag and drop",
+      "Translation": "Bemenet hozzáadása húzás és dobás esetén",
+      "IsTranslated": true,
+      "Notes": null
+    },
+    "UI.MainForm2.FileOptions.DisableTooltips": {
+      "Source": "Disable tooltips",
+      "Translation": "Eszköztippek kikapcsolása",
+      "IsTranslated": true,
+      "Notes": null
+    },
+    "UI.MainForm2.FileOptions.OverwriteExistingFiles": {
+      "Source": "Overwrite existing files",
+      "Translation": "Létező fájlok felülírása",
+      "IsTranslated": true,
+      "Notes": null
+    },
+    "UI.MainForm2.FileOptions.Select": {
+      "Source": "Select...",
+      "Translation": "Kiválasztás...",
+      "IsTranslated": true,
+      "Notes": null
+    },
+    "UI.MainForm2.InputFiles.Group": {
+      "Source": "Input Files (you can drag and drop files or directories)",
+      "Translation": "Bemeneti fájlok (áthúzhatja a fájlokat vagy mappákat)",
+      "IsTranslated": true,
+      "Notes": null
+    },
+    "UI.MainForm2.InputFiles.GroupWithCount": {
+      "Source": "Input Files (you can drag and drop files or directories) ({0} files)",
+      "Translation": "Bemeneti fájlok (áthúzhat és eldobhat fájlokat vagy könyvtárakat) ({0} fájl)",
+      "IsTranslated": true,
+      "Notes": null
+    },
+    "UI.MainForm2.OutputDirectory.Browse": {
+      "Source": "Browse...",
+      "Translation": "Tallózás...",
+      "IsTranslated": true,
+      "Notes": null
+    },
+    "UI.MainForm2.OutputDirectory.Group": {
+      "Source": "Output Directory for Selected File (you can drag and drop the directory)",
+      "Translation": "Kimeneti könyvtár a kiválasztott fájlhoz (át lehet húzni a könyvtárat)",
+      "IsTranslated": true,
+      "Notes": null
+    },
+    "UI.MainForm2.OutputDirectory.SetAsDefault": {
+      "Source": "Set As Default Directory",
+      "Translation": "Beállítás alapértelmezett könyvtárként",
+      "IsTranslated": true,
+      "Notes": null
+    },
+    "UI.MainForm2.OutputDirectory.UseDefault": {
+      "Source": "Use Currently Set Default Directory:",
+      "Translation": "Használja a jelenleg beállított alapértelmezett könyvtárat:",
+      "IsTranslated": true,
+      "Notes": null
+    },
+    "UI.MainForm2.OutputDirectory.UseDefaultWithValue": {
+      "Source": "Use Currently Set Default Directory: ({0})",
+      "Translation": "Használja az aktuálisan beállított alapértelmezett könyvtárat: ({0})",
+      "IsTranslated": true,
+      "Notes": null
+    },
+    "UI.MainForm2.OutputDirectory.UseSource": {
+      "Source": "Use Source",
+      "Translation": "Forrás használata",
+      "IsTranslated": true,
+      "Notes": null
+    },
+    "UI.MainForm2.SelectedFileInfo.Details": {
+      "Source": "Writing Application: {0}{4}Muxing Application: {1}{4}Duration: {2}{4}Date: {3}",
+      "Translation": "Író alkalmazás: {0}{4} Keverő alkalmazás: {1}{4} Időtartam: {2}{4} Dátum: {3}",
+      "IsTranslated": true,
+      "Notes": null
+    },
+    "UI.MainForm2.SelectedFileInfo.Group": {
+      "Source": "Selected File Information",
+      "Translation": "Kiválasztott fájl információi",
+      "IsTranslated": true,
+      "Notes": null
+    },
+    "UI.MainForm2.SelectedFileInfo.GroupWithFile": {
+      "Source": "Selected File Information ({0})",
+      "Translation": "Kiválasztott fájl információi ({0})",
+      "IsTranslated": true,
+      "Notes": null
+    },
+    "UI.MainForm2.Status.Status": {
+      "Source": "status",
+      "Translation": "állapot",
+      "IsTranslated": true,
+      "Notes": null
+    },
+    "UI.MainForm2.Status.TotalStatus": {
+      "Source": "status",
+      "Translation": "állapot",
+      "IsTranslated": true,
+      "Notes": null
+    },
+    "UI.MainForm2.Success.ExtractionCompleted": {
+      "Source": "The extraction was completed successfully!",
+      "Translation": "A kibontás sikeresen befejeződött!",
+      "IsTranslated": true,
+      "Notes": null
+    },
+    "UI.MainForm2.Title": {
+      "Source": "gMKVExtractGUI",
+      "Translation": "gMKVExtractGUI",
+      "IsTranslated": true,
+      "Notes": null
+    },
+    "UI.MainForm2.Tooltips.AppendOnDragAndDrop": {
+      "Source": "Check if you want to append files in the input list on drag and drop.\nUncheck if you want to reset the input list every time you drag and drop a new file.",
+      "Translation": "Jelölje be ezt a jelölőnégyzetet, ha a fájlokat a beviteli listához szeretné hozzáadni húzás-és-dobáskor.\r\nTörölje a jelölést, ha azt szeretné, hogy a beviteli lista minden új fájl húzás-és-dobásakor visszaálljon.",
+      "IsTranslated": true,
+      "Notes": null
+    },
+    "UI.MainForm2.Tooltips.AutoDetect": {
+      "Source": "Press to try and auto-detect the MKVToolNix installation.",
+      "Translation": "Nyomja meg az MKVToolNix telepítés automatikus észlelésének megkísérléséhez.",
+      "IsTranslated": true,
+      "Notes": null
+    },
+    "UI.MainForm2.Tooltips.InputFiles": {
+      "Source": "Contains the list of opened files with their tracks.\nYou can check the individual tracks in order to select them for extracting.\n\nNote: There is a context menu (right-click on the list) that contains many options for batch selecting tracks.",
+      "Translation": "Tartalmazza a megnyitott fájlok listáját a hozzájuk tartozó sávokkal.\r\nAz egyes sávokat bejelölheti, hogy kiválassza őket a kibontáshoz.\r\n\r\nMegjegyzés: A listára kattintva megjelenő helyi menüben számos lehetőség áll rendelkezésre a sávok tömeges kiválasztásához.",
+      "IsTranslated": true,
+      "Notes": null
+    },
+    "UI.MainForm2.Tooltips.OverwriteExistingFiles": {
+      "Source": "Check if you want the output files to always overwrite existing files with the same filename.\nUncheck if you want the output files to automatically be renamed with a different filename to avoid overwriting existing files.",
+      "Translation": "Jelölje be ezt a jelölőnégyzetet, ha azt szeretné, hogy a kimeneti fájlok mindig felülírják a már létező, azonos nevű fájlokat.\r\nTörölje a jelölést, ha azt szeretné, hogy a kimeneti fájlok automatikusan más nevet kapjanak, hogy elkerülhető legyen a már létező fájlok felülírása.",
+      "IsTranslated": true,
+      "Notes": null
+    },
+    "UI.MainForm2.Tooltips.Select": {
+      "Source": "Press to display the menu that contains many options for batch selecting tracks.",
+      "Translation": "Nyomja meg a gombot a menü megjelenítéséhez, amely számos lehetőséget kínál a sávok tömeges kiválasztásához.",
+      "IsTranslated": true,
+      "Notes": null
+    },
+    "UI.MainForm2.Tooltips.ShowPopup": {
+      "Source": "Check if you want to show a popup message when the extraction is finished.",
+      "Translation": "Jelölje be, ha a kibontás befejezése után felugró üzenetet szeretne megjeleníteni.",
+      "IsTranslated": true,
+      "Notes": null
+    },
+    "UI.MainForm2.Tooltips.UseSourceDirectory": {
+      "Source": "Check if you want the output files to be saved in the same directory as the source files.\nUncheck if you want to manually select an output directory for ALL extracted files.",
+      "Translation": "Jelölje be ezt a jelölőnégyzetet, ha azt szeretné, hogy a kimeneti fájlok a forrásfájlokkal azonos könyvtárba kerüljenek.\r\nTörölje a jelölést, ha az ÖSSZES kibontott fájl számára kézzel szeretne kimeneti könyvtárat kiválasztani.",
+      "IsTranslated": true,
+      "Notes": null
+    },
+    "UI.OptionsForm.Actions.Cancel": {
+      "Source": "Cancel",
+      "Translation": "Mégse",
+      "IsTranslated": true,
+      "Notes": null
+    },
+    "UI.OptionsForm.Actions.Group": {
+      "Source": "Actions",
+      "Translation": "Műveletek",
+      "IsTranslated": true,
+      "Notes": null
+    },
+    "UI.OptionsForm.Actions.OK": {
+      "Source": "OK",
+      "Translation": "OK",
+      "IsTranslated": true,
+      "Notes": null
+    },
+    "UI.OptionsForm.Advanced.Culture": {
+      "Source": "Culture:",
+      "Translation": "Kultúra:",
+      "IsTranslated": true,
+      "Notes": null
+    },
+    "UI.OptionsForm.Advanced.Group": {
+      "Source": "Advanced Options",
+      "Translation": "Speciális beállítások",
+      "IsTranslated": true,
+      "Notes": null
+    },
+    "UI.OptionsForm.Advanced.Translations": {
+      "Source": "Translations...",
+      "Translation": "Fordítások...",
+      "IsTranslated": true,
+      "Notes": null
+    },
+    "UI.OptionsForm.Attachments.Add": {
+      "Source": "Add...",
+      "Translation": "Hozzáadás...",
+      "IsTranslated": true,
+      "Notes": null
+    },
+    "UI.OptionsForm.Attachments.Default": {
+      "Source": "Default",
+      "Translation": "Alapértelmezett",
+      "IsTranslated": true,
+      "Notes": null
+    },
+    "UI.OptionsForm.Attachments.Group": {
+      "Source": "Attachments",
+      "Translation": "Csatolmányok",
+      "IsTranslated": true,
+      "Notes": null
+    },
+    "UI.OptionsForm.AudioTracks.Add": {
+      "Source": "Add...",
+      "Translation": "Hozzáadás...",
+      "IsTranslated": true,
+      "Notes": null
+    },
+    "UI.OptionsForm.AudioTracks.Default": {
+      "Source": "Default",
+      "Translation": "Alapértelmezett",
+      "IsTranslated": true,
+      "Notes": null
+    },
+    "UI.OptionsForm.AudioTracks.Group": {
+      "Source": "Audio Tracks",
+      "Translation": "Hangsávok",
+      "IsTranslated": true,
+      "Notes": null
+    },
+    "UI.OptionsForm.Chapters.Add": {
+      "Source": "Add...",
+      "Translation": "Hozzáadás...",
+      "IsTranslated": true,
+      "Notes": null
+    },
+    "UI.OptionsForm.Chapters.Default": {
+      "Source": "Default",
+      "Translation": "Alapértelmezett",
+      "IsTranslated": true,
+      "Notes": null
+    },
+    "UI.OptionsForm.Chapters.Group": {
+      "Source": "Chapters",
+      "Translation": "Fejezetek",
+      "IsTranslated": true,
+      "Notes": null
+    },
+    "UI.OptionsForm.Defaults": {
+      "Source": "Defaults",
+      "Translation": "Alapértelmezések",
+      "IsTranslated": true,
+      "Notes": null
+    },
+    "UI.OptionsForm.FullRawMode": {
+      "Source": "Use `full raw` extraction",
+      "Translation": "Használja a „teljes nyers” kibontást",
+      "IsTranslated": true,
+      "Notes": null
+    },
+    "UI.OptionsForm.Info.Group": {
+      "Source": "Information",
+      "Translation": "Információ",
+      "IsTranslated": true,
+      "Notes": null
+    },
+    "UI.OptionsForm.Info.Text": {
+      "Source": "Here you can specify the output filename format for each kind of track.\nPressing the \"Add...\" button you will see the list with the available placeholders and select them.\nPressing the \"Default\" button you will reset the output filename format to its default value.",
+      "Translation": "Itt megadhatja az egyes sávtípusok kimeneti fájlnevének formátumát.\r\nAz \"Hozzáadás...\" gombra kattintva megjelenik a rendelkezésre álló helyőrzők listája, ahonnan kiválaszthatja a kívántakat.\r\nAz \"Alapértelmezett\" gombra kattintva visszaállíthatja a kimeneti fájlnév formátumát az alapértelmezett értékre.",
+      "IsTranslated": true,
+      "Notes": null
+    },
+    "UI.OptionsForm.Placeholders.AttachmentFilename": {
+      "Source": "Attachment Filename",
+      "Translation": "Csatolt fájl neve",
+      "IsTranslated": true,
+      "Notes": null
+    },
+    "UI.OptionsForm.Placeholders.AttachmentFileSizeBytes": {
+      "Source": "Attachment File Size (bytes)",
+      "Translation": "Csatolt fájl mérete (bájt)",
+      "IsTranslated": true,
+      "Notes": null
+    },
+    "UI.OptionsForm.Placeholders.AttachmentId.Group": {
+      "Source": "Attachment ID...",
+      "Translation": "Csatolmány ID...",
+      "IsTranslated": true,
+      "Notes": null
+    },
+    "UI.OptionsForm.Placeholders.AttachmentId.NoFormat": {
+      "Source": "Attachment ID (No format)",
+      "Translation": "Csatolmány ID (formátum nélkül)",
+      "IsTranslated": true,
+      "Notes": null
+    },
+    "UI.OptionsForm.Placeholders.AttachmentId.OneDigit": {
+      "Source": "Attachment ID (1 digit)",
+      "Translation": "Csatolmány ID (1 számjegy)",
+      "IsTranslated": true,
+      "Notes": null
+    },
+    "UI.OptionsForm.Placeholders.AttachmentId.ThreeDigits": {
+      "Source": "Attachment ID (3 digits)",
+      "Translation": "Csatolmány ID (3 számjegy)",
+      "IsTranslated": true,
+      "Notes": null
+    },
+    "UI.OptionsForm.Placeholders.AttachmentId.TwoDigits": {
+      "Source": "Attachment ID (2 digits)",
+      "Translation": "Csatolmány ID (2 számjegy)",
+      "IsTranslated": true,
+      "Notes": null
+    },
+    "UI.OptionsForm.Placeholders.AttachmentMimeType": {
+      "Source": "Attachment MIME Type",
+      "Translation": "Csatolmány MIME-típusa",
+      "IsTranslated": true,
+      "Notes": null
+    },
+    "UI.OptionsForm.Placeholders.AudioChannels": {
+      "Source": "Audio Channels",
+      "Translation": "Hangcsatornák",
+      "IsTranslated": true,
+      "Notes": null
+    },
+    "UI.OptionsForm.Placeholders.AudioSamplingFrequency": {
+      "Source": "Audio Sampling Frequency",
+      "Translation": "Hangmintavételezési frekvencia",
+      "IsTranslated": true,
+      "Notes": null
+    },
+    "UI.OptionsForm.Placeholders.DirectorySeparator": {
+      "Source": "Directory Separator",
+      "Translation": "Könyvtárelválasztó",
+      "IsTranslated": true,
+      "Notes": null
+    },
+    "UI.OptionsForm.Placeholders.InputFilenameWithExtension": {
+      "Source": "Input Filename (with extension)",
+      "Translation": "Bemeneti fájlnév (kiterjesztéssel)",
+      "IsTranslated": true,
+      "Notes": null
+    },
+    "UI.OptionsForm.Placeholders.InputFilenameWithoutExtension": {
+      "Source": "Input Filename (without extension)",
+      "Translation": "Bemeneti fájlnév (kiterjesztés nélkül)",
+      "IsTranslated": true,
+      "Notes": null
+    },
+    "UI.OptionsForm.Placeholders.TrackCodecId": {
+      "Source": "Track Codec ID",
+      "Translation": "Sáv kodek ID",
+      "IsTranslated": true,
+      "Notes": null
+    },
+    "UI.OptionsForm.Placeholders.TrackCodecPrivate": {
+      "Source": "Track Codec Private",
+      "Translation": "Sáv-kodek privát adat",
+      "IsTranslated": true,
+      "Notes": null
+    },
+    "UI.OptionsForm.Placeholders.TrackDelay": {
+      "Source": "Track Delay",
+      "Translation": "Sáv késleltetés",
+      "IsTranslated": true,
+      "Notes": null
+    },
+    "UI.OptionsForm.Placeholders.TrackEffectiveDelay": {
+      "Source": "Track Effective Delay",
+      "Translation": "Sáv tényleges késleltetése",
+      "IsTranslated": true,
+      "Notes": null
+    },
+    "UI.OptionsForm.Placeholders.TrackForced": {
+      "Source": "Track Forced",
+      "Translation": "Kényszerített sáv",
+      "IsTranslated": true,
+      "Notes": null
+    },
+    "UI.OptionsForm.Placeholders.TrackId.Group": {
+      "Source": "Track ID...",
+      "Translation": "Sáv ID...",
+      "IsTranslated": true,
+      "Notes": null
+    },
+    "UI.OptionsForm.Placeholders.TrackId.NoFormat": {
+      "Source": "Track ID (No format)",
+      "Translation": "Sáv ID (formátum nélkül)",
+      "IsTranslated": true,
+      "Notes": null
+    },
+    "UI.OptionsForm.Placeholders.TrackId.OneDigit": {
+      "Source": "Track ID (1 digit)",
+      "Translation": "Sáv  ID (1 számjegy)",
+      "IsTranslated": true,
+      "Notes": null
+    },
+    "UI.OptionsForm.Placeholders.TrackId.ThreeDigits": {
+      "Source": "Track ID (3 digits)",
+      "Translation": "Sáv  ID (3 számjegy)",
+      "IsTranslated": true,
+      "Notes": null
+    },
+    "UI.OptionsForm.Placeholders.TrackId.TwoDigits": {
+      "Source": "Track ID (2 digits)",
+      "Translation": "Sáv  ID (2 számjegy)",
+      "IsTranslated": true,
+      "Notes": null
+    },
+    "UI.OptionsForm.Placeholders.TrackLanguage": {
+      "Source": "Track Language",
+      "Translation": "Sáv nyelve",
+      "IsTranslated": true,
+      "Notes": null
+    },
+    "UI.OptionsForm.Placeholders.TrackLanguageIetf": {
+      "Source": "Track Language IETF",
+      "Translation": "Sáv nyelve IETF",
+      "IsTranslated": true,
+      "Notes": null
+    },
+    "UI.OptionsForm.Placeholders.TrackName": {
+      "Source": "Track Name",
+      "Translation": "Sáv neve",
+      "IsTranslated": true,
+      "Notes": null
+    },
+    "UI.OptionsForm.Placeholders.TrackNumber.Group": {
+      "Source": "Track Number...",
+      "Translation": "Sávszám...",
+      "IsTranslated": true,
+      "Notes": null
+    },
+    "UI.OptionsForm.Placeholders.TrackNumber.NoFormat": {
+      "Source": "Track Number (No format)",
+      "Translation": "Sávszám (formátum nélkül)",
+      "IsTranslated": true,
+      "Notes": null
+    },
+    "UI.OptionsForm.Placeholders.TrackNumber.OneDigit": {
+      "Source": "Track Number (1 digit)",
+      "Translation": "Sávszám (1 számjegy)",
+      "IsTranslated": true,
+      "Notes": null
+    },
+    "UI.OptionsForm.Placeholders.TrackNumber.ThreeDigits": {
+      "Source": "Track Number (3 digits)",
+      "Translation": "Sávszám (3 számjegy)",
+      "IsTranslated": true,
+      "Notes": null
+    },
+    "UI.OptionsForm.Placeholders.TrackNumber.TwoDigits": {
+      "Source": "Track Number (2 digits)",
+      "Translation": "Sávszám (2 számjegy)",
+      "IsTranslated": true,
+      "Notes": null
+    },
+    "UI.OptionsForm.Placeholders.VideoPixelHeight": {
+      "Source": "Video Pixel Height",
+      "Translation": "Videó pixelmagasság",
+      "IsTranslated": true,
+      "Notes": null
+    },
+    "UI.OptionsForm.Placeholders.VideoPixelWidth": {
+      "Source": "Video Pixel Width",
+      "Translation": "Videó pixelszélesség",
+      "IsTranslated": true,
+      "Notes": null
+    },
+    "UI.OptionsForm.RawMode": {
+      "Source": "Use `raw` extraction",
+      "Translation": "Használja a `nyers` kibontást",
+      "IsTranslated": true,
+      "Notes": null
+    },
+    "UI.OptionsForm.SubtitleTracks.Add": {
+      "Source": "Add...",
+      "Translation": "Hozzáadás...",
+      "IsTranslated": true,
+      "Notes": null
+    },
+    "UI.OptionsForm.SubtitleTracks.Default": {
+      "Source": "Default",
+      "Translation": "Alapértelmezett",
+      "IsTranslated": true,
+      "Notes": null
+    },
+    "UI.OptionsForm.SubtitleTracks.Group": {
+      "Source": "Subtitle Tracks",
+      "Translation": "Felirat sávok",
+      "IsTranslated": true,
+      "Notes": null
+    },
+    "UI.OptionsForm.Tags.Add": {
+      "Source": "Add...",
+      "Translation": "Hozzáadás...",
+      "IsTranslated": true,
+      "Notes": null
+    },
+    "UI.OptionsForm.Tags.Default": {
+      "Source": "Default",
+      "Translation": "Alapértelmezett",
+      "IsTranslated": true,
+      "Notes": null
+    },
+    "UI.OptionsForm.Tags.Group": {
+      "Source": "Tags",
+      "Translation": "Címkék",
+      "IsTranslated": true,
+      "Notes": null
+    },
+    "UI.OptionsForm.TextFilesWithoutBom": {
+      "Source": "Disable BOM to text files (v96.0+)",
+      "Translation": "A BOM letiltása szöveges fájlok esetén (v96.0+)",
+      "IsTranslated": true,
+      "Notes": null
+    },
+    "UI.OptionsForm.Title": {
+      "Source": "Options",
+      "Translation": "Beállítások",
+      "IsTranslated": true,
+      "Notes": null
+    },
+    "UI.OptionsForm.VideoTracks.Add": {
+      "Source": "Add...",
+      "Translation": "Hozzáadás...",
+      "IsTranslated": true,
+      "Notes": null
+    },
+    "UI.OptionsForm.VideoTracks.Default": {
+      "Source": "Default",
+      "Translation": "Alapértelmezett",
+      "IsTranslated": true,
+      "Notes": null
+    },
+    "UI.OptionsForm.VideoTracks.Group": {
+      "Source": "Video Tracks",
+      "Translation": "Videósávok",
+      "IsTranslated": true,
+      "Notes": null
+    },
+    "UI.TranslationEditor.Actions.Close": {
+      "Source": "Close",
+      "Translation": "Bezárás",
+      "IsTranslated": true,
+      "Notes": null
+    },
+    "UI.TranslationEditor.Actions.Create": {
+      "Source": "Create",
+      "Translation": "Létrehozás",
+      "IsTranslated": true,
+      "Notes": null
+    },
+    "UI.TranslationEditor.Actions.Group": {
+      "Source": "Actions",
+      "Translation": "Műveletek",
+      "IsTranslated": true,
+      "Notes": null
+    },
+    "UI.TranslationEditor.Actions.NewLocale": {
+      "Source": "New Locale...",
+      "Translation": "Új nyelvi beállítás...",
+      "IsTranslated": true,
+      "Notes": null
+    },
+    "UI.TranslationEditor.Actions.Save": {
+      "Source": "Save",
+      "Translation": "Mentés",
+      "IsTranslated": true,
+      "Notes": null
+    },
+    "UI.TranslationEditor.Actions.Sync": {
+      "Source": "Sync",
+      "Translation": "Szinkronizálás",
+      "IsTranslated": true,
+      "Notes": null
+    },
+    "UI.TranslationEditor.Columns.IsTranslated": {
+      "Source": "Done",
+      "Translation": "Kész",
+      "IsTranslated": true,
+      "Notes": null
+    },
+    "UI.TranslationEditor.Columns.Key": {
+      "Source": "Key",
+      "Translation": "Kulcs",
+      "IsTranslated": true,
+      "Notes": null
+    },
+    "UI.TranslationEditor.Columns.Notes": {
+      "Source": "Notes",
+      "Translation": "Megjegyzések",
+      "IsTranslated": true,
+      "Notes": null
+    },
+    "UI.TranslationEditor.Columns.Source": {
+      "Source": "Source",
+      "Translation": "Forrás",
+      "IsTranslated": true,
+      "Notes": null
+    },
+    "UI.TranslationEditor.Columns.Translation": {
+      "Source": "Translation",
+      "Translation": "Fordítás",
+      "IsTranslated": true,
+      "Notes": null
+    },
+    "UI.TranslationEditor.Dialogs.DiscardChanges": {
+      "Source": "You have unsaved changes for locale {0}. Discard them?",
+      "Translation": "Vannak nem mentett módosításai a(z) {0} nyelvi beállításhoz. Eldobja ezeket?",
+      "IsTranslated": true,
+      "Notes": null
+    },
+    "UI.TranslationEditor.Dialogs.NewLocaleTitle": {
+      "Source": "Create New Locale",
+      "Translation": "Új nyelvi környezet létrehozása",
+      "IsTranslated": true,
+      "Notes": null
+    },
+    "UI.TranslationEditor.Errors.CannotSyncEnglish": {
+      "Source": "The English master locale cannot be synced!",
+      "Translation": "Az angol mesterhelyi beállítás nem szinkronizálható!",
+      "IsTranslated": true,
+      "Notes": null
+    },
+    "UI.TranslationEditor.Errors.CultureCodeRequired": {
+      "Source": "You must enter a locale code!",
+      "Translation": "Meg kell adnia a nyelvi kódot!",
+      "IsTranslated": true,
+      "Notes": null
+    },
+    "UI.TranslationEditor.Errors.LocaleExists": {
+      "Source": "The locale {0} already exists!",
+      "Translation": "A(z) {0} nyelv már létezik!",
+      "IsTranslated": true,
+      "Notes": null
+    },
+    "UI.TranslationEditor.Errors.SelectCulture": {
+      "Source": "You must select a locale first!",
+      "Translation": "Először ki kell választania egy nyelvet!",
+      "IsTranslated": true,
+      "Notes": null
+    },
+    "UI.TranslationEditor.Fields.NewCulture": {
+      "Source": "New Locale:",
+      "Translation": "Új nyelv:",
+      "IsTranslated": true,
+      "Notes": null
+    },
+    "UI.TranslationEditor.Fields.Search": {
+      "Source": "Search:",
+      "Translation": "Keresés:",
+      "IsTranslated": true,
+      "Notes": null
+    },
+    "UI.TranslationEditor.Fields.ShowOnlyUntranslated": {
+      "Source": "Show only untranslated",
+      "Translation": "Csak a lefordítatlan megjelenítése",
+      "IsTranslated": true,
+      "Notes": null
+    },
+    "UI.TranslationEditor.Fields.Summary": {
+      "Source": "Translated: {0}/{1}",
+      "Translation": "Lefordítva: {0}/{1}",
+      "IsTranslated": true,
+      "Notes": null
+    },
+    "UI.TranslationEditor.Fields.TargetCulture": {
+      "Source": "Locale:",
+      "Translation": "Nyelv:",
+      "IsTranslated": true,
+      "Notes": null
+    },
+    "UI.TranslationEditor.Fields.Translator": {
+      "Source": "Translator:",
+      "Translation": "Fordító:",
+      "IsTranslated": true,
+      "Notes": null
+    },
+    "UI.TranslationEditor.Grid.Group": {
+      "Source": "Translations",
+      "Translation": "Fordítások",
+      "IsTranslated": true,
+      "Notes": null
+    },
+    "UI.TranslationEditor.Settings.Group": {
+      "Source": "Translation Settings",
+      "Translation": "Fordítási beállítások",
+      "IsTranslated": true,
+      "Notes": null
+    },
+    "UI.TranslationEditor.Status.Clean": {
+      "Source": "All changes saved",
+      "Translation": "Minden változtatás mentve",
+      "IsTranslated": true,
+      "Notes": null
+    },
+    "UI.TranslationEditor.Status.Dirty": {
+      "Source": "Unsaved changes",
+      "Translation": "Nem mentett módosítások",
+      "IsTranslated": true,
+      "Notes": null
+    },
+    "UI.TranslationEditor.Status.Loading": {
+      "Source": "Loading locale...",
+      "Translation": "Nyelv betöltése...",
+      "IsTranslated": true,
+      "Notes": null
+    },
+    "UI.TranslationEditor.Success.LocaleCreated": {
+      "Source": "The locale {0} was created successfully!",
+      "Translation": "A(z) {0} nyelvi beállítás sikeresen létrejött!",
+      "IsTranslated": true,
+      "Notes": null
+    },
+    "UI.TranslationEditor.Success.LocaleSaved": {
+      "Source": "The locale {0} was saved successfully!",
+      "Translation": "A(z) {0} nyelvi beállítás sikeresen mentve!",
+      "IsTranslated": true,
+      "Notes": null
+    },
+    "UI.TranslationEditor.Success.LocaleSynced": {
+      "Source": "The locale {0} was synced successfully! Added: {1}, Updated: {2}, Removed: {3}",
+      "Translation": "A(z) {0} nyelvi beállítás sikeresen szinkronizálva! Hozzáadva: {1}, frissítve: {2}, eltávolítva: {3}",
+      "IsTranslated": true,
+      "Notes": null
+    },
+    "UI.TranslationEditor.Title": {
+      "Source": "Translation Editor",
+      "Translation": "Fordításszerkesztő",
+      "IsTranslated": true,
+      "Notes": null
+    },
+    "UI.TranslationEditor.Tooltips.NewLocale": {
+      "Source": "Create a new locale from the English master file.",
+      "Translation": "Hozzon létre egy új nyelvi beállítást az angol mesterfájlból.",
+      "IsTranslated": true,
+      "Notes": null
+    },
+    "UI.TranslationEditor.Tooltips.Sync": {
+      "Source": "Sync the selected locale with the English master file. New keys are added, changed English source text resets those translations, and removed keys are deleted.",
+      "Translation": "A kiválasztott nyelvi beállításokat szinkronizálja az angol nyelvű főfájllal. Az új kulcsszavak hozzáadódnak, a módosított angol forrás szöveg visszaállítja az azokhoz tartozó fordításokat, az eltávolított kulcsszavak pedig törlésre kerülnek.",
+      "IsTranslated": true,
+      "Notes": null
+    }
+  }
+}
