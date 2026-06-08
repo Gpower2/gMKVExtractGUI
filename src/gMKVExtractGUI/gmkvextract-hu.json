@@ -888,6 +888,12 @@
       "IsTranslated": true,
       "Notes": null
     },
+     "UI.MainForm2.Errors.ExtractionPathRequired": {
+      "Source": "You must specify a valid extraction directory!",
+      "Translation": "Meg kell adnia egy érvényes kibontási mappát!",
+      "IsTranslated": true,
+      "Notes": null
+    },   
     "UI.MainForm2.Errors.FileDoesNotExist": {
       "Source": "The file {0} does not exist!",
       "Translation": "{0} fájl nem létezik!",
@@ -912,6 +918,12 @@
       "IsTranslated": true,
       "Notes": null
     },
+     "UI.MainForm2.Errors.MkvExtractPathRequired": {
+      "Source": "You must specify a valid mkvextract.exe binary path!",
+      "Translation": "Meg kell adnia az mkvextract.exe érvényes elérési útját!",
+      "IsTranslated": true,
+      "Notes": null
+    },   
     "UI.MainForm2.Errors.MkvmergeNotFoundInPath": {
       "Source": "mkvmerge was not found in path {0}!",
       "Translation": "mkvmerge nem található ezen az útvonalon!: {0}",
@@ -1068,6 +1080,12 @@
       "IsTranslated": true,
       "Notes": null
     },
+     "UI.MainForm2.Placeholders.OutputDirectory.Folder": {
+      "Source": "Output Directory...",
+      "Translation": "Kimeneti mappa...",
+      "IsTranslated": true,
+      "Notes": null
+    },   
     "UI.MainForm2.SelectedFileInfo.Details": {
       "Source": "Writing Application: {0}{4}Muxing Application: {1}{4}Duration: {2}{4}Date: {3}",
       "Translation": "Író alkalmazás: {0}{4} Keverő alkalmazás: {1}{4} Időtartam: {2}{4} Dátum: {3}",
