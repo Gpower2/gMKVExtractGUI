@@ -107,5 +107,26 @@ namespace gMKVToolNix.Controls
 
             ApplyLocalizedButtonSize(button, minimumSize.Width, minimumSize.Height, extraPadding);
         }
+
+        public static int GetGroupBoxContentTop(this GroupBox groupBox, int fallbackTop = 19)
+        {
+            if (groupBox == null)
+            {
+                throw new ArgumentNullException(nameof(groupBox));
+            }
+
+            int contentTop = groupBox.DisplayRectangle.Top;
+            return contentTop > 0 ? contentTop : fallbackTop;
+        }
+
+        public static int GetVerticallyCenteredTop(this Control control, int referenceTop, int referenceHeight)
+        {
+            if (control == null)
+            {
+                throw new ArgumentNullException(nameof(control));
+            }
+
+            return referenceTop + ((referenceHeight - control.Height) / 2);
+        }
     }
 }

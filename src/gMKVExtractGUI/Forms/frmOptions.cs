@@ -17,6 +17,10 @@ namespace gMKVToolNix.Forms
     {
         private const int PatternButtonMinWidth = 83;
         private const int ActionButtonMinWidth = 80;
+        private const int AdvancedFirstRowTopOffset = 5;
+        private const int AdvancedRowSpacing = 7;
+        private const int GroupBottomPadding = 6;
+        private const int GroupButtonTopOffset = -2;
         private const int LayoutSpacing = 6;
         private gSettings _Settings = null;
         private ContextMenuStrip _VideoTrackContextMenu = null;
@@ -25,6 +29,8 @@ namespace gMKVToolNix.Forms
         private ContextMenuStrip _ChapterContextMenu = null;
         private ContextMenuStrip _AttachmentContextMenu = null;
         private ContextMenuStrip _TagsContextMenu = null;
+        private float _advancedRowBaseHeight;
+        private float _actionsRowBaseHeight;
 
         public frmOptions()
         {
@@ -40,6 +46,7 @@ namespace gMKVToolNix.Forms
 
                 // Initialize the DPI aware scaling
                 InitDPI();
+                CaptureResponsiveLayoutBaselines();
 
                 // Initialize the context menus
                 InitPlaceholderContextMenus();
@@ -748,49 +755,91 @@ namespace gMKVToolNix.Forms
             btnOK.ApplyLocalizedButtonSize(ActionButtonMinWidth);
             btnCancel.ApplyLocalizedButtonSize(ActionButtonMinWidth);
 
-            const int buttonTop = 17;
+            int buttonTop = grpActions.GetGroupBoxContentTop() + GroupButtonTopOffset;
+            int rowHeight = new[] { btnDefaults.Height, btnOK.Height, btnCancel.Height }.Max();
 
-            btnDefaults.Location = new Point(9, buttonTop);
+            btnDefaults.Location = new Point(9, btnDefaults.GetVerticallyCenteredTop(buttonTop, rowHeight));
 
             int right = grpActions.ClientSize.Width - 6;
-            btnCancel.Location = new Point(right - btnCancel.Width, buttonTop);
-            btnOK.Location = new Point(btnCancel.Left - LayoutSpacing - btnOK.Width, buttonTop);
+            btnCancel.Location = new Point(right - btnCancel.Width, btnCancel.GetVerticallyCenteredTop(buttonTop, rowHeight));
+            btnOK.Location = new Point(btnCancel.Left - LayoutSpacing - btnOK.Width, btnOK.GetVerticallyCenteredTop(buttonTop, rowHeight));
+
+            if (tlpMain.RowStyles.Count > 8)
+            {
+                int requiredHeight = new[] { btnDefaults.Bottom, btnOK.Bottom, btnCancel.Bottom }.Max()
+                    + GroupBottomPadding
+                    + grpActions.Margin.Vertical;
+                float minimumHeight = _actionsRowBaseHeight > 0F ? _actionsRowBaseHeight : tlpMain.RowStyles[8].Height;
+                tlpMain.RowStyles[8].Height = Math.Max(minimumHeight, requiredHeight);
+            }
         }
 
         private void LayoutAdvancedGroup()
         {
-            chkTextFilesWithoutBom.Location = new Point(9, 20);
+            int firstRowTop = grpAdvanced.GetGroupBoxContentTop() + AdvancedFirstRowTopOffset;
+            chkTextFilesWithoutBom.Location = new Point(9, firstRowTop);
 
-            chkRawMode.Location = new Point(9, 46);
-            chkFullRawMode.Location = new Point(chkRawMode.Right + 12, 46);
+            int secondRowTop = chkTextFilesWithoutBom.Bottom + AdvancedRowSpacing;
+            chkRawMode.Location = new Point(9, secondRowTop);
+            chkFullRawMode.Location = new Point(chkRawMode.Right + 12, secondRowTop);
 
-            int cultureRowTop = 46;
-            int advancedRowHeight = 86;
             int comboWidth = Math.Max(80, cmbCulture.Width);
             btnTranslationEditor.ApplyLocalizedButtonSize(95);
             int right = grpAdvanced.ClientSize.Width - 6;
 
             cmbCulture.Width = comboWidth;
 
+            int cultureRowMidY = chkRawMode.Top + (chkRawMode.Height / 2);
+            PositionAdvancedCultureRow(right, cultureRowMidY);
+
             if (chkFullRawMode.Right + 12 > btnTranslationEditor.Left)
             {
-                cultureRowTop = 70;
-                advancedRowHeight = 110;
+                int thirdRowTop = chkRawMode.Bottom + AdvancedRowSpacing;
+                int thirdRowHeight = new[] { btnTranslationEditor.Height, cmbCulture.Height, lblCulture.Height }.Max();
+                cultureRowMidY = thirdRowTop + (thirdRowHeight / 2);
+                PositionAdvancedCultureRow(right, cultureRowMidY);
             }
-            cmbCulture.Location = new Point(
-                right - cmbCulture.Width, 
-                cultureRowTop - 3);
-            lblCulture.Location = new Point(
-                cmbCulture.Left - LayoutSpacing - lblCulture.Width, 
-                cultureRowTop);
-            btnTranslationEditor.Location = new Point(
-                lblCulture.Left - 12 - btnTranslationEditor.Width, 
-                cultureRowTop - 3 - (int)Math.Ceiling((btnTranslationEditor.Height - cmbCulture.Height) / 2.0));
 
             if (tlpMain.RowStyles.Count > 7)
             {
-                tlpMain.RowStyles[7].Height = advancedRowHeight;
+                int requiredHeight = new[]
+                {
+                    chkTextFilesWithoutBom.Bottom,
+                    chkRawMode.Bottom,
+                    chkFullRawMode.Bottom,
+                    btnTranslationEditor.Bottom,
+                    lblCulture.Bottom,
+                    cmbCulture.Bottom
+                }.Max() + GroupBottomPadding + grpAdvanced.Margin.Vertical;
+                float minimumHeight = _advancedRowBaseHeight > 0F ? _advancedRowBaseHeight : tlpMain.RowStyles[7].Height;
+                tlpMain.RowStyles[7].Height = Math.Max(minimumHeight, requiredHeight);
             }
+        }
+
+        private void CaptureResponsiveLayoutBaselines()
+        {
+            if (tlpMain.RowStyles.Count > 7 && tlpMain.RowStyles[7].Height > 0F)
+            {
+                _advancedRowBaseHeight = tlpMain.RowStyles[7].Height;
+            }
+
+            if (tlpMain.RowStyles.Count > 8 && tlpMain.RowStyles[8].Height > 0F)
+            {
+                _actionsRowBaseHeight = tlpMain.RowStyles[8].Height;
+            }
+        }
+
+        private void PositionAdvancedCultureRow(int right, int rowMidY)
+        {
+            cmbCulture.Location = new Point(
+                right - cmbCulture.Width,
+                rowMidY - (cmbCulture.Height / 2));
+            lblCulture.Location = new Point(
+                cmbCulture.Left - LayoutSpacing - lblCulture.Width,
+                rowMidY - (lblCulture.Height / 2));
+            btnTranslationEditor.Location = new Point(
+                lblCulture.Left - 12 - btnTranslationEditor.Width,
+                rowMidY - (btnTranslationEditor.Height / 2));
         }
 
         private void btnTranslationEditor_Click(object sender, EventArgs e)
