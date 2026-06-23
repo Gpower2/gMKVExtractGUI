@@ -2,6 +2,7 @@ using System;
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Windows.Forms;
@@ -18,10 +19,12 @@ namespace gMKVToolNix
         private readonly gSettings _Settings = null;
         private const int ActionButtonMinWidth = 95;
         private const int ActionButtonSpacing = 4;
+        private float _actionsRowBaseHeight;
 
         public frmLog()
         {
             InitializeComponent();
+            CaptureResponsiveLayoutBaseline();
             InitForm();
 
             _Settings = new gSettings(this.GetCurrentDirectory());
@@ -45,6 +48,7 @@ namespace gMKVToolNix
             ApplyLocalization();
 
             InitDPI();
+            ApplyResponsiveLayout();
         }
 
         private void InitForm()
@@ -198,13 +202,25 @@ namespace gMKVToolNix
 
         private void ApplyResponsiveLayout()
         {
+            if (grpActions == null
+                || tlpMain == null
+                || btnClear == null
+                || btnSave == null
+                || btnRefresh == null
+                || btnCopy == null
+                || btnClose == null)
+            {
+                return;
+            }
+
             btnClear.ApplyLocalizedButtonSize(ActionButtonMinWidth);
             btnSave.ApplyLocalizedButtonSize(ActionButtonMinWidth);
             btnRefresh.ApplyLocalizedButtonSize(ActionButtonMinWidth);
             btnCopy.ApplyLocalizedButtonSize(ActionButtonMinWidth);
             btnClose.ApplyLocalizedButtonSize(ActionButtonMinWidth);
 
-            const int buttonTop = 17;
+            int buttonTop = grpActions.GetGroupBoxContentTop() - 2;
+            int rowHeight = new[] { btnClear.Height, btnSave.Height, btnRefresh.Height, btnCopy.Height, btnClose.Height }.Max();
 
             btnClear.Anchor = AnchorStyles.Top | AnchorStyles.Left;
             btnSave.Anchor = AnchorStyles.Top | AnchorStyles.Left;
@@ -212,15 +228,32 @@ namespace gMKVToolNix
             btnCopy.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             btnClose.Anchor = AnchorStyles.Top | AnchorStyles.Right;
 
-            btnClear.Location = new Point(6, buttonTop);
-            btnSave.Location = new Point(btnClear.Right + ActionButtonSpacing, buttonTop);
+            btnClear.Location = new Point(6, btnClear.GetVerticallyCenteredTop(buttonTop, rowHeight));
+            btnSave.Location = new Point(btnClear.Right + ActionButtonSpacing, btnSave.GetVerticallyCenteredTop(buttonTop, rowHeight));
 
             int right = grpActions.ClientSize.Width - 5;
-            btnClose.Location = new Point(right - btnClose.Width, buttonTop);
+            btnClose.Location = new Point(right - btnClose.Width, btnClose.GetVerticallyCenteredTop(buttonTop, rowHeight));
             right = btnClose.Left - ActionButtonSpacing;
-            btnCopy.Location = new Point(right - btnCopy.Width, buttonTop);
+            btnCopy.Location = new Point(right - btnCopy.Width, btnCopy.GetVerticallyCenteredTop(buttonTop, rowHeight));
             right = btnCopy.Left - ActionButtonSpacing;
-            btnRefresh.Location = new Point(right - btnRefresh.Width, buttonTop);
+            btnRefresh.Location = new Point(right - btnRefresh.Width, btnRefresh.GetVerticallyCenteredTop(buttonTop, rowHeight));
+
+            if (tlpMain.RowStyles.Count > 1)
+            {
+                int requiredHeight = new[] { btnClear.Bottom, btnSave.Bottom, btnRefresh.Bottom, btnCopy.Bottom, btnClose.Bottom }.Max()
+                    + 6
+                    + grpActions.Margin.Vertical;
+                float minimumHeight = _actionsRowBaseHeight > 0F ? _actionsRowBaseHeight : tlpMain.RowStyles[1].Height;
+                tlpMain.RowStyles[1].Height = Math.Max(minimumHeight, requiredHeight);
+            }
+        }
+
+        private void CaptureResponsiveLayoutBaseline()
+        {
+            if (tlpMain.RowStyles.Count > 1 && tlpMain.RowStyles[1].Height > 0F)
+            {
+                _actionsRowBaseHeight = tlpMain.RowStyles[1].Height;
+            }
         }
 
         private void SetLogText(string logText)
@@ -232,6 +265,12 @@ namespace gMKVToolNix
         private void UpdateLogGroupTitle()
         {
             grpLog.Text = LocalizationManager.GetString("UI.LogForm.Log.GroupWithCount", txtLog.Lines.LongLength);
+        }
+
+        protected override void OnResize(EventArgs e)
+        {
+            base.OnResize(e);
+            ApplyResponsiveLayout();
         }
     }
 }

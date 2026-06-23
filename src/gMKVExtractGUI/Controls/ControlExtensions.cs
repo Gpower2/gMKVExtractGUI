@@ -85,6 +85,12 @@ namespace gMKVToolNix.Controls
                 throw new ArgumentNullException(nameof(button));
             }
 
+            float scaleFactor = button.GetCurrentScaleFactor();
+            int scaledMinimumWidth = (int)Math.Ceiling(minimumWidth * scaleFactor);
+            int scaledMinimumHeight = (int)Math.Ceiling(minimumHeight * scaleFactor);
+            int scaledExtraPadding = (int)Math.Ceiling(extraPadding * scaleFactor);
+            int scaledVerticalPadding = (int)Math.Ceiling(8 * scaleFactor);
+
             button.AutoSize = false;
             string buttonText = string.IsNullOrWhiteSpace(button.Text) ? " " : button.Text;
             Size textSize = TextRenderer.MeasureText(
@@ -93,9 +99,9 @@ namespace gMKVToolNix.Controls
                 Size.Empty,
                 TextFormatFlags.SingleLine | TextFormatFlags.LeftAndRightPadding);
 
-            int preferredWidth = textSize.Width + button.Padding.Horizontal + extraPadding;
-            int preferredHeight = textSize.Height + button.Padding.Vertical + 8;
-            button.Size = new Size(Math.Max(minimumWidth, preferredWidth), Math.Max(minimumHeight, preferredHeight));
+            int preferredWidth = textSize.Width + button.Padding.Horizontal + scaledExtraPadding;
+            int preferredHeight = textSize.Height + button.Padding.Vertical + scaledVerticalPadding;
+            button.Size = new Size(Math.Max(scaledMinimumWidth, preferredWidth), Math.Max(scaledMinimumHeight, preferredHeight));
         }
 
         public static void ApplyLocalizedButtonSize(this Button button, Size minimumSize, int extraPadding = 12)
@@ -127,6 +133,26 @@ namespace gMKVToolNix.Controls
             }
 
             return referenceTop + ((referenceHeight - control.Height) / 2);
+        }
+
+        public static float GetCurrentScaleFactor(this Control control)
+        {
+            if (control == null)
+            {
+                throw new ArgumentNullException(nameof(control));
+            }
+
+            try
+            {
+                using (Graphics graphics = control.CreateGraphics())
+                {
+                    return Math.Max(1F, graphics.DpiX / 96F);
+                }
+            }
+            catch
+            {
+                return 1F;
+            }
         }
     }
 }
