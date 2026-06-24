@@ -29,6 +29,7 @@ namespace gMKVToolNix.Forms
         private ContextMenuStrip _ChapterContextMenu = null;
         private ContextMenuStrip _AttachmentContextMenu = null;
         private ContextMenuStrip _TagsContextMenu = null;
+        private readonly Dictionary<Button, Size> _responsiveButtonBaseSizes = new Dictionary<Button, Size>();
         private float _advancedRowBaseHeight;
         private float _actionsRowBaseHeight;
 
@@ -736,8 +737,8 @@ namespace gMKVToolNix.Forms
 
         private void LayoutPatternGroup(GroupBox groupBox, TextBox textBox, Button addButton, Button defaultButton)
         {
-            addButton.ApplyLocalizedButtonSize(PatternButtonMinWidth);
-            defaultButton.ApplyLocalizedButtonSize(PatternButtonMinWidth);
+            addButton.ApplyLocalizedButtonSize(GetResponsiveButtonBaseSize(addButton, PatternButtonMinWidth));
+            defaultButton.ApplyLocalizedButtonSize(GetResponsiveButtonBaseSize(defaultButton, PatternButtonMinWidth));
 
             int top = Math.Max(16, textBox.Top - 4);
             int right = groupBox.ClientSize.Width - 6;
@@ -751,9 +752,9 @@ namespace gMKVToolNix.Forms
 
         private void LayoutActionsGroup()
         {
-            btnDefaults.ApplyLocalizedButtonSize(90);
-            btnOK.ApplyLocalizedButtonSize(ActionButtonMinWidth);
-            btnCancel.ApplyLocalizedButtonSize(ActionButtonMinWidth);
+            btnDefaults.ApplyLocalizedButtonSize(GetResponsiveButtonBaseSize(btnDefaults, 90));
+            btnOK.ApplyLocalizedButtonSize(GetResponsiveButtonBaseSize(btnOK, ActionButtonMinWidth));
+            btnCancel.ApplyLocalizedButtonSize(GetResponsiveButtonBaseSize(btnCancel, ActionButtonMinWidth));
 
             int buttonTop = grpActions.GetGroupBoxContentTop() + GroupButtonTopOffset;
             int rowHeight = new[] { btnDefaults.Height, btnOK.Height, btnCancel.Height }.Max();
@@ -784,7 +785,7 @@ namespace gMKVToolNix.Forms
             chkFullRawMode.Location = new Point(chkRawMode.Right + 12, secondRowTop);
 
             int comboWidth = Math.Max(80, cmbCulture.Width);
-            btnTranslationEditor.ApplyLocalizedButtonSize(95);
+            btnTranslationEditor.ApplyLocalizedButtonSize(GetResponsiveButtonBaseSize(btnTranslationEditor, 95));
             int right = grpAdvanced.ClientSize.Width - 6;
 
             cmbCulture.Width = comboWidth;
@@ -818,15 +819,55 @@ namespace gMKVToolNix.Forms
 
         private void CaptureResponsiveLayoutBaselines()
         {
+            CaptureResponsiveButtonBaseSize(btnAddVideoTrackPlaceholder);
+            CaptureResponsiveButtonBaseSize(btnDefaultVideoTrackPlaceholder);
+            CaptureResponsiveButtonBaseSize(btnAddAudioTrackPlaceholder);
+            CaptureResponsiveButtonBaseSize(btnDefaultAudioTrackPlaceholder);
+            CaptureResponsiveButtonBaseSize(btnAddSubtitleTrackPlaceholder);
+            CaptureResponsiveButtonBaseSize(btnDefaultSubtitleTrackPlaceholder);
+            CaptureResponsiveButtonBaseSize(btnAddChapterPlaceholder);
+            CaptureResponsiveButtonBaseSize(btnDefaultChapterPlaceholder);
+            CaptureResponsiveButtonBaseSize(btnAddAttachmentPlaceholder);
+            CaptureResponsiveButtonBaseSize(btnDefaultAttachmentPlaceholder);
+            CaptureResponsiveButtonBaseSize(btnAddTagsPlaceholder);
+            CaptureResponsiveButtonBaseSize(btnDefaultTagsPlaceholder);
+            CaptureResponsiveButtonBaseSize(btnTranslationEditor);
+            CaptureResponsiveButtonBaseSize(btnDefaults);
+            CaptureResponsiveButtonBaseSize(btnOK);
+            CaptureResponsiveButtonBaseSize(btnCancel);
+
             if (tlpMain.RowStyles.Count > 7 && tlpMain.RowStyles[7].Height > 0F)
             {
-                _advancedRowBaseHeight = tlpMain.RowStyles[7].Height;
+                _advancedRowBaseHeight = Math.Max(_advancedRowBaseHeight, tlpMain.RowStyles[7].Height);
             }
 
             if (tlpMain.RowStyles.Count > 8 && tlpMain.RowStyles[8].Height > 0F)
             {
-                _actionsRowBaseHeight = tlpMain.RowStyles[8].Height;
+                _actionsRowBaseHeight = Math.Max(_actionsRowBaseHeight, tlpMain.RowStyles[8].Height);
             }
+        }
+
+        private void CaptureResponsiveButtonBaseSize(Button button)
+        {
+            if (button == null)
+            {
+                return;
+            }
+
+            Size currentSize = button.Size;
+            if (!_responsiveButtonBaseSizes.TryGetValue(button, out Size baseSize)
+                || currentSize.Width > baseSize.Width
+                || currentSize.Height > baseSize.Height)
+            {
+                _responsiveButtonBaseSizes[button] = currentSize;
+            }
+        }
+
+        private Size GetResponsiveButtonBaseSize(Button button, int fallbackWidth, int fallbackHeight = 30)
+        {
+            return _responsiveButtonBaseSizes.TryGetValue(button, out Size baseSize)
+                ? baseSize
+                : new Size(fallbackWidth, fallbackHeight);
         }
 
         private void PositionAdvancedCultureRow(int right, int rowMidY)

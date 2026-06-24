@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
@@ -19,6 +20,7 @@ namespace gMKVToolNix
         private readonly gSettings _Settings = null;
         private const int ActionButtonMinWidth = 95;
         private const int ActionButtonSpacing = 4;
+        private readonly Dictionary<Button, Size> _responsiveButtonBaseSizes = new Dictionary<Button, Size>();
         private float _actionsRowBaseHeight;
 
         public frmLog()
@@ -48,6 +50,7 @@ namespace gMKVToolNix
             ApplyLocalization();
 
             InitDPI();
+            CaptureResponsiveLayoutBaseline();
             ApplyResponsiveLayout();
         }
 
@@ -213,11 +216,11 @@ namespace gMKVToolNix
                 return;
             }
 
-            btnClear.ApplyLocalizedButtonSize(ActionButtonMinWidth);
-            btnSave.ApplyLocalizedButtonSize(ActionButtonMinWidth);
-            btnRefresh.ApplyLocalizedButtonSize(ActionButtonMinWidth);
-            btnCopy.ApplyLocalizedButtonSize(ActionButtonMinWidth);
-            btnClose.ApplyLocalizedButtonSize(ActionButtonMinWidth);
+            btnClear.ApplyLocalizedButtonSize(GetResponsiveButtonBaseSize(btnClear, ActionButtonMinWidth));
+            btnSave.ApplyLocalizedButtonSize(GetResponsiveButtonBaseSize(btnSave, ActionButtonMinWidth));
+            btnRefresh.ApplyLocalizedButtonSize(GetResponsiveButtonBaseSize(btnRefresh, ActionButtonMinWidth));
+            btnCopy.ApplyLocalizedButtonSize(GetResponsiveButtonBaseSize(btnCopy, ActionButtonMinWidth));
+            btnClose.ApplyLocalizedButtonSize(GetResponsiveButtonBaseSize(btnClose, ActionButtonMinWidth));
 
             int buttonTop = grpActions.GetGroupBoxContentTop() - 2;
             int rowHeight = new[] { btnClear.Height, btnSave.Height, btnRefresh.Height, btnCopy.Height, btnClose.Height }.Max();
@@ -250,10 +253,39 @@ namespace gMKVToolNix
 
         private void CaptureResponsiveLayoutBaseline()
         {
+            CaptureResponsiveButtonBaseSize(btnClear);
+            CaptureResponsiveButtonBaseSize(btnSave);
+            CaptureResponsiveButtonBaseSize(btnRefresh);
+            CaptureResponsiveButtonBaseSize(btnCopy);
+            CaptureResponsiveButtonBaseSize(btnClose);
+
             if (tlpMain.RowStyles.Count > 1 && tlpMain.RowStyles[1].Height > 0F)
             {
-                _actionsRowBaseHeight = tlpMain.RowStyles[1].Height;
+                _actionsRowBaseHeight = Math.Max(_actionsRowBaseHeight, tlpMain.RowStyles[1].Height);
             }
+        }
+
+        private void CaptureResponsiveButtonBaseSize(Button button)
+        {
+            if (button == null)
+            {
+                return;
+            }
+
+            Size currentSize = button.Size;
+            if (!_responsiveButtonBaseSizes.TryGetValue(button, out Size baseSize)
+                || currentSize.Width > baseSize.Width
+                || currentSize.Height > baseSize.Height)
+            {
+                _responsiveButtonBaseSizes[button] = currentSize;
+            }
+        }
+
+        private Size GetResponsiveButtonBaseSize(Button button, int fallbackWidth, int fallbackHeight = 30)
+        {
+            return _responsiveButtonBaseSizes.TryGetValue(button, out Size baseSize)
+                ? baseSize
+                : new Size(fallbackWidth, fallbackHeight);
         }
 
         private void SetLogText(string logText)

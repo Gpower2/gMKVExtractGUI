@@ -50,6 +50,7 @@
     <Compile Include="JsonLocalizationService.Fallback.Tests.cs" />
     <Compile Include="LocalizationManager.Tests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ResponsiveLayout.Tests.cs" />
     <Compile Include="ThemeManager.Tests.cs" />
     <Compile Include="TranslationMaintenanceService.Tests.cs" />
     <Compile Include="TranslationPathService.Tests.cs" />
