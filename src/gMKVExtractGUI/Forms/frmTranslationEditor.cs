@@ -833,12 +833,18 @@ namespace gMKVToolNix.Forms
 
             if (_mainLayout != null && _mainLayout.RowStyles.Count > 0 && _mainLayout.RowStyles[0].Height > 0F)
             {
-                _settingsRowBaseHeight = Math.Max(_settingsRowBaseHeight, _mainLayout.RowStyles[0].Height);
+                if (_settingsRowBaseHeight <= 0F)
+                {
+                    _settingsRowBaseHeight = _mainLayout.RowStyles[0].Height;
+                }
             }
 
             if (_mainLayout != null && _mainLayout.RowStyles.Count > 2 && _mainLayout.RowStyles[2].Height > 0F)
             {
-                _actionsRowBaseHeight = Math.Max(_actionsRowBaseHeight, _mainLayout.RowStyles[2].Height);
+                if (_actionsRowBaseHeight <= 0F)
+                {
+                    _actionsRowBaseHeight = _mainLayout.RowStyles[2].Height;
+                }
             }
 
             if (_translatorBaseWidth <= 0 && _txtTranslator != null && _txtTranslator.Width > 0)
@@ -860,9 +866,9 @@ namespace gMKVToolNix.Forms
             }
 
             Size currentSize = button.Size;
-            if (!_responsiveButtonBaseSizes.TryGetValue(button, out Size baseSize)
-                || currentSize.Width > baseSize.Width
-                || currentSize.Height > baseSize.Height)
+            if (!_responsiveButtonBaseSizes.ContainsKey(button)
+                && currentSize.Width > 0
+                && currentSize.Height > 0)
             {
                 _responsiveButtonBaseSizes[button] = currentSize;
             }
@@ -892,6 +898,22 @@ namespace gMKVToolNix.Forms
             {
                 stretchControl.Width = Math.Max(minimumWidth, stretchControl.Width - overflow);
             }
+        }
+
+        private static int GetFlowRowRequiredHeight(FlowLayoutPanel row)
+        {
+            if (row == null)
+            {
+                return 0;
+            }
+
+            int contentBottom = row.Padding.Top;
+            foreach (Control control in row.Controls)
+            {
+                contentBottom = Math.Max(contentBottom, control.Bottom + control.Margin.Bottom);
+            }
+
+            return contentBottom + row.Padding.Bottom;
         }
 
         private void ApplyResponsiveLayout()
@@ -965,8 +987,13 @@ namespace gMKVToolNix.Forms
             _settingsLayout.PerformLayout();
             _settingsGroup.PerformLayout();
 
+            int settingsLayoutHeight = _settingsLayout.Padding.Top
+                + GetFlowRowRequiredHeight(_settingsRow1)
+                + _settingsRow1.Margin.Bottom
+                + GetFlowRowRequiredHeight(_settingsRow2)
+                + _settingsLayout.Padding.Bottom;
             int settingsRequiredHeight = _settingsGroup.GetGroupBoxContentTop()
-                + _settingsLayout.GetPreferredSize(new Size(contentWidth, 0)).Height
+                + settingsLayoutHeight
                 + 6
                 + _settingsGroup.Margin.Vertical;
             int minimumSettingsHeight = _settingsRowBaseHeight > 0F ? (int)Math.Ceiling(_settingsRowBaseHeight) : 104;
@@ -993,6 +1020,22 @@ namespace gMKVToolNix.Forms
         protected override void OnResize(EventArgs e)
         {
             base.OnResize(e);
+            ApplyResponsiveLayout();
+        }
+
+        protected override void OnDPIChanged()
+        {
+            base.OnDPIChanged();
+
+            if (oldDpi == 0F
+                || oldDpi == currentDpi
+                || !IsHandleCreated
+                || IsDisposed
+                || Disposing)
+            {
+                return;
+            }
+
             ApplyResponsiveLayout();
         }
 

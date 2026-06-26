@@ -14,6 +14,13 @@ namespace gMKVToolNix.Unit.Tests
     [TestClass]
     public class ResponsiveLayout_Tests
     {
+        private sealed class StubMainForm : IFormMain
+        {
+            public void SetTableLayoutMainStatus(bool argStatus)
+            {
+            }
+        }
+
         private const float MockHighDpiScaleFactor = 2.5F;
 
         [TestInitialize]
@@ -139,7 +146,7 @@ namespace gMKVToolNix.Unit.Tests
                     Label summaryLabel = FindControl<Label>(form, "_lblSummary");
                     CheckBox untranslatedCheckBox = FindControl<CheckBox>(form, "_chkShowOnlyUntranslated");
 
-                    AssertControlsInsideGroup(actionsGroup, actionsPanel);
+                    AssertControlsInsideParent(actionsPanel.Parent, actionsPanel);
                     AssertControlsInsideParent(actionsPanel,
                         FindControl<Button>(form, "_btnCreate"),
                         FindControl<Button>(form, "_btnSync"),
@@ -166,6 +173,158 @@ namespace gMKVToolNix.Unit.Tests
                             FindControl<FlowLayoutPanel>(form, "_settingsRow2").Width,
                             FindControl<FlowLayoutPanel>(form, "_settingsRow2").Height,
                             form.ClientSize.Width));
+                }
+            });
+        }
+
+        [TestMethod]
+        public void frmLog_DpiRoundTrip_RestoresOriginalActionLayout()
+        {
+            RunInSta(() =>
+            {
+                using (var form = new frmLog())
+                {
+                    IntPtr unusedHandle = form.Handle;
+                    InvokePrivateMethod(form, "ApplyResponsiveLayout");
+
+                    GroupBox actionsGroup = FindControl<GroupBox>(form, "grpActions");
+                    TableLayoutPanel mainLayout = FindControl<TableLayoutPanel>(form, "tlpMain");
+                    Button clearButton = FindControl<Button>(form, "btnClear");
+                    Button saveButton = FindControl<Button>(form, "btnSave");
+                    Button refreshButton = FindControl<Button>(form, "btnRefresh");
+                    Button copyButton = FindControl<Button>(form, "btnCopy");
+                    Button closeButton = FindControl<Button>(form, "btnClose");
+
+                    Size initialCloseButtonSize = closeButton.Size;
+                    float initialActionRowHeight = mainLayout.RowStyles[1].Height;
+                    Size initialClientSize = form.ClientSize;
+                    float baseDpi = GetCurrentDpi(form);
+
+                    SimulateDpiChange(form, baseDpi * MockHighDpiScaleFactor, new Size(1514, 1327));
+                    AssertControlsInsideGroup(actionsGroup, clearButton, saveButton, refreshButton, copyButton, closeButton);
+
+                    SimulateDpiChange(form, baseDpi, initialClientSize);
+                    AssertControlsInsideGroup(actionsGroup, clearButton, saveButton, refreshButton, copyButton, closeButton);
+                    AssertSizeNear(initialCloseButtonSize, closeButton.Size, 4, closeButton.Name);
+                    AssertFloatNear(initialActionRowHeight, mainLayout.RowStyles[1].Height, 4F, "frmLog actions row");
+                }
+            });
+        }
+
+        [TestMethod]
+        public void frmOptions_DpiRoundTrip_RestoresOriginalButtonAndRowSizes()
+        {
+            RunInSta(() =>
+            {
+                using (var form = new frmOptions())
+                {
+                    IntPtr unusedHandle = form.Handle;
+                    InvokePrivateMethod(form, "ApplyResponsiveLayout");
+
+                    TableLayoutPanel mainLayout = FindControl<TableLayoutPanel>(form, "tlpMain");
+                    GroupBox actionsGroup = FindControl<GroupBox>(form, "grpActions");
+                    GroupBox advancedGroup = FindControl<GroupBox>(form, "grpAdvanced");
+                    Button translationEditorButton = FindControl<Button>(form, "btnTranslationEditor");
+                    Button defaultsButton = FindControl<Button>(form, "btnDefaults");
+                    Button okButton = FindControl<Button>(form, "btnOK");
+                    Button cancelButton = FindControl<Button>(form, "btnCancel");
+
+                    Size initialTranslationEditorButtonSize = translationEditorButton.Size;
+                    Size initialOkButtonSize = okButton.Size;
+                    float initialAdvancedRowHeight = mainLayout.RowStyles[7].Height;
+                    float initialActionsRowHeight = mainLayout.RowStyles[8].Height;
+                    Size initialClientSize = form.ClientSize;
+                    float baseDpi = GetCurrentDpi(form);
+
+                    SimulateDpiChange(form, baseDpi * MockHighDpiScaleFactor, new Size(1900, 1500));
+                    AssertControlsInsideGroup(advancedGroup, translationEditorButton);
+                    AssertControlsInsideGroup(actionsGroup, defaultsButton, okButton, cancelButton);
+
+                    SimulateDpiChange(form, baseDpi, initialClientSize);
+                    AssertControlsInsideGroup(advancedGroup, translationEditorButton);
+                    AssertControlsInsideGroup(actionsGroup, defaultsButton, okButton, cancelButton);
+                    AssertSizeNear(initialTranslationEditorButtonSize, translationEditorButton.Size, 4, translationEditorButton.Name);
+                    AssertSizeNear(initialOkButtonSize, okButton.Size, 4, okButton.Name);
+                    AssertFloatNear(initialAdvancedRowHeight, mainLayout.RowStyles[7].Height, 4F, "frmOptions advanced row");
+                    AssertFloatNear(initialActionsRowHeight, mainLayout.RowStyles[8].Height, 4F, "frmOptions actions row");
+                }
+            });
+        }
+
+        [TestMethod]
+        public void frmTranslationEditor_DpiRoundTrip_RestoresOriginalActionSizesAndKeepsSummaryInline()
+        {
+            RunInSta(() =>
+            {
+                using (var form = new frmTranslationEditor("en"))
+                {
+                    IntPtr unusedHandle = form.Handle;
+                    InvokePrivateMethod(form, "ApplyResponsiveLayout");
+
+                    TableLayoutPanel mainLayout = FindControl<TableLayoutPanel>(form, "_mainLayout");
+                    GroupBox actionsGroup = FindControl<GroupBox>(form, "_actionsGroup");
+                    FlowLayoutPanel actionsPanel = FindControl<FlowLayoutPanel>(form, "_actionsPanel");
+                    CheckBox untranslatedCheckBox = FindControl<CheckBox>(form, "_chkShowOnlyUntranslated");
+                    Label summaryLabel = FindControl<Label>(form, "_lblSummary");
+                    Button closeButton = FindControl<Button>(form, "_btnClose");
+                    Button saveButton = FindControl<Button>(form, "_btnSave");
+                    Button syncButton = FindControl<Button>(form, "_btnSync");
+                    Button createButton = FindControl<Button>(form, "_btnCreate");
+
+                    Size initialCloseButtonSize = closeButton.Size;
+                    float initialSettingsRowHeight = mainLayout.RowStyles[0].Height;
+                    float initialActionsRowHeight = mainLayout.RowStyles[2].Height;
+                    Size initialClientSize = form.ClientSize;
+                    float baseDpi = GetCurrentDpi(form);
+
+                    SimulateDpiChange(form, baseDpi * MockHighDpiScaleFactor, new Size(2400, 1600));
+                    AssertControlsInsideParent(actionsPanel.Parent, actionsPanel);
+                    AssertControlsInsideParent(actionsPanel, closeButton, saveButton, syncButton, createButton);
+                    Assert.IsTrue(summaryLabel.Top < untranslatedCheckBox.Bottom, "Summary label wrapped after scaling up.");
+
+                    SimulateDpiChange(form, baseDpi, initialClientSize);
+                    AssertControlsInsideParent(actionsPanel.Parent, actionsPanel);
+                    AssertControlsInsideParent(actionsPanel, closeButton, saveButton, syncButton, createButton);
+                    Assert.IsTrue(summaryLabel.Top < untranslatedCheckBox.Bottom, "Summary label wrapped after returning to normal DPI.");
+                    AssertSizeNear(initialCloseButtonSize, closeButton.Size, 4, closeButton.Name);
+                    AssertFloatNear(initialSettingsRowHeight, mainLayout.RowStyles[0].Height, 4F, "frmTranslationEditor settings row");
+                    AssertFloatNear(initialActionsRowHeight, mainLayout.RowStyles[2].Height, 4F, "frmTranslationEditor actions row");
+                }
+            });
+        }
+
+        [TestMethod]
+        public void frmJobManager_DpiRoundTrip_RestoresOriginalActionPanelLayout()
+        {
+            RunInSta(() =>
+            {
+                using (var form = new frmJobManager(new StubMainForm()))
+                {
+                    IntPtr unusedHandle = form.Handle;
+                    InvokePrivateMethod(form, "ApplyResponsiveLayout");
+
+                    TableLayoutPanel jobsLayout = FindControl<TableLayoutPanel>(form, "tlpJobs");
+                    GroupBox actionsGroup = FindControl<GroupBox>(form, "grpActions");
+                    Button removeButton = FindControl<Button>(form, "btnRemove");
+                    Button runAllButton = FindControl<Button>(form, "btnRunAll");
+                    Button loadJobsButton = FindControl<Button>(form, "btnLoadJobs");
+                    Button saveJobsButton = FindControl<Button>(form, "btnSaveJobs");
+                    Button abortButton = FindControl<Button>(form, "btnAbort");
+                    Button abortAllButton = FindControl<Button>(form, "btnAbortAll");
+                    CheckBox showPopupCheckBox = FindControl<CheckBox>(form, "chkShowPopup");
+
+                    Size initialRemoveButtonSize = removeButton.Size;
+                    float initialActionColumnWidth = jobsLayout.ColumnStyles[1].Width;
+                    Size initialClientSize = form.ClientSize;
+                    float baseDpi = GetCurrentDpi(form);
+
+                    SimulateDpiChange(form, baseDpi * MockHighDpiScaleFactor, new Size(1564, 1143));
+                    AssertControlsInsideGroup(actionsGroup, showPopupCheckBox, removeButton, runAllButton, loadJobsButton, saveJobsButton, abortButton, abortAllButton);
+
+                    SimulateDpiChange(form, baseDpi, initialClientSize);
+                    AssertControlsInsideGroup(actionsGroup, showPopupCheckBox, removeButton, runAllButton, loadJobsButton, saveJobsButton, abortButton, abortAllButton);
+                    AssertSizeNear(initialRemoveButtonSize, removeButton.Size, 4, removeButton.Name);
+                    AssertFloatNear(initialActionColumnWidth, jobsLayout.ColumnStyles[1].Width, 6F, "frmJobManager actions column");
                 }
             });
         }
@@ -205,9 +364,63 @@ namespace gMKVToolNix.Unit.Tests
             form.PerformLayout();
         }
 
+        private static void SimulateDpiChange(Form form, float newDpi, Size clientSize)
+        {
+            Assert.IsInstanceOfType(form, typeof(gForm));
+
+            Type baseFormType = typeof(gForm);
+            FieldInfo oldDpiField = baseFormType.GetField("oldDpi", BindingFlags.Instance | BindingFlags.NonPublic);
+            FieldInfo currentDpiField = baseFormType.GetField("currentDpi", BindingFlags.Instance | BindingFlags.NonPublic);
+            FieldInfo pendingDpiBoundsField = baseFormType.GetField("_pendingDpiBounds", BindingFlags.Instance | BindingFlags.NonPublic);
+            MethodInfo applyPendingDpiChangeMethod = baseFormType.GetMethod("ApplyPendingDpiChange", BindingFlags.Instance | BindingFlags.NonPublic);
+
+            Assert.IsNotNull(oldDpiField, "Could not find gForm.oldDpi.");
+            Assert.IsNotNull(currentDpiField, "Could not find gForm.currentDpi.");
+            Assert.IsNotNull(pendingDpiBoundsField, "Could not find gForm pending DPI bounds field.");
+            Assert.IsNotNull(applyPendingDpiChangeMethod, "Could not find gForm.ApplyPendingDpiChange.");
+
+            float currentDpi = (float)currentDpiField.GetValue(form);
+            if (currentDpi <= 0F)
+            {
+                currentDpi = 96F;
+            }
+
+            oldDpiField.SetValue(form, currentDpi);
+            currentDpiField.SetValue(form, newDpi);
+
+            int nonClientWidth = Math.Max(0, form.Width - form.ClientSize.Width);
+            int nonClientHeight = Math.Max(0, form.Height - form.ClientSize.Height);
+            Rectangle suggestedBounds = new Rectangle(
+                form.Left,
+                form.Top,
+                clientSize.Width + nonClientWidth,
+                clientSize.Height + nonClientHeight);
+            pendingDpiBoundsField.SetValue(form, (Rectangle?)suggestedBounds);
+
+            applyPendingDpiChangeMethod.Invoke(form, null);
+            form.ClientSize = clientSize;
+            form.PerformLayout();
+        }
+
+        private static float GetCurrentDpi(Form form)
+        {
+            FieldInfo currentDpiField = typeof(gForm).GetField("currentDpi", BindingFlags.Instance | BindingFlags.NonPublic);
+            Assert.IsNotNull(currentDpiField, "Could not find gForm.currentDpi.");
+
+            float currentDpi = (float)currentDpiField.GetValue(form);
+            return currentDpi > 0F ? currentDpi : 96F;
+        }
+
         private static void InvokePrivateMethod(object target, string methodName)
         {
-            MethodInfo method = target.GetType().GetMethod(methodName, BindingFlags.Instance | BindingFlags.NonPublic);
+            Type targetType = target.GetType();
+            MethodInfo method = null;
+            while (targetType != null && method == null)
+            {
+                method = targetType.GetMethod(methodName, BindingFlags.Instance | BindingFlags.NonPublic);
+                targetType = targetType.BaseType;
+            }
+
             Assert.IsNotNull(method, string.Format("Could not find method '{0}'.", methodName));
             method.Invoke(target, null);
         }
@@ -242,6 +455,23 @@ namespace gMKVToolNix.Unit.Tests
                 Assert.IsTrue(control.Top >= minimumTop, string.Format("{0} overflowed the top edge.", control.Name));
                 Assert.IsTrue(control.Bottom <= bounds.Height + 2, string.Format("{0} overflowed the bottom edge.", control.Name));
             }
+        }
+
+        private static void AssertSizeNear(Size expected, Size actual, int tolerance, string label)
+        {
+            Assert.IsTrue(
+                Math.Abs(expected.Width - actual.Width) <= tolerance,
+                string.Format("{0} width drifted. Expected {1}, actual {2}.", label, expected.Width, actual.Width));
+            Assert.IsTrue(
+                Math.Abs(expected.Height - actual.Height) <= tolerance,
+                string.Format("{0} height drifted. Expected {1}, actual {2}.", label, expected.Height, actual.Height));
+        }
+
+        private static void AssertFloatNear(float expected, float actual, float tolerance, string label)
+        {
+            Assert.IsTrue(
+                Math.Abs(expected - actual) <= tolerance,
+                string.Format("{0} drifted. Expected {1}, actual {2}.", label, expected, actual));
         }
     }
 }

@@ -38,6 +38,7 @@ namespace gMKVToolNix.Forms
             try
             {
                 InitializeComponent();
+                CaptureResponsiveLayoutBaselines();
 
                 Icon = Icon.ExtractAssociatedIcon(GetExecutingAssemblyLocation());
                 Text = string.Format("gMKVExtractGUI v{0} -- Options", GetCurrentVersion());
@@ -838,12 +839,18 @@ namespace gMKVToolNix.Forms
 
             if (tlpMain.RowStyles.Count > 7 && tlpMain.RowStyles[7].Height > 0F)
             {
-                _advancedRowBaseHeight = Math.Max(_advancedRowBaseHeight, tlpMain.RowStyles[7].Height);
+                if (_advancedRowBaseHeight <= 0F)
+                {
+                    _advancedRowBaseHeight = tlpMain.RowStyles[7].Height;
+                }
             }
 
             if (tlpMain.RowStyles.Count > 8 && tlpMain.RowStyles[8].Height > 0F)
             {
-                _actionsRowBaseHeight = Math.Max(_actionsRowBaseHeight, tlpMain.RowStyles[8].Height);
+                if (_actionsRowBaseHeight <= 0F)
+                {
+                    _actionsRowBaseHeight = tlpMain.RowStyles[8].Height;
+                }
             }
         }
 
@@ -855,9 +862,9 @@ namespace gMKVToolNix.Forms
             }
 
             Size currentSize = button.Size;
-            if (!_responsiveButtonBaseSizes.TryGetValue(button, out Size baseSize)
-                || currentSize.Width > baseSize.Width
-                || currentSize.Height > baseSize.Height)
+            if (!_responsiveButtonBaseSizes.ContainsKey(button)
+                && currentSize.Width > 0
+                && currentSize.Height > 0)
             {
                 _responsiveButtonBaseSizes[button] = currentSize;
             }
@@ -912,6 +919,22 @@ namespace gMKVToolNix.Forms
                 gMKVLogger.Log(ex.ToString());
                 ShowErrorMessage(ex.Message);
             }
+        }
+
+        protected override void OnDPIChanged()
+        {
+            base.OnDPIChanged();
+
+            if (oldDpi == 0F
+                || oldDpi == currentDpi
+                || !IsHandleCreated
+                || IsDisposed
+                || Disposing)
+            {
+                return;
+            }
+
+            ApplyResponsiveLayout();
         }
     }
 }

@@ -3267,27 +3267,30 @@ namespace gMKVToolNix.Forms
 
             if (tlpMain.RowStyles.Count > 4 && tlpMain.RowStyles[4].Height > 0F)
             {
-                _actionsRowBaseHeight = Math.Max(_actionsRowBaseHeight, tlpMain.RowStyles[4].Height);
+                if (_actionsRowBaseHeight <= 0F)
+                {
+                    _actionsRowBaseHeight = tlpMain.RowStyles[4].Height;
+                }
             }
 
-            if (cmbChapterType != null && cmbChapterType.Width > 0)
+            if (_chapterTypeComboBaseWidth <= 0 && cmbChapterType != null && cmbChapterType.Width > 0)
             {
                 _chapterTypeComboBaseWidth = cmbChapterType.Width;
             }
 
-            if (cmbExtractionMode != null && cmbExtractionMode.Width > 0)
+            if (_extractionModeComboBaseWidth <= 0 && cmbExtractionMode != null && cmbExtractionMode.Width > 0)
             {
                 _extractionModeComboBaseWidth = cmbExtractionMode.Width;
             }
 
-            if (pnlFileOptions != null && pnlFileOptions.Height > 0)
+            if (_fileOptionsPanelBaseHeight <= 0 && pnlFileOptions != null && pnlFileOptions.Height > 0)
             {
-                _fileOptionsPanelBaseHeight = Math.Max(_fileOptionsPanelBaseHeight, pnlFileOptions.Height);
+                _fileOptionsPanelBaseHeight = pnlFileOptions.Height;
             }
 
-            if (tlpInput.RowStyles.Count > 1 && tlpInput.RowStyles[1].Height > 0F)
+            if (_fileOptionsRowBaseHeight <= 0F && tlpInput.RowStyles.Count > 1 && tlpInput.RowStyles[1].Height > 0F)
             {
-                _fileOptionsRowBaseHeight = Math.Max(_fileOptionsRowBaseHeight, tlpInput.RowStyles[1].Height);
+                _fileOptionsRowBaseHeight = tlpInput.RowStyles[1].Height;
             }
         }
 
@@ -3299,9 +3302,9 @@ namespace gMKVToolNix.Forms
             }
 
             Size currentSize = button.Size;
-            if (!_responsiveButtonBaseSizes.TryGetValue(button, out Size baseSize)
-                || currentSize.Width > baseSize.Width
-                || currentSize.Height > baseSize.Height)
+            if (!_responsiveButtonBaseSizes.ContainsKey(button)
+                && currentSize.Width > 0
+                && currentSize.Height > 0)
             {
                 _responsiveButtonBaseSizes[button] = currentSize;
             }
@@ -3593,6 +3596,24 @@ namespace gMKVToolNix.Forms
             }
 
             return bottom;
+        }
+
+        protected override void OnDPIChanged()
+        {
+            base.OnDPIChanged();
+
+            if (oldDpi == 0F
+                || oldDpi == currentDpi
+                || _FromConstructor
+                || !IsHandleCreated
+                || IsDisposed
+                || Disposing
+                || WindowState == FormWindowState.Minimized)
+            {
+                return;
+            }
+
+            ApplyResponsiveLayout();
         }
     }
 }

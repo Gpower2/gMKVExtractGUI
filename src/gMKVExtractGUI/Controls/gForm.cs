@@ -3,6 +3,7 @@ using System.ComponentModel;
 using System.Drawing;
 using System.IO;
 using System.Reflection;
+using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using gMKVToolNix.Localization;
 
@@ -10,6 +11,20 @@ namespace gMKVToolNix
 {
     public class gForm : Form
     {
+        [StructLayout(LayoutKind.Sequential)]
+        private struct RECT
+        {
+            public int Left;
+            public int Top;
+            public int Right;
+            public int Bottom;
+
+            public Rectangle ToRectangle()
+            {
+                return Rectangle.FromLTRB(Left, Top, Right, Bottom);
+            }
+        }
+
         public static short LOWORD(int number)
         {
             return (short)number;
@@ -23,6 +38,7 @@ namespace gMKVToolNix
 
         protected bool isMoving = false;
         protected bool shouldScale = false;
+        private Rectangle? _pendingDpiBounds;
 
         /// <summary>
         /// Gets the form's border width in pixels
@@ -118,7 +134,7 @@ namespace gMKVToolNix
             if (shouldScale)
             {
                 shouldScale = false;
-                HandleDpiChanged();
+                ApplyPendingDpiChange();
             }
         }
 
@@ -129,7 +145,7 @@ namespace gMKVToolNix
             if (this.shouldScale && CanPerformScaling())
             {
                 this.shouldScale = false;
-                HandleDpiChanged();
+                ApplyPendingDpiChange();
             }
         }
 
@@ -140,6 +156,8 @@ namespace gMKVToolNix
 
         protected override void WndProc(ref Message m)
         {
+            bool applyDpiChange = false;
+
             switch (m.Msg)
             {
                 // This message is sent when the form is dragged to a different monitor i.e. when
@@ -154,22 +172,27 @@ namespace gMKVToolNix
 
                     if (oldDpi != currentDpi)
                     {
+                        _pendingDpiBounds = GetSuggestedDpiBounds(m.LParam);
+
                         if (this.isMoving)
                         {
                             shouldScale = true;
                         }
                         else
                         {
-                            HandleDpiChanged();
+                            applyDpiChange = true;
                         }
-
-                        OnDPIChanged();
                     }
 
                     break;
             }
 
             base.WndProc(ref m);
+
+            if (applyDpiChange)
+            {
+                ApplyPendingDpiChange();
+            }
         }
 
         protected void HandleDpiChanged()
@@ -194,6 +217,53 @@ namespace gMKVToolNix
             }
         }
 
+        private void ApplyPendingDpiChange()
+        {
+            HandleDpiChanged();
+            ApplyPendingDpiBounds();
+            OnDPIChanged();
+        }
+
+        private void ApplyPendingDpiBounds()
+        {
+            if (!_pendingDpiBounds.HasValue)
+            {
+                return;
+            }
+
+            Rectangle suggestedBounds = _pendingDpiBounds.Value;
+            _pendingDpiBounds = null;
+
+            if (suggestedBounds.Width <= 0 || suggestedBounds.Height <= 0)
+            {
+                return;
+            }
+
+            SetBounds(
+                suggestedBounds.Left,
+                suggestedBounds.Top,
+                suggestedBounds.Width,
+                suggestedBounds.Height,
+                BoundsSpecified.All);
+        }
+
+        private static Rectangle? GetSuggestedDpiBounds(IntPtr lParam)
+        {
+            if (lParam == IntPtr.Zero)
+            {
+                return null;
+            }
+
+            RECT suggestedRect = (RECT)Marshal.PtrToStructure(lParam, typeof(RECT));
+            Rectangle suggestedBounds = suggestedRect.ToRectangle();
+            if (suggestedBounds.Width <= 0 || suggestedBounds.Height <= 0)
+            {
+                return null;
+            }
+
+            return suggestedBounds;
+        }
+
         protected virtual void ScaleFonts(float scaleFactor)
         {
             // Go through all controls in the control tree and set their Font property
@@ -202,12 +272,12 @@ namespace gMKVToolNix
 
         protected static void ScaleFontForControl(Control control, float scaleFactor)
         {
-            control.Font = new Font(control.Font.FontFamily, control.Font.Size * scaleFactor, control.Font.Style);
-
             foreach (Control child in control.Controls)
             {
                 ScaleFontForControl(child, scaleFactor);
             }
+
+            control.Font = new Font(control.Font.FontFamily, control.Font.Size * scaleFactor, control.Font.Style);
         }
 
         protected virtual void PerformSpecialScaling(float scaleFactor)

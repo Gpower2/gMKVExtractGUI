@@ -308,5 +308,21 @@ namespace gMKVToolNix
             base.OnResize(e);
             ApplyResponsiveLayout();
         }
+
+        protected override void OnDPIChanged()
+        {
+            base.OnDPIChanged();
+
+            if (oldDpi == 0F
+                || oldDpi == currentDpi
+                || !IsHandleCreated
+                || IsDisposed
+                || Disposing)
+            {
+                return;
+            }
+
+            ApplyResponsiveLayout();
+        }
     }
 }
