@@ -253,15 +253,19 @@ namespace gMKVToolNix
 
         private void CaptureResponsiveLayoutBaseline()
         {
+            // Preserve the logical baseline from InitializeComponent(); capturing the
+            // post-autoscale absolute sizes keeps the log action bar too tall at high DPI.
             CaptureResponsiveButtonBaseSize(btnClear);
             CaptureResponsiveButtonBaseSize(btnSave);
             CaptureResponsiveButtonBaseSize(btnRefresh);
             CaptureResponsiveButtonBaseSize(btnCopy);
             CaptureResponsiveButtonBaseSize(btnClose);
 
-            if (tlpMain.RowStyles.Count > 1 && tlpMain.RowStyles[1].Height > 0F)
+            if (_actionsRowBaseHeight <= 0F
+                && tlpMain.RowStyles.Count > 1
+                && tlpMain.RowStyles[1].Height > 0F)
             {
-                _actionsRowBaseHeight = Math.Max(_actionsRowBaseHeight, tlpMain.RowStyles[1].Height);
+                _actionsRowBaseHeight = tlpMain.RowStyles[1].Height;
             }
         }
 
@@ -273,9 +277,9 @@ namespace gMKVToolNix
             }
 
             Size currentSize = button.Size;
-            if (!_responsiveButtonBaseSizes.TryGetValue(button, out Size baseSize)
-                || currentSize.Width > baseSize.Width
-                || currentSize.Height > baseSize.Height)
+            if (!_responsiveButtonBaseSizes.ContainsKey(button)
+                && currentSize.Width > 0
+                && currentSize.Height > 0)
             {
                 _responsiveButtonBaseSizes[button] = currentSize;
             }

@@ -1,5 +1,6 @@
 using System;
 using System.Drawing;
+using System.Linq;
 using System.Reflection;
 using System.Threading;
 using System.Windows.Forms;
@@ -39,22 +40,54 @@ namespace gMKVToolNix.Unit.Tests
         }
 
         [TestMethod]
-        public void frmLog_ApplyResponsiveLayout_AfterManualScale_KeepsButtonsInsideActionsGroup()
+        public void frmLog_ApplyResponsiveLayout_AfterManualScale_KeepsActionsCompactAndNonOverlapping()
         {
             RunInSta(() =>
             {
                 using (var form = new frmLog())
                 {
-                    PrepareScaledForm(form, new Size(1800, 1200));
+                    PrepareScaledForm(form, new Size(1514, 1327));
                     InvokePrivateMethod(form, "ApplyResponsiveLayout");
 
                     GroupBox actionsGroup = FindControl<GroupBox>(form, "grpActions");
+                    TableLayoutPanel mainLayout = FindControl<TableLayoutPanel>(form, "tlpMain");
+                    Button clearButton = FindControl<Button>(form, "btnClear");
+                    Button saveButton = FindControl<Button>(form, "btnSave");
+                    Button refreshButton = FindControl<Button>(form, "btnRefresh");
+                    Button copyButton = FindControl<Button>(form, "btnCopy");
+                    Button closeButton = FindControl<Button>(form, "btnClose");
+
                     AssertControlsInsideGroup(actionsGroup,
-                        FindControl<Button>(form, "btnClear"),
-                        FindControl<Button>(form, "btnSave"),
-                        FindControl<Button>(form, "btnRefresh"),
-                        FindControl<Button>(form, "btnCopy"),
-                        FindControl<Button>(form, "btnClose"));
+                        clearButton,
+                        saveButton,
+                        refreshButton,
+                        copyButton,
+                        closeButton);
+
+                    Assert.IsTrue(clearButton.Right + 2 <= saveButton.Left, "Clear and Save buttons overlapped.");
+                    Assert.IsTrue(saveButton.Right + 40 <= refreshButton.Left, "The center gap between Save and Refresh collapsed.");
+                    Assert.IsTrue(refreshButton.Right + 2 <= copyButton.Left, "Refresh and Copy buttons overlapped.");
+                    Assert.IsTrue(copyButton.Right + 2 <= closeButton.Left, "Copy and Close buttons overlapped.");
+
+                    int requiredRowHeight = new[] { clearButton.Bottom, saveButton.Bottom, refreshButton.Bottom, copyButton.Bottom, closeButton.Bottom }.Max()
+                        + 6
+                        + actionsGroup.Margin.Vertical;
+                    Assert.IsTrue(
+                        Math.Abs(mainLayout.RowStyles[1].Height - requiredRowHeight) <= 2F,
+                        string.Format(
+                            "Log actions row kept extra height. Row={0}, Required={1}, Buttons={2}x{3}/{4}x{5}/{6}x{7}/{8}x{9}/{10}x{11}",
+                            mainLayout.RowStyles[1].Height,
+                            requiredRowHeight,
+                            clearButton.Width,
+                            clearButton.Height,
+                            saveButton.Width,
+                            saveButton.Height,
+                            refreshButton.Width,
+                            refreshButton.Height,
+                            copyButton.Width,
+                            copyButton.Height,
+                            closeButton.Width,
+                            closeButton.Height));
                 }
             });
         }
