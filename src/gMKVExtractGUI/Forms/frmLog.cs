@@ -265,7 +265,7 @@ namespace gMKVToolNix
                 && tlpMain.RowStyles.Count > 1
                 && tlpMain.RowStyles[1].Height > 0F)
             {
-                _actionsRowBaseHeight = tlpMain.RowStyles[1].Height;
+                _actionsRowBaseHeight = NormalizeResponsiveBaselineHeight(tlpMain.RowStyles[1].Height);
             }
         }
 
@@ -281,7 +281,7 @@ namespace gMKVToolNix
                 && currentSize.Width > 0
                 && currentSize.Height > 0)
             {
-                _responsiveButtonBaseSizes[button] = currentSize;
+                _responsiveButtonBaseSizes[button] = NormalizeResponsiveBaselineSize(currentSize);
             }
         }
 
@@ -290,6 +290,48 @@ namespace gMKVToolNix
             return _responsiveButtonBaseSizes.TryGetValue(button, out Size baseSize)
                 ? baseSize
                 : new Size(fallbackWidth, fallbackHeight);
+        }
+
+        private Size NormalizeResponsiveBaselineSize(Size currentSize)
+        {
+            float scaleFactor = GetResponsiveBaselineScaleFactor();
+            if (scaleFactor <= 1F)
+            {
+                return currentSize;
+            }
+
+            return new Size(
+                Math.Max(1, (int)Math.Round(currentSize.Width / scaleFactor)),
+                Math.Max(1, (int)Math.Round(currentSize.Height / scaleFactor)));
+        }
+
+        private float NormalizeResponsiveBaselineHeight(float currentHeight)
+        {
+            float scaleFactor = GetResponsiveBaselineScaleFactor();
+            return scaleFactor > 1F ? currentHeight / scaleFactor : currentHeight;
+        }
+
+        private float GetResponsiveBaselineScaleFactor()
+        {
+            float scaleFactor = 1F;
+
+            if (AutoScaleMode == AutoScaleMode.Dpi
+                && AutoScaleDimensions.Width > 0F
+                && AutoScaleDimensions.Height > 0F
+                && CurrentAutoScaleDimensions.Width > 0F
+                && CurrentAutoScaleDimensions.Height > 0F)
+            {
+                scaleFactor = Math.Max(
+                    CurrentAutoScaleDimensions.Width / AutoScaleDimensions.Width,
+                    CurrentAutoScaleDimensions.Height / AutoScaleDimensions.Height);
+            }
+
+            if (scaleFactor <= 1F && currentDpi > 0F)
+            {
+                scaleFactor = currentDpi / DESIGN_TIME_DPI;
+            }
+
+            return scaleFactor > 0F ? scaleFactor : 1F;
         }
 
         private void SetLogText(string logText)

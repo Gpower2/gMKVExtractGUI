@@ -100,6 +100,68 @@ namespace gMKVToolNix.Unit.Tests
         }
 
         [TestMethod]
+        public void frmLog_ApplyResponsiveLayout_NormalizesAutoscaledStartupBaselines()
+        {
+            RunInSta(() =>
+            {
+                using (var form = new frmLog())
+                {
+                    IntPtr unusedHandle = form.Handle;
+                    form.Scale(new SizeF(MockHighDpiScaleFactor, MockHighDpiScaleFactor));
+
+                    MethodInfo scaleFontsMethod = typeof(gForm).GetMethod("ScaleFonts", BindingFlags.Instance | BindingFlags.NonPublic);
+                    Assert.IsNotNull(scaleFontsMethod, "Could not find gForm.ScaleFonts.");
+                    scaleFontsMethod.Invoke(form, new object[] { MockHighDpiScaleFactor });
+
+                    FieldInfo currentDpiField = typeof(gForm).GetField("currentDpi", BindingFlags.Instance | BindingFlags.NonPublic);
+                    Assert.IsNotNull(currentDpiField, "Could not find gForm.currentDpi.");
+                    currentDpiField.SetValue(form, 96F * MockHighDpiScaleFactor);
+
+                    FieldInfo responsiveButtonSizesField = typeof(frmLog).GetField("_responsiveButtonBaseSizes", BindingFlags.Instance | BindingFlags.NonPublic);
+                    FieldInfo actionsRowBaseHeightField = typeof(frmLog).GetField("_actionsRowBaseHeight", BindingFlags.Instance | BindingFlags.NonPublic);
+                    MethodInfo captureBaselineMethod = typeof(frmLog).GetMethod("CaptureResponsiveLayoutBaseline", BindingFlags.Instance | BindingFlags.NonPublic);
+                    MethodInfo applyResponsiveLayoutMethod = typeof(frmLog).GetMethod("ApplyResponsiveLayout", BindingFlags.Instance | BindingFlags.NonPublic);
+
+                    Assert.IsNotNull(responsiveButtonSizesField, "Could not find frmLog responsive button baseline field.");
+                    Assert.IsNotNull(actionsRowBaseHeightField, "Could not find frmLog actions row baseline field.");
+                    Assert.IsNotNull(captureBaselineMethod, "Could not find frmLog.CaptureResponsiveLayoutBaseline.");
+                    Assert.IsNotNull(applyResponsiveLayoutMethod, "Could not find frmLog.ApplyResponsiveLayout.");
+
+                    var responsiveButtonSizes = (System.Collections.Generic.Dictionary<Button, Size>)responsiveButtonSizesField.GetValue(form);
+                    responsiveButtonSizes.Clear();
+                    actionsRowBaseHeightField.SetValue(form, 0F);
+
+                    form.ClientSize = new Size(980, 870);
+                    captureBaselineMethod.Invoke(form, null);
+                    applyResponsiveLayoutMethod.Invoke(form, null);
+
+                    GroupBox actionsGroup = FindControl<GroupBox>(form, "grpActions");
+                    TableLayoutPanel mainLayout = FindControl<TableLayoutPanel>(form, "tlpMain");
+                    Button clearButton = FindControl<Button>(form, "btnClear");
+                    Button saveButton = FindControl<Button>(form, "btnSave");
+                    Button refreshButton = FindControl<Button>(form, "btnRefresh");
+                    Button copyButton = FindControl<Button>(form, "btnCopy");
+                    Button closeButton = FindControl<Button>(form, "btnClose");
+
+                    AssertControlsInsideGroup(actionsGroup, clearButton, saveButton, refreshButton, copyButton, closeButton);
+                    Assert.IsTrue(saveButton.Right + 2 <= refreshButton.Left, "Refresh button overlapped Save after autoscaled baseline capture.");
+                    Assert.IsTrue(refreshButton.Right + 2 <= copyButton.Left, "Refresh button overlapped Copy after autoscaled baseline capture.");
+                    Assert.IsTrue(closeButton.Height < 60, string.Format("Close button stayed too tall after baseline normalization: {0}", closeButton.Height));
+
+                    int requiredRowHeight = new[] { clearButton.Bottom, saveButton.Bottom, refreshButton.Bottom, copyButton.Bottom, closeButton.Bottom }.Max()
+                        + 6
+                        + actionsGroup.Margin.Vertical;
+                    Assert.IsTrue(
+                        Math.Abs(mainLayout.RowStyles[1].Height - requiredRowHeight) <= 2F,
+                        string.Format(
+                            "Log actions row kept autoscaled startup height. Row={0}, Required={1}",
+                            mainLayout.RowStyles[1].Height,
+                            requiredRowHeight));
+                }
+            });
+        }
+
+        [TestMethod]
         public void frmOptions_ApplyResponsiveLayout_AfterManualScale_KeepsResponsiveButtonsInsideTheirGroups()
         {
             RunInSta(() =>
