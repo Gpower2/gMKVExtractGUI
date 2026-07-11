@@ -50,6 +50,11 @@ namespace gMKVToolNix.Forms
         private bool _hasPendingChanges;
         private string _selectedCulture;
         private string _busyStatusKey;
+        private readonly Dictionary<Button, Size> _responsiveButtonBaseSizes = new Dictionary<Button, Size>();
+        private float _settingsRowBaseHeight;
+        private float _actionsRowBaseHeight;
+        private int _translatorBaseWidth;
+        private int _searchBaseWidth;
 
         public bool HasSavedChanges { get; private set; }
 
@@ -78,6 +83,7 @@ namespace gMKVToolNix.Forms
                 }
 
                 InitializeComponent();
+                CaptureResponsiveLayoutBaselines();
 
                 if (_skipRuntimeInitialization)
                 {
@@ -112,6 +118,8 @@ namespace gMKVToolNix.Forms
                 LoadAvailableCultures();
                 SetSelectedCultureItem(FindCultureItem(_initialCulture) ?? (_cmbTargetCulture.Items.Count > 0 ? _cmbTargetCulture.Items[0] as string : null));
                 InitDPI();
+                CaptureResponsiveLayoutBaselines();
+                ApplyResponsiveLayout();
             }
             catch (Exception ex)
             {
@@ -600,10 +608,10 @@ namespace gMKVToolNix.Forms
             _translationsGrid.Columns["colIsTranslated"].HeaderText = LocalizationManager.GetString("UI.TranslationEditor.Columns.IsTranslated");
             _translationsGrid.Columns["colNotes"].HeaderText = LocalizationManager.GetString("UI.TranslationEditor.Columns.Notes");
 
-            _btnCreate.ApplyLocalizedButtonSize(95);
-            _btnSync.ApplyLocalizedButtonSize(95);
-            _btnSave.ApplyLocalizedButtonSize(95);
-            _btnClose.ApplyLocalizedButtonSize(95);
+            _btnCreate.ApplyLocalizedButtonSize(GetResponsiveButtonBaseSize(_btnCreate, 95));
+            _btnSync.ApplyLocalizedButtonSize(GetResponsiveButtonBaseSize(_btnSync, 95));
+            _btnSave.ApplyLocalizedButtonSize(GetResponsiveButtonBaseSize(_btnSave, 95));
+            _btnClose.ApplyLocalizedButtonSize(GetResponsiveButtonBaseSize(_btnClose, 95));
 
             ApplyTooltips();
             UpdateSummary();
@@ -816,6 +824,98 @@ namespace gMKVToolNix.Forms
                 culture);
         }
 
+        private void CaptureResponsiveLayoutBaselines()
+        {
+            CaptureResponsiveButtonBaseSize(_btnCreate);
+            CaptureResponsiveButtonBaseSize(_btnSync);
+            CaptureResponsiveButtonBaseSize(_btnSave);
+            CaptureResponsiveButtonBaseSize(_btnClose);
+
+            if (_mainLayout != null && _mainLayout.RowStyles.Count > 0 && _mainLayout.RowStyles[0].Height > 0F)
+            {
+                if (_settingsRowBaseHeight <= 0F)
+                {
+                    _settingsRowBaseHeight = _mainLayout.RowStyles[0].Height;
+                }
+            }
+
+            if (_mainLayout != null && _mainLayout.RowStyles.Count > 2 && _mainLayout.RowStyles[2].Height > 0F)
+            {
+                if (_actionsRowBaseHeight <= 0F)
+                {
+                    _actionsRowBaseHeight = _mainLayout.RowStyles[2].Height;
+                }
+            }
+
+            if (_translatorBaseWidth <= 0 && _txtTranslator != null && _txtTranslator.Width > 0)
+            {
+                _translatorBaseWidth = _txtTranslator.Width;
+            }
+
+            if (_searchBaseWidth <= 0 && _txtSearch != null && _txtSearch.Width > 0)
+            {
+                _searchBaseWidth = _txtSearch.Width;
+            }
+        }
+
+        private void CaptureResponsiveButtonBaseSize(Button button)
+        {
+            if (button == null)
+            {
+                return;
+            }
+
+            Size currentSize = button.Size;
+            if (!_responsiveButtonBaseSizes.ContainsKey(button)
+                && currentSize.Width > 0
+                && currentSize.Height > 0)
+            {
+                _responsiveButtonBaseSizes[button] = currentSize;
+            }
+        }
+
+        private Size GetResponsiveButtonBaseSize(Button button, int fallbackWidth, int fallbackHeight = 30)
+        {
+            return _responsiveButtonBaseSizes.TryGetValue(button, out Size baseSize)
+                ? baseSize
+                : new Size(fallbackWidth, fallbackHeight);
+        }
+
+        private static int GetFlowControlWidth(Control control)
+        {
+            return control == null ? 0 : control.Width + control.Margin.Horizontal;
+        }
+
+        private static void ClampStretchControlWidth(Control stretchControl, int minimumWidth, int availableWidth, int trailingSlack, params Control[] rowControls)
+        {
+            if (stretchControl == null || rowControls == null || rowControls.Length == 0)
+            {
+                return;
+            }
+
+            int overflow = rowControls.Sum(GetFlowControlWidth) + trailingSlack - availableWidth;
+            if (overflow > 0)
+            {
+                stretchControl.Width = Math.Max(minimumWidth, stretchControl.Width - overflow);
+            }
+        }
+
+        private static int GetFlowRowRequiredHeight(FlowLayoutPanel row)
+        {
+            if (row == null)
+            {
+                return 0;
+            }
+
+            int contentBottom = row.Padding.Top;
+            foreach (Control control in row.Controls)
+            {
+                contentBottom = Math.Max(contentBottom, control.Bottom + control.Margin.Bottom);
+            }
+
+            return contentBottom + row.Padding.Bottom;
+        }
+
         private void ApplyResponsiveLayout()
         {
             // gForm applies DPI autoscaling in its base constructor, which can trigger
@@ -844,6 +944,41 @@ namespace gMKVToolNix.Forms
 
             int availableWidth = Math.Max(320, ClientSize.Width - _mainLayout.Padding.Horizontal - 24);
             int contentWidth = Math.Max(280, availableWidth - 18);
+            _btnCreate.ApplyLocalizedButtonSize(GetResponsiveButtonBaseSize(_btnCreate, 95));
+            _btnSync.ApplyLocalizedButtonSize(GetResponsiveButtonBaseSize(_btnSync, 95));
+            _btnSave.ApplyLocalizedButtonSize(GetResponsiveButtonBaseSize(_btnSave, 95));
+            _btnClose.ApplyLocalizedButtonSize(GetResponsiveButtonBaseSize(_btnClose, 95));
+
+            _chkShowOnlyUntranslated.Size = _chkShowOnlyUntranslated.GetPreferredSize(Size.Empty);
+            int preferredSummaryWidth = _lblSummary.GetPreferredSize(new Size(contentWidth, 0)).Width;
+            _lblSummary.MaximumSize = new Size(preferredSummaryWidth, 0);
+            int translatorReservedWidth = GetFlowControlWidth(_lblTargetCulture)
+                + GetFlowControlWidth(_cmbTargetCulture)
+                + GetFlowControlWidth(_lblTranslator)
+                + _txtTranslator.Margin.Horizontal
+                + 12;
+            _txtTranslator.Width = Math.Max(_translatorBaseWidth, contentWidth - translatorReservedWidth);
+            ClampStretchControlWidth(_txtTranslator, _translatorBaseWidth, contentWidth, 6, _lblTargetCulture, _cmbTargetCulture, _lblTranslator, _txtTranslator);
+
+            int searchReservedWidth = GetFlowControlWidth(_lblSearch)
+                + GetFlowControlWidth(_chkShowOnlyUntranslated)
+                + _lblSummary.Margin.Horizontal
+                + preferredSummaryWidth
+                + _txtSearch.Margin.Horizontal
+                + 24;
+            _txtSearch.Width = Math.Max(_searchBaseWidth, contentWidth - searchReservedWidth);
+            ClampStretchControlWidth(_txtSearch, _searchBaseWidth, contentWidth, 6, _lblSearch, _txtSearch, _chkShowOnlyUntranslated, _lblSummary);
+
+            _settingsRow1.WrapContents = GetFlowControlWidth(_lblTargetCulture)
+                + GetFlowControlWidth(_cmbTargetCulture)
+                + GetFlowControlWidth(_lblTranslator)
+                + GetFlowControlWidth(_txtTranslator)
+                > contentWidth;
+            _settingsRow2.WrapContents = GetFlowControlWidth(_lblSearch)
+                + GetFlowControlWidth(_txtSearch)
+                + GetFlowControlWidth(_chkShowOnlyUntranslated)
+                + GetFlowControlWidth(_lblSummary)
+                > contentWidth;
             _settingsRow1.MaximumSize = new Size(contentWidth, 0);
             _settingsRow2.MaximumSize = new Size(contentWidth, 0);
             _settingsLayout.MaximumSize = new Size(contentWidth, 0);
@@ -852,11 +987,17 @@ namespace gMKVToolNix.Forms
             _settingsLayout.PerformLayout();
             _settingsGroup.PerformLayout();
 
-            int summaryWidth = Math.Max(180, contentWidth - (_lblSearch.Width + _txtSearch.Width + 72));
-            _lblSummary.MaximumSize = new Size(summaryWidth, 0);
-
-            int settingsHeight = Math.Max(104, _settingsLayout.GetPreferredSize(new Size(contentWidth, 0)).Height + 28);
-            _mainLayout.RowStyles[0].Height = Math.Max(104, settingsHeight);
+            int settingsLayoutHeight = _settingsLayout.Padding.Top
+                + GetFlowRowRequiredHeight(_settingsRow1)
+                + _settingsRow1.Margin.Bottom
+                + GetFlowRowRequiredHeight(_settingsRow2)
+                + _settingsLayout.Padding.Bottom;
+            int settingsRequiredHeight = _settingsGroup.GetGroupBoxContentTop()
+                + settingsLayoutHeight
+                + 6
+                + _settingsGroup.Margin.Vertical;
+            int minimumSettingsHeight = _settingsRowBaseHeight > 0F ? (int)Math.Ceiling(_settingsRowBaseHeight) : 104;
+            _mainLayout.RowStyles[0].Height = Math.Max(minimumSettingsHeight, settingsRequiredHeight);
 
             _actionsPanel.PerformLayout();
             _actionsLayout.PerformLayout();
@@ -865,7 +1006,12 @@ namespace gMKVToolNix.Forms
             int saveStateWidth = Math.Max(180, contentWidth - buttonsWidth - 24);
             _lblSaveState.MaximumSize = new Size(saveStateWidth, 0);
 
-            int actionsHeight = Math.Max(84, _actionsLayout.GetPreferredSize(new Size(contentWidth, 0)).Height + 18);
+            int actionsRequiredHeight = _actionsGroup.GetGroupBoxContentTop()
+                + _actionsLayout.GetPreferredSize(new Size(contentWidth, 0)).Height
+                + 6
+                + _actionsGroup.Margin.Vertical;
+            int minimumActionsHeight = _actionsRowBaseHeight > 0F ? (int)Math.Ceiling(_actionsRowBaseHeight) : 84;
+            int actionsHeight = Math.Max(minimumActionsHeight, actionsRequiredHeight);
             _mainLayout.RowStyles[2].Height = actionsHeight;
             _mainLayout.PerformLayout();
             PerformLayout();
@@ -874,6 +1020,22 @@ namespace gMKVToolNix.Forms
         protected override void OnResize(EventArgs e)
         {
             base.OnResize(e);
+            ApplyResponsiveLayout();
+        }
+
+        protected override void OnDPIChanged()
+        {
+            base.OnDPIChanged();
+
+            if (oldDpi == 0F
+                || oldDpi == currentDpi
+                || !IsHandleCreated
+                || IsDisposed
+                || Disposing)
+            {
+                return;
+            }
+
             ApplyResponsiveLayout();
         }
 

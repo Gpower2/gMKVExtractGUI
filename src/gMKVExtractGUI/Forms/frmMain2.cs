@@ -42,10 +42,9 @@ namespace gMKVToolNix.Forms
         private const int MainActionRightMargin = 7;
         private const int MainActionBottomPadding = 6;
         private const int MainActionSingleRowSpacing = 8;
-        private const int MainActionTopRowButtonTop = 18;
-        private const int MainActionBottomRowButtonTop = 48;
-        private const int MainActionComboTopOffset = 3;
-        private const int MainActionLabelTopOffset = 8;
+        private const int MainActionInterRowSpacing = 0;
+        private const int MainActionTopOffset = -2;
+        private const int MainGroupTextTopOffset = 3;
         private const int MainButtonSpacing = 6;
         private frmLog _LogForm = null;
         private frmJobManager _JobManagerForm = null;
@@ -3268,27 +3267,30 @@ namespace gMKVToolNix.Forms
 
             if (tlpMain.RowStyles.Count > 4 && tlpMain.RowStyles[4].Height > 0F)
             {
-                _actionsRowBaseHeight = Math.Max(_actionsRowBaseHeight, tlpMain.RowStyles[4].Height);
+                if (_actionsRowBaseHeight <= 0F)
+                {
+                    _actionsRowBaseHeight = tlpMain.RowStyles[4].Height;
+                }
             }
 
-            if (cmbChapterType != null && cmbChapterType.Width > 0)
+            if (_chapterTypeComboBaseWidth <= 0 && cmbChapterType != null && cmbChapterType.Width > 0)
             {
                 _chapterTypeComboBaseWidth = cmbChapterType.Width;
             }
 
-            if (cmbExtractionMode != null && cmbExtractionMode.Width > 0)
+            if (_extractionModeComboBaseWidth <= 0 && cmbExtractionMode != null && cmbExtractionMode.Width > 0)
             {
                 _extractionModeComboBaseWidth = cmbExtractionMode.Width;
             }
 
-            if (pnlFileOptions != null && pnlFileOptions.Height > 0)
+            if (_fileOptionsPanelBaseHeight <= 0 && pnlFileOptions != null && pnlFileOptions.Height > 0)
             {
-                _fileOptionsPanelBaseHeight = Math.Max(_fileOptionsPanelBaseHeight, pnlFileOptions.Height);
+                _fileOptionsPanelBaseHeight = pnlFileOptions.Height;
             }
 
-            if (tlpInput.RowStyles.Count > 1 && tlpInput.RowStyles[1].Height > 0F)
+            if (_fileOptionsRowBaseHeight <= 0F && tlpInput.RowStyles.Count > 1 && tlpInput.RowStyles[1].Height > 0F)
             {
-                _fileOptionsRowBaseHeight = Math.Max(_fileOptionsRowBaseHeight, tlpInput.RowStyles[1].Height);
+                _fileOptionsRowBaseHeight = tlpInput.RowStyles[1].Height;
             }
         }
 
@@ -3300,9 +3302,9 @@ namespace gMKVToolNix.Forms
             }
 
             Size currentSize = button.Size;
-            if (!_responsiveButtonBaseSizes.TryGetValue(button, out Size baseSize)
-                || currentSize.Width > baseSize.Width
-                || currentSize.Height > baseSize.Height)
+            if (!_responsiveButtonBaseSizes.ContainsKey(button)
+                && currentSize.Width > 0
+                && currentSize.Height > 0)
             {
                 _responsiveButtonBaseSizes[button] = currentSize;
             }
@@ -3389,9 +3391,11 @@ namespace gMKVToolNix.Forms
             btnBrowseMKVToolnixPath.ApplyLocalizedButtonSize(GetResponsiveButtonBaseSize(btnBrowseMKVToolnixPath, 70));
             btnAutoDetectMkvToolnix.ApplyLocalizedButtonSize(GetResponsiveButtonBaseSize(btnAutoDetectMkvToolnix, 80));
 
-            const int buttonTop = 18;
+            int textTop = grpConfig.GetGroupBoxContentTop() + MainGroupTextTopOffset;
+            int buttonTop = btnBrowseMKVToolnixPath.GetVerticallyCenteredTop(textTop, txtMKVToolnixPath.Height);
             int right = grpConfig.ClientSize.Width - 7;
 
+            txtMKVToolnixPath.Top = textTop;
             btnAutoDetectMkvToolnix.Location = new Point(right - btnAutoDetectMkvToolnix.Width, buttonTop);
             btnBrowseMKVToolnixPath.Location = new Point(btnAutoDetectMkvToolnix.Left - MainButtonSpacing - btnBrowseMKVToolnixPath.Width, buttonTop);
             txtMKVToolnixPath.Width = Math.Max(150, btnBrowseMKVToolnixPath.Left - 12 - txtMKVToolnixPath.Left);
@@ -3401,9 +3405,15 @@ namespace gMKVToolNix.Forms
         {
             btnBrowseOutputDirectory.ApplyLocalizedButtonSize(GetResponsiveButtonBaseSize(btnBrowseOutputDirectory, 80));
 
+            int textTop = grpOutputDirectory.GetGroupBoxContentTop() + MainGroupTextTopOffset;
+            int buttonTop = btnBrowseOutputDirectory.GetVerticallyCenteredTop(textTop, txtOutputDirectory.Height);
             int right = grpOutputDirectory.ClientSize.Width - 7;
-            btnBrowseOutputDirectory.Location = new Point(right - btnBrowseOutputDirectory.Width, 18);
-            chkUseSourceDirectory.Location = new Point(btnBrowseOutputDirectory.Left - 12 - chkUseSourceDirectory.Width, 24);
+
+            txtOutputDirectory.Top = textTop;
+            btnBrowseOutputDirectory.Location = new Point(right - btnBrowseOutputDirectory.Width, buttonTop);
+            chkUseSourceDirectory.Location = new Point(
+                btnBrowseOutputDirectory.Left - 12 - chkUseSourceDirectory.Width,
+                chkUseSourceDirectory.GetVerticallyCenteredTop(buttonTop, btnBrowseOutputDirectory.Height));
             txtOutputDirectory.Width = Math.Max(120, chkUseSourceDirectory.Left - 12 - txtOutputDirectory.Left);
         }
 
@@ -3443,8 +3453,22 @@ namespace gMKVToolNix.Forms
             Size showPopupSize = chkShowPopup.GetPreferredSize(Size.Empty);
             chkShowPopup.Size = showPopupSize;
 
-            int leftSectionBottom = PositionActionsLeftSection(MainActionTopRowButtonTop, showPopupSize);
-            int singleRowRightSectionBottom = PositionActionsRightSection(MainActionTopRowButtonTop, out int singleRowRightSectionLeft);
+            int buttonTop = grpActions.GetGroupBoxContentTop() + MainActionTopOffset;
+            int rowHeight = new[]
+            {
+                btnShowLog.Height,
+                btnShowJobs.Height,
+                btnAddJobs.Height,
+                btnExtract.Height,
+                showPopupSize.Height,
+                cmbChapterType.Height,
+                cmbExtractionMode.Height,
+                lblChapterType.Height,
+                lblExtractionMode.Height
+            }.Max();
+
+            int leftSectionBottom = PositionActionsLeftSection(buttonTop, rowHeight, showPopupSize);
+            int singleRowRightSectionBottom = PositionActionsRightSection(buttonTop, rowHeight, out int singleRowRightSectionLeft);
 
             bool fitsSingleRow = chkShowPopup.Right + MainActionSingleRowSpacing <= singleRowRightSectionLeft;
             int requiredContentBottom;
@@ -3455,7 +3479,7 @@ namespace gMKVToolNix.Forms
             }
             else
             {
-                int twoRowRightSectionBottom = PositionActionsRightSection(MainActionBottomRowButtonTop, out _);
+                int twoRowRightSectionBottom = PositionActionsRightSection(buttonTop + rowHeight + MainActionInterRowSpacing, rowHeight, out _);
                 requiredContentBottom = Math.Max(leftSectionBottom, twoRowRightSectionBottom);
             }
 
@@ -3468,36 +3492,46 @@ namespace gMKVToolNix.Forms
             }
         }
 
-        private int PositionActionsLeftSection(int buttonTop, Size showPopupSize)
+        private int PositionActionsLeftSection(int buttonTop, int rowHeight, Size showPopupSize)
         {
-            btnShowLog.Location = new Point(MainActionLeftMargin, buttonTop);
-            btnShowJobs.Location = new Point(btnShowLog.Right + MainButtonSpacing, buttonTop);
-            chkShowPopup.Location = new Point(btnShowJobs.Right + MainActionSingleRowSpacing, buttonTop + 6);
+            btnShowLog.Location = new Point(MainActionLeftMargin, btnShowLog.GetVerticallyCenteredTop(buttonTop, rowHeight));
+            btnShowJobs.Location = new Point(btnShowLog.Right + MainButtonSpacing, btnShowJobs.GetVerticallyCenteredTop(buttonTop, rowHeight));
+            chkShowPopup.Location = new Point(
+                btnShowJobs.Right + MainActionSingleRowSpacing,
+                chkShowPopup.GetVerticallyCenteredTop(buttonTop, rowHeight));
             chkShowPopup.Size = showPopupSize;
 
             return new[] { btnShowLog.Bottom, btnShowJobs.Bottom, chkShowPopup.Bottom }.Max();
         }
 
-        private int PositionActionsRightSection(int buttonTop, out int leftmostControlLeft)
+        private int PositionActionsRightSection(int buttonTop, int rowHeight, out int leftmostControlLeft)
         {
             int right = grpActions.ClientSize.Width - MainActionRightMargin;
 
-            btnExtract.Location = new Point(right - btnExtract.Width, buttonTop);
+            btnExtract.Location = new Point(right - btnExtract.Width, btnExtract.GetVerticallyCenteredTop(buttonTop, rowHeight));
             right = btnExtract.Left - MainButtonSpacing;
 
-            btnAddJobs.Location = new Point(right - btnAddJobs.Width, buttonTop);
+            btnAddJobs.Location = new Point(right - btnAddJobs.Width, btnAddJobs.GetVerticallyCenteredTop(buttonTop, rowHeight));
             right = btnAddJobs.Left - 12;
 
-            cmbExtractionMode.Location = new Point(right - cmbExtractionMode.Width, buttonTop + MainActionComboTopOffset);
+            cmbExtractionMode.Location = new Point(
+                right - cmbExtractionMode.Width,
+                cmbExtractionMode.GetVerticallyCenteredTop(buttonTop, rowHeight));
             right = cmbExtractionMode.Left - MainButtonSpacing;
 
-            lblExtractionMode.Location = new Point(right - lblExtractionMode.Width, buttonTop + MainActionLabelTopOffset);
+            lblExtractionMode.Location = new Point(
+                right - lblExtractionMode.Width,
+                lblExtractionMode.GetVerticallyCenteredTop(buttonTop, rowHeight));
             right = lblExtractionMode.Left - 16;
 
-            cmbChapterType.Location = new Point(right - cmbChapterType.Width, buttonTop + MainActionComboTopOffset);
+            cmbChapterType.Location = new Point(
+                right - cmbChapterType.Width,
+                cmbChapterType.GetVerticallyCenteredTop(buttonTop, rowHeight));
             right = cmbChapterType.Left - MainButtonSpacing;
 
-            lblChapterType.Location = new Point(right - lblChapterType.Width, buttonTop + MainActionLabelTopOffset);
+            lblChapterType.Location = new Point(
+                right - lblChapterType.Width,
+                lblChapterType.GetVerticallyCenteredTop(buttonTop, rowHeight));
             leftmostControlLeft = lblChapterType.Left;
 
             return new[]
@@ -3562,6 +3596,24 @@ namespace gMKVToolNix.Forms
             }
 
             return bottom;
+        }
+
+        protected override void OnDPIChanged()
+        {
+            base.OnDPIChanged();
+
+            if (oldDpi == 0F
+                || oldDpi == currentDpi
+                || _FromConstructor
+                || !IsHandleCreated
+                || IsDisposed
+                || Disposing
+                || WindowState == FormWindowState.Minimized)
+            {
+                return;
+            }
+
+            ApplyResponsiveLayout();
         }
     }
 }

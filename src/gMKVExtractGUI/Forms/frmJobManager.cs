@@ -769,58 +769,60 @@ namespace gMKVToolNix
                 CaptureResponsiveButtonBaseSize(actionButton);
             }
 
-            if (tlpJobs.ColumnStyles.Count > 1 && tlpJobs.ColumnStyles[1].Width > 0F)
+            if (_actionPanelBaseWidth <= 0F && tlpJobs.ColumnStyles.Count > 1 && tlpJobs.ColumnStyles[1].Width > 0F)
             {
-                _actionPanelBaseWidth = Math.Max(_actionPanelBaseWidth, tlpJobs.ColumnStyles[1].Width);
+                _actionPanelBaseWidth = tlpJobs.ColumnStyles[1].Width;
             }
 
             if (btnRemove != null)
             {
-                if (btnRemove.Left > 0)
+                if (_actionButtonBaseLeft <= 0 && btnRemove.Left > 0)
                 {
-                    _actionButtonBaseLeft = Math.Max(_actionButtonBaseLeft, btnRemove.Left);
+                    _actionButtonBaseLeft = btnRemove.Left;
                 }
 
-                if (grpActions != null && grpActions.ClientSize.Width > 0)
+                if (_actionButtonBaseRightMargin <= 0 && grpActions != null && grpActions.ClientSize.Width > 0)
                 {
-                    _actionButtonBaseRightMargin = Math.Max(
-                        _actionButtonBaseRightMargin,
-                        grpActions.ClientSize.Width - btnRemove.Right);
+                    _actionButtonBaseRightMargin = grpActions.ClientSize.Width - btnRemove.Right;
                 }
             }
 
-            if (chkShowPopup != null)
+            if (_showPopupBaseLeft <= 0 && chkShowPopup != null)
             {
-                _showPopupBaseLeft = Math.Max(_showPopupBaseLeft, chkShowPopup.Left);
+                _showPopupBaseLeft = chkShowPopup.Left;
             }
 
-            if (btnAbort != null && btnAbortAll != null)
+            if (_abortButtonsBaseSpacing <= 0 && btnAbort != null && btnAbortAll != null)
             {
-                _abortButtonsBaseSpacing = Math.Max(_abortButtonsBaseSpacing, btnAbortAll.Top - btnAbort.Bottom);
+                _abortButtonsBaseSpacing = btnAbortAll.Top - btnAbort.Bottom;
             }
 
-            if (btnAbortAll != null && grpActions != null && grpActions.ClientSize.Height > 0)
+            if (_abortAllBaseBottomMargin <= 0 && btnAbortAll != null && grpActions != null && grpActions.ClientSize.Height > 0)
             {
-                _abortAllBaseBottomMargin = Math.Max(_abortAllBaseBottomMargin, grpActions.ClientSize.Height - btnAbortAll.Bottom);
+                _abortAllBaseBottomMargin = grpActions.ClientSize.Height - btnAbortAll.Bottom;
             }
 
-            if (lblCurrentTrack != null)
+            if (_progressLabelBaseLeft <= 0 && lblCurrentTrack != null)
             {
-                _progressLabelBaseLeft = Math.Max(_progressLabelBaseLeft, lblCurrentTrack.Left);
+                _progressLabelBaseLeft = lblCurrentTrack.Left;
             }
 
             if (txtCurrentTrack != null)
             {
-                _progressContentBaseLeft = Math.Max(_progressContentBaseLeft, txtCurrentTrack.Left);
-                if (grpProgress != null && grpProgress.ClientSize.Width > 0)
+                if (_progressContentBaseLeft <= 0)
                 {
-                    _currentTrackRightMarginBase = Math.Max(_currentTrackRightMarginBase, grpProgress.ClientSize.Width - txtCurrentTrack.Right);
+                    _progressContentBaseLeft = txtCurrentTrack.Left;
+                }
+
+                if (_currentTrackRightMarginBase <= 0 && grpProgress != null && grpProgress.ClientSize.Width > 0)
+                {
+                    _currentTrackRightMarginBase = grpProgress.ClientSize.Width - txtCurrentTrack.Right;
                 }
             }
 
-            if (prgBrCurrent != null && grpProgress != null && grpProgress.ClientSize.Width > 0)
+            if (_progressBarRightMarginBase <= 0 && prgBrCurrent != null && grpProgress != null && grpProgress.ClientSize.Width > 0)
             {
-                _progressBarRightMarginBase = Math.Max(_progressBarRightMarginBase, grpProgress.ClientSize.Width - prgBrCurrent.Right);
+                _progressBarRightMarginBase = grpProgress.ClientSize.Width - prgBrCurrent.Right;
             }
         }
 
@@ -832,9 +834,9 @@ namespace gMKVToolNix
             }
 
             Size currentSize = button.Size;
-            if (!_responsiveButtonBaseSizes.TryGetValue(button, out Size baseSize)
-                || currentSize.Width > baseSize.Width
-                || currentSize.Height > baseSize.Height)
+            if (!_responsiveButtonBaseSizes.ContainsKey(button)
+                && currentSize.Width > 0
+                && currentSize.Height > 0)
             {
                 _responsiveButtonBaseSizes[button] = currentSize;
             }
@@ -949,6 +951,23 @@ namespace gMKVToolNix
 
             prgBrTotal.Left = contentLeft;
             prgBrTotal.Width = progressWidth;
+        }
+
+        protected override void OnDPIChanged()
+        {
+            base.OnDPIChanged();
+
+            if (oldDpi == 0F
+                || oldDpi == currentDpi
+                || !IsHandleCreated
+                || IsDisposed
+                || Disposing
+                || WindowState == FormWindowState.Minimized)
+            {
+                return;
+            }
+
+            ApplyResponsiveLayout();
         }
     }
 }
