@@ -1,9 +1,9 @@
 {
   "Metadata": {
     "Culture": "ja",
-    "Translator": "GitHub Copilot",
+    "Translator": "coolvitto",
     "CreationDate": "2026-04-13T20:07:27Z",
-    "LastEditDate": "2026-04-18T14:05:25.8433308Z"
+    "LastEditDate": "2026-07-12T14:05:25.8433308Z"
   },
   "Entries": {
     "UI.MainForm.Title": {
@@ -14,7 +14,7 @@
     },
     "UI.MainForm.InputFile.Group": {
       "Source": "Input file (you can drag and drop the file)",
-      "Translation": "入力ファイル（ファイルをドラッグ＆ドロップできます）",
+      "Translation": "入力ファイル (ファイルをドラッグ＆ドロップできます)",
       "IsTranslated": true,
       "Notes": "GroupBox label for input file selection"
     },
@@ -68,7 +68,7 @@
     },
     "UI.MainForm.Actions.ExtractionMode": {
       "Source": "Extract:",
-      "Translation": "抽出:",
+      "Translation": "抽出 :",
       "IsTranslated": true,
       "Notes": "Label for extraction mode combo box"
     },
@@ -98,7 +98,7 @@
     },
     "UI.MainForm.Config.Group": {
       "Source": "MKVToolnix Directory (you can drag and drop the directory)",
-      "Translation": "MKVToolnix ディレクトリ（フォルダーをドラッグ＆ドロップできます）",
+      "Translation": "MKVToolnix ディレクトリ (フォルダーをドラッグ＆ドロップできます)",
       "IsTranslated": true,
       "Notes": "GroupBox label for MKVToolnix directory configuration"
     },
@@ -448,7 +448,7 @@
     },
     "UI.MainForm2.OutputDirectory.Group": {
       "Source": "Output Directory for Selected File (you can drag and drop the directory)",
-      "Translation": "選択したファイルの出力ディレクトリ（フォルダーをドラッグ＆ドロップできます）",
+      "Translation": "選択したファイルの出力ディレクトリ (フォルダーをドラッグ＆ドロップできます)",
       "IsTranslated": true,
       "Notes": "GroupBox label for output directory in main form 2"
     },
@@ -478,7 +478,7 @@
     },
     "UI.MainForm2.Config.Group": {
       "Source": "MKVToolnix Directory (you can drag and drop the directory)",
-      "Translation": "MKVToolnix ディレクトリ（フォルダーをドラッグ＆ドロップできます）",
+      "Translation": "MKVToolnix ディレクトリ (フォルダーをドラッグ＆ドロップできます)",
       "IsTranslated": true,
       "Notes": "GroupBox label for MKVToolnix directory in main form 2"
     },
@@ -496,7 +496,7 @@
     },
     "UI.MainForm2.InputFiles.Group": {
       "Source": "Input Files (you can drag and drop files or directories)",
-      "Translation": "入力ファイル（ファイルまたはフォルダーをドラッグ＆ドロップできます）",
+      "Translation": "入力ファイル (ファイルまたはフォルダーをドラッグ＆ドロップできます)",
       "IsTranslated": true,
       "Notes": "GroupBox label for input files in main form 2"
     },
@@ -688,13 +688,13 @@
     },
     "UI.OptionsForm.Advanced.Culture": {
       "Source": "Culture:",
-      "Translation": "言語:",
+      "Translation": "言語 :",
       "IsTranslated": true,
       "Notes": "Label for culture selector"
     },
     "UI.OptionsForm.Advanced.Translations": {
       "Source": "Translations...",
-      "Translation": "Translations...",
+      "Translation": "翻訳...",
       "IsTranslated": false,
       "Notes": "Button to open the translation editor"
     },
@@ -706,163 +706,163 @@
     },
     "UI.TranslationEditor.Title": {
       "Source": "Translation Editor",
-      "Translation": "Translation Editor",
-      "IsTranslated": false,
+      "Translation": "翻訳エディター",
+      "IsTranslated": true,
       "Notes": "Window title for the translation editor"
     },
     "UI.TranslationEditor.Settings.Group": {
       "Source": "Translation Settings",
-      "Translation": "Translation Settings",
-      "IsTranslated": false,
+      "Translation": "翻訳設定",
+      "IsTranslated": true,
       "Notes": "GroupBox label for translation editor settings"
     },
     "UI.TranslationEditor.Grid.Group": {
       "Source": "Translations",
-      "Translation": "Translations",
-      "IsTranslated": false,
+      "Translation": "翻訳",
+      "IsTranslated": true,
       "Notes": "GroupBox label for translation editor entries"
     },
     "UI.TranslationEditor.Actions.Group": {
       "Source": "Actions",
-      "Translation": "Actions",
-      "IsTranslated": false,
+      "Translation": "操作",
+      "IsTranslated": true,
       "Notes": "GroupBox label for translation editor actions"
     },
     "UI.TranslationEditor.Fields.TargetCulture": {
       "Source": "Locale:",
-      "Translation": "Locale:",
-      "IsTranslated": false,
+      "Translation": "ロケール :",
+      "IsTranslated": true,
       "Notes": "Label for the current translation locale selector"
     },
     "UI.TranslationEditor.Fields.NewCulture": {
       "Source": "New Locale:",
-      "Translation": "New Locale:",
-      "IsTranslated": false,
+      "Translation": "新しいロケール :",
+      "IsTranslated": true,
       "Notes": "Label for the new locale code text box"
     },
     "UI.TranslationEditor.Fields.Translator": {
       "Source": "Translator:",
-      "Translation": "Translator:",
-      "IsTranslated": false,
+      "Translation": "翻訳者 :",
+      "IsTranslated": true,
       "Notes": "Label for the translator metadata text box"
     },
     "UI.TranslationEditor.Fields.Search": {
       "Source": "Search:",
-      "Translation": "Search:",
-      "IsTranslated": false,
+      "Translation": "検索 :",
+      "IsTranslated": true,
       "Notes": "Label for the translation search box"
     },
     "UI.TranslationEditor.Fields.ShowOnlyUntranslated": {
       "Source": "Show only untranslated",
-      "Translation": "Show only untranslated",
-      "IsTranslated": false,
+      "Translation": "未翻訳のみ表示",
+      "IsTranslated": true,
       "Notes": "Checkbox to filter the translation grid to untranslated rows"
     },
     "UI.TranslationEditor.Fields.Summary": {
       "Source": "Translated: {0}/{1}",
-      "Translation": "Translated: {0}/{1}",
-      "IsTranslated": false,
+      "Translation": "翻訳済み : {0}/{1}",
+      "IsTranslated": true,
       "Notes": "Summary label showing translated entries versus total entries"
     },
     "UI.TranslationEditor.Columns.Key": {
       "Source": "Key",
-      "Translation": "Key",
-      "IsTranslated": false,
+      "Translation": "キー",
+      "IsTranslated": true,
       "Notes": "Column header for the localization key"
     },
     "UI.TranslationEditor.Columns.Source": {
       "Source": "Source",
-      "Translation": "Source",
-      "IsTranslated": false,
+      "Translation": "原文",
+      "IsTranslated": true,
       "Notes": "Column header for the English source string"
     },
     "UI.TranslationEditor.Columns.Translation": {
       "Source": "Translation",
-      "Translation": "Translation",
-      "IsTranslated": false,
+      "Translation": "翻訳",
+      "IsTranslated": true,
       "Notes": "Column header for the translated string"
     },
     "UI.TranslationEditor.Columns.IsTranslated": {
       "Source": "Done",
-      "Translation": "Done",
-      "IsTranslated": false,
+      "Translation": "完了",
+      "IsTranslated": true,
       "Notes": "Column header for the translated status checkbox"
     },
     "UI.TranslationEditor.Columns.Notes": {
       "Source": "Notes",
-      "Translation": "Notes",
-      "IsTranslated": false,
+      "Translation": "備考",
+      "IsTranslated": true,
       "Notes": "Column header for translator notes"
     },
     "UI.TranslationEditor.Actions.Create": {
       "Source": "Create",
-      "Translation": "Create",
-      "IsTranslated": false,
+      "Translation": "作成",
+      "IsTranslated": true,
       "Notes": "Button to create a new locale from the English master"
     },
     "UI.TranslationEditor.Actions.Sync": {
       "Source": "Sync",
-      "Translation": "Sync",
-      "IsTranslated": false,
+      "Translation": "同期",
+      "IsTranslated": true,
       "Notes": "Button to sync the selected locale with the English master"
     },
     "UI.TranslationEditor.Actions.Save": {
       "Source": "Save",
-      "Translation": "Save",
-      "IsTranslated": false,
+      "Translation": "保存",
+      "IsTranslated": true,
       "Notes": "Button to save the selected locale"
     },
     "UI.TranslationEditor.Actions.Close": {
       "Source": "Close",
-      "Translation": "Close",
-      "IsTranslated": false,
+      "Translation": "閉じる",
+      "IsTranslated": true,
       "Notes": "Button to close the translation editor"
     },
     "UI.TranslationEditor.Errors.SelectCulture": {
       "Source": "You must select a locale first!",
-      "Translation": "You must select a locale first!",
-      "IsTranslated": false,
+      "Translation": "最初にロケールを選択してください！",
+      "IsTranslated": true,
       "Notes": "Error shown when translation editor actions require a selected locale"
     },
     "UI.TranslationEditor.Errors.CultureCodeRequired": {
       "Source": "You must enter a locale code!",
-      "Translation": "You must enter a locale code!",
-      "IsTranslated": false,
+      "Translation": "ロケールコードを入力してください！",
+      "IsTranslated": true,
       "Notes": "Error shown when creating a locale without entering a culture code"
     },
     "UI.TranslationEditor.Errors.LocaleExists": {
       "Source": "The locale {0} already exists!",
-      "Translation": "The locale {0} already exists!",
-      "IsTranslated": false,
+      "Translation": "ロケール {0} は既に存在します！",
+      "IsTranslated": true,
       "Notes": "Error shown when trying to create a locale file that already exists"
     },
     "UI.TranslationEditor.Errors.CannotSyncEnglish": {
       "Source": "The English master locale cannot be synced!",
-      "Translation": "The English master locale cannot be synced!",
-      "IsTranslated": false,
+      "Translation": "英語のマスターロケールは同期できません！",
+      "IsTranslated": true,
       "Notes": "Error shown when trying to sync the English master locale"
     },
     "UI.TranslationEditor.Success.LocaleCreated": {
       "Source": "The locale {0} was created successfully!",
-      "Translation": "The locale {0} was created successfully!",
-      "IsTranslated": false,
+      "Translation": "ロケール {0} が正常に作成されました！",
+      "IsTranslated": true,
       "Notes": "Success message after creating a new locale file"
     },
     "UI.TranslationEditor.Success.LocaleSaved": {
       "Source": "The locale {0} was saved successfully!",
-      "Translation": "The locale {0} was saved successfully!",
-      "IsTranslated": false,
+      "Translation": "ロケール {0} が正常に保存されました！",
+      "IsTranslated": true,
       "Notes": "Success message after saving a locale file"
     },
     "UI.TranslationEditor.Success.LocaleSynced": {
       "Source": "The locale {0} was synced successfully! Added: {1}, Updated: {2}, Removed: {3}",
-      "Translation": "The locale {0} was synced successfully! Added: {1}, Updated: {2}, Removed: {3}",
-      "IsTranslated": false,
+      "Translation": "ロケール {0} が正常に同期されました！追加: {1}、更新: {2}、削除: {3}",
+      "IsTranslated": true,
       "Notes": "Success message after syncing a locale file with the English master"
     },
     "UI.MainForm2.InputFiles.GroupWithCount": {
       "Source": "Input Files (you can drag and drop files or directories) ({0} files)",
-      "Translation": "入力ファイル（ファイルまたはフォルダーをドラッグ＆ドロップできます）({0} ファイル)",
+      "Translation": "入力ファイル (ファイルまたはフォルダーをドラッグ＆ドロップできます)({0} ファイル)",
       "IsTranslated": true,
       "Notes": "GroupBox label for input files with file count"
     },
@@ -1500,13 +1500,13 @@
     },
     "UI.OptionsForm.Placeholders.InputFilenameWithoutExtension": {
       "Source": "Input Filename (without extension)",
-      "Translation": "入力ファイル名（拡張子なし）",
+      "Translation": "入力ファイル名 (拡張子なし)",
       "IsTranslated": true,
       "Notes": "Placeholder description for the input filename without extension"
     },
     "UI.OptionsForm.Placeholders.InputFilenameWithExtension": {
       "Source": "Input Filename (with extension)",
-      "Translation": "入力ファイル名（拡張子あり）",
+      "Translation": "入力ファイル名 (拡張子あり)",
       "IsTranslated": true,
       "Notes": "Placeholder description for the input filename with extension"
     },
@@ -1524,25 +1524,25 @@
     },
     "UI.OptionsForm.Placeholders.TrackNumber.NoFormat": {
       "Source": "Track Number (No format)",
-      "Translation": "トラック番号（書式なし）",
+      "Translation": "トラック番号 (書式なし)",
       "IsTranslated": true,
       "Notes": "Placeholder description for an unformatted track number"
     },
     "UI.OptionsForm.Placeholders.TrackNumber.OneDigit": {
       "Source": "Track Number (1 digit)",
-      "Translation": "トラック番号（1 桁）",
+      "Translation": "トラック番号 (1 桁)",
       "IsTranslated": true,
       "Notes": "Placeholder description for a one-digit track number"
     },
     "UI.OptionsForm.Placeholders.TrackNumber.TwoDigits": {
       "Source": "Track Number (2 digits)",
-      "Translation": "トラック番号（2 桁）",
+      "Translation": "トラック番号 (2 桁)",
       "IsTranslated": true,
       "Notes": "Placeholder description for a two-digit track number"
     },
     "UI.OptionsForm.Placeholders.TrackNumber.ThreeDigits": {
       "Source": "Track Number (3 digits)",
-      "Translation": "トラック番号（3 桁）",
+      "Translation": "トラック番号 (3 桁)",
       "IsTranslated": true,
       "Notes": "Placeholder description for a three-digit track number"
     },
@@ -1554,25 +1554,25 @@
     },
     "UI.OptionsForm.Placeholders.TrackId.NoFormat": {
       "Source": "Track ID (No format)",
-      "Translation": "トラック ID（書式なし）",
+      "Translation": "トラック ID (書式なし)",
       "IsTranslated": true,
       "Notes": "Placeholder description for an unformatted track ID"
     },
     "UI.OptionsForm.Placeholders.TrackId.OneDigit": {
       "Source": "Track ID (1 digit)",
-      "Translation": "トラック ID（1 桁）",
+      "Translation": "トラック ID (1 桁)",
       "IsTranslated": true,
       "Notes": "Placeholder description for a one-digit track ID"
     },
     "UI.OptionsForm.Placeholders.TrackId.TwoDigits": {
       "Source": "Track ID (2 digits)",
-      "Translation": "トラック ID（2 桁）",
+      "Translation": "トラック ID (2 桁)",
       "IsTranslated": true,
       "Notes": "Placeholder description for a two-digit track ID"
     },
     "UI.OptionsForm.Placeholders.TrackId.ThreeDigits": {
       "Source": "Track ID (3 digits)",
-      "Translation": "トラック ID（3 桁）",
+      "Translation": "トラック ID (3 桁)",
       "IsTranslated": true,
       "Notes": "Placeholder description for a three-digit track ID"
     },
@@ -1656,25 +1656,25 @@
     },
     "UI.OptionsForm.Placeholders.AttachmentId.NoFormat": {
       "Source": "Attachment ID (No format)",
-      "Translation": "添付 ID（書式なし）",
+      "Translation": "添付 ID (書式なし)",
       "IsTranslated": true,
       "Notes": "Placeholder description for an unformatted attachment ID"
     },
     "UI.OptionsForm.Placeholders.AttachmentId.OneDigit": {
       "Source": "Attachment ID (1 digit)",
-      "Translation": "添付 ID（1 桁）",
+      "Translation": "添付 ID (1 桁)",
       "IsTranslated": true,
       "Notes": "Placeholder description for a one-digit attachment ID"
     },
     "UI.OptionsForm.Placeholders.AttachmentId.TwoDigits": {
       "Source": "Attachment ID (2 digits)",
-      "Translation": "添付 ID（2 桁）",
+      "Translation": "添付 ID (2 桁)",
       "IsTranslated": true,
       "Notes": "Placeholder description for a two-digit attachment ID"
     },
     "UI.OptionsForm.Placeholders.AttachmentId.ThreeDigits": {
       "Source": "Attachment ID (3 digits)",
-      "Translation": "添付 ID（3 桁）",
+      "Translation": "添付 ID (3 桁)",
       "IsTranslated": true,
       "Notes": "Placeholder description for a three-digit attachment ID"
     },
@@ -1692,7 +1692,7 @@
     },
     "UI.OptionsForm.Placeholders.AttachmentFileSizeBytes": {
       "Source": "Attachment File Size (bytes)",
-      "Translation": "添付ファイルサイズ（バイト）",
+      "Translation": "添付ファイルサイズ (バイト)",
       "IsTranslated": true,
       "Notes": "Placeholder description for the attachment size in bytes"
     },
