@@ -1,0 +1,1744 @@
+{
+  "Metadata": {
+    "Culture": "et",
+    "Translator": null,
+    "CreationDate": "2026-07-11T00:00:00Z",
+    "LastEditDate": "2026-07-11T20:25:48Z"
+  },
+  "Entries": {
+    "UI.MainForm.Title": {
+      "Source": "gMKVExtractGUI",
+      "Translation": "gMKVExtractGUI",
+      "IsTranslated": true,
+      "Notes": ""
+    },
+    "UI.MainForm.InputFile.Group": {
+      "Source": "Input file (you can drag and drop the file)",
+      "Translation": "Sisendfail (saad faili siia lohistada)",
+      "IsTranslated": true,
+      "Notes": ""
+    },
+    "UI.MainForm.InputFile.Browse": {
+      "Source": "Browse...",
+      "Translation": "Sirvi...",
+      "IsTranslated": true,
+      "Notes": ""
+    },
+    "UI.MainForm.OutputDirectory.Group": {
+      "Source": "Output Directory",
+      "Translation": "Väljundkaust",
+      "IsTranslated": true,
+      "Notes": ""
+    },
+    "UI.MainForm.OutputDirectory.Lock": {
+      "Source": "Lock",
+      "Translation": "Lukusta",
+      "IsTranslated": true,
+      "Notes": ""
+    },
+    "UI.MainForm.OutputDirectory.Browse": {
+      "Source": "Browse...",
+      "Translation": "Sirvi...",
+      "IsTranslated": true,
+      "Notes": ""
+    },
+    "UI.MainForm.Actions.Group": {
+      "Source": "Actions",
+      "Translation": "Toimingud",
+      "IsTranslated": true,
+      "Notes": ""
+    },
+    "UI.MainForm.Actions.Popup": {
+      "Source": "Popup",
+      "Translation": "Hüpikaken",
+      "IsTranslated": true,
+      "Notes": ""
+    },
+    "UI.MainForm.Actions.JobMode": {
+      "Source": "Job Mode",
+      "Translation": "Töörežiim",
+      "IsTranslated": true,
+      "Notes": ""
+    },
+    "UI.MainForm.Actions.Extract": {
+      "Source": "Extract",
+      "Translation": "Eralda",
+      "IsTranslated": true,
+      "Notes": ""
+    },
+    "UI.MainForm.Actions.ExtractionMode": {
+      "Source": "Extract:",
+      "Translation": "Eralda:",
+      "IsTranslated": true,
+      "Notes": ""
+    },
+    "UI.MainForm.Actions.Log": {
+      "Source": "Log...",
+      "Translation": "Logi...",
+      "IsTranslated": true,
+      "Notes": ""
+    },
+    "UI.MainForm.Actions.ChapterType": {
+      "Source": "Chapter",
+      "Translation": "Peatükk",
+      "IsTranslated": true,
+      "Notes": ""
+    },
+    "UI.MainForm.Actions.Abort": {
+      "Source": "Abort",
+      "Translation": "Katkesta",
+      "IsTranslated": true,
+      "Notes": ""
+    },
+    "UI.MainForm.Actions.AbortAll": {
+      "Source": "Abort All",
+      "Translation": "Katkesta kõik",
+      "IsTranslated": true,
+      "Notes": ""
+    },
+    "UI.MainForm.Config.Group": {
+      "Source": "MKVToolnix Directory (you can drag and drop the directory)",
+      "Translation": "MKVToolNixi kaust (saad kausta siia lohistada)",
+      "IsTranslated": true,
+      "Notes": ""
+    },
+    "UI.MainForm.Config.Browse": {
+      "Source": "Browse...",
+      "Translation": "Sirvi...",
+      "IsTranslated": true,
+      "Notes": ""
+    },
+    "UI.MainForm.InputFileInfo.Group": {
+      "Source": "Input File Information",
+      "Translation": "Sisendfaili teave",
+      "IsTranslated": true,
+      "Notes": ""
+    },
+    "UI.MainForm.Status.Track": {
+      "Source": "track",
+      "Translation": "rada",
+      "IsTranslated": true,
+      "Notes": ""
+    },
+    "UI.MainForm.Status.Status": {
+      "Source": "status",
+      "Translation": "olek",
+      "IsTranslated": true,
+      "Notes": ""
+    },
+    "UI.MainForm.Log.Group": {
+      "Source": "Log",
+      "Translation": "Logi",
+      "IsTranslated": true,
+      "Notes": ""
+    },
+    "UI.ContextMenu.SelectAllTracks": {
+      "Source": "Select All Tracks",
+      "Translation": "Vali kõik rajad",
+      "IsTranslated": true,
+      "Notes": ""
+    },
+    "UI.ContextMenu.SelectAllVideoTracks": {
+      "Source": "Select All Video Tracks",
+      "Translation": "Vali kõik videorajad",
+      "IsTranslated": true,
+      "Notes": ""
+    },
+    "UI.ContextMenu.SelectAllAudioTracks": {
+      "Source": "Select All Audio Tracks",
+      "Translation": "Vali kõik audiorajad",
+      "IsTranslated": true,
+      "Notes": ""
+    },
+    "UI.ContextMenu.SelectAllSubtitleTracks": {
+      "Source": "Select All Subtitle Tracks",
+      "Translation": "Vali kõik subtiitrirajad",
+      "IsTranslated": true,
+      "Notes": ""
+    },
+    "UI.ContextMenu.SelectAllChapterTracks": {
+      "Source": "Select All Chapter Tracks",
+      "Translation": "Vali kõik peatükirajad",
+      "IsTranslated": true,
+      "Notes": ""
+    },
+    "UI.ContextMenu.SelectAllAttachmentTracks": {
+      "Source": "Select All Attachments Tracks",
+      "Translation": "Vali kõik manuserajad",
+      "IsTranslated": true,
+      "Notes": ""
+    },
+    "UI.ContextMenu.UnselectAllTracks": {
+      "Source": "Unselect All tracks",
+      "Translation": "Tühista kõigi radade valik",
+      "IsTranslated": true,
+      "Notes": ""
+    },
+    "UI.JobManager.Title": {
+      "Source": "Job Manager",
+      "Translation": "Tööde haldur",
+      "IsTranslated": true,
+      "Notes": ""
+    },
+    "UI.JobManager.Progress.Group": {
+      "Source": "Progress",
+      "Translation": "Edenemine",
+      "IsTranslated": true,
+      "Notes": ""
+    },
+    "UI.JobManager.Progress.CurrentTrack": {
+      "Source": "Current Track",
+      "Translation": "Praegune rada",
+      "IsTranslated": true,
+      "Notes": ""
+    },
+    "UI.JobManager.Progress.TotalProgress": {
+      "Source": "Total Progress",
+      "Translation": "Kogu edenemine",
+      "IsTranslated": true,
+      "Notes": ""
+    },
+    "UI.JobManager.Progress.CurrentProgress": {
+      "Source": "Current Progress",
+      "Translation": "Praegune edenemine",
+      "IsTranslated": true,
+      "Notes": ""
+    },
+    "UI.JobManager.Jobs.Group": {
+      "Source": "Jobs",
+      "Translation": "Tööd",
+      "IsTranslated": true,
+      "Notes": ""
+    },
+    "UI.JobManager.Jobs.GroupWithCount": {
+      "Source": "Jobs ({0})",
+      "Translation": "Tööd ({0})",
+      "IsTranslated": true,
+      "Notes": ""
+    },
+    "UI.JobManager.Columns.Job": {
+      "Source": "Job",
+      "Translation": "Töö",
+      "IsTranslated": true,
+      "Notes": ""
+    },
+    "UI.JobManager.Columns.StartTime": {
+      "Source": "Start Time",
+      "Translation": "Algusaeg",
+      "IsTranslated": true,
+      "Notes": ""
+    },
+    "UI.JobManager.Columns.EndTime": {
+      "Source": "End Time",
+      "Translation": "Lõppaeg",
+      "IsTranslated": true,
+      "Notes": ""
+    },
+    "UI.JobManager.Columns.State": {
+      "Source": "State",
+      "Translation": "Olek",
+      "IsTranslated": true,
+      "Notes": ""
+    },
+    "UI.JobManager.Columns.Duration": {
+      "Source": "Duration",
+      "Translation": "Kestus",
+      "IsTranslated": true,
+      "Notes": ""
+    },
+    "UI.JobManager.Jobs.ChangeToReadyStatus": {
+      "Source": "Change to Ready Status",
+      "Translation": "Muuda valmis olekusse",
+      "IsTranslated": true,
+      "Notes": ""
+    },
+    "UI.JobManager.Jobs.SelectAll": {
+      "Source": "Select All",
+      "Translation": "Vali kõik",
+      "IsTranslated": true,
+      "Notes": ""
+    },
+    "UI.JobManager.Jobs.DeselectAll": {
+      "Source": "Deselect All",
+      "Translation": "Tühista valik",
+      "IsTranslated": true,
+      "Notes": ""
+    },
+    "UI.JobManager.Actions.Group": {
+      "Source": "Actions",
+      "Translation": "Toimingud",
+      "IsTranslated": true,
+      "Notes": ""
+    },
+    "UI.JobManager.Actions.Popup": {
+      "Source": "Popup",
+      "Translation": "Hüpikaken",
+      "IsTranslated": true,
+      "Notes": ""
+    },
+    "UI.JobManager.Actions.SaveJobs": {
+      "Source": "Save Jobs...",
+      "Translation": "Salvesta tööd...",
+      "IsTranslated": true,
+      "Notes": ""
+    },
+    "UI.JobManager.Actions.LoadJobs": {
+      "Source": "Load Jobs...",
+      "Translation": "Laadi tööd...",
+      "IsTranslated": true,
+      "Notes": ""
+    },
+    "UI.JobManager.Actions.AbortAll": {
+      "Source": "Abort All",
+      "Translation": "Katkesta kõik",
+      "IsTranslated": true,
+      "Notes": ""
+    },
+    "UI.JobManager.Actions.Abort": {
+      "Source": "Abort",
+      "Translation": "Katkesta",
+      "IsTranslated": true,
+      "Notes": ""
+    },
+    "UI.JobManager.Actions.RunJobs": {
+      "Source": "Run Jobs",
+      "Translation": "Käivita tööd",
+      "IsTranslated": true,
+      "Notes": ""
+    },
+    "UI.JobManager.Actions.Remove": {
+      "Source": "Remove",
+      "Translation": "Eemalda",
+      "IsTranslated": true,
+      "Notes": ""
+    },
+    "UI.LogForm.Title": {
+      "Source": "Log",
+      "Translation": "Logi",
+      "IsTranslated": true,
+      "Notes": ""
+    },
+    "UI.LogForm.Log.Group": {
+      "Source": "Log",
+      "Translation": "Logi",
+      "IsTranslated": true,
+      "Notes": ""
+    },
+    "UI.LogForm.Log.GroupWithCount": {
+      "Source": "Log ({0})",
+      "Translation": "Logi ({0})",
+      "IsTranslated": true,
+      "Notes": ""
+    },
+    "UI.LogForm.Actions.Group": {
+      "Source": "Actions",
+      "Translation": "Toimingud",
+      "IsTranslated": true,
+      "Notes": ""
+    },
+    "UI.LogForm.Actions.Save": {
+      "Source": "Save...",
+      "Translation": "Salvesta...",
+      "IsTranslated": true,
+      "Notes": ""
+    },
+    "UI.LogForm.Actions.ClearLog": {
+      "Source": "Clear Log",
+      "Translation": "Tühjenda logi",
+      "IsTranslated": true,
+      "Notes": ""
+    },
+    "UI.LogForm.Actions.Refresh": {
+      "Source": "Refresh",
+      "Translation": "Värskenda",
+      "IsTranslated": true,
+      "Notes": ""
+    },
+    "UI.LogForm.Actions.CopySelection": {
+      "Source": "Copy Selection",
+      "Translation": "Kopeeri valik",
+      "IsTranslated": true,
+      "Notes": ""
+    },
+    "UI.LogForm.Actions.Close": {
+      "Source": "Close",
+      "Translation": "Sulge",
+      "IsTranslated": true,
+      "Notes": ""
+    },
+    "UI.MainForm2.Title": {
+      "Source": "gMKVExtractGUI",
+      "Translation": "gMKVExtractGUI",
+      "IsTranslated": true,
+      "Notes": ""
+    },
+    "UI.MainForm2.Status.Status": {
+      "Source": "status",
+      "Translation": "olek",
+      "IsTranslated": true,
+      "Notes": ""
+    },
+    "UI.MainForm2.Status.TotalStatus": {
+      "Source": "status",
+      "Translation": "olek",
+      "IsTranslated": true,
+      "Notes": ""
+    },
+    "UI.MainForm2.Actions.Group": {
+      "Source": "Actions",
+      "Translation": "Toimingud",
+      "IsTranslated": true,
+      "Notes": ""
+    },
+    "UI.MainForm2.Actions.AddJobs": {
+      "Source": "Add Jobs",
+      "Translation": "Lisa töid",
+      "IsTranslated": true,
+      "Notes": ""
+    },
+    "UI.MainForm2.Actions.Abort": {
+      "Source": "Abort",
+      "Translation": "Katkesta",
+      "IsTranslated": true,
+      "Notes": ""
+    },
+    "UI.MainForm2.Actions.AbortAll": {
+      "Source": "Abort All",
+      "Translation": "Katkesta kõik",
+      "IsTranslated": true,
+      "Notes": ""
+    },
+    "UI.MainForm2.Actions.ShowJobs": {
+      "Source": "Jobs...",
+      "Translation": "Tööd...",
+      "IsTranslated": true,
+      "Notes": ""
+    },
+    "UI.MainForm2.Actions.Popup": {
+      "Source": "Popup",
+      "Translation": "Hüpikaken",
+      "IsTranslated": true,
+      "Notes": ""
+    },
+    "UI.MainForm2.Actions.Extract": {
+      "Source": "Extract",
+      "Translation": "Eralda",
+      "IsTranslated": true,
+      "Notes": ""
+    },
+    "UI.MainForm2.Actions.ExtractionMode": {
+      "Source": "Extract",
+      "Translation": "Eralda",
+      "IsTranslated": true,
+      "Notes": ""
+    },
+    "UI.MainForm2.Actions.Log": {
+      "Source": "Log...",
+      "Translation": "Logi...",
+      "IsTranslated": true,
+      "Notes": ""
+    },
+    "UI.MainForm2.Actions.ChapterType": {
+      "Source": "Chapter",
+      "Translation": "Peatükk",
+      "IsTranslated": true,
+      "Notes": ""
+    },
+    "UI.MainForm2.OutputDirectory.Group": {
+      "Source": "Output Directory for Selected File (you can drag and drop the directory)",
+      "Translation": "Väljundkaust valitud failile (saad kausta siia lohistada)",
+      "IsTranslated": true,
+      "Notes": ""
+    },
+    "UI.MainForm2.OutputDirectory.UseSource": {
+      "Source": "Use Source",
+      "Translation": "Kasuta lähtekausta",
+      "IsTranslated": true,
+      "Notes": ""
+    },
+    "UI.MainForm2.OutputDirectory.Browse": {
+      "Source": "Browse...",
+      "Translation": "Sirvi...",
+      "IsTranslated": true,
+      "Notes": ""
+    },
+    "UI.MainForm2.OutputDirectory.SetAsDefault": {
+      "Source": "Set As Default Directory",
+      "Translation": "Määra vaikekaustaks",
+      "IsTranslated": true,
+      "Notes": ""
+    },
+    "UI.MainForm2.OutputDirectory.UseDefault": {
+      "Source": "Use Currently Set Default Directory:",
+      "Translation": "Kasuta vaikekausta:",
+      "IsTranslated": true,
+      "Notes": ""
+    },
+    "UI.MainForm2.Config.Group": {
+      "Source": "MKVToolnix Directory (you can drag and drop the directory)",
+      "Translation": "MKVToolnix kaust (saad kausta siia lohistada)",
+      "IsTranslated": true,
+      "Notes": ""
+    },
+    "UI.MainForm2.Config.AutoDetect": {
+      "Source": "Auto Detect",
+      "Translation": "Tuvasta automaatselt",
+      "IsTranslated": true,
+      "Notes": ""
+    },
+    "UI.MainForm2.Config.Browse": {
+      "Source": "Browse...",
+      "Translation": "Sirvi...",
+      "IsTranslated": true,
+      "Notes": ""
+    },
+    "UI.MainForm2.InputFiles.Group": {
+      "Source": "Input Files (you can drag and drop files or directories)",
+      "Translation": "Sisendfailid (saad faile või kaustu siia lohistada)",
+      "IsTranslated": true,
+      "Notes": ""
+    },
+    "UI.OptionsForm.Tags.Group": {
+      "Source": "Tags",
+      "Translation": "Sildid",
+      "IsTranslated": true,
+      "Notes": ""
+    },
+    "UI.OptionsForm.Tags.Default": {
+      "Source": "Default",
+      "Translation": "Vaikimisi",
+      "IsTranslated": true,
+      "Notes": ""
+    },
+    "UI.OptionsForm.Tags.Add": {
+      "Source": "Add...",
+      "Translation": "Lisa...",
+      "IsTranslated": true,
+      "Notes": ""
+    },
+    "UI.OptionsForm.Chapters.Group": {
+      "Source": "Chapters",
+      "Translation": "Peatükid",
+      "IsTranslated": true,
+      "Notes": ""
+    },
+    "UI.OptionsForm.Chapters.Default": {
+      "Source": "Default",
+      "Translation": "Vaikimisi",
+      "IsTranslated": true,
+      "Notes": ""
+    },
+    "UI.OptionsForm.Chapters.Add": {
+      "Source": "Add...",
+      "Translation": "Lisa...",
+      "IsTranslated": true,
+      "Notes": ""
+    },
+    "UI.OptionsForm.VideoTracks.Group": {
+      "Source": "Video Tracks",
+      "Translation": "Videorajad",
+      "IsTranslated": true,
+      "Notes": ""
+    },
+    "UI.OptionsForm.VideoTracks.Default": {
+      "Source": "Default",
+      "Translation": "Vaikimisi",
+      "IsTranslated": true,
+      "Notes": ""
+    },
+    "UI.OptionsForm.VideoTracks.Add": {
+      "Source": "Add...",
+      "Translation": "Lisa...",
+      "IsTranslated": true,
+      "Notes": ""
+    },
+    "UI.OptionsForm.AudioTracks.Group": {
+      "Source": "Audio Tracks",
+      "Translation": "Audiorajad",
+      "IsTranslated": true,
+      "Notes": ""
+    },
+    "UI.OptionsForm.AudioTracks.Default": {
+      "Source": "Default",
+      "Translation": "Vaikimisi",
+      "IsTranslated": true,
+      "Notes": ""
+    },
+    "UI.OptionsForm.AudioTracks.Add": {
+      "Source": "Add...",
+      "Translation": "Lisa...",
+      "IsTranslated": true,
+      "Notes": ""
+    },
+    "UI.OptionsForm.SubtitleTracks.Group": {
+      "Source": "Subtitle Tracks",
+      "Translation": "Subtiitrirajad",
+      "IsTranslated": true,
+      "Notes": ""
+    },
+    "UI.OptionsForm.SubtitleTracks.Default": {
+      "Source": "Default",
+      "Translation": "Vaikimisi",
+      "IsTranslated": true,
+      "Notes": ""
+    },
+    "UI.OptionsForm.SubtitleTracks.Add": {
+      "Source": "Add...",
+      "Translation": "Lisa...",
+      "IsTranslated": true,
+      "Notes": ""
+    },
+    "UI.OptionsForm.Attachments.Group": {
+      "Source": "Attachments",
+      "Translation": "Manused",
+      "IsTranslated": true,
+      "Notes": ""
+    },
+    "UI.OptionsForm.Attachments.Default": {
+      "Source": "Default",
+      "Translation": "Vaikimisi",
+      "IsTranslated": true,
+      "Notes": ""
+    },
+    "UI.OptionsForm.Attachments.Add": {
+      "Source": "Add...",
+      "Translation": "Lisa...",
+      "IsTranslated": true,
+      "Notes": ""
+    },
+    "UI.OptionsForm.Info.Group": {
+      "Source": "Information",
+      "Translation": "Teave",
+      "IsTranslated": true,
+      "Notes": ""
+    },
+    "UI.OptionsForm.Defaults": {
+      "Source": "Defaults",
+      "Translation": "Vaikimisi",
+      "IsTranslated": true,
+      "Notes": ""
+    },
+    "UI.OptionsForm.RawMode": {
+      "Source": "Use `raw` extraction",
+      "Translation": "Kasuta `raw` eraldamist",
+      "IsTranslated": true,
+      "Notes": ""
+    },
+    "UI.OptionsForm.FullRawMode": {
+      "Source": "Use `full raw` extraction",
+      "Translation": "Kasuta `full raw` eraldamist",
+      "IsTranslated": true,
+      "Notes": ""
+    },
+    "UI.OptionsForm.TextFilesWithoutBom": {
+      "Source": "Disable BOM to text files (v96.0+)",
+      "Translation": "Keela BOM tekstifailidel (v96.0+)",
+      "IsTranslated": true,
+      "Notes": ""
+    },
+    "UI.Common.True": {
+      "Source": "True",
+      "Translation": "Tõene",
+      "IsTranslated": true,
+      "Notes": ""
+    },
+    "UI.Common.False": {
+      "Source": "False",
+      "Translation": "Väär",
+      "IsTranslated": true,
+      "Notes": ""
+    },
+    "UI.Common.NotSet": {
+      "Source": "Not Set!",
+      "Translation": "Määramata!",
+      "IsTranslated": true,
+      "Notes": ""
+    },
+    "UI.OptionsForm.Title": {
+      "Source": "Options",
+      "Translation": "Valikud",
+      "IsTranslated": true,
+      "Notes": ""
+    },
+    "UI.OptionsForm.Actions.Group": {
+      "Source": "Actions",
+      "Translation": "Toimingud",
+      "IsTranslated": true,
+      "Notes": ""
+    },
+    "UI.OptionsForm.Actions.OK": {
+      "Source": "OK",
+      "Translation": "OK",
+      "IsTranslated": true,
+      "Notes": ""
+    },
+    "UI.OptionsForm.Actions.Cancel": {
+      "Source": "Cancel",
+      "Translation": "Tühista",
+      "IsTranslated": true,
+      "Notes": ""
+    },
+    "UI.OptionsForm.Advanced.Group": {
+      "Source": "Advanced Options",
+      "Translation": "Täpsemad valikud",
+      "IsTranslated": true,
+      "Notes": ""
+    },
+    "UI.OptionsForm.Advanced.Culture": {
+      "Source": "Culture:",
+      "Translation": "Keel:",
+      "IsTranslated": true,
+      "Notes": ""
+    },
+    "UI.OptionsForm.Advanced.Translations": {
+      "Source": "Translations...",
+      "Translation": "Tõlked...",
+      "IsTranslated": true,
+      "Notes": ""
+    },
+    "UI.OptionsForm.Info.Text": {
+      "Source": "Here you can specify the output filename format for each kind of track.\nPressing the \"Add...\" button you will see the list with the available placeholders and select them.\nPressing the \"Default\" button you will reset the output filename format to its default value.",
+      "Translation": "Siin saad määrata iga rajatüübi jaoks väljundfaili nimekuju.\nNupule \"Lisa...\" vajutades kuvatakse saadaval olevate kohatäitjate loend, mille hulgast saad valida.\nNupule \"Vaikimisi\" vajutades taastatakse väljundfaili nimekuju algne vaikeväärtus.",
+      "IsTranslated": true,
+      "Notes": ""
+    },
+    "UI.TranslationEditor.Title": {
+      "Source": "Translation Editor",
+      "Translation": "Tõlkeredaktor",
+      "IsTranslated": true,
+      "Notes": ""
+    },
+    "UI.TranslationEditor.Settings.Group": {
+      "Source": "Translation Settings",
+      "Translation": "Tõlkeseaded",
+      "IsTranslated": true,
+      "Notes": ""
+    },
+    "UI.TranslationEditor.Grid.Group": {
+      "Source": "Translations",
+      "Translation": "Tõlked",
+      "IsTranslated": true,
+      "Notes": ""
+    },
+    "UI.TranslationEditor.Actions.Group": {
+      "Source": "Actions",
+      "Translation": "Toimingud",
+      "IsTranslated": true,
+      "Notes": ""
+    },
+    "UI.TranslationEditor.Fields.TargetCulture": {
+      "Source": "Locale:",
+      "Translation": "Lokaat:",
+      "IsTranslated": true,
+      "Notes": ""
+    },
+    "UI.TranslationEditor.Fields.NewCulture": {
+      "Source": "New Locale:",
+      "Translation": "Uus lokaat:",
+      "IsTranslated": true,
+      "Notes": ""
+    },
+    "UI.TranslationEditor.Fields.Translator": {
+      "Source": "Translator:",
+      "Translation": "Tõlkija:",
+      "IsTranslated": true,
+      "Notes": ""
+    },
+    "UI.TranslationEditor.Fields.Search": {
+      "Source": "Search:",
+      "Translation": "Otsi:",
+      "IsTranslated": true,
+      "Notes": ""
+    },
+    "UI.TranslationEditor.Fields.ShowOnlyUntranslated": {
+      "Source": "Show only untranslated",
+      "Translation": "Näita ainult tõlkimata",
+      "IsTranslated": true,
+      "Notes": ""
+    },
+    "UI.TranslationEditor.Fields.Summary": {
+      "Source": "Translated: {0}/{1}",
+      "Translation": "Tõlgitud: {0}/{1}",
+      "IsTranslated": true,
+      "Notes": ""
+    },
+    "UI.TranslationEditor.Columns.Key": {
+      "Source": "Key",
+      "Translation": "Võti",
+      "IsTranslated": true,
+      "Notes": ""
+    },
+    "UI.TranslationEditor.Columns.Source": {
+      "Source": "Source",
+      "Translation": "Lähtetekst",
+      "IsTranslated": true,
+      "Notes": ""
+    },
+    "UI.TranslationEditor.Columns.Translation": {
+      "Source": "Translation",
+      "Translation": "Tõlge",
+      "IsTranslated": true,
+      "Notes": ""
+    },
+    "UI.TranslationEditor.Columns.IsTranslated": {
+      "Source": "Done",
+      "Translation": "Valmis",
+      "IsTranslated": true,
+      "Notes": ""
+    },
+    "UI.TranslationEditor.Columns.Notes": {
+      "Source": "Notes",
+      "Translation": "Märkused",
+      "IsTranslated": true,
+      "Notes": ""
+    },
+    "UI.TranslationEditor.Actions.Create": {
+      "Source": "Create",
+      "Translation": "Loo",
+      "IsTranslated": true,
+      "Notes": ""
+    },
+    "UI.TranslationEditor.Actions.NewLocale": {
+      "Source": "New Locale...",
+      "Translation": "Uus lokaat...",
+      "IsTranslated": true,
+      "Notes": ""
+    },
+    "UI.TranslationEditor.Actions.Sync": {
+      "Source": "Sync",
+      "Translation": "Sünkrooni",
+      "IsTranslated": true,
+      "Notes": ""
+    },
+    "UI.TranslationEditor.Actions.Save": {
+      "Source": "Save",
+      "Translation": "Salvesta",
+      "IsTranslated": true,
+      "Notes": ""
+    },
+    "UI.TranslationEditor.Actions.Close": {
+      "Source": "Close",
+      "Translation": "Sulge",
+      "IsTranslated": true,
+      "Notes": ""
+    },
+    "UI.TranslationEditor.Dialogs.DiscardChanges": {
+      "Source": "You have unsaved changes for locale {0}. Discard them?",
+      "Translation": "Sul on lokaadi {0} jaoks salvestamata muudatusi. Kas loobuda neist?",
+      "IsTranslated": true,
+      "Notes": ""
+    },
+    "UI.TranslationEditor.Dialogs.NewLocaleTitle": {
+      "Source": "Create New Locale",
+      "Translation": "Loo uus lokaat",
+      "IsTranslated": true,
+      "Notes": ""
+    },
+    "UI.TranslationEditor.Errors.SelectCulture": {
+      "Source": "You must select a locale first!",
+      "Translation": "Peate esmalt valima lokaadi!",
+      "IsTranslated": true,
+      "Notes": ""
+    },
+    "UI.TranslationEditor.Errors.CultureCodeRequired": {
+      "Source": "You must enter a locale code!",
+      "Translation": "Peate sisestama lokaadi koodi!",
+      "IsTranslated": true,
+      "Notes": ""
+    },
+    "UI.TranslationEditor.Errors.LocaleExists": {
+      "Source": "The locale {0} already exists!",
+      "Translation": "Lokaat {0} on juba olemas!",
+      "IsTranslated": true,
+      "Notes": ""
+    },
+    "UI.TranslationEditor.Errors.CannotSyncEnglish": {
+      "Source": "The English master locale cannot be synced!",
+      "Translation": "Inglise põhilokaati ei saa sünkroonida!",
+      "IsTranslated": true,
+      "Notes": ""
+    },
+    "UI.TranslationEditor.Success.LocaleCreated": {
+      "Source": "The locale {0} was created successfully!",
+      "Translation": "Lokaat {0} loodi edukalt!",
+      "IsTranslated": true,
+      "Notes": ""
+    },
+    "UI.TranslationEditor.Success.LocaleSaved": {
+      "Source": "The locale {0} was saved successfully!",
+      "Translation": "Lokaat {0} salvestati edukalt!",
+      "IsTranslated": true,
+      "Notes": ""
+    },
+    "UI.TranslationEditor.Success.LocaleSynced": {
+      "Source": "The locale {0} was synced successfully! Added: {1}, Updated: {2}, Removed: {3}",
+      "Translation": "Lokaat {0} sünkrooniti edukalt! Lisatud: {1}, Uuendatud: {2}, Eemaldatud: {3}",
+      "IsTranslated": true,
+      "Notes": ""
+    },
+    "UI.TranslationEditor.Status.Clean": {
+      "Source": "All changes saved",
+      "Translation": "Kõik muudatused salvestatud",
+      "IsTranslated": true,
+      "Notes": ""
+    },
+    "UI.TranslationEditor.Status.Dirty": {
+      "Source": "Unsaved changes",
+      "Translation": "Salvestamata muudatused",
+      "IsTranslated": true,
+      "Notes": ""
+    },
+    "UI.TranslationEditor.Status.Loading": {
+      "Source": "Loading locale...",
+      "Translation": "Lokaati laaditakse...",
+      "IsTranslated": true,
+      "Notes": ""
+    },
+    "UI.TranslationEditor.Tooltips.NewLocale": {
+      "Source": "Create a new locale from the English master file.",
+      "Translation": "Loo uus lokaat ingliskeelse põhifaili alusel.",
+      "IsTranslated": true,
+      "Notes": ""
+    },
+    "UI.TranslationEditor.Tooltips.Sync": {
+      "Source": "Sync the selected locale with the English master file. New keys are added, changed English source text resets those translations, and removed keys are deleted.",
+      "Translation": "Sünkrooni valitud lokaat ingliskeelse põhifailiga. Uued võtmed lisatakse, muudetud lähtefraasid lähtestavad tõlked ning eemaldatud võtmed kustutatakse.",
+      "IsTranslated": true,
+      "Notes": ""
+    },
+    "UI.MainForm2.InputFiles.GroupWithCount": {
+      "Source": "Input Files (you can drag and drop files or directories) ({0} files)",
+      "Translation": "Sisendfailid (saad faile või kaustu siia lohistada) ({0} faili)",
+      "IsTranslated": true,
+      "Notes": ""
+    },
+    "UI.MainForm2.SelectedFileInfo.Group": {
+      "Source": "Selected File Information",
+      "Translation": "Valitud faili teave",
+      "IsTranslated": true,
+      "Notes": ""
+    },
+    "UI.MainForm2.SelectedFileInfo.GroupWithFile": {
+      "Source": "Selected File Information ({0})",
+      "Translation": "Valitud faili teave ({0})",
+      "IsTranslated": true,
+      "Notes": ""
+    },
+    "UI.MainForm2.SelectedFileInfo.Details": {
+      "Source": "Writing Application: {0}{4}Muxing Application: {1}{4}Duration: {2}{4}Date: {3}",
+      "Translation": "Kirjutav rakendus: {0}{4}Muximise rakendus: {1}{4}Kestus: {2}{4}Kuupäev: {3}",
+      "IsTranslated": true,
+      "Notes": ""
+    },
+    "UI.MainForm2.FileOptions.Select": {
+      "Source": "Select...",
+      "Translation": "Vali...",
+      "IsTranslated": true,
+      "Notes": ""
+    },
+    "UI.MainForm2.Tooltips.AutoDetect": {
+      "Source": "Press to try and auto-detect the MKVToolNix installation.",
+      "Translation": "Vajuta, et proovida MKVToolNixi paigaldust automaatselt tuvastada.",
+      "IsTranslated": true,
+      "Notes": ""
+    },
+    "UI.MainForm2.Tooltips.InputFiles": {
+      "Source": "Contains the list of opened files with their tracks.\nYou can check the individual tracks in order to select them for extracting.\n\nNote: There is a context menu (right-click on the list) that contains many options for batch selecting tracks.",
+      "Translation": "Sisaldab avatud failide loendit koos nende radadega.\nSaad märkida üksikuid radu, et valida need eraldamiseks.\n\nMärkus: loendis on kontekstimenüü (paremklõps), mis sisaldab radade hulgivalikuid.",
+      "IsTranslated": true,
+      "Notes": ""
+    },
+    "UI.MainForm2.Tooltips.AppendOnDragAndDrop": {
+      "Source": "Check if you want to append files in the input list on drag and drop.\nUncheck if you want to reset the input list every time you drag and drop a new file.",
+      "Translation": "Märgi, kui soovid lohistamisel faile sisendloendisse lisada.\nEemalda märge, kui soovid iga lohistamisega loendi lähtestada.",
+      "IsTranslated": true,
+      "Notes": ""
+    },
+    "UI.MainForm2.Tooltips.OverwriteExistingFiles": {
+      "Source": "Check if you want the output files to always overwrite existing files with the same filename.\nUncheck if you want the output files to automatically be renamed with a different filename to avoid overwriting existing files.",
+      "Translation": "Märgi, kui soovid, et väljundfailid kirjutaksid olemasolevad sama nimega failid üle.\nEemalda märge, kui soovid vältida ülekirjutamist automaatse ümbernimetamisega.",
+      "IsTranslated": true,
+      "Notes": ""
+    },
+    "UI.MainForm2.Tooltips.UseSourceDirectory": {
+      "Source": "Check if you want the output files to be saved in the same directory as the source files.\nUncheck if you want to manually select an output directory for ALL extracted files.",
+      "Translation": "Märgi, kui soovid salvestada väljundfailid samasse kausta kui lähtefailid.\nEemalda märge, kui soovid määrata väljundkausta käsitsi kõigile failidele.",
+      "IsTranslated": true,
+      "Notes": ""
+    },
+    "UI.MainForm2.Tooltips.ShowPopup": {
+      "Source": "Check if you want to show a popup message when the extraction is finished.",
+      "Translation": "Märgi, kui soovid kuvada hüpikakna eraldamise lõppemisel.",
+      "IsTranslated": true,
+      "Notes": ""
+    },
+    "UI.MainForm2.Tooltips.Select": {
+      "Source": "Press to display the menu that contains many options for batch selecting tracks.",
+      "Translation": "Vajuta, et kuvada menüü radade hulgivalikutega.",
+      "IsTranslated": true,
+      "Notes": ""
+    },
+    "UI.MainForm2.FileOptions.AppendOnDragAndDrop": {
+      "Source": "Append input on drag and drop",
+      "Translation": "Lisa lohistamisel sisendisse",
+      "IsTranslated": true,
+      "Notes": ""
+    },
+    "UI.MainForm2.FileOptions.OverwriteExistingFiles": {
+      "Source": "Overwrite existing files",
+      "Translation": "Kirjuta olemasolevad failid üle",
+      "IsTranslated": true,
+      "Notes": ""
+    },
+    "UI.MainForm2.FileOptions.DisableTooltips": {
+      "Source": "Disable tooltips",
+      "Translation": "Keela kohtspikrid",
+      "IsTranslated": true,
+      "Notes": ""
+    },
+    "UI.MainForm2.Appearance.Dark": {
+      "Source": "Dark",
+      "Translation": "Tume",
+      "IsTranslated": true,
+      "Notes": ""
+    },
+    "UI.MainForm2.Appearance.Options": {
+      "Source": "Options...",
+      "Translation": "Valikud...",
+      "IsTranslated": true,
+      "Notes": ""
+    },
+    "UI.MainForm2.ContextMenu.AddInputFiles": {
+      "Source": "Add Input File(s)...",
+      "Translation": "Lisa sisendfail(e)...",
+      "IsTranslated": true,
+      "Notes": ""
+    },
+    "UI.MainForm2.ContextMenu.CheckAllTracks": {
+      "Source": "Check All Tracks ({0}/{1})",
+      "Translation": "Vali kõik rajad ({0}/{1})",
+      "IsTranslated": true,
+      "Notes": ""
+    },
+    "UI.MainForm2.ContextMenu.CheckTrackGroup": {
+      "Source": "Check {0}... ({1}/{2})",
+      "Translation": "Vali {0}... ({1}/{2})",
+      "IsTranslated": true,
+      "Notes": ""
+    },
+    "UI.MainForm2.ContextMenu.AllTrackGroup": {
+      "Source": "All {0} ({1}/{2})",
+      "Translation": "Kõik {0} ({1}/{2})",
+      "IsTranslated": true,
+      "Notes": ""
+    },
+    "UI.MainForm2.ContextMenu.UncheckAllTracks": {
+      "Source": "Uncheck All Tracks ({0}/{1})",
+      "Translation": "Tühista kõigi radade valik ({0}/{1})",
+      "IsTranslated": true,
+      "Notes": ""
+    },
+    "UI.MainForm2.ContextMenu.UncheckTrackGroup": {
+      "Source": "Uncheck {0}... ({1}/{2})",
+      "Translation": "Tühista {0} valik... ({1}/{2})",
+      "IsTranslated": true,
+      "Notes": ""
+    },
+    "UI.MainForm2.ContextMenu.RemoveAllInputFiles": {
+      "Source": "Remove All Input Files ({0})",
+      "Translation": "Eemalda kõik sisendfailid ({0})",
+      "IsTranslated": true,
+      "Notes": ""
+    },
+    "UI.MainForm2.ContextMenu.RemoveSelectedInputFile": {
+      "Source": "Remove Selected Input File",
+      "Translation": "Eemalda valitud sisendfail",
+      "IsTranslated": true,
+      "Notes": ""
+    },
+    "UI.MainForm2.ContextMenu.OpenSelectedFile": {
+      "Source": "Open Selected File...",
+      "Translation": "Ava valitud fail...",
+      "IsTranslated": true,
+      "Notes": ""
+    },
+    "UI.MainForm2.ContextMenu.OpenSelectedFileFolder": {
+      "Source": "Open Selected File Folder...",
+      "Translation": "Ava valitud faili kaust...",
+      "IsTranslated": true,
+      "Notes": ""
+    },
+    "UI.MainForm2.ContextMenu.ExpandAll": {
+      "Source": "Expand All",
+      "Translation": "Laienda kõik",
+      "IsTranslated": true,
+      "Notes": ""
+    },
+    "UI.MainForm2.ContextMenu.CollapseAll": {
+      "Source": "Collapse All",
+      "Translation": "Ahenda kõik",
+      "IsTranslated": true,
+      "Notes": ""
+    },
+    "UI.MainForm2.ContextMenu.TrackGroupByFilter": {
+      "Source": "{0} by {1} ({2})...",
+      "Translation": "{0} {1} järgi ({2})...",
+      "IsTranslated": true,
+      "Notes": ""
+    },
+    "UI.MainForm2.ContextMenu.FilterValueCount": {
+      "Source": "{0}: [{1}] ({2}/{3})",
+      "Translation": "{0}: [{1}] ({2}/{3})",
+      "IsTranslated": true,
+      "Notes": ""
+    },
+    "UI.MainForm2.ContextMenu.TrackGroup.Video": {
+      "Source": "Video Tracks",
+      "Translation": "Videorajad",
+      "IsTranslated": true,
+      "Notes": ""
+    },
+    "UI.MainForm2.ContextMenu.TrackGroup.Audio": {
+      "Source": "Audio Tracks",
+      "Translation": "Audiorajad",
+      "IsTranslated": true,
+      "Notes": ""
+    },
+    "UI.MainForm2.ContextMenu.TrackGroup.Subtitle": {
+      "Source": "Subtitle Tracks",
+      "Translation": "Subtiitrirajad",
+      "IsTranslated": true,
+      "Notes": ""
+    },
+    "UI.MainForm2.ContextMenu.TrackGroup.Chapter": {
+      "Source": "Chapter Tracks",
+      "Translation": "Peatükirajad",
+      "IsTranslated": true,
+      "Notes": ""
+    },
+    "UI.MainForm2.ContextMenu.TrackGroup.Attachment": {
+      "Source": "Attachment Tracks",
+      "Translation": "Manuserajad",
+      "IsTranslated": true,
+      "Notes": ""
+    },
+    "UI.MainForm2.ContextMenu.Filter.Language": {
+      "Source": "Language",
+      "Translation": "Keel",
+      "IsTranslated": true,
+      "Notes": ""
+    },
+    "UI.MainForm2.ContextMenu.Filter.LanguageIetf": {
+      "Source": "Language IETF",
+      "Translation": "Keel (IETF)",
+      "IsTranslated": true,
+      "Notes": ""
+    },
+    "UI.MainForm2.ContextMenu.Filter.Codec": {
+      "Source": "Codec",
+      "Translation": "Koodek",
+      "IsTranslated": true,
+      "Notes": ""
+    },
+    "UI.MainForm2.ContextMenu.Filter.Resolution": {
+      "Source": "Resolution",
+      "Translation": "Resolutsioon",
+      "IsTranslated": true,
+      "Notes": ""
+    },
+    "UI.MainForm2.ContextMenu.Filter.Channels": {
+      "Source": "Channels",
+      "Translation": "Kanalid",
+      "IsTranslated": true,
+      "Notes": ""
+    },
+    "UI.MainForm2.ContextMenu.Filter.TrackName": {
+      "Source": "Track Name",
+      "Translation": "Raja nimi",
+      "IsTranslated": true,
+      "Notes": ""
+    },
+    "UI.MainForm2.ContextMenu.Filter.Forced": {
+      "Source": "Forced",
+      "Translation": "Sunnitud",
+      "IsTranslated": true,
+      "Notes": ""
+    },
+    "UI.MainForm2.OutputDirectory.UseDefaultWithValue": {
+      "Source": "Use Currently Set Default Directory: ({0})",
+      "Translation": "Kasuta praegust vaikekausta: ({0})",
+      "IsTranslated": true,
+      "Notes": ""
+    },
+    "UI.Common.Dialog.ErrorTitle": {
+      "Source": "Error!",
+      "Translation": "Viga!",
+      "IsTranslated": true,
+      "Notes": ""
+    },
+    "UI.Common.Dialog.SuccessTitle": {
+      "Source": "Success!",
+      "Translation": "Valmis!",
+      "IsTranslated": true,
+      "Notes": ""
+    },
+    "UI.Common.Dialog.ErrorMessage": {
+      "Source": "An error has occurred!{0}{0}{1}",
+      "Translation": "Tekkis viga!{0}{0}{1}",
+      "IsTranslated": true,
+      "Notes": ""
+    },
+    "UI.Common.Dialog.ExceptionTitle": {
+      "Source": "An exception has occurred!",
+      "Translation": "Tekkis erind!",
+      "IsTranslated": true,
+      "Notes": ""
+    },
+    "UI.Common.Dialog.ExceptionMessage": {
+      "Source": "An exception has occurred!{0}{0}{1}",
+      "Translation": "Tekkis erind!{0}{0}{1}",
+      "IsTranslated": true,
+      "Notes": ""
+    },
+    "UI.Common.Dialog.AreYouSureTitle": {
+      "Source": "Are you sure?",
+      "Translation": "Kas oled kindel?",
+      "IsTranslated": true,
+      "Notes": ""
+    },
+    "UI.Common.Dialog.SelectDirectoryPlaceholder": {
+      "Source": "Select directory",
+      "Translation": "Vali kaust",
+      "IsTranslated": true,
+      "Notes": ""
+    },
+    "UI.Common.Status.ExtractionCompleted": {
+      "Source": "Extraction completed!",
+      "Translation": "Eraldamine lõppes!",
+      "IsTranslated": true,
+      "Notes": ""
+    },
+    "UI.Common.Status.GettingFiles": {
+      "Source": "Getting files...",
+      "Translation": "Faile hangitakse...",
+      "IsTranslated": true,
+      "Notes": ""
+    },
+    "UI.Common.Status.AnalyzingFile": {
+      "Source": "Analyzing {0}...",
+      "Translation": "Analüüsin {0}...",
+      "IsTranslated": true,
+      "Notes": ""
+    },
+    "UI.Common.Status.ExtractingTrack": {
+      "Source": "Extracting {0} from {1}...",
+      "Translation": "Eraldan {0} failist {1}...",
+      "IsTranslated": true,
+      "Notes": ""
+    },
+    "UI.Common.Errors.ExtractionRunningBeforeClose": {
+      "Source": "There is an extraction process running! Please abort before closing!",
+      "Translation": "Eraldamine on käimas! Palun katkesta enne sulgemist!",
+      "IsTranslated": true,
+      "Notes": ""
+    },
+    "UI.Controls.TreeView.Errors.NodeNotInTree": {
+      "Source": "The node does not belong to a tree.",
+      "Translation": "Sõlm ei kuulu puusse.",
+      "IsTranslated": true,
+      "Notes": ""
+    },
+    "UI.Controls.TreeView.Errors.SetStateFailed": {
+      "Source": "Error setting TreeNode state.",
+      "Translation": "Viga TreeNode oleku määramisel.",
+      "IsTranslated": true,
+      "Notes": ""
+    },
+    "UI.Controls.TreeView.Errors.GetStateFailed": {
+      "Source": "Error getting TreeNode state.",
+      "Translation": "Viga TreeNode oleku lugemisel.",
+      "IsTranslated": true,
+      "Notes": ""
+    },
+    "UI.MainForm2.Errors.AutoDetectLinuxNotFound": {
+      "Source": "Could not find MKVToolNix in /usr/bin, or in the current directory, or in the ini file!",
+      "Translation": "MKVToolNixi ei leitud /usr/bin kaustast, praegusest kaustast ega ini-failist!",
+      "IsTranslated": true,
+      "Notes": ""
+    },
+    "UI.MainForm2.Errors.AutoDetectWindowsNotFound": {
+      "Source": "Could not find MKVToolNix in registry, or in the current directory, or in the ini file!",
+      "Translation": "MKVToolNixi ei leitud registrist, praegusest kaustast ega ini-failist!",
+      "IsTranslated": true,
+      "Notes": ""
+    },
+    "UI.MainForm2.Errors.AutoDetectManualPathHint": {
+      "Source": "{0}{1}Please download and reinstall or provide a manual path!",
+      "Translation": "{0}{1}Laadi alla ja paigalda uuesti või määra käsitsi tee!",
+      "IsTranslated": true,
+      "Notes": ""
+    },
+    "UI.MainForm2.Errors.MkvmergeNotFoundInPath": {
+      "Source": "mkvmerge was not found in path {0}!",
+      "Translation": "mkvmerge ei leitud teelt {0}!",
+      "IsTranslated": true,
+      "Notes": ""
+    },
+    "UI.MainForm2.Errors.NoValidMatroskaFiles": {
+      "Source": "No valid Matroska files were provided!",
+      "Translation": "Ühtegi kehtivat Matroska faili ei leitud!",
+      "IsTranslated": true,
+      "Notes": ""
+    },
+    "UI.MainForm2.Errors.NoNewFiles": {
+      "Source": "No new files to add!",
+      "Translation": "Pole uusi faile lisada!",
+      "IsTranslated": true,
+      "Notes": ""
+    },
+    "UI.MainForm2.Errors.FileProcessing": {
+      "Source": "File: {0} Error: {1}",
+      "Translation": "Fail: {0} Viga: {1}",
+      "IsTranslated": true,
+      "Notes": ""
+    },
+    "UI.MainForm2.Errors.NoFilenameProvided": {
+      "Source": "No filename was provided!",
+      "Translation": "Failinime ei ole määratud!",
+      "IsTranslated": true,
+      "Notes": ""
+    },
+    "UI.MainForm2.Errors.FileDoesNotExist": {
+      "Source": "The file {0} does not exist!",
+      "Translation": "Faili {0} ei eksisteeri!",
+      "IsTranslated": true,
+      "Notes": ""
+    },
+    "UI.MainForm2.Errors.InvalidMatroskaInputFile": {
+      "Source": "The input file {0}{1}{1}is not a valid Matroska file!",
+      "Translation": "Sisendfail {0}{1}{1}ei ole kehtiv Matroska fail!",
+      "IsTranslated": true,
+      "Notes": ""
+    },
+    "UI.MainForm2.Errors.SelectedNodeNullTag": {
+      "Source": "Selected node has a null tag!",
+      "Translation": "Valitud sõlmel puudub märgend!",
+      "IsTranslated": true,
+      "Notes": ""
+    },
+    "UI.MainForm2.Errors.SelectedNodeNoParent": {
+      "Source": "Selected node has no parent node!",
+      "Translation": "Valitud sõlmel puudub ülem-sõlm!",
+      "IsTranslated": true,
+      "Notes": ""
+    },
+    "UI.MainForm2.Errors.SelectedNodeNoInfo": {
+      "Source": "Selected node has no info!",
+      "Translation": "Valitud sõlmel puudub info!",
+      "IsTranslated": true,
+      "Notes": ""
+    },
+    "UI.MainForm2.Errors.MkvToolnixPathRequired": {
+      "Source": "You must provide an MKVToolNix path!",
+      "Translation": "Peate määrama MKVToolNixi tee!",
+      "IsTranslated": true,
+      "Notes": ""
+    },
+    "UI.MainForm2.Errors.MkvToolnixFilesMissing": {
+      "Source": "The MKVToolNix path provided does not contain MKVToolNix files!",
+      "Translation": "Määratud tee ei sisalda MKVToolNixi faile!",
+      "IsTranslated": true,
+      "Notes": ""
+    },
+    "UI.MainForm2.Errors.OutputDirectoryRequired": {
+      "Source": "You haven't specified an output directory!",
+      "Translation": "Väljundkausta pole määratud!",
+      "IsTranslated": true,
+      "Notes": ""
+    },
+    "UI.MainForm2.Errors.TrackRequiredForMode": {
+      "Source": "You must select a track from the file in order to extract {0}!",
+      "Translation": "Peate valima failist raja, et eraldada {0}!",
+      "IsTranslated": true,
+      "Notes": ""
+    },
+    "UI.MainForm2.Errors.TrackRequired": {
+      "Source": "You must select a track to extract!",
+      "Translation": "Peate valima raja eraldamiseks!",
+      "IsTranslated": true,
+      "Notes": ""
+    },
+    "UI.MainForm2.Errors.TimecodesTrackRequired": {
+      "Source": "You must select a video, audio, or subtitle track to extract timecodes!",
+      "Translation": "Peate valima video-, audio- või subtiitriraja ajakoodide eraldamiseks!",
+      "IsTranslated": true,
+      "Notes": ""
+    },
+    "UI.MainForm2.Errors.CuesTrackRequired": {
+      "Source": "You must select a video, audio, or subtitle track to extract cues!",
+      "Translation": "Peate valima video-, audio- või subtiitriraja cue’de eraldamiseks!",
+      "IsTranslated": true,
+      "Notes": ""
+    },
+    "UI.MainForm2.Errors.ChapterTypeRequired": {
+      "Source": "You must select a chapter type!",
+      "Translation": "Peate valima peatüki tüübi!",
+      "IsTranslated": true,
+      "Notes": ""
+    },
+    "UI.MainForm2.Dialogs.OutputDirectoryMissingQuestion": {
+      "Source": "The output directory \"{0}\" does not exist!{1}{1}Do you want to create it?",
+      "Translation": "Väljundkausta \"{0}\" ei eksisteeri!{1}{1}Kas soovid selle luua?",
+      "IsTranslated": true,
+      "Notes": ""
+    },
+    "UI.MainForm2.Dialogs.OutputDirectoryMissingTitle": {
+      "Source": "Output directory does not exist!",
+      "Translation": "Väljundkausta ei eksisteeri!",
+      "IsTranslated": true,
+      "Notes": ""
+    },
+    "UI.MainForm2.Errors.OutputDirectoryMissingCancelled": {
+      "Source": "The output directory \"{0}\" does not exist!{1}{1}Extraction was cancelled!",
+      "Translation": "Väljundkausta \"{0}\" ei eksisteeri!{1}{1}Eraldamine katkestati!",
+      "IsTranslated": true,
+      "Notes": ""
+    },
+    "UI.MainForm2.Success.ExtractionCompleted": {
+      "Source": "The extraction was completed successfully!",
+      "Translation": "Eraldamine lõpetati edukalt!",
+      "IsTranslated": true,
+      "Notes": ""
+    },
+    "UI.MainForm2.Errors.FolderDoesNotContainMkvToolnix": {
+      "Source": "The folder does not contain MKVToolNix! {0}",
+      "Translation": "Kaust ei sisalda MKVToolNixi! {0}",
+      "IsTranslated": true,
+      "Notes": ""
+    },
+    "UI.MainForm2.Dialogs.ChangeMkvToolnixPathQuestion": {
+      "Source": "Do you really want to change the MKVToolNix path?",
+      "Translation": "Kas soovid tõesti muuta MKVToolNixi teed?",
+      "IsTranslated": true,
+      "Notes": ""
+    },
+    "UI.MainForm2.Dialogs.IncludeSubDirectoriesQuestion": {
+      "Source": "Do you want to include files in subdirectories?",
+      "Translation": "Kas soovid kaasata alamkaustade failid?",
+      "IsTranslated": true,
+      "Notes": ""
+    },
+    "UI.MainForm2.Dialogs.SubDirectoriesFoundTitle": {
+      "Source": "Subdirectories found!",
+      "Translation": "Leiti alamkaustu!",
+      "IsTranslated": true,
+      "Notes": ""
+    },
+    "UI.MainForm2.Dialogs.SelectOutputDirectoryTitle": {
+      "Source": "Select output directory...",
+      "Translation": "Vali väljundkaust...",
+      "IsTranslated": true,
+      "Notes": ""
+    },
+    "UI.MainForm2.Dialogs.SelectMkvToolnixDirectoryTitle": {
+      "Source": "Select MKVToolNix directory...",
+      "Translation": "Vali MKVToolNixi kaust...",
+      "IsTranslated": true,
+      "Notes": ""
+    },
+    "UI.MainForm2.Dialogs.SelectInputMatroskaFileTitle": {
+      "Source": "Select an input Matroska file...",
+      "Translation": "Vali sisend Matroska fail...",
+      "IsTranslated": true,
+      "Notes": ""
+    },
+    "UI.MainForm2.Dialogs.SelectInputMatroskaFileFilter": {
+      "Source": "Matroska files (*.mkv;*.mka;*.mks;*.mk3d;*.webm)|*.mkv;*.mka;*.mks;*.mk3d;*.webm|Matroska video files (*.mkv)|*.mkv|Matroska audio files (*.mka)|*.mka|Matroska subtitle files (*.mks)|*.mks|Matroska 3D files (*.mk3d)|*.mk3d|WebM files (*.webm)|*.webm",
+      "Translation": "Matroska failid (*.mkv;*.mka;*.mks;*.mk3d;*.webm)|*.mkv;*.mka;*.mks;*.mk3d;*.webm|Matroska videofailid (*.mkv)|*.mkv|Matroska audiofailid (*.mka)|*.mka|Matroska subtiitrifailid (*.mks)|*.mks|Matroska 3D-failid (*.mk3d)|*.mk3d|WebM-failid (*.webm)|*.webm",
+      "IsTranslated": true,
+      "Notes": ""
+    },
+    "UI.MainForm2.Dialogs.ChangeDefaultOutputDirectoryQuestion": {
+      "Source": "Are you sure you want to change the currently set ({0}) default output directory?",
+      "Translation": "Kas oled kindel, et soovid muuta praegust ({0}) vaikimisi väljundkausta?",
+      "IsTranslated": true,
+      "Notes": ""
+    },
+    "UI.JobManager.Errors.NoJobsAvailable": {
+      "Source": "There are no available jobs to run!",
+      "Translation": "Ühtegi tööd pole käivitamiseks saadaval!",
+      "IsTranslated": true,
+      "Notes": ""
+    },
+    "UI.JobManager.Errors.ExceptionForJob": {
+      "Source": "Exception for job {0}: {1}{2}",
+      "Translation": "Erind töö {0} jaoks: {1}{2}",
+      "IsTranslated": true,
+      "Notes": ""
+    },
+    "UI.JobManager.Errors.UnsupportedExtractionMode": {
+      "Source": "Unsupported Extraction Mode!",
+      "Translation": "Toetamata eraldusrežiim!",
+      "IsTranslated": true,
+      "Notes": ""
+    },
+    "UI.JobManager.Success.JobsCompleted": {
+      "Source": "The jobs completed successfully!",
+      "Translation": "Tööd lõpetati edukalt!",
+      "IsTranslated": true,
+      "Notes": ""
+    },
+    "UI.JobManager.Success.JobsSaved": {
+      "Source": "The jobs were saved successfully!",
+      "Translation": "Tööd salvestati edukalt!",
+      "IsTranslated": true,
+      "Notes": ""
+    },
+    "UI.JobManager.Success.JobsLoaded": {
+      "Source": "The jobs were loaded successfully!",
+      "Translation": "Tööd laaditi edukalt!",
+      "IsTranslated": true,
+      "Notes": ""
+    },
+    "UI.JobManager.Dialogs.SelectJobFileTitle": {
+      "Source": "Select job file...",
+      "Translation": "Vali tööfail...",
+      "IsTranslated": true,
+      "Notes": ""
+    },
+    "UI.JobManager.Dialogs.SelectJobsFileTitle": {
+      "Source": "Select jobs file...",
+      "Translation": "Vali tööde fail...",
+      "IsTranslated": true,
+      "Notes": ""
+    },
+    "UI.Log.Dialogs.ClearLogQuestion": {
+      "Source": "Are you sure you want to clear the log?",
+      "Translation": "Kas soovid kindlasti logi tühjendada?",
+      "IsTranslated": true,
+      "Notes": ""
+    },
+    "UI.Log.Dialogs.SelectFilenameTitle": {
+      "Source": "Select filename for the log...",
+      "Translation": "Vali logifaili nimi...",
+      "IsTranslated": true,
+      "Notes": ""
+    },
+    "UI.Log.Success.LogSaved": {
+      "Source": "The log was saved to {0}!",
+      "Translation": "Logi salvestati asukohta {0}!",
+      "IsTranslated": true,
+      "Notes": ""
+    },
+    "UI.Common.Status.Extracting": {
+      "Source": "Extracting...",
+      "Translation": "Eraldamine...",
+      "IsTranslated": true,
+      "Notes": ""
+    },
+    "UI.MainForm.Errors.ValidMatroskaFileRequired": {
+      "Source": "You must provide a valid Matroska file!",
+      "Translation": "Peate määrama korrektse Matroska faili!",
+      "IsTranslated": true,
+      "Notes": ""
+    },
+    "UI.OptionsForm.Placeholders.InputFilenameWithoutExtension": {
+      "Source": "Input Filename (without extension)",
+      "Translation": "Sisendfaili nimi (laiendita)",
+      "IsTranslated": true,
+      "Notes": ""
+    },
+    "UI.OptionsForm.Placeholders.InputFilenameWithExtension": {
+      "Source": "Input Filename (with extension)",
+      "Translation": "Sisendfaili nimi (laiendiga)",
+      "IsTranslated": true,
+      "Notes": ""
+    },
+    "UI.OptionsForm.Placeholders.DirectorySeparator": {
+      "Source": "Directory Separator",
+      "Translation": "Kaustaeraldaja",
+      "IsTranslated": true,
+      "Notes": ""
+    },
+    "UI.OptionsForm.Placeholders.TrackNumber.Group": {
+      "Source": "Track Number...",
+      "Translation": "Raja number...",
+      "IsTranslated": true,
+      "Notes": ""
+    },
+    "UI.OptionsForm.Placeholders.TrackNumber.NoFormat": {
+      "Source": "Track Number (No format)",
+      "Translation": "Raja number (vormindamata)",
+      "IsTranslated": true,
+      "Notes": ""
+    },
+    "UI.OptionsForm.Placeholders.TrackNumber.OneDigit": {
+      "Source": "Track Number (1 digit)",
+      "Translation": "Raja number (1 number)",
+      "IsTranslated": true,
+      "Notes": ""
+    },
+    "UI.OptionsForm.Placeholders.TrackNumber.TwoDigits": {
+      "Source": "Track Number (2 digits)",
+      "Translation": "Raja number (2 numbrit)",
+      "IsTranslated": true,
+      "Notes": ""
+    },
+    "UI.OptionsForm.Placeholders.TrackNumber.ThreeDigits": {
+      "Source": "Track Number (3 digits)",
+      "Translation": "Raja number (3 numbrit)",
+      "IsTranslated": true,
+      "Notes": ""
+    },
+    "UI.OptionsForm.Placeholders.TrackId.Group": {
+      "Source": "Track ID...",
+      "Translation": "Raja ID...",
+      "IsTranslated": true,
+      "Notes": ""
+    },
+    "UI.OptionsForm.Placeholders.TrackId.NoFormat": {
+      "Source": "Track ID (No format)",
+      "Translation": "Raja ID (vormindamata)",
+      "IsTranslated": true,
+      "Notes": ""
+    },
+    "UI.OptionsForm.Placeholders.TrackId.OneDigit": {
+      "Source": "Track ID (1 digit)",
+      "Translation": "Raja ID (1 number)",
+      "IsTranslated": true,
+      "Notes": ""
+    },
+    "UI.OptionsForm.Placeholders.TrackId.TwoDigits": {
+      "Source": "Track ID (2 digits)",
+      "Translation": "Raja ID (2 numbrit)",
+      "IsTranslated": true,
+      "Notes": ""
+    },
+    "UI.OptionsForm.Placeholders.TrackId.ThreeDigits": {
+      "Source": "Track ID (3 digits)",
+      "Translation": "Raja ID (3 numbrit)",
+      "IsTranslated": true,
+      "Notes": ""
+    },
+    "UI.OptionsForm.Placeholders.TrackName": {
+      "Source": "Track Name",
+      "Translation": "Raja nimi",
+      "IsTranslated": true,
+      "Notes": ""
+    },
+    "UI.OptionsForm.Placeholders.TrackLanguage": {
+      "Source": "Track Language",
+      "Translation": "Raja keel",
+      "IsTranslated": true,
+      "Notes": ""
+    },
+    "UI.OptionsForm.Placeholders.TrackLanguageIetf": {
+      "Source": "Track Language IETF",
+      "Translation": "Raja keel (IETF)",
+      "IsTranslated": true,
+      "Notes": ""
+    },
+    "UI.OptionsForm.Placeholders.TrackCodecId": {
+      "Source": "Track Codec ID",
+      "Translation": "Raja koodeki ID",
+      "IsTranslated": true,
+      "Notes": ""
+    },
+    "UI.OptionsForm.Placeholders.TrackCodecPrivate": {
+      "Source": "Track Codec Private",
+      "Translation": "Raja koodeki privaatandmed",
+      "IsTranslated": true,
+      "Notes": ""
+    },
+    "UI.OptionsForm.Placeholders.TrackDelay": {
+      "Source": "Track Delay",
+      "Translation": "Raja viivitus",
+      "IsTranslated": true,
+      "Notes": ""
+    },
+    "UI.OptionsForm.Placeholders.TrackEffectiveDelay": {
+      "Source": "Track Effective Delay",
+      "Translation": "Raja tegelik viivitus",
+      "IsTranslated": true,
+      "Notes": ""
+    },
+    "UI.OptionsForm.Placeholders.TrackForced": {
+      "Source": "Track Forced",
+      "Translation": "Sunnitud rada",
+      "IsTranslated": true,
+      "Notes": ""
+    },
+    "UI.OptionsForm.Placeholders.VideoPixelWidth": {
+      "Source": "Video Pixel Width",
+      "Translation": "Video laius pikslites",
+      "IsTranslated": true,
+      "Notes": ""
+    },
+    "UI.OptionsForm.Placeholders.VideoPixelHeight": {
+      "Source": "Video Pixel Height",
+      "Translation": "Video kõrgus pikslites",
+      "IsTranslated": true,
+      "Notes": ""
+    },
+    "UI.OptionsForm.Placeholders.AudioSamplingFrequency": {
+      "Source": "Audio Sampling Frequency",
+      "Translation": "Audio diskreetimissagedus",
+      "IsTranslated": true,
+      "Notes": ""
+    },
+    "UI.OptionsForm.Placeholders.AudioChannels": {
+      "Source": "Audio Channels",
+      "Translation": "Audio kanalid",
+      "IsTranslated": true,
+      "Notes": ""
+    },
+    "UI.OptionsForm.Placeholders.AttachmentId.Group": {
+      "Source": "Attachment ID...",
+      "Translation": "Manuse ID...",
+      "IsTranslated": true,
+      "Notes": ""
+    },
+    "UI.OptionsForm.Placeholders.AttachmentId.NoFormat": {
+      "Source": "Attachment ID (No format)",
+      "Translation": "Manuse ID (vormindamata)",
+      "IsTranslated": true,
+      "Notes": ""
+    },
+    "UI.OptionsForm.Placeholders.AttachmentId.OneDigit": {
+      "Source": "Attachment ID (1 digit)",
+      "Translation": "Manuse ID (1 number)",
+      "IsTranslated": true,
+      "Notes": ""
+    },
+    "UI.OptionsForm.Placeholders.AttachmentId.TwoDigits": {
+      "Source": "Attachment ID (2 digits)",
+      "Translation": "Manuse ID (2 numbrit)",
+      "IsTranslated": true,
+      "Notes": ""
+    },
+    "UI.OptionsForm.Placeholders.AttachmentId.ThreeDigits": {
+      "Source": "Attachment ID (3 digits)",
+      "Translation": "Manuse ID (3 numbrit)",
+      "IsTranslated": true,
+      "Notes": ""
+    },
+    "UI.OptionsForm.Placeholders.AttachmentFilename": {
+      "Source": "Attachment Filename",
+      "Translation": "Manuse failinimi",
+      "IsTranslated": true,
+      "Notes": ""
+    },
+    "UI.OptionsForm.Placeholders.AttachmentMimeType": {
+      "Source": "Attachment MIME Type",
+      "Translation": "Manuse MIME-tüüp",
+      "IsTranslated": true,
+      "Notes": ""
+    },
+    "UI.OptionsForm.Placeholders.AttachmentFileSizeBytes": {
+      "Source": "Attachment File Size (bytes)",
+      "Translation": "Manuse faili suurus (baitides)",
+      "IsTranslated": true,
+      "Notes": ""
+    }
+  }
+}
