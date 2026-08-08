@@ -730,7 +730,7 @@
     },
     "UI.TranslationEditor.Fields.TargetCulture": {
       "Source": "Locale:",
-      "Translation": "langue :",
+      "Translation": "Langue :",
       "IsTranslated": true,
       "Notes": "Label for the current translation locale selector"
     },
@@ -742,9 +742,9 @@
     },
     "UI.TranslationEditor.Fields.Translator": {
       "Source": "Translator:",
-      "Translation": "Translator:",
+      "Translation": "Traducteur :",
       "IsTranslated": true,
-      "Notes": "Label pour la zone de texte des métadonnées du traducteur"
+     "Notes": "Label for the translator metadata text box"
     },
     "UI.TranslationEditor.Fields.Search": {
       "Source": "Search:",
@@ -1073,13 +1073,13 @@
     },
     "UI.MainForm2.ContextMenu.ExpandAll": {
       "Source": "Expand All",
-      "Translation": "Développer tout",
+      "Translation": "Tout développer",
       "IsTranslated": true,
       "Notes": "Context menu item to expand all input tree nodes"
     },
     "UI.MainForm2.ContextMenu.CollapseAll": {
       "Source": "Collapse All",
-      "Translation": "Réduire tout",
+      "Translation": "Tout réduire",
       "IsTranslated": true,
       "Notes": "Context menu item to collapse all input tree nodes"
     },
@@ -1344,7 +1344,7 @@
     },
     "UI.MainForm2.Errors.MkvToolnixPathRequired": {
       "Source": "You must provide an MKVToolNix path!",
-      "Translation": "Vous devez fournir un chemin pour MKVToolNix !",
+      "Translation": "Vous devez indiquer le chemin vers MKVToolNix !",
       "IsTranslated": true,
       "Notes": "Error shown when MKVToolNix path is empty"
     },
@@ -1512,7 +1512,7 @@
     },
     "UI.JobManager.Dialogs.SelectJobsFileTitle": {
       "Source": "Select jobs file...",
-      "Translation": "Sélectionner le fichier de tâches...",
+      "Translation": "Sélectionner le fichier des tâches...",
       "IsTranslated": true,
       "Notes": "File dialog title used when loading jobs"
     },
@@ -1728,7 +1728,7 @@
     },
     "UI.OptionsForm.Placeholders.AttachmentFilename": {
       "Source": "Attachment Filename",
-      "Translation": "Nom de fichier de la pièce jointe",
+      "Translation": "Nom du fichier de la pièce jointe",
       "IsTranslated": true,
       "Notes": "Placeholder description for the attachment filename"
     },
