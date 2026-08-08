@@ -1,9 +1,9 @@
 {
   "Metadata": {
     "Culture": "fr",
-    "Translator": "Need74",
+    "Translator": "GitHub Copilot",
     "CreationDate": "2026-04-13T20:07:27Z",
-    "LastEditDate": "2026-08-08T20:05:25.8100805Z"
+    "LastEditDate": "2026-04-18T14:05:25.8100805Z"
   },
   "Entries": {
     "UI.MainForm.Title": {
@@ -696,7 +696,7 @@
       "Source": "Translations...",
       "Translation": "Traductions...",
       "IsTranslated": true,
-     "Notes": "Button to open the translation editor"
+      "Notes": "Button to open the translation editor"
     },
     "UI.OptionsForm.Info.Text": {
       "Source": "Here you can specify the output filename format for each kind of track.\nPressing the \"Add...\" button you will see the list with the available placeholders and select them.\nPressing the \"Default\" button you will reset the output filename format to its default value.",
@@ -708,37 +708,37 @@
       "Source": "Translation Editor",
       "Translation": "Éditeur de traduction",
       "IsTranslated": true,
-     "Notes": "Window title for the translation editor"
+      "Notes": "Window title for the translation editor"
     },
     "UI.TranslationEditor.Settings.Group": {
       "Source": "Translation Settings",
       "Translation": "Paramètres de traduction",
       "IsTranslated": true,
-     "Notes": "GroupBox label for translation editor settings"
+      "Notes": "GroupBox label for translation editor settings"
     },
     "UI.TranslationEditor.Grid.Group": {
       "Source": "Translations",
       "Translation": "Traductions",
       "IsTranslated": true,
-     "Notes": "GroupBox label for translation editor entries"
+      "Notes": "GroupBox label for translation editor entries"
     },
     "UI.TranslationEditor.Actions.Group": {
       "Source": "Actions",
       "Translation": "Actions",
       "IsTranslated": true,
-     "Notes": "GroupBox label for translation editor actions"
+      "Notes": "GroupBox label for translation editor actions"
     },
     "UI.TranslationEditor.Fields.TargetCulture": {
       "Source": "Locale:",
       "Translation": "langue :",
       "IsTranslated": true,
-     "Notes": "Label for the current translation locale selector"
+      "Notes": "Label for the current translation locale selector"
     },
     "UI.TranslationEditor.Fields.NewCulture": {
       "Source": "New Locale:",
       "Translation": "Nouvelle langue :",
       "IsTranslated": true,
-     "Notes": "Label for the new locale code text box"
+      "Notes": "Label for the new locale code text box"
     },
     "UI.TranslationEditor.Fields.Translator": {
       "Source": "Translator:",
@@ -750,13 +750,13 @@
       "Source": "Search:",
       "Translation": "Recherche :",
       "IsTranslated": true,
-     "Notes": "Label for the translation search box"
+      "Notes": "Label for the translation search box"
     },
     "UI.TranslationEditor.Fields.ShowOnlyUntranslated": {
       "Source": "Show only untranslated",
       "Translation": "Afficher uniquement les non traduits",
       "IsTranslated": true,
-     "Notes": "Checkbox to filter the translation grid to untranslated rows"
+      "Notes": "Checkbox to filter the translation grid to untranslated rows"
     },
     "UI.TranslationEditor.Fields.Summary": {
       "Source": "Translated: {0}/{1}",
@@ -774,7 +774,7 @@
       "Source": "Source",
       "Translation": "Source",
       "IsTranslated": true,
-     "Notes": "Column header for the English source string"
+      "Notes": "Column header for the English source string"
     },
     "UI.TranslationEditor.Columns.Translation": {
       "Source": "Translation",
@@ -810,7 +810,7 @@
       "Source": "Sync",
       "Translation": "Synchroniser",
       "IsTranslated": true,
-     "Notes": "Button to sync the selected locale with the English master"
+      "Notes": "Button to sync the selected locale with the English master"
     },
     "UI.TranslationEditor.Actions.Save": {
       "Source": "Save",
