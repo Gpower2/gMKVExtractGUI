@@ -688,14 +688,14 @@
     },
     "UI.OptionsForm.Advanced.Culture": {
       "Source": "Culture:",
-      "Translation": "Langue :",
+      "Translation": "Culture :",
       "IsTranslated": true,
       "Notes": "Label for culture selector"
     },
     "UI.OptionsForm.Advanced.Translations": {
       "Source": "Translations...",
-      "Translation": "Translations...",
-      "IsTranslated": false,
+      "Translation": "Traductions...",
+      "IsTranslated": true,
       "Notes": "Button to open the translation editor"
     },
     "UI.OptionsForm.Info.Text": {
@@ -706,159 +706,207 @@
     },
     "UI.TranslationEditor.Title": {
       "Source": "Translation Editor",
-      "Translation": "Translation Editor",
-      "IsTranslated": false,
+      "Translation": "Éditeur de traduction",
+      "IsTranslated": true,
       "Notes": "Window title for the translation editor"
     },
     "UI.TranslationEditor.Settings.Group": {
       "Source": "Translation Settings",
-      "Translation": "Translation Settings",
-      "IsTranslated": false,
+      "Translation": "Paramètres de traduction",
+      "IsTranslated": true,
       "Notes": "GroupBox label for translation editor settings"
     },
     "UI.TranslationEditor.Grid.Group": {
       "Source": "Translations",
-      "Translation": "Translations",
-      "IsTranslated": false,
+      "Translation": "Traductions",
+      "IsTranslated": true,
       "Notes": "GroupBox label for translation editor entries"
     },
     "UI.TranslationEditor.Actions.Group": {
       "Source": "Actions",
       "Translation": "Actions",
-      "IsTranslated": false,
+      "IsTranslated": true,
       "Notes": "GroupBox label for translation editor actions"
     },
     "UI.TranslationEditor.Fields.TargetCulture": {
       "Source": "Locale:",
-      "Translation": "Locale:",
-      "IsTranslated": false,
+      "Translation": "Langue :",
+      "IsTranslated": true,
       "Notes": "Label for the current translation locale selector"
     },
     "UI.TranslationEditor.Fields.NewCulture": {
       "Source": "New Locale:",
-      "Translation": "New Locale:",
-      "IsTranslated": false,
+      "Translation": "Nouvelle langue :",
+      "IsTranslated": true,
       "Notes": "Label for the new locale code text box"
     },
     "UI.TranslationEditor.Fields.Translator": {
       "Source": "Translator:",
-      "Translation": "Translator:",
-      "IsTranslated": false,
-      "Notes": "Label for the translator metadata text box"
+      "Translation": "Traducteur :",
+      "IsTranslated": true,
+     "Notes": "Label for the translator metadata text box"
     },
     "UI.TranslationEditor.Fields.Search": {
       "Source": "Search:",
-      "Translation": "Search:",
-      "IsTranslated": false,
+      "Translation": "Recherche :",
+      "IsTranslated": true,
       "Notes": "Label for the translation search box"
     },
     "UI.TranslationEditor.Fields.ShowOnlyUntranslated": {
       "Source": "Show only untranslated",
-      "Translation": "Show only untranslated",
-      "IsTranslated": false,
+      "Translation": "Afficher uniquement les non traduits",
+      "IsTranslated": true,
       "Notes": "Checkbox to filter the translation grid to untranslated rows"
     },
     "UI.TranslationEditor.Fields.Summary": {
       "Source": "Translated: {0}/{1}",
-      "Translation": "Translated: {0}/{1}",
-      "IsTranslated": false,
+      "Translation": "Traduit : {0}/{1}",
+      "IsTranslated": true,
       "Notes": "Summary label showing translated entries versus total entries"
     },
     "UI.TranslationEditor.Columns.Key": {
       "Source": "Key",
-      "Translation": "Key",
-      "IsTranslated": false,
+      "Translation": "Clé",
+      "IsTranslated": true,
       "Notes": "Column header for the localization key"
     },
     "UI.TranslationEditor.Columns.Source": {
       "Source": "Source",
       "Translation": "Source",
-      "IsTranslated": false,
+      "IsTranslated": true,
       "Notes": "Column header for the English source string"
     },
     "UI.TranslationEditor.Columns.Translation": {
       "Source": "Translation",
-      "Translation": "Translation",
-      "IsTranslated": false,
+      "Translation": "Traduction",
+      "IsTranslated": true,
       "Notes": "Column header for the translated string"
     },
     "UI.TranslationEditor.Columns.IsTranslated": {
       "Source": "Done",
-      "Translation": "Done",
-      "IsTranslated": false,
+      "Translation": "Fait",
+      "IsTranslated": true,
       "Notes": "Column header for the translated status checkbox"
     },
     "UI.TranslationEditor.Columns.Notes": {
       "Source": "Notes",
       "Translation": "Notes",
-      "IsTranslated": false,
+      "IsTranslated": true,
       "Notes": "Column header for translator notes"
     },
     "UI.TranslationEditor.Actions.Create": {
       "Source": "Create",
-      "Translation": "Create",
-      "IsTranslated": false,
+      "Translation": "Créer",
+      "IsTranslated": true,
       "Notes": "Button to create a new locale from the English master"
+    },
+    "UI.TranslationEditor.Actions.NewLocale": {
+      "Source": "New Locale...",
+      "Translation": "Nouvelle langue...",
+      "IsTranslated": true,
+      "Notes": "Button to open the create-new-locale flow"
     },
     "UI.TranslationEditor.Actions.Sync": {
       "Source": "Sync",
-      "Translation": "Sync",
-      "IsTranslated": false,
+      "Translation": "Synchroniser",
+      "IsTranslated": true,
       "Notes": "Button to sync the selected locale with the English master"
     },
     "UI.TranslationEditor.Actions.Save": {
       "Source": "Save",
-      "Translation": "Save",
-      "IsTranslated": false,
+      "Translation": "Enregistrer",
+      "IsTranslated": true,
       "Notes": "Button to save the selected locale"
     },
     "UI.TranslationEditor.Actions.Close": {
       "Source": "Close",
-      "Translation": "Close",
-      "IsTranslated": false,
+      "Translation": "Fermer",
+      "IsTranslated": true,
       "Notes": "Button to close the translation editor"
+    },
+    "UI.TranslationEditor.Dialogs.DiscardChanges": {
+      "Source": "You have unsaved changes for locale {0}. Discard them?",
+      "Translation": "Vous avez des modifications non enregistrées pour les paramètres régionaux {0}. Voulez-vous les abandonner ?",
+      "IsTranslated": true,
+      "Notes": "Confirmation shown when switching locales or closing the editor with unsaved changes"
+    },
+    "UI.TranslationEditor.Dialogs.NewLocaleTitle": {
+      "Source": "Create New Locale",
+      "Translation": "Créer une nouvelle langue",
+      "IsTranslated": true,
+      "Notes": "Dialog title for the create-new-locale flow"
     },
     "UI.TranslationEditor.Errors.SelectCulture": {
       "Source": "You must select a locale first!",
-      "Translation": "You must select a locale first!",
-      "IsTranslated": false,
+      "Translation": "Vous devez d'abord sélectionner une langue !",
+      "IsTranslated": true,
       "Notes": "Error shown when translation editor actions require a selected locale"
     },
     "UI.TranslationEditor.Errors.CultureCodeRequired": {
       "Source": "You must enter a locale code!",
-      "Translation": "You must enter a locale code!",
-      "IsTranslated": false,
+      "Translation": "Vous devez saisir un code de langue !",
+      "IsTranslated": true,
       "Notes": "Error shown when creating a locale without entering a culture code"
     },
     "UI.TranslationEditor.Errors.LocaleExists": {
       "Source": "The locale {0} already exists!",
-      "Translation": "The locale {0} already exists!",
-      "IsTranslated": false,
+      "Translation": "La langue {0} existe déjà !",
+      "IsTranslated": true,
       "Notes": "Error shown when trying to create a locale file that already exists"
     },
     "UI.TranslationEditor.Errors.CannotSyncEnglish": {
       "Source": "The English master locale cannot be synced!",
-      "Translation": "The English master locale cannot be synced!",
-      "IsTranslated": false,
+      "Translation": "La langue master anglais ne peut pas être synchronisé !",
+      "IsTranslated": true,
       "Notes": "Error shown when trying to sync the English master locale"
     },
     "UI.TranslationEditor.Success.LocaleCreated": {
       "Source": "The locale {0} was created successfully!",
-      "Translation": "The locale {0} was created successfully!",
-      "IsTranslated": false,
+      "Translation": "La langue {0} a été créée avec succès !",
+      "IsTranslated": true,
       "Notes": "Success message after creating a new locale file"
     },
     "UI.TranslationEditor.Success.LocaleSaved": {
       "Source": "The locale {0} was saved successfully!",
-      "Translation": "The locale {0} was saved successfully!",
-      "IsTranslated": false,
+      "Translation": "La langue {0} a été enregistrée avec succès !",
+      "IsTranslated": true,
       "Notes": "Success message after saving a locale file"
     },
     "UI.TranslationEditor.Success.LocaleSynced": {
       "Source": "The locale {0} was synced successfully! Added: {1}, Updated: {2}, Removed: {3}",
-      "Translation": "The locale {0} was synced successfully! Added: {1}, Updated: {2}, Removed: {3}",
-      "IsTranslated": false,
+      "Translation": "La langue {0} a été synchronisée avec succès ! Ajoutées : {1}, mises à jour : {2}, supprimées : {3}",
+      "IsTranslated": true,
       "Notes": "Success message after syncing a locale file with the English master"
+    },
+    "UI.TranslationEditor.Status.Clean": {
+      "Source": "All changes saved",
+      "Translation": "Toutes les modifications sont enregistrées",
+      "IsTranslated": true,
+      "Notes": "Status text shown when the current locale has no pending edits"
+    },
+    "UI.TranslationEditor.Status.Dirty": {
+      "Source": "Unsaved changes",
+      "Translation": "Modifications non enregistrées",
+      "IsTranslated": true,
+      "Notes": "Status text shown when the current locale has pending edits"
+    },
+    "UI.TranslationEditor.Status.Loading": {
+      "Source": "Loading locale...",
+      "Translation": "Chargement de la langue...",
+      "IsTranslated": true,
+      "Notes": "Status text shown while a locale is loading in the editor"
+    },
+    "UI.TranslationEditor.Tooltips.NewLocale": {
+      "Source": "Create a new locale from the English master file.",
+      "Translation": "Crée une nouvelle langue à partir du fichier maître anglais.",
+      "IsTranslated": true,
+      "Notes": "Tooltip for the new-locale button"
+    },
+    "UI.TranslationEditor.Tooltips.Sync": {
+      "Source": "Sync the selected locale with the English master file. New keys are added, changed English source text resets those translations, and removed keys are deleted.",
+      "Translation": "Synchronise la langue sélectionnée avec le fichier maître anglais. Les nouvelles clés sont ajoutées, les modifications du texte source anglais réinitialisent ces traductions et les clés supprimées sont retirées.",
+      "IsTranslated": true,
+      "Notes": "Tooltip for the sync button"
     },
     "UI.MainForm2.InputFiles.GroupWithCount": {
       "Source": "Input Files (you can drag and drop files or directories) ({0} files)",
@@ -947,7 +995,7 @@
     },
     "UI.MainForm2.FileOptions.DisableTooltips": {
       "Source": "Disable tooltips",
-      "Translation": "Désactiver les infobulles",
+      "Translation": "Désactiver les info-bulles",
       "IsTranslated": true,
       "Notes": "Checkbox to disable tooltips"
     },
@@ -1194,7 +1242,7 @@
 
     "UI.Common.Errors.ExtractionRunningBeforeClose": {
       "Source": "There is an extraction process running! Please abort before closing!",
-      "Translation": "Une extraction est en cours ! Veuillez l'arrêter avant de fermer !",
+      "Translation": "Un processus d'extraction est en cours ! Veuillez l'annuler avant de fermer !",
       "IsTranslated": true,
       "Notes": "Error shown when trying to close while extraction is still running"
     },
@@ -1206,13 +1254,13 @@
     },
     "UI.Controls.TreeView.Errors.SetStateFailed": {
       "Source": "Error setting TreeNode state.",
-      "Translation": "Erreur lors de la définition de l'état du TreeNode.",
+      "Translation": "Erreur lors de la définition de l'état du nœud d'arbre.",
       "IsTranslated": true,
       "Notes": "TreeView error when setting a checkbox state fails"
     },
     "UI.Controls.TreeView.Errors.GetStateFailed": {
       "Source": "Error getting TreeNode state.",
-      "Translation": "Erreur lors de la lecture de l'état du TreeNode.",
+      "Translation": "Erreur lors de la lecture de l'état du nœud d'arbre.",
       "IsTranslated": true,
       "Notes": "TreeView error when reading a checkbox state fails"
     },
@@ -1230,7 +1278,7 @@
     },
     "UI.MainForm2.Errors.AutoDetectManualPathHint": {
       "Source": "{0}{1}Please download and reinstall or provide a manual path!",
-      "Translation": "{0}{1}Veuillez télécharger et réinstaller l'application ou indiquer un chemin manuel.",
+      "Translation": "{0}{1}Veuillez télécharger et réinstaller l'application ou indiquer un chemin manuellement !",
       "IsTranslated": true,
       "Notes": "Auto-detection error followed by guidance to reinstall or choose a manual path"
     },
@@ -1284,19 +1332,19 @@
     },
     "UI.MainForm2.Errors.SelectedNodeNoParent": {
       "Source": "Selected node has no parent node!",
-      "Translation": "Le nœud sélectionné n'a pas de nœud parent.",
+      "Translation": "Le nœud sélectionné n'a pas de nœud parent !",
       "IsTranslated": true,
       "Notes": "Error shown when a selected child node has no parent"
     },
     "UI.MainForm2.Errors.SelectedNodeNoInfo": {
       "Source": "Selected node has no info!",
-      "Translation": "Le nœud sélectionné ne contient aucune information.",
+      "Translation": "Le nœud sélectionné ne contient aucune information !",
       "IsTranslated": true,
       "Notes": "Error shown when a selected TreeView node lacks segment info"
     },
     "UI.MainForm2.Errors.MkvToolnixPathRequired": {
       "Source": "You must provide an MKVToolNix path!",
-      "Translation": "Vous devez indiquer un chemin vers MKVToolNix !",
+      "Translation": "Vous devez indiquer le chemin vers MKVToolNix !",
       "IsTranslated": true,
       "Notes": "Error shown when MKVToolNix path is empty"
     },
@@ -1314,7 +1362,7 @@
     },
     "UI.MainForm2.Errors.TrackRequiredForMode": {
       "Source": "You must select a track from the file in order to extract {0}!",
-      "Translation": "Vous devez sélectionner une piste du fichier avant l'extraction.",
+      "Translation": "Vous devez sélectionner une piste du fichier pour extraire {0} !",
       "IsTranslated": true,
       "Notes": "Error shown when a file track must be selected for a specific extraction mode"
     },
@@ -1326,13 +1374,13 @@
     },
     "UI.MainForm2.Errors.TimecodesTrackRequired": {
       "Source": "You must select a video, audio, or subtitle track to extract timecodes!",
-      "Translation": "Vous devez sélectionner une piste vidéo, audio ou sous-titres pour extraire les timecodes !",
+      "Translation": "Vous devez sélectionner une piste vidéo, audio ou sous-titres pour extraire les horodadatages !",
       "IsTranslated": true,
       "Notes": "Error shown when timecodes extraction requires a selected media track"
     },
     "UI.MainForm2.Errors.CuesTrackRequired": {
       "Source": "You must select a video, audio, or subtitle track to extract cues!",
-      "Translation": "Vous devez sélectionner une piste vidéo, audio ou sous-titres pour extraire les cues !",
+      "Translation": "Vous devez sélectionner une piste vidéo, audio ou sous-titres pour extraire les repères !",
       "IsTranslated": true,
       "Notes": "Error shown when cues extraction requires a selected media track"
     },
@@ -1476,7 +1524,7 @@
     },
     "UI.Log.Dialogs.SelectFilenameTitle": {
       "Source": "Select filename for the log...",
-      "Translation": "Sélectionner le nom du fichier de journal...",
+      "Translation": "Sélectionner un nom de fichier pour le journal...",
       "IsTranslated": true,
       "Notes": "File dialog title used when saving the log"
     },
@@ -1512,7 +1560,7 @@
     },
     "UI.OptionsForm.Placeholders.DirectorySeparator": {
       "Source": "Directory Separator",
-      "Translation": "Séparateur de répertoires",
+      "Translation": "Séparateur de dossiers",
       "IsTranslated": true,
       "Notes": "Placeholder description for the directory separator"
     },
@@ -1590,7 +1638,7 @@
     },
     "UI.OptionsForm.Placeholders.TrackLanguageIetf": {
       "Source": "Track Language IETF",
-      "Translation": "Langue IETF de la piste",
+      "Translation": "Langue de la piste IETF",
       "IsTranslated": true,
       "Notes": "Placeholder description for the track IETF language"
     },
@@ -1602,7 +1650,7 @@
     },
     "UI.OptionsForm.Placeholders.TrackCodecPrivate": {
       "Source": "Track Codec Private",
-      "Translation": "Codec privé de la piste",
+      "Translation": "Données privées du codec de la piste",
       "IsTranslated": true,
       "Notes": "Placeholder description for the track codec private data"
     },
@@ -1626,13 +1674,13 @@
     },
     "UI.OptionsForm.Placeholders.VideoPixelWidth": {
       "Source": "Video Pixel Width",
-      "Translation": "Largeur en pixels de la vidéo",
+      "Translation": "Largeur de la vidéo (pixels)",
       "IsTranslated": true,
       "Notes": "Placeholder description for the video pixel width"
     },
     "UI.OptionsForm.Placeholders.VideoPixelHeight": {
       "Source": "Video Pixel Height",
-      "Translation": "Hauteur en pixels de la vidéo",
+      "Translation": "Hauteur de la vidéo (pixels)",
       "IsTranslated": true,
       "Notes": "Placeholder description for the video pixel height"
     },
@@ -1695,54 +1743,6 @@
       "Translation": "Taille du fichier de la pièce jointe (octets)",
       "IsTranslated": true,
       "Notes": "Placeholder description for the attachment size in bytes"
-    },
-    "UI.TranslationEditor.Status.Dirty": {
-      "Source": "Unsaved changes",
-      "Translation": "Modifications non enregistrées",
-      "IsTranslated": true,
-      "Notes": "Status text shown when the current locale has pending edits"
-    },
-    "UI.TranslationEditor.Status.Clean": {
-      "Source": "All changes saved",
-      "Translation": "Toutes les modifications sont enregistrées",
-      "IsTranslated": true,
-      "Notes": "Status text shown when the current locale has no pending edits"
-    },
-    "UI.TranslationEditor.Dialogs.DiscardChanges": {
-      "Source": "You have unsaved changes for locale {0}. Discard them?",
-      "Translation": "Vous avez des modifications non enregistrées pour les paramètres régionaux {0}. Voulez-vous les abandonner ?",
-      "IsTranslated": true,
-      "Notes": "Confirmation shown when switching locales or closing the editor with unsaved changes"
-    },
-    "UI.TranslationEditor.Actions.NewLocale": {
-      "Source": "New Locale...",
-      "Translation": "Nouvelle langue...",
-      "IsTranslated": true,
-      "Notes": "Button to open the create-new-locale flow"
-    },
-    "UI.TranslationEditor.Status.Loading": {
-      "Source": "Loading locale...",
-      "Translation": "Chargement de la langue...",
-      "IsTranslated": true,
-      "Notes": "Status text shown while a locale is loading in the editor"
-    },
-    "UI.TranslationEditor.Dialogs.NewLocaleTitle": {
-      "Source": "Create New Locale",
-      "Translation": "Créer une nouvelle langue",
-      "IsTranslated": true,
-      "Notes": "Dialog title for the create-new-locale flow"
-    },
-    "UI.TranslationEditor.Tooltips.Sync": {
-      "Source": "Sync the selected locale with the English master file. New keys are added, changed English source text resets those translations, and removed keys are deleted.",
-      "Translation": "Synchronise la langue sélectionnée avec le fichier maître anglais. Les nouvelles clés sont ajoutées, les modifications du texte source anglais réinitialisent ces traductions et les clés supprimées sont retirées.",
-      "IsTranslated": true,
-      "Notes": "Tooltip for the sync button"
-    },
-    "UI.TranslationEditor.Tooltips.NewLocale": {
-      "Source": "Create a new locale from the English master file.",
-      "Translation": "Crée une nouvelle langue à partir du fichier maître anglais.",
-      "IsTranslated": true,
-      "Notes": "Tooltip for the new-locale button"
     }
   }
 }
