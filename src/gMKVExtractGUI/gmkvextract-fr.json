@@ -1,1748 +1,1744 @@
 {
   "Metadata": {
     "Culture": "fr",
-    "Translator": "GitHub Copilot",
+    "Translator": "Need74",
     "CreationDate": "2026-04-13T20:07:27Z",
-    "LastEditDate": "2026-04-18T14:05:25.8100805Z"
+    "LastEditDate": "2026-08-12T20:58:37.3203393Z"
   },
   "Entries": {
     "UI.MainForm.Title": {
       "Source": "gMKVExtractGUI",
       "Translation": "gMKVExtractGUI",
       "IsTranslated": true,
-      "Notes": "Application window title"
+      "Notes": "Titre de la fenêtre de l'application"
     },
     "UI.MainForm.InputFile.Group": {
       "Source": "Input file (you can drag and drop the file)",
       "Translation": "Fichier d'entrée (vous pouvez glisser-déposer le fichier)",
       "IsTranslated": true,
-      "Notes": "GroupBox label for input file selection"
+      "Notes": "Étiquette de groupe pour la sélection du fichier d'entrée"
     },
     "UI.MainForm.InputFile.Browse": {
       "Source": "Browse...",
       "Translation": "Parcourir...",
       "IsTranslated": true,
-      "Notes": "Button to browse for input file"
+      "Notes": "Bouton pour parcourir et sélectionner le fichier d'entrée"
     },
     "UI.MainForm.OutputDirectory.Group": {
       "Source": "Output Directory",
       "Translation": "Dossier de sortie",
       "IsTranslated": true,
-      "Notes": "GroupBox label for output directory"
+      "Notes": "Étiquette de groupe pour le répertoire de sortie"
     },
     "UI.MainForm.OutputDirectory.Lock": {
       "Source": "Lock",
       "Translation": "Verrouiller",
       "IsTranslated": true,
-      "Notes": "Checkbox to lock output directory"
+      "Notes": "Case à cocher pour verrouiller le répertoire de sortie"
     },
     "UI.MainForm.OutputDirectory.Browse": {
       "Source": "Browse...",
       "Translation": "Parcourir...",
       "IsTranslated": true,
-      "Notes": "Button to browse for output directory"
+      "Notes": "Bouton pour parcourir et sélectionner le répertoire de sortie"
     },
     "UI.MainForm.Actions.Group": {
       "Source": "Actions",
       "Translation": "Actions",
       "IsTranslated": true,
-      "Notes": "GroupBox label for action controls"
+      "Notes": "Étiquette de groupe pour les commandes d'action"
     },
     "UI.MainForm.Actions.Popup": {
       "Source": "Popup",
       "Translation": "Popup",
       "IsTranslated": true,
-      "Notes": "Checkbox to show popup when extraction is complete"
+      "Notes": "Case à cocher pour afficher une notification une fois l'extraction terminée"
     },
     "UI.MainForm.Actions.JobMode": {
       "Source": "Job Mode",
       "Translation": "Mode tâches",
       "IsTranslated": true,
-      "Notes": "Checkbox to enable job mode"
+      "Notes": "Case à cocher pour activer le mode tâches"
     },
     "UI.MainForm.Actions.Extract": {
       "Source": "Extract",
       "Translation": "Extraire",
       "IsTranslated": true,
-      "Notes": "Button to start extraction"
+      "Notes": "Bouton pour démarrer l'extraction"
     },
     "UI.MainForm.Actions.ExtractionMode": {
       "Source": "Extract:",
       "Translation": "Extraire :",
       "IsTranslated": true,
-      "Notes": "Label for extraction mode combo box"
+      "Notes": "Libellé pour la liste déroulante du mode d'extraction"
     },
     "UI.MainForm.Actions.Log": {
       "Source": "Log...",
       "Translation": "Journal...",
       "IsTranslated": true,
-      "Notes": "Button to show log window"
+      "Notes": "Bouton pour afficher la fenêtre du journal"
     },
     "UI.MainForm.Actions.ChapterType": {
       "Source": "Chapter",
       "Translation": "Chapitre",
       "IsTranslated": true,
-      "Notes": "Label for chapter type combo box"
+      "Notes": "Étiquette pour la liste déroulante du type de chapitre"
     },
     "UI.MainForm.Actions.Abort": {
       "Source": "Abort",
       "Translation": "Annuler",
       "IsTranslated": true,
-      "Notes": "Button to abort current extraction"
+      "Notes": "Bouton pour interrompre l'extraction en cours"
     },
     "UI.MainForm.Actions.AbortAll": {
       "Source": "Abort All",
       "Translation": "Tout annuler",
       "IsTranslated": true,
-      "Notes": "Button to abort all extractions"
+      "Notes": "Bouton pour interrompre toutes les extractions"
     },
     "UI.MainForm.Config.Group": {
       "Source": "MKVToolnix Directory (you can drag and drop the directory)",
       "Translation": "Dossier MKVToolnix (vous pouvez glisser-déposer le dossier)",
       "IsTranslated": true,
-      "Notes": "GroupBox label for MKVToolnix directory configuration"
+      "Notes": "Étiquette de groupe pour la configuration du répertoire MKVToolnix"
     },
     "UI.MainForm.Config.Browse": {
       "Source": "Browse...",
       "Translation": "Parcourir...",
       "IsTranslated": true,
-      "Notes": "Button to browse for MKVToolnix directory"
+      "Notes": "Bouton pour parcourir et sélectionner le répertoire MKVToolnix"
     },
     "UI.MainForm.InputFileInfo.Group": {
       "Source": "Input File Information",
       "Translation": "Informations sur le fichier d'entrée",
       "IsTranslated": true,
-      "Notes": "GroupBox label for input file information"
+      "Notes": "Étiquette de groupe pour les informations sur le fichier d'entrée"
     },
     "UI.MainForm.Status.Track": {
       "Source": "track",
       "Translation": "piste",
       "IsTranslated": true,
-      "Notes": "Status bar label for current track"
+      "Notes": "Étiquette de la barre d'état pour la piste actuelle"
     },
     "UI.MainForm.Status.Status": {
       "Source": "status",
       "Translation": "état",
       "IsTranslated": true,
-      "Notes": "Status bar label for status message"
+      "Notes": "Étiquette de la barre d'état pour le message d'état"
     },
     "UI.MainForm.Log.Group": {
       "Source": "Log",
       "Translation": "Journal",
       "IsTranslated": true,
-      "Notes": "GroupBox label for log display"
+      "Notes": "Étiquette de groupe pour l'affichage du journal"
     },
     "UI.ContextMenu.SelectAllTracks": {
       "Source": "Select All Tracks",
       "Translation": "Sélectionner toutes les pistes",
       "IsTranslated": true,
-      "Notes": "Context menu item to select all tracks"
+      "Notes": "Élément de menu contextuel pour sélectionner toutes les pistes"
     },
     "UI.ContextMenu.SelectAllVideoTracks": {
       "Source": "Select All Video Tracks",
       "Translation": "Sélectionner toutes les pistes vidéo",
       "IsTranslated": true,
-      "Notes": "Context menu item to select all video tracks"
+      "Notes": "Élément de menu contextuel pour sélectionner toutes les pistes vidéo"
     },
     "UI.ContextMenu.SelectAllAudioTracks": {
       "Source": "Select All Audio Tracks",
       "Translation": "Sélectionner toutes les pistes audio",
       "IsTranslated": true,
-      "Notes": "Context menu item to select all audio tracks"
+      "Notes": "Élément de menu contextuel pour sélectionner toutes les pistes audio"
     },
     "UI.ContextMenu.SelectAllSubtitleTracks": {
       "Source": "Select All Subtitle Tracks",
       "Translation": "Sélectionner toutes les pistes de sous-titres",
       "IsTranslated": true,
-      "Notes": "Context menu item to select all subtitle tracks"
+      "Notes": "Élément de menu contextuel pour sélectionner toutes les pistes de sous-titres"
     },
     "UI.ContextMenu.SelectAllChapterTracks": {
       "Source": "Select All Chapter Tracks",
       "Translation": "Sélectionner toutes les pistes de chapitres",
       "IsTranslated": true,
-      "Notes": "Context menu item to select all chapter tracks"
+      "Notes": "Élément de menu contextuel pour sélectionner toutes les pistes de chapitres"
     },
     "UI.ContextMenu.SelectAllAttachmentTracks": {
       "Source": "Select All Attachments Tracks",
       "Translation": "Sélectionner toutes les pistes de pièces jointes",
       "IsTranslated": true,
-      "Notes": "Context menu item to select all attachment tracks"
+      "Notes": "Élément de menu contextuel pour sélectionner toutes les pistes de pièces jointes"
     },
     "UI.ContextMenu.UnselectAllTracks": {
       "Source": "Unselect All tracks",
       "Translation": "Désélectionner toutes les pistes",
       "IsTranslated": true,
-      "Notes": "Context menu item to unselect all tracks"
+      "Notes": "Élément de menu contextuel pour désélectionner toutes les pistes"
     },
     "UI.JobManager.Title": {
       "Source": "Job Manager",
       "Translation": "Gestionnaire de tâches",
       "IsTranslated": true,
-      "Notes": "Job manager window title"
+      "Notes": "Titre de la fenêtre du gestionnaire de tâches"
     },
     "UI.JobManager.Progress.Group": {
       "Source": "Progress",
       "Translation": "Progression",
       "IsTranslated": true,
-      "Notes": "GroupBox label for progress information"
+      "Notes": "Étiquette de groupe pour les informations de progression"
     },
     "UI.JobManager.Progress.CurrentTrack": {
       "Source": "Current Track",
       "Translation": "Piste actuelle",
       "IsTranslated": true,
-      "Notes": "Label for current track progress"
+      "Notes": "Libellé pour la progression actuelle de la piste"
     },
     "UI.JobManager.Progress.TotalProgress": {
       "Source": "Total Progress",
       "Translation": "Progression totale",
       "IsTranslated": true,
-      "Notes": "Label for total progress"
+      "Notes": "Libellé pour la progression totale"
     },
     "UI.JobManager.Progress.CurrentProgress": {
       "Source": "Current Progress",
       "Translation": "Progression actuelle",
       "IsTranslated": true,
-      "Notes": "Label for current extraction progress"
+      "Notes": "Libellé pour la progression actuelle de l'extraction"
     },
     "UI.JobManager.Jobs.Group": {
       "Source": "Jobs",
       "Translation": "Tâches",
       "IsTranslated": true,
-      "Notes": "GroupBox label for job list"
+      "Notes": "Étiquette de groupe pour la liste des tâches"
     },
     "UI.JobManager.Jobs.GroupWithCount": {
       "Source": "Jobs ({0})",
       "Translation": "Tâches ({0})",
       "IsTranslated": true,
-      "Notes": "GroupBox label for the job list including the job count"
+      "Notes": "Étiquette de groupe pour la liste des tâches incluant le nombre de tâches"
     },
     "UI.JobManager.Columns.Job": {
       "Source": "Job",
       "Translation": "Tâche",
       "IsTranslated": true,
-      "Notes": "Grid column header for the job description"
+      "Notes": "En-tête de colonne de grille pour la description de la tâche"
     },
     "UI.JobManager.Columns.StartTime": {
       "Source": "Start Time",
       "Translation": "Heure de début",
       "IsTranslated": true,
-      "Notes": "Grid column header for the job start time"
+      "Notes": "En-tête de colonne de grille pour l'heure de début de la tâche"
     },
     "UI.JobManager.Columns.EndTime": {
       "Source": "End Time",
       "Translation": "Heure de fin",
       "IsTranslated": true,
-      "Notes": "Grid column header for the job end time"
+      "Notes": "En-tête de colonne de grille pour l'heure de fin de la tâche"
     },
     "UI.JobManager.Columns.State": {
       "Source": "State",
       "Translation": "État",
       "IsTranslated": true,
-      "Notes": "Grid column header for the job state"
+      "Notes": "En-tête de colonne de grille pour l'état de la tâche"
     },
     "UI.JobManager.Columns.Duration": {
       "Source": "Duration",
       "Translation": "Durée",
       "IsTranslated": true,
-      "Notes": "Grid column header for the job duration"
+      "Notes": "En-tête de colonne de grille pour la durée de la tâche"
     },
-
     "UI.JobManager.Jobs.ChangeToReadyStatus": {
       "Source": "Change to Ready Status",
       "Translation": "Passer à l'état Prêt",
       "IsTranslated": true,
-      "Notes": "Context menu item to change job status to ready"
+      "Notes": "Élément de menu contextuel pour passer le statut de la tâche à prêt"
     },
     "UI.JobManager.Jobs.SelectAll": {
       "Source": "Select All",
       "Translation": "Tout sélectionner",
       "IsTranslated": true,
-      "Notes": "Context menu item to select all jobs"
+      "Notes": "Élément de menu contextuel pour sélectionner toutes les tâches"
     },
     "UI.JobManager.Jobs.DeselectAll": {
       "Source": "Deselect All",
       "Translation": "Tout désélectionner",
       "IsTranslated": true,
-      "Notes": "Context menu item to deselect all jobs"
+      "Notes": "Élément de menu contextuel pour désélectionner toutes les tâches"
     },
     "UI.JobManager.Actions.Group": {
       "Source": "Actions",
       "Translation": "Actions",
       "IsTranslated": true,
-      "Notes": "GroupBox label for action buttons"
+      "Notes": "Libellé de groupe pour les boutons d'action"
     },
     "UI.JobManager.Actions.Popup": {
       "Source": "Popup",
       "Translation": "Popup",
       "IsTranslated": true,
-      "Notes": "Checkbox to show popup on job completion"
+      "Notes": "Case à cocher pour afficher une notification à la fin de la tâche"
     },
     "UI.JobManager.Actions.SaveJobs": {
       "Source": "Save Jobs...",
       "Translation": "Enregistrer les tâches...",
       "IsTranslated": true,
-      "Notes": "Button to save job queue to file"
+      "Notes": "Bouton pour enregistrer la file d'attente des tâches dans un fichier"
     },
     "UI.JobManager.Actions.LoadJobs": {
       "Source": "Load Jobs...",
       "Translation": "Charger les tâches...",
       "IsTranslated": true,
-      "Notes": "Button to load job queue from file"
+      "Notes": "Bouton pour charger la file d'attente des tâches depuis un fichier"
     },
     "UI.JobManager.Actions.AbortAll": {
       "Source": "Abort All",
       "Translation": "Tout annuler",
       "IsTranslated": true,
-      "Notes": "Button to abort all jobs"
+      "Notes": "Bouton pour interrompre toutes les tâches"
     },
     "UI.JobManager.Actions.Abort": {
       "Source": "Abort",
       "Translation": "Annuler",
       "IsTranslated": true,
-      "Notes": "Button to abort selected job"
+      "Notes": "Bouton pour interrompre la tâche sélectionnée"
     },
     "UI.JobManager.Actions.RunJobs": {
       "Source": "Run Jobs",
       "Translation": "Exécuter les tâches",
       "IsTranslated": true,
-      "Notes": "Button to start running queued jobs"
+      "Notes": "Bouton pour lancer l'exécution des tâches en file d'attente"
     },
     "UI.JobManager.Actions.Remove": {
       "Source": "Remove",
       "Translation": "Supprimer",
       "IsTranslated": true,
-      "Notes": "Button to remove selected job"
+      "Notes": "Bouton pour supprimer la tâche sélectionnée"
     },
     "UI.LogForm.Title": {
       "Source": "Log",
       "Translation": "Journal",
       "IsTranslated": true,
-      "Notes": "Log window title"
+      "Notes": "Titre de la fenêtre de journal"
     },
     "UI.LogForm.Log.Group": {
       "Source": "Log",
       "Translation": "Journal",
       "IsTranslated": true,
-      "Notes": "GroupBox label for log content"
+      "Notes": "Étiquette de groupe pour le contenu du journal"
     },
     "UI.LogForm.Log.GroupWithCount": {
       "Source": "Log ({0})",
-      "Translation": "Journal ({0})",
+      "Translation": "Journal ({0} lignes)",
       "IsTranslated": true,
-      "Notes": "GroupBox label for log content including line count"
+      "Notes": "Étiquette de groupe pour le contenu du journal incluant le nombre de lignes"
     },
     "UI.LogForm.Actions.Group": {
       "Source": "Actions",
       "Translation": "Actions",
       "IsTranslated": true,
-      "Notes": "GroupBox label for log action buttons"
+      "Notes": "Étiquette de groupe pour les boutons d'action du journal"
     },
     "UI.LogForm.Actions.Save": {
       "Source": "Save...",
       "Translation": "Enregistrer...",
       "IsTranslated": true,
-      "Notes": "Button to save log to file"
+      "Notes": "Bouton pour enregistrer le journal dans un fichier"
     },
     "UI.LogForm.Actions.ClearLog": {
       "Source": "Clear Log",
       "Translation": "Effacer le journal",
       "IsTranslated": true,
-      "Notes": "Button to clear log content"
+      "Notes": "Bouton pour effacer le contenu du journal"
     },
     "UI.LogForm.Actions.Refresh": {
       "Source": "Refresh",
       "Translation": "Actualiser",
       "IsTranslated": true,
-      "Notes": "Button to refresh log display"
+      "Notes": "Bouton pour actualiser l'affichage du journal"
     },
     "UI.LogForm.Actions.CopySelection": {
       "Source": "Copy Selection",
       "Translation": "Copier la sélection",
       "IsTranslated": true,
-      "Notes": "Button to copy selected log text"
+      "Notes": "Bouton pour copier le texte sélectionné du journal"
     },
     "UI.LogForm.Actions.Close": {
       "Source": "Close",
       "Translation": "Fermer",
       "IsTranslated": true,
-      "Notes": "Button to close log window"
+      "Notes": "Bouton pour fermer la fenêtre du journal"
     },
     "UI.MainForm2.Title": {
       "Source": "gMKVExtractGUI",
       "Translation": "gMKVExtractGUI",
       "IsTranslated": true,
-      "Notes": "Main form 2 window title"
+      "Notes": "Titre de la fenêtre du formulaire principal 2"
     },
     "UI.MainForm2.Status.Status": {
       "Source": "status",
       "Translation": "état",
       "IsTranslated": true,
-      "Notes": "Status bar label in main form 2"
+      "Notes": "Étiquette de la barre d'état dans le formulaire principal 2"
     },
     "UI.MainForm2.Status.TotalStatus": {
       "Source": "status",
       "Translation": "état",
       "IsTranslated": true,
-      "Notes": "Total status bar label in main form 2"
+      "Notes": "Étiquette de statut global dans la fenêtre principale 2"
     },
     "UI.MainForm2.Actions.Group": {
       "Source": "Actions",
       "Translation": "Actions",
       "IsTranslated": true,
-      "Notes": "GroupBox label for action controls in main form 2"
+      "Notes": "Étiquette de groupe pour les commandes d'action dans le formulaire principal 2"
     },
     "UI.MainForm2.Actions.AddJobs": {
       "Source": "Add Jobs",
       "Translation": "Ajouter des tâches",
       "IsTranslated": true,
-      "Notes": "Button to add new jobs"
+      "Notes": "Bouton pour ajouter de nouvelles tâches"
     },
     "UI.MainForm2.Actions.Abort": {
       "Source": "Abort",
       "Translation": "Annuler",
       "IsTranslated": true,
-      "Notes": "Button to abort current extraction in main form 2"
+      "Notes": "Bouton pour interrompre l'extraction en cours dans le formulaire principal 2"
     },
     "UI.MainForm2.Actions.AbortAll": {
       "Source": "Abort All",
       "Translation": "Tout annuler",
       "IsTranslated": true,
-      "Notes": "Button to abort all extractions in main form 2"
+      "Notes": "Bouton pour interrompre toutes les extractions dans le formulaire principal 2"
     },
-
     "UI.MainForm2.Actions.ShowJobs": {
       "Source": "Jobs...",
       "Translation": "Tâches...",
       "IsTranslated": true,
-      "Notes": "Button to show job manager"
+      "Notes": "Bouton pour afficher le gestionnaire de tâches"
     },
     "UI.MainForm2.Actions.Popup": {
       "Source": "Popup",
       "Translation": "Popup",
       "IsTranslated": true,
-      "Notes": "Checkbox to show popup when extraction is complete in main form 2"
+      "Notes": "Case à cocher pour afficher une notification une fois l'extraction terminée (formulaire principal 2)"
     },
     "UI.MainForm2.Actions.Extract": {
       "Source": "Extract",
       "Translation": "Extraire",
       "IsTranslated": true,
-      "Notes": "Button to start extraction in main form 2"
+      "Notes": "Bouton pour démarrer l'extraction dans le formulaire principal 2"
     },
     "UI.MainForm2.Actions.ExtractionMode": {
       "Source": "Extract",
       "Translation": "Extraire",
       "IsTranslated": true,
-      "Notes": "Label for extraction mode combo box in main form 2"
+      "Notes": "Libellé pour la liste déroulante du mode d'extraction dans le formulaire principal 2"
     },
     "UI.MainForm2.Actions.Log": {
       "Source": "Log...",
       "Translation": "Journal...",
       "IsTranslated": true,
-      "Notes": "Button to show log window in main form 2"
+      "Notes": "Bouton pour afficher la fenêtre du journal dans le formulaire principal 2"
     },
     "UI.MainForm2.Actions.ChapterType": {
       "Source": "Chapter",
       "Translation": "Chapitre",
       "IsTranslated": true,
-      "Notes": "Label for chapter type combo box in main form 2"
+      "Notes": "Étiquette pour la liste déroulante du type de chapitre dans le formulaire principal 2"
     },
     "UI.MainForm2.OutputDirectory.Group": {
       "Source": "Output Directory for Selected File (you can drag and drop the directory)",
       "Translation": "Dossier de sortie pour le fichier sélectionné (vous pouvez glisser-déposer le dossier)",
       "IsTranslated": true,
-      "Notes": "GroupBox label for output directory in main form 2"
+      "Notes": "Étiquette de groupe pour le répertoire de sortie dans le formulaire principal 2"
     },
     "UI.MainForm2.OutputDirectory.UseSource": {
       "Source": "Use Source",
       "Translation": "Utiliser la source",
       "IsTranslated": true,
-      "Notes": "Checkbox to use source directory as output in main form 2"
+      "Notes": "Case à cocher pour utiliser le répertoire source comme répertoire de sortie (formulaire principal 2)"
     },
     "UI.MainForm2.OutputDirectory.Browse": {
       "Source": "Browse...",
       "Translation": "Parcourir...",
       "IsTranslated": true,
-      "Notes": "Button to browse for output directory in main form 2"
+      "Notes": "Bouton pour parcourir et sélectionner le répertoire de sortie dans le formulaire principal 2"
     },
     "UI.MainForm2.OutputDirectory.SetAsDefault": {
       "Source": "Set As Default Directory",
       "Translation": "Définir comme dossier par défaut",
       "IsTranslated": true,
-      "Notes": "Context menu item to set default directory"
+      "Notes": "Élément de menu contextuel pour définir le répertoire par défaut"
     },
     "UI.MainForm2.OutputDirectory.UseDefault": {
       "Source": "Use Currently Set Default Directory:",
       "Translation": "Utiliser le dossier par défaut actuellement défini :",
       "IsTranslated": true,
-      "Notes": "Context menu item to use default directory"
+      "Notes": "Élément de menu contextuel pour utiliser le répertoire par défaut"
     },
     "UI.MainForm2.Config.Group": {
       "Source": "MKVToolnix Directory (you can drag and drop the directory)",
       "Translation": "Dossier MKVToolnix (vous pouvez glisser-déposer le dossier)",
       "IsTranslated": true,
-      "Notes": "GroupBox label for MKVToolnix directory in main form 2"
+      "Notes": "Étiquette de groupe pour le répertoire MKVToolnix dans le formulaire principal 2"
     },
     "UI.MainForm2.Config.AutoDetect": {
       "Source": "Auto Detect",
       "Translation": "Détection automatique",
       "IsTranslated": true,
-      "Notes": "Button to auto-detect MKVToolnix directory"
+      "Notes": "Bouton pour détecter automatiquement le répertoire MKVToolnix"
     },
     "UI.MainForm2.Config.Browse": {
       "Source": "Browse...",
       "Translation": "Parcourir...",
       "IsTranslated": true,
-      "Notes": "Button to browse for MKVToolnix directory in main form 2"
+      "Notes": "Bouton pour parcourir et sélectionner le répertoire MKVToolnix dans le formulaire principal 2"
     },
     "UI.MainForm2.InputFiles.Group": {
       "Source": "Input Files (you can drag and drop files or directories)",
       "Translation": "Fichiers d'entrée (vous pouvez glisser-déposer des fichiers ou des dossiers)",
       "IsTranslated": true,
-      "Notes": "GroupBox label for input files in main form 2"
+      "Notes": "Étiquette de groupe pour les fichiers d'entrée dans le formulaire principal 2"
     },
     "UI.OptionsForm.Tags.Group": {
       "Source": "Tags",
       "Translation": "Balises",
       "IsTranslated": true,
-      "Notes": "GroupBox label for tags configuration"
+      "Notes": "Étiquette de groupe pour la configuration des balises"
     },
     "UI.OptionsForm.Tags.Default": {
       "Source": "Default",
       "Translation": "Par défaut",
       "IsTranslated": true,
-      "Notes": "Button to reset attachment tags to default"
+      "Notes": "Bouton pour réinitialiser les étiquettes des pièces jointes aux valeurs par défaut"
     },
     "UI.OptionsForm.Tags.Add": {
       "Source": "Add...",
       "Translation": "Ajouter...",
       "IsTranslated": true,
-      "Notes": "Button to add new attachment tag"
+      "Notes": "Bouton pour ajouter une nouvelle balise de pièce jointe"
     },
     "UI.OptionsForm.Chapters.Group": {
       "Source": "Chapters",
       "Translation": "Chapitres",
       "IsTranslated": true,
-      "Notes": "GroupBox label for chapter configuration"
+      "Notes": "Étiquette de groupe pour la configuration des chapitres"
     },
     "UI.OptionsForm.Chapters.Default": {
       "Source": "Default",
       "Translation": "Par défaut",
       "IsTranslated": true,
-      "Notes": "Button to reset chapters to default"
+      "Notes": "Bouton pour réinitialiser les chapitres aux valeurs par défaut"
     },
     "UI.OptionsForm.Chapters.Add": {
       "Source": "Add...",
       "Translation": "Ajouter...",
       "IsTranslated": true,
-      "Notes": "Button to add new chapter"
+      "Notes": "Bouton pour ajouter un nouveau chapitre"
     },
     "UI.OptionsForm.VideoTracks.Group": {
       "Source": "Video Tracks",
       "Translation": "Pistes vidéo",
       "IsTranslated": true,
-      "Notes": "GroupBox label for video track configuration"
+      "Notes": "Étiquette de groupe pour la configuration des pistes vidéo"
     },
     "UI.OptionsForm.VideoTracks.Default": {
       "Source": "Default",
       "Translation": "Par défaut",
       "IsTranslated": true,
-      "Notes": "Button to reset video tracks to default"
+      "Notes": "Bouton pour réinitialiser les pistes vidéo aux valeurs par défaut"
     },
     "UI.OptionsForm.VideoTracks.Add": {
       "Source": "Add...",
       "Translation": "Ajouter...",
       "IsTranslated": true,
-      "Notes": "Button to add new video track"
+      "Notes": "Bouton pour ajouter une nouvelle piste vidéo"
     },
     "UI.OptionsForm.AudioTracks.Group": {
       "Source": "Audio Tracks",
       "Translation": "Pistes audio",
       "IsTranslated": true,
-      "Notes": "GroupBox label for audio track configuration"
+      "Notes": "Étiquette de groupe pour la configuration des pistes audio"
     },
     "UI.OptionsForm.AudioTracks.Default": {
       "Source": "Default",
       "Translation": "Par défaut",
       "IsTranslated": true,
-      "Notes": "Button to reset audio tracks to default"
+      "Notes": "Bouton pour réinitialiser les pistes audio aux valeurs par défaut"
     },
     "UI.OptionsForm.AudioTracks.Add": {
       "Source": "Add...",
       "Translation": "Ajouter...",
       "IsTranslated": true,
-      "Notes": "Button to add new audio track"
+      "Notes": "Bouton pour ajouter une nouvelle piste audio"
     },
     "UI.OptionsForm.SubtitleTracks.Group": {
       "Source": "Subtitle Tracks",
       "Translation": "Pistes de sous-titres",
       "IsTranslated": true,
-      "Notes": "GroupBox label for subtitle track configuration"
+      "Notes": "Étiquette de groupe pour la configuration des pistes de sous-titres"
     },
     "UI.OptionsForm.SubtitleTracks.Default": {
       "Source": "Default",
       "Translation": "Par défaut",
       "IsTranslated": true,
-      "Notes": "Button to reset subtitle tracks to default"
+      "Notes": "Bouton pour réinitialiser les pistes de sous-titres aux valeurs par défaut"
     },
     "UI.OptionsForm.SubtitleTracks.Add": {
       "Source": "Add...",
       "Translation": "Ajouter...",
       "IsTranslated": true,
-      "Notes": "Button to add new subtitle track"
+      "Notes": "Bouton pour ajouter une nouvelle piste de sous-titres"
     },
     "UI.OptionsForm.Attachments.Group": {
       "Source": "Attachments",
       "Translation": "Pièces jointes",
       "IsTranslated": true,
-      "Notes": "GroupBox label for attachment configuration"
+      "Notes": "Étiquette de groupe pour la configuration des pièces jointes"
     },
     "UI.OptionsForm.Attachments.Default": {
       "Source": "Default",
       "Translation": "Par défaut",
       "IsTranslated": true,
-      "Notes": "Button to reset attachments to default"
+      "Notes": "Bouton pour réinitialiser les pièces jointes aux valeurs par défaut"
     },
     "UI.OptionsForm.Attachments.Add": {
       "Source": "Add...",
       "Translation": "Ajouter...",
       "IsTranslated": true,
-      "Notes": "Button to add new attachment"
+      "Notes": "Bouton pour ajouter une nouvelle pièce jointe"
     },
     "UI.OptionsForm.Info.Group": {
       "Source": "Information",
       "Translation": "Informations",
       "IsTranslated": true,
-      "Notes": "GroupBox label for information display"
+      "Notes": "Étiquette de groupe pour l'affichage des informations"
     },
     "UI.OptionsForm.Defaults": {
       "Source": "Defaults",
       "Translation": "Valeurs par défaut",
       "IsTranslated": true,
-      "Notes": "Button to reset all options to default"
+      "Notes": "Bouton pour réinitialiser toutes les options aux valeurs par défaut"
     },
     "UI.OptionsForm.RawMode": {
       "Source": "Use `raw` extraction",
       "Translation": "Utiliser l'extraction `raw`",
       "IsTranslated": true,
-      "Notes": "Checkbox for raw extraction mode"
+      "Notes": "Case à cocher pour le mode d'extraction brute"
     },
     "UI.OptionsForm.FullRawMode": {
       "Source": "Use `full raw` extraction",
       "Translation": "Utiliser l'extraction `full raw`",
       "IsTranslated": true,
-      "Notes": "Checkbox for full raw extraction mode"
+      "Notes": "Case à cocher pour le mode d'extraction brute complète"
     },
     "UI.OptionsForm.TextFilesWithoutBom": {
       "Source": "Disable BOM to text files (v96.0+)",
       "Translation": "Désactiver le BOM pour les fichiers texte (v96.0+)",
       "IsTranslated": true,
-      "Notes": "Checkbox to disable BOM in text file output"
+      "Notes": "Case à cocher pour désactiver le BOM dans les fichiers texte de sortie"
     },
     "UI.Common.True": {
       "Source": "True",
       "Translation": "Vrai",
       "IsTranslated": true,
-      "Notes": "Boolean true label"
+      "Notes": "Libellé pour la valeur booléenne « vrai »"
     },
     "UI.Common.False": {
       "Source": "False",
       "Translation": "Faux",
       "IsTranslated": true,
-      "Notes": "Boolean false label"
+      "Notes": "Libellé pour la valeur booléenne « faux »"
     },
     "UI.Common.NotSet": {
       "Source": "Not Set!",
       "Translation": "Non défini !",
       "IsTranslated": true,
-      "Notes": "Label for a value that has not been configured"
+      "Notes": "Étiquette pour une valeur non configurée"
     },
     "UI.OptionsForm.Title": {
       "Source": "Options",
       "Translation": "Options",
       "IsTranslated": true,
-      "Notes": "Options form title"
+      "Notes": "Titre du formulaire des options"
     },
     "UI.OptionsForm.Actions.Group": {
       "Source": "Actions",
       "Translation": "Actions",
       "IsTranslated": true,
-      "Notes": "GroupBox label for options actions"
+      "Notes": "Étiquette de groupe pour les actions liées aux options"
     },
     "UI.OptionsForm.Actions.OK": {
       "Source": "OK",
       "Translation": "OK",
       "IsTranslated": true,
-      "Notes": "Button to confirm options"
+      "Notes": "Bouton pour confirmer les options"
     },
     "UI.OptionsForm.Actions.Cancel": {
       "Source": "Cancel",
       "Translation": "Annuler",
       "IsTranslated": true,
-      "Notes": "Button to cancel options"
+      "Notes": "Bouton pour annuler les options"
     },
     "UI.OptionsForm.Advanced.Group": {
       "Source": "Advanced Options",
       "Translation": "Options avancées",
       "IsTranslated": true,
-      "Notes": "GroupBox label for advanced options"
+      "Notes": "Étiquette de groupe pour les options avancées"
     },
     "UI.OptionsForm.Advanced.Culture": {
       "Source": "Culture:",
-      "Translation": "Culture :",
+      "Translation": "Code langue :",
       "IsTranslated": true,
-      "Notes": "Label for culture selector"
+      "Notes": "Étiquette pour le sélecteur de code langue"
     },
     "UI.OptionsForm.Advanced.Translations": {
       "Source": "Translations...",
       "Translation": "Traductions...",
       "IsTranslated": true,
-      "Notes": "Button to open the translation editor"
+      "Notes": "Bouton pour ouvrir l'éditeur de traduction"
     },
     "UI.OptionsForm.Info.Text": {
       "Source": "Here you can specify the output filename format for each kind of track.\nPressing the \"Add...\" button you will see the list with the available placeholders and select them.\nPressing the \"Default\" button you will reset the output filename format to its default value.",
       "Translation": "Ici, vous pouvez spécifier le format du nom de fichier de sortie pour chaque type de piste.\nEn cliquant sur le bouton \"Ajouter...\", vous verrez la liste des espaces réservés disponibles et pourrez les sélectionner.\nEn cliquant sur le bouton \"Par défaut\", vous réinitialiserez le format du nom de fichier de sortie à sa valeur par défaut.",
       "IsTranslated": true,
-      "Notes": "Help text describing filename placeholders"
+      "Notes": "Texte d'aide décrivant les espaces réservés pour les noms de fichiers"
     },
     "UI.TranslationEditor.Title": {
       "Source": "Translation Editor",
       "Translation": "Éditeur de traduction",
       "IsTranslated": true,
-      "Notes": "Window title for the translation editor"
+      "Notes": "Titre de la fenêtre de l'éditeur de traduction"
     },
     "UI.TranslationEditor.Settings.Group": {
       "Source": "Translation Settings",
       "Translation": "Paramètres de traduction",
       "IsTranslated": true,
-      "Notes": "GroupBox label for translation editor settings"
+      "Notes": "Étiquette de groupe pour les paramètres de l'éditeur de traduction"
     },
     "UI.TranslationEditor.Grid.Group": {
       "Source": "Translations",
       "Translation": "Traductions",
       "IsTranslated": true,
-      "Notes": "GroupBox label for translation editor entries"
+      "Notes": "Étiquette de groupe pour les entrées de l'éditeur de traduction"
     },
     "UI.TranslationEditor.Actions.Group": {
       "Source": "Actions",
       "Translation": "Actions",
       "IsTranslated": true,
-      "Notes": "GroupBox label for translation editor actions"
+      "Notes": "Étiquette de groupe pour les actions de l'éditeur de traduction"
     },
     "UI.TranslationEditor.Fields.TargetCulture": {
       "Source": "Locale:",
       "Translation": "Langue :",
       "IsTranslated": true,
-      "Notes": "Label for the current translation locale selector"
+      "Notes": "Libellé pour le sélecteur de paramètres régionaux de traduction actuel"
     },
     "UI.TranslationEditor.Fields.NewCulture": {
       "Source": "New Locale:",
       "Translation": "Nouvelle langue :",
       "IsTranslated": true,
-      "Notes": "Label for the new locale code text box"
+      "Notes": "Libellé pour la zone de texte du nouveau code de paramètres régionaux"
     },
     "UI.TranslationEditor.Fields.Translator": {
       "Source": "Translator:",
       "Translation": "Traducteur :",
       "IsTranslated": true,
-     "Notes": "Label for the translator metadata text box"
+      "Notes": "Libellé pour la zone de texte des métadonnées du traducteur"
     },
     "UI.TranslationEditor.Fields.Search": {
       "Source": "Search:",
       "Translation": "Recherche :",
       "IsTranslated": true,
-      "Notes": "Label for the translation search box"
+      "Notes": "Libellé pour la zone de recherche de traduction"
     },
     "UI.TranslationEditor.Fields.ShowOnlyUntranslated": {
       "Source": "Show only untranslated",
       "Translation": "Afficher uniquement les non traduits",
       "IsTranslated": true,
-      "Notes": "Checkbox to filter the translation grid to untranslated rows"
+      "Notes": "Case à cocher pour filtrer la grille de traduction et n'afficher que les lignes non traduites"
     },
     "UI.TranslationEditor.Fields.Summary": {
       "Source": "Translated: {0}/{1}",
-      "Translation": "Traduit : {0}/{1}",
+      "Translation": "Traduit(s) : {0}/{1}",
       "IsTranslated": true,
-      "Notes": "Summary label showing translated entries versus total entries"
+      "Notes": "Étiquette récapitulative indiquant le nombre d'entrées traduites par rapport au total"
     },
     "UI.TranslationEditor.Columns.Key": {
       "Source": "Key",
       "Translation": "Clé",
       "IsTranslated": true,
-      "Notes": "Column header for the localization key"
+      "Notes": "En-tête de colonne pour la clé de localisation"
     },
     "UI.TranslationEditor.Columns.Source": {
       "Source": "Source",
       "Translation": "Source",
       "IsTranslated": true,
-      "Notes": "Column header for the English source string"
+      "Notes": "En-tête de colonne pour la chaîne source anglaise"
     },
     "UI.TranslationEditor.Columns.Translation": {
       "Source": "Translation",
       "Translation": "Traduction",
       "IsTranslated": true,
-      "Notes": "Column header for the translated string"
+      "Notes": "En-tête de colonne pour la chaîne traduite"
     },
     "UI.TranslationEditor.Columns.IsTranslated": {
       "Source": "Done",
       "Translation": "Fait",
       "IsTranslated": true,
-      "Notes": "Column header for the translated status checkbox"
+      "Notes": "En-tête de colonne pour la case à cocher d'état de la traduction"
     },
     "UI.TranslationEditor.Columns.Notes": {
       "Source": "Notes",
       "Translation": "Notes",
       "IsTranslated": true,
-      "Notes": "Column header for translator notes"
+      "Notes": "En-tête de colonne pour les notes du traducteur"
     },
     "UI.TranslationEditor.Actions.Create": {
       "Source": "Create",
       "Translation": "Créer",
       "IsTranslated": true,
-      "Notes": "Button to create a new locale from the English master"
+      "Notes": "Bouton pour confirmer la création d'une nouvelle locale"
     },
     "UI.TranslationEditor.Actions.NewLocale": {
       "Source": "New Locale...",
       "Translation": "Nouvelle langue...",
       "IsTranslated": true,
-      "Notes": "Button to open the create-new-locale flow"
+      "Notes": "Bouton pour ouvrir la procédure de création d'une nouvelle locale"
     },
     "UI.TranslationEditor.Actions.Sync": {
       "Source": "Sync",
       "Translation": "Synchroniser",
       "IsTranslated": true,
-      "Notes": "Button to sync the selected locale with the English master"
+      "Notes": "Bouton pour synchroniser la locale sélectionnée avec la version anglaise de référence"
     },
     "UI.TranslationEditor.Actions.Save": {
       "Source": "Save",
       "Translation": "Enregistrer",
       "IsTranslated": true,
-      "Notes": "Button to save the selected locale"
+      "Notes": "Bouton pour enregistrer la locale sélectionnée"
     },
     "UI.TranslationEditor.Actions.Close": {
       "Source": "Close",
       "Translation": "Fermer",
       "IsTranslated": true,
-      "Notes": "Button to close the translation editor"
+      "Notes": "Bouton pour fermer l'éditeur de traduction"
     },
     "UI.TranslationEditor.Dialogs.DiscardChanges": {
       "Source": "You have unsaved changes for locale {0}. Discard them?",
       "Translation": "Vous avez des modifications non enregistrées pour les paramètres régionaux {0}. Voulez-vous les abandonner ?",
       "IsTranslated": true,
-      "Notes": "Confirmation shown when switching locales or closing the editor with unsaved changes"
+      "Notes": "Confirmation affichée lors du changement de langue ou de la fermeture de l'éditeur avec des modifications non enregistrées"
     },
     "UI.TranslationEditor.Dialogs.NewLocaleTitle": {
       "Source": "Create New Locale",
       "Translation": "Créer une nouvelle langue",
       "IsTranslated": true,
-      "Notes": "Dialog title for the create-new-locale flow"
+      "Notes": "Titre de la boîte de dialogue pour le processus de création d'une nouvelle locale"
     },
     "UI.TranslationEditor.Errors.SelectCulture": {
       "Source": "You must select a locale first!",
       "Translation": "Vous devez d'abord sélectionner une langue !",
       "IsTranslated": true,
-      "Notes": "Error shown when translation editor actions require a selected locale"
+      "Notes": "Erreur affichée lorsque les actions de l'éditeur de traduction nécessitent une langue sélectionnée"
     },
     "UI.TranslationEditor.Errors.CultureCodeRequired": {
       "Source": "You must enter a locale code!",
       "Translation": "Vous devez saisir un code de langue !",
       "IsTranslated": true,
-      "Notes": "Error shown when creating a locale without entering a culture code"
+      "Notes": "Erreur affichée lors de la création d'une langue sans saisir de code de langue"
     },
     "UI.TranslationEditor.Errors.LocaleExists": {
       "Source": "The locale {0} already exists!",
       "Translation": "La langue {0} existe déjà !",
       "IsTranslated": true,
-      "Notes": "Error shown when trying to create a locale file that already exists"
+      "Notes": "Erreur affichée lors d'une tentative de création d'un fichier de locale qui existe déjà"
     },
     "UI.TranslationEditor.Errors.CannotSyncEnglish": {
       "Source": "The English master locale cannot be synced!",
       "Translation": "La langue master anglais ne peut pas être synchronisé !",
       "IsTranslated": true,
-      "Notes": "Error shown when trying to sync the English master locale"
+      "Notes": "Erreur affichée lors d'une tentative de synchronisation de la locale maître anglaise"
     },
     "UI.TranslationEditor.Success.LocaleCreated": {
       "Source": "The locale {0} was created successfully!",
       "Translation": "La langue {0} a été créée avec succès !",
       "IsTranslated": true,
-      "Notes": "Success message after creating a new locale file"
+      "Notes": "Message de succès après la création d'un nouveau fichier de paramètres régionaux"
     },
     "UI.TranslationEditor.Success.LocaleSaved": {
       "Source": "The locale {0} was saved successfully!",
       "Translation": "La langue {0} a été enregistrée avec succès !",
       "IsTranslated": true,
-      "Notes": "Success message after saving a locale file"
+      "Notes": "Message de succès après l'enregistrement d'un fichier de paramètres régionaux"
     },
     "UI.TranslationEditor.Success.LocaleSynced": {
       "Source": "The locale {0} was synced successfully! Added: {1}, Updated: {2}, Removed: {3}",
       "Translation": "La langue {0} a été synchronisée avec succès ! Ajoutées : {1}, mises à jour : {2}, supprimées : {3}",
       "IsTranslated": true,
-      "Notes": "Success message after syncing a locale file with the English master"
+      "Notes": "Message de succès après la synchronisation d'un fichier de paramètres régionaux avec le fichier maître anglais"
     },
     "UI.TranslationEditor.Status.Clean": {
       "Source": "All changes saved",
       "Translation": "Toutes les modifications sont enregistrées",
       "IsTranslated": true,
-      "Notes": "Status text shown when the current locale has no pending edits"
+      "Notes": "Texte d'état affiché lorsque la locale actuelle ne comporte aucune modification en attente"
     },
     "UI.TranslationEditor.Status.Dirty": {
       "Source": "Unsaved changes",
       "Translation": "Modifications non enregistrées",
       "IsTranslated": true,
-      "Notes": "Status text shown when the current locale has pending edits"
+      "Notes": "Texte d'état affiché lorsque la locale actuelle comporte des modifications en attente"
     },
     "UI.TranslationEditor.Status.Loading": {
       "Source": "Loading locale...",
       "Translation": "Chargement de la langue...",
       "IsTranslated": true,
-      "Notes": "Status text shown while a locale is loading in the editor"
+      "Notes": "Texte d'état affiché pendant le chargement d'une locale dans l'éditeur"
     },
     "UI.TranslationEditor.Tooltips.NewLocale": {
       "Source": "Create a new locale from the English master file.",
       "Translation": "Crée une nouvelle langue à partir du fichier maître anglais.",
       "IsTranslated": true,
-      "Notes": "Tooltip for the new-locale button"
+      "Notes": "Info-bulle pour le bouton de création de nouveaux paramètres régionaux"
     },
     "UI.TranslationEditor.Tooltips.Sync": {
       "Source": "Sync the selected locale with the English master file. New keys are added, changed English source text resets those translations, and removed keys are deleted.",
       "Translation": "Synchronise la langue sélectionnée avec le fichier maître anglais. Les nouvelles clés sont ajoutées, les modifications du texte source anglais réinitialisent ces traductions et les clés supprimées sont retirées.",
       "IsTranslated": true,
-      "Notes": "Tooltip for the sync button"
+      "Notes": "Info-bulle pour le bouton de synchronisation"
     },
     "UI.MainForm2.InputFiles.GroupWithCount": {
       "Source": "Input Files (you can drag and drop files or directories) ({0} files)",
       "Translation": "Fichiers d'entrée (vous pouvez glisser-déposer des fichiers ou des dossiers) ({0} fichiers)",
       "IsTranslated": true,
-      "Notes": "GroupBox label for input files with file count"
+      "Notes": "Étiquette de groupe pour les fichiers d'entrée avec le nombre de fichiers"
     },
     "UI.MainForm2.SelectedFileInfo.Group": {
       "Source": "Selected File Information",
       "Translation": "Informations sur le fichier sélectionné",
       "IsTranslated": true,
-      "Notes": "GroupBox label for selected file information"
+      "Notes": "Étiquette de groupe pour les informations sur le fichier sélectionné"
     },
     "UI.MainForm2.SelectedFileInfo.GroupWithFile": {
       "Source": "Selected File Information ({0})",
       "Translation": "Informations sur le fichier sélectionné ({0})",
       "IsTranslated": true,
-      "Notes": "GroupBox label for selected file information with filename"
+      "Notes": "Étiquette de groupe pour les informations sur le fichier sélectionné incluant le nom du fichier"
     },
     "UI.MainForm2.SelectedFileInfo.Details": {
       "Source": "Writing Application: {0}{4}Muxing Application: {1}{4}Duration: {2}{4}Date: {3}",
       "Translation": "Application d'écriture : {0}{4}Application de multiplexage : {1}{4}Durée : {2}{4}Date : {3}",
       "IsTranslated": true,
-      "Notes": "Selected file info summary; {0} writing application, {1} muxing application, {2} duration, {3} date, {4} newline"
+      "Notes": "Résumé des informations du fichier sélectionné ; {0} logiciel d'écriture, {1} logiciel de multiplexage, {2} durée, {3} date, {4} saut de ligne"
     },
-
     "UI.MainForm2.FileOptions.Select": {
       "Source": "Select...",
       "Translation": "Sélectionner...",
       "IsTranslated": true,
-      "Notes": "Button to open the track selection context menu"
+      "Notes": "Bouton pour ouvrir le menu contextuel de sélection des pistes"
     },
     "UI.MainForm2.Tooltips.AutoDetect": {
       "Source": "Press to try and auto-detect the MKVToolNix installation.",
       "Translation": "Cliquez pour essayer de détecter automatiquement l'installation de MKVToolNix.",
       "IsTranslated": true,
-      "Notes": "Tooltip for the auto-detect MKVToolNix button"
+      "Notes": "Info-bulle pour le bouton de détection automatique de MKVToolNix"
     },
     "UI.MainForm2.Tooltips.InputFiles": {
       "Source": "Contains the list of opened files with their tracks.\nYou can check the individual tracks in order to select them for extracting.\n\nNote: There is a context menu (right-click on the list) that contains many options for batch selecting tracks.",
       "Translation": "Contient la liste des fichiers ouverts avec leurs pistes.\nVous pouvez cocher les pistes individuelles afin de les sélectionner pour l'extraction.\n\nRemarque : un menu contextuel (clic droit sur la liste) contient de nombreuses options pour sélectionner des pistes en lot.",
       "IsTranslated": true,
-      "Notes": "Tooltip for the input files tree and group"
+      "Notes": "Info-bulle pour l'arborescence et le groupe des fichiers d'entrée"
     },
     "UI.MainForm2.Tooltips.AppendOnDragAndDrop": {
       "Source": "Check if you want to append files in the input list on drag and drop.\nUncheck if you want to reset the input list every time you drag and drop a new file.",
       "Translation": "Cochez cette option si vous souhaitez ajouter des fichiers à la liste d'entrée par glisser-déposer.\nDécochez-la si vous voulez réinitialiser la liste d'entrée chaque fois que vous glissez-déposez un nouveau fichier.",
       "IsTranslated": true,
-      "Notes": "Tooltip for the append-on-drag-and-drop checkbox"
+      "Notes": "Info-bulle pour la case à cocher d'ajout par glisser-déposer"
     },
     "UI.MainForm2.Tooltips.OverwriteExistingFiles": {
       "Source": "Check if you want the output files to always overwrite existing files with the same filename.\nUncheck if you want the output files to automatically be renamed with a different filename to avoid overwriting existing files.",
       "Translation": "Cochez cette option si vous souhaitez que les fichiers de sortie écrasent toujours les fichiers existants portant le même nom.\nDécochez-la si vous voulez que les fichiers de sortie soient automatiquement renommés avec un nom différent pour éviter d'écraser des fichiers existants.",
       "IsTranslated": true,
-      "Notes": "Tooltip for the overwrite existing files checkbox"
+      "Notes": "Info-bulle pour la case à cocher de remplacement des fichiers existants"
     },
     "UI.MainForm2.Tooltips.UseSourceDirectory": {
       "Source": "Check if you want the output files to be saved in the same directory as the source files.\nUncheck if you want to manually select an output directory for ALL extracted files.",
       "Translation": "Cochez cette option si vous souhaitez que les fichiers de sortie soient enregistrés dans le même répertoire que les fichiers source.\nDécochez-la si vous voulez sélectionner manuellement un répertoire de sortie pour TOUS les fichiers extraits.",
       "IsTranslated": true,
-      "Notes": "Tooltip for the use source directory checkbox"
+      "Notes": "Info-bulle pour la case à cocher d'utilisation du répertoire source"
     },
     "UI.MainForm2.Tooltips.ShowPopup": {
       "Source": "Check if you want to show a popup message when the extraction is finished.",
       "Translation": "Cochez cette option si vous souhaitez afficher un message contextuel lorsque l'extraction est terminée.",
       "IsTranslated": true,
-      "Notes": "Tooltip for the show popup checkbox"
+      "Notes": "Info-bulle pour la case à cocher d'affichage de la fenêtre contextuelle"
     },
     "UI.MainForm2.Tooltips.Select": {
       "Source": "Press to display the menu that contains many options for batch selecting tracks.",
       "Translation": "Cliquez pour afficher le menu qui contient de nombreuses options pour sélectionner des pistes en lot.",
       "IsTranslated": true,
-      "Notes": "Tooltip for the select button"
+      "Notes": "Info-bulle pour le bouton de sélection"
     },
     "UI.MainForm2.FileOptions.AppendOnDragAndDrop": {
       "Source": "Append input on drag and drop",
       "Translation": "Ajouter l'entrée lors du glisser-déposer",
       "IsTranslated": true,
-      "Notes": "Checkbox to append dropped input files"
+      "Notes": "Case à cocher pour ajouter les fichiers d'entrée déposés à la liste"
     },
     "UI.MainForm2.FileOptions.OverwriteExistingFiles": {
       "Source": "Overwrite existing files",
       "Translation": "Écraser les fichiers existants",
       "IsTranslated": true,
-      "Notes": "Checkbox to overwrite existing output files"
+      "Notes": "Case à cocher pour écraser les fichiers de sortie existants"
     },
     "UI.MainForm2.FileOptions.DisableTooltips": {
       "Source": "Disable tooltips",
       "Translation": "Désactiver les info-bulles",
       "IsTranslated": true,
-      "Notes": "Checkbox to disable tooltips"
+      "Notes": "Case à cocher pour désactiver les info-bulles"
     },
     "UI.MainForm2.Appearance.Dark": {
       "Source": "Dark",
       "Translation": "Sombre",
       "IsTranslated": true,
-      "Notes": "Checkbox to toggle dark appearance"
+      "Notes": "Case à cocher pour basculer vers l'apparence sombre"
     },
     "UI.MainForm2.Appearance.Options": {
       "Source": "Options...",
       "Translation": "Options...",
       "IsTranslated": true,
-      "Notes": "Button to open options"
+      "Notes": "Bouton pour ouvrir les options"
     },
     "UI.MainForm2.ContextMenu.AddInputFiles": {
       "Source": "Add Input File(s)...",
       "Translation": "Ajouter un/des fichier(s) d'entrée...",
       "IsTranslated": true,
-      "Notes": "Context menu item to add input files"
+      "Notes": "Élément de menu contextuel pour ajouter des fichiers d'entrée"
     },
     "UI.MainForm2.ContextMenu.CheckAllTracks": {
       "Source": "Check All Tracks ({0}/{1})",
       "Translation": "Cocher toutes les pistes ({0}/{1})",
       "IsTranslated": true,
-      "Notes": "Context menu item to check all tracks with selected and total counts"
+      "Notes": "Élément de menu contextuel pour cocher toutes les pistes, avec les nombres d'éléments sélectionnés et totaux"
     },
     "UI.MainForm2.ContextMenu.CheckTrackGroup": {
       "Source": "Check {0}... ({1}/{2})",
       "Translation": "Cocher {0}... ({1}/{2})",
       "IsTranslated": true,
-      "Notes": "Context menu item to check a track group with selected and total counts"
+      "Notes": "Élément de menu contextuel pour cocher un groupe de pistes, avec les nombres d'éléments sélectionnés et totaux"
     },
     "UI.MainForm2.ContextMenu.AllTrackGroup": {
       "Source": "All {0} ({1}/{2})",
       "Translation": "Toutes les {0} ({1}/{2})",
       "IsTranslated": true,
-      "Notes": "Context menu item for all tracks within a group with selected and total counts"
+      "Notes": "Élément du menu contextuel pour toutes les pistes d'un groupe, indiquant le nombre de pistes sélectionnées et le nombre total"
     },
     "UI.MainForm2.ContextMenu.UncheckAllTracks": {
       "Source": "Uncheck All Tracks ({0}/{1})",
       "Translation": "Décocher toutes les pistes ({0}/{1})",
       "IsTranslated": true,
-      "Notes": "Context menu item to uncheck all tracks with remaining and total counts"
+      "Notes": "Élément de menu contextuel pour décocher toutes les pistes, avec les nombres d'éléments restants et totaux"
     },
     "UI.MainForm2.ContextMenu.UncheckTrackGroup": {
       "Source": "Uncheck {0}... ({1}/{2})",
       "Translation": "Décocher {0}... ({1}/{2})",
       "IsTranslated": true,
-      "Notes": "Context menu item to uncheck a track group with remaining and total counts"
+      "Notes": "Élément de menu contextuel pour décocher un groupe de pistes, avec les nombres d'éléments restants et totaux"
     },
     "UI.MainForm2.ContextMenu.RemoveAllInputFiles": {
       "Source": "Remove All Input Files ({0})",
       "Translation": "Supprimer tous les fichiers d'entrée ({0})",
       "IsTranslated": true,
-      "Notes": "Context menu item to remove all input files with count"
+      "Notes": "Élément de menu contextuel pour supprimer tous les fichiers d'entrée (avec indication du nombre)"
     },
     "UI.MainForm2.ContextMenu.RemoveSelectedInputFile": {
       "Source": "Remove Selected Input File",
       "Translation": "Supprimer le fichier d'entrée sélectionné",
       "IsTranslated": true,
-      "Notes": "Context menu item to remove the selected input file"
+      "Notes": "Élément de menu contextuel pour supprimer le fichier d'entrée sélectionné"
     },
     "UI.MainForm2.ContextMenu.OpenSelectedFile": {
       "Source": "Open Selected File...",
       "Translation": "Ouvrir le fichier sélectionné...",
       "IsTranslated": true,
-      "Notes": "Context menu item to open the selected file"
+      "Notes": "Élément de menu contextuel pour ouvrir le fichier sélectionné"
     },
     "UI.MainForm2.ContextMenu.OpenSelectedFileFolder": {
       "Source": "Open Selected File Folder...",
       "Translation": "Ouvrir le dossier du fichier sélectionné...",
       "IsTranslated": true,
-      "Notes": "Context menu item to open the selected file folder"
+      "Notes": "Élément de menu contextuel pour ouvrir le dossier du fichier sélectionné"
     },
     "UI.MainForm2.ContextMenu.ExpandAll": {
       "Source": "Expand All",
       "Translation": "Tout développer",
       "IsTranslated": true,
-      "Notes": "Context menu item to expand all input tree nodes"
+      "Notes": "Élément de menu contextuel pour développer tous les nœuds de l'arborescence d'entrée"
     },
     "UI.MainForm2.ContextMenu.CollapseAll": {
       "Source": "Collapse All",
       "Translation": "Tout réduire",
       "IsTranslated": true,
-      "Notes": "Context menu item to collapse all input tree nodes"
+      "Notes": "Élément de menu contextuel pour réduire tous les nœuds de l'arborescence d'entrée"
     },
     "UI.MainForm2.ContextMenu.TrackGroupByFilter": {
       "Source": "{0} by {1} ({2})...",
       "Translation": "{0} par {1} ({2})...",
       "IsTranslated": true,
-      "Notes": "Context menu item for selecting track groups by a filter"
+      "Notes": "Élément du menu contextuel pour sélectionner des groupes de pistes via un filtre"
     },
     "UI.MainForm2.ContextMenu.FilterValueCount": {
       "Source": "{0}: [{1}] ({2}/{3})",
       "Translation": "{0} : [{1}] ({2}/{3})",
       "IsTranslated": true,
-      "Notes": "Context menu item showing a filter value with selected and total counts"
+      "Notes": "Élément de menu contextuel affichant une valeur de filtre avec les nombres d'éléments sélectionnés et totaux"
     },
     "UI.MainForm2.ContextMenu.TrackGroup.Video": {
       "Source": "Video Tracks",
       "Translation": "Pistes vidéo",
       "IsTranslated": true,
-      "Notes": "Track group label for video tracks"
+      "Notes": "Étiquette de groupe pour les pistes vidéo"
     },
     "UI.MainForm2.ContextMenu.TrackGroup.Audio": {
       "Source": "Audio Tracks",
       "Translation": "Pistes audio",
       "IsTranslated": true,
-      "Notes": "Track group label for audio tracks"
+      "Notes": "Étiquette de groupe pour les pistes audio"
     },
     "UI.MainForm2.ContextMenu.TrackGroup.Subtitle": {
       "Source": "Subtitle Tracks",
       "Translation": "Pistes de sous-titres",
       "IsTranslated": true,
-      "Notes": "Track group label for subtitle tracks"
+      "Notes": "Étiquette de groupe pour les pistes de sous-titres"
     },
     "UI.MainForm2.ContextMenu.TrackGroup.Chapter": {
       "Source": "Chapter Tracks",
       "Translation": "Pistes de chapitres",
       "IsTranslated": true,
-      "Notes": "Track group label for chapter tracks"
+      "Notes": "Étiquette de groupe pour les pistes de chapitres"
     },
     "UI.MainForm2.ContextMenu.TrackGroup.Attachment": {
       "Source": "Attachment Tracks",
-      "Translation": "Pistes de pièces jointes",
+      "Translation": "Pistes en pièces jointes",
       "IsTranslated": true,
-      "Notes": "Track group label for attachment tracks"
+      "Notes": "Étiquette de groupe pour les pistes en pièces jointes"
     },
     "UI.MainForm2.ContextMenu.Filter.Language": {
       "Source": "Language",
       "Translation": "Langue",
       "IsTranslated": true,
-      "Notes": "Filter label for language"
+      "Notes": "Libellé de filtre pour la langue"
     },
     "UI.MainForm2.ContextMenu.Filter.LanguageIetf": {
       "Source": "Language IETF",
       "Translation": "Langue IETF",
       "IsTranslated": true,
-      "Notes": "Filter label for IETF language"
+      "Notes": "Libellé de filtre pour la langue IETF"
     },
     "UI.MainForm2.ContextMenu.Filter.Codec": {
       "Source": "Codec",
       "Translation": "Codec",
       "IsTranslated": true,
-      "Notes": "Filter label for codec"
+      "Notes": "Libellé de filtre pour le codec"
     },
     "UI.MainForm2.ContextMenu.Filter.Resolution": {
       "Source": "Resolution",
       "Translation": "Résolution",
       "IsTranslated": true,
-      "Notes": "Filter label for video resolution"
+      "Notes": "Libellé de filtre pour la résolution vidéo"
     },
     "UI.MainForm2.ContextMenu.Filter.Channels": {
       "Source": "Channels",
       "Translation": "Canaux",
       "IsTranslated": true,
-      "Notes": "Filter label for audio channels"
+      "Notes": "Libellé de filtre pour les canaux audio"
     },
     "UI.MainForm2.ContextMenu.Filter.TrackName": {
       "Source": "Track Name",
       "Translation": "Nom de la piste",
       "IsTranslated": true,
-      "Notes": "Filter label for track name"
+      "Notes": "Libellé de filtre pour le nom de la piste"
     },
     "UI.MainForm2.ContextMenu.Filter.Forced": {
       "Source": "Forced",
       "Translation": "Forcé",
       "IsTranslated": true,
-      "Notes": "Filter label for forced tracks"
+      "Notes": "Libellé de filtre pour les pistes forcées"
     },
     "UI.MainForm2.OutputDirectory.UseDefaultWithValue": {
       "Source": "Use Currently Set Default Directory: ({0})",
       "Translation": "Utiliser le dossier par défaut actuellement défini : ({0})",
       "IsTranslated": true,
-      "Notes": "Context menu item to use the currently set default directory"
+      "Notes": "Élément de menu contextuel pour utiliser le répertoire par défaut actuellement défini"
     },
     "UI.Common.Dialog.ErrorTitle": {
       "Source": "Error!",
       "Translation": "Erreur !",
       "IsTranslated": true,
-      "Notes": "Shared error dialog title"
+      "Notes": "Titre de la boîte de dialogue d'erreur partagée"
     },
     "UI.Common.Dialog.SuccessTitle": {
       "Source": "Success!",
       "Translation": "Succès !",
       "IsTranslated": true,
-      "Notes": "Shared success dialog title"
+      "Notes": "Titre de la boîte de dialogue de succès partagée"
     },
     "UI.Common.Dialog.ErrorMessage": {
       "Source": "An error has occurred!{0}{0}{1}",
       "Translation": "Une erreur s'est produite !{0}{0}{1}",
       "IsTranslated": true,
-      "Notes": "Shared error dialog body with a formatted message"
+      "Notes": "Corps de la boîte de dialogue d'erreur partagée avec un message formaté"
     },
     "UI.Common.Dialog.ExceptionTitle": {
       "Source": "An exception has occurred!",
       "Translation": "Une exception s'est produite !",
       "IsTranslated": true,
-      "Notes": "Shared exception dialog title"
+      "Notes": "Titre de la boîte de dialogue d'exception partagée"
     },
     "UI.Common.Dialog.ExceptionMessage": {
       "Source": "An exception has occurred!{0}{0}{1}",
       "Translation": "Une exception s'est produite !{0}{0}{1}",
       "IsTranslated": true,
-      "Notes": "Shared exception dialog body with a formatted message"
+      "Notes": "Corps de la boîte de dialogue d'exception partagée avec un message formaté"
     },
     "UI.Common.Dialog.AreYouSureTitle": {
       "Source": "Are you sure?",
       "Translation": "Êtes-vous sûr ?",
       "IsTranslated": true,
-      "Notes": "Shared confirmation dialog title"
+      "Notes": "Titre de la boîte de dialogue de confirmation partagée"
     },
     "UI.Common.Dialog.SelectDirectoryPlaceholder": {
       "Source": "Select directory",
       "Translation": "Sélectionner un dossier",
       "IsTranslated": true,
-      "Notes": "Placeholder file name used when browsing for a directory"
+      "Notes": "Nom de fichier de l'espace réservé utilisé lors de la recherche d'un répertoire"
     },
     "UI.Common.Status.ExtractionCompleted": {
       "Source": "Extraction completed!",
       "Translation": "Extraction terminée !",
       "IsTranslated": true,
-      "Notes": "Status text shown when extraction finishes"
+      "Notes": "Texte d'état affiché à la fin de l'extraction"
     },
     "UI.Common.Status.GettingFiles": {
       "Source": "Getting files...",
       "Translation": "Récupération des fichiers...",
       "IsTranslated": true,
-      "Notes": "Status text shown while collecting input files before analysis"
+      "Notes": "Texte d'état affiché pendant la collecte des fichiers d'entrée avant l'analyse"
     },
     "UI.Common.Status.AnalyzingFile": {
       "Source": "Analyzing {0}...",
       "Translation": "Analyse de {0}...",
       "IsTranslated": true,
-      "Notes": "Status text shown while analyzing a file; {0} is the filename"
+      "Notes": "Texte d'état affiché pendant l'analyse d'un fichier ; {0} est le nom du fichier"
     },
     "UI.Common.Status.ExtractingTrack": {
       "Source": "Extracting {0} from {1}...",
       "Translation": "Extraction de {0} depuis {1}...",
       "IsTranslated": true,
-      "Notes": "Status text shown while extracting a selected track; {0} is the track label and {1} is the filename"
+      "Notes": "Texte d'état affiché pendant l'extraction d'une piste sélectionnée ; {0} est l'étiquette de la piste et {1} est le nom du fichier"
     },
-
     "UI.Common.Errors.ExtractionRunningBeforeClose": {
       "Source": "There is an extraction process running! Please abort before closing!",
       "Translation": "Un processus d'extraction est en cours ! Veuillez l'annuler avant de fermer !",
       "IsTranslated": true,
-      "Notes": "Error shown when trying to close while extraction is still running"
+      "Notes": "Erreur affichée lors d'une tentative de fermeture alors qu'une extraction est en cours"
     },
     "UI.Controls.TreeView.Errors.NodeNotInTree": {
       "Source": "The node does not belong to a tree.",
       "Translation": "Le nœud n'appartient pas à une arborescence.",
       "IsTranslated": true,
-      "Notes": "TreeView error when a node is detached from the TreeView"
+      "Notes": "Erreur vue en arbre lorsqu'un nœud est détaché de l'arborescence"
     },
     "UI.Controls.TreeView.Errors.SetStateFailed": {
       "Source": "Error setting TreeNode state.",
       "Translation": "Erreur lors de la définition de l'état du nœud d'arbre.",
       "IsTranslated": true,
-      "Notes": "TreeView error when setting a checkbox state fails"
+      "Notes": "Erreur vue en arbre lors de la définition de l'état d'une case à cocher"
     },
     "UI.Controls.TreeView.Errors.GetStateFailed": {
       "Source": "Error getting TreeNode state.",
       "Translation": "Erreur lors de la lecture de l'état du nœud d'arbre.",
       "IsTranslated": true,
-      "Notes": "TreeView error when reading a checkbox state fails"
+      "Notes": "Erreur vue en arbre lors de la lecture de l'état d'une case à cocher"
     },
     "UI.MainForm2.Errors.AutoDetectLinuxNotFound": {
       "Source": "Could not find MKVToolNix in /usr/bin, or in the current directory, or in the ini file!",
       "Translation": "Impossible de trouver MKVToolNix dans /usr/bin, dans le dossier actuel ou dans le fichier ini !",
       "IsTranslated": true,
-      "Notes": "Auto-detection error when MKVToolNix cannot be found on Linux"
+      "Notes": "Erreur de détection automatique lorsque MKVToolNix est introuvable sous Linux"
     },
     "UI.MainForm2.Errors.AutoDetectWindowsNotFound": {
       "Source": "Could not find MKVToolNix in registry, or in the current directory, or in the ini file!",
       "Translation": "Impossible de trouver MKVToolNix dans le registre, dans le dossier actuel ou dans le fichier ini !",
       "IsTranslated": true,
-      "Notes": "Auto-detection error when MKVToolNix cannot be found on Windows"
+      "Notes": "Erreur de détection automatique lorsque MKVToolNix est introuvable sous Windows"
     },
     "UI.MainForm2.Errors.AutoDetectManualPathHint": {
       "Source": "{0}{1}Please download and reinstall or provide a manual path!",
       "Translation": "{0}{1}Veuillez télécharger et réinstaller l'application ou indiquer un chemin manuellement !",
       "IsTranslated": true,
-      "Notes": "Auto-detection error followed by guidance to reinstall or choose a manual path"
+      "Notes": "Erreur de détection automatique suivie d'instructions pour réinstaller ou choisir un chemin manuellement"
     },
     "UI.MainForm2.Errors.MkvmergeNotFoundInPath": {
       "Source": "mkvmerge was not found in path {0}!",
       "Translation": "mkvmerge est introuvable dans le chemin {0} !",
       "IsTranslated": true,
-      "Notes": "Error shown when mkvmerge cannot be found in a Linux path"
+      "Notes": "Erreur affichée lorsque mkvmerge est introuvable dans le chemin d'accès Linux"
     },
     "UI.MainForm2.Errors.NoValidMatroskaFiles": {
       "Source": "No valid Matroska files were provided!",
       "Translation": "Aucun fichier Matroska valide n'a été fourni !",
       "IsTranslated": true,
-      "Notes": "Error shown when no valid input files are available"
+      "Notes": "Erreur affichée lorsqu'aucun fichier d'entrée valide n'est disponible"
     },
     "UI.MainForm2.Errors.NoNewFiles": {
       "Source": "No new files to add!",
       "Translation": "Aucun nouveau fichier à ajouter !",
       "IsTranslated": true,
-      "Notes": "Error shown when every dropped file is already in the list"
+      "Notes": "Erreur affichée lorsque tous les fichiers déposés sont déjà présents dans la liste"
     },
     "UI.MainForm2.Errors.FileProcessing": {
       "Source": "File: {0} Error: {1}",
       "Translation": "Fichier : {0} Erreur : {1}",
       "IsTranslated": true,
-      "Notes": "Per-file error message shown while loading dropped files"
+      "Notes": "Message d'erreur par fichier affiché lors du chargement des fichiers déposés"
     },
     "UI.MainForm2.Errors.NoFilenameProvided": {
       "Source": "No filename was provided!",
       "Translation": "Aucun nom de fichier n'a été fourni !",
       "IsTranslated": true,
-      "Notes": "Error shown when no file path was supplied"
+      "Notes": "Erreur affichée lorsqu'aucun chemin de fichier n'a été fourni"
     },
     "UI.MainForm2.Errors.FileDoesNotExist": {
       "Source": "The file {0} does not exist!",
       "Translation": "Le fichier {0} n'existe pas !",
       "IsTranslated": true,
-      "Notes": "Error shown when a selected input file is missing"
+      "Notes": "Erreur affichée lorsqu'un fichier d'entrée sélectionné est introuvable"
     },
     "UI.MainForm2.Errors.InvalidMatroskaInputFile": {
       "Source": "The input file {0}{1}{1}is not a valid Matroska file!",
       "Translation": "Le fichier d'entrée {0}{1}{1}n'est pas un fichier Matroska valide !",
       "IsTranslated": true,
-      "Notes": "Error shown when a selected input file is not a Matroska file"
+      "Notes": "Erreur affichée lorsqu'un fichier d'entrée sélectionné n'est pas un fichier Matroska"
     },
     "UI.MainForm2.Errors.SelectedNodeNullTag": {
       "Source": "Selected node has a null tag!",
       "Translation": "Le nœud sélectionné n'a pas de balise.",
       "IsTranslated": true,
-      "Notes": "Error shown when a selected TreeView node has no tag"
+      "Notes": "Erreur affichée lorsqu'un nœud sélectionné dans l'arborescence ne possède pas de balise"
     },
     "UI.MainForm2.Errors.SelectedNodeNoParent": {
       "Source": "Selected node has no parent node!",
       "Translation": "Le nœud sélectionné n'a pas de nœud parent !",
       "IsTranslated": true,
-      "Notes": "Error shown when a selected child node has no parent"
+      "Notes": "Erreur affichée lorsqu'un nœud enfant sélectionné n'a pas de parent"
     },
     "UI.MainForm2.Errors.SelectedNodeNoInfo": {
       "Source": "Selected node has no info!",
       "Translation": "Le nœud sélectionné ne contient aucune information !",
       "IsTranslated": true,
-      "Notes": "Error shown when a selected TreeView node lacks segment info"
+      "Notes": "Erreur affichée lorsqu'un nœud sélectionné dans l'arborescence ne contient pas d'informations sur le segment"
     },
     "UI.MainForm2.Errors.MkvToolnixPathRequired": {
       "Source": "You must provide an MKVToolNix path!",
       "Translation": "Vous devez indiquer le chemin vers MKVToolNix !",
       "IsTranslated": true,
-      "Notes": "Error shown when MKVToolNix path is empty"
+      "Notes": "Erreur affichée lorsque le chemin d'accès à MKVToolNix est vide"
     },
     "UI.MainForm2.Errors.MkvToolnixFilesMissing": {
       "Source": "The MKVToolNix path provided does not contain MKVToolNix files!",
       "Translation": "Le chemin MKVToolNix indiqué ne contient pas de fichiers MKVToolNix !",
       "IsTranslated": true,
-      "Notes": "Error shown when the selected MKVToolNix path is invalid"
+      "Notes": "Erreur affichée lorsque le chemin d'accès à MKVToolNix sélectionné est invalide"
     },
     "UI.MainForm2.Errors.OutputDirectoryRequired": {
       "Source": "You haven't specified an output directory!",
       "Translation": "Vous n'avez pas indiqué de dossier de sortie !",
       "IsTranslated": true,
-      "Notes": "Error shown when output directory is required but missing"
+      "Notes": "Erreur affichée lorsque le répertoire de sortie est requis mais manquant"
     },
     "UI.MainForm2.Errors.TrackRequiredForMode": {
       "Source": "You must select a track from the file in order to extract {0}!",
       "Translation": "Vous devez sélectionner une piste du fichier pour extraire {0} !",
       "IsTranslated": true,
-      "Notes": "Error shown when a file track must be selected for a specific extraction mode"
+      "Notes": "Erreur affichée lorsqu'une piste de fichier doit être sélectionnée pour un mode d'extraction spécifique"
     },
     "UI.MainForm2.Errors.TrackRequired": {
       "Source": "You must select a track to extract!",
       "Translation": "Vous devez sélectionner une piste à extraire !",
       "IsTranslated": true,
-      "Notes": "Error shown when no track is selected for extraction"
+      "Notes": "Erreur affichée lorsqu'aucune piste n'est sélectionnée pour l'extraction"
     },
     "UI.MainForm2.Errors.TimecodesTrackRequired": {
       "Source": "You must select a video, audio, or subtitle track to extract timecodes!",
       "Translation": "Vous devez sélectionner une piste vidéo, audio ou sous-titres pour extraire les horodadatages !",
       "IsTranslated": true,
-      "Notes": "Error shown when timecodes extraction requires a selected media track"
+      "Notes": "Erreur affichée lorsque l'extraction des codes temporels nécessite une piste multimédia sélectionnée"
     },
     "UI.MainForm2.Errors.CuesTrackRequired": {
       "Source": "You must select a video, audio, or subtitle track to extract cues!",
       "Translation": "Vous devez sélectionner une piste vidéo, audio ou sous-titres pour extraire les repères !",
       "IsTranslated": true,
-      "Notes": "Error shown when cues extraction requires a selected media track"
+      "Notes": "Erreur affichée lorsque l'extraction des index (cues) nécessite une piste multimédia sélectionnée"
     },
     "UI.MainForm2.Errors.ChapterTypeRequired": {
       "Source": "You must select a chapter type!",
       "Translation": "Vous devez sélectionner un type de chapitre !",
       "IsTranslated": true,
-      "Notes": "Error shown when chapter extraction requires a chapter type"
+      "Notes": "Erreur affichée lorsque l'extraction de chapitres nécessite un type de chapitre"
     },
     "UI.MainForm2.Dialogs.OutputDirectoryMissingQuestion": {
       "Source": "The output directory \"{0}\" does not exist!{1}{1}Do you want to create it?",
       "Translation": "Le dossier de sortie \"{0}\" n'existe pas !{1}{1}Voulez-vous le créer ?",
       "IsTranslated": true,
-      "Notes": "Confirmation dialog asking to create a missing output directory"
+      "Notes": "Boîte de dialogue de confirmation pour la création d'un répertoire de sortie manquant"
     },
     "UI.MainForm2.Dialogs.OutputDirectoryMissingTitle": {
       "Source": "Output directory does not exist!",
       "Translation": "Le dossier de sortie n'existe pas !",
       "IsTranslated": true,
-      "Notes": "Confirmation dialog title for missing output directory"
+      "Notes": "Titre de la boîte de dialogue de confirmation pour un répertoire de sortie manquant"
     },
     "UI.MainForm2.Errors.OutputDirectoryMissingCancelled": {
       "Source": "The output directory \"{0}\" does not exist!{1}{1}Extraction was cancelled!",
       "Translation": "Le dossier de sortie \"{0}\" n'existe pas !{1}{1}L'extraction a été annulée !",
       "IsTranslated": true,
-      "Notes": "Error shown when extraction is cancelled because the output directory is missing"
+      "Notes": "Erreur affichée lorsque l'extraction est annulée car le répertoire de sortie est manquant"
     },
     "UI.MainForm2.Success.ExtractionCompleted": {
       "Source": "The extraction was completed successfully!",
       "Translation": "L'extraction s'est terminée avec succès !",
       "IsTranslated": true,
-      "Notes": "Success dialog shown when extraction finishes"
+      "Notes": "Boîte de dialogue de succès affichée à la fin de l'extraction"
     },
     "UI.MainForm2.Errors.FolderDoesNotContainMkvToolnix": {
       "Source": "The folder does not contain MKVToolNix! {0}",
       "Translation": "Le dossier ne contient pas MKVToolNix ! {0}",
       "IsTranslated": true,
-      "Notes": "Error shown when a selected folder does not contain MKVToolNix"
+      "Notes": "Erreur affiché lorsqu'un dossier sélectionné ne contient pas MKVToolNix"
     },
     "UI.MainForm2.Dialogs.ChangeMkvToolnixPathQuestion": {
       "Source": "Do you really want to change the MKVToolNix path?",
       "Translation": "Voulez-vous vraiment changer le chemin de MKVToolNix ?",
       "IsTranslated": true,
-      "Notes": "Confirmation dialog shown before changing the MKVToolNix path"
+      "Notes": "Boîte de dialogue de confirmation affichée avant de modifier le chemin d'accès à MKVToolNix"
     },
     "UI.MainForm2.Dialogs.IncludeSubDirectoriesQuestion": {
       "Source": "Do you want to include files in subdirectories?",
       "Translation": "Voulez-vous inclure les fichiers des sous-dossiers ?",
       "IsTranslated": true,
-      "Notes": "Confirmation dialog asking whether subdirectory files should be included"
+      "Notes": "Boîte de dialogue de confirmation demandant si les fichiers des sous-répertoires doivent être inclus"
     },
     "UI.MainForm2.Dialogs.SubDirectoriesFoundTitle": {
       "Source": "Subdirectories found!",
       "Translation": "Sous-dossiers trouvés !",
       "IsTranslated": true,
-      "Notes": "Confirmation dialog title shown when dropped folders contain subdirectories"
+      "Notes": "Titre de la boîte de dialogue de confirmation affichée lorsque les dossiers déposés contiennent des sous-répertoires"
     },
     "UI.MainForm2.Dialogs.SelectOutputDirectoryTitle": {
       "Source": "Select output directory...",
       "Translation": "Sélectionner le dossier de sortie...",
       "IsTranslated": true,
-      "Notes": "File dialog title used when browsing for the output directory"
+      "Notes": "Titre de la boîte de dialogue de fichiers utilisé lors de la recherche du répertoire de sortie"
     },
     "UI.MainForm2.Dialogs.SelectMkvToolnixDirectoryTitle": {
       "Source": "Select MKVToolNix directory...",
       "Translation": "Sélectionner le dossier MKVToolNix...",
       "IsTranslated": true,
-      "Notes": "File dialog title used when browsing for the MKVToolNix directory"
+      "Notes": "Titre de la boîte de dialogue de fichiers utilisé lors de la recherche du répertoire MKVToolNix"
     },
     "UI.MainForm2.Dialogs.SelectInputMatroskaFileTitle": {
       "Source": "Select an input Matroska file...",
       "Translation": "Sélectionner un fichier Matroska d'entrée...",
       "IsTranslated": true,
-      "Notes": "File dialog title used when adding Matroska input files"
+      "Notes": "Titre de la boîte de dialogue de fichiers utilisé lors de l'ajout de fichiers d'entrée Matroska"
     },
     "UI.MainForm2.Dialogs.SelectInputMatroskaFileFilter": {
       "Source": "Matroska files (*.mkv;*.mka;*.mks;*.mk3d;*.webm)|*.mkv;*.mka;*.mks;*.mk3d;*.webm|Matroska video files (*.mkv)|*.mkv|Matroska audio files (*.mka)|*.mka|Matroska subtitle files (*.mks)|*.mks|Matroska 3D files (*.mk3d)|*.mk3d|WebM files (*.webm)|*.webm",
       "Translation": "Fichiers Matroska (*.mkv;*.mka;*.mks;*.mk3d;*.webm)|*.mkv;*.mka;*.mks;*.mk3d;*.webm|Fichiers vidéo Matroska (*.mkv)|*.mkv|Fichiers audio Matroska (*.mka)|*.mka|Fichiers de sous-titres Matroska (*.mks)|*.mks|Fichiers Matroska 3D (*.mk3d)|*.mk3d|Fichiers WebM (*.webm)|*.webm",
       "IsTranslated": true,
-      "Notes": "File dialog filter used when adding Matroska input files"
+      "Notes": "Filtre de la boîte de dialogue de fichiers utilisé lors de l'ajout de fichiers d'entrée Matroska"
     },
     "UI.MainForm2.Dialogs.ChangeDefaultOutputDirectoryQuestion": {
       "Source": "Are you sure you want to change the currently set ({0}) default output directory?",
       "Translation": "Voulez-vous vraiment modifier le dossier de sortie par défaut actuellement défini ({0}) ?",
       "IsTranslated": true,
-      "Notes": "Confirmation dialog shown before changing the default output directory"
+      "Notes": "Boîte de dialogue de confirmation affichée avant de modifier le répertoire de sortie par défaut"
     },
     "UI.JobManager.Errors.NoJobsAvailable": {
       "Source": "There are no available jobs to run!",
       "Translation": "Aucune tâche disponible à exécuter !",
       "IsTranslated": true,
-      "Notes": "Error shown when no jobs are ready to run"
+      "Notes": "Erreur affichée lorsqu'aucune tâche n'est prête à être exécutée"
     },
     "UI.JobManager.Errors.ExceptionForJob": {
       "Source": "Exception for job {0}: {1}{2}",
       "Translation": "Exception pour la tâche {0} : {1}{2}",
       "IsTranslated": true,
-      "Notes": "Per-job exception message appended while running jobs"
+      "Notes": "Message d'exception par tâche ajouté lors de l'exécution des tâches"
     },
     "UI.JobManager.Errors.UnsupportedExtractionMode": {
       "Source": "Unsupported Extraction Mode!",
       "Translation": "Mode d'extraction non pris en charge !",
       "IsTranslated": true,
-      "Notes": "Error shown when a saved job contains an unsupported extraction mode"
+      "Notes": "Erreur affichée lorsqu'une tâche enregistrée contient un mode d'extraction non pris en charge"
     },
     "UI.JobManager.Success.JobsCompleted": {
       "Source": "The jobs completed successfully!",
       "Translation": "Les tâches se sont terminées avec succès !",
       "IsTranslated": true,
-      "Notes": "Success dialog shown when all jobs complete"
+      "Notes": "Boîte de dialogue de succès affichée une fois toutes les tâches terminées"
     },
     "UI.JobManager.Success.JobsSaved": {
       "Source": "The jobs were saved successfully!",
       "Translation": "Les tâches ont été enregistrées avec succès !",
       "IsTranslated": true,
-      "Notes": "Success dialog shown when jobs are saved to disk"
+      "Notes": "Boîte de dialogue de succès affichée après l'enregistrement des tâches sur le disque"
     },
     "UI.JobManager.Success.JobsLoaded": {
       "Source": "The jobs were loaded successfully!",
       "Translation": "Les tâches ont été chargées avec succès !",
       "IsTranslated": true,
-      "Notes": "Success dialog shown when jobs are loaded from disk"
+      "Notes": "Boîte de dialogue de succès affichée après le chargement des tâches depuis le disque"
     },
     "UI.JobManager.Dialogs.SelectJobFileTitle": {
       "Source": "Select job file...",
       "Translation": "Sélectionner le fichier de tâche...",
       "IsTranslated": true,
-      "Notes": "File dialog title used when saving jobs"
+      "Notes": "Titre de la boîte de dialogue de fichiers utilisé lors de l'enregistrement des tâches"
     },
     "UI.JobManager.Dialogs.SelectJobsFileTitle": {
       "Source": "Select jobs file...",
       "Translation": "Sélectionner le fichier des tâches...",
       "IsTranslated": true,
-      "Notes": "File dialog title used when loading jobs"
+      "Notes": "Titre de la boîte de dialogue de fichiers utilisé lors du chargement de tâches"
     },
     "UI.Log.Dialogs.ClearLogQuestion": {
       "Source": "Are you sure you want to clear the log?",
       "Translation": "Voulez-vous vraiment effacer le journal ?",
       "IsTranslated": true,
-      "Notes": "Confirmation dialog shown before clearing the log"
+      "Notes": "Boîte de dialogue de confirmation affichée avant d'effacer le journal"
     },
     "UI.Log.Dialogs.SelectFilenameTitle": {
       "Source": "Select filename for the log...",
       "Translation": "Sélectionner un nom de fichier pour le journal...",
       "IsTranslated": true,
-      "Notes": "File dialog title used when saving the log"
+      "Notes": "Titre de la boîte de dialogue de fichier lors de l'enregistrement du journal"
     },
     "UI.Log.Success.LogSaved": {
       "Source": "The log was saved to {0}!",
       "Translation": "Le journal a été enregistré dans {0} !",
       "IsTranslated": true,
-      "Notes": "Success dialog shown when the log is saved"
+      "Notes": "Boîte de dialogue de succès affichée après l'enregistrement du journal"
     },
     "UI.Common.Status.Extracting": {
       "Source": "Extracting...",
       "Translation": "Extraction en cours...",
       "IsTranslated": true,
-      "Notes": "Status text shown while extraction is running"
+      "Notes": "Texte d'état affiché pendant l'extraction"
     },
     "UI.MainForm.Errors.ValidMatroskaFileRequired": {
       "Source": "You must provide a valid Matroska file!",
       "Translation": "Vous devez indiquer un fichier Matroska valide !",
       "IsTranslated": true,
-      "Notes": "Error shown in the legacy main form when no valid Matroska file is selected"
+      "Notes": "Erreur affichée dans l'ancienne fenêtre principale lorsqu'aucun fichier Matroska valide n'est sélectionné"
     },
     "UI.OptionsForm.Placeholders.InputFilenameWithoutExtension": {
       "Source": "Input Filename (without extension)",
       "Translation": "Nom du fichier d'entrée (sans extension)",
       "IsTranslated": true,
-      "Notes": "Placeholder description for the input filename without extension"
+      "Notes": "Description de l'espace réservé pour le nom de fichier d'entrée sans extension"
     },
     "UI.OptionsForm.Placeholders.InputFilenameWithExtension": {
       "Source": "Input Filename (with extension)",
       "Translation": "Nom du fichier d'entrée (avec extension)",
       "IsTranslated": true,
-      "Notes": "Placeholder description for the input filename with extension"
+      "Notes": "Description de l'espace réservé pour le nom de fichier d'entrée avec extension"
     },
     "UI.OptionsForm.Placeholders.DirectorySeparator": {
       "Source": "Directory Separator",
       "Translation": "Séparateur de dossiers",
       "IsTranslated": true,
-      "Notes": "Placeholder description for the directory separator"
+      "Notes": "Description de l'espace réservé pour le séparateur de répertoire"
     },
     "UI.OptionsForm.Placeholders.TrackNumber.Group": {
       "Source": "Track Number...",
       "Translation": "Numéro de piste...",
       "IsTranslated": true,
-      "Notes": "Placeholder group for formatted track numbers"
+      "Notes": "Groupe de l'espace réservé pour les numéros de piste formatés"
     },
     "UI.OptionsForm.Placeholders.TrackNumber.NoFormat": {
       "Source": "Track Number (No format)",
       "Translation": "Numéro de piste (sans format)",
       "IsTranslated": true,
-      "Notes": "Placeholder description for an unformatted track number"
+      "Notes": "Description de l'espace réservé pour un numéro de piste non formaté"
     },
     "UI.OptionsForm.Placeholders.TrackNumber.OneDigit": {
       "Source": "Track Number (1 digit)",
       "Translation": "Numéro de piste (1 chiffre)",
       "IsTranslated": true,
-      "Notes": "Placeholder description for a one-digit track number"
+      "Notes": "Description de l'espace réservé pour un numéro de piste à un chiffre"
     },
     "UI.OptionsForm.Placeholders.TrackNumber.TwoDigits": {
       "Source": "Track Number (2 digits)",
       "Translation": "Numéro de piste (2 chiffres)",
       "IsTranslated": true,
-      "Notes": "Placeholder description for a two-digit track number"
+      "Notes": "Description de l'espace réservé pour un numéro de piste à deux chiffres"
     },
     "UI.OptionsForm.Placeholders.TrackNumber.ThreeDigits": {
       "Source": "Track Number (3 digits)",
       "Translation": "Numéro de piste (3 chiffres)",
       "IsTranslated": true,
-      "Notes": "Placeholder description for a three-digit track number"
+      "Notes": "Description de l'espace réservé pour un numéro de piste à trois chiffres"
     },
     "UI.OptionsForm.Placeholders.TrackId.Group": {
       "Source": "Track ID...",
       "Translation": "ID de piste...",
       "IsTranslated": true,
-      "Notes": "Placeholder group for formatted track IDs"
+      "Notes": "Groupe de l'espace réservé pour les ID de piste formatés"
     },
     "UI.OptionsForm.Placeholders.TrackId.NoFormat": {
       "Source": "Track ID (No format)",
       "Translation": "ID de piste (sans format)",
       "IsTranslated": true,
-      "Notes": "Placeholder description for an unformatted track ID"
+      "Notes": "Description de l'espace réservé pour un ID de piste non formaté"
     },
     "UI.OptionsForm.Placeholders.TrackId.OneDigit": {
       "Source": "Track ID (1 digit)",
       "Translation": "ID de piste (1 chiffre)",
       "IsTranslated": true,
-      "Notes": "Placeholder description for a one-digit track ID"
+      "Notes": "Description de l'espace réservé pour un ID de piste à un chiffre"
     },
     "UI.OptionsForm.Placeholders.TrackId.TwoDigits": {
       "Source": "Track ID (2 digits)",
       "Translation": "ID de piste (2 chiffres)",
       "IsTranslated": true,
-      "Notes": "Placeholder description for a two-digit track ID"
+      "Notes": "Description de l'espace réservé pour un ID de piste à deux chiffres"
     },
     "UI.OptionsForm.Placeholders.TrackId.ThreeDigits": {
       "Source": "Track ID (3 digits)",
       "Translation": "ID de piste (3 chiffres)",
       "IsTranslated": true,
-      "Notes": "Placeholder description for a three-digit track ID"
+      "Notes": "Description de l'espace réservé pour un ID de piste à trois chiffres"
     },
     "UI.OptionsForm.Placeholders.TrackName": {
       "Source": "Track Name",
       "Translation": "Nom de la piste",
       "IsTranslated": true,
-      "Notes": "Placeholder description for the track name"
+      "Notes": "Description de l'espace réservé pour le nom de la piste"
     },
     "UI.OptionsForm.Placeholders.TrackLanguage": {
       "Source": "Track Language",
       "Translation": "Langue de la piste",
       "IsTranslated": true,
-      "Notes": "Placeholder description for the track language"
+      "Notes": "Description de l'espace réservé pour la langue de la piste"
     },
     "UI.OptionsForm.Placeholders.TrackLanguageIetf": {
       "Source": "Track Language IETF",
       "Translation": "Langue de la piste IETF",
       "IsTranslated": true,
-      "Notes": "Placeholder description for the track IETF language"
+      "Notes": "Description de l'espace réservé pour la langue IETF de la piste"
     },
     "UI.OptionsForm.Placeholders.TrackCodecId": {
       "Source": "Track Codec ID",
       "Translation": "ID du codec de la piste",
       "IsTranslated": true,
-      "Notes": "Placeholder description for the track codec ID"
+      "Notes": "Description de l'espace réservé pour l'ID du codec de la piste"
     },
     "UI.OptionsForm.Placeholders.TrackCodecPrivate": {
       "Source": "Track Codec Private",
-      "Translation": "Données privées du codec de la piste",
+      "Translation": "Codec de la piste privé",
       "IsTranslated": true,
-      "Notes": "Placeholder description for the track codec private data"
+      "Notes": "Description de l'espace réservé pour les données privées du codec de la piste"
     },
     "UI.OptionsForm.Placeholders.TrackDelay": {
       "Source": "Track Delay",
       "Translation": "Délai de la piste",
       "IsTranslated": true,
-      "Notes": "Placeholder description for the track delay"
+      "Notes": "Description de l'espace réservé pour le délai de la piste"
     },
     "UI.OptionsForm.Placeholders.TrackEffectiveDelay": {
       "Source": "Track Effective Delay",
       "Translation": "Délai effectif de la piste",
       "IsTranslated": true,
-      "Notes": "Placeholder description for the track effective delay"
+      "Notes": "Description de l'espace réservé pour le délai effectif de la piste"
     },
     "UI.OptionsForm.Placeholders.TrackForced": {
       "Source": "Track Forced",
       "Translation": "Piste forcée",
       "IsTranslated": true,
-      "Notes": "Placeholder description for the track forced flag"
+      "Notes": "Description de l'espace réservé pour l'indicateur de piste forcée"
     },
     "UI.OptionsForm.Placeholders.VideoPixelWidth": {
       "Source": "Video Pixel Width",
       "Translation": "Largeur de la vidéo (pixels)",
       "IsTranslated": true,
-      "Notes": "Placeholder description for the video pixel width"
+      "Notes": "Description de l'espace réservé pour la largeur en pixels de la vidéo"
     },
     "UI.OptionsForm.Placeholders.VideoPixelHeight": {
       "Source": "Video Pixel Height",
       "Translation": "Hauteur de la vidéo (pixels)",
       "IsTranslated": true,
-      "Notes": "Placeholder description for the video pixel height"
+      "Notes": "Description de l'espace réservé pour la hauteur en pixels de la vidéo"
     },
     "UI.OptionsForm.Placeholders.AudioSamplingFrequency": {
       "Source": "Audio Sampling Frequency",
       "Translation": "Fréquence d'échantillonnage audio",
       "IsTranslated": true,
-      "Notes": "Placeholder description for the audio sampling frequency"
+      "Notes": "Description de l'espace réservé pour la fréquence d'échantillonnage audio"
     },
     "UI.OptionsForm.Placeholders.AudioChannels": {
       "Source": "Audio Channels",
       "Translation": "Canaux audio",
       "IsTranslated": true,
-      "Notes": "Placeholder description for the audio channel count"
+      "Notes": "Description de l'espace réservé pour le nombre de canaux audio"
     },
     "UI.OptionsForm.Placeholders.AttachmentId.Group": {
       "Source": "Attachment ID...",
       "Translation": "ID de la pièce jointe...",
       "IsTranslated": true,
-      "Notes": "Placeholder group for formatted attachment IDs"
+      "Notes": "Groupe de l'espace réservé pour les ID de pièces jointes formatés"
     },
     "UI.OptionsForm.Placeholders.AttachmentId.NoFormat": {
       "Source": "Attachment ID (No format)",
       "Translation": "ID de la pièce jointe (sans format)",
       "IsTranslated": true,
-      "Notes": "Placeholder description for an unformatted attachment ID"
+      "Notes": "Description de l'espace réservé pour un ID de pièce jointe non formaté"
     },
     "UI.OptionsForm.Placeholders.AttachmentId.OneDigit": {
       "Source": "Attachment ID (1 digit)",
       "Translation": "ID de la pièce jointe (1 chiffre)",
       "IsTranslated": true,
-      "Notes": "Placeholder description for a one-digit attachment ID"
+      "Notes": "Description de l'espace réservé pour un ID de pièce jointe à un chiffre"
     },
     "UI.OptionsForm.Placeholders.AttachmentId.TwoDigits": {
       "Source": "Attachment ID (2 digits)",
       "Translation": "ID de la pièce jointe (2 chiffres)",
       "IsTranslated": true,
-      "Notes": "Placeholder description for a two-digit attachment ID"
+      "Notes": "Description de l'espace réservé pour un ID de pièce jointe à deux chiffres"
     },
     "UI.OptionsForm.Placeholders.AttachmentId.ThreeDigits": {
       "Source": "Attachment ID (3 digits)",
       "Translation": "ID de la pièce jointe (3 chiffres)",
       "IsTranslated": true,
-      "Notes": "Placeholder description for a three-digit attachment ID"
+      "Notes": "Description de l'espace réservé pour un ID de pièce jointe à trois chiffres"
     },
     "UI.OptionsForm.Placeholders.AttachmentFilename": {
       "Source": "Attachment Filename",
       "Translation": "Nom du fichier de la pièce jointe",
       "IsTranslated": true,
-      "Notes": "Placeholder description for the attachment filename"
+      "Notes": "Description de l'espace réservé pour le nom de fichier de la pièce jointe"
     },
     "UI.OptionsForm.Placeholders.AttachmentMimeType": {
       "Source": "Attachment MIME Type",
       "Translation": "Type MIME de la pièce jointe",
       "IsTranslated": true,
-      "Notes": "Placeholder description for the attachment MIME type"
+      "Notes": "Description de l'espace réservé pour le type MIME de la pièce jointe"
     },
     "UI.OptionsForm.Placeholders.AttachmentFileSizeBytes": {
       "Source": "Attachment File Size (bytes)",
       "Translation": "Taille du fichier de la pièce jointe (octets)",
       "IsTranslated": true,
-      "Notes": "Placeholder description for the attachment size in bytes"
+      "Notes": "Description de l'espace réservé pour la taille de la pièce jointe en octets"
     }
   }
 }
